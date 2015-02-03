@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     image_transport::Publisher pub = it.advertise("image_raw", 1);
 
     // Images
-    #define NB_IMAGE_MAX       39
+    #define NB_IMAGE_MAX       40
     std::string path_str = "/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/";
     cv_bridge::CvImage cv_im_1[NB_IMAGE_MAX];
     cv_bridge::CvImage cv_im_2[NB_IMAGE_MAX];
@@ -224,9 +224,19 @@ int main(int argc, char** argv)
                 cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/frame0008.jpg", 1) ;
                 cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/frame0008.jpg", 1) ;
             break;
+            
+            case 39:
+                cv_im_1[i].image = cv::imread(path_str + "img/ff0000.jpg", 1) ;
+                cv_im_1[i].encoding = sensor_msgs::image_encodings::RGB8;    
+                cv_im_2[i].image = cv::imread(path_str + "img/ff0000.jpg", 1) ;
+                cv_im_2[i].encoding = sensor_msgs::image_encodings::RGB8;        
+            break;
         }
-        cv_im_1[i].encoding = sensor_msgs::image_encodings::BGR8;        
-        cv_im_2[i].encoding = sensor_msgs::image_encodings::BGR8;      
+        if(i != 39)
+        {
+            cv_im_1[i].encoding = sensor_msgs::image_encodings::BGR8;        
+            cv_im_2[i].encoding = sensor_msgs::image_encodings::BGR8;
+        }  
     }
 
     // Algo

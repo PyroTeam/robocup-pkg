@@ -21,6 +21,7 @@
     #include <opencv2/highgui/highgui.hpp>
 
 // Perso
+    #include "feu_tricolore/display-histogram.h"
 
     /* VARIABLES GLOBALES */
     // Valeurs du seuillage HSV, définie initialement aux valeurs extrêmes

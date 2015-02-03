@@ -20,25 +20,6 @@
 /*==========  Namespaces  ==========*/
 namespace enc = sensor_msgs::image_encodings;
 
-/*==========  Constantes  ==========*/
-static const char WINDOW[] = "Image window";
-static const char trackbarWindowName_r[] = "Red";
-static const char trackbarWindowName_o[] = "Orange";
-static const char trackbarWindowName_g[] = "Green";
-
-/*==========  Defines  ==========*/
-#define HSV_MIN 0
-#define HSV_MAX 255
-
-/*==========  Types  ==========*/
-typedef struct 
-{
-    int state;
-    long long int timeSinceLastChange;
-    long long int timeSincePrecChange;
-    int computedState;
-}Feu;
-
 /*=========================================
 =            Class Declaration            =
 =========================================*/
@@ -50,13 +31,9 @@ private:
     ros::NodeHandle nh_;
     image_transport::ImageTransport it_;
     image_transport::Subscriber image_sub_;
-    ros::Publisher publisher_;
   
     // OpenCV    
-    cv::Mat _origin, _hsv, _bgr, _red, _orange, _green, _result;
-
-    // Traitement
-    Feu _lightRed, _lightOrange, _lightGreen;
+    cv::Mat _origin, _origin_rgb, _hsv, _result;
 
 public:
     LectureFeu();
@@ -67,21 +44,5 @@ public:
 };
 
 /*-----  End of Class Declaration  ------*/
-
-
-/**
- * @brief [brief description]
- * @details [long description]
- * 
- * @param t [description]
- * @param d [description]
- */
-void on_trackbar( int, void* );
-
-/**
- * @brief [brief description]
- * @details [long description]
- */
-void createTrackbars();
 
 #endif // _PYRO_TRAIT_IM__CV_ALGO__HEADER_

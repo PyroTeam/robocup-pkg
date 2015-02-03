@@ -114,6 +114,7 @@ add_executable(
 	src/lecture_feu_node.cpp
 	src/cv_algo.cpp
 	src/cv_utils.cpp
+  src/display-histogram.cpp
 )
 
 add_executable(
