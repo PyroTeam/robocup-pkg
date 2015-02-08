@@ -18,6 +18,7 @@
 #include <QWidget>
 
 #include <vector>
+#include <XmlRpcValue.h>
 
 namespace rqt_ft_gui {
 
@@ -88,7 +89,6 @@ protected:
   QMutex qimage_mutex_2_;
 
   cv::Mat conversion_mat_2_;
-
 };
 
 }

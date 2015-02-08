@@ -257,6 +257,23 @@ QList<QString> FtGui::getTopicList(const QSet<QString>& message_types, const QLi
   ros::master::V_TopicInfo topic_info;
   ros::master::getTopics(topic_info);
 
+  ros::NodeHandle nh = getNodeHandle();
+  // std::map< std::string, XmlRpc::XmlRpcValue > topic_list;
+  XmlRpc::XmlRpcValue xml_topic_list;
+  if(nh.hasParam("/feu_tricolore"))
+  {
+    nh.getParam("/feu_tricolore/image_result", xml_topic_list);
+    std::cout << "Have it !" << xml_topic_list["origin"] << std::endl;
+    for (XmlRpc::XmlRpcValue::iterator it=xml_topic_list["list"].begin(); it!=xml_topic_list["list"].end(); ++it)
+    std::cout << it->first << " | " << it->second << '\n';
+  }
+  else
+  {
+    std::cout << "NOPE" << std::endl;
+      // nh.setParam("/feu_tricolore/HSV_threshold/value/max", HSV_max_value);
+      // nh.setParam("/feu_tricolore/HSV_threshold/value/min", HSV_min_value);
+  }
+
   QSet<QString> all_topics;
   for (ros::master::V_TopicInfo::const_iterator it = topic_info.begin(); it != topic_info.end(); it++)
   {
