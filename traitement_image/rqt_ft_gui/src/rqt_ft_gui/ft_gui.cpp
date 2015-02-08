@@ -252,6 +252,35 @@ void FtGui::updateTopicList_2()
   selectTopic_2(selected);
 }
 
+QList<std::pair<QString,QString> > FtGui::getTopicList_2(const QSet<QString>& message_types, const QList<QString>& transports)
+{
+  QList<std::pair<QString,QString> > topics;
+
+// Ma recup
+  ros::NodeHandle nh = getNodeHandle();
+  // std::map< std::string, XmlRpc::XmlRpcValue > topic_list;
+  XmlRpc::XmlRpcValue xml_topic_list;
+  if(nh.hasParam("/feu_tricolore/image_result"))
+  {
+    nh.getParam("/feu_tricolore/image_result", xml_topic_list);
+  }
+  else
+  {
+    return topics;
+  }
+
+  for (XmlRpc::XmlRpcValue::iterator it=xml_topic_list["list"].begin(); it!=xml_topic_list["list"].end(); ++it)
+  {
+    std::cout << it->first << " | " << it->second << '\n';
+
+    std::pair<QString,QString> topic(static_cast<std::string>(it->first).c_str(), static_cast<std::string>(it->second).c_str());
+    // std::pair<std::string,std::string> topic(static_cast<std::string>(it->first), static_cast<std::string>(it->second));
+    topics.append(topic);
+  }
+
+  return topics;
+}
+
 QList<QString> FtGui::getTopicList(const QSet<QString>& message_types, const QList<QString>& transports)
 {
   ros::master::V_TopicInfo topic_info;
@@ -269,9 +298,6 @@ QList<QString> FtGui::getTopicList(const QSet<QString>& message_types, const QLi
   }
   else
   {
-    std::cout << "NOPE" << std::endl;
-      // nh.setParam("/feu_tricolore/HSV_threshold/value/max", HSV_max_value);
-      // nh.setParam("/feu_tricolore/HSV_threshold/value/min", HSV_min_value);
   }
 
   QSet<QString> all_topics;
