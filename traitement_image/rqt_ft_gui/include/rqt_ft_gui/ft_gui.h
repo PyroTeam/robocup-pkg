@@ -44,35 +44,50 @@ public:
 protected slots:
 
   virtual void updateTopicList();
+  virtual void updateTopicList_2();
 
 protected:
 
   virtual QList<QString> getTopicList(const QSet<QString>& message_types, const QList<QString>& transports);
 
   virtual void selectTopic(const QString& topic);
+  virtual void selectTopic_2(const QString& topic);
 
 protected slots:
 
   virtual void onTopicChanged(int index);
+  virtual void onTopicChanged_2(int index);
 
   virtual void onZoom1(bool checked);
+  virtual void onZoom1_2(bool checked);
 
   virtual void onDynamicRange(bool checked);
+  virtual void onDynamicRange_2(bool checked);
 
 protected:
 
   virtual void callbackImage(const sensor_msgs::Image::ConstPtr& msg);
+  virtual void callbackImage_2(const sensor_msgs::Image::ConstPtr& msg);
 
   Ui::FtGuiWidget ui_;
 
   QWidget* widget_;
 
+  // Image viewer 1
   image_transport::Subscriber subscriber_;
 
   QImage qimage_;
   QMutex qimage_mutex_;
 
   cv::Mat conversion_mat_;
+
+  // Image viewer 2
+  image_transport::Subscriber subscriber_2_;
+
+  QImage qimage_2_;
+  QMutex qimage_mutex_2_;
+
+  cv::Mat conversion_mat_2_;
 
 };
 
