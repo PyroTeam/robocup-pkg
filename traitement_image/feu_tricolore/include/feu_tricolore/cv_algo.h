@@ -31,6 +31,7 @@ private:
     ros::NodeHandle nh_;
     image_transport::ImageTransport it_;
     image_transport::Subscriber image_sub_;
+    image_transport::Publisher result_pub_;
   
     // OpenCV    
     cv::Mat _origin, _origin_rgb, _hsv, _result;

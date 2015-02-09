@@ -11,6 +11,7 @@ LectureFeu::LectureFeu()
 {
     // Ros topics
     image_sub_ = it_.subscribe("/image_raw", 1, &LectureFeu::imageCb, this);
+    result_pub_ = it_.advertise("/feu_tricolore/img_result", 1);
 
     // Windows
     cv::namedWindow("Origin");
@@ -91,6 +92,11 @@ void LectureFeu::traitement()
     cv::imshow("Origin", _origin);
     cv::imshow("Result", _result);
     cv::imshow("HSV", _hsv);
+
+
+    sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, _result).toImageMsg();
+
+    result_pub_.publish(msg);
 }
 
 bool LectureFeu::ok()
