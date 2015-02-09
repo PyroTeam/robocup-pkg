@@ -49,8 +49,8 @@ protected slots:
 
 protected:
 
-  virtual QList<std::pair<QString,QString> > getTopicList_2(const QSet<QString>& message_types, const QList<QString>& transports);
-  virtual QList<QString> getTopicList(const QSet<QString>& message_types, const QList<QString>& transports);
+  virtual QList<std::pair<QString,QString> > getTopicList(const QSet<QString>& message_types, const QList<QString>& transports);
+  virtual QList<QString> getTopicList_2(const QSet<QString>& message_types, const QList<QString>& transports);
 
   virtual void selectTopic(const QString& topic);
   virtual void selectTopic_2(const QString& topic);
@@ -65,6 +65,17 @@ protected slots:
 
   virtual void onDynamicRange(bool checked);
   virtual void onDynamicRange_2(bool checked);
+
+  virtual void onOpeningEnabling(bool checked);
+  virtual void onOpeningIterationChange(int value);
+  virtual void onOpeningSizeChange(int value);
+
+  virtual void onClosingEnabling(bool checked);
+  virtual void onClosingIterationChange(int value);
+  virtual void onClosingSizeChange(int value);
+
+  virtual void onHsvSliderEnabling(bool checked);
+  virtual void onHsvSliderChange(int value);
 
 protected:
 

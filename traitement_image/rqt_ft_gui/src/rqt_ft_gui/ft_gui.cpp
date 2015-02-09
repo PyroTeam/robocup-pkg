@@ -23,6 +23,9 @@ FtGui::FtGui()
 
 void FtGui::initPlugin(qt_gui_cpp::PluginContext& context)
 {
+  ros::NodeHandle nh = getNodeHandle();
+
+  // Init widget
   widget_ = new QWidget();
   ui_.setupUi(widget_);
 
@@ -62,6 +65,94 @@ void FtGui::initPlugin(qt_gui_cpp::PluginContext& context)
   connect(ui_.zoom_1_push_button_2, SIGNAL(toggled(bool)), this, SLOT(onZoom1_2(bool)));
   
   connect(ui_.dynamic_range_check_box_2, SIGNAL(toggled(bool)), this, SLOT(onDynamicRange_2(bool)));
+
+  bool checked;
+  int value;
+  // Init Morphops : Ouverture
+  if (nh.hasParam("/feu_tricolore/opening/enabled"))
+  {
+    nh.getParam("/feu_tricolore/opening/enabled", checked);
+    ui_.groupBox_opening->setChecked(checked);
+  }
+  else
+  {
+    nh.setParam("/feu_tricolore/opening/enabled", ui_.groupBox_opening->isChecked());
+  }
+  connect(ui_.groupBox_opening, SIGNAL(clicked(bool)), this, SLOT(onOpeningEnabling(bool)));
+  if (nh.hasParam("/feu_tricolore/opening/iteration"))
+  {
+    nh.getParam("/feu_tricolore/opening/iteration", value);
+    ui_.spinBox_opening_iterations->setValue(value);
+  }
+  else
+  {
+    nh.setParam("/feu_tricolore/opening/iteration", ui_.spinBox_opening_iterations->value());
+  }
+  connect(ui_.spinBox_opening_iterations, SIGNAL(valueChanged(int)), this, SLOT(onOpeningIterationChange(int)));
+  if (nh.hasParam("/feu_tricolore/opening/size"))
+  {
+    nh.getParam("/feu_tricolore/opening/size", value);
+    ui_.spinBox_opening_size->setValue(value);
+  }
+  else
+  {
+    nh.setParam("/feu_tricolore/opening/size", ui_.spinBox_opening_size->value());
+  }
+  connect(ui_.spinBox_opening_size, SIGNAL(valueChanged(int)), this, SLOT(onOpeningSizeChange(int)));
+
+  // Init Morphops : Fermeture
+  if (nh.hasParam("/feu_tricolore/closing/enabled"))
+  {
+    nh.getParam("/feu_tricolore/closing/enabled", checked);
+    ui_.groupBox_closing->setChecked(checked);
+  }
+  else
+  {
+    nh.setParam("/feu_tricolore/closing/enabled", ui_.groupBox_closing->isChecked());
+  }
+  connect(ui_.groupBox_closing, SIGNAL(clicked(bool)), this, SLOT(onClosingEnabling(bool)));
+  if (nh.hasParam("/feu_tricolore/closing/iteration"))
+  {
+    nh.getParam("/feu_tricolore/closing/iteration", value);
+    ui_.spinBox_closing_iterations->setValue(value);
+  }
+  else
+  {
+    nh.setParam("/feu_tricolore/closing/iteration", ui_.spinBox_closing_iterations->value());
+  }
+  connect(ui_.spinBox_closing_iterations, SIGNAL(valueChanged(int)), this, SLOT(onClosingIterationChange(int)));
+  if (nh.hasParam("/feu_tricolore/closing/size"))
+  {
+    nh.getParam("/feu_tricolore/closing/size", value);
+    ui_.spinBox_closing_size->setValue(value);
+  }
+  else
+  {
+    nh.setParam("/feu_tricolore/closing/size", ui_.spinBox_closing_size->value());
+  }
+  connect(ui_.spinBox_closing_size, SIGNAL(valueChanged(int)), this, SLOT(onClosingSizeChange(int)));
+
+  // Init Filtrage : Luminance
+  if (nh.hasParam("/feu_tricolore/HSV_threshold/enabled"))
+  {
+    nh.getParam("/feu_tricolore/HSV_threshold/enabled", checked);
+    ui_.groupBox_HSV_value->setChecked(checked);
+  }
+  else
+  {
+    nh.setParam("/feu_tricolore/HSV_threshold/enabled", ui_.groupBox_HSV_value->isChecked());
+  }
+  connect(ui_.groupBox_HSV_value, SIGNAL(clicked(bool)), this, SLOT(onHsvSliderEnabling(bool)));
+  if (nh.hasParam("/feu_tricolore/HSV_threshold/value/min"))
+  {
+    nh.getParam("/feu_tricolore/HSV_threshold/value/min", value);
+    ui_.spinBox_HSV_value->setValue(value);
+  }
+  else
+  {
+    nh.setParam("/feu_tricolore/HSV_threshold/value/min", ui_.spinBox_HSV_value->value());
+  }
+  connect(ui_.spinBox_HSV_value, SIGNAL(valueChanged(int)), this, SLOT(onHsvSliderChange(int)));
 }
 
 bool FtGui::eventFilter(QObject* watched, QEvent* event)
@@ -193,18 +284,23 @@ void FtGui::updateTopicList()
     transports.append(transport);
   }
 
+  // Save selected choice
   QString selected = ui_.topics_combo_box->currentText();
 
   // fill combo box
-  QList<QString> topics = getTopicList(message_types, transports);
-  topics.append("");
+  QList<std::pair<QString,QString> > topics = getTopicList(message_types, transports);
+
+  topics.append(std::make_pair("",""));
   qSort(topics);
   ui_.topics_combo_box->clear();
-  for (QList<QString>::const_iterator it = topics.begin(); it != topics.end(); it++)
+  std::cout << "UpdateTopicList() " << std::endl;
+  for (QList<std::pair<QString,QString> >::const_iterator it = topics.begin(); it != topics.end(); it++)
   {
-    QString label(*it);
+    QString label(it->first);
     label.replace(" ", "/");
-    ui_.topics_combo_box->addItem(label, QVariant(*it));
+    ui_.topics_combo_box->addItem(label, QVariant(it->second));
+
+    std::cout << label.toStdString() << " | " <<  it->second.toStdString() << std::endl;
   }
 
   // restore previous selection
@@ -237,7 +333,7 @@ void FtGui::updateTopicList_2()
   QString selected = ui_.topics_combo_box_2->currentText();
 
   // fill combo box
-  QList<QString> topics = getTopicList(message_types, transports);
+  QList<QString> topics = getTopicList_2(message_types, transports);
   topics.append("");
   qSort(topics);
   ui_.topics_combo_box_2->clear();
@@ -252,36 +348,42 @@ void FtGui::updateTopicList_2()
   selectTopic_2(selected);
 }
 
-QList<std::pair<QString,QString> > FtGui::getTopicList_2(const QSet<QString>& message_types, const QList<QString>& transports)
+QList<std::pair<QString,QString> > FtGui::getTopicList(const QSet<QString>& message_types, const QList<QString>& transports)
 {
   QList<std::pair<QString,QString> > topics;
+  std::cout << "getTopicList()" << std::endl;
 
 // Ma recup
   ros::NodeHandle nh = getNodeHandle();
   // std::map< std::string, XmlRpc::XmlRpcValue > topic_list;
   XmlRpc::XmlRpcValue xml_topic_list;
-  if(nh.hasParam("/feu_tricolore/image_result"))
+  if(nh.hasParam("/feu_tricolore/image_result/list"))
   {
-    nh.getParam("/feu_tricolore/image_result", xml_topic_list);
+    nh.getParam("/feu_tricolore/image_result/list", xml_topic_list);
+    std::cout << "Has param /feu_tricolore/image_result/list !" << std::endl;
+    xml_topic_list.write(std::cout);
   }
   else
   {
+    std::cout << "Not any param" << std::endl;
     return topics;
   }
 
-  for (XmlRpc::XmlRpcValue::iterator it=xml_topic_list["list"].begin(); it!=xml_topic_list["list"].end(); ++it)
+  for (XmlRpc::XmlRpcValue::iterator it=xml_topic_list.begin(); it!=xml_topic_list.end(); ++it)
   {
     std::cout << it->first << " | " << it->second << '\n';
 
     std::pair<QString,QString> topic(static_cast<std::string>(it->first).c_str(), static_cast<std::string>(it->second).c_str());
-    // std::pair<std::string,std::string> topic(static_cast<std::string>(it->first), static_cast<std::string>(it->second));
     topics.append(topic);
+
+    std::cout << static_cast<std::string>(it->first).c_str() << " [] " << static_cast<std::string>(it->second).c_str();
   }
 
   return topics;
 }
 
-QList<QString> FtGui::getTopicList(const QSet<QString>& message_types, const QList<QString>& transports)
+
+QList<QString> FtGui::getTopicList_2(const QSet<QString>& message_types, const QList<QString>& transports)
 {
   ros::master::V_TopicInfo topic_info;
   ros::master::getTopics(topic_info);
@@ -332,6 +434,7 @@ QList<QString> FtGui::getTopicList(const QSet<QString>& message_types, const QLi
   return topics;
 }
 
+
 void FtGui::selectTopic(const QString& topic)
 {
   int index = ui_.topics_combo_box->findText(topic);
@@ -363,6 +466,8 @@ void FtGui::onTopicChanged(int index)
   QStringList parts = ui_.topics_combo_box->itemData(index).toString().split(" ");
   QString topic = parts.first();
   QString transport = parts.length() == 2 ? parts.last() : "raw";
+
+  std::cout << "Topic " << topic.toStdString() << " with Transport " << transport.toStdString() << std::endl;
 
   if (!topic.isEmpty())
   {
@@ -450,6 +555,56 @@ void FtGui::onDynamicRange(bool checked)
 void FtGui::onDynamicRange_2(bool checked)
 {
   ui_.max_range_double_spin_box_2->setEnabled(!checked);
+}
+
+
+void FtGui::onOpeningEnabling(bool checked)
+{
+  ros::NodeHandle nh = getNodeHandle();
+  nh.setParam("/feu_tricolore/opening/enabled", checked);
+}
+
+void FtGui::onOpeningIterationChange(int value)
+{
+  ros::NodeHandle nh = getNodeHandle();
+  nh.setParam("/feu_tricolore/opening/iteration", value);
+}
+
+void FtGui::onOpeningSizeChange(int value)
+{
+  ros::NodeHandle nh = getNodeHandle();
+  nh.setParam("/feu_tricolore/opening/size", value);
+}
+
+void FtGui::onClosingEnabling(bool checked)
+{
+  ros::NodeHandle nh = getNodeHandle();
+  nh.setParam("/feu_tricolore/closing/enabled", checked);
+}
+
+void FtGui::onClosingIterationChange(int value)
+{
+  ros::NodeHandle nh = getNodeHandle();
+  nh.setParam("/feu_tricolore/closing/iteration", value);
+}
+
+void FtGui::onClosingSizeChange(int value)
+{
+  ros::NodeHandle nh = getNodeHandle();
+  nh.setParam("/feu_tricolore/closing/size", value);
+}
+
+
+void FtGui::onHsvSliderEnabling(bool checked)
+{
+  ros::NodeHandle nh = getNodeHandle();
+  nh.setParam("/feu_tricolore/HSV_threshold/enabled", checked);
+}
+
+void FtGui::onHsvSliderChange(int value)
+{
+  ros::NodeHandle nh = getNodeHandle();
+  nh.setParam("/feu_tricolore/HSV_threshold/value/min", value);
 }
 
 void FtGui::callbackImage(const sensor_msgs::Image::ConstPtr& msg)
