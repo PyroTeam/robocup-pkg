@@ -32,9 +32,11 @@ private:
     image_transport::ImageTransport it_;
     image_transport::Subscriber image_sub_;
     image_transport::Publisher result_pub_;
+    image_transport::Publisher hsv_pub_;
+    image_transport::Publisher before_morphops_pub_;
   
     // OpenCV    
-    cv::Mat _origin, _origin_rgb, _hsv, _result;
+    cv::Mat _origin, _origin_rgb, _hsv, _thesholded, _result;
 
 public:
     LectureFeu();

@@ -50,7 +50,6 @@ protected slots:
 protected:
 
   virtual QList<std::pair<QString,QString> > getTopicList(const QSet<QString>& message_types, const QList<QString>& transports);
-  virtual QList<QString> getTopicList_2(const QSet<QString>& message_types, const QList<QString>& transports);
 
   virtual void selectTopic(const QString& topic);
   virtual void selectTopic_2(const QString& topic);

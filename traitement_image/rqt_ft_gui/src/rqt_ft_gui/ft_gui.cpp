@@ -297,7 +297,7 @@ void FtGui::updateTopicList()
   for (QList<std::pair<QString,QString> >::const_iterator it = topics.begin(); it != topics.end(); it++)
   {
     QString label(it->first);
-    label.replace(" ", "/");
+    // label.replace(" ", "/");
     ui_.topics_combo_box->addItem(label, QVariant(it->second));
 
     std::cout << label.toStdString() << " | " <<  it->second.toStdString() << std::endl;
@@ -318,7 +318,7 @@ void FtGui::updateTopicList_2()
   std::vector<std::string> declared = it.getDeclaredTransports();
   for (std::vector<std::string>::const_iterator it = declared.begin(); it != declared.end(); it++)
   {
-    //qDebug("FtGui::updateTopicList() declared transport '%s'", it->c_str());
+    //qDebug("FtGui::updateTopicList_2() declared transport '%s'", it->c_str());
     QString transport = it->c_str();
 
     // strip prefix from transport name
@@ -330,18 +330,23 @@ void FtGui::updateTopicList_2()
     transports.append(transport);
   }
 
+  // Save selected choice
   QString selected = ui_.topics_combo_box_2->currentText();
 
   // fill combo box
-  QList<QString> topics = getTopicList_2(message_types, transports);
-  topics.append("");
+  QList<std::pair<QString,QString> > topics = getTopicList(message_types, transports);
+
+  topics.append(std::make_pair("",""));
   qSort(topics);
   ui_.topics_combo_box_2->clear();
-  for (QList<QString>::const_iterator it = topics.begin(); it != topics.end(); it++)
+  std::cout << "UpdateTopicList()_2 " << std::endl;
+  for (QList<std::pair<QString,QString> >::const_iterator it = topics.begin(); it != topics.end(); it++)
   {
-    QString label(*it);
-    label.replace(" ", "/");
-    ui_.topics_combo_box_2->addItem(label, QVariant(*it));
+    QString label(it->first);
+    // label.replace(" ", "/");
+    ui_.topics_combo_box_2->addItem(label, QVariant(it->second));
+
+    std::cout << label.toStdString() << " | " <<  it->second.toStdString() << std::endl;
   }
 
   // restore previous selection
@@ -381,59 +386,6 @@ QList<std::pair<QString,QString> > FtGui::getTopicList(const QSet<QString>& mess
 
   return topics;
 }
-
-
-QList<QString> FtGui::getTopicList_2(const QSet<QString>& message_types, const QList<QString>& transports)
-{
-  ros::master::V_TopicInfo topic_info;
-  ros::master::getTopics(topic_info);
-
-  ros::NodeHandle nh = getNodeHandle();
-  // std::map< std::string, XmlRpc::XmlRpcValue > topic_list;
-  XmlRpc::XmlRpcValue xml_topic_list;
-  if(nh.hasParam("/feu_tricolore"))
-  {
-    nh.getParam("/feu_tricolore/image_result", xml_topic_list);
-    std::cout << "Have it !" << xml_topic_list["origin"] << std::endl;
-    for (XmlRpc::XmlRpcValue::iterator it=xml_topic_list["list"].begin(); it!=xml_topic_list["list"].end(); ++it)
-    std::cout << it->first << " | " << it->second << '\n';
-  }
-  else
-  {
-  }
-
-  QSet<QString> all_topics;
-  for (ros::master::V_TopicInfo::const_iterator it = topic_info.begin(); it != topic_info.end(); it++)
-  {
-    all_topics.insert(it->name.c_str());
-  }
-
-  QList<QString> topics;
-  for (ros::master::V_TopicInfo::const_iterator it = topic_info.begin(); it != topic_info.end(); it++)
-  {
-    if (message_types.contains(it->datatype.c_str()))
-    {
-      QString topic = it->name.c_str();
-
-      // add raw topic
-      topics.append(topic);
-      //qDebug("FtGui::getTopicList() raw topic '%s'", topic.toStdString().c_str());
-      
-      // add transport specific sub-topics
-      for (QList<QString>::const_iterator jt = transports.begin(); jt != transports.end(); jt++)
-      {
-        if (all_topics.contains(topic + "/" + *jt))
-        {
-          QString sub = topic + " " + *jt;
-          topics.append(sub);
-          //qDebug("FtGui::getTopicList() transport specific sub-topic '%s'", sub.toStdString().c_str());
-        }
-      }
-    }
-  }
-  return topics;
-}
-
 
 void FtGui::selectTopic(const QString& topic)
 {
