@@ -36,6 +36,15 @@ int main(int argc, char** argv)
     image_transport::ImageTransport it(nh);
     image_transport::Publisher pub = it.advertise("image_raw", 1);
 
+
+
+    cv::VideoCapture cap("/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/img/video/Carologistics_Navigation_Challenge_Robot_Perspective.mp4"); // open the default camera
+    if(!cap.isOpened())  // check if we succeeded
+        return -1;
+    int frameRate = cap.get(CV_CAP_PROP_FPS);
+
+
+
     // Images
     #define NB_IMAGE_MAX       40
     std::string path_str = "/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/";
@@ -241,27 +250,52 @@ int main(int argc, char** argv)
 
     // Algo
     sensor_msgs::ImagePtr msg;
-    ros::Rate loop_rate(4);
+    ros::Rate std_rate(4);  // Blink at 2hz
+    ros::Rate vid_rate(frameRate); // Vid at 25fps
+    ros::Rate *loop_rate = &std_rate;
     char toSend = 1;
 
     while (nh.ok()) 
     {
-        if(toSend == 1)
+        int prec_rate = 0;
+
+        if (choice < NB_IMAGE_MAX)
         {
-            msg = cv_im_1[choice].toImageMsg();
-            toSend = 2;
-        }
-        else if(toSend == 2)
-        {
-            msg = cv_im_2[choice].toImageMsg();
-            toSend = 1;
+            loop_rate = &std_rate;
+
+            if(toSend == 1)
+            {
+                msg = cv_im_1[choice].toImageMsg();
+                toSend = 2;
+            }
+            else if(toSend == 2)
+            {
+                msg = cv_im_2[choice].toImageMsg();
+                toSend = 1;
+            }
+            else
+                toSend = 1;        
         }
         else
-            toSend = 1;
+        {
+            loop_rate = &vid_rate;
+
+            cv_bridge::CvImage frame;
+            cap >> frame.image;
+            frame.encoding = sensor_msgs::image_encodings::BGR8;
+            msg = frame.toImageMsg();
+            if(cap.get(CV_CAP_PROP_POS_FRAMES) != cap.get(CV_CAP_PROP_FRAME_COUNT))
+            {
+            }
+            else
+            {
+                cap.set(CV_CAP_PROP_POS_FRAMES,0);
+            }
+        }
 
         pub.publish(msg);
         ros::spinOnce();
-        loop_rate.sleep();
+        loop_rate->sleep();
     }
 }
 
@@ -307,9 +341,9 @@ void *thread_entree_utilisateur(void* unused)
         // code_orange = ((code_orange<0)?0:((code_orange>2)?2:code_orange));
         // code_vert = ((code_vert<0)?0:((code_vert>2)?2:code_vert));
 
-        if(code_orange != 3)
+        if(code_orange != 3 && code_orange != 4)
             choice = code_vert*9+code_orange*3+code_rouge;        
-        if(choice > 26 && choice < 30 || choice > NB_IMAGE_MAX-1)
+        if(choice > 26 && choice < 30 || choice > NB_IMAGE_MAX)
             choice = 0;      
     }
 
