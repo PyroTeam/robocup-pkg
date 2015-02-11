@@ -22,20 +22,14 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 ################################################
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  ExplorationInfo.msg
-  ExplorationMachine.msg
-  ExplorationSignal.msg
-  GameState.msg
-  LightSpec.msg
-)
+#add_message_files(
+#  FILES
+#)
 
 ## Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  ReportMachine.srv
-)
+#add_service_files(
+#  FILES
+#)
 
 ## Generate added messages and services with any dependencies listed here
  generate_messages(
