@@ -36,10 +36,10 @@ llsfrb:
       #recv-port: !udp-port 4447
 
   game:
-    team: RBQT
+    team: PyroTeam
     color: magenta
     robot_number: 1
     robot_name: R1
     
     crypto-keys:
-      RBQT: tk3P2mKD
+      PyroTeam: tk3P2mKD

@@ -9,7 +9,7 @@
  *
  * \author		Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date		2014-06-16
- * \copyright	RBQT, Polytech-Lille
+ * \copyright	PyroTeam, Polytech-Lille
  * \license
  * \version
  */
@@ -36,9 +36,14 @@
 #include <string>
 #include <vector>
 
+#include "dispatch.h"
+
 using namespace protobuf_comm;
 using namespace llsf_msgs;
 using namespace fawkes;
+
+typedef StaticDispatch<google::protobuf::Message, bool> MessageDispatcher;
+
 
 enum GamePhase
 {
@@ -51,6 +56,9 @@ enum GamePhase
 
 class refBoxTransport
 {
+private:
+    std::shared_ptr<MessageDispatcher> m_msgDispatch;
+
 public:
 	refBoxTransport();
 	~refBoxTransport();
@@ -60,6 +68,12 @@ public:
 	void update();
 	bool isExit();
 	void handle_timer();
+	
+	void setReceiveDispatcher(std::shared_ptr<MessageDispatcher> disp)
+	{
+	    m_msgDispatch = disp;
+	}
+	
 
 	void add_machine(std::string &name, std::string &type);
 	void set_pose(double x, double y, double theta);
@@ -76,6 +90,7 @@ protected:
 	void signal_handler(const boost::system::error_code& error, int signum);
 	void handle_recv_error(boost::asio::ip::udp::endpoint &endpoint, std::string msg);
 	void handle_send_error(std::string msg);
+	
 	void handle_message(boost::asio::ip::udp::endpoint &sender,
 		       uint16_t component_id, uint16_t msg_type,
 		       std::shared_ptr<google::protobuf::Message> msg);

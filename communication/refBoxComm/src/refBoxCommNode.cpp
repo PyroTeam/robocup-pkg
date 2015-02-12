@@ -6,28 +6,35 @@
  *
  * \author		Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date		2014-06-16
- * \copyright	RBQT, Polytech-Lille
+ * \copyright	PyroTeam, Polytech-Lille
  * \license
  * \version
  */
 
 
 #include "refBoxTransport.h"
+#include "dispatch.h"
+#include "receiveHandler.h"
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "geometry_msgs/Pose2D.h"
 #include "geometry_msgs/Pose.h"
 #include "nav_msgs/Odometry.h"
-#include "turtlesim/Pose.h"
 #include "refBoxComm/GameState.h"
 #include "refBoxComm/ExplorationInfo.h"
 #include "refBoxComm/ReportMachine.h"
 #include <tf/transform_datatypes.h>
 
-
-#include <msgs/Team.pb.h>
+#include <msgs/BeaconSignal.pb.h>
+#include <msgs/OrderInfo.pb.h>
 #include <msgs/GameState.pb.h>
+#include <msgs/VersionInfo.pb.h>
+#include <msgs/ExplorationInfo.pb.h>
+#include <msgs/MachineInfo.pb.h>
+#include <msgs/MachineReport.pb.h>
+#include <msgs/RobotInfo.pb.h>
+#include <msgs/Team.pb.h>
 
 #include <sstream>
 
@@ -42,6 +49,9 @@ void PoseCallback(const nav_msgs::Odometry &odom);
 refBoxComm::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, Team team_color);
 refBoxComm::ExplorationInfo llsf2ros_explorationInfo(llsf_msgs::ExplorationInfo llsfExplorationInfo, Team team_color);
 
+
+
+
 int main(int argc, char **argv)
 {
 
@@ -50,6 +60,18 @@ int main(int argc, char **argv)
     
     ros::init(argc, argv, "refBoxComm");
 
+    std::shared_ptr<MessageDispatcher> disp(new MessageDispatcher());
+    disp->Add<BeaconSignal>(&fireBeaconSignal);
+    disp->Add<OrderInfo>(&fireOrderInfo);
+    disp->Add<GameState>(&fireGameState);
+    disp->Add<VersionInfo>(&fireVersionInfo);
+    disp->Add<ExplorationInfo>(&fireExplorationInfo);
+    disp->Add<MachineInfo>(&fireMachineInfo);
+    disp->Add<MachineReportInfo>(&fireMachineReportInfo);
+    disp->Add<RobotInfo>(&fireRobotInfo);
+    disp->Add<Team>(&fireUnknown);
+    
+    refboxT.setReceiveDispatcher(disp);
     refboxT.init();
     team_color = refboxT.get_teamColor();
 
@@ -60,7 +82,7 @@ int main(int argc, char **argv)
   
     ros::ServiceServer service = n.advertiseService("/refBoxComm/ReportMachine", Report);
   
-    //TODO: A remplacer par le topic donnant la position du robotino
+
     ros::Subscriber sub = n.subscribe("/odom", 1000, PoseCallback);
   
     ros::Rate loop_rate(loopFreq);

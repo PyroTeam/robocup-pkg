@@ -41,7 +41,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 ## catkin specific configuration ##
 ###################################
 catkin_package(
-#  INCLUDE_DIRS include
+  INCLUDE_DIRS include
 #  LIBRARIES beginner_tutorials
   CATKIN_DEPENDS message_runtime roscpp rospy std_msgs
 #  DEPENDS system_lib
@@ -55,8 +55,14 @@ set(CONFDIR ${PROJECT_SOURCE_DIR}/cfg)
 add_definitions( -DCONFDIR=\\"${CONFDIR}\\" )
 add_definitions( -DUSERDIR=\\".\\" )
 
-include_directories(${LLSF_BASEDIR}/src/libs ${roscpp_INCLUDE_DIRS})
-include_directories(${LLSF_BASEDIR}/src ${roscpp_INCLUDE_DIRS})
+include_directories(
+    include
+    ${catkin_INCLUDE_DIRS} 
+    ${LLSF_BASEDIR}/src
+    ${LLSF_BASEDIR}/src/libs 
+    ${roscpp_INCLUDE_DIRS})
+
+#include_directories(${LLSF_BASEDIR}/src ${roscpp_INCLUDE_DIRS})
 
 link_directories(${LLSF_BASEDIR}/lib)
 link_directories(${LLSF_BASEDIR}/lib/protobuf)
@@ -64,7 +70,14 @@ link_directories(${LLSF_BASEDIR}/lib/protobuf)
 find_package(Boost REQUIRED COMPONENTS system)
 include_directories(${Boost_INCLUDE_DIRS})
 
-add_library(refBoxTransport src/refBoxTransport.cpp)
+add_library(
+    refBoxTransport 
+
+    src/refBoxTransport.cpp
+    src/receiveHandler.cpp
+    src/refBoxMessage.cpp
+    src/sendScheduler.cpp
+)
 
 add_executable(
   refBoxComm 
