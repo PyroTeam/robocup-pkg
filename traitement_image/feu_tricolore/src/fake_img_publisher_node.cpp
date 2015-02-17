@@ -41,7 +41,7 @@ int main(int argc, char** argv)
     cv::VideoCapture cap("/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/img/video/Carologistics_Navigation_Challenge_Robot_Perspective.mp4"); // open the default camera
     if(!cap.isOpened())  // check if we succeeded
         return -1;
-    int frameRate = cap.get(CV_CAP_PROP_FPS);
+    int frameRate = cap.get(CV_CAP_PROP_FPS)/10;
 
 
 
@@ -282,7 +282,7 @@ int main(int argc, char** argv)
 
             cv_bridge::CvImage frame;
             cap >> frame.image;
-            frame.encoding = sensor_msgs::image_encodings::BGR8;
+            frame.encoding = sensor_msgs::image_encodings::RGB8;
             msg = frame.toImageMsg();
             if(cap.get(CV_CAP_PROP_POS_FRAMES) != cap.get(CV_CAP_PROP_FRAME_COUNT))
             {

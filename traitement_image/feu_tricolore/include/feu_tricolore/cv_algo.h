@@ -17,6 +17,9 @@
 
 #include "cv_utils.h"
 
+#include "opencv2\features2d\features2d.hpp"
+#include "opencv2\nonfree\features2d.hpp"
+
 /*==========  Namespaces  ==========*/
 namespace enc = sensor_msgs::image_encodings;
 
@@ -44,6 +47,8 @@ public:
     void imageCb(const sensor_msgs::ImageConstPtr& msg);
     void traitement();
     bool ok();
+    void hsvProcessing();
+    void templateProcessing();
 };
 
 /*-----  End of Class Declaration  ------*/

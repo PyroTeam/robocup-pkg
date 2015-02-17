@@ -78,7 +78,13 @@ void LectureFeu::traitement()
     cv::cvtColor(_origin,_hsv,CV_BGR2HSV);
     cv::cvtColor(_origin,_origin_rgb,CV_BGR2RGB);
 
-// Récupération des params
+    templateProcessing();
+    // hsvProcessing();
+}
+
+void LectureFeu::hsvProcessing()
+{
+    // Récupération des params
     int HSV_max_value;
     int HSV_min_value;
     bool enableHSV;
@@ -92,17 +98,18 @@ void LectureFeu::traitement()
     bool enableClosing;
     if(nh_.hasParam("/feu_tricolore"))
     {
-        nh_.getParam("/feu_tricolore/HSV_threshold/value/max", HSV_max_value);
-        nh_.getParam("/feu_tricolore/HSV_threshold/value/min", HSV_min_value);
-        nh_.getParam("/feu_tricolore/HSV_threshold/enabled", enableHSV);
 
-        nh_.getParam("/feu_tricolore/opening/size", openingSize);
-        nh_.getParam("/feu_tricolore/opening/iteration", openingIterations);
-        nh_.getParam("/feu_tricolore/opening/enabled", enableOpening);
+        nh_.param<int>("feu_tricolore/HSV_threshold/value/max", HSV_max_value, 255);
+        nh_.param<int>("feu_tricolore/HSV_threshold/value/min", HSV_min_value, 0);
+        nh_.param<bool>("feu_tricolore/HSV_threshold/enabled", enableHSV, true);
+        
+        nh_.param<int>("feu_tricolore/opening/size", openingSize, 0);
+        nh_.param<int>("feu_tricolore/opening/iteration", openingIterations, 0);
+        nh_.param<bool>("feu_tricolore/opening/enabled", enableOpening, true);
 
-        nh_.getParam("/feu_tricolore/closing/size", closingSize);
-        nh_.getParam("/feu_tricolore/closing/iteration", closingIterations);
-        nh_.getParam("/feu_tricolore/closing/enabled", enableClosing);
+        nh_.param<int>("feu_tricolore/closing/size", closingSize, 0);
+        nh_.param<int>("feu_tricolore/closing/iteration", closingIterations, 0);
+        nh_.param<bool>("feu_tricolore/closing/enabled", enableClosing, true);
     }
     else
     {
@@ -142,20 +149,10 @@ void LectureFeu::traitement()
     cv::merge(_hsv_tab, 3, result_threshold);
     cv::bitwise_and(_origin_rgb, result_threshold, _thesholded);
 
-// Opération de fermeture
-    cv::Mat erodeElement = getStructuringElement(cv::MORPH_RECT,cv::Size(closingSize,closingSize)); // ancien 3.3
-    //dilate with larger element so make sure object is nicely visible
-    cv::Mat dilateElement = getStructuringElement(cv::MORPH_RECT,cv::Size(closingSize,closingSize)); //ancien 3.3 puis 8.8
+    cv::Mat erodeElement;
+    cv::Mat dilateElement;
 
-    if(enableClosing)
-    {
-        for(int k=0;k<closingIterations;k++){
-            erode(result_threshold,result_threshold,erodeElement);
-            dilate(result_threshold,result_threshold,dilateElement);
-        }        
-    }
-
-// Opération d'ouverture
+// Opération d'ouverture - 1
     erodeElement = getStructuringElement(cv::MORPH_RECT,cv::Size(openingSize,openingSize)); // ancien 3.3
     //dilate with larger element so make sure object is nicely visible
     dilateElement = getStructuringElement(cv::MORPH_RECT,cv::Size(openingSize+2,openingSize+2)); //ancien 3.3 puis 8.8
@@ -168,8 +165,127 @@ void LectureFeu::traitement()
         }        
     }
 
+// Opération de fermeture -1
+    erodeElement = getStructuringElement(cv::MORPH_RECT,cv::Size(closingSize,closingSize)); // ancien 3.3
+    //dilate with larger element so make sure object is nicely visible
+    dilateElement = getStructuringElement(cv::MORPH_RECT,cv::Size(closingSize,closingSize)); //ancien 3.3 puis 8.8
+
+    if(enableClosing)
+    {
+        for(int k=0;k<closingIterations;k++){
+            erode(result_threshold,result_threshold,erodeElement);
+            dilate(result_threshold,result_threshold,dilateElement);
+        }        
+    }
+
+// Opération d'ouverture - 2
+    erodeElement = getStructuringElement(cv::MORPH_RECT,cv::Size(openingSize,openingSize)); // ancien 3.3
+    //dilate with larger element so make sure object is nicely visible
+    dilateElement = getStructuringElement(cv::MORPH_RECT,cv::Size(openingSize+2,openingSize+2)); //ancien 3.3 puis 8.8
+
+    if(enableOpening)
+    {
+        for(int k=0;k<openingIterations;k++){
+            dilate(result_threshold,result_threshold,dilateElement);
+            erode(result_threshold,result_threshold,erodeElement);
+        }        
+    }
+
+// // Opération de fermeture - 2
+//     erodeElement = getStructuringElement(cv::MORPH_RECT,cv::Size(closingSize,closingSize)); // ancien 3.3
+//     //dilate with larger element so make sure object is nicely visible
+//     dilateElement = getStructuringElement(cv::MORPH_RECT,cv::Size(closingSize,closingSize)); //ancien 3.3 puis 8.8
+
+//     if(enableClosing)
+//     {
+//         for(int k=0;k<closingIterations;k++){
+//             erode(result_threshold,result_threshold,erodeElement);
+//             dilate(result_threshold,result_threshold,dilateElement);
+//         }        
+//     }
+
     cv::bitwise_and(_origin_rgb, result_threshold, _result);
 // Publication des images
+    sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, _result).toImageMsg();
+    result_pub_.publish(msg);
+
+    msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, _hsv).toImageMsg();
+    hsv_pub_.publish(msg);
+
+    msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, _thesholded).toImageMsg();
+    before_morphops_pub_.publish(msg);
+}
+
+void LectureFeu::templateProcessing()
+{
+    // Open the template img
+    std::string base_dir("/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/img/joao_pessoa/");
+    std::vector<cv::Mat> template_imgs;
+    template_imgs.push_back(imread(base_dir + "TL_templ_000.jpg"));
+    template_imgs.push_back(imread(base_dir + "TL_templ_001.jpg"));
+    template_imgs.push_back(imread(base_dir + "TL_templ_010.jpg"));
+    template_imgs.push_back(imread(base_dir + "TL_templ_110.jpg"));
+    template_imgs.push_back(imread(base_dir + "TL_templ_111.jpg"));
+
+
+    cv::Point true_matchLoc;
+    double minMax = -1;
+    cv::Mat templ;
+
+    for(std::vector<cv::Mat>::iterator it = template_imgs.begin(); it != template_imgs.end(); it++)
+    {
+        templ = *it;
+
+        /// "Method: \n 0: SQDIFF \n 1: SQDIFF NORMED \n 2: TM CCORR \n 3: TM CCORR NORMED \n 4: TM COEFF \n 5: TM COEFF NORMED";
+        int match_method = 0;
+        nh_.param<int>("feu_tricolore/opening/size", match_method, 0);
+
+        /// Create the result matrix
+        int result_cols =  _origin.cols - templ.cols + 1;
+        int result_rows = _origin.rows - templ.rows + 1;
+
+        cv::Mat result;
+        result.create( result_cols, result_rows, CV_32FC1 );
+
+        /// Do the Matching and Normalize
+        cv::matchTemplate( _origin, templ, result, match_method );
+        // cv::normalize( result, result, 0, 1, NORM_MINMAX, -1, Mat() );
+
+        /// Localizing the best match with minMaxLoc
+        double minVal; double maxVal; 
+        cv::Point minLoc; cv::Point maxLoc;
+        cv::Point matchLoc;
+
+        cv::minMaxLoc( result, &minVal, &maxVal, &minLoc, &maxLoc, cv::Mat() );
+
+        /// For SQDIFF and SQDIFF_NORMED, the best matches are lower values. For all the other methods, the higher the better
+        if( match_method  == CV_TM_SQDIFF || match_method == CV_TM_SQDIFF_NORMED )
+        { 
+            matchLoc = minLoc; 
+            if(minMax == -1 || minVal < minMax)
+            {
+                minMax = minVal;
+                true_matchLoc = matchLoc;
+            }
+        }
+        else
+        { 
+            matchLoc = maxLoc;
+            if(minMax == -1 || maxVal > minMax)
+            {
+                minMax = maxVal;
+                true_matchLoc = matchLoc;
+            }
+        }
+    }
+
+    /// Show me what you got
+    _origin_rgb.copyTo(_thesholded);
+    _origin_rgb.copyTo(_result);
+    rectangle( _thesholded, true_matchLoc, cv::Point( true_matchLoc.x + templ.cols , true_matchLoc.y + templ.rows ), cv::Scalar::all(0), 2, 8, 0 );
+    rectangle( _result, true_matchLoc, cv::Point( true_matchLoc.x + templ.cols , true_matchLoc.y + templ.rows ), cv::Scalar::all(0), 2, 8, 0 );
+
+    // Publication des images
     sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, _result).toImageMsg();
     result_pub_.publish(msg);
 

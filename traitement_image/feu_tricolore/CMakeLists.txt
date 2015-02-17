@@ -132,7 +132,7 @@ add_executable(
 # add_dependencies(feu_tricolore_node feu_tricolore_generate_messages_cpp)
 add_dependencies(
 	lecture_feu_node 
-	trait_im_msg
+	trait_im_msg_generate_messages_cpp
 )
 
 # Specify libraries to link a library or executable target against
