@@ -101,6 +101,8 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
 )
 
+message(STATUS "DIR DIR DIR DIR DIR : " ${OpenCV_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
+
 
 ## Declare a cpp library
 # add_library(feu_tricolore

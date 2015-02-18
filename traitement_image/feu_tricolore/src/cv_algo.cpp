@@ -78,8 +78,10 @@ void LectureFeu::traitement()
     cv::cvtColor(_origin,_hsv,CV_BGR2HSV);
     cv::cvtColor(_origin,_origin_rgb,CV_BGR2RGB);
 
-    templateProcessing();
+    // templateProcessing();
     // hsvProcessing();
+    // featureProcessing();
+    freakProcessing();
 }
 
 void LectureFeu::hsvProcessing()
@@ -293,6 +295,191 @@ void LectureFeu::templateProcessing()
     hsv_pub_.publish(msg);
 
     msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, _thesholded).toImageMsg();
+    before_morphops_pub_.publish(msg);
+}
+
+int LectureFeu::featureProcessing()
+{
+    std::string base_dir("/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/img/joao_pessoa/");
+    cv::Mat img_1 = imread( base_dir + "TL_templ_001.jpg", CV_LOAD_IMAGE_COLOR);
+    // cv::Mat img_1 = imread( base_dir + "000.jpg", CV_LOAD_IMAGE_COLOR);
+    cv::Mat img_2;
+    _origin.copyTo(img_2);
+
+    if( !img_1.data || !img_2.data )
+    { std::cout<< " --(!) Error reading images " << std::endl; return -1; }
+
+    //-- Step 1: Detect the keypoints using SURF Detector
+    int minHessian = 400;
+
+    // Ptr<SURF> detector = SURF::create( minHessian );
+    Ptr<FeatureDetector> detector = FeatureDetector::create("MSER");
+
+    // int tmp_1, tmp_2, tmp_3;
+    // nh_.param<int>("feu_tricolore/closing/size", tmp_1, 400);
+    // nh_.param<int>("feu_tricolore/opening/size", tmp_2, 4);
+    // nh_.param<int>("feu_tricolore/opening/iteration", tmp_3, 2);
+
+    // detector->hessianThreshold = 0;
+    // detector->nOctaves = 4;
+    // detector->nOctaveLayers = 2;
+    // detector->extended = 1;     // extended descriptors
+    // detector->upright = 0;      // 1 for not computing orientation
+
+    std::vector<KeyPoint> keypoints_1, keypoints_2;
+    Mat descriptors_1, descriptors_2;
+
+    detector->detect( img_1, keypoints_1 );
+    detector->detect( img_2, keypoints_2 );
+    // detector->detectAndCompute( img_1, keypoints_1, descriptors_1);
+    // detector->detectAndCompute( img_2, keypoints_2, descriptors_2);
+
+    //-- Draw keypoints
+    Mat img_keypoints_1; Mat img_keypoints_2;
+
+    drawKeypoints( img_1, keypoints_1, img_keypoints_1, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+    drawKeypoints( img_2, keypoints_2, img_keypoints_2, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+
+
+    //-- Show detected (drawn) keypoints
+    // imshow("Keypoints 1", img_keypoints_1 );
+    // imshow("Keypoints 2", img_keypoints_2 );
+
+    // Publication des images
+    sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, img_keypoints_2).toImageMsg();
+    result_pub_.publish(msg);
+
+    msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, img_keypoints_1).toImageMsg();
+    hsv_pub_.publish(msg);
+
+    msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, img_1).toImageMsg();
+    before_morphops_pub_.publish(msg);
+}
+
+
+void LectureFeu::freakProcessing()
+{
+    Mat imgA, imgB;
+    _origin.copyTo(imgB);
+    getRectSubPix(imgB,Size(60,150),Point(150,150),imgA);
+    std::string base_dir("/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/img/joao_pessoa/");
+    // imgA = imread( base_dir + "TL_templ_001.jpg", CV_LOAD_IMAGE_COLOR);
+    cvtColor(imgA, imgA, CV_BGR2GRAY);
+    cvtColor(imgB, imgB, CV_BGR2GRAY);
+
+    std::vector<KeyPoint> keypointsA, keypointsB;
+    std::vector<KeyPoint> keypointsAbis, keypointsBbis;
+    Mat descriptorsA, descriptorsB;
+    std::vector<DMatch> matches;
+
+    // DETECTION
+    // Any openCV detector such as
+    // SurfFeatureDetector detector(0,1);
+    // SurfFeatureDetector detector(0,4);
+    // MserFeatureDetector detector();
+    // Ptr<FeatureDetector> detector = FeatureDetector::create("MSER");
+    Ptr<FeatureDetector> detector = FeatureDetector::create("FAST");
+
+    // DESCRIPTOR
+    // Our proposed FREAK descriptor
+    // (roation invariance, scale invariance, pattern radius corresponding to SMALLEST_KP_SIZE,
+    // number of octaves, optional vector containing the selected pairs)
+    // FREAK extractor(true, true, 22, 4, std::vector<int>());
+    // FREAK extractor;
+    // MSER extractor;
+    Ptr<DescriptorExtractor> extractor = DescriptorExtractor::create("FREAK");
+
+    // MATCHER
+    // The standard Hamming distance can be used such as
+    // BruteForceMatcher<Hamming> matcher;
+    // or the proposed cascade of hamming distance using SSSE3
+    // BFMatcher matcher(NORM_HAMMING);
+    Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("BruteForce-Hamming");
+
+    // detect
+    // double t = (double)getTickCount();
+    detector->detect( imgA, keypointsA );
+    detector->detect( imgB, keypointsB );
+    keypointsAbis = keypointsA;
+    keypointsBbis = keypointsB;
+    // t = ((double)getTickCount() - t)/getTickFrequency();
+    // std::cout << "detection time [s]: " << t/1.0 << std::endl;
+
+    // extract
+    // t = (double)getTickCount();
+    extractor->compute( imgA, keypointsA, descriptorsA );
+    extractor->compute( imgB, keypointsB, descriptorsB );
+    // t = ((double)getTickCount() - t)/getTickFrequency();
+    // std::cout << "extraction time [s]: " << t << std::endl;
+
+    // match
+    // t = (double)getTickCount();
+    matcher->match(descriptorsA, descriptorsB, matches);
+    // t = ((double)getTickCount() - t)/getTickFrequency();
+    // std::cout << "matching time [s]: " << t << std::endl;
+
+    // Draw matches
+    Mat imgMatch;
+    drawMatches(imgA, keypointsA, imgB, keypointsB, matches, imgMatch);
+    Mat imgKeypointA, imgKeypointB;
+    drawKeypoints( imgA, keypointsAbis, imgKeypointA, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+    drawKeypoints( imgB, keypointsBbis, imgKeypointB, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+
+
+
+
+
+
+    //-- Localize the object
+    std::vector<Point2f> obj;
+    std::vector<Point2f> scene;
+
+    for( int i = 0; i < matches.size(); i++ )
+    {
+        //-- Get the keypoints from the good matches
+        obj.push_back( keypointsAbis[ matches[i].queryIdx ].pt );
+        scene.push_back( keypointsBbis[ matches[i].trainIdx ].pt );
+    }
+
+    Mat H = findHomography( obj, scene, RANSAC );
+
+    //-- Get the corners from the image_1 ( the object to be "detected" )
+    std::vector<Point2f> obj_corners(4);
+    obj_corners[0] = cvPoint(0,0); obj_corners[1] = cvPoint( imgA.cols, 0 );
+    obj_corners[2] = cvPoint( imgA.cols, imgA.rows ); obj_corners[3] = cvPoint( 0, imgA.rows );
+    std::vector<Point2f> scene_corners(4);
+
+    perspectiveTransform( obj_corners, scene_corners, H);
+
+    Mat imgDrawn;
+    imgMatch.copyTo(imgDrawn);
+    //-- Draw lines between the corners (the mapped object in the scene - image_2 )
+    line( imgDrawn, scene_corners[0] + Point2f( imgA.cols, 0), scene_corners[1] + Point2f( imgA.cols, 0), Scalar(0, 255, 0), 4 );
+    line( imgDrawn, scene_corners[1] + Point2f( imgA.cols, 0), scene_corners[2] + Point2f( imgA.cols, 0), Scalar( 0, 255, 0), 4 );
+    line( imgDrawn, scene_corners[2] + Point2f( imgA.cols, 0), scene_corners[3] + Point2f( imgA.cols, 0), Scalar( 0, 255, 0), 4 );
+    line( imgDrawn, scene_corners[3] + Point2f( imgA.cols, 0), scene_corners[0] + Point2f( imgA.cols, 0), Scalar( 0, 255, 0), 4 );
+
+    ROS_INFO_STREAM("Test " << scene_corners[1]);
+
+
+
+
+
+
+
+
+    //-- Show detected (drawn) keypoints
+    // imshow("Keypoints A", imgKeypointA );
+    // imshow("Keypoints B", imgKeypointB );
+
+    // Publication des images
+    sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, imgDrawn).toImageMsg();
+    result_pub_.publish(msg);
+
+    msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, imgKeypointA).toImageMsg();
+    hsv_pub_.publish(msg);
+
+    msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, imgKeypointB).toImageMsg();
     before_morphops_pub_.publish(msg);
 }
 

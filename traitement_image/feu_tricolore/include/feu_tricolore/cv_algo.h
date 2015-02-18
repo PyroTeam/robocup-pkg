@@ -17,8 +17,9 @@
 
 #include "cv_utils.h"
 
-#include "opencv2\features2d\features2d.hpp"
-#include "opencv2\nonfree\features2d.hpp"
+#include "opencv2/features2d/features2d.hpp"
+#include "opencv2/nonfree/features2d.hpp"
+// #include "opencv2/legacy/legacy.hpp"
 
 /*==========  Namespaces  ==========*/
 namespace enc = sensor_msgs::image_encodings;
@@ -49,6 +50,8 @@ public:
     bool ok();
     void hsvProcessing();
     void templateProcessing();
+    int featureProcessing();
+    void freakProcessing();
 };
 
 /*-----  End of Class Declaration  ------*/
