@@ -6,6 +6,16 @@
 ========================================*/
 
 
+void detectAndDisplay( Mat frame );
+
+bool processed = false;
+Mat imgRef;
+
+
+std::string cascade_dir("/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/src/");
+String cascade_name = cascade_dir + "cascade.xml";
+CascadeClassifier cascade;
+
 LectureFeu::LectureFeu()
   : it_(nh_)
 {
@@ -30,6 +40,9 @@ LectureFeu::LectureFeu()
     cv::randu(_thesholded, cv::Scalar(0), cv::Scalar(256));
     _result.create(240, 320, CV_8UC3);
     cv::randu(_result, cv::Scalar(0), cv::Scalar(256));
+
+
+    if( !cascade.load( cascade_name ) ){ printf("--(!)Error loading\n"); return; };
 }
 
 LectureFeu::~LectureFeu()
@@ -81,7 +94,52 @@ void LectureFeu::traitement()
     // templateProcessing();
     // hsvProcessing();
     // featureProcessing();
-    freakProcessing();
+    // freakProcessing();
+
+    // std::vector<std::string> detectors;
+    // std::vector<std::string> extractors;
+    // std::vector<std::string> matchers;
+
+    // detectors.push_back("FAST");
+    // detectors.push_back("STAR");
+    // detectors.push_back("ORB");
+    // detectors.push_back("BRISK");
+    // detectors.push_back("MSER");
+    // detectors.push_back("GFTT");
+    // detectors.push_back("HARRIS");
+    // detectors.push_back("Dense");
+    // detectors.push_back("SimpleBlob");
+
+    // extractors.push_back("BRIEF");
+    // extractors.push_back("BRISK");
+    // extractors.push_back("ORB");
+    // extractors.push_back("FREAK");     
+
+    // // matchers.push_back("BruteForce");
+    // // matchers.push_back("BruteForce-L1");
+    // // matchers.push_back("BruteForce-Hamming");
+    // matchers.push_back("BruteForce-Hamming(2)");
+    // // matchers.push_back("FlannBased");
+
+    // if(!processed)
+    // {
+    //     for (int i = 0; i < detectors.size(); ++i)
+    //     {
+    //         ROS_INFO("\n=================\n\n=================\n\n=================");
+    //         for (int j = 0; j < extractors.size(); ++j)
+    //         {
+    //             for (int k = 0; k < matchers.size(); ++k)
+    //             {
+    //                 freakProcessing(detectors[i],extractors[j],matchers[k]);
+    //             }
+    //         }
+    //     }
+    // }
+    if(!processed || 1)
+    {
+        // freakProcessing();
+        cascadeProcessing();
+    }
 }
 
 void LectureFeu::hsvProcessing()
@@ -357,19 +415,33 @@ int LectureFeu::featureProcessing()
 }
 
 
-void LectureFeu::freakProcessing()
+int LectureFeu::freakProcessing(std::string detector_str, std::string extractor_str, std::string matcher_str)
 {
-    Mat imgA, imgB;
-    _origin.copyTo(imgB);
-    getRectSubPix(imgB,Size(60,150),Point(150,150),imgA);
-    std::string base_dir("/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/img/joao_pessoa/");
-    // imgA = imread( base_dir + "TL_templ_001.jpg", CV_LOAD_IMAGE_COLOR);
-    cvtColor(imgA, imgA, CV_BGR2GRAY);
-    cvtColor(imgB, imgB, CV_BGR2GRAY);
+    ROS_INFO_STREAM("\n__________\nFreakProcessing\n-------------");
+    ROS_INFO_STREAM("Detector : " << detector_str);
+    ROS_INFO_STREAM("Extractor: " << extractor_str);
+    ROS_INFO_STREAM("Matcher : " << matcher_str << "\n***\n");
 
-    std::vector<KeyPoint> keypointsA, keypointsB;
-    std::vector<KeyPoint> keypointsAbis, keypointsBbis;
-    Mat descriptorsA, descriptorsB;
+    Mat imgObject, imgScene;
+    _origin.copyTo(imgScene);
+    if(!imgRef.data)
+    {
+        ROS_INFO("NEW IMAGE");
+        getRectSubPix(imgScene,Size(60,150),Point(150,150),imgObject);
+        imgObject.copyTo(imgRef);
+    }
+    else
+    {
+        imgRef.copyTo(imgObject);
+    }
+    // std::string base_dir("/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/img/joao_pessoa/");
+    // imgObject = imread( base_dir + "TL_templ_001.jpg", CV_LOAD_IMAGE_COLOR);
+    cvtColor(imgObject, imgObject, CV_BGR2GRAY);
+    cvtColor(imgScene, imgScene, CV_BGR2GRAY);
+
+    std::vector<KeyPoint> keypointsObject, keypointsScene;
+    std::vector<KeyPoint> keypointsObjectSave, keypointsSceneSave;
+    Mat descriptorsObject, descriptorsScene;
     std::vector<DMatch> matches;
 
     // DETECTION
@@ -378,7 +450,20 @@ void LectureFeu::freakProcessing()
     // SurfFeatureDetector detector(0,4);
     // MserFeatureDetector detector();
     // Ptr<FeatureDetector> detector = FeatureDetector::create("MSER");
-    Ptr<FeatureDetector> detector = FeatureDetector::create("FAST");
+    /**
+     * "FAST" – FastFeatureDetector
+     * "STAR" – StarFeatureDetector
+     * "SIFT" – SIFT (nonfree module)
+     * "SURF" – SURF (nonfree module)
+     * "ORB" – ORB
+     * "BRISK" – BRISK
+     * "MSER" – MSER
+     * "GFTT" – GoodFeaturesToTrackDetector
+     * "HARRIS" – GoodFeaturesToTrackDetector with Harris detector enabled
+     * "Dense" – DenseFeatureDetector
+     * "SimpleBlob" – SimpleBlobDetector
+     */
+    Ptr<FeatureDetector> detector = FeatureDetector::create(detector_str);
 
     // DESCRIPTOR
     // Our proposed FREAK descriptor
@@ -387,85 +472,135 @@ void LectureFeu::freakProcessing()
     // FREAK extractor(true, true, 22, 4, std::vector<int>());
     // FREAK extractor;
     // MSER extractor;
-    Ptr<DescriptorExtractor> extractor = DescriptorExtractor::create("FREAK");
+
+    /**
+     * SIFT" – SIFT (nonfree module)
+     * SURF" – SURF (nonfree module)
+     * BRIEF" – BriefDescriptorExtractor
+     * BRISK" – BRISK
+     * ORB" – ORB
+     * FREAK" – FREAK
+     */
+    Ptr<DescriptorExtractor> extractor = DescriptorExtractor::create(extractor_str);
 
     // MATCHER
     // The standard Hamming distance can be used such as
     // BruteForceMatcher<Hamming> matcher;
     // or the proposed cascade of hamming distance using SSSE3
     // BFMatcher matcher(NORM_HAMMING);
-    Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("BruteForce-Hamming");
+    /** 
+     * BruteForce (it uses L2 )
+     * BruteForce-L1
+     * BruteForce-Hamming
+     * BruteForce-Hamming(2)
+     * FlannBased
+     */
+    Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create(matcher_str);
 
     // detect
     // double t = (double)getTickCount();
-    detector->detect( imgA, keypointsA );
-    detector->detect( imgB, keypointsB );
-    keypointsAbis = keypointsA;
-    keypointsBbis = keypointsB;
+    detector->detect( imgObject, keypointsObject );
+    detector->detect( imgScene, keypointsScene );
+    keypointsObjectSave = keypointsObject;
+    keypointsSceneSave = keypointsScene;
     // t = ((double)getTickCount() - t)/getTickFrequency();
     // std::cout << "detection time [s]: " << t/1.0 << std::endl;
+    ROS_INFO_STREAM("Found " << keypointsObject.size() << " keyPoints for Object and " << keypointsScene.size() << " for Scene");
 
     // extract
     // t = (double)getTickCount();
-    extractor->compute( imgA, keypointsA, descriptorsA );
-    extractor->compute( imgB, keypointsB, descriptorsB );
+    extractor->compute( imgObject, keypointsObject, descriptorsObject );
+    extractor->compute( imgScene, keypointsScene, descriptorsScene );
     // t = ((double)getTickCount() - t)/getTickFrequency();
-    // std::cout << "extraction time [s]: " << t << std::endl;
+    // std::cout << "extraction time [s]: " << t << std::endl;    
+    ROS_INFO_STREAM("Keeped " << keypointsObject.size() << " keyPoints for Object and " << keypointsScene.size() << " for Scene");
 
     // match
     // t = (double)getTickCount();
-    matcher->match(descriptorsA, descriptorsB, matches);
+    matcher->match(descriptorsObject, descriptorsScene, matches);
     // t = ((double)getTickCount() - t)/getTickFrequency();
     // std::cout << "matching time [s]: " << t << std::endl;
+    ROS_INFO_STREAM("Found " << matches.size() << " matches");
 
-    // Draw matches
-    Mat imgMatch;
-    drawMatches(imgA, keypointsA, imgB, keypointsB, matches, imgMatch);
+    // // Draw matches
+    // Mat imgMatch;
+    // drawMatches(imgObject, keypointsObject, imgScene, keypointsScene, matches, imgMatch);
+    // Draw keypoints
     Mat imgKeypointA, imgKeypointB;
-    drawKeypoints( imgA, keypointsAbis, imgKeypointA, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
-    drawKeypoints( imgB, keypointsBbis, imgKeypointB, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+    drawKeypoints( imgObject, keypointsObjectSave, imgKeypointA, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+    drawKeypoints( imgScene, keypointsSceneSave, imgKeypointB, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
 
 
+    double max_dist = 0; double min_dist = 100;
 
+    //-- Quick calculation of max and min distances between keypoints
+    for( int i = 0; i < descriptorsObject.rows; i++ )
+    {   
+        double dist = matches[i].distance;
+        if( dist < min_dist ) min_dist = dist;
+        if( dist > max_dist ) max_dist = dist;
+    }
 
+    ROS_INFO("-- Max dist : %f ", max_dist );
+    ROS_INFO("-- Min dist : %f \n\n", min_dist );
 
+    //-- Draw only "good" matches (i.e. whose distance is less than 3*min_dist )
+    std::vector< DMatch > good_matches;
+
+    for( int i = 0; i < descriptorsObject.rows; i++ )
+    { 
+        if( matches[i].distance < 3*min_dist )
+        { 
+            good_matches.push_back( matches[i]); 
+        }
+    }
+
+    Mat imgMatches;
+    drawMatches( imgObject, keypointsObject, imgScene, keypointsScene,
+               good_matches, imgMatches, Scalar::all(-1), Scalar::all(-1),
+               vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 
     //-- Localize the object
     std::vector<Point2f> obj;
     std::vector<Point2f> scene;
 
-    for( int i = 0; i < matches.size(); i++ )
+    for( int i = 0; i < good_matches.size(); i++ )
     {
         //-- Get the keypoints from the good matches
-        obj.push_back( keypointsAbis[ matches[i].queryIdx ].pt );
-        scene.push_back( keypointsBbis[ matches[i].trainIdx ].pt );
+        obj.push_back( keypointsObject[ good_matches[i].queryIdx ].pt );
+        scene.push_back( keypointsScene[ good_matches[i].trainIdx ].pt );
     }
 
-    Mat H = findHomography( obj, scene, RANSAC );
+    Mat H;
+    if(obj.size() >= 4)
+    {
+        H = findHomography( obj, scene, CV_RANSAC );
+    }
+    else
+    {
+        ROS_WARN("findHomography : not enough keyPoints (only %ld)", obj.size());
+        processed = true;
+        return -1;
+    }
 
     //-- Get the corners from the image_1 ( the object to be "detected" )
     std::vector<Point2f> obj_corners(4);
-    obj_corners[0] = cvPoint(0,0); obj_corners[1] = cvPoint( imgA.cols, 0 );
-    obj_corners[2] = cvPoint( imgA.cols, imgA.rows ); obj_corners[3] = cvPoint( 0, imgA.rows );
+    obj_corners[0] = cvPoint(0,0); obj_corners[1] = cvPoint( imgObject.cols, 0 );
+    obj_corners[2] = cvPoint( imgObject.cols, imgObject.rows ); obj_corners[3] = cvPoint( 0, imgObject.rows );
     std::vector<Point2f> scene_corners(4);
 
     perspectiveTransform( obj_corners, scene_corners, H);
 
+
+
+
     Mat imgDrawn;
-    imgMatch.copyTo(imgDrawn);
+    imgMatches.copyTo(imgDrawn);
     //-- Draw lines between the corners (the mapped object in the scene - image_2 )
-    line( imgDrawn, scene_corners[0] + Point2f( imgA.cols, 0), scene_corners[1] + Point2f( imgA.cols, 0), Scalar(0, 255, 0), 4 );
-    line( imgDrawn, scene_corners[1] + Point2f( imgA.cols, 0), scene_corners[2] + Point2f( imgA.cols, 0), Scalar( 0, 255, 0), 4 );
-    line( imgDrawn, scene_corners[2] + Point2f( imgA.cols, 0), scene_corners[3] + Point2f( imgA.cols, 0), Scalar( 0, 255, 0), 4 );
-    line( imgDrawn, scene_corners[3] + Point2f( imgA.cols, 0), scene_corners[0] + Point2f( imgA.cols, 0), Scalar( 0, 255, 0), 4 );
-
-    ROS_INFO_STREAM("Test " << scene_corners[1]);
-
-
-
-
-
-
+    line( imgDrawn, scene_corners[0] + Point2f( imgObject.cols, 0), scene_corners[1] + Point2f( imgObject.cols, 0), Scalar::all(0), 4 );
+    line( imgDrawn, scene_corners[1] + Point2f( imgObject.cols, 0), scene_corners[2] + Point2f( imgObject.cols, 0), Scalar::all(0), 4 );
+    line( imgDrawn, scene_corners[2] + Point2f( imgObject.cols, 0), scene_corners[3] + Point2f( imgObject.cols, 0), Scalar::all(0), 4 );
+    line( imgDrawn, scene_corners[3] + Point2f( imgObject.cols, 0), scene_corners[0] + Point2f( imgObject.cols, 0), Scalar::all(0), 4 );
 
 
     //-- Show detected (drawn) keypoints
@@ -481,6 +616,19 @@ void LectureFeu::freakProcessing()
 
     msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, imgKeypointB).toImageMsg();
     before_morphops_pub_.publish(msg);
+
+    processed = true;
+
+    return 0;
+}
+
+int LectureFeu::cascadeProcessing()
+{
+    detectAndDisplay(_origin);
+
+    processed = true;
+
+    return 0;
 }
 
 bool LectureFeu::ok()
@@ -490,3 +638,23 @@ bool LectureFeu::ok()
 }
 
 /*-----  End of Class Definition  ------*/
+
+/** @function detectAndDisplay */
+void detectAndDisplay( Mat frame )
+{
+  std::vector<Rect> lights;
+  Mat frame_gray;
+
+  cvtColor( frame, frame_gray, CV_BGR2GRAY );
+  equalizeHist( frame_gray, frame_gray );
+
+  //-- Detect lights
+  cascade.detectMultiScale( frame_gray, lights, 1.1, 2, 0, Size(40, 110));
+
+  for( size_t i = 0; i < lights.size(); i++ )
+  {
+    rectangle( frame, lights[i], Scalar(rand()%255,rand()%255,rand()%255));
+  }
+  //-- Show what you got
+  imshow( "Result", frame );
+ }

@@ -51,7 +51,8 @@ public:
     void hsvProcessing();
     void templateProcessing();
     int featureProcessing();
-    void freakProcessing();
+    int freakProcessing(std::string detector_str = "GFTT", std::string extractor_str = "BRISK", std::string matcher_str = "BruteForce-Hamming");
+    int cascadeProcessing();
 };
 
 /*-----  End of Class Declaration  ------*/
