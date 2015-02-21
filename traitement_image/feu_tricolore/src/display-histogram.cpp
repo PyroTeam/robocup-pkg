@@ -21,7 +21,23 @@ void showHistogram(Mat& img)
 		{
 			for (int k = 0; k < nc; k++)
 			{
-				uchar val = nc == 1 ? img.at<uchar>(i,j) : img.at<Vec3b>(i,j)[k];
+				uchar val;
+				if(nc == 1)
+				{
+					if(img.at<uchar>(i,j) == 0)
+						continue;
+					else
+						val = img.at<uchar>(i,j);
+				}
+				else
+				{
+					if(img.at<Vec3b>(i,j)[0] == 0
+						&& img.at<Vec3b>(i,j)[1] == 0
+						&& img.at<Vec3b>(i,j)[2] == 0)
+						continue;
+					else
+						val = img.at<Vec3b>(i,j)[k];
+				}
 				hist[k].at<int>(val) += 1;
 			}
 		}
@@ -36,7 +52,7 @@ void showHistogram(Mat& img)
 			hmax[i] = hist[i].at<int>(j) > hmax[i] ? hist[i].at<int>(j) : hmax[i];
 	}
 
-	const char* wname[3] = { "blue", "green", "red" };
+	const char* wname[3] = { "Channel 1", "Channel 2", "Channel 3" };
 	Scalar colors[3] = { Scalar(255,0,0), Scalar(0,255,0), Scalar(0,0,255) };
 
 	vector<Mat> canvas(nc);

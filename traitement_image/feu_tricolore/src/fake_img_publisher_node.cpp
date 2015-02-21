@@ -41,7 +41,7 @@ int main(int argc, char** argv)
     cv::VideoCapture cap("/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/img/video/Carologistics_Navigation_Challenge_Robot_Perspective.mp4"); // open the default camera
     if(!cap.isOpened())  // check if we succeeded
         return -1;
-    int frameRate = cap.get(CV_CAP_PROP_FPS)/10;
+    int frameRate = cap.get(CV_CAP_PROP_FPS);
 
 
 
