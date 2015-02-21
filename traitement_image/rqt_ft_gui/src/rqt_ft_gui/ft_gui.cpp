@@ -563,8 +563,8 @@ void FtGui::callbackImage(const sensor_msgs::Image::ConstPtr& msg)
 {
   try
   {
-    // First let cv_bridge do its magic (QImage expect BGR)
-    cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::BGR8);
+    // First let cv_bridge do its magic (QImage expect RGB)
+    cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::RGB8);
     conversion_mat_ = cv_ptr->image;
   }
   catch (cv_bridge::Exception& e)
@@ -622,8 +622,8 @@ void FtGui::callbackImage_2(const sensor_msgs::Image::ConstPtr& msg)
 {
   try
   {
-    // First let cv_bridge do its magic (QImage expect BGR)
-    cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::BGR8);
+    // First let cv_bridge do its magic (QImage expect RGB)
+    cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::RGB8);
     conversion_mat_2_ = cv_ptr->image;
   }
   catch (cv_bridge::Exception& e)

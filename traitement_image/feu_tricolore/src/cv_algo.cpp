@@ -67,6 +67,8 @@ bool LectureFeu::ok()
  */
 void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
 {
+    // sensor_msgs::image_encodings::BGR8
+
     // Get image
     cv_bridge::CvImagePtr cv_ptr;
     try
@@ -80,8 +82,30 @@ void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
     }
     cv_ptr->image.copyTo(_origin);
 
+// Display encoding
+    // For CvImage
+    if(cv_ptr->encoding == sensor_msgs::image_encodings::BGR8 || cv_ptr->encoding == enc::BGR8) {
+        ROS_INFO_STREAM("Image Ptr - BGR encoding");
+    }
+    else if(cv_ptr->encoding == sensor_msgs::image_encodings::RGB8 || cv_ptr->encoding == enc::RGB8) {
+        ROS_INFO_STREAM("Image Ptr - RGB encoding");
+    }
+    else {
+        ROS_INFO_STREAM("Image Ptr - Unknown encoding : "<<cv_ptr->encoding);
+    }
+    // For msg
+    if(msg->encoding == sensor_msgs::image_encodings::BGR8 || msg->encoding == enc::BGR8) {
+        ROS_INFO_STREAM("Msg Ptr - BGR encoding");
+    }
+    else if(msg->encoding == sensor_msgs::image_encodings::RGB8 || msg->encoding == enc::RGB8) {
+        ROS_INFO_STREAM("Msg Ptr - RGB encoding");
+    }
+    else {
+        ROS_INFO_STREAM("Msg Ptr - Unknown encoding : "<<msg->encoding);
+    }
+
     // Conversions couleurs
-    cv::cvtColor(_origin,_origin_rgb,CV_BGR2HSV);
+    cv::cvtColor(_origin,_origin_rgb,CV_BGR2RGB);
 
     // Do the processing
     lectureFeu();
@@ -126,7 +150,8 @@ void LectureFeu::preTraitement(cv::Mat &imgToProcess)
 
 void LectureFeu::traitement(cv::Mat &imgToProcess)
 {
-    hsvProcessing(imgToProcess);
+    // hsvProcessing(imgToProcess);
+    hsvProcessing_V2(imgToProcess);
     // templateProcessing();
     // featureProcessing();
     // freakProcessing();
@@ -311,9 +336,9 @@ void LectureFeu::hsvProcessing(cv::Mat imgToProcess)
 
     // /// Compute the histograms:
     range[0] = 10; range[1] = 256;
-    calcHist( &hsv_channels[0], 1, 0, Mat(), v_hist, 1, &histSize, &histRange, uniform, accumulate );
-    calcHist( &hsv_channels[1], 1, 0, Mat(), s_hist, 1, &histSize, &histRange, uniform, accumulate );
-    calcHist( &hsv_channels[2], 1, 0, Mat(), h_hist, 1, &histSize, &histRange, uniform, accumulate );
+    cv::calcHist( &hsv_channels[0], 1, 0, Mat(), v_hist, 1, &histSize, &histRange, uniform, accumulate );
+    cv::calcHist( &hsv_channels[1], 1, 0, Mat(), s_hist, 1, &histSize, &histRange, uniform, accumulate );
+    cv::calcHist( &hsv_channels[2], 1, 0, Mat(), h_hist, 1, &histSize, &histRange, uniform, accumulate );
 
     // Calc hist manually
     int nc = imgToProcess.channels();   // number of channels
@@ -450,6 +475,128 @@ void LectureFeu::hsvProcessing(cv::Mat imgToProcess)
     histImage.copyTo(_output_5);
 
     // showHistogram(imgToProcess);
+}
+
+
+void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
+{
+    // Recup img
+    cv::Mat BGR = imgToProcess;
+    cv::Mat HSV;
+    cvtColor(imgToProcess, HSV, CV_BGR2HSV);
+
+    // Split channels    
+    vector<Mat> hsvChannels;
+    split(HSV, hsvChannels);
+    vector<Mat> bgrChannels;
+    split(BGR, bgrChannels);
+
+    // Transform to 3 channels grayscales imgs
+    cv::Mat imgB = singleToMultChannels(bgrChannels[0],3);
+    cv::Mat imgG = singleToMultChannels(bgrChannels[1],3);
+    cv::Mat imgR = singleToMultChannels(bgrChannels[2],3);
+
+    cv::Mat imgH = singleToMultChannels(hsvChannels[0],3);
+    cv::Mat imgS = singleToMultChannels(hsvChannels[1],3);
+    cv::Mat imgV = singleToMultChannels(hsvChannels[2],3);
+
+    // // Show results
+    // imshow("Blue", imgB); moveWindow("Blue", 400*0, 300*0);
+    // imshow("Green", imgG); moveWindow("Green", 400*1, 300*0);
+    // imshow("Red", imgR); moveWindow("Red", 400*2, 300*0);
+
+    // imshow("Hue", imgH); moveWindow("Hue", 400*0, 300*1);
+    // imshow("Saturation", imgS); moveWindow("Saturation", 400*1, 300*1);
+    // imshow("Value", imgV); moveWindow("Value", 400*2, 300*1);
+
+    // Filter each channels
+    cv::Mat binB = binaryThreshold(BGR,'B');
+    cv::Mat binG = binaryThreshold(BGR,'G');
+    cv::Mat binR = binaryThreshold(BGR,'R');
+
+    cv::Mat binH = binaryThreshold(BGR,'H');
+    cv::Mat binS = binaryThreshold(BGR,'S');
+    cv::Mat binV = binaryThreshold(BGR,'V');
+
+    // // Show results
+    // imshow("Blue", binB); moveWindow("Blue", 400*0, 300*0);
+    // imshow("Green", binG); moveWindow("Green", 400*1, 300*0);
+    // imshow("Red", binR); moveWindow("Red", 400*2, 300*0);
+
+    // imshow("Hue", binH); moveWindow("Hue", 400*0, 300*1);
+    // imshow("Saturation", binS); moveWindow("Saturation", 400*1, 300*1);
+    // imshow("Value", binV); moveWindow("Value", 400*2, 300*1);
+
+    // Morphops on it
+    binB = morphOps(binB,'B');
+    binG = morphOps(binG,'G');
+    binR = morphOps(binR,'R');
+
+    binH = morphOps(binH,'H');
+    binS = morphOps(binS,'S');
+    binV = morphOps(binV,'V');
+    
+    // // Show results
+    // imshow("Blue", binB); moveWindow("Blue", 400*0, 300*0);
+    // imshow("Green", binG); moveWindow("Green", 400*1, 300*0);
+    // imshow("Red", binR); moveWindow("Red", 400*2, 300*0);
+
+    // imshow("Hue", binH); moveWindow("Hue", 400*0, 300*1);
+    // imshow("Saturation", binS); moveWindow("Saturation", 400*1, 300*1);
+    // imshow("Value", binV); moveWindow("Value", 400*2, 300*1);
+
+    // Merge with original
+    imgB = binaryMask(imgB, binB);
+    imgG = binaryMask(imgG, binG);
+    imgR = binaryMask(imgR, binR);
+
+    imgH = binaryMask(imgH, binH);
+    imgS = binaryMask(imgS, binS);
+    imgV = binaryMask(imgV, binV);
+
+    // Show results
+    imshow("Blue", imgB); moveWindow("Blue", 400*0, 300*0);
+    imshow("Green", imgG); moveWindow("Green", 400*1, 300*0);
+    imshow("Red", imgR); moveWindow("Red", 400*2, 300*0);
+
+    imshow("Hue", imgH); moveWindow("Hue", 400*0, 300*1);
+    imshow("Saturation", imgS); moveWindow("Saturation", 400*1, 300*1);
+    imshow("Value", imgV); moveWindow("Value", 400*2, 300*1);
+
+    // Mask originals images
+    cv::Mat hueMasked = binaryMask(imgH, binG);
+    cv::Mat satMasked = binaryMask(imgS, binG);
+
+    // Histograms
+    cv::Mat hueHist = calcHist(hueMasked, 0, false);
+    cv::Mat hueHistImg = histToImg(calcHist(hueMasked, 0, true));
+    cv::Mat satHist = histToImg(calcHist(satMasked, 0, true));
+
+    // Show results
+    imshow("hueMasked", hueMasked); moveWindow("hueMasked", 400*0, 300*2);
+    imshow("satMasked", satMasked); moveWindow("satMasked", 400*1, 300*2);
+    imshow("hueHist", hueHistImg); moveWindow("hueHist", 400*2, 300*2);
+    imshow("satHist", satHist); moveWindow("satHist", 400*2+800, 300*2);
+
+    // Compte les classes avant le filtrage
+    float green_pix= 0, red_pix = 0, yellow_pix= 0;
+    float sum = 0;
+    for( int i = 0; i < 180; i++ )
+    {
+        if(i >= 170 || i < 10 )
+            red_pix += cvRound(hueHist.at<float>(i));
+        else if(i >=10 && i < 30)
+            yellow_pix += cvRound(hueHist.at<float>(i));
+        else if(i >=70 && i < 90)
+            green_pix += cvRound(hueHist.at<float>(i));
+
+        sum += cvRound(hueHist.at<float>(i));
+
+        ROS_INFO_STREAM("I : "<<i<<" Val "<<cvRound(hueHist.at<float>(i)));
+    }
+
+    ROS_INFO_STREAM("Red : " << red_pix << " Yellow : " << yellow_pix << " Green : " << green_pix);
+    ROS_INFO_STREAM("Red : " << red_pix/sum*100 << "% Yellow : " << yellow_pix/sum*100 << "% Green : " << green_pix/sum*100<<"% Sum "<<sum);
 }
 
 void LectureFeu::templateProcessing()
@@ -801,5 +948,331 @@ bool LectureFeu::getEnableClosing()
     return tmp;
 }
 
+cv::Mat LectureFeu::singleToMultChannels(cv::Mat binary, int numChannels)
+{
+    // Add copies of binary img in a tab
+    cv::Mat binTab[numChannels];
+    for(int i=0;i<numChannels;++i) { binTab[i]=binary; }
+
+    // Merge them in one img
+    cv::Mat imgMultChannels;
+    cv::merge(binTab, numChannels, imgMultChannels);
+
+    return imgMultChannels;
+}
+
+cv::Mat LectureFeu::binaryThreshold(cv::Mat imgBgr, char channel)
+{
+// Environement
+    std::string paramBaseName;
+    std::stringstream paramStream;
+    std::string acceptedChannels("BGRHSV");
+    cv::Mat binary = cv::Mat(imgBgr.rows, imgBgr.cols, CV_8UC(1), Scalar::all(255));
+
+    // Prepare params recuperation
+    if(acceptedChannels.find(channel) == std::string::npos)
+    {
+        ROS_WARN_STREAM("LectureFeu::binaryThreshold : Unknown channel to threshold (Ch "<<channel<<")");
+        return binary;
+    }
+    else
+    {
+        paramStream << "/trait_im/feu_tricolore/tmp/"<<channel<<"/threshold/";
+        paramBaseName = paramStream.str();
+    }
+
+    // Recup params
+    bool enabled;
+    int min, max;
+    nh_.param<bool>(paramBaseName+"enabled", enabled, true);
+    nh_.param<int>(paramBaseName+"min", min, 0);
+    nh_.param<int>(paramBaseName+"max", max, 255);
+    ROS_INFO_STREAM(paramBaseName+"enabled");
+    ROS_INFO_STREAM("BinThresh | Ch "<<channel<<" - enabled: "<<enabled<<" min,max: ("<<min<<","<<max<<")");
+
+// Algo
+
+    // In case of HSV, convert colors
+    std::string HSV("HSV");
+    cv::Mat imgToProcess;
+    if(HSV.find(channel) != std::string::npos) { cv::cvtColor(imgBgr, imgToProcess, CV_BGR2HSV); }
+    else { imgBgr.copyTo(imgToProcess); }
+
+    // Configure threshold
+    int minCh1 = 0,
+        minCh2 = 0,
+        minCh3 = 0;
+    int maxCh1 = 255,
+        maxCh2 = 255,
+        maxCh3 = 255;
+    if(channel == 'H' || channel == 'B') { minCh1=min; maxCh1=max; }
+    if(channel == 'S' || channel == 'G') { minCh2=min; maxCh2=max; }
+    if(channel == 'V' || channel == 'R') { minCh3=min; maxCh3=max; }
+
+    // Threshold
+    if(enabled)
+        cv::inRange(imgBgr,cv::Scalar(minCh1,minCh2,minCh3),cv::Scalar(maxCh1,maxCh2,maxCh3),binary);
+    else
+        cv::inRange(imgBgr,cv::Scalar(0,0,0),cv::Scalar(255,255,255),binary);
+
+    return binary;
+}
+
+cv::Mat LectureFeu::morphOps(cv::Mat imgBinary, char channel)
+{
+// Environement
+    std::string paramBaseName;
+    std::stringstream paramStream;
+    std::string acceptedChannels("BGRHSV");
+    cv::Mat binary = cv::Mat(imgBinary.rows, imgBinary.cols, CV_8UC(1), Scalar::all(255));
+
+    // Prepare params recuperation
+    if(acceptedChannels.find(channel) == std::string::npos)
+    {
+        ROS_WARN_STREAM("LectureFeu::morphOps : Unknown channel to threshold (Ch "<<channel<<")");
+        return binary;
+    }
+    else
+    {
+        paramStream << "/trait_im/feu_tricolore/tmp/"<<channel<<"/morphops/";
+        paramBaseName = paramStream.str();
+    }
+
+    // Recup params
+    bool enableOpening;
+    int openingIterations, openingSize;
+    nh_.param<bool>(paramBaseName+"opening/enabled", enableOpening, true);
+    nh_.param<int>(paramBaseName+"opening/iterations", openingIterations, 1);
+    nh_.param<int>(paramBaseName+"opening/size", openingSize, 1);
+    openingSize = ((openingSize<1)?1:openingSize*2+1);
+    ROS_INFO_STREAM("MorphOps - Opening | Ch "<<channel<<" - enabled: "<<enableOpening<<" iterations,size: ("<<openingIterations<<","<<openingSize<<")");
+
+    bool enableClosing;
+    int closingIterations, closingSize;
+    nh_.param<bool>(paramBaseName+"closing/enabled", enableClosing, true);
+    nh_.param<int>(paramBaseName+"closing/iterations", closingIterations, 1);
+    nh_.param<int>(paramBaseName+"closing/size", closingSize, 1);
+    closingSize = ((closingSize<1)?1:closingSize*2+1);
+    ROS_INFO_STREAM("MorphOps - Closing | Ch "<<channel<<" - enabled: "<<enableClosing<<" iterations,size: ("<<closingIterations<<","<<closingSize<<")");
+    ROS_INFO_STREAM("");
+
+
+// Algo
+    // Opening - Closing - Opening on binary
+    imgBinary.copyTo(binary);
+    // Opening operation - 1
+    if(enableOpening) {
+        for(int k=0;k<openingIterations;k++) {
+            opening(binary, cv::Size(openingSize,openingSize));
+        }        
+    }
+
+    // Closing operation -1
+    if(enableClosing) {
+        for(int k=0;k<closingIterations;k++) {
+            closing(binary, cv::Size(closingSize,closingSize));
+        }        
+    }
+
+    // Openng operation- 2
+    if(enableOpening) {
+        for(int k=0;k<openingIterations;k++) {
+            opening(binary, cv::Size(openingSize,openingSize));
+        }        
+    }
+
+    return binary;
+}
+
+cv::Mat LectureFeu::binaryMask(cv::Mat imgMultChannels, cv::Mat binaryMask)
+{
+// Environment
+    cv::Mat result;
+    cv::Mat binaryThreeChannels = singleToMultChannels(binaryMask, 3);
+
+// Algo
+    cv::bitwise_and(imgMultChannels, binaryThreeChannels, result);
+
+    return result;
+}
+
+cv::Mat LectureFeu::calcHist(cv::Mat imgToHist, int channel, bool normalize)
+{
+    if(channel > imgToHist.channels())
+    {
+        ROS_WARN_STREAM("LectureFeu::calcHist : Requested channel "<<channel<<" on a "<<imgToHist.channels()<<" channel(s) image");
+        return cv::Mat();
+    }
+
+    // Separate channels
+    std::vector<cv::Mat> channels;
+    cv::split(imgToHist, channels);
+
+    // Number of bins
+    int bins = 256;
+    // Initalize histogram arrays
+    cv::Mat hist = Mat::zeros(1, bins, CV_32SC1);
+
+    // Calculate the histogram of the image
+    for (int i = 0; i < imgToHist.rows; i++)
+    {
+        for (int j = 0; j < imgToHist.cols; j++)
+        {
+            uchar val;
+
+            // Ignore black pixels
+            if(imgToHist.at<Vec3b>(i,j)[0] == 0
+                && imgToHist.at<Vec3b>(i,j)[1] == 0
+                && imgToHist.at<Vec3b>(i,j)[2] == 0)
+                continue;
+            else
+                val = imgToHist.at<Vec3b>(i,j)[channel];
+            hist.at<float>(val) += 1;
+        }
+    }
+
+    // Normalize
+    if(normalize)
+    {
+        // Search max bin value
+        int hmax;
+        for (int j = 0; j < bins-1; j++)
+            hmax = hist.at<float>(j) > hmax ? hist.at<float>(j) : hmax;
+
+        for (int j = 0; j < bins-1; j++)
+            hist.at<float>(j) /= hmax;
+
+        ROS_INFO_STREAM("Max was : " << hmax);
+    }
+
+    return hist;
+}
+
+cv::Mat LectureFeu::histToImg(cv::Mat hist)
+{
+    // Image for the histogram
+    int histSize = 256;
+    // int histSize = hist.cols;
+    int hist_w = 512; int hist_h = 400;
+    int bin_w = cvRound( (double) hist_w/histSize );
+
+    cv::Mat histImage( hist_h, hist_w, CV_8UC3, Scalar( 0,0,0) );
+
+    /// Draw
+    for( int i = 1; i < histSize; i++ )
+    {
+        // // Graduation
+        // if(i%5 == 0)
+        // line( histImage, Point( bin_w*(i), hist_h ) ,
+        //                Point( bin_w*(i), 0 ),
+        //                Scalar( 0, 30, 0), 2, 8, 0  );
+        // if(i%20 == 0)
+        // line( histImage, Point( bin_w*(i), hist_h ) ,
+        //                Point( bin_w*(i), 0 ),
+        //                Scalar( 30, 0, 0), 2, 8, 0  );
+
+        // Espace couleur FEU
+        // Rouge
+        if(i<10 || (i>=170 && i<=180))
+        line( histImage, Point( bin_w*(i), hist_h ) ,
+                       Point( bin_w*(i), 0 ),
+                       Scalar( 0, 0, 50), 2, 8, 0  );
+        // Vert
+        if(i<90 && i>=70)
+        line( histImage, Point( bin_w*(i), hist_h ) ,
+                       Point( bin_w*(i), 0 ),
+                       Scalar( 0, 50, 0), 2, 8, 0  );
+        // Jaune
+        if(i<30 && i>=10)
+        line( histImage, Point( bin_w*(i), hist_h ) ,
+                       Point( bin_w*(i), 0 ),
+                       Scalar( 0, 30, 50), 2, 8, 0  );
+
+        // Histo
+        line( histImage, Point( bin_w*(i-1), hist_h - cvRound(hist.at<float>(i-1)*hist_h) ) ,
+                       Point( bin_w*(i), hist_h - cvRound(hist.at<float>(i)*hist_h) ),
+                       Scalar( 200, 200, 200), 2, 8, 0  );
+    }
+
+    return histImage;
+}
+
+
+//     // Draw the histograms for H, S and V
+//     int hist_w = 512; int hist_h = 400;
+//     int bin_w = cvRound( (double) hist_w/histSize );
+
+//     cv::Mat histImage( hist_h, hist_w, CV_8UC3, Scalar( 0,0,0) );
+
+//     /// Normalize the result to [ 0, histImage.rows ]
+//     normalize(h_hist, h_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
+//     normalize(s_hist, s_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
+//     normalize(v_hist, v_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
+
+//     // // Compte les classes avant le filtrage
+//     int green_pix= 0, red_pix = 0, yellow_pix;    
+//     // for( int i = 1; i < histSize; i++ )
+//     // {
+//     //     if(i < 50 || i >= 220)
+//     //         red_pix += v_hist.at<float>(i);
+//     //     else if(i >=140)
+//     //         yellow_pix += v_hist.at<float>(i);
+//     //     else
+//     //         green_pix += v_hist.at<float>(i);
+//     // }
+//     // ROS_INFO_STREAM("Red : " << red_pix << " Yellow : " << yellow_pix << " Green : " << green_pix);
+
+//     // // Filtrage de l'histo Hue
+//     // #define INT_WIDTH 20
+//     // float integral = 0;
+//     // for( int i = 1; i < histSize; i++ )
+//     // {
+//     //     // Somme des 10 dernieres colonnes de l'histogram
+//     //     integral += v_hist.at<float>(i);
+//     //     if(i>=INT_WIDTH+1)
+//     //     {
+//     //         integral -= v_hist.at<float>(i-INT_WIDTH);
+//     //         v_hist.at<float>(i-(INT_WIDTH/2)) = integral/INT_WIDTH;
+//     //     }
+//     // }
+
+//     // Compte les classes apres le filtrage
+//     green_pix= 0; red_pix = 0; yellow_pix = 0;    
+//     for( int i = 1; i < histSize; i++ )
+//     {
+//         if(i < 0 || i >= 235)
+//             red_pix += hist[2].at<float>(i);
+//         else if(i >=215)
+//             yellow_pix += hist[2].at<float>(i);
+//         else
+//             green_pix += hist[2].at<float>(i);
+//     }
+//     ROS_INFO_STREAM("Red : " << red_pix << " Yellow : " << yellow_pix << " Green : " << green_pix);
+//     int sum = red_pix + yellow_pix + green_pix;
+//     if(sum!=0)
+//     {
+//         red_pix = red_pix*100/sum;
+//         yellow_pix = yellow_pix*100/sum;
+//         green_pix = green_pix*100/sum;
+//     }
+//     else
+//     {
+//         red_pix = yellow_pix = green_pix = 0;
+//     }
+//     ROS_INFO_STREAM(" --- Red : " << red_pix << "% Yellow : " << yellow_pix << "% Green : " << green_pix << "%");
+
+//     /// Draw for each channel
+//     for( int i = 1; i < histSize; i++ )
+//     {
+//       line( histImage, Point( bin_w*(i-1), hist_h - cvRound(hist[2].at<float>(i-1)*hist_h/hmax[2]) ) ,
+//                        Point( bin_w*(i), hist_h - cvRound(hist[2].at<float>(i)*hist_h/hmax[2]) ),
+//                        Scalar( 0, 0, 255), 2, 8, 0  );
+//       line( histImage, Point( bin_w*(i-1), hist_h - cvRound(hist[1].at<float>(i-1)*hist_h/hmax[1]) ) ,
+//                        Point( bin_w*(i), hist_h - cvRound(hist[1].at<float>(i)*hist_h/hmax[1]) ),
+//                        Scalar( 255, 0, 0), 2, 8, 0  );
+//       line( histImage, Point( bin_w*(i-1), hist_h - cvRound(hist[0].at<float>(i-1)*hist_h/hmax[0]) ) ,
+//                        Point( bin_w*(i), hist_h - cvRound(hist[0].at<float>(i)*hist_h/hmax[0]) ),
+//                        Scalar( 255, 255, 255), 2, 8, 0  );
+//     }
 
 /*-----  End of Class Definition  ------*/

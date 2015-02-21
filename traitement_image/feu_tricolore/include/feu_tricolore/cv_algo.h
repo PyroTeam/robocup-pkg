@@ -67,6 +67,7 @@ public:
 
 private:
     void hsvProcessing(cv::Mat imgToProcess);
+    void hsvProcessing_V2(cv::Mat imgToProcess);
     void templateProcessing();
     int featureProcessing();
     void freakProcessing();
@@ -76,7 +77,7 @@ private:
     void closing(cv::Mat &imgToProcess, cv::Size size = cv::Size(3,3), int shape = cv::MORPH_RECT);
 
 // Parametres du filtrage HSV
-// private:
+private:
     int getHSV_max_value();
     int getHSV_min_value();
     bool getEnableHSV();
@@ -88,6 +89,16 @@ private:
     int getClosingSize();
     int getClosingIterations();
     bool getEnableClosing();
+
+private:
+    cv::Mat singleToMultChannels(cv::Mat binary, int numChannels = 3);
+    cv::Mat binaryThreshold(cv::Mat imgBgr, char channel);
+    cv::Mat morphOps(cv::Mat imgBinary, char channel);
+    cv::Mat binaryMask(cv::Mat img3Channels, cv::Mat binaryMask);
+
+private:
+    cv::Mat calcHist(cv::Mat imgToHist, int channel=0, bool normalize=true);
+    cv::Mat histToImg(cv::Mat hist);
 };
 
 /*-----  End of Class Declaration  ------*/

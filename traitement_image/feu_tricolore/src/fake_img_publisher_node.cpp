@@ -236,21 +236,22 @@ int main(int argc, char** argv)
             
             case 39:
                 cv_im_1[i].image = cv::imread(path_str + "img/ff0000.jpg", 1) ;
-                cv_im_1[i].encoding = sensor_msgs::image_encodings::RGB8;    
+                cv_im_1[i].encoding = sensor_msgs::image_encodings::BGR8;    
                 cv_im_2[i].image = cv::imread(path_str + "img/ff0000.jpg", 1) ;
-                cv_im_2[i].encoding = sensor_msgs::image_encodings::RGB8;        
+                cv_im_2[i].encoding = sensor_msgs::image_encodings::BGR8;        
             break;
         }
         if(i != 39)
         {
-            cv_im_1[i].encoding = sensor_msgs::image_encodings::BGR8;        
-            cv_im_2[i].encoding = sensor_msgs::image_encodings::BGR8;
+            cv_im_1[i].encoding = sensor_msgs::image_encodings::RGB8;        
+            cv_im_2[i].encoding = sensor_msgs::image_encodings::RGB8;
         }  
     }
 
     // Algo
     sensor_msgs::ImagePtr msg;
-    ros::Rate std_rate(4);  // Blink at 2hz
+    // ros::Rate std_rate(4);  // Blink at 2hz
+    ros::Rate std_rate(0.5);  // Blink at 2hz
     ros::Rate vid_rate(frameRate); // Vid at 25fps
     ros::Rate *loop_rate = &std_rate;
     char toSend = 1;
@@ -282,7 +283,7 @@ int main(int argc, char** argv)
 
             cv_bridge::CvImage frame;
             cap >> frame.image;
-            frame.encoding = sensor_msgs::image_encodings::RGB8;
+            frame.encoding = sensor_msgs::image_encodings::BGR8;
             msg = frame.toImageMsg();
             if(cap.get(CV_CAP_PROP_POS_FRAMES) != cap.get(CV_CAP_PROP_FRAME_COUNT))
             {
