@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   OpenCV
   image_transport
   cv_bridge
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -100,8 +101,6 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
-
-message(STATUS "DIR DIR DIR DIR DIR : " ${OpenCV_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 
 ## Declare a cpp library

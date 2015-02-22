@@ -19,7 +19,9 @@
 
 #include "opencv2/features2d/features2d.hpp"
 #include "opencv2/nonfree/features2d.hpp"
-// #include "opencv2/legacy/legacy.hpp"
+
+#include <trait_im_msg/processLightSignalAction.h>
+#include <actionlib/server/simple_action_server.h>
 
 /*==========  Namespaces  ==========*/
 namespace enc = sensor_msgs::image_encodings;
@@ -45,6 +47,12 @@ private:
     // OpenCV    
     cv::Mat _origin_treated, _origin_rgb, _hsv, _thesholded;
     cv::Mat _origin, _output_1, _output_2, _output_3, _output_4, _output_5, _result;
+
+    // Signals    
+    bool red_, yellow_, green_;
+    int red_last_results_;
+    int yellow_last_results_;
+    int green_last_results_;
 
 public:
     LectureFeu();
@@ -99,6 +107,18 @@ private:
 private:
     cv::Mat calcHist(cv::Mat imgToHist, int channel=0, bool normalize=true);
     cv::Mat histToImg(cv::Mat hist);
+
+private:
+    actionlib::SimpleActionServer<trait_im_msg::processLightSignalAction> as_;
+    std::string action_name_;
+    trait_im_msg::processLightSignalFeedback feedback_;
+    trait_im_msg::processLightSignalResult result_;
+    void goalCB();
+    void preemptCB();
+    ros::Time beginOfProcessing_;
+    int nbImgProcessed_;
+    static const int minNbImgProcessedPerSecond_ = 10;
+    static const float minProcessTimeNeeded_ = 1;
 };
 
 /*-----  End of Class Declaration  ------*/

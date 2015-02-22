@@ -251,10 +251,11 @@ int main(int argc, char** argv)
     // Algo
     sensor_msgs::ImagePtr msg;
     // ros::Rate std_rate(4);  // Blink at 2hz
-    ros::Rate std_rate(0.5);  // Blink at 2hz
+    ros::Rate std_rate(24);  // Blink at 2hz
     ros::Rate vid_rate(frameRate); // Vid at 25fps
     ros::Rate *loop_rate = &std_rate;
     char toSend = 1;
+    int cpt = 0;
 
     while (nh.ok()) 
     {
@@ -264,18 +265,25 @@ int main(int argc, char** argv)
         {
             loop_rate = &std_rate;
 
+            cpt++;
+            if(cpt<6)
+                toSend=1;
+            else if(cpt<12)
+                toSend=2;
+            else if(cpt>=12 || cpt<0)
+            {
+                toSend=1;
+                cpt=0;
+            }
+
             if(toSend == 1)
             {
                 msg = cv_im_1[choice].toImageMsg();
-                toSend = 2;
             }
             else if(toSend == 2)
             {
                 msg = cv_im_2[choice].toImageMsg();
-                toSend = 1;
-            }
-            else
-                toSend = 1;        
+            }     
         }
         else
         {

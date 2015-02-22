@@ -5,11 +5,9 @@
 /**
 
     TODO:
-    - Finalize processing
     - Actionlib
     - Thread / actions concurrentes
     - Publish only when requested
-    - Ouput 5 publish
 
 **/
 
@@ -19,7 +17,9 @@
 ========================================*/
 
 LectureFeu::LectureFeu()
-  : it_(nh_)
+  : it_(nh_), 
+  as_(nh_, ros::this_node::getName(), false),
+  action_name_(ros::this_node::getName())
 {
     // Ros topics
     image_sub_ = it_.subscribe("image_raw", 1, &LectureFeu::imageCb, this);
@@ -40,6 +40,40 @@ LectureFeu::LectureFeu()
 
     // Images - init _origin, _origin_rbg, _result, etc 
     initMembersImgs();
+
+    // Ros action server
+    as_.registerGoalCallback(boost::bind(&LectureFeu::goalCB, this));
+    as_.registerPreemptCallback(boost::bind(&LectureFeu::preemptCB, this));
+    as_.start();
+}
+
+void LectureFeu::goalCB()
+{
+    nbImgProcessed_ = 0;
+    red_last_results_=0;
+    yellow_last_results_=0;
+    green_last_results_=0;
+
+    ROS_INFO_STREAM("Goal called!");
+
+    // Action Feedback
+    beginOfProcessing_ = ros::Time::now();
+    nbImgProcessed_ = 0;
+    feedback_.percent_complete = (ros::Time::now()-beginOfProcessing_).toSec() / minProcessTimeNeeded_;
+    ROS_INFO_STREAM("fEED!");
+    as_.publishFeedback(feedback_);
+    ROS_INFO_STREAM("Feed");
+
+    // accept the new goal
+    as_.acceptNewGoal();
+    ROS_INFO_STREAM("As");
+}
+
+void LectureFeu::preemptCB()
+{
+    ROS_INFO("%s: Preempted", action_name_.c_str());
+    // set the action state to preempted
+    as_.setPreempted();
 }
 
 LectureFeu::~LectureFeu()
@@ -67,7 +101,9 @@ bool LectureFeu::ok()
  */
 void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
 {
-    // sensor_msgs::image_encodings::BGR8
+    // Quit if inactive action server
+    if (!as_.isActive())
+          return;
 
     // Get image
     cv_bridge::CvImagePtr cv_ptr;
@@ -82,33 +118,89 @@ void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
     }
     cv_ptr->image.copyTo(_origin);
 
-// Display encoding
-    // For CvImage
-    if(cv_ptr->encoding == sensor_msgs::image_encodings::BGR8 || cv_ptr->encoding == enc::BGR8) {
-        ROS_INFO_STREAM("Image Ptr - BGR encoding");
-    }
-    else if(cv_ptr->encoding == sensor_msgs::image_encodings::RGB8 || cv_ptr->encoding == enc::RGB8) {
-        ROS_INFO_STREAM("Image Ptr - RGB encoding");
-    }
-    else {
-        ROS_INFO_STREAM("Image Ptr - Unknown encoding : "<<cv_ptr->encoding);
-    }
-    // For msg
-    if(msg->encoding == sensor_msgs::image_encodings::BGR8 || msg->encoding == enc::BGR8) {
-        ROS_INFO_STREAM("Msg Ptr - BGR encoding");
-    }
-    else if(msg->encoding == sensor_msgs::image_encodings::RGB8 || msg->encoding == enc::RGB8) {
-        ROS_INFO_STREAM("Msg Ptr - RGB encoding");
-    }
-    else {
-        ROS_INFO_STREAM("Msg Ptr - Unknown encoding : "<<msg->encoding);
-    }
-
     // Conversions couleurs
     cv::cvtColor(_origin,_origin_rgb,CV_BGR2RGB);
 
     // Do the processing
+    float timeElapsed = (ros::Time::now()-beginOfProcessing_).toSec();
+    ++nbImgProcessed_;
     lectureFeu();
+
+    // Save results
+    red_last_results_+=((red_)?1:0);
+    yellow_last_results_+=((yellow_)?1:0);
+    green_last_results_+=((green_)?1:0);
+
+    if(timeElapsed >= minProcessTimeNeeded_) {
+        // Action feedback
+        feedback_.percent_complete = 100;
+        feedback_.images_processed = nbImgProcessed_;
+        as_.publishFeedback(feedback_);
+
+        ROS_INFO_STREAM(nbImgProcessed_<<" "<<red_last_results_<<" "<<yellow_last_results_<<" "<<green_last_results_);
+
+        // Good result only if we have enough images processed
+        if (nbImgProcessed_/timeElapsed >= minNbImgProcessedPerSecond_) {
+            // Action result
+            trait_im_msg::LightSpec light;
+
+            light.color = light.RED;
+            if(red_last_results_ > nbImgProcessed_*0.66)
+                light.state = light.ON;
+            else if(red_last_results_ < nbImgProcessed_*0.3)
+                light.state = light.OFF;
+            else
+                light.state = light.BLINK;
+            result_.light_signal.push_back(light);
+            
+            light.color = light.YELLOW;
+            if(yellow_last_results_ > nbImgProcessed_*0.66)
+                light.state = light.ON;
+            else if(yellow_last_results_ < nbImgProcessed_*0.3)
+                light.state = light.OFF;
+            else
+                light.state = light.BLINK;
+            result_.light_signal.push_back(light);
+            
+            light.color = light.GREEN;
+            if(green_last_results_ > nbImgProcessed_*0.66)
+                light.state = light.ON;
+            else if(green_last_results_ < nbImgProcessed_*0.3)
+                light.state = light.OFF;
+            else
+                light.state = light.BLINK;
+            result_.light_signal.push_back(light);
+
+            // set the action state to succeeded
+            as_.setSucceeded(result_);
+        }
+        else {
+            // Action result - all off because of abortion
+            trait_im_msg::LightSpec light;
+
+            light.color = light.RED;
+            light.state = light.OFF;
+            result_.light_signal.push_back(light);
+            
+            light.color = light.YELLOW;
+            light.state = light.OFF;
+            result_.light_signal.push_back(light);
+            
+            light.color = light.GREEN;
+            light.state = light.OFF;
+            result_.light_signal.push_back(light);
+
+            //set the action state to aborted
+            as_.setAborted(result_);
+        }
+    }
+    else {    
+    // Action Feedback
+        feedback_.percent_complete = (timeElapsed*100)/minProcessTimeNeeded_;
+        // feedback_.percent_complete = timeElapsed;
+        feedback_.images_processed = nbImgProcessed_;
+        as_.publishFeedback(feedback_);
+    }
 }
 
 void LectureFeu::initMembersImgs()
@@ -181,6 +273,10 @@ void LectureFeu::publishResults(cv::Mat &imgToProcess)
 
 void LectureFeu::lectureFeu(cv::Mat &imgToProcess)  // NB : il faudrait utiliser les parametres pour l'image à analyser
 {
+    red_=false;
+    yellow_=false;
+    green_=false;
+
     preTraitement(imgToProcess);
     imgToProcess.copyTo(_output_1);
     traitement(imgToProcess);
@@ -568,7 +664,7 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
     cv::Mat satMasked = binaryMask(imgS, binG);
 
     // Histograms
-    cv::Mat hueHist = calcHist(hueMasked, 0, false);
+    cv::Mat hueHist = calcHist(hueMasked, 0, true);
     cv::Mat hueHistImg = histToImg(calcHist(hueMasked, 0, true));
     cv::Mat satHist = histToImg(calcHist(satMasked, 0, true));
 
@@ -578,25 +674,43 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
     imshow("hueHist", hueHistImg); moveWindow("hueHist", 400*2, 300*2);
     imshow("satHist", satHist); moveWindow("satHist", 400*2+800, 300*2);
 
-    // Compte les classes avant le filtrage
+    // Count the red, yellow and green pixels
     float green_pix= 0, red_pix = 0, yellow_pix= 0;
+    float green_pix_max= 0, red_pix_max = 0, yellow_pix_max= 0;
     float sum = 0;
     for( int i = 0; i < 180; i++ )
     {
-        if(i >= 170 || i < 10 )
-            red_pix += cvRound(hueHist.at<float>(i));
-        else if(i >=10 && i < 30)
-            yellow_pix += cvRound(hueHist.at<float>(i));
-        else if(i >=70 && i < 90)
-            green_pix += cvRound(hueHist.at<float>(i));
+        if(i >= 170 || i < 10 ) {
+            red_pix += cvRound(hueHist.at<float>(i)*10);
+            if (cvRound(hueHist.at<float>(i)*10 > red_pix_max))
+                red_pix_max = cvRound(hueHist.at<float>(i)*10);
+        }
+        else if(i >=10 && i < 30) {
+            yellow_pix += cvRound(hueHist.at<float>(i)*10);
+            if (cvRound(hueHist.at<float>(i)*10 > yellow_pix_max))
+                yellow_pix_max = cvRound(hueHist.at<float>(i)*10);
+        }
+        else if(i >=70 && i < 90) {
+            green_pix += cvRound(hueHist.at<float>(i)*10);
+            if (cvRound(hueHist.at<float>(i)*10 > green_pix_max))
+                green_pix_max = cvRound(hueHist.at<float>(i)*10);
+        }
 
-        sum += cvRound(hueHist.at<float>(i));
-
-        ROS_INFO_STREAM("I : "<<i<<" Val "<<cvRound(hueHist.at<float>(i)));
+        sum += cvRound(hueHist.at<float>(i)*10);
     }
 
     ROS_INFO_STREAM("Red : " << red_pix << " Yellow : " << yellow_pix << " Green : " << green_pix);
     ROS_INFO_STREAM("Red : " << red_pix/sum*100 << "% Yellow : " << yellow_pix/sum*100 << "% Green : " << green_pix/sum*100<<"% Sum "<<sum);
+    ROS_INFO_STREAM("Red : " << red_pix_max << " Yellow : " << yellow_pix_max << " Green : " << green_pix_max);
+
+    // Extact a result
+    if(red_pix > 10 && red_pix_max >= 6)
+        red_=true;
+    if(green_pix > 10 && green_pix_max >= 6)
+        green_=true;
+    if(yellow_pix > 10 && yellow_pix_max >= 6)
+        yellow_=true;
+    ROS_INFO_STREAM("LIGHTS ON : "<<((red_)?"RED ":"")<<((yellow_)?"YELLOW ":"")<<((green_)?"GREEN ":""));
 }
 
 void LectureFeu::templateProcessing()
