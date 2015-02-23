@@ -118,7 +118,7 @@ private:
     ros::Time beginOfProcessing_;
     int nbImgProcessed_;
     static const int minNbImgProcessedPerSecond_ = 10;
-    static const float minProcessTimeNeeded_ = 1;
+    static const float minProcessTimeNeeded_ = 0.5;
 };
 
 /*-----  End of Class Declaration  ------*/

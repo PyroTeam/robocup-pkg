@@ -55,138 +55,138 @@ int main(int argc, char** argv)
         switch(i)
         {
             case 0:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/000.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/000.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/000.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/000.jpg", 1) ;
             break;
 
             case 1:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/001.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/001.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/001.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/001.jpg", 1) ;
             break;
             
             case 2:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/000.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/001.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/000.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/001.jpg", 1) ;
             break;
             
             case 3:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/010.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/010.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/010.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/010.jpg", 1) ;
             break;
             
             case 4:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/011.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/011.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/011.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/011.jpg", 1) ;
             break;
             
             case 5:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/010.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/011.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/010.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/011.jpg", 1) ;
             break;
             
             case 6:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/000.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/010.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/000.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/010.jpg", 1) ;
             break;
             
             case 7:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/001.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/011.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/001.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/011.jpg", 1) ;
             break;
             
             case 8:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/000.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/011.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/000.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/011.jpg", 1) ;
             break;
             
             case 9:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/100.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/100.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/100.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/100.jpg", 1) ;
             break;
             
             case 10:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/101.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/101.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/101.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/101.jpg", 1) ;
             break;
             
             case 11:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/100.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/101.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/100.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/101.jpg", 1) ;
             break;
             
             case 12:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/110.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/110.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/110.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/110.jpg", 1) ;
             break;
             
             case 13:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/111.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/111.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/111.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/111.jpg", 1) ;
             break;
             
             case 14:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/110.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/111.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/110.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/111.jpg", 1) ;
             break;
             
             case 15:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/100.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/110.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/100.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/110.jpg", 1) ;
             break;
             
             case 16:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/101.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/111.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/101.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/111.jpg", 1) ;
             break;
             
             case 17:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/100.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/111.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/100.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/111.jpg", 1) ;
             break;
             
             case 18:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/000.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/100.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/000.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/100.jpg", 1) ;
             break;
             
             case 19:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/001.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/101.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/001.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/101.jpg", 1) ;
             break;
             
             case 20:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/000.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/101.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/000.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/101.jpg", 1) ;
             break;
             
             case 21:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/010.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/110.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/010.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/110.jpg", 1) ;
             break;
             
             case 22:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/011.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/111.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/011.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/111.jpg", 1) ;
             break;
             
             case 23:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/010.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/111.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/010.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/111.jpg", 1) ;
             break;
             
             case 24:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/000.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/110.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/000.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/110.jpg", 1) ;
             break;
             
             case 25:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/001.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/111.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/001.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/111.jpg", 1) ;
             break;
             
             case 26:
-                cv_im_1[i].image = cv::imread(path_str + "img/screen_robotino/000.jpg", 1) ;
-                cv_im_2[i].image = cv::imread(path_str + "img/screen_robotino/111.jpg", 1) ;
+                cv_im_1[i].image = cv::imread(path_str + "img/joao_pessoa/000.jpg", 1) ;
+                cv_im_2[i].image = cv::imread(path_str + "img/joao_pessoa/111.jpg", 1) ;
             break;
 
             case 30:

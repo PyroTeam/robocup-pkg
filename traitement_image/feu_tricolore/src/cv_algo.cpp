@@ -54,19 +54,16 @@ void LectureFeu::goalCB()
     yellow_last_results_=0;
     green_last_results_=0;
 
-    ROS_INFO_STREAM("Goal called!");
 
     // Action Feedback
     beginOfProcessing_ = ros::Time::now();
     nbImgProcessed_ = 0;
-    feedback_.percent_complete = (ros::Time::now()-beginOfProcessing_).toSec() / minProcessTimeNeeded_;
-    ROS_INFO_STREAM("fEED!");
-    as_.publishFeedback(feedback_);
-    ROS_INFO_STREAM("Feed");
 
     // accept the new goal
     as_.acceptNewGoal();
-    ROS_INFO_STREAM("As");
+
+    feedback_.percent_complete = (ros::Time::now()-beginOfProcessing_).toSec() / minProcessTimeNeeded_;
+    as_.publishFeedback(feedback_);
 }
 
 void LectureFeu::preemptCB()
@@ -136,8 +133,6 @@ void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
         feedback_.percent_complete = 100;
         feedback_.images_processed = nbImgProcessed_;
         as_.publishFeedback(feedback_);
-
-        ROS_INFO_STREAM(nbImgProcessed_<<" "<<red_last_results_<<" "<<yellow_last_results_<<" "<<green_last_results_);
 
         // Good result only if we have enough images processed
         if (nbImgProcessed_/timeElapsed >= minNbImgProcessedPerSecond_) {
@@ -532,7 +527,7 @@ void LectureFeu::hsvProcessing(cv::Mat imgToProcess)
         else
             green_pix += hist[2].at<float>(i);
     }
-    ROS_INFO_STREAM("Red : " << red_pix << " Yellow : " << yellow_pix << " Green : " << green_pix);
+    // ROS_INFO_STREAM("Red : " << red_pix << " Yellow : " << yellow_pix << " Green : " << green_pix);
     int sum = red_pix + yellow_pix + green_pix;
     if(sum!=0)
     {
@@ -544,7 +539,7 @@ void LectureFeu::hsvProcessing(cv::Mat imgToProcess)
     {
         red_pix = yellow_pix = green_pix = 0;
     }
-    ROS_INFO_STREAM(" --- Red : " << red_pix << "% Yellow : " << yellow_pix << "% Green : " << green_pix << "%");
+    // ROS_INFO_STREAM(" --- Red : " << red_pix << "% Yellow : " << yellow_pix << "% Green : " << green_pix << "%");
 
     /// Draw for each channel
     for( int i = 1; i < histSize; i++ )
@@ -650,14 +645,14 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
     imgS = binaryMask(imgS, binS);
     imgV = binaryMask(imgV, binV);
 
-    // Show results
-    imshow("Blue", imgB); moveWindow("Blue", 400*0, 300*0);
-    imshow("Green", imgG); moveWindow("Green", 400*1, 300*0);
-    imshow("Red", imgR); moveWindow("Red", 400*2, 300*0);
+    // // Show results
+    // imshow("Blue", imgB); moveWindow("Blue", 400*0, 300*0);
+    // imshow("Green", imgG); moveWindow("Green", 400*1, 300*0);
+    // imshow("Red", imgR); moveWindow("Red", 400*2, 300*0);
 
-    imshow("Hue", imgH); moveWindow("Hue", 400*0, 300*1);
-    imshow("Saturation", imgS); moveWindow("Saturation", 400*1, 300*1);
-    imshow("Value", imgV); moveWindow("Value", 400*2, 300*1);
+    // imshow("Hue", imgH); moveWindow("Hue", 400*0, 300*1);
+    // imshow("Saturation", imgS); moveWindow("Saturation", 400*1, 300*1);
+    // imshow("Value", imgV); moveWindow("Value", 400*2, 300*1);
 
     // Mask originals images
     cv::Mat hueMasked = binaryMask(imgH, binG);
@@ -668,11 +663,11 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
     cv::Mat hueHistImg = histToImg(calcHist(hueMasked, 0, true));
     cv::Mat satHist = histToImg(calcHist(satMasked, 0, true));
 
-    // Show results
-    imshow("hueMasked", hueMasked); moveWindow("hueMasked", 400*0, 300*2);
-    imshow("satMasked", satMasked); moveWindow("satMasked", 400*1, 300*2);
-    imshow("hueHist", hueHistImg); moveWindow("hueHist", 400*2, 300*2);
-    imshow("satHist", satHist); moveWindow("satHist", 400*2+800, 300*2);
+    // // Show results
+    // imshow("hueMasked", hueMasked); moveWindow("hueMasked", 400*0, 300*2);
+    // imshow("satMasked", satMasked); moveWindow("satMasked", 400*1, 300*2);
+    // imshow("hueHist", hueHistImg); moveWindow("hueHist", 400*2, 300*2);
+    // imshow("satHist", satHist); moveWindow("satHist", 400*2+800, 300*2);
 
     // Count the red, yellow and green pixels
     float green_pix= 0, red_pix = 0, yellow_pix= 0;
@@ -699,9 +694,9 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
         sum += cvRound(hueHist.at<float>(i)*10);
     }
 
-    ROS_INFO_STREAM("Red : " << red_pix << " Yellow : " << yellow_pix << " Green : " << green_pix);
-    ROS_INFO_STREAM("Red : " << red_pix/sum*100 << "% Yellow : " << yellow_pix/sum*100 << "% Green : " << green_pix/sum*100<<"% Sum "<<sum);
-    ROS_INFO_STREAM("Red : " << red_pix_max << " Yellow : " << yellow_pix_max << " Green : " << green_pix_max);
+    // ROS_INFO_STREAM("Red : " << red_pix << " Yellow : " << yellow_pix << " Green : " << green_pix);
+    // ROS_INFO_STREAM("Red : " << red_pix/sum*100 << "% Yellow : " << yellow_pix/sum*100 << "% Green : " << green_pix/sum*100<<"% Sum "<<sum);
+    // ROS_INFO_STREAM("Red : " << red_pix_max << " Yellow : " << yellow_pix_max << " Green : " << green_pix_max);
 
     // Extact a result
     if(red_pix > 10 && red_pix_max >= 6)
@@ -710,7 +705,7 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
         green_=true;
     if(yellow_pix > 10 && yellow_pix_max >= 6)
         yellow_=true;
-    ROS_INFO_STREAM("LIGHTS ON : "<<((red_)?"RED ":"")<<((yellow_)?"YELLOW ":"")<<((green_)?"GREEN ":""));
+    // ROS_INFO_STREAM("LIGHTS ON : "<<((red_)?"RED ":"")<<((yellow_)?"YELLOW ":"")<<((green_)?"GREEN ":""));
 }
 
 void LectureFeu::templateProcessing()
@@ -1101,8 +1096,6 @@ cv::Mat LectureFeu::binaryThreshold(cv::Mat imgBgr, char channel)
     nh_.param<bool>(paramBaseName+"enabled", enabled, true);
     nh_.param<int>(paramBaseName+"min", min, 0);
     nh_.param<int>(paramBaseName+"max", max, 255);
-    ROS_INFO_STREAM(paramBaseName+"enabled");
-    ROS_INFO_STREAM("BinThresh | Ch "<<channel<<" - enabled: "<<enabled<<" min,max: ("<<min<<","<<max<<")");
 
 // Algo
 
@@ -1159,16 +1152,12 @@ cv::Mat LectureFeu::morphOps(cv::Mat imgBinary, char channel)
     nh_.param<int>(paramBaseName+"opening/iterations", openingIterations, 1);
     nh_.param<int>(paramBaseName+"opening/size", openingSize, 1);
     openingSize = ((openingSize<1)?1:openingSize*2+1);
-    ROS_INFO_STREAM("MorphOps - Opening | Ch "<<channel<<" - enabled: "<<enableOpening<<" iterations,size: ("<<openingIterations<<","<<openingSize<<")");
-
     bool enableClosing;
     int closingIterations, closingSize;
     nh_.param<bool>(paramBaseName+"closing/enabled", enableClosing, true);
     nh_.param<int>(paramBaseName+"closing/iterations", closingIterations, 1);
     nh_.param<int>(paramBaseName+"closing/size", closingSize, 1);
     closingSize = ((closingSize<1)?1:closingSize*2+1);
-    ROS_INFO_STREAM("MorphOps - Closing | Ch "<<channel<<" - enabled: "<<enableClosing<<" iterations,size: ("<<closingIterations<<","<<closingSize<<")");
-    ROS_INFO_STREAM("");
 
 
 // Algo
@@ -1255,8 +1244,6 @@ cv::Mat LectureFeu::calcHist(cv::Mat imgToHist, int channel, bool normalize)
 
         for (int j = 0; j < bins-1; j++)
             hist.at<float>(j) /= hmax;
-
-        ROS_INFO_STREAM("Max was : " << hmax);
     }
 
     return hist;
