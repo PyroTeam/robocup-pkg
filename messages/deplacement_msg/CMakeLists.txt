@@ -5,10 +5,10 @@ project(deplacement_msg)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  geometry_msgs
-  nav_msgs
-  roscpp
-  sensor_msgs
+	roscpp
+   	rospy
+   	std_msgs
+	message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -45,11 +45,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+   	FILES
+	Points.msg
+	Point.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -66,10 +66,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs#   nav_msgs#   sensor_msgs
-# )
+generate_messages(
+	DEPENDENCIES
+  	std_msgs
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -82,9 +82,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES deplacement_msg
-#  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp sensor_msgs
+#  LIBRARIES trait_im_msg
+#  CATKIN_DEPENDS std_msgs
 #  DEPENDS system_lib
+	CATKIN_DEPENDS message_runtime
 )
 
 ###########
@@ -99,19 +100,19 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(deplacement_msg
-#   src/${PROJECT_NAME}/deplacement_msg.cpp
+# add_library(trait_im_msg
+#   src/${PROJECT_NAME}/trait_im_msg.cpp
 # )
 
 ## Declare a cpp executable
-# add_executable(deplacement_msg_node src/deplacement_msg_node.cpp)
+# add_executable(trait_im_msg_node src/trait_im_msg_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(deplacement_msg_node deplacement_msg_generate_messages_cpp)
+# add_dependencies(trait_im_msg_node trait_im_msg_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(deplacement_msg_node
+# target_link_libraries(trait_im_msg_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -130,7 +131,7 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS deplacement_msg deplacement_msg_node
+# install(TARGETS trait_im_msg trait_im_msg_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -155,7 +156,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_deplacement_msg.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_trait_im_msg.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

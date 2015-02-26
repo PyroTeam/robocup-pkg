@@ -84,7 +84,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES localisation
-#  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy sensor_msgs
+   CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy sensor_msgs message_runtime
 #  DEPENDS system_lib
 )
 
@@ -105,16 +105,21 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-# add_executable(localisation_node src/localisation_node.cpp)
+add_executable(
+	localisation_node
+	src/ScanToPoints.cpp
+	src/laserScan.cpp)
+
+set_target_properties(localisation_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(localisation_node localisation_generate_messages_cpp)
+add_dependencies(localisation_node localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(localisation_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(localisation_node
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
