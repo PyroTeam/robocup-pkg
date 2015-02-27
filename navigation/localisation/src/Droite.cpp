@@ -1,12 +1,9 @@
 #include "Point.h"
 #include "Droite.h"
 #include <cmath>
-#include <limits>
 
 Droite::Droite(){
-	double inf = std::numeric_limits<double>::max();
 	setAngle(0.0);
-	setErreur(inf);
 }
 
 Droite::~Droite(){
