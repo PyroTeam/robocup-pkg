@@ -1,6 +1,7 @@
-
+/*
 Entrée du programme :
  points – tableau de points initial issu des données lasers
+
 Sortie du programme :
  modèles – tableau des meilleurs modèles trouvés par RANSAC
 
@@ -14,17 +15,74 @@ Entrées de l’algorithme de RANSAC :
 Sorties de l’algorithme de RANSAC :
  meilleur_modèle - les paramètres de la droite qui correspondent le mieux aux points
  meilleur_ensemble_points - points à partir desquels la droite a été estimée
- meilleure_erreur - l'erreur du modèle de droite par rapport aux points
- tant qu’il reste au moins 5 points dans le tableau de points initial
-  
-  itérateur := 0
-  meilleur_modèle := aucun
-  meilleur_ensemble_points := aucun
-  meilleure_erreur := infini
-  tant que itérateur < k
-    points_aléatoires := 2 points choisis au hasard à partir du tableau de points initial
+ meilleure_erreur - l'erreur du modèle de droite par rapport aux points*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define N 5
+#define K 100
+#define T 10
+#define D 5
+
+
+
+//laserData.getPoints()
+Modele ransac(laserScan::points pCloud)
+{
+  //initialisation du random (dans le main !!!)
+  srand(time(NULL));
+
+  int size = pCloud.size();
+
+  //on copie le vector pCloud dans une liste
+  std::list<Point> listOfPoints;
+  for (int i = 0; i < size; i++){
+    listOfPoints.push_back(pCloud[i]);
+  }
+
+  while (size < N){
+    int iter = 0, i = 0;
+    Modele meilleur_modele;
+
+    while (iter < K){
+      Modele modele_possible;
+      Point a, b;
+
+    //on prend deux points au hasard...
+    i = rand() % listOfPoints.size();
+    do
+    {
+      j = rand() % listOfPoints.size();
+    }while(j==i);
+
+    int cpt = 0, NbPtFound = 0;
+    for (std::list<Point>::iterator it = listOfPoints.begin(); it != listOfPoints.end(); ++it){
+      if (cpt == i){
+        a = *it;
+        NbPtFound++;
+      }
+      if (cpt == j){
+        b = *it;
+        NbPtFound++;
+      }
+      if (NbPtFound == 2){
+        break;
+      }
+      cpt++;
+    }
+
+     build(a,b);
+      
+
+    }
+  }
+}
+
     modèle_possible := paramètres de la droite correspondant aux points_aléatoires
     ensemble_points := points_aléatoires correspondant au modèle_possible
+
     Pour chaque point des données pas dans points_aléatoires
       si le point s'ajuste au modèle_possible avec une erreur inférieure à t
         Ajouter un point à ensemble_points
