@@ -18,7 +18,8 @@ public:
 		m_angle=theta;
 	}
 
-	double linReg(std::vector<Point> points);
+	void build(Point a, Point b);
+	
 private:
 	Point  m_point;
 	double m_angle;
