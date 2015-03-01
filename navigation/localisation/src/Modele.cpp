@@ -54,3 +54,17 @@ void Modele::linReg(){
 void Modele::build(Point a, Point b){
   m_droite.build(a,b);
 }
+
+void Modele::constructFrom(Modele m){
+	m_droite = m.getDroite();
+	m_index  = m.getIndex();
+	m_correl = m.getCorrel();
+
+	//pour tous les itérateurs contenu dans la liste d'index
+	for (std::list<std::list<Point>::iterator>::iterator it = m_index.begin();it != m_index.end();++it){
+		//it est l'itérateur sur la liste d'itérateurs (appelé index)
+		//*it est l'index correspondant à la position du point recherché dans la liste de points
+		//*(*it) est donc le point recherché, c'est celui là qu'on ajoute
+		addPoint(*(*it));
+	}
+}

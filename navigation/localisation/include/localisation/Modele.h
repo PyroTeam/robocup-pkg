@@ -12,6 +12,9 @@ public:
 	double getCorrel(){
 		return m_correl;
 	}
+	std::list<std::list<Point>::iterator> getIndex(){
+		return m_index;
+	}
 
 	void addPoint(Point point){
 		m_points.push_back(point);
@@ -25,6 +28,7 @@ public:
  
 	void linReg();
 	void build(Point a, Point b);
+	void constructFrom(Modele m);
 
 private:
 	Droite             					  m_droite;

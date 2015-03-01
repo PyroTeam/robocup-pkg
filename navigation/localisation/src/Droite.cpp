@@ -10,6 +10,6 @@ Droite::~Droite(){
 
 }
 
-Droite::build(Point a, Point b){
+void Droite::build(Point a, Point b){
   set(a, atan2((b.y - a.y), b.x - a.x));
 }

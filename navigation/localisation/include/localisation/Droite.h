@@ -19,7 +19,7 @@ public:
 	}
 
 	void build(Point a, Point b);
-	
+
 private:
 	Point  m_point;
 	double m_angle;
