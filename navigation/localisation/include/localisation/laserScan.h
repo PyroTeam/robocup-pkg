@@ -27,7 +27,7 @@ public:
 	float getAngleInc(){
 		return m_angle_inc;
 	}
-	const std::vector<Point>& getPoints() const{return points;}
+	const std::list<Point>& getPoints() const{return points;}
 
 	void setRangeMin(float min){
 		m_range_min=min;}
@@ -51,7 +51,7 @@ public:
 
 private:
 	std::vector<float> m_ranges;
-	std::vector<Point> m_points;
+	std::list<Point>   m_points;
 
 	float m_range_min;
 	float m_range_max;
