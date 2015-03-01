@@ -107,7 +107,7 @@ include_directories(
 ## Declare a cpp executable
 add_executable(
 	localisation_node
-	src/ScanToPoints.cpp
+	src/scan_to_points_node.cpp
 	src/laserScan.cpp)
 
 set_target_properties(localisation_node PROPERTIES COMPILE_FLAGS -std=c++0x)
@@ -117,7 +117,8 @@ set_target_properties(localisation_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 add_dependencies(localisation_node localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(localisation_node
+target_link_libraries(
+  localisation_node
   ${catkin_LIBRARIES}
 )
 
@@ -143,11 +144,10 @@ target_link_libraries(localisation_node
 # )
 
 ## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  FILES_MATCHING PATTERN "*.h"
+  PATTERN ".svn" EXCLUDE)
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES

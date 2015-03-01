@@ -9,6 +9,8 @@
 #include "Point.h"
 #include "Droite.h"
 #include "Modele.h"
+#include "line_detection_utils.h"
+
 
 int main(int argc, char** argv)
 {
@@ -25,13 +27,11 @@ int main(int argc, char** argv)
     ros::Subscriber sub_laser  = n.subscribe("/scan", 1000, &laserScan::laserCallback, &laserData);
 
     //on publie les droites trouvées sur le topic /droites
-    ros::Publisher Droites_pub = n.advertise<LineDetection::Modele>("/droites", 1000);
+    ros::Publisher Droites_pub = n.advertise<deplacement_msg::Droites>("/droites", 1000);
 
     //initialisation du random
     srand(time(NULL));
 
-    //la copie dans la liste pourra peut-être se faire directement dans laserScan...
-    //on copie le vector pCloud dans une liste
     std::list<Point>  listOfPoints = laserData.getPoints();
     std::list<Modele> listOfModeles = findLines(listOfPoints);
     
@@ -39,8 +39,11 @@ int main(int argc, char** argv)
 
     while(n.ok())
     {
+        deplacement_msg::Droites msgDroites;
+        msgDroites = convertModelesToDeplMsgDroite(const std::list<Modele> &modeles);
+
         // Publish
-        Droites_pub.publish(Droites_msg);
+        Droites_pub.publish(msgDroites);
 
         // Spin
         ros::spinOnce();

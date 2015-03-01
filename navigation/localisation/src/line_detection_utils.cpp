@@ -15,6 +15,53 @@
 #define T 10
 #define D 5
 
+deplacement_msg::Point convertPtToDeplMsgPt(const Point &point){
+	deplacement_msg::Point p;
+	p.x = point->x;
+	p.y = point->y;
+
+	return p;
+}
+
+std::vector<deplacement_msg::Point> convertPtsToDeplMsgPts(const std::list<Point> &points){
+    std::vector<deplacement_msg::Point> listOfDeplMsgPt;
+    listOfDeplMsgPt.resize(points.size());
+
+    for (std::list<Point>::iterator it = points.begin(); it != points.end(); ++it){
+    {
+        deplacement_msg::Point pt = convertPtToDeplMsgPt(*it);
+        listOfDeplMsgPt.push_back(pt);
+    }
+
+    return listOfDeplMsgPt;
+}
+
+deplacement_msg::Droite convertModelToDeplMsgDroite(const Modele &modele){
+	//on récupère les infos nécessaires du modele
+	Droite d = modele.getDroite();
+    Point p = d.getPoint();
+    double angle = d.getAngle();
+
+    deplacement_msg::Droite msgDroite;
+    msgDroite.point = convertPtToDeplMsgPt(p);
+    msgDroite.angle = angle;
+
+    return msgDroite;
+}
+
+std::vector<deplacement_msg::Droite> convertModelesToDeplMsgDroites(const std::list<Modele> &modeles){
+    std::vector<deplacement_msg::Droite> droites;
+    droites.resize(modeles.size());
+
+    for (std::list<Modele>::iterator it = modeles.begin(); it != modeles.end(); ++it){
+    {
+    	deplacement_msg::Droite d = convertModelToDeplMsgDroite(*it);
+        droites.push_back(d);
+    }
+
+    return droites;
+}
+
 double dist(Point a, Droite d){
 	Point b = d.getPoint();
 
@@ -23,7 +70,7 @@ double dist(Point a, Droite d){
 
 Modele ransac(std::list<Point> listOfPoints)
 {
-  int size = pCloud.size();
+  int size = listOfPoints.size();
 
   while (size < N){
     int iter = 0, i = 0;
@@ -100,15 +147,15 @@ void maj(std::list<Point> &listWithoutPrecModelPoints, Modele m){
 }
 
 std::list<Modele> findLines(std::list<Point> listOfPoints){
-	std::list<Modele> listOfModeles;
+	std::list<Modele> listOfdroites;
 	std::list<Point>  listWithoutPrecModelPoints = listOfPoints;
 	Modele            m;
 
 	while (listWithoutPrecModelPoints.size() > 5){
         m = ransac(listWithoutPrecModelPoints);
         maj(&listWithoutPrecModelPoints, m);
-        listOfModeles.push_back(m);
+        listOfdroites.push_back(m);
     }
 
-    return listOfModeles;
+    return listOfdroites;
 }

@@ -1,1 +1,2 @@
-Droite[] modele
+Point point
+float64 angle
