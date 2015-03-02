@@ -4,9 +4,9 @@
 #include "std_msgs/String.h"
 #include "geometry_msgs/Pose2D.h"
 
-#include "refBoxComm/ExplorationInfo.h"
+#include "comm_msg/ExplorationInfo.h"
 
-void eiCallback(const refBoxComm::ExplorationInfo &ei)
+void eiCallback(const comm_msg::ExplorationInfo &ei)
 {
     for(int idx=0; idx < ei.signals.size(); idx++)
     {

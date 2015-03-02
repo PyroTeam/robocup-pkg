@@ -77,6 +77,7 @@ add_library(
     src/receiveHandler.cpp
     src/refBoxMessage.cpp
     src/sendScheduler.cpp
+    src/typeInfo.cpp
 )
 
 add_executable(

@@ -14,7 +14,9 @@
 #define TYPEINFO_H_
 
 #include <typeinfo>
-
+#include <stdio.h>
+#include <stdlib.h> 
+#include <string>
 
 //From Modern C++ (A. Alexandrescu)
 //replace by type_index, if using c++11
@@ -50,31 +52,14 @@ private:
 	const std::type_info* pInfo_;
 
 };
+
 // Comparison operators
-bool operator==(const TypeInfo& t1, const TypeInfo& t2)
-{
-	return (t1.Get() == t2.Get());
-}
-bool operator!=(const TypeInfo& t1, const TypeInfo& t2)
-{
-	return (t1.Get() != t2.Get());
-}
-bool operator<(const TypeInfo& t1, const TypeInfo& t2)
-{
-	return t1.Get().before( t2.Get() );
-}
-bool operator<=(const TypeInfo& t1, const TypeInfo& t2)
-{
-	return !(t2 < t1);
-}
-bool operator>(const TypeInfo& t1, const TypeInfo& t2)
-{
-	return t2 < t1;
-}
-bool operator>=(const TypeInfo& t1, const TypeInfo& t2)
-{
-	return !(t1 < t2);
-}
+bool operator==(const TypeInfo& t1, const TypeInfo& t2);
+bool operator!=(const TypeInfo& t1, const TypeInfo& t2);
+bool operator<(const TypeInfo& t1, const TypeInfo& t2);
+bool operator<=(const TypeInfo& t1, const TypeInfo& t2);
+bool operator>(const TypeInfo& t1, const TypeInfo& t2);
+bool operator>=(const TypeInfo& t1, const TypeInfo& t2);
 
 
 /*
