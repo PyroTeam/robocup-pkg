@@ -73,6 +73,12 @@ public:
 	{
 	    m_msgDispatch = disp;
 	}
+
+    void send(google::protobuf::Message &msg)
+    {
+        m_peer_team_->send(msg);
+    }
+
 	
 
 	void add_machine(std::string &name, std::string &type);
@@ -95,7 +101,6 @@ protected:
 		       uint16_t component_id, uint16_t msg_type,
 		       std::shared_ptr<google::protobuf::Message> msg);
 	//void handle_timer(const boost::system::error_code& error);
-
 	
 	std::string m_name_;
 	Team m_team_color_;

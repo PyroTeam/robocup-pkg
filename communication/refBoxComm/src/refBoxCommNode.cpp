@@ -21,9 +21,9 @@
 #include "geometry_msgs/Pose2D.h"
 #include "geometry_msgs/Pose.h"
 #include "nav_msgs/Odometry.h"
-#include "refBoxComm/GameState.h"
-#include "refBoxComm/ExplorationInfo.h"
-#include "refBoxComm/ReportMachine.h"
+#include "comm_msg/GameState.h"
+#include "comm_msg/ExplorationInfo.h"
+#include "comm_msg/ReportMachine.h"
 #include <tf/transform_datatypes.h>
 
 #include <msgs/BeaconSignal.pb.h>
@@ -41,13 +41,13 @@
 refBoxTransport refboxT;
 
 
-bool Report(refBoxComm::ReportMachine::Request  &req,
-            refBoxComm::ReportMachine::Response &res);
+bool Report(comm_msg::ReportMachine::Request  &req,
+            comm_msg::ReportMachine::Response &res);
 
 void PoseCallback(const nav_msgs::Odometry &odom);
 
-refBoxComm::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, Team team_color);
-refBoxComm::ExplorationInfo llsf2ros_explorationInfo(llsf_msgs::ExplorationInfo llsfExplorationInfo, Team team_color);
+comm_msg::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, Team team_color);
+comm_msg::ExplorationInfo llsf2ros_explorationInfo(llsf_msgs::ExplorationInfo llsfExplorationInfo, Team team_color);
 
 
 
@@ -77,8 +77,8 @@ int main(int argc, char **argv)
 
     ros::NodeHandle n;
 
-    ros::Publisher GameState_pub = n.advertise<refBoxComm::GameState>("/refBoxComm/GameState", 1000);
-    ros::Publisher ExplorationInfo_pub = n.advertise<refBoxComm::ExplorationInfo>("/refBoxComm/ExplorationInfo", 1000);
+    ros::Publisher GameState_pub = n.advertise<comm_msg::GameState>("/refBoxComm/GameState", 1000);
+    ros::Publisher ExplorationInfo_pub = n.advertise<comm_msg::ExplorationInfo>("/refBoxComm/ExplorationInfo", 1000);
   
     ros::ServiceServer service = n.advertiseService("/refBoxComm/ReportMachine", Report);
   
@@ -92,8 +92,8 @@ int main(int argc, char **argv)
     while (ros::ok() && !refboxT.isExit() )
     {
 
-        refBoxComm::GameState gameState;
-        refBoxComm::ExplorationInfo explorationInfo;
+        comm_msg::GameState gameState;
+        comm_msg::ExplorationInfo explorationInfo;
         
         gameState = llsf2ros_gameState(refboxT.get_gameState(), team_color);
         explorationInfo = llsf2ros_explorationInfo(refboxT.get_explorationInfo(), team_color);
@@ -124,8 +124,8 @@ int main(int argc, char **argv)
 
 
 
-bool Report(refBoxComm::ReportMachine::Request  &req,
-            refBoxComm::ReportMachine::Response &res)
+bool Report(comm_msg::ReportMachine::Request  &req,
+            comm_msg::ReportMachine::Response &res)
 {
     ROS_INFO("Reporting the machine %s of type %s", req.name.c_str(), req.type.c_str());
     refboxT.add_machine(req.name, req.type);
@@ -140,24 +140,24 @@ void PoseCallback(const nav_msgs::Odometry &odom)
                      tf::getYaw(odom.pose.pose.orientation));
 }
 
-refBoxComm::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, Team team_color)
+comm_msg::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, Team team_color)
 {
-    refBoxComm::GameState rosGameState;
+    comm_msg::GameState rosGameState;
         
     switch (llsfGameState.state())
     {
     default:
     case llsf_msgs::GameState::INIT:
-        rosGameState.state = refBoxComm::GameState::INIT;
+        rosGameState.state = comm_msg::GameState::INIT;
         break;
     case llsf_msgs::GameState::WAIT_START:
-        rosGameState.state = refBoxComm::GameState::WAIT_START;
+        rosGameState.state = comm_msg::GameState::WAIT_START;
         break;
     case llsf_msgs::GameState::RUNNING:
-        rosGameState.state = refBoxComm::GameState::RUNNING;
+        rosGameState.state = comm_msg::GameState::RUNNING;
         break;
     case llsf_msgs::GameState::PAUSED:
-        rosGameState.state = refBoxComm::GameState::PAUSED;
+        rosGameState.state = comm_msg::GameState::PAUSED;
         break;        
     }
     
@@ -165,28 +165,28 @@ refBoxComm::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, Tea
     {
     default:
     case llsf_msgs::GameState::PRE_GAME:
-        rosGameState.phase = refBoxComm::GameState::PRE_GAME;
+        rosGameState.phase = comm_msg::GameState::PRE_GAME;
         break;
     case llsf_msgs::GameState::SETUP:
-        rosGameState.phase = refBoxComm::GameState::SETUP;
+        rosGameState.phase = comm_msg::GameState::SETUP;
         break;
     case llsf_msgs::GameState::EXPLORATION:
-        rosGameState.phase = refBoxComm::GameState::EXPLORATION;
+        rosGameState.phase = comm_msg::GameState::EXPLORATION;
         break;
     case llsf_msgs::GameState::PRODUCTION:
-        rosGameState.phase = refBoxComm::GameState::PRODUCTION;
+        rosGameState.phase = comm_msg::GameState::PRODUCTION;
         break;
     case llsf_msgs::GameState::POST_GAME:
-        rosGameState.phase = refBoxComm::GameState::POST_GAME;
+        rosGameState.phase = comm_msg::GameState::POST_GAME;
         break;
     case llsf_msgs::GameState::OPEN_CHALLENGE:
-        rosGameState.phase = refBoxComm::GameState::OPEN_CHALLENGE;
+        rosGameState.phase = comm_msg::GameState::OPEN_CHALLENGE;
         break;
     case llsf_msgs::GameState::NAVIGATION_CHALLENGE:
-        rosGameState.phase = refBoxComm::GameState::NAVIGATION_CHALLENGE;
+        rosGameState.phase = comm_msg::GameState::NAVIGATION_CHALLENGE;
         break;
     case llsf_msgs::GameState::WHACK_A_MOLE_CHALLENGE:
-        rosGameState.phase = refBoxComm::GameState::WHACK_A_MOLE_CHALLENGE;
+        rosGameState.phase = comm_msg::GameState::WHACK_A_MOLE_CHALLENGE;
         break;
     }
     
@@ -199,19 +199,19 @@ refBoxComm::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, Tea
     return rosGameState;
 }
 
-refBoxComm::ExplorationInfo llsf2ros_explorationInfo(llsf_msgs::ExplorationInfo llsfExplorationInfo, Team team_color)
+comm_msg::ExplorationInfo llsf2ros_explorationInfo(llsf_msgs::ExplorationInfo llsfExplorationInfo, Team team_color)
 {
-    refBoxComm::ExplorationInfo rosExplorationInfo;
+    comm_msg::ExplorationInfo rosExplorationInfo;
 
 
     for (int i = 0; i < llsfExplorationInfo.signals_size(); ++i) 
     {
         const ExplorationSignal &es = llsfExplorationInfo.signals(i);
-        refBoxComm::ExplorationSignal signal;
+        comm_msg::ExplorationSignal signal;
         for (int j = 0; j < es.lights_size(); ++j) 
         {
             const LightSpec &lspec = es.lights(j);
-            refBoxComm::LightSpec light;
+            comm_msg::LightSpec light;
             signal.type = es.type();
 
             light.color = lspec.color();
@@ -224,7 +224,7 @@ refBoxComm::ExplorationInfo llsf2ros_explorationInfo(llsf_msgs::ExplorationInfo 
     for (int i = 0; i < llsfExplorationInfo.machines_size(); ++i) 
     {
         const ExplorationMachine &em = llsfExplorationInfo.machines(i);
-        refBoxComm::ExplorationMachine machine;
+        comm_msg::ExplorationMachine machine;
         
         machine.name = em.name();
         machine.pose.x = em.pose().x();
