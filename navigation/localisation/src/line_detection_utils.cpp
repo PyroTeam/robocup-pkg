@@ -2,6 +2,7 @@
 #include "Point.h"
 #include "Droite.h"
 #include "Modele.h"
+#include "Segment.h"
 
 #include <cmath>
 #include <stdio.h>
@@ -36,17 +37,17 @@ std::vector<deplacement_msg::Point> convertPtsToDeplMsgPts(const std::list<Point
     return listOfDeplMsgPt;
 }
 
-deplacement_msg::Droite convertModelToDeplMsgDroite(const Modele &modele){
+deplacement_msg::Droite convertMdlToDeplMsgDroite(const Modele &modele){
 	//on récupère les infos nécessaires du modele
-	Droite d = modele.getDroite();
-    Point p = d.getPoint();
-    double angle = d.getAngle();
+	Droite d     = modele.getDroite();
+  Point p      = d.getPoint();
+  double angle = d.getAngle();
 
-    deplacement_msg::Droite msgDroite;
-    msgDroite.point = convertPtToDeplMsgPt(p);
-    msgDroite.angle = angle;
+  deplacement_msg::Droite msgDroite;
+  msgDroite.point = convertPtToDeplMsgPt(p);
+  msgDroite.angle = angle;
 
-    return msgDroite;
+  return msgDroite;
 }
 
 std::vector<deplacement_msg::Droite> convertModelesToDeplMsgDroites(const std::list<Modele> &modeles){
@@ -56,7 +57,7 @@ std::vector<deplacement_msg::Droite> convertModelesToDeplMsgDroites(const std::l
     for (std::list<Modele>::iterator it = modeles.begin(); it != modeles.end(); ++it){
     {
     	deplacement_msg::Droite d = convertModelToDeplMsgDroite(*it);
-        droites.push_back(d);
+      droites.push_back(d);
     }
 
     return droites;
@@ -68,12 +69,21 @@ double dist(Point a, Droite d){
 	return abs(a.x*b.y - b.x*a.y) / sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y));
 }
 
+Point ortho(Point a, Droite d){
+  double dist = dist(a,d.getDroite());
+  double dx = dist*cos(d.getAngle());
+  double dy = dist*sin(d.getAngle());
+  Point A(a.x - dx, a.y + dy);
+
+  return A;
+}
+
 Modele ransac(std::list<Point> listOfPoints)
 {
   int size = listOfPoints.size();
 
   while (size < N){
-    int iter = 0, i = 0;
+    int iter = 0, i = 0, j = 0;
     Modele meilleur_modele;
 
     while (iter < K){
@@ -159,3 +169,4 @@ std::list<Modele> findLines(std::list<Point> listOfPoints){
 
     return listOfdroites;
 }
+

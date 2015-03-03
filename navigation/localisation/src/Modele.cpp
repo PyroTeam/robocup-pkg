@@ -1,6 +1,9 @@
 #include "Point.h"
 #include "Droite.h"
 #include "Modele.h"
+#include "Segment.h"
+#include "line_detection_utils.h"
+
 #include <ctime>
 #include <cmath>
 #include <limits>
@@ -46,13 +49,16 @@ void Modele::linReg(){
 	Den  =  sqrt(xSC) + sqrt(ySC);
 	m_correl = Num/Den;
 
+	double pente     = (n*xyS - xS*yS)/(n*xxS - xS*xS);
+	double ordOrigin = (yS - pente*xS)/n;
+
 	//mise à jour de la droite
-	m_droite.set( Point(0,(yS - pente*xS)/n),
-								atan2((n*xyS - xS*yS)/(n*xxS - xS*xS),1));
+	m_droite.set( Point(0,ordOrigin),
+				  atan2(pente,1));
 }
 
 void Modele::build(Point a, Point b){
-  m_droite.build(a,b);
+  	m_droite.build(a,b);
 }
 
 void Modele::constructFrom(Modele m){
@@ -67,4 +73,32 @@ void Modele::constructFrom(Modele m){
 		//*(*it) est donc le point recherché, c'est celui là qu'on ajoute
 		addPoint(*(*it));
 	}
+}
+
+void Modele::buildSegment(){
+	m_segment.setAngle(m_angle);
+
+	double max = std::numeric_limits<double>::max();
+	double min = std::numeric_limits<double>::min();
+
+	Point a1(min,0.0);
+	Point b1(max,0.0);
+
+	for(std::list<Point>::iterator it = m_points.begin();it != m_points.end();++it){
+		if (it->x < a1.x){
+			a1 = *it;
+		}
+		if (it->x > b1.x){
+			b1 = *it;
+		}
+	}
+
+	//calculons maintenant les projetés orthogonaux des deux points extrèmes...
+	Point a2 = ortho(a1,m_droite);
+	Point b2 = ortho(b1,m_droite);
+	//...puis la taille du segment en m
+	double size = sqrt((a2.x - b2.x)*(a2.x - b2.x) + (a2.y - b2.y)*(a2.y - b2.y));
+
+	m_segment.setPoints(a2,b2);
+	m_segment.setSize(size);
 }

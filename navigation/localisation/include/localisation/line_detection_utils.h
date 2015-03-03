@@ -2,7 +2,7 @@ deplacement_msg::Point convertPtToDeplMsgPt(const Point &point);
 
 std::vector<deplacement_msg::Point> convertPtsToDeplMsgPts(const std::list<Point> &points);
 
-deplacement_msg::Droite convertModelToDeplMsgDroite(const Modele &modele);
+deplacement_msg::Droite convertMdlToDeplMsgDroite(const Modele &modele);
 
 std::vector<deplacement_msg::Droite> convertModelesToDeplMsgDroites(const std::list<Modele> &modeles);
 

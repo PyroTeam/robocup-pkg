@@ -6,9 +6,16 @@ public:
 	Point(double a, double b);
 	~Point();
 
+	double getX(){
+		return m_x;
+	}
+	double getY(){
+		return m_y;
+	}
+
 private:
-	double x;
-	double y;
+	double m_x;
+	double m_y;
 };
 
 #endif
