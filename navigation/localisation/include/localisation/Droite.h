@@ -14,8 +14,8 @@ public:
 	}
 
 	void set(Point p, double theta){
-		m_point=point;
-		m_angle=theta;
+		m_point = p;
+		m_angle = theta;
 	}
 
 	void build(Point a, Point b);
