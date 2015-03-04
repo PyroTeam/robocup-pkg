@@ -47,14 +47,17 @@ void Modele::linReg(){
 	varX  = ec2X/double(n);
 	varY  = ec2Y/double(n);
 
-	m_correl = covXY/sqrt(varX * varY);
+	double correl = covXY/sqrt(varX * varY);
+	m_correl = correl*correl;
 
 	double pente     = covXY/varX;
 	double ordOrigin = moyY - pente * moyX;
 
 	//mise à jour de la droite
 	m_droite.set( Point(moyX,moyY),
-				  atan2(pente,1));
+				  atan2(pente,1),
+				  pente,
+				  ordOrigin);
 }
 
 void Modele::build(Point a, Point b){

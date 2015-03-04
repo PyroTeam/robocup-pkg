@@ -12,5 +12,11 @@ Droite::~Droite(){
 }
 
 void Droite::build(Point a, Point b){
-  set(a, atan2((b.getY() - a.getY()), b.getX() - a.getX()));
+	double pente = (b.getY() - a.getY())/(b.getX() - a.getX());
+	double ordOrigin = (b.getY() - a.getY()) - pente * (b.getX() - a.getX());
+
+  	set(a,
+  		atan2(pente,1),
+  		pente,
+  		ordOrigin);
 }

@@ -150,7 +150,7 @@ void maj(std::list<Point> &list, Modele m){
 	//pour tous les index contenus dans la liste d'index du modele
 	for(std::list<std::list<Point>::iterator>::const_iterator it = indexes.cbegin(); it != indexes.cend(); ++it){
 		//on supprime dans la liste le point correspondant à l'index enregistré dans le meilleur_modele
-		//printf("%f \t %f\n", (*it)->getX(), (*it)->getY());
+		printf("%f \t %f\n", (*it)->getX(), (*it)->getY());
     list.erase(*it);
     //printf("taille de la liste %d\n", list.size());
 	}
