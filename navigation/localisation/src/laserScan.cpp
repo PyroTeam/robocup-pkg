@@ -14,10 +14,10 @@ void laserScan::PolarToCart (){
 
   	for (int i=0; i<m_ranges.size(); i++){
 	   	if((m_ranges[i]>getRangeMin()) && (m_ranges[i]<getRangeMax())){
-				p.x =  m_ranges[i]*sin(getAngleMin() + i*getAngleInc());
-				p.y = -m_ranges[i]*cos(getAngleMin() + i*getAngleInc());
-				m_points.push_back(p);
-			}
+			p.setX(m_ranges[i]*cos(getAngleMin() + i*getAngleInc()));
+			p.setY(m_ranges[i]*sin(getAngleMin() + i*getAngleInc()));
+			m_points.push_back(p);
+		}
 	}
 }
 

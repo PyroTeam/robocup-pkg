@@ -1,10 +1,11 @@
 #include "ros/ros.h"
-#include "laserScan.h"
 #include "deplacement_msg/Points.h"
+#include "deplacement_msg/Droites.h"
 #include "sensor_msgs/LaserScan.h"
 #include "line_detection_utils.h"
 #include <vector>
 #include <cmath>
+#include "laserScan.h"
 
 int main(int argc, char** argv)
 {
@@ -29,7 +30,7 @@ int main(int argc, char** argv)
         msgPoints = convertPtsToDeplMsgPts(laserData.getPoints());
 
         // Publish
-        Points_pub.publish(msgPoints);
+        points_pub.publish(msgPoints);
 
         // Spin
         ros::spinOnce();

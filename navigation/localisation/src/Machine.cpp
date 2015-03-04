@@ -1,6 +1,6 @@
 #include "Point.h"
 #include "Droite.h"
-#include "Machine.h"
+#include "Modele.h"
 #include "Segment.h"
 #include "Machine.h"
 #include "line_detection_utils.h"
@@ -12,7 +12,7 @@
 
 Machine::Machine(){
 	Point p;
-	setCentre(p);
+	m_centre = p;
 }
 
 Machine::~Machine(){
@@ -31,7 +31,7 @@ void Machine::build(Modele m){
 			pM = 0.35 + 0.02,
 			pm = 0.35 - 0.02;
 
-	double abscisse, ordonnée;
+	double abscisse, ordonnee;
 
 	//si c'est un grand côté
 	if ((size > gm) && (size < gM)){

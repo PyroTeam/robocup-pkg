@@ -5,8 +5,12 @@
 
 class Segment{
 public:
-	Segment();
-	~Segment();
+	Segment() : m_angle(0.0),m_size(0.0){
+
+	}
+	~Segment(){
+
+	}
 
 	double getAngle(){
 		return m_angle;

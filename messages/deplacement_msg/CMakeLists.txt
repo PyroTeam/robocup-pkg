@@ -49,6 +49,8 @@ add_message_files(
    	FILES
 	Points.msg
 	Point.msg
+	Droites.msg
+	Droite.msg
 )
 
 ## Generate services in the 'srv' folder
