@@ -82,7 +82,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+  INCLUDE_DIRS include/localisation
 #  LIBRARIES localisation
    CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy sensor_msgs message_runtime
 #  DEPENDS system_lib
@@ -97,6 +97,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  include/localisation
 )
 
 ## Declare a cpp library
@@ -108,17 +109,38 @@ include_directories(
 add_executable(
 	localisation_node
 	src/scan_to_points_node.cpp
-	src/laserScan.cpp)
+	src/laserScan.cpp
+  src/Point.cpp
+  src/Droite.cpp
+  src/line_detection_utils.cpp
+  src/Modele.cpp
+  src/Machine.cpp)
+
+add_executable(
+  test_polar_to_cart
+  src/testPolarToCart.cpp
+  src/laserScan.cpp
+  src/Point.cpp
+  src/Droite.cpp
+  src/line_detection_utils.cpp
+  src/Modele.cpp
+  src/Machine.cpp)
 
 set_target_properties(localisation_node PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(test_polar_to_cart PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 add_dependencies(localisation_node localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+add_dependencies(test_polar_to_cart localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(
   localisation_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_polar_to_cart
   ${catkin_LIBRARIES}
 )
 

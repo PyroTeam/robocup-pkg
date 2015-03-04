@@ -14,7 +14,7 @@ public:
 	}
 
 	void set(Point p, double theta){
-		m_point       = p;
+		m_centre      = p;
 		m_orientation = theta;
 	}
 

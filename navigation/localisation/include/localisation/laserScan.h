@@ -3,6 +3,10 @@
 
 #include <vector>
 #include "sensor_msgs/LaserScan.h"
+#include "Point.h"
+#include "Droite.h"
+#include "Modele.h"
+#include "Segment.h"
 
 class laserScan
 {
@@ -27,7 +31,9 @@ public:
 	float getAngleInc(){
 		return m_angle_inc;
 	}
-	const std::list<Point>& getPoints() const{return points;}
+	const std::list<Point>& getPoints() const{
+		return m_points;
+	}
 
 	void setRangeMin(float min){
 		m_range_min=min;}

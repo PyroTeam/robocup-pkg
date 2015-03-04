@@ -3,13 +3,19 @@
 
 class Point{
 public:
-	Point(double a, double b);
+	Point(double a = 0.0, double b = 0.0);
 	~Point();
 
-	double getX(){
+	void setX(double val){
+		m_x = val;
+	}
+	void setY(double val){
+		m_y = val;
+	}
+	double getX() const{
 		return m_x;
 	}
-	double getY(){
+	double getY() const{
 		return m_y;
 	}
 
