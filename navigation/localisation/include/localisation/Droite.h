@@ -12,10 +12,18 @@ public:
 	double getAngle(){
 		return m_angle;
 	}
+	double getPente(){
+		return m_pente;
+	}
+	double getOrdOrigin(){
+		return m_ordOrigin;
+	}
 
-	void set(Point p, double theta){
+	void set(Point p, double theta, double pente, double ord){
 		m_point = p;
 		m_angle = theta;
+		m_pente = pente;
+		m_ordOrigin = ord;
 	}
 	void setAngle(double theta){
 		m_angle = theta;
@@ -25,6 +33,8 @@ public:
 
 private:
 	Point  m_point;
+	double m_pente;
+	double m_ordOrigin;
 	double m_angle;
 };
 
