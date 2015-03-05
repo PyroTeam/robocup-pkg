@@ -19,8 +19,7 @@ Machine::~Machine(){
 
 }
 
-void Machine::build(Modele m){
-	Segment s    = m.getSegment();
+void Machine::build(Segment s){
 	Point min    = s.getMin();
 	Point max    = s.getMax();
 	double angle = s.getAngle();
