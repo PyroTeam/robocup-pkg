@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <vector>
 #include <list>
+#include <algorithm>
 
 #include "line_detection_utils.h"
 
@@ -77,12 +79,12 @@ Point ortho(Point a, Droite d){
 Modele ransac(std::list<Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts)
 {
   int size = listOfPoints.size();
-  printf("size of ListOfPoints = %d\n", size);
+  //printf("size of ListOfPoints = %d\n", size);
   int iter = 0, i = 0, j = 0;
   double w = double(NbPtPertinent)/double(size);
-  printf("w = %f\n", w);
+  //printf("w = %f\n", w);
   double k = log10(1-proba)/log10(1-pow(w,n));
-  printf("k = %f\n", k);
+  //printf("k = %f\n", k);
   Modele meilleur_modele;
 
   while (iter < k){
@@ -134,9 +136,9 @@ Modele ransac(std::list<Point> &listOfPoints, int n, int NbPtPertinent, double p
 
     //si le modele_possible est mieux que le meilleur_modele enregistré
     if (modele_possible.getIndex().size() > meilleur_modele.getIndex().size()){
+    //if (modele_possible.getCorrel() > meilleur_modele.getCorrel()){
     	//on construit le nouveau meilleur_modele à partir du modele_possible
       meilleur_modele.constructFrom(modele_possible);
-      //printf("correlation : %f\n", meilleur_modele.getCorrel());
     }
 
     iter++;
@@ -150,9 +152,8 @@ void maj(std::list<Point> &list, Modele m){
 	//pour tous les index contenus dans la liste d'index du modele
 	for(std::list<std::list<Point>::iterator>::const_iterator it = indexes.cbegin(); it != indexes.cend(); ++it){
 		//on supprime dans la liste le point correspondant à l'index enregistré dans le meilleur_modele
-		printf("%f \t %f\n", (*it)->getX(), (*it)->getY());
+		//printf("%f \t %f\n", (*it)->getX(), (*it)->getY());
     list.erase(*it);
-    //printf("taille de la liste %d\n", list.size());
 	}
 }
 
@@ -163,19 +164,13 @@ std::list<Modele> findLines(std::list<Point> &listOfPoints){
   bool              stopRansac = false;
 
 	while (!stopRansac){
-        //printf("entrée findlines\n");
-        //ransac(std::list<Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts)
-        int taille = listWithoutPrecModelPoints.size();
-        m = ransac(listWithoutPrecModelPoints, 2, 20, 0.95, 0.05, 20);
-        if( std::abs(m.getCorrel()) > 0.01)
-        {
-          //printf("taille de la droite %d\n", m.getIndex().size());
+        //ransac(listOfPoints, n, NbPtPertinent, proba, seuil, NbPts)
+        m = ransac(listWithoutPrecModelPoints, 2, 20, 0.99, 0.05, 20);
+        if( std::abs(m.getCorrel()) > 0.5){
           maj(listWithoutPrecModelPoints, m);
-          //printf("taille de la liste %d\n", listWithoutPrecModelPoints.size());
           listOfDroites.push_back(m);
         }
-        else
-        {
+        else {
           stopRansac = true;
         }
     }

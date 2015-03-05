@@ -77,30 +77,3 @@ void Modele::constructFrom(Modele m){
 	}
 }
 
-void Modele::buildSegment(){
-	m_segment.setAngle(m_droite.getAngle());
-
-	double max = std::numeric_limits<double>::max();
-	double min = std::numeric_limits<double>::min();
-
-	Point a1(min,0.0);
-	Point b1(max,0.0);
-
-	for(auto &it : m_points){
-		if (it.getX() < a1.getX()){
-			a1 = it;
-		}
-		if (it.getX() > b1.getX()){
-			b1 = it;
-		}
-	}
-
-	//calculons maintenant les projetés orthogonaux des deux points extrèmes...
-	Point a2 = ortho(a1,m_droite);
-	Point b2 = ortho(b1,m_droite);
-	//...puis la taille du segment en m
-	double size = sqrt((a2.getX() - b2.getX())*(a2.getX() - b2.getX()) + (a2.getY() - b2.getY())*(a2.getY() - b2.getY()));
-
-	m_segment.setPoints(a2,b2);
-	m_segment.setSize(size);
-}
