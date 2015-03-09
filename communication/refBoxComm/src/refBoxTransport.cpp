@@ -1,5 +1,5 @@
 /**
- * \file 		refBoxTransport.cpp
+ * \file 		RefBoxTransport.cpp
  *
  * \brief		bibliothèque de gestion de la communication avec la referee Box
  * 				pour la competition robocup (Logistic League)
@@ -37,6 +37,7 @@
 #include <boost/date_time.hpp>
 
 #include "refBoxTransport.h"
+#include "refBoxComm.h"
 
 //using namespace protobuf_comm;
 using namespace llsf_msgs;
@@ -46,16 +47,13 @@ static bool quit = false;
 
 static boost::asio::deadline_timer *m_timer_;
 
-refBoxTransport::refBoxTransport()
+RefBoxTransport::RefBoxTransport()
 {
 	m_timer_ = NULL;
 	m_seq_ = 0;
 	m_peer_public_ = NULL;
 	m_peer_team_ = NULL;
-	m_name_ = "R1";
-	m_team_name_ = "RBQT";
-	m_robot_number_ = 1;
-	m_team_color_ = CYAN;
+	
 	m_crypto_setup_ = false;
 
 	m_quit = false;
@@ -63,10 +61,7 @@ refBoxTransport::refBoxTransport()
 	m_crypto_key = "randomkey";
 	m_cipher = "aes-128-cbc";
 
-	m_config_ = NULL;
-	
-	m_gamePhase = PHASE_PRE_GAME;
-	
+	m_config_ = NULL;	
 }
 
 
@@ -81,7 +76,7 @@ void get_actualTime(unsigned long &sec, unsigned long &nsec)
 }
 
 
-refBoxTransport::~refBoxTransport()
+RefBoxTransport::~RefBoxTransport()
 {
 	delete m_timer_;
 	delete m_peer_team_;
@@ -93,7 +88,7 @@ refBoxTransport::~refBoxTransport()
 	google::protobuf::ShutdownProtobufLibrary();
 }
 
-void refBoxTransport::init()
+void RefBoxTransport::init()
 {
 	m_config_ = new llsfrb::YamlConfiguration(CONFDIR);
 	m_config_->load("config.yaml");
@@ -175,13 +170,13 @@ void refBoxTransport::init()
     }
 
 
-	m_peer_public_->signal_received().connect(boost::bind(&refBoxTransport::handle_message, this, _1, _2, _3, _4));
-	m_peer_public_->signal_recv_error().connect(boost::bind(&refBoxTransport::handle_recv_error, this, _1, _2));
-	m_peer_public_->signal_send_error().connect(boost::bind(&refBoxTransport::handle_send_error, this, _1));
+	m_peer_public_->signal_received().connect(boost::bind(&RefBoxTransport::handle_message, this, _1, _2, _3, _4));
+	m_peer_public_->signal_recv_error().connect(boost::bind(&RefBoxTransport::handle_recv_error, this, _1, _2));
+	m_peer_public_->signal_send_error().connect(boost::bind(&RefBoxTransport::handle_send_error, this, _1));
 	
-	m_peer_team_->signal_received().connect(boost::bind(&refBoxTransport::handle_message, this, _1, _2, _3, _4));
-	m_peer_team_->signal_recv_error().connect(boost::bind(&refBoxTransport::handle_recv_error, this, _1, _2));
-	m_peer_team_->signal_send_error().connect(boost::bind(&refBoxTransport::handle_send_error, this, _1));
+	m_peer_team_->signal_received().connect(boost::bind(&RefBoxTransport::handle_message, this, _1, _2, _3, _4));
+	m_peer_team_->signal_recv_error().connect(boost::bind(&RefBoxTransport::handle_recv_error, this, _1, _2));
+	m_peer_team_->signal_send_error().connect(boost::bind(&RefBoxTransport::handle_send_error, this, _1));
 
 /*
 #if BOOST_ASIO_VERSION >= 100601
@@ -189,24 +184,25 @@ void refBoxTransport::init()
 	boost::asio::signal_set signals(m_io_service, SIGINT, SIGTERM);
 
 	// Start an asynchronous wait for one of the signals to occur.
-	signals.async_wait(boost::bind(&refBoxTransport::signal_handler, this, _1, _2));
+	signals.async_wait(boost::bind(&RefBoxTransport::signal_handler, this, _1, _2));
 #endif
 */
 }
 
-void refBoxTransport::startTimer()
+void RefBoxTransport::startTimer()
 {
 	m_timer_ = new boost::asio::deadline_timer(m_io_service);
 	//m_timer_->expires_from_now(boost::posix_time::seconds(2));	
 	//m_timer_->expires_from_now(boost::posix_time::time_duration(0,0,2,0));	
 	m_timer_->expires_at( boost::posix_time::second_clock::local_time() + boost::posix_time::seconds(2));
 
-	//m_timer_->async_wait(boost::bind(&refBoxTransport::handle_timer, this, _1));
+	//m_timer_->async_wait(boost::bind(&RefBoxTransport::handle_timer, this, _1));
         m_timer_->wait();
 	printf("Wait Timer");
 }
 
-void refBoxTransport::add_machine(std::string &name, std::string &type)
+/*
+void RefBoxTransport::add_machine(std::string &name, std::string &type)
 {
     m_dataMutex.lock();
     
@@ -218,68 +214,20 @@ void refBoxTransport::add_machine(std::string &name, std::string &type)
 
     m_dataMutex.unlock();
 }
+*/
 
-void refBoxTransport::set_pose(double x, double y, double theta)
-{
-    m_dataMutex.lock();
- 
-    unsigned long sec = 0;
-    unsigned long nsec = 0;
-    get_actualTime(sec, nsec);
- 
-    Pose2D *pose = m_beaconSignal.mutable_pose();
-    pose->set_x(x);
-    pose->set_y(y);
-    pose->set_ori(theta);
-
-    Time *pose_time = pose->mutable_timestamp();
-    pose_time->set_sec(static_cast<google::protobuf::int64>(sec));
-    pose_time->set_nsec(static_cast<google::protobuf::int64>(nsec));
-
-    m_dataMutex.unlock();
-}
-
-llsf_msgs::GameState refBoxTransport::get_gameState()
-{
-    llsf_msgs::GameState tempState;
-    m_dataMutex.lock();
-    tempState = m_gameState;
-    m_dataMutex.unlock();
-    return tempState;
-}
-
-llsf_msgs::ExplorationInfo refBoxTransport::get_explorationInfo()
-{
-    llsf_msgs::ExplorationInfo tempExpInfo;
-    m_dataMutex.lock();
-    tempExpInfo = m_explorationInfo;
-    m_dataMutex.unlock();
-    return tempExpInfo;
-}
-
-
-GamePhase refBoxTransport::get_phase()
-{
-    GamePhase tempPhase;
-    m_dataMutex.lock();
-    tempPhase = m_gamePhase;
-    m_dataMutex.unlock();
-    return tempPhase;
-}
-
-
-void refBoxTransport::update()
+void RefBoxTransport::update()
 {
 	m_io_service.run();
 	m_io_service.reset();
 }
 
-bool refBoxTransport::isExit()
+bool RefBoxTransport::isExit()
 {
 	return m_quit;
 }
 
-void refBoxTransport::signal_handler(const boost::system::error_code& error, int signum)
+void RefBoxTransport::signal_handler(const boost::system::error_code& error, int signum)
 {
     if (!error) 
     {
@@ -292,18 +240,18 @@ void refBoxTransport::signal_handler(const boost::system::error_code& error, int
     }
 }
 
-void refBoxTransport::handle_recv_error(boost::asio::ip::udp::endpoint &endpoint, std::string msg)
+void RefBoxTransport::handle_recv_error(boost::asio::ip::udp::endpoint &endpoint, std::string msg)
 {
     printf("Receive error from %s:%u: %s\n",
 	 endpoint.address().to_string().c_str(), endpoint.port(), msg.c_str());
 }
 
-void refBoxTransport::handle_send_error(std::string msg)
+void RefBoxTransport::handle_send_error(std::string msg)
 {
     printf("Send error: %s\n", msg.c_str());
 }
 
-void refBoxTransport::handle_message(boost::asio::ip::udp::endpoint &sender,
+void RefBoxTransport::handle_message(boost::asio::ip::udp::endpoint &sender,
 	       uint16_t component_id, uint16_t msg_type,
 	       std::shared_ptr<google::protobuf::Message> msg)
 {
@@ -357,9 +305,9 @@ void refBoxTransport::handle_message(boost::asio::ip::udp::endpoint &sender,
     m_dataMutex.unlock();
 }
 
-
-//void refBoxTransport::handle_timer(const boost::system::error_code& error)
-void refBoxTransport::handle_timer()
+/*
+//void RefBoxTransport::handle_timer(const boost::system::error_code& error)
+void RefBoxTransport::handle_timer()
 {
 
     m_dataMutex.lock();
@@ -399,13 +347,13 @@ void refBoxTransport::handle_timer()
 
         }
     
-    /*
-        m_timer_->expires_at(m_timer_->expires_at()
-		      + boost::posix_time::milliseconds(2000));
-        m_timer_->async_wait(boost::bind(&refBoxTransport::handle_timer, this, _1));
-    */
+        //m_timer_->expires_at(m_timer_->expires_at()
+		//      + boost::posix_time::milliseconds(2000));
+        //m_timer_->async_wait(boost::bind(&RefBoxTransport::handle_timer, this, _1));
     }
     m_dataMutex.unlock();
 }
+
+*/
 
 

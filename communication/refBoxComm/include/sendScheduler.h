@@ -21,12 +21,14 @@
 #include "refBoxMessage.h"
 
 //forward declaration
-class refBoxTransport;
+class RefBoxTransport;
+class RefBoxComm;
 
 class SendScheduler
 {
 public:
-    SendScheduler(std::shared_ptr<refBoxTransport> &refBoxTr);
+    SendScheduler();
+    SendScheduler(std::shared_ptr<RefBoxTransport> &refBoxTr);
     virtual ~SendScheduler();
 
 	void close();
@@ -36,11 +38,18 @@ public:
 	    m_messages.push_back(message);
 	}
 	
+	void setTransport(std::shared_ptr<RefBoxTransport> &refBoxTr)
+	{
+	    m_transport = refBoxTr;
+	}
+	
 	bool isOpened()
 	{
 	    return m_isOpen;
 	}
-
+	void spawn() {
+		m_t = std::unique_ptr<std::thread> (new std::thread(&SendScheduler::run, this));
+	}
 private:
     unsigned int m_timeSlot;
 	std::atomic<bool> m_isOpen;
@@ -50,11 +59,9 @@ private:
 	std::mutex m_dataMutex;
 	std::unique_ptr<std::thread> m_t;
 	
-	std::shared_ptr<refBoxTransport> m_transport;
+	std::shared_ptr<RefBoxTransport> m_transport;
 	
-	void spawn() {
-		m_t = std::unique_ptr<std::thread> (new std::thread(&SendScheduler::run, this));
-	}
+
 	void run();
 };
 

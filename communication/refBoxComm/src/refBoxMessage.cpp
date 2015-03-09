@@ -11,9 +11,10 @@
  */
 
 #include "refBoxMessage.h"
+#include <iostream>
 
 RefBoxMessage::RefBoxMessage(std::shared_ptr<protoMsg> msg, Periodicity p, double period, bool stopCond) : 
-        m_message(msg), m_periodicity(p), m_period(p), m_stopCondition(stopCond), m_isFirstSend(true)
+        m_message(msg), m_periodicity(p), m_period(period), m_stopCondition(stopCond), m_isFirstSend(true), m_callBackFunc(nullptr)
 {
 
 }
@@ -30,10 +31,12 @@ void RefBoxMessage::set(std::shared_ptr<protoMsg> msg, Periodicity p, double per
     m_period = period;
     m_stopCondition = stopCond;
     m_isFirstSend = true;
+    m_callBackFunc = nullptr;
 }
 
 bool RefBoxMessage::isExpired()
 {
+//TODO
 /*  
   if(m_periodicity == NON_PERIODIC)
     {
@@ -65,8 +68,11 @@ bool RefBoxMessage::isReady()
         break;
         }
 
-        //TODO appel de la callback
-    
+        //appel de la callback
+        if (m_callBackFunc != nullptr)
+        {
+            bool ret = m_callBackFunc(*m_message);
+        }
         m_isFirstSend = false;
         return true;
     }
@@ -74,11 +80,14 @@ bool RefBoxMessage::isReady()
     {
         auto currentTime = std::chrono::system_clock::now();
         std::chrono::duration<double, std::milli> nb_ms = (currentTime - m_lastSend);
+        
         if (nb_ms.count() >= m_period)
         {
-            
-            //TODO appel de la callback    
-            
+            //appel de la callback
+            if (m_callBackFunc != nullptr)
+            {
+                bool ret = m_callBackFunc(*m_message);
+            }
             m_lastSend = currentTime;
             return true;
         }

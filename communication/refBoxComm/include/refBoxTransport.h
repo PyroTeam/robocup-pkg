@@ -42,26 +42,19 @@ using namespace protobuf_comm;
 using namespace llsf_msgs;
 using namespace fawkes;
 
-typedef StaticDispatch<google::protobuf::Message, bool> MessageDispatcher;
+class RefBoxComm;
+typedef StaticDispatch<google::protobuf::Message, bool, std::function<bool(google::protobuf::Message&)>> MessageDispatcher;
 
 
-enum GamePhase
-{
-    PHASE_PRE_GAME,
-    PHASE_SETUP,
-    PHASE_EXPLORATION,
-    PHASE_PRODUCTION,
-    PHASE_POST_GAME
-};
 
-class refBoxTransport
+class RefBoxTransport
 {
 private:
     std::shared_ptr<MessageDispatcher> m_msgDispatch;
 
 public:
-	refBoxTransport();
-	~refBoxTransport();
+	RefBoxTransport();
+	~RefBoxTransport();
 
 	void init();
 	void startTimer();
@@ -76,21 +69,23 @@ public:
 
     void send(google::protobuf::Message &msg)
     {
-        m_peer_team_->send(msg);
+        if (m_peer_team_ != NULL)
+        {
+            m_peer_team_->send(msg);
+        }
+        else
+        {
+            std::cout << "m_peer_team_ not yet initialized!!" << std::endl;
+        }
     }
 
 	
-
-	void add_machine(std::string &name, std::string &type);
-	void set_pose(double x, double y, double theta);
-	llsf_msgs::GameState get_gameState();
-	llsf_msgs::ExplorationInfo get_explorationInfo();
-	GamePhase get_phase();
+/*
     Team get_teamColor()
     {
         return m_team_color_;
     }
-        
+   */     
 protected:
 
 	void signal_handler(const boost::system::error_code& error, int signum);
@@ -119,14 +114,6 @@ protected:
 	boost::asio::io_service m_io_service;
 
     llsfrb::Configuration *m_config_;
-
-
-    llsf_msgs::MachineReport m_machineToReport;
-    llsf_msgs::BeaconSignal m_beaconSignal;
-    llsf_msgs::GameState m_gameState;
-    llsf_msgs::ExplorationInfo m_explorationInfo;
-
-    GamePhase m_gamePhase;
 
     boost::mutex m_dataMutex;
 };
