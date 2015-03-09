@@ -16,9 +16,13 @@
 #include "refBoxTransport.h"
 #include "sendScheduler.h"
 
+SendScheduler::SendScheduler(): 
+    m_timeSlot(10), m_isOpen(false), m_transport(nullptr)
+{
 
+}
 
-SendScheduler::SendScheduler(std::shared_ptr<refBoxTransport> &refBoxTr): 
+SendScheduler::SendScheduler(std::shared_ptr<RefBoxTransport> &refBoxTr): 
     m_timeSlot(10), m_isOpen(false), m_transport(refBoxTr)
 {
 
@@ -42,13 +46,14 @@ void SendScheduler::close()
 
 void SendScheduler::run()
 {
+    m_isOpen = true;
 	while (m_isOpen)
 	{
     	std::this_thread::sleep_for(std::chrono::milliseconds(m_timeSlot));
 	
 	    std::lock_guard<std::mutex> lck (m_dataMutex);
-	    auto itMsg = m_messages.begin();
 	    
+	    auto itMsg = m_messages.begin();
 	    while(itMsg != m_messages.end())
 	    {
 	        if (itMsg->isExpired())
@@ -60,7 +65,10 @@ void SendScheduler::run()
 	        {
 	            if (itMsg->isReady())
 	            {
-	                m_transport->send(itMsg->getMessage());
+	                if (m_transport != nullptr)
+                    {
+                        m_transport->send(itMsg->getMessage());
+                    }
 	            }
 	            ++itMsg;
 	        }

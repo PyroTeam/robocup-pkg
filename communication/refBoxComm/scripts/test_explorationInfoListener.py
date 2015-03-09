@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import rospy
 import roslib; roslib.load_manifest('refBoxComm')
-from refBoxComm.msg import ExplorationInfo
-from refBoxComm.msg import LightSpec
+from comm_msg.msg import ExplorationInfo
+from comm_msg.msg import LightSpec
 
 def stringColor(color):
     if color == LightSpec.RED :

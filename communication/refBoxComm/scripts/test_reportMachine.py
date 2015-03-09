@@ -4,7 +4,7 @@ import roslib; roslib.load_manifest('refBoxComm')
 import sys
 
 import rospy
-from refBoxComm.srv import ReportMachine
+from comm_msg.srv import ReportMachine
 from std_msgs.msg import String
 
 def reportMachine_client(n, t):

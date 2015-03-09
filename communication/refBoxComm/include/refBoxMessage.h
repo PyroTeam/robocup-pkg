@@ -19,7 +19,7 @@
 #include <chrono>
 
 
-//early declaration
+//forward declaration
 namespace google
 {
     namespace protobuf
@@ -30,6 +30,7 @@ namespace google
 
 
 typedef google::protobuf::Message protoMsg;
+typedef std::function<bool(protoMsg&)> RefBoxMsgCBType;  
 
 class RefBoxMessage
 {
@@ -49,6 +50,12 @@ public:
     {
         return *m_message;
     }
+
+ 
+    void setCallBack(RefBoxMsgCBType func)
+    {
+        m_callBackFunc = func;
+    }
     
     bool isExpired();
     bool isReady();
@@ -64,6 +71,8 @@ private:
     bool m_isFirstSend;
     std::chrono::time_point<std::chrono::system_clock> m_lastSend;
     
+    //callback
+    RefBoxMsgCBType m_callBackFunc;
 };
 
 

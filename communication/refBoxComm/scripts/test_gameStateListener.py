@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import rospy
 import roslib; roslib.load_manifest('refBoxComm')
-from refBoxComm.msg import GameState
+from comm_msg.msg import GameState
 
 def callback(gs):
     rospy.loginfo(rospy.get_caller_id())

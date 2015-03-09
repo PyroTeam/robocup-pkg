@@ -74,14 +74,15 @@ add_library(
     refBoxTransport 
 
     src/refBoxTransport.cpp
-    src/receiveHandler.cpp
     src/refBoxMessage.cpp
     src/sendScheduler.cpp
-    src/typeInfo.cpp
+    src/refBoxUtils.cpp
 )
 
 add_executable(
   refBoxComm 
+  
+  src/refBoxComm.cpp
   src/refBoxCommNode.cpp 
 )
 

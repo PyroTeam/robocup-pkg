@@ -17,9 +17,10 @@
 #include <typeinfo>
 #include <exception>
 #include <stdexcept>
+#include <functional>
 
-//#include <typeindex>
-#include "typeInfo.h"
+#include <typeindex>
+//#include "typeInfo.h"
 
 
 template <
@@ -30,9 +31,9 @@ template <
 class StaticDispatch
 {
 private:
-	typedef TypeInfo KeyType;
+	typedef std::type_index KeyType;
 	typedef CallbackType MappedType;
-	typedef std::unordered_map<KeyType, MappedType, TypeInfoHash<TypeInfo> > MapType;
+	typedef std::unordered_map<KeyType, MappedType> MapType;
 
 	MapType m_callbackMap;
 public:
@@ -47,13 +48,12 @@ public:
 	}
 
 	template<class SomeClass>
-	void Add(CallbackType func)
+	void Add(MappedType func)
 	{
 		const KeyType key(typeid(SomeClass));
 		m_callbackMap[key] = func;
 	}
 
 };
-
 
 #endif /* DISPATCH_H_ */
