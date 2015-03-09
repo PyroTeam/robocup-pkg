@@ -1,0 +1,40 @@
+#include "tache.h"
+#include "listetaches.h"
+#include <cstdlib>
+
+using namespace std;
+
+list<Tache> creation_liste_taches_prod(int produit) {
+  list<Tache> liste;
+  switch(produit){
+  case 0:
+    liste.push_back(Tache("ChercherBase",produit,60,75,90,1));
+    liste.push_back(Tache("MettreCaps",  produit,60,75,60,1));
+    liste.push_back(Tache("Livrer",      produit,60,75,30,1));
+    break;
+  case 1:
+    break;
+  case 2:
+    break;
+  case 3:
+    break;
+  default:
+    exit(-1);
+  }
+  return liste;
+}
+
+list<Tache> creation_liste_taches_act(int action) {
+  list<Tache> liste;
+  switch(action){
+  case 0:
+    liste.push_back(Tache("Decapsuler"));
+    break;
+  case 1:
+    break;
+  default:
+    exit(-1);
+  }
+  return liste;
+}
+
