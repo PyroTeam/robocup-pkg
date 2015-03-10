@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.4.6)
-project(refBoxComm)
+project(refbox_comm)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)

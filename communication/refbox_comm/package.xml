@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <package>
-  <name>refBoxComm</name>
+  <name>refbox_comm</name>
   <version>0.0.0</version>
   <description>
 
-     refBoxComm
+     refbox_comm
 
   </description>
   <maintainer email="vincent.coelen@polytech-lille.net">vincent</maintainer>
   <license>TODO</license>
 
-  <url>http://ros.org/wiki/refBoxComm</url>
+  <url>http://ros.org/wiki/refbox_comm</url>
   
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>
