@@ -4,7 +4,12 @@
 class Refboxcomm{
 
  public:
-  Refboxcomm();
+  Refboxcomm(int produit,int debut_livraison,int fin_livraison,int quantite_restante){
+    m_produit=produit;
+    m_debut_livraison=debut_livraison;
+    m_fin_livraison=fin_livraison;
+    m_quantite_restante=quantite_restante;
+  }
   void set_produit(int prod){m_produit=prod;}
   int get_produit(){return m_produit;}
   void set_debut_livraison(int deb){m_debut_livraison=deb;}

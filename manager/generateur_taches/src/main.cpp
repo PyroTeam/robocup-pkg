@@ -2,7 +2,8 @@
 #include <iostream> 
 #include "tache.h"
 #include "listetaches.h"
-
+#include "refboxcomm.h"
+#include "travail.h"
 
 using namespace std;
 
@@ -20,7 +21,12 @@ int main() {
   cout << liste.size() << endl;
   
   list< list<Tache> > work;
+  for(int i=0;i<6;i++)
+    work.push_back(creation_liste_taches_act(0,0));
   work.push_back(creation_liste_taches_prod(0));
   cout << work.size() << endl;
+  Refboxcomm refbox(0,120,150,2);
+  cout << deja_dans_travail(work, refbox) <<endl;
+  
   return 0;
 } 

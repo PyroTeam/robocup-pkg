@@ -17,10 +17,12 @@ Tache::Tache(string inti,int prod,int deb,int fin,int crea,float rat){
 }
 
 int Tache::point_par_produit(){
-  if(m_produit==0) return 1;
-  if(m_produit==1) return 3;
-  if(m_produit==2) return 6;
-  if(m_produit==3) return 10;
+  int tmp;
+  if(m_produit==0) tmp=1;
+  if(m_produit==1) tmp=3;
+  if(m_produit==2) tmp=6;
+  if(m_produit==3) tmp=10;
+  return tmp;
 }
 
 bool Tache::dans_les_temps(int temps){
