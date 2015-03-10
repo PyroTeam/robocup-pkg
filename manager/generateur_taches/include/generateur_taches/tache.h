@@ -7,8 +7,6 @@
 class Tache{
 
  public:
-  Tache();
-  Tache(std::string inti, int prod, int crea, float rat);
   Tache(std::string inti, int prod, int deb, int fin, int crea, float rat);
 
   void set_intitule(std::string inti){m_intitule=inti;}

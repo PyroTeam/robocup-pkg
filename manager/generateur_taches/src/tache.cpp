@@ -6,18 +6,6 @@
 
 using namespace std;
 
-Tache::Tache(){
-  m_intitule = "Decapsuler";
-  m_produit = 0;
-  m_ratio = 0;
-}
-
-Tache::Tache(string inti, int produit, int crea, float rat){
- m_intitule = inti;
- m_produit = produit;
- m_creation = crea;
- m_ratio = rat; 	
-}
 
 Tache::Tache(string inti,int prod,int deb,int fin,int crea,float rat){
   m_intitule = inti;
@@ -29,10 +17,10 @@ Tache::Tache(string inti,int prod,int deb,int fin,int crea,float rat){
 }
 
 int Tache::point_par_produit(){
-    if(m_produit==0) return 1;
-    if(m_produit==1) return 3;
-    if(m_produit==2) return 6;
-    if(m_produit==3) return 10;
+  if(m_produit==0) return 1;
+  if(m_produit==1) return 3;
+  if(m_produit==2) return 6;
+  if(m_produit==3) return 10;
 }
 
 bool Tache::dans_les_temps(int temps){

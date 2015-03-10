@@ -1,6 +1,8 @@
+#include <cstdlib>
+#include <list>
 #include "tache.h"
 #include "listetaches.h"
-#include <cstdlib>
+
 
 using namespace std;
 
@@ -24,14 +26,14 @@ list<Tache> creation_liste_taches_prod(int produit) {
   return liste;
 }
 
-list<Tache> creation_liste_taches_act(int action) {
+list<Tache> creation_liste_taches_act(int action,int produit) {
   list<Tache> liste;
   switch(action){
   case 0:
-    liste.push_back(Tache("Decapsuler",produit,30,1));
+    liste.push_back(Tache("Decapsuler",produit,0,0,30,1));
     break;
   case 1:
-  	liste.push_back(Tache("Stocker",produit,30,1));
+    liste.push_back(Tache("Stocker",   produit,0,0,30,1));
     break;
   default:
     exit(-1);
@@ -39,3 +41,9 @@ list<Tache> creation_liste_taches_act(int action) {
   return liste;
 }
 
+bool decapsuler_dans_travail(list<Tache> liste){
+	bool tmp = false;
+	if(liste.begin().get_intitule() == "Decapsuler");
+		tmp =true;
+	return tmp;
+}
