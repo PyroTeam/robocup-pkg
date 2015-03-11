@@ -145,16 +145,19 @@ std::list<Machine> recognizeMachinesFrom(std::list<Segment> listOfSegments){
 				ordonnee 	= 0.0,
 				orientation = 0.0;
 
+		double absMilieu = (it.getMax().getX() + it.getMin().getX())/2;
+		double ordMilieu = (it.getMax().getY() + it.getMin().getY())/2;
+
 		//si c'est un grand côté
 		if ((size > gm) && (size < gM)){
-			abscisse = it.getMax().getX()-it.getMin().getX()+0.35*sin(M_PI/2-angle);
-			ordonnee = it.getMax().getY()-it.getMin().getY()-0.35*cos(M_PI/2-angle);
+			abscisse = absMilieu + 0.35*sin(M_PI_2-angle);
+			ordonnee = ordMilieu - 0.35*cos(M_PI_2-angle);
 			orientation = angle;
 		}
 		//si c'est un petit côté
 		if ((size > pm) && (size < pM)){
-			abscisse = it.getMax().getX()-it.getMin().getX()+0.175*sin(M_PI_2-angle);
-			ordonnee = it.getMax().getY()-it.getMin().getY()-0.175*cos(M_PI_2-angle);
+			abscisse = absMilieu + 0.175*sin(M_PI_2-angle);
+			ordonnee = ordMilieu - 0.175*cos(M_PI_2-angle);
 			orientation = M_PI_2 + angle;
 		}
 
