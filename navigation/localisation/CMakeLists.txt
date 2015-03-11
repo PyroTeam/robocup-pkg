@@ -46,11 +46,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+#add_message_files(
+#   messages/deplacement_msg/msg
+#   Machines.msg
+#)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -143,15 +142,35 @@ add_executable(
   visualisation
   src/visualisation.cpp)
 
+add_executable(
+  landmarks_extraction_node
+  src/landmarks_extraction_node.cpp
+  src/landmarks_detection_utils.cpp
+  src/conversion_msg.cpp
+  src/laserScan.cpp
+  src/Point.cpp
+  src/Droite.cpp
+  src/Modele.cpp
+  src/Machine.cpp)
+
+add_executable(
+  fake_scan_node
+  src/fake_scan_node.cpp
+  src/laserScan.cpp)
+
 set_target_properties(test_reco_segment PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(test_reco PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(test_reco_machines PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 add_dependencies(test_reco_segment localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 add_dependencies(test_reco localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 add_dependencies(test_reco_machines localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+add_dependencies(landmarks_extraction_node localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+add_dependencies(fake_scan_node localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(
@@ -168,6 +187,14 @@ target_link_libraries(
 )
 target_link_libraries(
   visualisation
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  landmarks_extraction_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  fake_scan_node
   ${catkin_LIBRARIES}
 )
 

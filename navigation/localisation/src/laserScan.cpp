@@ -10,18 +10,16 @@ laserScan::~laserScan(){
 }
 
 void laserScan::PolarToCart (){
-	Point p;
-
-  	for (int i=0; i<m_ranges.size(); i++){
+	for (int i=0; i<m_ranges.size(); i++){
 	   	if((m_ranges[i]>getRangeMin()) && (m_ranges[i]<getRangeMax())){
-			p.setX(m_ranges[i]*cos(getAngleMin() + i*getAngleInc()));
-			p.setY(m_ranges[i]*sin(getAngleMin() + i*getAngleInc()));
+	   		Point p(m_ranges[i]*cos(getAngleMin() + i*getAngleInc()),
+	   				m_ranges[i]*sin(getAngleMin() + i*getAngleInc()));
 			m_points.push_back(p);
 		}
 	}
 }
 
-void laserScan::setRanges(const sensor_msgs::LaserScanConstPtr& scan){
+void laserScan::set(const sensor_msgs::LaserScanConstPtr& scan){
 	setRangeMin(scan->range_min);
 	setRangeMax(scan->range_max);
 	setAngleMin(scan->angle_min);
@@ -34,5 +32,5 @@ void laserScan::setRanges(const sensor_msgs::LaserScanConstPtr& scan){
 }
 
 void laserScan::laserCallback(const sensor_msgs::LaserScanConstPtr& scan){
-	setRanges(scan);
+	set(scan);
 }
