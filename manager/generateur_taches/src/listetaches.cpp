@@ -10,9 +10,9 @@ list<Tache> creation_liste_taches_prod(int produit) {
   list<Tache> liste;
   switch(produit){
   case 0:
-    liste.push_back(Tache("ChercherBase",produit,120,150,90,1));
-    liste.push_back(Tache("MettreCaps",  produit,60,75,60,1));
-    liste.push_back(Tache("Livrer",      produit,60,75,30,1));
+    liste.push_back(Tache("ChercherBase",produit,120,150,90,5));
+    liste.push_back(Tache("MettreCaps",  produit,60,75,60,5));
+    liste.push_back(Tache("Livrer",      produit,60,75,30,5));
     break;
   case 1:
     break;
