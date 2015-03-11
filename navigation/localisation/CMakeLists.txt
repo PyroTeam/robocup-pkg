@@ -156,6 +156,7 @@ add_executable(
 add_executable(
   fake_scan_node
   src/fake_scan_node.cpp
+  src/Point.cpp
   src/laserScan.cpp)
 
 set_target_properties(test_reco_segment PROPERTIES COMPILE_FLAGS -std=c++0x)
