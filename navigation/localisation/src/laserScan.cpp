@@ -1,5 +1,6 @@
 #include "laserScan.h"
 #include <cmath>
+#include "Point.h"
 
 laserScan::laserScan():m_range_min(0.0),m_range_max(0.0),m_angle_min(0.0),m_angle_max(0.0),m_angle_inc(0.0){
 
@@ -12,8 +13,8 @@ laserScan::~laserScan(){
 void laserScan::PolarToCart (){
 	for (int i=0; i<m_ranges.size(); i++){
 	   	if((m_ranges[i]>getRangeMin()) && (m_ranges[i]<getRangeMax())){
-	   		Point p(m_ranges[i]*cos(getAngleMin() + i*getAngleInc()),
-	   				m_ranges[i]*sin(getAngleMin() + i*getAngleInc()));
+	   		Point p(m_ranges[i]*cos(getAngleMin() + (float)i*getAngleInc()),
+	   				m_ranges[i]*sin(getAngleMin() + (float)i*getAngleInc()));
 			m_points.push_back(p);
 		}
 	}

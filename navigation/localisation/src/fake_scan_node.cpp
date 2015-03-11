@@ -16,9 +16,8 @@ int main(int argc, char** argv)
     //on publie un scan laser sur le topic /fake_scan
     ros::Publisher pub_scan = n.advertise<sensor_msgs::LaserScan>("/fake_scan", 1000);
 
-    //construction du scan
+    //construction du faux scan
     sensor_msgs::LaserScanPtr scan(new sensor_msgs::LaserScan());
-    sensor_msgs::LaserScanConstPtr pscan(scan);
 
     scan->angle_min = -M_PI_2;
     scan->angle_max =  M_PI_2;
