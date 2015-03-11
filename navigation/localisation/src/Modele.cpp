@@ -64,16 +64,13 @@ void Modele::build(Point a, Point b){
   	m_droite.build(a,b);
 }
 
-void Modele::constructFrom(Modele m){
-	m_droite = m.getDroite();
-	m_index  = m.getIndex();
-	m_correl = m.getCorrel();
-
+void Modele::update(){
+	m_points.clear();
 	//pour tous les itérateurs contenu dans la liste d'index
 	for (auto &it : m_index){
 		//it est une référence sur un élément de m_index
 		//*it est le point recherché dans la liste de points
-		addPoint(*it);
+		m_points.push_back(*it);
 	}
 }
 

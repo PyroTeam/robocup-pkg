@@ -1,7 +1,10 @@
 #ifndef SEGMENT_H
 #define SEGMENT_H
 
+#include "Point.h"
+
 #include <vector>
+#include <list>
 
 class Segment{
 public:
@@ -35,11 +38,12 @@ public:
 		m_min = a;
 		m_max = b;
 	}
+	
 private:
-	double	m_angle;
-	double 	m_size;
-	Point   m_min;
-	Point   m_max;
+	double			 m_angle;
+	double 			 m_size;
+	Point   		 m_min;
+	Point   		 m_max;
 };
 
 #endif

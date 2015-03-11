@@ -3,25 +3,24 @@
 
 class Machine{
 public:
-	Machine();
+	Machine(double x = 0.0, double y = 0.0, double theta = 0.0);
 	~Machine();
 
-	Point getCentre(){
-		return m_centre;
+	double getX(){
+		return m_x;
+	}
+	double getY(){
+		return m_y;
 	}
 	double getOrientation(){
 		return m_orientation;
 	}
 
-	void set(Point p, double theta){
-		m_centre      = p;
-		m_orientation = theta;
-	}
-
-	void build(Modele m);
+	void clear();
 
 private:
-	Point   m_centre;
+	double  m_x;
+	double  m_y;
 	double  m_orientation;
 };
 
