@@ -113,7 +113,7 @@ void maj(std::list<Point> &list, Modele m){
 	}
 }
 
-std::list<Modele> findLines(std::list<Point> &listOfPoints){
+std::list<Modele> findLines(const std::list<Point> &listOfPoints){
 	std::list<Modele> listOfDroites;
 	std::list<Point>  listWithoutPrecModelPoints = listOfPoints;
 	Modele            m;

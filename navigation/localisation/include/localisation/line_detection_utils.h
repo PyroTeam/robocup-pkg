@@ -22,6 +22,6 @@ Point ortho(Point a, Droite d);
 
 Modele ransac(std::list<Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts);
 
-std::list<Modele> findLines(std::list<Point> &listOfPoints);
+std::list<Modele> findLines(const std::list<Point> &listOfPoints);
 
 #endif

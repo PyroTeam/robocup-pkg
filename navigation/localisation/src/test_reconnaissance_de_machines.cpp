@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 
     laserData.setRanges(pscan);
 
-    std::list<Point>   listOfPoints   = laserData.getPoints();
+    const std::list<Point>   &listOfPoints   = laserData.getPoints();
     std::list<Modele>  listOfModeles  = findLines(listOfPoints);
     std::list<Segment> listOfSegments = buildSegments(listOfModeles);
     std::list<Machine> listOfMachines = recognizeMachinesFrom(listOfSegments);
