@@ -139,6 +139,10 @@ add_executable(
   src/line_detection_utils.cpp
   src/machine_detection_utils.cpp)
 
+add_executable(
+  visualisation
+  src/visualisation.cpp)
+
 set_target_properties(test_reco_segment PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(test_reco PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(test_reco_machines PROPERTIES COMPILE_FLAGS -std=c++0x)
@@ -160,6 +164,10 @@ target_link_libraries(
 )
 target_link_libraries(
   test_reco_machines
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  visualisation
   ${catkin_LIBRARIES}
 )
 
