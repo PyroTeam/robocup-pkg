@@ -16,9 +16,6 @@ public:
 	Droite getDroite() const {
 		return m_droite;
 	}
-	Segment getSegment() const {
-		return m_segment;
-	}
 	double getCorrel() const {
 		return m_correl;
 	}
@@ -32,6 +29,9 @@ public:
 	void addPoint(Point point){
 		m_points.push_back(point);
 	}
+	void setPoints(std::list<Point> listOfPoints){
+		m_points = listOfPoints;
+	}
 	void addIndex(std::list<Point>::iterator &it){
 		m_index.push_back(it);
 	}
@@ -41,12 +41,10 @@ public:
  
 	void linReg();
 	void build(Point a, Point b);
-	void constructFrom(Modele m);
-	void buildSegment();
+	void update();
 
 private:
 	Droite             					  m_droite;
-	Segment 							  m_segment;  //rempli uniquement si le modele est le meilleur_modele
 	std::list<Point>   				      m_points;   //rempli uniquement si le modele est le meilleur_modele
 	std::list<std::list<Point>::iterator> m_index;
 	double             					  m_correl;

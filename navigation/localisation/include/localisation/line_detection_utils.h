@@ -16,14 +16,6 @@
 #include "deplacement_msg/Points.h"
 #include "deplacement_msg/Droites.h"
 
-deplacement_msg::Point convertPtToDeplMsgPt(const Point &point);
-
-deplacement_msg::Points convertPtsToDeplMsgPts(const std::list<Point> &points);
-
-deplacement_msg::Droite convertMdlToDeplMsgDroite(const Modele &modele);
-
-deplacement_msg::Droites convertModelesToDeplMsgDroites(const std::list<Modele> &modeles);
-
 double dist(Point a, Droite d);
 
 Point ortho(Point a, Droite d);

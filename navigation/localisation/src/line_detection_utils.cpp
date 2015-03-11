@@ -14,51 +14,6 @@
 
 #include "line_detection_utils.h"
 
-deplacement_msg::Point convertPtToDeplMsgPt(const Point &point){
-	deplacement_msg::Point p;
-	p.x = point.getX();
-	p.y = point.getY();
-
-	return p;
-}
-
-deplacement_msg::Points convertPtsToDeplMsgPts(const std::list<Point> &points){
-    deplacement_msg::Points listOfDeplMsgPt;
-    listOfDeplMsgPt.points.resize(points.size());
-
-    for (std::list<Point>::const_iterator it = points.begin(); it != points.end(); ++it){
-        deplacement_msg::Point pt = convertPtToDeplMsgPt(*it);
-        listOfDeplMsgPt.points.push_back(pt);
-    }
-
-    return listOfDeplMsgPt;
-}
-
-deplacement_msg::Droite convertMdlToDeplMsgDroite(const Modele &modele){
-	//on récupère les infos nécessaires du modele
-	Droite d     = modele.getDroite();
-  Point p      = d.getPoint();
-  double angle = d.getAngle();
-
-  deplacement_msg::Droite msgDroite;
-  msgDroite.point = convertPtToDeplMsgPt(p);
-  msgDroite.angle = angle;
-
-  return msgDroite;
-}
-
-deplacement_msg::Droites convertModelesToDeplMsgDroites(const std::list<Modele> &modeles){
-    deplacement_msg::Droites droites;
-    droites.droites.resize(modeles.size());
-
-    for (std::list<Modele>::const_iterator it = modeles.begin(); it != modeles.end(); ++it){
-    	deplacement_msg::Droite d = convertMdlToDeplMsgDroite(*it);
-      droites.droites.push_back(d);
-    }
-
-    return droites;
-}
-
 double dist(Point a, Droite d){
 	Point b = d.getPoint();
   Point u(cos(d.getAngle()), sin(d.getAngle()));
@@ -138,11 +93,12 @@ Modele ransac(std::list<Point> &listOfPoints, int n, int NbPtPertinent, double p
     if (modele_possible.getIndex().size() > meilleur_modele.getIndex().size()){
     //if (modele_possible.getCorrel() > meilleur_modele.getCorrel()){
     	//on construit le nouveau meilleur_modele à partir du modele_possible
-      meilleur_modele.constructFrom(modele_possible);
+      meilleur_modele = modele_possible;
     }
 
     iter++;
   }
+  meilleur_modele.update();
 
   return meilleur_modele;
 }

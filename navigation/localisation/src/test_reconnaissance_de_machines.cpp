@@ -5,6 +5,8 @@
 #include "sensor_msgs/LaserScan.h"
 
 #include "line_detection_utils.h"
+#include "machine_detection_utils.h"
+#include "Machine.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,13 +32,19 @@ int main(int argc, char** argv)
 
     laserData.setRanges(pscan);
 
-    std::list<Point>  listOfPoints = laserData.getPoints();
-    std::list<Modele> listOfModeles = findLines(listOfPoints);
+    std::list<Point>   listOfPoints   = laserData.getPoints();
+    std::list<Modele>  listOfModeles  = findLines(listOfPoints);
+    std::list<Segment> listOfSegments = buildSegments(listOfModeles);
+    std::list<Machine> listOfMachines = recognizeMachinesFrom(listOfSegments);
 
-    for(auto &it : listOfModeles){
-        std::cout << "m = " << it.getDroite().getPente() << " p = " << it.getDroite().getOrdOrigin() << std::endl;
-    	std::cout << "nb de points dans la droite : " << it.getIndex().size() << std::endl;
-        std::cout << "coeff de correlation : " << it.getCorrel() << std::endl;
+	int cpt = 1;
+
+    for(auto &it : listOfMachines){
+        std::cout << "\n" << std::endl;
+        std::cout << "Machine "<< cpt << " ("<< it.getX() << ", " << it.getY() << ")" << std::endl;
+        std::cout << "          orientation : " << it.getOrientation()*(180/M_PI) << std::endl;
+
+        cpt++;
     }
 
     return 0;
