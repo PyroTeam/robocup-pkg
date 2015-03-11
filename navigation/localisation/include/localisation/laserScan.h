@@ -31,18 +31,19 @@ public:
 	float getAngleInc(){
 		return m_angle_inc;
 	}
+	const std::vector<float>& getRanges() const{
+		return m_ranges;
+	}
 	const std::list<Point>& getPoints() const{
 		return m_points;
 	}
 
 	void setRangeMin(float min){
-		m_range_min=min;}
-	
+		m_range_min=min;
+	}	
 	void setRangeMax(float max){
 		m_range_max=max;
 	}
-	void setRanges(const sensor_msgs::LaserScanConstPtr& scan);
-
 	void setAngleMin(float min){
 		m_angle_min=min;
 	}
@@ -52,6 +53,7 @@ public:
 	void setAngleInc(float inc){
 		m_angle_inc=inc;
 	}
+	void set(const sensor_msgs::LaserScanConstPtr& scan);
 
 	void laserCallback(const sensor_msgs::LaserScanConstPtr& scan); 
 

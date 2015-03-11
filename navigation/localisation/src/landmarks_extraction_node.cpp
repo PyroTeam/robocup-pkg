@@ -1,18 +1,10 @@
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
+#include "geometry_msgs/Pose2D.h"
+#include "deplacement_msg/Machines.h"
 
-#include <cmath>
-#include <limits>
-#include <vector>
-
-#include "laserscan.h"
-#include "Point.h"
-#include "Droite.h"
-#include "Modele.h"
-#include "Machine.h"
-#include "line_detection_utils.h"
-#include "machine_detection_utils.h"
-
+#include "landmarks_detection_utils.h"
+#include "conversion_msg.h"
 
 int main(int argc, char** argv)
 {
@@ -25,11 +17,15 @@ int main(int argc, char** argv)
     
     ros::NodeHandle n;
 
-    //on souscrit au topic /scan sur lequel les données laser sont transmises
-    ros::Subscriber sub_laser  = n.subscribe("/scan", 1000, &laserScan::laserCallback, &laserData);
+    //on souscrit au topic /fake_scan sur lequel les données laser sont transmises
+    ros::Subscriber sub_laser  = n.subscribe<sensor_msgs::LaserScan>("/fake_scan", 1000, &laserScan::laserCallback, &laserData);
 
-    //on publie les droites trouvées sur le topic /droites
-    ros::Publisher pub_machines = n.advertise<geometry_msg::Pose2D>("/machines", 1000);
+    //on publie les machines trouvées sur le topic /machines
+    ros::Publisher pub_machines = n.advertise<deplacement_msg::Machines>("/machines", 1000);
+
+    if (laserData.getRanges().size() == 0){
+        ROS_INFO("probleme laserCallback");
+    }
 
     //initialisation du random
     srand(time(NULL));
@@ -39,19 +35,14 @@ int main(int argc, char** argv)
     std::list<Segment> listOfSegments       = buildSegments(listOfModeles);
     std::list<Machine> listOfMachines       = recognizeMachinesFrom(listOfSegments);
 
-    
     ros::Rate loop_rate (100);
 
     while(n.ok())
     {
-        for (auto &it : listOfMachines){
-            geometry_msg::Pose2D msgMachine;
-            msgMachine = convertMachineToPose2D(it);
-
-            // Publish
-            pub_machines.publish(msgMachines);
-        }
+        deplacement_msg::Machines tab = fillTabFrom(listOfMachines);
         
+        // Publish
+        pub_machines.publish(tab);
 
         // Spin
         ros::spinOnce();
