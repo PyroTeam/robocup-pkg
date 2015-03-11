@@ -107,40 +107,59 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(
-	localisation_node
-	src/scan_to_points_node.cpp
-	src/laserScan.cpp
-  src/Point.cpp
-  src/Droite.cpp
-  src/line_detection_utils.cpp
-  src/Modele.cpp
-  src/Machine.cpp)
-
-add_executable(
-  test_polar_to_cart
-  src/testPolarToCart.cpp
+  test_reco_segment
+  src/test_reconnaissance_de_segments.cpp
   src/laserScan.cpp
   src/Point.cpp
   src/Droite.cpp
-  src/line_detection_utils.cpp
   src/Modele.cpp
-  src/Machine.cpp)
+  src/Machine.cpp
+  src/line_detection_utils.cpp
+  src/machine_detection_utils.cpp)
 
-set_target_properties(localisation_node PROPERTIES COMPILE_FLAGS -std=c++0x)
-set_target_properties(test_polar_to_cart PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_executable(
+  test_reco
+  src/test_reconnaissance_de_droites.cpp
+  src/laserScan.cpp
+  src/Point.cpp
+  src/Droite.cpp
+  src/Modele.cpp
+  src/Machine.cpp
+  src/line_detection_utils.cpp
+  src/machine_detection_utils.cpp)
+
+add_executable(
+  test_reco_machines
+  src/test_reconnaissance_de_machines.cpp
+  src/laserScan.cpp
+  src/Point.cpp
+  src/Droite.cpp
+  src/Modele.cpp
+  src/Machine.cpp
+  src/line_detection_utils.cpp
+  src/machine_detection_utils.cpp)
+
+set_target_properties(test_reco_segment PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(test_reco PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(test_reco_machines PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(localisation_node localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
-add_dependencies(test_polar_to_cart localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+add_dependencies(test_reco_segment localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+add_dependencies(test_reco localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+add_dependencies(test_reco_machines localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(
-  localisation_node
+  test_reco_segment
   ${catkin_LIBRARIES}
 )
 target_link_libraries(
-  test_polar_to_cart
+  test_reco
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_reco_machines
   ${catkin_LIBRARIES}
 )
 
