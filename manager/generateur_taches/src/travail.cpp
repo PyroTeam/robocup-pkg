@@ -18,11 +18,11 @@ bool deja_dans_travail(list<list<Tache> > travail, Refboxcomm refbox){
 }
 
 // rajoute les nouvelles listes de tâches à faire éxecuter 
-void rajout_dans_travail(list<list<Tache> > &travail, Refboxcomm refbox,int cap_dispo){
+void rajout_dans_travail(list<list<Tache> > &travail, Refboxcomm refbox,int &cap_dispo){
   if(!deja_dans_travail(travail,refbox)){
     for(int i=0; i< refbox.get_quantite_restante(); i++){
       if(cap_dispo > 0){
-	travail.push_back(creation_liste_taches_prod(refbox.get_produit()));
+	travail.push_back(creation_liste_taches_prod(refbox.get_produit(),refbox.get_debut_livraison(),refbox.get_fin_livraison()));
 	cap_dispo --;
       }
       else{
@@ -31,7 +31,7 @@ void rajout_dans_travail(list<list<Tache> > &travail, Refboxcomm refbox,int cap_
 	while(travail_iterator != travail.end() && decapsuler_dans_travail(*travail_iterator)==false )
 	  travail_iterator++;
 	if(travail_iterator != travail.end()){
-	  list<Tache> ltmp = creation_liste_taches_prod(refbox.get_produit());
+	  list<Tache> ltmp = creation_liste_taches_prod(refbox.get_produit(),refbox.get_debut_livraison(),refbox.get_fin_livraison());
 	    travail_iterator->splice(travail_iterator->end(), ltmp);
 	  }
       }
@@ -50,3 +50,24 @@ Tache max_ratio(list<list<Tache> > travail){
   return tmp->front();
 }
 
+//calcule le ratio de chaque première tâche de chaque liste de tâche
+void calcul_ratio(list<list<Tache> > &travail, int temps){
+	list<list<Tache> >::iterator t_it;
+	for(t_it = travail.begin(); t_it != travail.end(); t_it++){
+		t_it->begin()->set_ratio(0);
+		if((t_it->begin()->get_intitule() == "Destocker") && (t_it->begin()->dans_les_temps(temps)))
+			t_it->begin()->set_ratio(100);
+		else{
+			if(t_it->begin()->get_intitule() != "Decapsuler")
+				t_it->begin()->set_ratio(t_it->begin()->point_par_produit());
+			else
+				t_it->begin()->set_ratio(0.1);
+		}
+		t_it->begin()->set_ratio(t_it->begin()->get_ratio() / t_it->begin()->get_creation());
+	}
+}			
+			
+			
+			
+			
+			 

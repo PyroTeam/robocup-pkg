@@ -6,6 +6,8 @@
 
 bool deja_dans_travail(std::list<std::list<Tache> > travail, Refboxcomm refbox);
 Tache max_ratio(std::list<std::list<Tache> > travail);
-void rajout_dans_travail(std::list<std::list<Tache> > &travail, Refboxcomm refbox, int cap_dispo);
+void rajout_dans_travail(std::list<std::list<Tache> > &travail, Refboxcomm refbox, int &cap_dispo);
+void calcul_ratio(std::list<std::list<Tache> > &travail, int temps);
+
 
 #endif
