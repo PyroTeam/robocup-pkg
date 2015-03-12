@@ -13,7 +13,8 @@ int main() {
   for(int i=0;i<5;i++)
     work.push_back(creation_liste_taches_act(0,0,0,0));
   work.push_back(creation_liste_taches_act(1,0,90,140));  
-  cout << "\n\tInitialement la liste de liste de taches a realiser est seulement constituee de cinq fois la tache Decapsuler" << endl;
+  cout << "\n\tInitialement la liste de liste de taches a realiser est seulement constituee de cinq fois la tache Decapsuler " <<
+  "et d une fois la tache Destocker" << endl;
   list<list<Tache> >::iterator wit;
   int compteur = 1; 
   for(wit = work.begin(); wit != work.end(); wit++){
@@ -47,8 +48,7 @@ int main() {
   	}
   cout <<"\n\tA present on va vérifier que la fonction max_ratio fonctionne" << endl;
   Tache tmp = max_ratio(work);
-  cout << "La tache ayant son ratio le plus grand a pour ratio : "<< tmp.get_ratio() << " et pour intitule : " << tmp.get_intitule() << endl;
-  cout << "cap_dispo = " << cap_dispo << endl;
+  cout <<"La tache ayant son ratio le plus grand a pour ratio : "<<tmp.get_ratio()<<" et pour intitule : "<<tmp.get_intitule()<<"\n"<<endl;
 
   return 0;
 } 

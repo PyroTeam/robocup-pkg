@@ -6,19 +6,37 @@
 
 using namespace std;
 
-list<Tache> creation_liste_taches_prod(int produit) {
+list<Tache> creation_liste_taches_prod(int produit,int debut_livraison,int fin_livraison) {
   list<Tache> liste;
   switch(produit){
   case 0:
-    liste.push_back(Tache("ChercherBase",produit,120,150,90,5));
-    liste.push_back(Tache("MettreCaps",  produit,60,75,60,5));
-    liste.push_back(Tache("Livrer",      produit,60,75,30,5));
+    liste.push_back(Tache("ChercherBase", produit,debut_livraison,fin_livraison,90,1));
+    liste.push_back(Tache("MettreCaps",   produit,debut_livraison,fin_livraison,60,1));
+    liste.push_back(Tache("Livrer",       produit,debut_livraison,fin_livraison,30,1));
     break;
   case 1:
+    liste.push_back(Tache("ChercherBase", produit,debut_livraison,fin_livraison,120,1));
+    liste.push_back(Tache("Mettrering",   produit,debut_livraison,fin_livraison,90,1));
+    liste.push_back(Tache("MettreCaps",   produit,debut_livraison,fin_livraison,60,1));
+    liste.push_back(Tache("Livrer",       produit,debut_livraison,fin_livraison,30,1));
     break;
   case 2:
+    liste.push_back(Tache("ChercherBase", produit,debut_livraison,fin_livraison,180,1));
+    liste.push_back(Tache("Mettrering",   produit,debut_livraison,fin_livraison,150,1));
+    liste.push_back(Tache("RamenerbaseRS",produit,debut_livraison,fin_livraison,120,1));
+    liste.push_back(Tache("Mettrering",   produit,debut_livraison,fin_livraison,90,1));
+    liste.push_back(Tache("MettreCaps",   produit,debut_livraison,fin_livraison,60,1));
+    liste.push_back(Tache("Livrer",       produit,debut_livraison,fin_livraison,30,1));
     break;
   case 3:
+    liste.push_back(Tache("ChercherBase", produit,debut_livraison,fin_livraison,240,1));
+    liste.push_back(Tache("Mettrering",   produit,debut_livraison,fin_livraison,210,1));
+    liste.push_back(Tache("RamenerbaseRS",produit,debut_livraison,fin_livraison,180,1));
+    liste.push_back(Tache("Mettrering",   produit,debut_livraison,fin_livraison,150,1));
+    liste.push_back(Tache("RamenerbaseRS",produit,debut_livraison,fin_livraison,120,1));
+    liste.push_back(Tache("Mettrering",   produit,debut_livraison,fin_livraison,90,1));
+    liste.push_back(Tache("MettreCaps",   produit,debut_livraison,fin_livraison,60,1));
+    liste.push_back(Tache("Livrer",       produit,debut_livraison,fin_livraison,30,1));
     break;
   default:
     exit(-1);
@@ -26,14 +44,14 @@ list<Tache> creation_liste_taches_prod(int produit) {
   return liste;
 }
 
-list<Tache> creation_liste_taches_act(int action,int produit) {
+list<Tache> creation_liste_taches_act(int action,int produit,int debut_livraison,int fin_livraison) {
   list<Tache> liste;
   switch(action){
   case 0:
     liste.push_back(Tache("Decapsuler",produit,0,0,30,1));
     break;
   case 1:
-    liste.push_back(Tache("Stocker",   produit,0,0,30,10));
+    liste.push_back(Tache("Destocker",produit,debut_livraison,fin_livraison,30,1));
     break;
   default:
     exit(-1);
