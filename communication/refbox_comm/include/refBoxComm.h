@@ -70,7 +70,10 @@ private:
 	    std::string robotName;
 	    unsigned int robotNumber;
 	    
+	    llsf_msgs::MachineReport machineToReport;
 	    GamePhase gamePhase;
+	    
+	    comm_msg::GameState gameState;
     } m_status;
     
     std::shared_ptr<RefBoxTransport> m_transport;
@@ -99,6 +102,7 @@ private:
 
     //send callBack
     bool sendBeaconSignalCB(protoMsg &m);
+    bool sendMachineReportCB(protoMsg &m);
     
 };
 

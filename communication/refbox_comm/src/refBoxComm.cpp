@@ -116,6 +116,32 @@ bool RefBoxComm::ReportMachineSrv(comm_msg::ReportMachine::Request  &req,
 {
     ROS_INFO("Reporting the machine %s of type %s", req.name.c_str(), req.type.c_str());
     // m_transport->add_machine(req.name, req.type);
+    
+    bool addMessage = false;
+    if ( m_status.machineToReport.machines_size()==0)
+    {
+        addMessage = true;
+    }
+    
+    
+    m_status.machineToReport.set_team_color(m_status.teamColor);
+    
+    
+    llsf_msgs::MachineReportEntry *entry = m_status.machineToReport.add_machines();
+    entry->set_name(req.name);
+    entry->set_type(req.type);
+    
+    if (addMessage)
+    {
+        std::shared_ptr<MachineReport> mr(new MachineReport());
+
+        *mr = m_status.machineToReport;
+        RefBoxMessage machineToReportMessage(mr, RefBoxMessage::PERIODIC, 1000.0);
+        machineToReportMessage.setCallBack(std::function<bool(google::protobuf::Message&)>(boost::bind       (&RefBoxComm::sendMachineReportCB, this, _1)));
+        m_sendScheduler.push(machineToReportMessage);
+    }
+    
+    
     return true;
 }
 
@@ -144,6 +170,24 @@ bool RefBoxComm::sendBeaconSignalCB(protoMsg &m)
     pose_time->set_nsec(status_pose_time->nsec());
     
     return true;
+}
+
+bool RefBoxComm::sendMachineReportCB(protoMsg &m)
+{
+    MachineReport &mr = dynamic_cast<MachineReport&>(m);
+
+    if(m_status.gameState.phase == comm_msg::GameState::EXPLORATION)
+    {
+        mr = m_status.machineToReport;
+        return true;
+    }
+    else
+    {
+        //clean machineToReport
+        m_status.machineToReport.mutable_machines()->Clear();
+        return false;
+    }
+   
 }
 
 
@@ -184,10 +228,9 @@ bool RefBoxComm::fireGameState(protoMsg &m)
 */
 
     //convert information into ROS type
-    comm_msg::GameState gameState;
-    gameState = llsf2ros_gameState(gs, m_status.teamColor);
+    m_status.gameState = llsf2ros_gameState(gs, m_status.teamColor);
     //and publish
-    m_gameState_pub.publish(gameState);
+    m_gameState_pub.publish(m_status.gameState);
 
 	return true;
 }
