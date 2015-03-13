@@ -7,9 +7,9 @@
 class Tache{
 
  public:
-  Tache(std::string inti, int prod, int deb, int fin, int crea, float rat);
+  Tache(std::string inti, int prod, int deb, int fin, int crea, float rat,bool en_traitement);
 
-  void set_intitule(std::string inti){m_intitule=inti;}
+  void set_intitule(std::string &inti){m_intitule=inti;}
   std::string get_intitule(){return m_intitule;}
   void set_produit(int prod){m_produit=prod;}
   int get_produit(){return m_produit;}
@@ -20,7 +20,9 @@ class Tache{
   void set_creation(int crea){m_creation=crea;}
   int get_creation(){return m_creation;}
   void set_ratio(float rat){m_ratio=rat;}
-  float get_ratio(){return m_ratio;}  
+  float get_ratio(){return m_ratio;}
+  void set_en_traitement(bool en_traitement){m_en_traitement=en_traitement;}
+  bool get_en_traitement(){return m_en_traitement;}  
   
   int point_par_produit();
   bool dans_les_temps(int temps);
@@ -32,6 +34,7 @@ class Tache{
   int m_fin_livraison;
   int m_creation; //temps de creation restant
   float m_ratio;
+  bool m_en_traitement;
 };
 
 #endif

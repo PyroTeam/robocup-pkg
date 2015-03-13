@@ -3,8 +3,8 @@
 
 class Stockage{
 
-public:
-Stockage(int produit,int debut,int fin,int machine,int espace);
+ public:
+  Stockage(int produit,int debut,int fin,int machine,int espace);
 
   void set_produit(int prod){m_produit=prod;}
   int get_produit(){return m_produit;}
@@ -17,12 +17,12 @@ Stockage(int produit,int debut,int fin,int machine,int espace);
   void set_espace(int espace){m_espace=espace;}
   int get_espace(){return m_espace;}
   
-private:
-int m_produit; //si produit = 10 alors il n'y aucun produit
-int m_debut_livraison;
-int m_fin_livraison;
-int m_machine; // Cap station 1 ou cap station 2
-int m_espace; //espace 1 2 ou 3
+ private:
+  int m_produit; //si produit = 10 alors il n'y aucun produit
+  int m_debut_livraison;
+  int m_fin_livraison;
+  int m_machine; // Cap station 1 ou cap station 2
+  int m_espace; //espace 1 2 ou 3
 
 };
 

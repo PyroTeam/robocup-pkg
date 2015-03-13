@@ -94,6 +94,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  include/generateur_taches
 )
 
 ## Declare a cpp library
@@ -102,16 +103,32 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-# add_executable(generateur_taches_node src/generateur_taches_node.cpp)
+add_executable(test_fonctions_travail
+  src/tache.cpp
+  src/listetaches.cpp
+  src/travail.cpp
+  src/main.cpp)
+  
+add_executable(test_algo
+  src/tache.cpp
+  src/listetaches.cpp
+  src/travail.cpp
+  src/main2.cpp)
+
+set_target_properties(test_fonctions_travail PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(test_algo PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(generateur_taches_node generateur_taches_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(generateur_taches_node
-#   ${catkin_LIBRARIES}
-# )
+ target_link_libraries(test_fonctions_travail
+   ${catkin_LIBRARIES}
+ )
+ target_link_libraries(test_algo
+   ${catkin_LIBRARIES}
+ )
 
 #############
 ## Install ##
@@ -135,11 +152,11 @@ include_directories(
 # )
 
 ## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
+ install(DIRECTORY include/${PROJECT_NAME}/
+   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+   FILES_MATCHING PATTERN "*.h"
+   PATTERN ".svn" EXCLUDE
+ )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES

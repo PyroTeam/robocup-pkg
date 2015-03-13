@@ -7,13 +7,14 @@
 using namespace std;
 
 
-Tache::Tache(string inti,int prod,int deb,int fin,int crea,float rat){
+Tache::Tache(string inti,int prod,int deb,int fin,int crea,float rat,bool en_traitement){
   m_intitule = inti;
   m_produit = prod;
   m_debut_livraison = deb;
   m_fin_livraison = fin;
   m_creation = crea;
   m_ratio = rat;
+  m_en_traitement = en_traitement;
 }
 
 int Tache::point_par_produit(){
