@@ -72,6 +72,7 @@ bool RefBoxMessage::isReady()
         if (m_callBackFunc != nullptr)
         {
             bool ret = m_callBackFunc(*m_message);
+            m_stopCondition = !ret;
         }
         m_isFirstSend = false;
         return true;
@@ -87,6 +88,7 @@ bool RefBoxMessage::isReady()
             if (m_callBackFunc != nullptr)
             {
                 bool ret = m_callBackFunc(*m_message);
+                m_stopCondition = !ret;
             }
             m_lastSend = currentTime;
             return true;

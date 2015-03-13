@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import roslib; roslib.load_manifest('refBoxComm')
+import roslib; roslib.load_manifest('refbox_comm')
 
 import sys
 
