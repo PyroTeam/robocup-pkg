@@ -40,8 +40,8 @@ int main(int argc, char** argv)
 	int cpt = 1;
 
     for(auto &it : listOfMachines){
-        std::cout << "Machine "<< cpt << " ("<< it.getX() << ", " << it.getY() << ")" << std::endl;
-        std::cout << "orientation : " << it.getOrientation()*(180/M_PI) << std::endl;
+        std::cout << "Machine "<< cpt << " ("<< it.getCentre().getX() << ", " << it.getCentre().getY() << ")" << std::endl;
+        std::cout << "orientation : " << it.getCentre().getOrientation()*(180/M_PI) << std::endl;
         std::cout << "\n" << std::endl;
 
         cpt++;

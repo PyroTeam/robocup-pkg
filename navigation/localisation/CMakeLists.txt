@@ -106,39 +106,6 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(
-  test_reco_segment
-  src/test_reconnaissance_de_segments.cpp
-  src/laserScan.cpp
-  src/Point.cpp
-  src/Droite.cpp
-  src/Modele.cpp
-  src/Machine.cpp
-  src/line_detection_utils.cpp
-  src/machine_detection_utils.cpp)
-
-add_executable(
-  test_reco
-  src/test_reconnaissance_de_droites.cpp
-  src/laserScan.cpp
-  src/Point.cpp
-  src/Droite.cpp
-  src/Modele.cpp
-  src/Machine.cpp
-  src/line_detection_utils.cpp
-  src/machine_detection_utils.cpp)
-
-add_executable(
-  test_reco_machines
-  src/test_reconnaissance_de_machines.cpp
-  src/laserScan.cpp
-  src/Point.cpp
-  src/Droite.cpp
-  src/Modele.cpp
-  src/Machine.cpp
-  src/line_detection_utils.cpp
-  src/machine_detection_utils.cpp)
-
-add_executable(
   visualisation
   src/visualisation.cpp)
 
@@ -146,7 +113,6 @@ add_executable(
   landmarks_extraction_node
   src/landmarks_extraction_node.cpp
   src/landmarks_detection_utils.cpp
-  src/conversion_msg.cpp
   src/laserScan.cpp
   src/Point.cpp
   src/Droite.cpp
@@ -159,33 +125,16 @@ add_executable(
   src/Point.cpp
   src/laserScan.cpp)
 
-set_target_properties(test_reco_segment PROPERTIES COMPILE_FLAGS -std=c++0x)
-set_target_properties(test_reco PROPERTIES COMPILE_FLAGS -std=c++0x)
-set_target_properties(test_reco_machines PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(test_reco_segment localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
-add_dependencies(test_reco localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
-add_dependencies(test_reco_machines localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 add_dependencies(landmarks_extraction_node localisation_generate_messages_cpp {catkin_EXPORTED_TARGETS})
 add_dependencies(fake_scan_node localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(
-  test_reco_segment
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(
-  test_reco
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(
-  test_reco_machines
-  ${catkin_LIBRARIES}
-)
+
 target_link_libraries(
   visualisation
   ${catkin_LIBRARIES}

@@ -1,27 +1,33 @@
 #ifndef MACHINE_H
 #define MACHINE_H
 
+#include "geometry_msgs/Pose2D.h"
+
 class Machine{
 public:
-	Machine(double x = 0.0, double y = 0.0, double theta = 0.0);
+	Machine();
 	~Machine();
 
-	double getX(){
-		return m_x;
+	geometry_msgs::Pose2D getCentre(){
+		return m_centre;
 	}
-	double getY(){
-		return m_y;
-	}
-	double getOrientation(){
-		return m_orientation;
+	bool getType(){
+		return m_type;
 	}
 
-	void clear();
+	void setCentre(geometry_msgs::Pose2D c){
+		m_centre = c;
+	}
+	void setType(){
+		m_type = true;
+	}
+	void resetType(){
+		m_type = false;
+	}
 
 private:
-	double  m_x;
-	double  m_y;
-	double  m_orientation;
+	geometry_msgs::Pose2D 	m_centre;
+	bool 					m_type;		//true quand c'est une machine issue d'un grand côté
 };
 
 #endif

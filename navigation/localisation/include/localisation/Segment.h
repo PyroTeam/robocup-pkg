@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <list>
+#include <cmath>
 
 class Segment{
 public:
@@ -29,7 +30,17 @@ public:
 	}
 
 	void setAngle(double theta){
-		m_angle = theta;
+		if (theta > M_PI_2){
+			m_angle = theta - M_PI;
+		}
+		else {
+			if (theta < -M_PI_2){
+				m_angle = theta + M_PI;
+			}
+			else {
+				m_angle = theta;
+			}
+		}
 	}
 	void setSize(double size){
 		m_size = size;

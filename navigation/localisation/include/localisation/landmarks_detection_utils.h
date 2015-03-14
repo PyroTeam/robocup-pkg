@@ -25,4 +25,6 @@ std::list<Segment> buildSegment(Modele m, double seuil);
 
 std::list<Segment> buildSegments(std::list<Modele> &listOfModeles);
 
-std::list<Machine> recognizeMachinesFrom(std::list<Segment> listOfSegments);
+Machine calculateCoordMachine(Segment s);
+
+std::vector<Machine> recognizeMachinesFrom(std::list<Segment> listOfSegments);
