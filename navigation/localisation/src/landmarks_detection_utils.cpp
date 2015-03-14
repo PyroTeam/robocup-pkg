@@ -5,6 +5,7 @@
 #include "Segment.h"
 #include "Machine.h"
 #include "sensor_msgs/LaserScan.h"
+#include "geometry_msgs/Pose2D.h"
 
 #include <cmath>
 #include <stdio.h>
@@ -109,7 +110,6 @@ Modele ransac(std::list<Point> &listOfPoints, int n, int NbPtPertinent, double p
 
     //si le modele_possible est mieux que le meilleur_modele enregistré
     if (modele_possible.getIndex().size() > meilleur_modele.getIndex().size()){
-    //if (modele_possible.getCorrel() > meilleur_modele.getCorrel()){
     	//on construit le nouveau meilleur_modele à partir du modele_possible
       meilleur_modele = modele_possible;
     }
@@ -126,7 +126,6 @@ void maj(std::list<Point> &list, Modele m){
 	//pour tous les index contenus dans la liste d'index du modele
 	for(std::list<std::list<Point>::iterator>::const_iterator it = indexes.cbegin(); it != indexes.cend(); ++it){
 		//on supprime dans la liste le point correspondant à l'index enregistré dans le meilleur_modele
-		//printf("%f \t %f\n", (*it)->getX(), (*it)->getY());
     list.erase(*it);
 	}
 }
@@ -174,7 +173,7 @@ Segment build(const std::list<Point> &points){
 
   //...puis la taille du segment en mètre
   double size = sqrt( (a.getX()-b.getX()) * (a.getX()-b.getX()) +
-            (a.getY()-b.getY()) * (a.getY()-b.getY()));
+                      (a.getY()-b.getY()) * (a.getY()-b.getY()));
 
   s.setPoints(a,b);
   s.setSize(size);
@@ -192,7 +191,7 @@ std::list<Segment> buildSegment(Modele m, double seuil){
   for(std::list<Point>::const_iterator it = m.getPoints().cbegin(); it != m.getPoints().cend(); ++it){
     //on calcule la distance entre voisins
     double d = sqrt((it->getY()-previousPoint->getY())*(it->getY()-previousPoint->getY()) +
-                        (it->getX()-previousPoint->getX())*(it->getX()-previousPoint->getX()));
+                    (it->getX()-previousPoint->getX())*(it->getX()-previousPoint->getX()));
     
     //si les points sont proches
     if (d < seuil){
@@ -206,7 +205,7 @@ std::list<Segment> buildSegment(Modele m, double seuil){
 
       //on recalcule l'angle à partir des points extrêmes
       double pente =  (s.getMax().getY()-s.getMin().getY()) /
-              (s.getMax().getX()-s.getMin().getX());
+                      (s.getMax().getX()-s.getMin().getX());
       double angle = atan2(pente,1);
       s.setAngle(angle);
 
@@ -225,7 +224,7 @@ std::list<Segment> buildSegment(Modele m, double seuil){
     Segment s = build(tmp);
     //on recalcule l'angle à partir des points extrêmes
     double pente =  (s.getMax().getY()-s.getMin().getY()) /
-            (s.getMax().getX()-s.getMin().getX());
+                    (s.getMax().getX()-s.getMin().getX());
     double angle = atan2(pente,1);
     s.setAngle(angle);
     listOfSegments.push_back(s);
@@ -247,45 +246,88 @@ std::list<Segment> buildSegments(std::list<Modele> &listOfModeles){
   return listOfSegments;
 }
 
-std::list<Machine> recognizeMachinesFrom(std::list<Segment> listOfSegments){
-  std::list<Machine> tmp;
-  int cpt = 1;
+Machine calculateCoordMachine(Segment s){
+  Machine m;
+
+  double g = 0.70, p = 0.35, seuil = 0.05;
+  double angle = s.getAngle();
+  double size  = s.getSize();
+
+  double absMilieu = (s.getMax().getX() + s.getMin().getX())/2;
+  double ordMilieu = (s.getMax().getY() + s.getMin().getY())/2;
+
+  geometry_msgs::Pose2D point;
+
+  if ((size > p-seuil) && (size < p+seuil)){
+      point.x     = absMilieu + 0.175*sin(M_PI_2-angle);
+      point.y     = ordMilieu - 0.175*cos(M_PI_2-angle);
+      point.theta = M_PI_2 + angle;
+
+      m.resetType();
+  }
+  else  if ((size > g-seuil) && (size < g+seuil)){
+          point.x     = absMilieu + 0.35*sin(M_PI_2-angle);
+          point.y     = ordMilieu - 0.35*cos(M_PI_2-angle);
+          point.theta = angle;
+
+          m.setType();
+        }
+        else {
+          point.x     = 0.0;
+          point.y     = 0.0;
+          point.theta = 0.0;
+        } 
+
+  m.setCentre(point);
+
+  return m;
+}
+
+std::vector<Machine> recognizeMachinesFrom(std::list<Segment> listOfSegments){
+  std::vector<Machine> tmp;
 
   for (auto &it : listOfSegments){
-    double angle = it.getAngle();
-    double size  = it.getSize();
+    Machine m;
+    m.setCentre(calculateCoordMachine(it).getCentre());
 
-    double  gM = 0.70 + 0.05,
-        gm = 0.70 - 0.05,
-        pM = 0.35 + 0.05,
-        pm = 0.35 - 0.05;
+    //si on est en présence d'une machine
+    if (m.getCentre().x != 0.0){
+      //si c'est la première détectée
+      if (tmp.size() == 0){
+        tmp.push_back(m);
+      }
+      else {
+        //sinon, pour chaque machine déjà stockée
+        for (int i = 0; i < tmp.size(); ++i){
+          //on calcule la distance entre le centre de la machine trouvée et la machine i
+          double d = sqrt((m.getCentre().x - tmp[i].getCentre().x)*(m.getCentre().x - tmp[i].getCentre().x) +
+                          (m.getCentre().y - tmp[i].getCentre().y)*(m.getCentre().y - tmp[i].getCentre().y));
 
-    double  abscisse  = 0.0,
-        ordonnee  = 0.0,
-        orientation = 0.0;
+          //si la distance entre les centres trouvés permet de dire si on peut distinguer 2 machines
+          //rq : on met un seuil important puisque les zones sont de 1,5 * 2 m
+          if (d > 1){
+            tmp.push_back(m);
+          }
+          //sinon, on fait une moyenne des deux pour affiner la position du centre
+          else {
+            geometry_msgs::Pose2D milieu;
+            milieu.x     = (m.getCentre().x + tmp[i].getCentre().x)/2;
+            milieu.y     = (m.getCentre().y + tmp[i].getCentre().y)/2;
 
-    double absMilieu = (it.getMax().getX() + it.getMin().getX())/2;
-    double ordMilieu = (it.getMax().getY() + it.getMin().getY())/2;
+            //si la machine venait d'un petit côté
+            if (!tmp[i].getType()){
+              //on met à jour l'angle
+              milieu.theta = m.getCentre().theta;
+              //on dit que la machine a été créée à partir d'un grand côté
+              tmp[i].setType();
+            }
 
-    //si c'est un grand côté
-    if ((size > gm) && (size < gM)){
-      abscisse = absMilieu + 0.35*sin(M_PI_2-angle);
-      ordonnee = ordMilieu - 0.35*cos(M_PI_2-angle);
-      orientation = angle;
+            //on met à jour la machine
+            tmp[i].setCentre(milieu);
+          }
+        }
+      }
     }
-    //si c'est un petit côté
-    if ((size > pm) && (size < pM)){
-      abscisse = absMilieu + 0.175*sin(M_PI_2-angle);
-      ordonnee = ordMilieu - 0.175*cos(M_PI_2-angle);
-      orientation = M_PI_2 + angle;
-    }
-
-    if (abscisse != 0.0 && ordonnee != 0.0 && orientation != 0.0){
-      Machine m(abscisse,ordonnee, orientation);
-      tmp.push_back(m);
-      m.clear();
-    }
-    cpt++;
   }
 
   return tmp;

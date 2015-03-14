@@ -5,7 +5,6 @@
 #include "laserScan.h"
 
 #include "landmarks_detection_utils.h"
-#include "conversion_msg.h"
 
 int main(int argc, char** argv)
 {
@@ -25,7 +24,7 @@ int main(int argc, char** argv)
                                                 &laserData);
 
     //on publie les machines trouvées sur le topic /machines
-    ros::Publisher pub_machines = n.advertise<deplacement_msg::Machines>("/machines", 1000);
+    ros::Publisher pub_machines = n.advertise< deplacement_msg::Machines >("/machines", 1000);
 
     //initialisation du random
     srand(time(NULL));
@@ -37,12 +36,16 @@ int main(int argc, char** argv)
         const std::list<Point> &listOfPoints    = laserData.getPoints();
         std::list<Modele>  listOfModeles        = findLines(listOfPoints);
         std::list<Segment> listOfSegments       = buildSegments(listOfModeles);
-        std::list<Machine> listOfMachines       = recognizeMachinesFrom(listOfSegments);
-
-        deplacement_msg::Machines tab = fillTabFrom(listOfMachines);
+        std::vector<Machine> listOfMachines     = recognizeMachinesFrom(listOfSegments);
         
+        deplacement_msg::Machines machines;
+
+        for (auto &it : listOfMachines){ 
+            machines.machines.push_back(it.getCentre());
+        }
+
         // Publish
-        pub_machines.publish(tab);
+        pub_machines.publish(machines);
 
         // Spin
         ros::spinOnce();
