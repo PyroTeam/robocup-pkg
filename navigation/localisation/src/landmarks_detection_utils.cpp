@@ -4,6 +4,7 @@
 #include "Modele.h"
 #include "Segment.h"
 #include "Machine.h"
+#include "sensor_msgs/LaserScan.h"
 
 #include <cmath>
 #include <stdio.h>

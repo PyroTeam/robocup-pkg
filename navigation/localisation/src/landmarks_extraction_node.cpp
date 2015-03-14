@@ -2,6 +2,7 @@
 #include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Pose2D.h"
 #include "deplacement_msg/Machines.h"
+#include "laserScan.h"
 
 #include "landmarks_detection_utils.h"
 #include "conversion_msg.h"
@@ -18,27 +19,26 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
 
     //on souscrit au topic /fake_scan sur lequel les données laser sont transmises
-    ros::Subscriber sub_laser  = n.subscribe<sensor_msgs::LaserScan>("/fake_scan", 1000, &laserScan::laserCallback, &laserData);
+    ros::Subscriber sub_laser  = n.subscribe(   "/fake_scan",
+                                                1000,
+                                                &laserScan::laserCallback,
+                                                &laserData);
 
     //on publie les machines trouvées sur le topic /machines
     ros::Publisher pub_machines = n.advertise<deplacement_msg::Machines>("/machines", 1000);
 
-    if (laserData.getRanges().size() == 0){
-        ROS_INFO("probleme laserCallback");
-    }
-
     //initialisation du random
     srand(time(NULL));
 
-    const std::list<Point> &listOfPoints    = laserData.getPoints();
-    std::list<Modele>  listOfModeles        = findLines(listOfPoints);
-    std::list<Segment> listOfSegments       = buildSegments(listOfModeles);
-    std::list<Machine> listOfMachines       = recognizeMachinesFrom(listOfSegments);
-
-    ros::Rate loop_rate (100);
+    ros::Rate loop_rate (2);
 
     while(n.ok())
     {
+        const std::list<Point> &listOfPoints    = laserData.getPoints();
+        std::list<Modele>  listOfModeles        = findLines(listOfPoints);
+        std::list<Segment> listOfSegments       = buildSegments(listOfModeles);
+        std::list<Machine> listOfMachines       = recognizeMachinesFrom(listOfSegments);
+
         deplacement_msg::Machines tab = fillTabFrom(listOfMachines);
         
         // Publish
@@ -47,6 +47,7 @@ int main(int argc, char** argv)
         // Spin
         ros::spinOnce();
         loop_rate.sleep();
+
     }
 
     return 0;

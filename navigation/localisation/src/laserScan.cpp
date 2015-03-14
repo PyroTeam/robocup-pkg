@@ -21,6 +21,8 @@ void laserScan::PolarToCart (){
 }
 
 void laserScan::set(const sensor_msgs::LaserScanConstPtr& scan){
+	m_points.clear();
+	
 	setRangeMin(scan->range_min);
 	setRangeMax(scan->range_max);
 	setAngleMin(scan->angle_min);
