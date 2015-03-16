@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(executeur_taches)
+project(manager_msg)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -78,9 +79,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-#  LIBRARIES executeur_taches
-  CATKIN_DEPENDS roscpp rospy
+#  INCLUDE_DIRS include
+#  LIBRARIES manager_msg
+#  CATKIN_DEPENDS roscpp rospy
 #  DEPENDS system_lib
 )
 
@@ -93,36 +94,24 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
-  include
 )
 
 ## Declare a cpp library
-# add_library(executeur_taches
-#   src/${PROJECT_NAME}/executeur_taches.cpp
+# add_library(manager_msg
+#   src/${PROJECT_NAME}/manager_msg.cpp
 # )
 
 ## Declare a cpp executable
-add_executable(
-  test_exec
-  
-  src/main.cpp
-  src/Machine.cpp
-  src/BaseStation.cpp
-  src/CapStation.cpp
-  src/RingStation.cpp
-  src/DeliveryStation.cpp
-)
+# add_executable(manager_msg_node src/manager_msg_node.cpp)
 
-set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(executeur_taches_node executeur_taches_generate_messages_cpp)
+# add_dependencies(manager_msg_node manager_msg_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(
-  test_exec
-  ${catkin_LIBRARIES}
-)
+# target_link_libraries(manager_msg_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -139,18 +128,18 @@ target_link_libraries(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS executeur_taches executeur_taches_node
+# install(TARGETS manager_msg manager_msg_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
 ## Mark cpp header files for installation
- install(DIRECTORY include/${PROJECT_NAME}/
-   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-   FILES_MATCHING PATTERN "*.h"
-   PATTERN ".svn" EXCLUDE
- )
+# install(DIRECTORY include/${PROJECT_NAME}/
+#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#   FILES_MATCHING PATTERN "*.h"
+#   PATTERN ".svn" EXCLUDE
+# )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
@@ -164,7 +153,7 @@ target_link_libraries(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_executeur_taches.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_manager_msg.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
