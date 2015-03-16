@@ -125,13 +125,19 @@ add_executable(
   src/Point.cpp
   src/laserScan.cpp)
 
+add_executable(
+  odometry_correction_node
+  src/odometry_correction_node.cpp)
+
 set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(odometry_correction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 add_dependencies(landmarks_extraction_node localisation_generate_messages_cpp {catkin_EXPORTED_TARGETS})
 add_dependencies(fake_scan_node localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+add_dependencies(odometry_correction_node localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 
@@ -145,6 +151,10 @@ target_link_libraries(
 )
 target_link_libraries(
   fake_scan_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  odometry_correction_node
   ${catkin_LIBRARIES}
 )
 
