@@ -13,8 +13,10 @@
 
 #include "fakeRobotino.h"
 
-FakeRobotino::FakeRobotino():m_gripperState(false)
-{
+FakeRobotino::FakeRobotino():m_gripperState(false),m_gripperStateRequest(false)
+{    
+    m_timeGripperChangeState = ros::Time::now();
+
     m_gripperStatus_pub = m_nh.advertise<manager_msg::GripperStatus>("/fakeRobotino/gripper", 1000);
     m_setGripper_srv = m_nh.advertiseService("/fakeRobotino/setGripper", &FakeRobotino::SetGripperSrv, this);
 
