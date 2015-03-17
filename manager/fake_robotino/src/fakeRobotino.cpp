@@ -61,13 +61,28 @@ bool FakeRobotino::SetGripperSrv(manager_msg::SetGripper::Request &req,
 
 void FakeRobotino::update()
 {
+    updateGripper();
 
-    //update gripper
-    if (ros::Time::now() > m_timeGripperChangeState)
+}
+
+void FakeRobotino::updateGripper()
+{
+    if (m_gripperStateRequest != m_gripperState)
     {
-        m_gripperState = m_gripperStateRequest;
+        //update gripper
+        if (ros::Time::now() > m_timeGripperChangeState)
+        {
+            if (m_gripperStateRequest)
+            {
+                ROS_INFO("Done : OPEN gripper...");
+            }
+            else
+            {
+                ROS_INFO("Done : CLOSE gripper...");
+            }
+            m_gripperState = m_gripperStateRequest;
+        }
     }
-    
     
     //publish
     manager_msg::GripperStatus gs;

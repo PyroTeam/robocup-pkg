@@ -40,6 +40,8 @@ private:
     bool m_gripperStateRequest;
     ros::Time m_timeGripperChangeState;
     
+    void updateGripper();
+    
 };
 
 #endif /* FAKEROBOTINO_H_ */
