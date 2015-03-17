@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(manager_msg)
+project(fake_robotino)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  manager_msg
   roscpp
   rospy
-  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -44,16 +44,18 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  GripperStatus.msg
-)
+# add_message_files(
+#   FILES
+#   Message1.msg
+#   Message2.msg
+# )
 
 ## Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  SetGripper.srv
-)
+# add_service_files(
+#   FILES
+#   Service1.srv
+#   Service2.srv
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -63,10 +65,10 @@ add_service_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs  # Or other packages containing msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs  # Or other packages containing msgs
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -78,9 +80,9 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES manager_msg
-  CATKIN_DEPENDS roscpp rospy message_runtime
+  INCLUDE_DIRS include
+#  LIBRARIES fake_robotino
+  CATKIN_DEPENDS manager_msg roscpp rospy
 #  DEPENDS system_lib
 )
 
@@ -93,24 +95,28 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  include
 )
 
 ## Declare a cpp library
-# add_library(manager_msg
-#   src/${PROJECT_NAME}/manager_msg.cpp
+# add_library(fake_robotino
+#   src/${PROJECT_NAME}/fake_robotino.cpp
 # )
 
 ## Declare a cpp executable
-# add_executable(manager_msg_node src/manager_msg_node.cpp)
+add_executable(fake_robotino_node 
+    src/fakeRobotinoNode.cpp
+    src/fakeRobotino.cpp
+)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(manager_msg_node manager_msg_generate_messages_cpp)
+# add_dependencies(fake_robotino_node fake_robotino_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(manager_msg_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(fake_robotino_node
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
@@ -127,7 +133,7 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS manager_msg manager_msg_node
+# install(TARGETS fake_robotino fake_robotino_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -152,7 +158,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_manager_msg.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_fake_robotino.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
