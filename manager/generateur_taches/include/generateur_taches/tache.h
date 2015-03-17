@@ -7,10 +7,12 @@
 class Tache{
 
  public:
-  Tache(std::string inti, int prod, int deb, int fin, int crea, float rat,bool en_traitement);
+  Tache(std::string inti, std::string parametre,int prod, int deb, int fin, int crea, float rat,bool en_traitement);
 
-  void set_intitule(std::string &inti){m_intitule=inti;}
+  void set_intitule(std::string inti){m_intitule=inti;}
   std::string get_intitule(){return m_intitule;}
+  void set_parametre(std::string parametre){m_parametre=parametre;}
+  std::string get_parametre(){return m_parametre;}
   void set_produit(int prod){m_produit=prod;}
   int get_produit(){return m_produit;}
   void set_debut_livraison(int deb){m_debut_livraison=deb;}
@@ -29,6 +31,7 @@ class Tache{
   
  private:
   std::string m_intitule;
+  std::string m_parametre;
   int m_produit; 
   int m_debut_livraison;
   int m_fin_livraison;

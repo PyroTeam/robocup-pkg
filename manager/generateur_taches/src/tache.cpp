@@ -7,8 +7,9 @@
 using namespace std;
 
 
-Tache::Tache(string inti,int prod,int deb,int fin,int crea,float rat,bool en_traitement){
+Tache::Tache(string inti,string parametre,int prod,int deb,int fin,int crea,float rat,bool en_traitement){
   m_intitule = inti;
+  m_parametre = parametre;
   m_produit = prod;
   m_debut_livraison = deb;
   m_fin_livraison = fin;
@@ -27,7 +28,7 @@ int Tache::point_par_produit(){
 }
 
 bool Tache::dans_les_temps(int temps){
-  if((((m_debut_livraison - temps) <= 0) && ((m_fin_livraison - temps) > 0)) || (temps < 14*60))
+  if((((m_debut_livraison - temps) <= 0) && ((m_fin_livraison - temps) > 0)) || (temps > 14*60))
     return true;
   else
     return false;

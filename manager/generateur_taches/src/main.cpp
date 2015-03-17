@@ -2,7 +2,7 @@
 #include <iostream> 
 #include "tache.h"
 #include "listetaches.h"
-#include "refboxcomm.h"
+#include "ordre.h"
 #include "travail.h"
 
 using namespace std;
@@ -10,24 +10,30 @@ using namespace std;
 int main() { 
   
   /*** INITIALISATION ***/
+  vector<string> black(1,"noir");
+  
+  Produit action(0,black);
+
   list< list<Tache> > work;
   for(int i=0;i<5;i++){
-    work.push_back(creation_liste_taches_act(0,0,0,0));
+    work.push_back(creation_liste_taches_act("Decapsuler",action,0,0));
   }
-  work.push_back(creation_liste_taches_act(1,0,90,140));   
+  work.push_back(creation_liste_taches_act("Destocker",action,90,140));   
   cout << "\n\tInitialement la liste de liste de taches a realiser" << endl;
   cout << "est seulement constituee de cinq fois la tache Decapsuler" << endl;
   cout << "et d une fois la tache Destocker" << endl;
   get_info_liste_de_liste(work);
   cout <<""<<endl;
-  Refboxcomm refbox(0,100,150,2);
+  vector<string> couleurs(2,"noir");
+  Produit product(0,couleurs);
+  Ordre order(product,100,150,2,false);
   cout << "\tLa refbox demande de creer deux fois le produit 0" << endl;
   
   /*** TEST DE LA FONCTION DEJA_DANS_TRAVAIL ***/
   cout << "\tTest de la fonction deja_dans_travail" << endl;
-  if(deja_dans_travail(work, refbox))
+  if(deja_dans_travail(work, order))
     cout << "les ordres de la refbox ont deja ete pris en compte" << endl;
-  else if(!deja_dans_travail(work, refbox))
+  else if(!deja_dans_travail(work, order))
     cout << "les ordres de la refbox n ont pas encore ete pris en compte" << endl;
   
   /*** TEST DE LA FONCTION RAJOUT_DANS_TRAVAIL ***/
@@ -35,7 +41,8 @@ int main() {
   cout << "\n\tSeul un cap est disponible : cap_dispo = " << cap_dispo << endl;
   cout << "\tOn va donc rajouter les nouveaux ordres dans la liste de liste de taches a realiser" <<endl;
   cout << "\tTest de la fonction rajout_dans_work" << endl;
-  rajout_dans_travail(work,refbox,cap_dispo);
+  rajout_dans_travail(work,order,cap_dispo);
+    cout << "test" << endl;
   get_info_liste_de_liste(work);
   
   /*** TEST DE LA FONCTION CALCUL_RATIO ***/

@@ -2,11 +2,11 @@
 #define TRAVAIL_H
 
 #include "tache.h"
-#include "refboxcomm.h"
+#include "ordre.h"
 
-bool deja_dans_travail(std::list<std::list<Tache> > travail, Refboxcomm refbox);
+bool deja_dans_travail(std::list<std::list<Tache> > travail, Ordre order);
 std::list<std::list<Tache> >::iterator max_ratio(std::list<std::list<Tache> > &travail);
-void rajout_dans_travail(std::list<std::list<Tache> > &travail, Refboxcomm refbox, int &cap_dispo);
+void rajout_dans_travail(std::list<std::list<Tache> > &travail, Ordre &order, int &cap_dispo);
 void calcul_ratio(std::list<std::list<Tache> > &travail, int temps);
 void get_info_liste_de_liste(std::list<std::list<Tache> > travail);
 

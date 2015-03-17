@@ -107,16 +107,18 @@ add_executable(test_fonctions_travail
   src/tache.cpp
   src/listetaches.cpp
   src/travail.cpp
+  src/produit.cpp
   src/main.cpp)
   
 add_executable(test_algo
   src/tache.cpp
   src/listetaches.cpp
   src/travail.cpp
+  src/produit.cpp
   src/main2.cpp)
 
-set_target_properties(test_fonctions_travail PROPERTIES COMPILE_FLAGS -std=c++0x)
-set_target_properties(test_algo PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(test_fonctions_travail PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+set_target_properties(test_algo PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
