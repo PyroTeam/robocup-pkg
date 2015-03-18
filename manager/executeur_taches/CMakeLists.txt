@@ -112,8 +112,13 @@ add_executable(
   src/RingStation.cpp
   src/DeliveryStation.cpp
 )
+add_executable(
+  test_topic
 
-set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
+  src/emetteur_topic.cpp
+  )
+
+##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(executeur_taches_node executeur_taches_generate_messages_cpp)
@@ -121,6 +126,10 @@ set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ versi
 ## Specify libraries to link a library or executable target against
 target_link_libraries(
   test_exec
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_topic
   ${catkin_LIBRARIES}
 )
 
