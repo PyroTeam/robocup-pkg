@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
 
     //on souscrit au topic /fake_scan sur lequel les données laser sont transmises
-    ros::Subscriber sub_laser  = n.subscribe(   "/fake_scan",
+    ros::Subscriber sub_laser  = n.subscribe(   "/scan",
                                                 1000,
                                                 &laserScan::laserCallback,
                                                 &laserData);

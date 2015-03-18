@@ -4,9 +4,7 @@
 
 nav_msgs::Odometry prec;
 
-ros::NodeHandle n;
-
-ros::Publisher pub_odom = n.advertise<nav_msgs::Odometry>("/new_odom", 1000);
+ros::Publisher pub_odom;
 
 inline double getTimeAsDouble(ros::Time t){
     return double(t.sec) + double(t.nsec)/1000000000.0;
@@ -25,6 +23,7 @@ void odomCallback(const nav_msgs::Odometry& odom){
 
     newOdom.twist.twist.angular.z =  diff / (getTimeAsDouble(odom.header.stamp) - getTimeAsDouble(prec.header.stamp));
 
+    //on publie
     pub_odom.publish(newOdom);
 
     prec = odom;
@@ -36,11 +35,21 @@ int main(int argc, char** argv)
 
     //Initialisation du noeud ROS
     ros::init(argc, argv, "odometry_correction_node");
+
+    ros::NodeHandle n;
+
+    //on va publier l'odométrie corrigée sur /new_odom
+    pub_odom = n.advertise<nav_msgs::Odometry>("/new_odom", 1000);
+
+    prec.pose.pose.orientation.x = 0.0;
+    prec.pose.pose.orientation.y = 0.0;
+    prec.pose.pose.orientation.z = 0.0;
+    prec.pose.pose.orientation.w = 1.0;
     
     //on souscrit au topic /odom
     ros::Subscriber sub_odom  = n.subscribe("/odom", 1000, odomCallback);
 
-    ros::Rate loop_rate (100);
+    ros::Rate loop_rate(100);
 
     // Spin
     ros::spin();
