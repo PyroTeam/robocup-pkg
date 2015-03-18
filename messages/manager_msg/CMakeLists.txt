@@ -49,7 +49,7 @@ find_package(catkin REQUIRED COMPONENTS
 DIRECTORY
 	msg
 FILES
-   Num.msg
+   activity.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -57,7 +57,7 @@ FILES
 DIRECTORY
    srv
 FILES
-   ordre.srv
+   order.srv
  )
 
 ## Generate actions in the 'action' folder

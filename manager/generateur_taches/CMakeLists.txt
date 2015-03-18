@@ -138,6 +138,10 @@ add_executable(reception_ordre src/reception_ordre.cpp)
 target_link_libraries(reception_ordre ${catkin_LIBRARIES})
 add_dependencies(reception_ordre manager_msg_gencpp)
 
+add_executable(emetteur_topic src/emetteur_topic.cpp)
+target_link_libraries(emetteur_topic ${catkin_LIBRARIES})
+add_dependencies(emetteur_topic manager_msg_gencpp)
+
 #############
 ## Install ##
 #############
