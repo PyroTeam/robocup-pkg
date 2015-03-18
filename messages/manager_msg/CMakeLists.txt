@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(generateur_taches)
+project(manager_msg)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -7,6 +7,8 @@ project(generateur_taches)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -43,18 +45,20 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+ add_message_files(
+   DIRECTORY
+	msg
+	FILES
+   Num.msg
+ )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+ add_service_files(
+   DIRECTORY
+	srv
+	FILES
+   ordre.srv
+ )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -64,10 +68,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+ generate_messages(
+   DEPENDENCIES
+   std_msgs
+ )
 
 ###################################
 ## catkin specific configuration ##
@@ -79,12 +83,28 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-#  LIBRARIES generateur_taches
-  CATKIN_DEPENDS roscpp rospy
+#  INCLUDE_DIRS include
+#  LIBRARIES beginner_tutorials
+   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
 #  DEPENDS system_lib
 )
+include_directories(include ${catkin_INCLUDE_DIRS})
 
+add_executable(talker src/talker.cpp)
+target_link_libraries(talker ${catkin_LIBRARIES})
+add_dependencies(talker manager_msg_generate_messages_cpp)
+
+add_executable(listener src/listener.cpp)
+target_link_libraries(listener ${catkin_LIBRARIES})
+add_dependencies(listener manager_msg_generate_messages_cpp)
+
+add_executable(envoi_ordre src/envoi_ordre.cpp)
+target_link_libraries(envoi_ordre ${catkin_LIBRARIES})
+add_dependencies(envoi_ordre manager_msg_gencpp)
+
+add_executable(reception_ordre src/reception_ordre.cpp)
+target_link_libraries(reception_ordre ${catkin_LIBRARIES})
+add_dependencies(reception_ordre manager_msg_gencpp)
 ###########
 ## Build ##
 ###########
@@ -94,43 +114,24 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
-  include/generateur_taches
 )
 
 ## Declare a cpp library
-# add_library(generateur_taches
-#   src/${PROJECT_NAME}/generateur_taches.cpp
+# add_library(beginner_tutorials
+#   src/${PROJECT_NAME}/beginner_tutorials.cpp
 # )
 
 ## Declare a cpp executable
-add_executable(test_fonctions_travail
-  src/tache.cpp
-  src/listetaches.cpp
-  src/travail.cpp
-  src/produit.cpp
-  src/main.cpp)
-  
-add_executable(test_algo
-  src/tache.cpp
-  src/listetaches.cpp
-  src/travail.cpp
-  src/produit.cpp
-  src/main2.cpp)
-
-set_target_properties(test_fonctions_travail PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-set_target_properties(test_algo PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+# add_executable(beginner_tutorials_node src/beginner_tutorials_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(generateur_taches_node generateur_taches_generate_messages_cpp)
+# add_dependencies(beginner_tutorials_node beginner_tutorials_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(test_fonctions_travail
-   ${catkin_LIBRARIES}
- )
- target_link_libraries(test_algo
-   ${catkin_LIBRARIES}
- )
+# target_link_libraries(beginner_tutorials_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -147,18 +148,18 @@ set_target_properties(test_algo PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS generateur_taches generateur_taches_node
+# install(TARGETS beginner_tutorials beginner_tutorials_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
 ## Mark cpp header files for installation
- install(DIRECTORY include/${PROJECT_NAME}/
-   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-   FILES_MATCHING PATTERN "*.h"
-   PATTERN ".svn" EXCLUDE
- )
+# install(DIRECTORY include/${PROJECT_NAME}/
+#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#   FILES_MATCHING PATTERN "*.h"
+#   PATTERN ".svn" EXCLUDE
+# )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
@@ -172,7 +173,7 @@ set_target_properties(test_algo PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_generateur_taches.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_beginner_tutorials.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

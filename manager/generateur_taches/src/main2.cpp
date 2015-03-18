@@ -65,7 +65,7 @@ int main() {
 	    it->splice(it->end(),ltmp);
 	    }
 	}  			
-	cout <<"Robot n°"<<j+1<<" fait la tâche : "<<it->begin()->get_intitule() <<"\n"<<endl;
+	cout <<"Robot n°"<<j+1<<" fait la tâche : "<<it->begin()->get_intitule()<<" "<<it->begin()->get_parametre()<<"\n"<<endl;
 	//tabrobot[j].set_occupe(true);
 	cout<<"taille work ="<<work.size()<<endl; 
 	cout << "taille it : " << it->size() << endl;               

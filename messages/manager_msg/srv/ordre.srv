@@ -1,0 +1,33 @@
+int8 numero_robot
+
+int8 ChercherBase  = 0
+int8 MettreCap     = 1
+int8 ChercherCap   = 2
+int8 MettreRing    = 3
+int8 ChercherRing  = 4
+int8 RamenerBaseRS = 5
+int8 Livrer        = 6
+int8 Decapsuler    = 7
+int8 Destocker     = 8
+
+int8 ordre
+
+int8 noir    = 0
+int8 argent  = 1
+int8 rouge   = 2
+int8 orange  = 3
+int8 jaune   = 4
+int8 bleu    = 5
+int8 vert    = 6
+int8 gris    = 7
+int8 DS      = 8
+int8 stock   = 9
+int8 aucun   = 10
+
+int8 parametre
+
+int8 id
+---
+bool accepte
+int8 ordre
+int8 id
