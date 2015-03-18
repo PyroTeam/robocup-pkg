@@ -9,6 +9,8 @@ class CapStation : public Machine{
       /* Variables d'instance*/
       int m_capNoir;
       int m_capGris;
+      int m_stock[3];
+      geometry_msgs::Pose2D m_stockage;
       
   public:
     
@@ -23,6 +25,7 @@ class CapStation : public Machine{
       int getCapNoir();      
       void majNoir(int nbNoir);
       void majGris(int nbGris);
+      //int stocker();
 
 };
 

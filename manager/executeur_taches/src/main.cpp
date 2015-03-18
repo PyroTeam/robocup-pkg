@@ -7,22 +7,6 @@
 #include "DeliveryStation.h"
 #include "geometry_msgs/Pose2D.h"
 
-/*void JaiRecu(const std_msgs::String::ConstPtr& msg){
-  ROS_INFO("J'ai Reçu :[%s]",msg->data.c_str());
-}
-
-int main(int argc, char **argv) {
-  
-  ros::init(argc, argv, "ExecuteurDeTache");
-  
-  ros::NodeHandle n;
-  
-  ros::Subscriber sub = n.subscriber(MonTopic,"1000",JaiRecu);
-  
-  ros::spin
-
-}
-*/
 
 using namespace std;
 

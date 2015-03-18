@@ -46,8 +46,8 @@ void Machine::majSortie(geometry_msgs::Pose2D point){
   m_sortieMachine = point;
 }
 
-void Machine::AllerMachineEntree(){
+//void Machine::AllerMachine(geometry_msgs::Pose2D pt_dest){
   // refBoxCom(Robotinos)
-  // navigation (m_entreeMachine);
+  // navigation (pt_dest);
   // Approche Finale
-}
+//}
