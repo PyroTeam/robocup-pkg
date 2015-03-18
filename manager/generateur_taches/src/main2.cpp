@@ -9,6 +9,8 @@
 #include "robot.h"
 #include "produit.h"
 
+#include "manager_msg/ordre.h"
+
 using namespace std;
 
 int main() {

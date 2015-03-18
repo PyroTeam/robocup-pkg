@@ -1,3 +1,7 @@
+time game_time
+
+int8 numero_ordre
+
 int8 numero_robot
 
 int8 ChercherBase  = 0
@@ -10,7 +14,7 @@ int8 Livrer        = 6
 int8 Decapsuler    = 7
 int8 Destocker     = 8
 
-int8 ordre
+int8 type
 
 int8 noir    = 0
 int8 argent  = 1
@@ -29,5 +33,6 @@ int8 parametre
 int8 id
 ---
 bool accepte
-int8 ordre
+int8 numero_ordre
+int8 numero_robot
 int8 id

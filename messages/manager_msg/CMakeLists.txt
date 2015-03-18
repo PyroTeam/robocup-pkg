@@ -46,17 +46,17 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Generate messages in the 'msg' folder
  add_message_files(
-   DIRECTORY
+DIRECTORY
 	msg
-	FILES
+FILES
    Num.msg
  )
 
 ## Generate services in the 'srv' folder
  add_service_files(
-   DIRECTORY
-	srv
-	FILES
+DIRECTORY
+   srv
+FILES
    ordre.srv
  )
 
@@ -90,21 +90,7 @@ catkin_package(
 )
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-add_executable(talker src/talker.cpp)
-target_link_libraries(talker ${catkin_LIBRARIES})
-add_dependencies(talker manager_msg_generate_messages_cpp)
 
-add_executable(listener src/listener.cpp)
-target_link_libraries(listener ${catkin_LIBRARIES})
-add_dependencies(listener manager_msg_generate_messages_cpp)
-
-add_executable(envoi_ordre src/envoi_ordre.cpp)
-target_link_libraries(envoi_ordre ${catkin_LIBRARIES})
-add_dependencies(envoi_ordre manager_msg_gencpp)
-
-add_executable(reception_ordre src/reception_ordre.cpp)
-target_link_libraries(reception_ordre ${catkin_LIBRARIES})
-add_dependencies(reception_ordre manager_msg_gencpp)
 ###########
 ## Build ##
 ###########
