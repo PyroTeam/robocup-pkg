@@ -119,6 +119,12 @@ add_executable(test_algo
   src/produit.cpp
   src/main2.cpp)
 
+add_executable(action_node 
+    src/action.cpp
+    src/action_node.cpp
+)
+
+
 set_target_properties(test_fonctions_travail PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 set_target_properties(test_algo PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
