@@ -22,7 +22,7 @@
 
          activity msg;
      	 msg.state = activity::IN_PROGRESS; /* Par exemple */
-     
+         msg.machine_used = activity::CS1;
          activite.publish(msg);
     
          ros::spinOnce();
