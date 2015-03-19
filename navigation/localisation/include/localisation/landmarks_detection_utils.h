@@ -5,6 +5,7 @@
 #include "Segment.h"
 #include "Machine.h"
 
+
 double dist(Point a, Droite d);
 
 double dist(Point a, Segment s);

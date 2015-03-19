@@ -48,7 +48,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 #add_message_files(
 #   messages/deplacement_msg/msg
-#   Machines.msg
+#   Landmarks.msg
 #)
 
 ## Generate services in the 'srv' folder
@@ -82,7 +82,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
    INCLUDE_DIRS include/localisation
-#  LIBRARIES localisation
+   LIBRARIES localisation
    CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy sensor_msgs message_runtime
 #  DEPENDS system_lib
 )

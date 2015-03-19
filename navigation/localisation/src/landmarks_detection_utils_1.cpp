@@ -1,3 +1,4 @@
+#include "ros/ros.h"
 #include "laserScan.h"
 #include "Point.h"
 #include "Droite.h"
@@ -151,27 +152,26 @@ std::list<Modele> findLines(const std::list<Point> &listOfPoints){
     return listOfDroites;
 }
 
-Segment build(const std::list<Point> &points){
+Segment buildSegment(const std::list<Point> &points){
   Segment s;
   Point a;
   Point b;
 
-  //on calcule les coordonnées des projetés orthogonaux des deux points extrêmes
-    double min = std::numeric_limits<double>::max();
-    double max = std::numeric_limits<double>::min();
+  double min = std::numeric_limits<double>::max();
+  double max = std::numeric_limits<double>::min();
 
-    for (auto &it : points){
-      if (it.getX() < min){
-        min = it.getX();
-        a = it;
-      }
-      if (it.getX() > max){
-        max = it.getX();
-        b = it;
-      }
+  for (auto &it : points){
+    if (it.getX() < min){
+      min = it.getX();
+      a = it;
     }
+    if (it.getX() > max){
+      max = it.getX();
+      b = it;
+    }
+  }
 
-  //...puis la taille du segment en mètre
+  //...puis la taille du segment en mètre...
   double size = sqrt( (a.getX()-b.getX()) * (a.getX()-b.getX()) +
                       (a.getY()-b.getY()) * (a.getY()-b.getY()));
 
@@ -183,68 +183,14 @@ Segment build(const std::list<Point> &points){
   s.setPoints(a,b);
   s.setSize(size);
 
-  /*std::cout << "\n" << std::endl;
+  std::cout << "\n" << std::endl;
   std::cout << "Segment " << std::endl;
   std::cout << " Min(" << s.getMin().getX() << ", " << s.getMin().getY() << ")" << std::endl;
   std::cout << " Max(" << s.getMax().getX() << ", " << s.getMax().getY() << ")" << std::endl;
   std::cout << " taille : " << s.getSize() << std::endl;
-  std::cout << " angle  : " << s.getAngle()*(180/M_PI) << std::endl;*/
+  std::cout << " angle  : " << s.getAngle()*(180/M_PI) << std::endl;
 
   return s;
-}
-
-
-std::list<Segment> buildSegment(Modele m, double seuil){
-  std::list<Segment> listOfSegments;
-  std::list<Point> tmp;
-  std::list<Point>::const_iterator previousPoint = m.getPoints().cbegin();
-
-  //pour chaque points dans la liste de points du modèle
-  for(std::list<Point>::const_iterator it = m.getPoints().cbegin(); it != m.getPoints().cend(); ++it){
-    //on calcule la distance entre voisins
-    double d = sqrt((it->getY()-previousPoint->getY())*(it->getY()-previousPoint->getY()) +
-                    (it->getX()-previousPoint->getX())*(it->getX()-previousPoint->getX()));
-    
-    //si les points sont proches
-    if (d < seuil){
-      //on sauvegarde ces points dans une liste
-      tmp.push_back(*it);
-    }
-    //sinon (on détecte un seuil important)
-    else {
-      //on construit un segment à partir de la liste des points qui sont proches
-      Segment s = build(tmp);
-
-      //on enregistre le segment dans la liste de segments
-      listOfSegments.push_back(s);
-      tmp.clear();
-      tmp.push_back(*it);
-    }
-    //on recommence en partant du point suivant le dernier point
-    //qui était dans la liste précédente
-    previousPoint = it;
-  }
-  //pour le dernier point, le seuil ne pouvant plus être dépassé,
-  //on construit le dernier segment
-  if (tmp.size() >= 2){
-    Segment s = build(tmp);
-    listOfSegments.push_back(s);
-  }
-  tmp.clear();
-
-  return listOfSegments;
-}
-
-std::list<Segment> buildSegments(std::list<Modele> &listOfModeles){
-  std::list<Segment> listOfSegments;
-  //pour tous les modèles de la liste
-  for (auto &it : listOfModeles){
-    std::list<Segment> listTmp = buildSegment(it, 1);
-    //on concatène les listes de segments trouvés à partir de chaque modèle ensemble
-    listOfSegments.splice(listOfSegments.end(),listTmp);
-  }
-
-  return listOfSegments;
 }
 
 Machine calculateCoordMachine(Segment s){
@@ -260,76 +206,80 @@ Machine calculateCoordMachine(Segment s){
   geometry_msgs::Pose2D point;
 
   if ((size > p-seuil) && (size < p+seuil)){
+      std::cout << "petit" << std::endl;
       point.x     = absMilieu + 0.175*sin(M_PI_2-angle);
       point.y     = ordMilieu - 0.175*cos(M_PI_2-angle);
-      point.theta = M_PI_2 + angle;
+      point.theta = atan2(tan(M_PI_2 + angle), 1);
 
       m.resetType();
   }
   else  if ((size > g-seuil) && (size < g+seuil)){
+          std::cout << "grand" << std::endl;
           point.x     = absMilieu + 0.35*sin(M_PI_2-angle);
           point.y     = ordMilieu - 0.35*cos(M_PI_2-angle);
           point.theta = angle;
 
           m.setType();
         }
-        else {
-          point.x     = 0.0;
-          point.y     = 0.0;
-          point.theta = 0.0;
-        } 
 
   m.setCentre(point);
 
   return m;
 }
 
-std::vector<Machine> recognizeMachinesFrom(std::list<Segment> listOfSegments){
-  std::vector<Machine> tmp;
+std::list<Machine> extractMachinesFrom(Modele m, double seuil){
+  std::list<Machine> listOfMachines;
+  std::list<Point> tmp;
+  std::list<Point>::const_iterator previousPoint = m.getPoints().cbegin();
 
-  for (auto &it : listOfSegments){
-    Machine m;
-    m.setCentre(calculateCoordMachine(it).getCentre());
+  double g = 0.70, p = 0.35;
 
-    //si on est en présence d'une machine
-    if (m.getCentre().x != 0.0){
-      //si c'est la première détectée
-      if (tmp.size() == 0){
-        tmp.push_back(m);
-      }
-      else {
-        //sinon, pour chaque machine déjà stockée
-        for (int i = 0; i < tmp.size(); ++i){
-          //on calcule la distance entre le centre de la machine trouvée et la machine i
-          double d = sqrt((m.getCentre().x - tmp[i].getCentre().x)*(m.getCentre().x - tmp[i].getCentre().x) +
-                          (m.getCentre().y - tmp[i].getCentre().y)*(m.getCentre().y - tmp[i].getCentre().y));
+  //pour chaque points dans la liste de points du modèle
+  for(std::list<Point>::const_iterator it = m.getPoints().cbegin(); it != m.getPoints().cend(); ++it){
+    Machine machine;
+    //on calcule la distance entre voisins
+    double d = sqrt((it->getY()-previousPoint->getY())*(it->getY()-previousPoint->getY()) +
+                    (it->getX()-previousPoint->getX())*(it->getX()-previousPoint->getX()));
 
-          //si la distance entre les centres trouvés permet de dire si on peut distinguer 2 machines
-          //rq : on met un seuil important puisque les zones sont de 1,5 * 2 m
-          if (d > 1){
-            tmp.push_back(m);
-          }
-          //sinon, on fait une moyenne des deux pour affiner la position du centre
-          else {
-            geometry_msgs::Pose2D milieu;
-            milieu.x     = (m.getCentre().x + tmp[i].getCentre().x)/2;
-            milieu.y     = (m.getCentre().y + tmp[i].getCentre().y)/2;
+    //si les points sont proches
+    if (d < seuil){
+      //on sauvegarde ces points dans une liste
+      tmp.push_back(*it);
+    }
+    //sinon si on a détecté un seuil
+    else {
+      Segment s = buildSegment(tmp);
+      if(((s.getSize() > p-seuil) && (s.getSize() < p+seuil)) ||
+         ((s.getSize() > g-seuil) && (s.getSize() < g+seuil))){
+        //on construit une machine à partir du segment
+        machine = calculateCoordMachine(s);
+        //on enregistre la machine dans la liste de machines
+        listOfMachines.push_back(machine);
+        tmp.clear();
+        tmp.push_back(*it);
 
-            //si la machine venait d'un petit côté
-            if (!tmp[i].getType()){
-              //on met à jour l'angle
-              milieu.theta = m.getCentre().theta;
-              //on dit que la machine a été créée à partir d'un grand côté
-              tmp[i].setType();
-            }
-
-            //on met à jour la machine
-            tmp[i].setCentre(milieu);
-          }
-        }
+        std::cout << "Machine ("<< machine.getCentre().x << ", " << machine.getCentre().y << ")" << std::endl;
+        std::cout << "orientation : " << machine.getCentre().theta*(180/M_PI) << std::endl;
+        std::cout << "\n" << std::endl;
       }
     }
+    //on recommence en partant du point suivant le dernier point
+    //qui était dans la liste précédente
+    previousPoint = it;
+  }
+  tmp.clear();
+
+  return listOfMachines;
+}
+
+std::list<Machine> convertModelesIntoMachines(std::list<Modele> &listOfModeles){
+  std::list<Machine> listOfMachines;
+  //pour tous les modèles de la liste
+  for (auto &it : listOfModeles){
+    std::list<Machine> listTmp = extractMachinesFrom(it,1);
+    //on concatène les listes de segments trouvés à partir de chaque modèle ensemble
+    listOfMachines.splice(listOfMachines.end(),listTmp);
   }
 
-  return tmp;
+  return listOfMachines;
 }

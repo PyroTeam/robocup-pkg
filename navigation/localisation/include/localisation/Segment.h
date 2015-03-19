@@ -30,17 +30,7 @@ public:
 	}
 
 	void setAngle(double theta){
-		if (theta > M_PI_2){
-			m_angle = theta - M_PI;
-		}
-		else {
-			if (theta < -M_PI_2){
-				m_angle = theta + M_PI;
-			}
-			else {
-				m_angle = theta;
-			}
-		}
+		m_angle = atan2(tan(theta), 1);
 	}
 	void setSize(double size){
 		m_size = size;
@@ -49,8 +39,21 @@ public:
 		m_min = a;
 		m_max = b;
 	}
+	void update(Segment s){
+		if (s.getMin().getX() < m_min.getX()){
+			m_min = s.getMin();
+		}
+		if (s.getMax().getX() < m_max.getX()){
+			m_max = s.getMax();
+		}
+
+		m_size = sqrt((m_max.getX()-m_min.getX()) * (m_max.getX()-m_min.getX()) +
+                      (m_max.getY()-m_min.getY()) * (m_max.getY()-m_min.getY()));
+
+		m_angle = (s.getAngle() + m_angle) / 2;
+	}
 	
-private:
+protected:
 	double			 m_angle;
 	double 			 m_size;
 	Point   		 m_min;
