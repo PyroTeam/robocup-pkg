@@ -127,7 +127,7 @@ add_executable(action_node
 
 set_target_properties(test_fonctions_travail PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 set_target_properties(test_algo PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-
+set_target_properties(action_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(generateur_taches_node generateur_taches_generate_messages_cpp)
@@ -135,6 +135,7 @@ set_target_properties(test_algo PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 ## Specify libraries to link a library or executable target against
  target_link_libraries(test_fonctions_travail ${catkin_LIBRARIES})
  target_link_libraries(test_algo ${catkin_LIBRARIES} )
+ target_link_libraries(action_node ${catkin_LIBRARIES} )
 
 add_executable(envoi_ordre src/envoi_ordre.cpp)
 target_link_libraries(envoi_ordre ${catkin_LIBRARIES})
@@ -148,6 +149,8 @@ add_executable(emetteur_topic src/emetteur_topic.cpp)
 target_link_libraries(emetteur_topic ${catkin_LIBRARIES})
 add_dependencies(emetteur_topic manager_msg_gencpp)
 
+
+add_dependencies(action_node manager_msg_gencpp)
 #############
 ## Install ##
 #############
