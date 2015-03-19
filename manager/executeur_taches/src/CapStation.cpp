@@ -26,6 +26,10 @@ int CapStation::getCapGris(){
 int CapStation::getCapNoir(){
   return m_capNoir;
 }
+geometry_msgs::Pose2D CapStation::getStockage(){
+  return m_stockage;
+}
+
 void CapStation::majNoir(int nbNoir){
   m_capNoir = nbNoir;
 }

@@ -1,3 +1,4 @@
+
 /* Classe abstraite qui permet d'aller vers une machine */
 
 #include <string>
@@ -50,4 +51,9 @@ void Machine::majSortie(geometry_msgs::Pose2D point){
   // refBoxCom(Robotinos)
   // navigation (pt_dest);
   // Approche Finale
+//}
+
+//void Machine::prendreProduit(FakeRobotino fakeRB){
+  // Approche Finale
+  // refBoxCom(Communication machine)
 //}

@@ -9,7 +9,7 @@ class BaseStation : public Machine{
       /* Variables d'instance*/
       int m_baseRouge;
       int m_baseNoir;
-      int m_baseGris;
+      int m_baseArgent;
       
   public:
     
@@ -22,10 +22,10 @@ class BaseStation : public Machine{
        /* Méthodes */   
        int getBaseRouge();
        int getBaseNoir();      
-       int getBaseGris();
+       int getBaseArgent();
        void majRouge(int nbRouge);
        void majNoir(int nbNoir);
-       void majGris(int nbGris);
+       void majArgent(int nbArgent);
 };
 
 #endif

@@ -115,7 +115,8 @@ add_executable(
 add_executable(
   test_topic
 
-  src/emetteur_topic.cpp
+   #src/emetteur_topic.cpp
+   src/fake_client_srv.cpp
   )
 
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11

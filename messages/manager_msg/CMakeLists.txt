@@ -58,7 +58,7 @@ FILES
 DIRECTORY
    srv
 FILES
-   order.srv
+   #order.srv
    SetGripper.srv
  )
 
