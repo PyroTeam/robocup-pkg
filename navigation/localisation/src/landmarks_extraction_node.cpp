@@ -1,7 +1,7 @@
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Pose2D.h"
-#include "deplacement_msg/Machines.h"
+#include "deplacement_msg/Landmarks.h"
 #include "laserScan.h"
 
 #include "landmarks_detection_utils.h"
@@ -24,7 +24,7 @@ int main(int argc, char** argv)
                                                 &laserData);
 
     //on publie les machines trouvées sur le topic /machines
-    ros::Publisher pub_machines = n.advertise< deplacement_msg::Machines >("/machines", 1000);
+    ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("/machines", 1000);
 
     //initialisation du random
     srand(time(NULL));
@@ -35,13 +35,14 @@ int main(int argc, char** argv)
     {
         const std::list<Point> &listOfPoints    = laserData.getPoints();
         std::list<Modele>  listOfModeles        = findLines(listOfPoints);
+        //voir amélioration avec la fonction convertModelesIntoMachines
         std::list<Segment> listOfSegments       = buildSegments(listOfModeles);
         std::vector<Machine> listOfMachines     = recognizeMachinesFrom(listOfSegments);
         
-        deplacement_msg::Machines machines;
+        deplacement_msg::Landmarks machines;
 
         for (auto &it : listOfMachines){ 
-            machines.machines.push_back(it.getCentre());
+            machines.landmarks.push_back(it.getCentre());
         }
 
         // Publish
