@@ -3,6 +3,7 @@
 
 #include "Machine.h"
 
+
 class CapStation : public Machine{
   private:
     
@@ -22,7 +23,8 @@ class CapStation : public Machine{
       
       /* Méthodes */
       int getCapGris();
-      int getCapNoir();      
+      int getCapNoir();     
+      geometry_msgs::Pose2D getStockage(); 
       void majNoir(int nbNoir);
       void majGris(int nbGris);
       //int stocker();

@@ -6,7 +6,7 @@ BaseStation::BaseStation(){
   m_type = "BaseStation";   
   m_baseRouge = 0;
   m_baseNoir = 0;
-  m_baseGris = 0;
+  m_baseArgent = 0;
 }
 
 /* Destructeur */
@@ -22,8 +22,8 @@ int BaseStation::getBaseRouge(){
 int BaseStation::getBaseNoir(){
   return m_baseNoir;
 }
-int BaseStation::getBaseGris(){
-  return m_baseGris;
+int BaseStation::getBaseArgent(){
+  return m_baseArgent;
 }
 void BaseStation::majRouge(int nbRouge){
   m_baseRouge = nbRouge;
@@ -31,6 +31,6 @@ void BaseStation::majRouge(int nbRouge){
 void BaseStation::majNoir(int nbNoir){
   m_baseNoir = nbNoir;
 }
-void BaseStation::majGris(int nbGris){
-  m_baseGris = nbGris;
+void BaseStation::majArgent(int nbArgent){
+  m_baseArgent= nbArgent;
 }

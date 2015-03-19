@@ -3,7 +3,9 @@
  #include "manager_msg/activity.h" 
 
  #include <sstream>
+
  using namespace manager_msg;
+ 
  int main(int argc, char **argv)
  {
   	  	ROS_INFO("Starting node emetteur_topic");
