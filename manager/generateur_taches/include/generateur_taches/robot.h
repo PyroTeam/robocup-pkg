@@ -1,11 +1,13 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
+#include "manager_msg/activity.h"
+
 class Robot{
  
  public :
  
-  Robot(){m_occupe = false;}
+  Robot(){m_occupe=false; m_machine=manager_msg::activity::NONE; m_nb_ordre=0;}
   
   bool get_occupe(){return m_occupe;}
   void set_occupe(bool occupe){m_occupe = occupe;}

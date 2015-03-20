@@ -14,19 +14,18 @@ void Action::tesCallback(const manager_msg::activity &msg)
 }
 
 Action::Action(){
-        m_activity_sub = m_nh.subscribe("task_exec_state",1000,&Action::tesCallback,this);        
+  m_activity_sub = m_nh.subscribe("task_exec_state",1000,&Action::tesCallback,this);        
 }
 
-void Action::update_robot(Robot &robot[],int taille){
-        for(int i=0;i<taille;i++){
-                if(m_nb_robot == i){
-                        robot[i].set_machine(m_machine_used);
-                        robot[i].set_nb_ordre(m_nb_order);
-                        if(m_state==activity::IN_PROGRESS || m_state==activity::ERROR)
-                                robot[i].set_occupe(true);
-                        else
-                                robot[i].set_occupe(false);
-                        }
-                 }
-         }
+void Action::update_robot(Robot (&robot)[3]){
+  for(int i=0;i<3;i++){
+    if(m_nb_robot == i){
+      robot[i].set_machine(m_machine_used);
+      robot[i].set_nb_ordre(m_nb_order);
+      if(m_state==manager_msg::activity::IN_PROGRESS || m_state==manager_msg::activity::ERROR)
+	robot[i].set_occupe(true);
+      else
+	robot[i].set_occupe(false);
+    }
+  }
 }
