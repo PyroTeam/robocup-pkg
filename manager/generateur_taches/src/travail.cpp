@@ -85,17 +85,47 @@ void calcul_ratio(list<list<Tache> > &travail, int temps){
 
 //affiche des infos sur la structure contenant les tâches à réaliser
 void get_info_liste_de_liste(list<list<Tache> > travail){
-list<list<Tache> >::iterator wit;
+  list<list<Tache> >::iterator wit;
   int compteur = 1; 
   for(wit = travail.begin(); wit != travail.end(); wit++){
     cout << "taille de la liste " << compteur << " = " << wit->size() <<
-        " | ratio = "<< wit->begin()->get_ratio() <<
-        " | intitule première tâche = " << wit->begin()->get_intitule()  << 
-        " " << wit->begin()->get_parametre() <<  
-        " debut_livr : " << wit->begin()->get_debut_livraison() <<
-        " fin_livr : " << wit->begin()->get_fin_livraison() << endl;
+      " | ratio = "<< wit->begin()->get_ratio() <<
+      " | intitule première tâche = " << wit->begin()->get_intitule()  << 
+      " " << wit->begin()->get_parametre() <<  
+      " debut_livr : " << wit->begin()->get_debut_livraison() <<
+      " fin_livr : " << wit->begin()->get_fin_livraison() << endl;
     compteur++;
   }
 }			
 			
-//parcoure la liste d'ordres reçus par la Refbox
+//enlève ce qui est déjà fait
+void nettoyage_travail(list<list<Tache> > &travail,list<list<Tache> >::iterator &it){
+  if(!it->empty()) 
+    it->pop_front();
+  if(it->empty())
+    travail.erase(it);
+}
+
+//quelques traitements à faire en plus en cas de tâche particulière
+void tache_particuliere_travail(list<list<Tache> > ::iterator &it,int temps, int &cap_dispo, int &storage){
+  //si la seule tâche est de décapsuler dans la liste
+  if((it->begin()->get_intitule() == "Decapsuler") && (it->size() == 1)){ 
+    cap_dispo ++;
+    storage ++;
+  }
+  //si on a un produit fini
+  if(it->begin()->get_intitule() == "Livrer"){   
+    if(it->begin()->dans_les_temps(temps)){
+      it->begin()->set_parametre("DS");
+    }
+    else
+      it->begin()->set_parametre("stock");{
+      vector<string> nothing(1,"rien");
+      Produit prod_tmp(it->begin()->get_produit(),nothing);
+      list<Tache> ltmp = creation_liste_taches_act("Destocker",prod_tmp,it->begin()->get_debut_livraison(),it->begin()->get_fin_livraison());
+      it->splice(it->end(),ltmp);
+    }
+  }  	
+}
+
+ 

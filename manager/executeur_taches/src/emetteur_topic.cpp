@@ -22,7 +22,8 @@
 
          activity msg;
      	 msg.state = activity::IN_PROGRESS; /* Par exemple */
-         msg.machine_used = activity::CS1;
+         if(count>20) msg.machine_used = activity::DS;
+         else msg.machine_used = activity::CS1;
          activite.publish(msg);
     
          ros::spinOnce();
