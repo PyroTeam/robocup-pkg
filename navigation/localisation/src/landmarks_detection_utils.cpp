@@ -312,7 +312,6 @@ std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments){
       //si c'est la première détectée
       if (tmp.size() == 0){
         tmp.push_back(m);
-        //maj(listOfSegments, it);
       }
       else {
         //sinon, pour chaque machine déjà stockée
@@ -325,7 +324,6 @@ std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments){
           //rq : on met un seuil important puisque les zones sont de 1,5 * 2 m
           if (d > 1){
             tmp.push_back(m);
-            //maj(listOfSegments, it);
           }
           //sinon, on fait une moyenne des deux pour affiner la position du centre
           else {
