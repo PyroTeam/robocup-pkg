@@ -18,17 +18,16 @@ public:
 	void setCentre(geometry_msgs::Pose2D c){
 		m_centre = c;
 	}
-	void setOrientation(double theta);
-	void setType(){
-		m_type = true;
+	void setType(int val){
+		m_type = val;
 	}
 	void resetType(){
-		m_type = false;
+		m_type = 0;
 	}
 
 private:
 	geometry_msgs::Pose2D 	m_centre;
-	bool					m_type;
+	int						m_type;
 };
 
 #endif

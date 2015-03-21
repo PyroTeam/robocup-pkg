@@ -1,6 +1,8 @@
 #ifndef DROITE_H
 #define DROITE_H
 
+#include "geometry_msgs/Pose2D.h"
+
 class Droite{
 public:
 	Droite();
@@ -17,6 +19,14 @@ public:
 	}
 	double getOrdOrigin(){
 		return m_ordOrigin;
+	}
+	geometry_msgs::Pose2D getCentre(){
+		geometry_msgs::Pose2D p;
+		p.x = m_point.getX();
+		p.y = m_point.getY();
+		p.theta = m_angle;
+
+		return p;
 	}
 
 	void set(Point p, double theta, double pente, double ord){
