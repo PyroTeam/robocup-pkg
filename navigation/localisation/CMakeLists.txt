@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   sensor_msgs
+  visualization_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -106,10 +107,6 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(
-  visualisation
-  src/visualisation.cpp)
-
-add_executable(
   landmarks_extraction_node
   src/landmarks_extraction_node.cpp
   src/landmarks_detection_utils.cpp
@@ -129,9 +126,14 @@ add_executable(
   odometry_correction_node
   src/odometry_correction_node.cpp)
 
+add_executable(
+  visualisation
+  src/visualisation.cpp)
+
 set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(odometry_correction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(visualisation PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -141,10 +143,6 @@ add_dependencies(odometry_correction_node localisation_generate_messages_cpp ${c
 
 ## Specify libraries to link a library or executable target against
 
-target_link_libraries(
-  visualisation
-  ${catkin_LIBRARIES}
-)
 target_link_libraries(
   landmarks_extraction_node
   ${catkin_LIBRARIES}
@@ -157,6 +155,9 @@ target_link_libraries(
   odometry_correction_node
   ${catkin_LIBRARIES}
 )
+target_link_libraries(
+  visualisation
+  ${catkin_LIBRARIES})
 
 #############
 ## Install ##
