@@ -1,3 +1,6 @@
+#ifndef LANDMARKS_DETECTION_UTILS_H
+#define LANDMARKS_DETECTION_UTILS_H
+
 #include "laserScan.h"
 #include "Point.h"
 #include "Droite.h"
@@ -18,6 +21,7 @@ Modele ransac(std::list<Point> &listOfPoints, int n, int NbPtPertinent, double p
 
 void maj(std::list<Point> &list, Modele m);
 
+//rentrer tous les paramètres de RANSAC dans le prototype de findLines
 std::list<Modele> findLines(const std::list<Point> &listOfPoints);
 
 Segment build(const std::list<Point> &points);
@@ -28,4 +32,10 @@ std::list<Segment> buildSegments(std::list<Modele> &listOfModeles);
 
 Machine calculateCoordMachine(Segment s);
 
-std::vector<Machine> recognizeMachinesFrom(std::list<Segment> listOfSegments);
+void maj(std::list<Segment> &list, Segment s);
+
+std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments);
+
+geometry_msgs::Pose2D pointToPose2D(Point point);
+
+#endif

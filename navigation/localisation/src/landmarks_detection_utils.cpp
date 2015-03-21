@@ -130,6 +130,7 @@ void maj(std::list<Point> &list, Modele m){
 	}
 }
 
+//rentrer tous les paramètres de RANSAC dans le prototype de findLines
 std::list<Modele> findLines(const std::list<Point> &listOfPoints){
 	std::list<Modele> listOfDroites;
 	std::list<Point>  listWithoutPrecModelPoints = listOfPoints;
@@ -260,31 +261,46 @@ Machine calculateCoordMachine(Segment s){
   geometry_msgs::Pose2D point;
 
   if ((size > p-seuil) && (size < p+seuil)){
-      point.x     = absMilieu + 0.175*sin(M_PI_2-angle);
-      point.y     = ordMilieu - 0.175*cos(M_PI_2-angle);
-      point.theta = M_PI_2 + angle;
+      point.x     = absMilieu + 0.35*cos(angle - M_PI_2);
+      point.y     = ordMilieu + 0.35*sin(angle - M_PI_2);
+      point.theta = atan2(tan(angle - M_PI_2), 1);
 
-      m.resetType();
+      m.setType(1);
   }
   else  if ((size > g-seuil) && (size < g+seuil)){
-          point.x     = absMilieu + 0.35*sin(M_PI_2-angle);
-          point.y     = ordMilieu - 0.35*cos(M_PI_2-angle);
-          point.theta = angle;
+          point.x     = absMilieu + 0.175*cos(angle - M_PI_2);
+          point.y     = ordMilieu + 0.175*sin(angle - M_PI_2);
+          point.theta = atan2(tan(angle), 1);
 
-          m.setType();
+          m.setType(2);
         }
         else {
           point.x     = 0.0;
           point.y     = 0.0;
           point.theta = 0.0;
+
+          m.resetType();
         } 
 
   m.setCentre(point);
 
+  /*if (m.getType() != 0){
+    std::cout << "\nMachine ("<< m.getCentre().x << ", " << m.getCentre().y << ")" << std::endl;
+    std::cout << "orientation : " << m.getCentre().theta*(180/M_PI) << std::endl;
+    std::cout << "type : " << m.getType() << std::endl;
+  }*/
+
   return m;
 }
 
-std::vector<Machine> recognizeMachinesFrom(std::list<Segment> listOfSegments){
+void maj(std::list<Segment> &list, Segment s){
+  for(std::list<Segment>::iterator it = list.begin(); it != list.end(); ++it){
+    //on supprime dans la liste le point correspondant à l'index enregistré dans le meilleur_modele
+    list.erase(it);
+  }
+}
+
+std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments){
   std::vector<Machine> tmp;
 
   for (auto &it : listOfSegments){
@@ -296,6 +312,7 @@ std::vector<Machine> recognizeMachinesFrom(std::list<Segment> listOfSegments){
       //si c'est la première détectée
       if (tmp.size() == 0){
         tmp.push_back(m);
+        //maj(listOfSegments, it);
       }
       else {
         //sinon, pour chaque machine déjà stockée
@@ -308,19 +325,19 @@ std::vector<Machine> recognizeMachinesFrom(std::list<Segment> listOfSegments){
           //rq : on met un seuil important puisque les zones sont de 1,5 * 2 m
           if (d > 1){
             tmp.push_back(m);
+            //maj(listOfSegments, it);
           }
           //sinon, on fait une moyenne des deux pour affiner la position du centre
           else {
             geometry_msgs::Pose2D milieu;
-            milieu.x     = (m.getCentre().x + tmp[i].getCentre().x)/2;
-            milieu.y     = (m.getCentre().y + tmp[i].getCentre().y)/2;
+            milieu.x     = (m.getCentre().x     + tmp[i].getCentre().x)/2;
+            milieu.y     = (m.getCentre().y     + tmp[i].getCentre().y)/2;
+            milieu.theta = (m.getCentre().theta + tmp[i].getCentre().theta)/2;
 
             //si la machine venait d'un petit côté
-            if (!tmp[i].getType()){
-              //on met à jour l'angle
-              milieu.theta = m.getCentre().theta;
+            if (tmp[i].getType() == 1){
               //on dit que la machine a été créée à partir d'un grand côté
-              tmp[i].setType();
+              tmp[i].setType(2);
             }
 
             //on met à jour la machine
@@ -332,4 +349,13 @@ std::vector<Machine> recognizeMachinesFrom(std::list<Segment> listOfSegments){
   }
 
   return tmp;
+}
+
+geometry_msgs::Pose2D pointToPose2D(Point point){
+  geometry_msgs::Pose2D pose2d;
+  pose2d.x = point.getX();
+  pose2d.y = point.getY();
+  pose2d.theta = 0.0;
+
+  return pose2d;
 }

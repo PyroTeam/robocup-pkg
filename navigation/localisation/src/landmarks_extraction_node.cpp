@@ -18,13 +18,12 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
 
     //on souscrit au topic /fake_scan sur lequel les données laser sont transmises
-    ros::Subscriber sub_laser  = n.subscribe(   "/scan",
-                                                1000,
-                                                &laserScan::laserCallback,
-                                                &laserData);
+    ros::Subscriber sub_laser  = n.subscribe("/fake_scan", 1000, &laserScan::laserCallback, &laserData);
 
     //on publie les machines trouvées sur le topic /machines
+    //et les segments sur le topic /segments
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("/machines", 1000);
+    ros::Publisher pub_segments = n.advertise< deplacement_msg::Landmarks >("/segments", 1000);
 
     //initialisation du random
     srand(time(NULL));
@@ -40,18 +39,23 @@ int main(int argc, char** argv)
         std::vector<Machine> listOfMachines     = recognizeMachinesFrom(listOfSegments);
         
         deplacement_msg::Landmarks machines;
+        deplacement_msg::Landmarks segments;
 
         for (auto &it : listOfMachines){ 
             machines.landmarks.push_back(it.getCentre());
         }
+        for (auto &it : listOfSegments){ 
+            segments.landmarks.push_back(pointToPose2D(it.getMin()));
+            segments.landmarks.push_back(pointToPose2D(it.getMax()));
+        }
 
         // Publish
         pub_machines.publish(machines);
+        pub_segments.publish(segments);
 
         // Spin
         ros::spinOnce();
         loop_rate.sleep();
-
     }
 
     return 0;
