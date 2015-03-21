@@ -36,6 +36,29 @@ RefBoxComm::RefBoxComm()
 	m_status.teamColor = CYAN;
 	m_status.gamePhase = PHASE_PRE_GAME;
 
+	llsfrb::Configuration *config_ = new llsfrb::YamlConfiguration(CONFDIR);
+	config_->load("config.yaml");
+
+    //chargement des info du robot
+    if (config_->exists("/llsfrb/game/team"))
+    {
+        m_status.teamName = config_->get_string("/llsfrb/game/team");
+    }
+    if (config_->exists("/llsfrb/game/robot_number"))
+    {
+        m_status.robotNumber = config_->get_uint("/llsfrb/game/robot_number");
+    }
+    if (config_->exists("/llsfrb/game/robot_name"))
+    {
+        m_status.robotName = config_->get_string("/llsfrb/game/robot_name");
+    }
+    if (config_->exists("/llsfrb/game/color"))
+    {
+        std::string color = config_->get_string("/llsfrb/game/color");
+        m_status.teamColor = ((color == "cyan") ? CYAN : MAGENTA);
+    }
+    delete config_;
+
     //lancement de l'ordonnanceur de messages
     m_sendScheduler.spawn();
 
