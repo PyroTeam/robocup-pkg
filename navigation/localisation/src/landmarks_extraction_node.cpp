@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
 
     //on souscrit au topic /fake_scan sur lequel les données laser sont transmises
-    ros::Subscriber sub_laser  = n.subscribe("/fake_scan", 1000, &laserScan::laserCallback, &laserData);
+    ros::Subscriber sub_laser  = n.subscribe("/scan", 1000, &laserScan::laserCallback, &laserData);
 
     //on publie les machines trouvées sur le topic /machines
     //et les segments sur le topic /segments
@@ -28,7 +28,7 @@ int main(int argc, char** argv)
     //initialisation du random
     srand(time(NULL));
 
-    ros::Rate loop_rate (2);
+    ros::Rate loop_rate (5);
 
     while(n.ok())
     {

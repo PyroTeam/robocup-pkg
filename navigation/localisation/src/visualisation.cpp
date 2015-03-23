@@ -9,20 +9,21 @@
 std::vector<geometry_msgs::Point> tabMachines;
 std::vector<geometry_msgs::Point> tabSegments;
 
-void segmentsCallback(deplacement_msg::Landmarks segments){
-  for (auto &it : segments.landmarks){
+//cette putin de fonction de callback ne marche pas !!!
+void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments){
+  tabSegments.clear();
+  for (auto &it : segments->landmarks){
     geometry_msgs::Point p;
     p.x = it.x;
     p.y = it.y;
-    std::cout << it.x << " | " << it.y << std::endl;
+    /*std::cout << it.x << " | " << it.y << std::endl;*/
     tabSegments.push_back(p);
   }
-
-  ROS_INFO("segmentsCallback");
 }
 
-void machinesCallback(deplacement_msg::Landmarks machines){
-  for (auto &it : machines.landmarks){
+void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
+  tabMachines.clear();
+  for (auto &it : machines->landmarks){
     geometry_msgs::Point p;
     p.x = it.x;
     p.y = it.y;
@@ -42,13 +43,13 @@ int main( int argc, char** argv )
   ros::Subscriber sub_machines  = n.subscribe("/machines", 1000, machinesCallback);
   ros::Subscriber sub_segments  = n.subscribe("/segments", 1000, segmentsCallback);
 
-  ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("/visualization_marker", 10);
+  ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("/visualization_marker", 1000);
 
   ros::Rate r(30);
 
   while (ros::ok())
   {
-    line_list.header.frame_id = "/my_frame";
+    line_list.header.frame_id = "/laser_link";
     line_list.header.stamp = ros::Time::now();
     line_list.ns = "visualisation_segments";
     line_list.action = visualization_msgs::Marker::ADD;
@@ -65,7 +66,7 @@ int main( int argc, char** argv )
 
     line_list.points = tabSegments;
 
-    points.header.frame_id = "/my_frame";
+    points.header.frame_id = "/laser_link";
     points.header.stamp = ros::Time::now();
     points.ns = "visualisation_machines";
     points.action = visualization_msgs::Marker::ADD;
@@ -85,6 +86,8 @@ int main( int argc, char** argv )
 
     marker_pub.publish(line_list);
     marker_pub.publish(points);
+
+    ros::spinOnce();
 
     r.sleep();
   }

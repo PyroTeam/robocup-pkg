@@ -139,7 +139,7 @@ std::list<Modele> findLines(const std::list<Point> &listOfPoints){
 
 	while (!stopRansac){
         //ransac(listOfPoints, n, NbPtPertinent, proba, seuil, NbPts)
-        m = ransac(listWithoutPrecModelPoints, 2, 20, 0.99, 0.05, 20);
+        m = ransac(listWithoutPrecModelPoints, 2, 30, 0.99, 0.1, 20);
         if( std::abs(m.getCorrel()) > 0.5){
           maj(listWithoutPrecModelPoints, m);
           listOfDroites.push_back(m);
