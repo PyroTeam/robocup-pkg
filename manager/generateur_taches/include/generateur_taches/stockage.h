@@ -4,7 +4,7 @@
 class Stockage{
 
  public:
-  Stockage(int produit,int debut,int fin,int machine,int espace);
+  Stockage(int produit=0,int debut=0,int fin=0,int id=0);
 
   void set_produit(int prod){m_produit=prod;}
   int get_produit(){return m_produit;}
@@ -12,17 +12,14 @@ class Stockage{
   int get_debut_livraison(){return m_debut_livraison;}
   void set_fin_livraison(int fin){m_fin_livraison=fin;}
   int get_fin_livraison(){return m_fin_livraison;}
-  void set_machine(int machine){m_machine=machine;}
-  int get_machine(){return m_machine;}
-  void set_espace(int espace){m_espace=espace;}
-  int get_espace(){return m_espace;}
+  void set_id(int id){m_id=id;}
+  int get_id(){return m_id;}
   
  private:
   int m_produit; //si produit = 10 alors il n'y aucun produit
   int m_debut_livraison;
   int m_fin_livraison;
-  int m_machine; // Cap station 1 ou cap station 2
-  int m_espace; //espace 1 2 ou 3
+  int m_id;
 
 };
 

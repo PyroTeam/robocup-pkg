@@ -113,6 +113,9 @@ add_executable(test_fonctions_travail
   src/main.cpp)
   
 add_executable(algo_node
+  src/stockage.cpp
+  src/tableaustockage.cpp
+  src/srvorder.cpp
   src/action.cpp
   src/tache.cpp
   src/listetaches.cpp

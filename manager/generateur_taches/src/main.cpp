@@ -5,26 +5,27 @@
 #include "ordre.h"
 #include "travail.h"
 
+#include "manager_msg/order.h"
 using namespace std;
 
 int main() { 
   
   /*** INITIALISATION ***/
-  vector<string> black(1,"noir");
+  vector<int> black(1,10);
   
   Produit action(0,black);
 
   list< list<Tache> > work;
   for(int i=0;i<5;i++){
-    work.push_back(creation_liste_taches_act("Decapsuler",action,0,0));
+    work.push_back(creation_liste_taches_act(7,action,0,0));
   }
-  work.push_back(creation_liste_taches_act("Destocker",action,90,140));   
+  work.push_back(creation_liste_taches_act(8,action,90,140));   
   cout << "\n\tInitialement la liste de liste de taches a realiser" << endl;
   cout << "est seulement constituee de cinq fois la tache Decapsuler" << endl;
   cout << "et d une fois la tache Destocker" << endl;
   get_info_liste_de_liste(work);
   cout <<""<<endl;
-  vector<string> couleurs(2,"noir");
+  vector<int> couleurs(2,0);
   Produit product(0,couleurs);
   Ordre order(product,100,150,2,false);
   cout << "\tLa refbox demande de creer deux fois le produit 0" << endl;

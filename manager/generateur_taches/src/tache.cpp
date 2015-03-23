@@ -7,7 +7,7 @@
 using namespace std;
 
 
-Tache::Tache(string inti,string parametre,int prod,int deb,int fin,int crea,float rat,bool en_traitement){
+Tache::Tache(int inti,int parametre,int prod,int deb,int fin,int crea,float rat,bool en_traitement){
   m_intitule = inti;
   m_parametre = parametre;
   m_produit = prod;
