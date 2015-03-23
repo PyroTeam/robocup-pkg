@@ -51,6 +51,7 @@ void Modele::linReg(){
 	m_correl = correl*correl;
 
 	double pente     = covXY/varX;
+ 	printf("%f\n", pente);
 	double ordOrigin = moyY - pente * moyX;
 
 	//mise à jour de la droite
