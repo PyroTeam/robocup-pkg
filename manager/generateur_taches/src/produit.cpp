@@ -6,9 +6,9 @@
 
 using namespace std;
 
-string Produit::get_param(int i){
+int Produit::get_param(int i){
         int compteur = 0; 
-        vector<string>::iterator it=m_parametres.begin();
+        vector<int>::iterator it=m_parametres.begin();
         if(compteur==i) return *it;
         
         else {while(compteur!=i){

@@ -11,3 +11,12 @@ bool produit_en_stock(Stockage tab_stock[]){
   }
   return tmp;
 }
+
+
+int trouver_id(Stockage tab_stock[],int debut, int fin){
+        for(int i=0; i<TAILLE; i++){
+                if((tab_stock[i].get_debut_livraison() == debut) && (tab_stock[i].get_fin_livraison() == fin))
+                        return tab_stock[i].get_id();
+        }
+        return -3;
+}
