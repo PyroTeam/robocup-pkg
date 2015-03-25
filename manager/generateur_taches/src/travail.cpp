@@ -100,10 +100,12 @@ void get_info_liste_de_liste(list<list<Tache> > travail){
 			
 //enlève ce qui est déjà fait
 void nettoyage_travail(list<list<Tache> > &travail,list<list<Tache> >::iterator &it){
-  if(!it->empty()) 
+  if(!it->empty()) {
     it->pop_front();
-  if(it->empty())
+  }
+  if(it->empty()) {
     travail.erase(it);
+  }
 }
 
 //quelques traitements à faire en plus en cas de tâche particulière

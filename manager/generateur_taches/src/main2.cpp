@@ -12,6 +12,9 @@
 #include "produit.h"
 #include "srvorder.h"
 #include "tableaustockage.h"
+#include "machine.h"
+#include "tabmachine.h"
+#include "travailphase.h"
 
 #include "manager_msg/order.h"
 #include "manager_msg/activity.h"
@@ -27,7 +30,7 @@ int main(int argc, char **argv) {
   Action action_exec;
   ros::Rate loop_rate(1);
   
-  int temps = 5,cap_dispo = 0,storage =0, id=0; 
+  int temps = 5,cap_dispo = 0,storage =0, id=0, cpt_order = 0, k=0; 
   Stockage tab_stock[6];
   
   Robot tabrobot[3];
@@ -46,40 +49,28 @@ int main(int argc, char **argv) {
   couleurs.push_back(1);
   Produit product(0,couleurs);
   Ordre order(product,100,150,2,false);
-  int cpt_order = 0;
+  
+  Machine tab_machine[6];
+  
+  
+  
   /***FONCTION PRINCIPALE ***/
     
-  //mettre a jour l'etat des robot, les ordres  
+    
   while(ros::ok() && !work.empty()) {
     // il y a trois robots
     for(int j=0; j<3; j++){
-      action_exec.update_robot(tabrobot);  
-      if(!work.empty()) {      
-        //si le robot ne fait rien on lui donne du travail
-        if(!tabrobot[j].get_occupe()){      
-	  calcul_ratio(work,temps);
-	  get_info_liste_de_liste(work);
-	  list<list<Tache> >::iterator it = max_ratio(work);
-	  tache_particuliere_travail(it,temps,cap_dispo,storage);
-	  if(it->begin()->get_intitule() == orderRequest::DESTOCK)
-	    id=trouver_id(tab_stock,it->begin()->get_debut_livraison(), it->begin()->get_fin_livraison());
-	  Srvorder srv(ros::Time::now(),cpt_order,j,it->begin()->get_intitule(),it->begin()->get_parametre(),0);
-	  cout <<"Robot n°"<<j+1<<" tâche: "<<it->begin()->get_intitule()<<" parametre: "<<it->begin()->get_parametre()
-	       <<" id: " << srv.get_id()<<"\n"<<endl;
-	  cpt_order++;
-	  if(srv.get_accepted()){ 
-	    it->begin()->set_en_traitement(true);
-	    if((it->begin()->get_intitule() == orderRequest::DELIVER) && (it->begin()->get_parametre() == orderRequest::STOCK))
-	      Stockage stock(it->begin()->get_produit(),it->begin()->get_debut_livraison(),it->begin()->get_fin_livraison(),srv.get_id());
-	    //il faut encore prendre en compte de faire un TAKE avant de faire un PUT 
-	    nettoyage_travail(work,it);
-	  }
-        }
-        //on prend en compte les ordres de la refbox
-        rajout_dans_travail(work,order,cap_dispo);
-        order.set_quantite(0);
-        id=0;
+      action_exec.update_robot(tabrobot);
+      //mettre a jour les infos envoyees par la refbox
+      
+      if(1/* etat du jeu=phase d exploration*/    && !exploration_finie(tab_machine)){
+        travail_phase_exploration(tab_machine,tabrobot,cpt_order,j);  
       }
+      
+      if(0/* etat du jeu=phase de production*/    && !work.empty()){
+        travail_phase_production(work,tab_machine,tabrobot,tab_stock,cpt_order,j,temps,cap_dispo,storage,order);
+      }
+    
     ros::spinOnce();
     loop_rate.sleep();
     }

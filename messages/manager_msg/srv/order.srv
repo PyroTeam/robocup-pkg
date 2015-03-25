@@ -13,6 +13,7 @@ int8 BRING_RING_RS = 5
 int8 DELIVER       = 6
 int8 UNCAP         = 7
 int8 DESTOCK       = 8
+int8 DISCOVER      = 9
 
 int8 type
 
