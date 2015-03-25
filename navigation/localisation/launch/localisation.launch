@@ -1,0 +1,9 @@
+<launch>
+
+    <group ns="localisation">
+        <node pkg="localisation" name="landmarks_extraction_node" type="landmarks_extraction_node"/>
+        <node pkg="localisation" name="visualisation" type="visualisation"/>
+    </group>
+
+
+</launch>

@@ -22,7 +22,7 @@ Modele ransac(std::list<Point> &listOfPoints, int n, int NbPtPertinent, double p
 void maj(std::list<Point> &list, Modele m);
 
 //rentrer tous les paramètres de RANSAC dans le prototype de findLines
-std::list<Modele> findLines(const std::list<Point> &listOfPoints);
+std::list<Modele> findLines(const std::list<Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts);
 
 Segment build(const std::list<Point> &points);
 

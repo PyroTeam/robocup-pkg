@@ -131,7 +131,7 @@ void maj(std::list<Point> &list, Modele m){
 }
 
 //rentrer tous les paramètres de RANSAC dans le prototype de findLines
-std::list<Modele> findLines(const std::list<Point> &listOfPoints){
+std::list<Modele> findLines(const std::list<Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts){
 	std::list<Modele> listOfDroites;
 	std::list<Point>  listWithoutPrecModelPoints = listOfPoints;
 	Modele            m;
@@ -139,7 +139,7 @@ std::list<Modele> findLines(const std::list<Point> &listOfPoints){
 
 	while (!stopRansac){
         //ransac(listOfPoints, n, NbPtPertinent, proba, seuil, NbPts)
-        m = ransac(listWithoutPrecModelPoints, 2, 30, 0.99, 0.1, 20);
+        m = ransac(listWithoutPrecModelPoints, 2, NbPtPertinent, 0.99, seuil, NbPts);
         if( std::abs(m.getCorrel()) > 0.5){
           maj(listWithoutPrecModelPoints, m);
           listOfDroites.push_back(m);
@@ -148,6 +148,8 @@ std::list<Modele> findLines(const std::list<Point> &listOfPoints){
           stopRansac = true;
         }
     }
+
+    //publier la listWithoutPrecModelPoints !!!
 
     return listOfDroites;
 }
