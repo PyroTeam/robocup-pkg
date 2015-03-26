@@ -113,11 +113,18 @@ add_executable(
   src/DeliveryStation.cpp
 )
 add_executable(
-  test_topic
-
-   #src/emetteur_topic.cpp
-   src/fake_client_srv.cpp
+  test_service
+  
+   src/service_node.cpp
+   src/gtServerSrv
   )
+
+add_executable(
+  test_topic
+  
+   src/gtPublisher.cpp
+  )
+  
 
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
@@ -127,6 +134,10 @@ add_executable(
 ## Specify libraries to link a library or executable target against
 target_link_libraries(
   test_exec
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_service
   ${catkin_LIBRARIES}
 )
 target_link_libraries(
