@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   visualization_msgs
+  Eigen
+  REQUIRED
 )
 
 ## System dependencies are found with CMake's conventions
@@ -82,7 +84,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-   INCLUDE_DIRS include/localisation
+   INCLUDE_DIRS include/localisation /usr/include/eigen3
    LIBRARIES localisation
    CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy sensor_msgs message_runtime
 #  DEPENDS system_lib
@@ -130,10 +132,15 @@ add_executable(
   visualisation
   src/visualisation.cpp)
 
+add_executable(
+  try
+  src/try.cpp)
+
 set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(odometry_correction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(visualisation PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(try PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -157,6 +164,9 @@ target_link_libraries(
 )
 target_link_libraries(
   visualisation
+  ${catkin_LIBRARIES})
+target_link_libraries(
+  try
   ${catkin_LIBRARIES})
 
 #############
