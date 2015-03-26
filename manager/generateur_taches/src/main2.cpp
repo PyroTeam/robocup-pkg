@@ -4,12 +4,11 @@
  
 #include "tache.h"
 #include "listetaches.h"
-#include "ordre.h"
+#include "manager_msg/order.h"
 #include "travail.h"
 #include "robot.h"
 #include "produit.h"
 
-#include "manager_msg/ordre.h"
 
 using namespace std;
 

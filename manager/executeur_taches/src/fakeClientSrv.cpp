@@ -1,14 +1,15 @@
-#include "ros/ros.h"
-#include "manager_msg/SetGripper.h"
-#include <cstdlib>
+#include "fakeClientSrv.h"
 
-int main(int argc, char **argv)
-{
+  fakeClientSrv::fakeClientSrv() {}
+  fakeClientSrv::~fakeClientSrv(){}
+
+bool fakeClientSrv::gripper_uppdate(){
+
   ros::init(argc, argv, "gripper_uppdate");
   if (argc != 2)
   {
     ROS_INFO("usage: gripper_uppdate");
-    return 1;
+    return true;
   }
 
   ros::NodeHandle n;
@@ -22,8 +23,10 @@ int main(int argc, char **argv)
   else
   {
     ROS_ERROR("Failed to call service gripper_uppdate");
-    return 1;
+    return true;
   }
 
-  return 0;
+  return false;
+
 }
+
