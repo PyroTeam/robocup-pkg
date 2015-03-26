@@ -2,9 +2,37 @@
 #include "nav_msgs/Odometry.h"
 #include "geometry_msgs/Pose2D.h"
 #include <tf/transform_datatypes.h>
-#include <eigen/dense>
+#include <Eigen/Dense>
+#include <string>
 
 #include "EKF_functions.h"
+
+void initPosRobot(string s,int n){
+	int color = 0;
+	if (s == "cyan"){
+		color = 1;
+	}
+	else {
+		color = -1;
+	}
+
+	initRobot.theta =  0.0;
+	initRobot.y 	= -0.5;
+
+	switch(n){
+		case 1 :
+			initRobot.x = color*3.5;
+		break;
+		case 2 :
+			initRobot.x = color*4.5;
+		break;
+		case 3 :
+			initRobot.x = color*5.5;
+		break;
+		default :
+		break;
+	}
+}
 
 geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser){
 	geometry_msgs::Pose2D p;
@@ -39,26 +67,30 @@ geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D PosInitRobot, geometry
 	Vector3d before;
 	Vector3d after;
 
-	before(0) = PosRobot.x;
-	before(1) = PosRobot.y;
+	before(0) = odomRobot.x + PosInitRobot.x;
+	before(1) = odomRobot.y + PosInitRobot.y;
 	before(2) = 0;
 
-	double angle = atan2(PosRobot.y, PosRobot.x) + PosRobot.theta;
-
 	//translation
-	p(0,2) = init.;
-	p(1,2) = ;
+	m(0,2) = PosInitRobot.x;
+	m(1,2) = PosInitRobot.y;
 	//rotation
-	p(0,0) = ;
-	p(0,1) = ;
-	p(1,0) = ;
-	p(1,1) = ;
+	m(0,0) =  cos(odomRobot.theta*M_PI/180);
+	m(0,1) = -sin(odomRobot.theta*M_PI/180);
+	m(1,0) =  sin(odomRobot.theta*M_PI/180);
+	m(1,1) =  cos(odomRobot.theta*M_PI/180);
 
-	p(2,2) = 1;
+	m(2,2) = 1;
+
+	after = m * before;
 
 	p.x 	= after(0);
 	p.y 	= after(1);
-	p.theta = after(2);
+	p.theta = odomRobot.theta;
 
 	return p;
+}
+
+void addMachine(geometry_msgs::Pose2D machine){
+
 }
