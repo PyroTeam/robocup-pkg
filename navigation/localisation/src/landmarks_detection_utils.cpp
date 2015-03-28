@@ -1,3 +1,4 @@
+#include "ros/ros.h"
 #include "laserScan.h"
 #include "Point.h"
 #include "Droite.h"
@@ -110,6 +111,7 @@ Modele ransac(std::list<Point> &listOfPoints, int n, int NbPtPertinent, double p
 
     //si le modele_possible est mieux que le meilleur_modele enregistré
     if (modele_possible.getIndex().size() > meilleur_modele.getIndex().size()){
+    /*if (modele_possible.getCorrel() > meilleur_modele.getCorrel()){*/
     	//on construit le nouveau meilleur_modele à partir du modele_possible
       meilleur_modele = modele_possible;
     }
@@ -138,20 +140,21 @@ std::list<Modele> findLines(const std::list<Point> &listOfPoints, int NbPtPertin
   bool              stopRansac = false;
 
 	while (!stopRansac){
-        //ransac(listOfPoints, n, NbPtPertinent, proba, seuil, NbPts)
-        m = ransac(listWithoutPrecModelPoints, 2, NbPtPertinent, 0.99, seuil, NbPts);
-        if( std::abs(m.getCorrel()) > 0.5){
-          maj(listWithoutPrecModelPoints, m);
-          listOfDroites.push_back(m);
-        }
-        else {
-          stopRansac = true;
-        }
+    //ransac(listOfPoints, n, NbPtPertinent, proba, seuil, NbPts)
+    m = ransac(listWithoutPrecModelPoints, 2, NbPtPertinent, 0.99, seuil, NbPts);
+
+    if( std::abs(m.getCorrel()) > 0/*.5*/){
+      maj(listWithoutPrecModelPoints, m);
+      listOfDroites.push_back(m);
     }
+    else {
+      stopRansac = true;
+    }
+  }
 
-    //publier la listWithoutPrecModelPoints !!!
+  //publier la listWithoutPrecModelPoints !!!
 
-    return listOfDroites;
+  return listOfDroites;
 }
 
 Segment build(const std::list<Point> &points){
@@ -250,6 +253,16 @@ std::list<Segment> buildSegments(std::list<Modele> &listOfModeles){
   return listOfSegments;
 }
 
+geometry_msgs::Pose2D& test(geometry_msgs::Pose2D &c1, geometry_msgs::Pose2D &c2){
+  //test distance centre - points trouvés (distance Manhattan)
+  if((std::abs(c1.x) + std::abs(c1.y)) < (std::abs(c2.x) + std::abs(c2.y))){
+    return c2;
+  }
+  else {
+    return c1;
+  }
+}
+
 Machine calculateCoordMachine(Segment s){
   Machine m;
 
@@ -260,37 +273,42 @@ Machine calculateCoordMachine(Segment s){
   double absMilieu = (s.getMax().getX() + s.getMin().getX())/2;
   double ordMilieu = (s.getMax().getY() + s.getMin().getY())/2;
 
-  geometry_msgs::Pose2D point;
+  geometry_msgs::Pose2D c1, c2, point;
 
+  //optimisation possible
   if ((size > p-seuil) && (size < p+seuil)){
-      point.x     = absMilieu + 0.35*cos(angle - M_PI_2);
-      point.y     = ordMilieu + 0.35*sin(angle - M_PI_2);
-      point.theta = atan2(tan(angle - M_PI_2), 1);
+    c1.x = absMilieu - g/2*sin(angle/* + M_PI_2*/);
+    c1.y = ordMilieu + g/2*cos(angle/* + M_PI_2*/);
 
-      m.setType(1);
+    c2.x = absMilieu + g/2*sin(angle/* + M_PI_2*/);
+    c2.y = ordMilieu - g/2*cos(angle/* + M_PI_2*/);
+
+    m.setType(1);
+
+    point = test(c1,c2);
+    point.theta = atan2(tan(angle + M_PI_2),1);
   }
-  else  if ((size > g-seuil) && (size < g+seuil)){
-          point.x     = absMilieu + 0.175*cos(angle - M_PI_2);
-          point.y     = ordMilieu + 0.175*sin(angle - M_PI_2);
-          point.theta = atan2(tan(angle), 1);
+  else if ((size > g-seuil) && (size < g+seuil)){
+    c1.x = absMilieu - p/2*sin(angle);
+    c1.y = ordMilieu + p/2*cos(angle);
 
-          m.setType(2);
-        }
-        else {
-          point.x     = 0.0;
-          point.y     = 0.0;
-          point.theta = 0.0;
+    c2.x = absMilieu + p/2*sin(angle);
+    c2.y = ordMilieu - p/2*cos(angle);
 
-          m.resetType();
-        } 
+    m.setType(2);
+
+    point = test(c1,c2);
+    point.theta = angle;
+  }
+  else {
+    point.x     = 0.0;
+    point.y     = 0.0;
+    point.theta = 0.0;
+
+    m.resetType();
+  }
 
   m.setCentre(point);
-
-  /*if (m.getType() != 0){
-    std::cout << "\nMachine ("<< m.getCentre().x << ", " << m.getCentre().y << ")" << std::endl;
-    std::cout << "orientation : " << m.getCentre().theta*(180/M_PI) << std::endl;
-    std::cout << "type : " << m.getType() << std::endl;
-  }*/
 
   return m;
 }
