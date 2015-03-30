@@ -53,7 +53,7 @@ void Machine::majSortie(geometry_msgs::Pose2D point){
   // Approche Finale
 //}
 
-//void Machine::prendreProduit(FakeRobotino fakeRB){
+//void Machine::prendreProduit( ){
   // Approche Finale
   // refBoxCom(Communication machine)
 //}

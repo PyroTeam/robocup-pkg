@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  geometry_msgs
   message_generation
 )
 
@@ -51,6 +52,7 @@ DIRECTORY
 FILES
    GripperStatus.msg
    activity.msg
+   Landmarks.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -77,6 +79,7 @@ FILES
  generate_messages(
    DEPENDENCIES
    std_msgs
+   geometry_msgs
  )
 
 
