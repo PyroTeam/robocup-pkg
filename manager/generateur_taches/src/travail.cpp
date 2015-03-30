@@ -5,9 +5,10 @@
 #include "listetaches.h"
 #include "ordre.h"
 
-#include <iostream>
+#include "manager_msg/order.h"
 
 using namespace std;
+using namespace manager_msg;
 
 // verifie si la demande de la RefBox a déjà prise en compte
 bool deja_dans_travail(list<list<Tache> > travail, Ordre order){
@@ -64,12 +65,11 @@ void calcul_ratio(list<list<Tache> > &travail, int temps){
   list<list<Tache> >::iterator t_it;
   for(t_it = travail.begin(); t_it != travail.end(); t_it++){
     t_it->begin()->set_ratio(0);
-    if(t_it->begin()->get_intitule() == "Destocker") {
+    if(t_it->begin()->get_intitule() == int(orderRequest::DESTOCK)) {
       if(t_it->begin()->dans_les_temps(temps)) {t_it->begin()->set_ratio(100);} 
-      else {t_it->begin()->set_ratio(0);}
     }
     else{
-      if((t_it->size() == 1) && (t_it->begin()->get_intitule() == "Decapsuler")){
+      if((t_it->size() == 1) && (t_it->begin()->get_intitule() == int(orderRequest::UNCAP))){
 	t_it->begin()->set_ratio(0.1);
       }
       else{
@@ -85,17 +85,49 @@ void calcul_ratio(list<list<Tache> > &travail, int temps){
 
 //affiche des infos sur la structure contenant les tâches à réaliser
 void get_info_liste_de_liste(list<list<Tache> > travail){
-list<list<Tache> >::iterator wit;
+  list<list<Tache> >::iterator wit;
   int compteur = 1; 
   for(wit = travail.begin(); wit != travail.end(); wit++){
     cout << "taille de la liste " << compteur << " = " << wit->size() <<
-        " | ratio = "<< wit->begin()->get_ratio() <<
-        " | intitule première tâche = " << wit->begin()->get_intitule()  << 
-        " " << wit->begin()->get_parametre() <<  
-        " debut_livr : " << wit->begin()->get_debut_livraison() <<
-        " fin_livr : " << wit->begin()->get_fin_livraison() << endl;
+      " | ratio = "<< wit->begin()->get_ratio() <<
+      " | intitule première tâche = " << wit->begin()->get_intitule()  << 
+      " " << wit->begin()->get_parametre() <<  
+      " debut_livr : " << wit->begin()->get_debut_livraison() <<
+      " fin_livr : " << wit->begin()->get_fin_livraison() << endl;
     compteur++;
   }
 }			
 			
-//parcoure la liste d'ordres reçus par la Refbox
+//enlève ce qui est déjà fait
+void nettoyage_travail(list<list<Tache> > &travail,list<list<Tache> >::iterator &it){
+  if(!it->empty()) {
+    it->pop_front();
+  }
+  if(it->empty()) {
+    travail.erase(it);
+  }
+}
+
+//quelques traitements à faire en plus en cas de tâche particulière
+void tache_particuliere_travail(list<list<Tache> > ::iterator &it,int temps, int &cap_dispo, int &storage){
+  //si la seule tâche est de décapsuler dans la liste
+  if((it->begin()->get_intitule() == int(orderRequest::UNCAP)) && (it->size() == 1)){ 
+    cap_dispo ++;
+    storage ++;
+  }
+  //si on a un produit fini
+  if(it->begin()->get_intitule() == int(orderRequest::DELIVER)){   
+    if(it->begin()->dans_les_temps(temps)){
+      it->begin()->set_parametre(orderRequest::DS);
+    }
+    else
+      it->begin()->set_parametre(int(orderRequest::STOCK));{
+      vector<int> rien(1,20);
+      Produit prod_tmp(it->begin()->get_produit(),rien);
+      list<Tache> ltmp = creation_liste_taches_act(int(orderRequest::DESTOCK),prod_tmp,it->begin()->get_debut_livraison(),it->begin()->get_fin_livraison());
+      it->splice(it->end(),ltmp);
+    }
+  }  	
+}
+
+ 
