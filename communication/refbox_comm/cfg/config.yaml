@@ -1,0 +1,45 @@
+%YAML 1.2
+%TAG ! tag:fawkesrobotics.org,cfg/
+---
+# Configuration meta information document
+include:
+  # reads files ending in .yaml from conf.d config subdir
+  # - !ignore-missing conf.d/
+  # Reads the host-specific configuration file, no failure if missing
+  - !host-specific host.yaml
+---
+# Main configuration document
+
+llsfrb:
+  comm:
+    protobuf-dirs: ["@BASEDIR@/src/msgs"]
+ 
+    public-peer:
+      #host: !ipv4 172.26.255.255
+      host: !ipv4 192.168.10.255
+      port: !udp-port 4444
+      #send-port: !udp-port 4444
+      #recv-port: !udp-port 4445
+
+    cyan-peer:
+      #host: !ipv4 172.26.255.255
+      host: !ipv4 192.168.10.255
+      port: !udp-port 4441
+      #send-port: !udp-port 4441
+      #recv-port: !udp-port 4446
+
+    magenta-peer:
+      #host: !ipv4 172.26.255.255
+      host: !ipv4 192.168.10.255
+      port: !udp-port 4442
+      #send-port: !udp-port 4442
+      #recv-port: !udp-port 4447
+
+  game:
+    team: PyroTeam
+    color: cyan
+    robot_number: 2
+    robot_name: R2
+    
+    crypto-keys:
+      PyroTeam: tk3P2mKD

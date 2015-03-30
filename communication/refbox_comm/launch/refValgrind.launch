@@ -1,0 +1,8 @@
+<launch>
+
+    <group ns="refbox1">
+        <node pkg="refBoxComm" name="sim" type="refBoxComm" launch-prefix="valgrind"/>
+    </group>
+
+
+</launch>

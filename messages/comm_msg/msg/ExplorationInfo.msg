@@ -1,0 +1,2 @@
+ExplorationSignal[] signals
+ExplorationMachine[] machines
