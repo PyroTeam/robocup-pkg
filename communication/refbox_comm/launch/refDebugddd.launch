@@ -1,0 +1,8 @@
+<launch>
+
+    <group ns="refbox1">
+        <node pkg="refBoxComm" name="Com_node" type="refBoxComm" launch-prefix="ddd --args"/>
+    </group>
+
+
+</launch>
