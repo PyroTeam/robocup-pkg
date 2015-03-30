@@ -44,7 +44,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 # add_message_files(
 #   FILES
-#   Message1.msg
+#   Landmarks.msg
 #   Message2.msg
 # )
 
@@ -111,13 +111,15 @@ add_executable(
   src/CapStation.cpp
   src/RingStation.cpp
   src/DeliveryStation.cpp
+  src/gtServerSrv.cpp
+  src/LocaSubscriber.cpp
 )
-add_executable(
-  test_service
+#add_executable(
+ # test_service
   
-   src/service_node.cpp
-   src/gtServerSrv
-  )
+  # src/service_node.cpp
+   #
+  #)
 
 add_executable(
   test_topic
@@ -136,10 +138,10 @@ target_link_libraries(
   test_exec
   ${catkin_LIBRARIES}
 )
-target_link_libraries(
-  test_service
-  ${catkin_LIBRARIES}
-)
+#target_link_libraries(
+ # test_service
+  #${catkin_LIBRARIES}
+#)
 target_link_libraries(
   test_topic
   ${catkin_LIBRARIES}
