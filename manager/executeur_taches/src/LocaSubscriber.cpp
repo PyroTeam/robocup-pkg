@@ -13,6 +13,6 @@ void LocaSubscriber::tesCallback(const manager_msg::Landmarks &msg)
 	tab_machine = msg.landmarks;
 
 	for(int i=0; i<tab_machine.size(); i++){
-		ROS_INFO("x :landmarks[%d] = %d", i,tab_machine[i].x);
+		ROS_INFO("x :landmarks[%d] = %f", i,tab_machine[i].x);
 	}
 }

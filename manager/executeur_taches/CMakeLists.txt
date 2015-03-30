@@ -121,11 +121,11 @@ add_executable(
    #
   #)
 
-add_executable(
-  test_topic
+#add_executable(
+#  test_topic
   
-   src/gtPublisher.cpp
-  )
+#   src/gtPublisher.cpp
+#  )
   
 
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
@@ -142,10 +142,10 @@ target_link_libraries(
  # test_service
   #${catkin_LIBRARIES}
 #)
-target_link_libraries(
-  test_topic
-  ${catkin_LIBRARIES}
-)
+#target_link_libraries(
+#  test_topic
+#  ${catkin_LIBRARIES}
+#)
 
 #############
 ## Install ##
