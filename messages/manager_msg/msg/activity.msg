@@ -12,7 +12,7 @@ int8 RS2    = 2
 int8 CS1    = 3
 int8 CS2    = 4
 int8 DS     = 5
-int8 NONE     = 6
+int8 NONE   = 6
 
 int8 machine_used 
 
