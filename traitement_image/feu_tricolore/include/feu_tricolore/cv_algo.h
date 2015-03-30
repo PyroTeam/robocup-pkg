@@ -78,7 +78,6 @@ private:
     void hsvProcessing_V2(cv::Mat imgToProcess);
     void templateProcessing();
     int featureProcessing();
-    void freakProcessing();
 
 private:
     void opening(cv::Mat &imgToProcess, cv::Size size = cv::Size(3,3), int shape = cv::MORPH_RECT);
@@ -119,6 +118,8 @@ private:
     int nbImgProcessed_;
     static const int minNbImgProcessedPerSecond_ = 10;
     static const float minProcessTimeNeeded_ = 0.5;
+    int freakProcessing(std::string detector_str = "GFTT", std::string extractor_str = "BRISK", std::string matcher_str = "BruteForce-Hamming");
+    int cascadeProcessing();
 };
 
 /*-----  End of Class Declaration  ------*/
