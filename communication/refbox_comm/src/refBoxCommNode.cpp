@@ -39,6 +39,7 @@
 #include <msgs/Team.pb.h>
 
 #include <sstream>
+#include <string>
 
 
 int main(int argc, char **argv)
@@ -48,12 +49,24 @@ int main(int argc, char **argv)
     Team team_color;
     
     ros::init(argc, argv, "refBoxComm");
+    ros::NodeHandle nh;
+    
+    //obtenir la configuration
+    std::string teamName;
+    std::string teamColor;
+    std::string robotName;
+    int robotNumber;
+    nh.param<std::string>("teamName",teamName, "PyroTeam");
+	nh.param<std::string>("robotName", robotName, "R0");
+	nh.param<int>("robotNumber", robotNumber, 0);
+	nh.param<std::string>("teamColor", teamColor, "cyan");
+	
 
     std::shared_ptr<RefBoxTransport> refBoxTPtr(new RefBoxTransport());
-    refBoxTPtr->init();
+    refBoxTPtr->init(teamColor);
     // team_color = refBoxTPtr->get_teamColor();
 
-    RefBoxComm refBoxComm;
+    RefBoxComm refBoxComm(teamName, teamColor, robotName, robotNumber);
     refBoxComm.setTransport(refBoxTPtr);
 
     ros::Rate loop_rate(loopFreq);

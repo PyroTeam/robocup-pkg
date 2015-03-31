@@ -46,7 +46,7 @@ typedef StaticDispatch<protoMsg, bool, std::function<bool(google::protobuf::Mess
 class RefBoxComm
 {
 public:
-    RefBoxComm();
+    RefBoxComm(std::string teamName, std::string teamColor, std::string robotName, int robotNumber);
     virtual ~RefBoxComm();
     
     void setTransport(std::shared_ptr<RefBoxTransport> &refBoxTr);
