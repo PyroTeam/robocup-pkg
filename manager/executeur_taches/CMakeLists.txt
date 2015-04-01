@@ -111,22 +111,14 @@ add_executable(
   src/CapStation.cpp
   src/RingStation.cpp
   src/DeliveryStation.cpp
-  src/gtServerSrv.cpp
+  src/GtServerSrv.cpp
   src/LocaSubscriber.cpp
 )
-#add_executable(
- # test_service
+add_executable(
+  test_publish
   
-  # src/service_node.cpp
-   #
-  #)
-
-#add_executable(
-#  test_topic
-  
-#   src/gtPublisher.cpp
-#  )
-  
+  src/fake_publisher_node.cpp
+)
 
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
@@ -138,10 +130,10 @@ target_link_libraries(
   test_exec
   ${catkin_LIBRARIES}
 )
-#target_link_libraries(
- # test_service
-  #${catkin_LIBRARIES}
-#)
+target_link_libraries(
+  test_publish
+  ${catkin_LIBRARIES}
+)
 #target_link_libraries(
 #  test_topic
 #  ${catkin_LIBRARIES}
