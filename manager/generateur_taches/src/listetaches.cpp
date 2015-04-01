@@ -13,10 +13,10 @@ list<Tache> creation_liste_taches_prod(Produit prod,int debut_livr,int fin_livr)
   list<Tache> liste;
   switch(prod.get_nbr_ring()){
   case 0:
-    liste.push_back(Tache(int(orderRequest::TAKE_BASE),prod.get_param(0), prod.get_nbr_ring(),debut_livr,fin_livr,120));
-    liste.push_back(Tache(int(orderRequest::PUT_CAP),  prod.get_param(1), prod.get_nbr_ring(),debut_livr,fin_livr,90));
+    liste.push_back(Tache(int(orderRequest::TAKE_BASE),prod.get_param(0), prod.get_nbr_ring(),debut_livr,fin_livr,5));
+    liste.push_back(Tache(int(orderRequest::PUT_CAP),  prod.get_param(1), prod.get_nbr_ring(),debut_livr,fin_livr,0));
     liste.push_back(Tache(int(orderRequest::TAKE_CAP), prod.get_param(1), prod.get_nbr_ring(),debut_livr,fin_livr,60));
-    liste.push_back(Tache(int(orderRequest::DELIVER),  orderRequest::NONE,prod.get_nbr_ring(),debut_livr,fin_livr,30));
+    liste.push_back(Tache(int(orderRequest::DELIVER),  orderRequest::NONE,prod.get_nbr_ring(),debut_livr,fin_livr,0));
     break;
   case 1:
     liste.push_back(Tache(int(orderRequest::TAKE_BASE), prod.get_param(0), prod.get_nbr_ring(),debut_livr,fin_livr,180));

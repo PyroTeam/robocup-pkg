@@ -113,6 +113,7 @@ add_executable(test_fonctions_travail
   src/main.cpp)
   
 add_executable(algo_node
+  src/etatdujeu.cpp
   src/travailphase.cpp
   src/tabmachine.cpp
   src/machine.cpp

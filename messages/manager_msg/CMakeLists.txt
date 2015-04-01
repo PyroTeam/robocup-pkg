@@ -51,6 +51,7 @@ DIRECTORY
 FILES
    GripperStatus.msg
    activity.msg
+   GameState.msg
  )
 
 ## Generate services in the 'srv' folder

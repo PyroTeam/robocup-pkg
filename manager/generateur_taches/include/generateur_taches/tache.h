@@ -7,7 +7,7 @@
 class Tache{
 
  public:
-  Tache(int inti, int parametre,int prod, int deb, int fin, int crea, float rat=1,bool en_traitement=false);
+  Tache(int inti, int parametre,int prod, int deb, int fin, int crea, float rat=1,bool en_traitement=false,int robot=0, int fin_exec=0);
 
   void set_intitule(int inti){m_intitule=inti;}
   int get_intitule(){return m_intitule;}
@@ -24,10 +24,14 @@ class Tache{
   void set_ratio(float rat){m_ratio=rat;}
   float get_ratio(){return m_ratio;}
   void set_en_traitement(bool en_traitement){m_en_traitement=en_traitement;}
-  bool get_en_traitement(){return m_en_traitement;}  
+  bool get_en_traitement(){return m_en_traitement;}
+  void set_robot(int robot){m_robot=robot;}
+  int get_robot(){return m_robot;}
+  void set_fin_execution(int fin){m_fin_execution=fin;}
+  int get_fin_execution(){return m_fin_execution;}  
   
   int point_par_produit();
-  bool dans_les_temps(int temps);
+  bool dans_les_temps(double temps);
   
  private:
   int m_intitule;
@@ -38,6 +42,8 @@ class Tache{
   int m_creation; //temps de creation restant
   float m_ratio;
   bool m_en_traitement;
+  int m_robot;
+  int m_fin_execution;
 };
 
 #endif
