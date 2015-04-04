@@ -5,10 +5,8 @@
 #include "nav_msgs/Odometry.h"
 #include "geometry_msgs/Pose2D.h"
 #include <tf/transform_datatypes.h>
-#include <eigen/dense>
+#include <Eigen/Dense>
 #include <string>
-
-void initPosRobot(string s,int n);
 
 geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser);
 

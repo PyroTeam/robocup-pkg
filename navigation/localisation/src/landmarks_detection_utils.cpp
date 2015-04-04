@@ -118,6 +118,7 @@ Modele ransac(std::list<Point> &listOfPoints, int n, int NbPtPertinent, double p
 
     iter++;
   }
+  meilleur_modele.linReg();
   meilleur_modele.update();
 
   return meilleur_modele;

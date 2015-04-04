@@ -1,36 +1,68 @@
 #include <iostream>
 #include <Eigen/Dense>
 #include <cmath>
+#include <chrono>
+#include <random>
 
 using namespace Eigen;
 
 int main()
 {
- 	Matrix3d m;
-	m.setZero();
-	VectorXd before(3);
-	VectorXd after(3);
+	// construct a trivial random generator engine from a time-based seed:
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine generator (seed);
 
-	//translation
-	m(1,2) = -0.2;
-	//rotation
-	m(0,0) =  cos(90*M_PI/180);
-	m(0,1) = -sin(90*M_PI/180);
-	m(1,0) =  sin(90*M_PI/180);
-	m(1,1) =  cos(90*M_PI/180);
+	std::normal_distribution<double> distribution (0.0,0.1);
 
-	m(2,2) = 1;
+	Vector3d tmp;
+	tmp(0) = 1;
+	tmp(1) = 1;
+	tmp(2) = 1;
 
-	//before << 0, 0, 1;
-	before(0) = 1;
-	before(1) = 1;
-	before(2) = 0;
+ 	Vector3d xPredicted;
+ 	Vector3d cmdVelVect;
 
-	std::cout << before << std::endl;
+ 	xPredicted.setZero();
+ 	cmdVelVect.setZero();
 
-	after = m*before;
+	cmdVelVect(0) = 2;
+	cmdVelVect(1) = 2;
+	cmdVelVect(2) = 0;
 
- 	std::cout << m << std::endl;
- 	std::cout << after << std::endl;
- 	
+	Vector3d deltaX;
+
+	deltaX = 0.01*cmdVelVect;
+
+	xPredicted = tmp.topLeftCorner(3,1) + deltaX;
+
+	//std::cout << cmdVelVect << "\n" << std::endl;
+	std::cout << deltaX << "\n" << std::endl;
+	std::cout << xPredicted << "\n" << std::endl;
+	std::cout << tmp.topLeftCorner(3,1) << "\n" << std::endl;
+
+/*
+ 	MatrixXd N(m.rows(), m.cols());
+ 	int l = 0;
+
+ 	//N matrice du bruit gaussien (on choisit un bruit de l'ordre du cm)
+ 	//matrice symétrique
+ 	for (int i = 0; i < N.rows(); ++i){
+ 		for (int j = 0; j < N.cols(); ++j){
+    		double num = floor(distribution(generator)*100);
+    		if (j >= i){
+    			N(i,j) = num;
+    		}
+ 			else {
+ 				N(i,j) = N(j,i);
+ 			}
+ 		}
+ 	}
+
+ 	int j = 0;
+ 	for (int i = 3; i < xMean.rows(); i=i+3){
+ 		if (after(0) == xMean(i) && after(1) == xMean(i+1)){
+ 			j = i;
+ 		}
+ 	}
+ 	*/
 }
