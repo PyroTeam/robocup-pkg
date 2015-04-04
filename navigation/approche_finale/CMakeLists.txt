@@ -89,6 +89,19 @@ catkin_package(
 ## Build ##
 ###########
 
+add_executable(finalApproaching_server src/finalApproaching_server.cpp)
+
+target_link_libraries(
+  finalApproaching_server
+  ${catkin_LIBRARIES}
+)
+
+add_dependencies(
+  finalApproaching_server
+  ${learning_actionlib_EXPORTED_TARGETS}
+  manager_msg_gencpp
+)
+
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
