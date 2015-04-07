@@ -128,11 +128,7 @@ MatrixXd buildPm(MatrixXd P, int i){
 Vector3d predict(VectorXd xMean, MatrixXd &P, geometry_msgs::Pose2D cmdVel){
 	Vector3d xPredicted, cmdVelVect;
 	cmdVelVect = Pose2DToVector(cmdVel);
-
  	xPredicted.setZero();
- 	cmdVelVect.setZero();
-
-	Vector3d deltaX;
 
 	int periode = 2;
 
