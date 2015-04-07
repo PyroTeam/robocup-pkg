@@ -287,7 +287,11 @@ Machine calculateCoordMachine(Segment s){
     m.setType(1);
 
     point = test(c1,c2);
-    point.theta = atan2(tan(angle + M_PI_2),1);
+    double tmp = atan2(tan(angle+M_PI_2),1);
+    if (tmp < 0){
+      tmp += M_PI;
+    }
+    point.theta = tmp;
   }
   else if ((size > g-seuil) && (size < g+seuil)){
     c1.x = absMilieu - p/2*sin(angle);
@@ -299,7 +303,11 @@ Machine calculateCoordMachine(Segment s){
     m.setType(2);
 
     point = test(c1,c2);
-    point.theta = angle;
+    double tmp = atan2(tan(angle),1);
+    if (tmp < 0){
+      tmp += M_PI;
+    }
+    point.theta = tmp;
   }
   else {
     point.x     = 0.0;
