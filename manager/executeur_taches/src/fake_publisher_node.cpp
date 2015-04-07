@@ -1,3 +1,5 @@
+/* Fake Localisation Publisher Node */
+
 #include "ros/ros.h"
 #include "manager_msg/Landmarks.h"
 #include "geometry_msgs/Pose2D.h"

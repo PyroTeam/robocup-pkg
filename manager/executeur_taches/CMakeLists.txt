@@ -113,6 +113,7 @@ add_executable(
   src/DeliveryStation.cpp
   src/GtServerSrv.cpp
   src/LocaSubscriber.cpp
+  src/MyElements.cpp
 )
 add_executable(
   test_publish

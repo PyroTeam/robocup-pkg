@@ -3,6 +3,8 @@
 
 #include "Machine.h"
 
+using namespace manager_msg;
+
 class DeliveryStation : public Machine{
   private:
       
@@ -13,7 +15,8 @@ class DeliveryStation : public Machine{
     virtual ~DeliveryStation();
     
     virtual void FonctionVirtuelle();
-      
+
+    void deliverToDS(int n_robot, int n_order); 
   
 };
 
