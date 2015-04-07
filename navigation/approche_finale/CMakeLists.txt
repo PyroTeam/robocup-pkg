@@ -7,6 +7,8 @@ project(approche_finale)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  actionlib_msgs
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -81,7 +83,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES approche_finale
-#  CATKIN_DEPENDS roscpp rospy
+  CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib
 #  DEPENDS system_lib
 )
 
@@ -98,7 +100,7 @@ target_link_libraries(
 
 add_dependencies(
   finalApproaching_server
-  ${learning_actionlib_EXPORTED_TARGETS}
+  ${manager_msg_EXPORTED_TARGETS}
   manager_msg_gencpp
 )
 
