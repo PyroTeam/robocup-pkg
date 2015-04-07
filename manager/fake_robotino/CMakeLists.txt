@@ -109,6 +109,10 @@ add_executable(fake_robotino_node
     src/fakeRobotino.cpp
 )
 
+target_link_libraries(fake_robotino_node ${catkin_LIBRARIES})
+add_dependencies(fake_robotino_node manager_msg_gencpp)
+
+
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(fake_robotino_node fake_robotino_generate_messages_cpp)
