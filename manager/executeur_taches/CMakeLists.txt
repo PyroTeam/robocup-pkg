@@ -7,6 +7,8 @@ project(executeur_taches)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  actionlib_msgs 
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -80,7 +82,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES executeur_taches
-  CATKIN_DEPENDS roscpp rospy
+  CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib
 #  DEPENDS system_lib
 )
 
@@ -124,6 +126,8 @@ add_executable(
   src/service_node.cpp
   )
 
+add_executable(finalApproaching_client src/finalApproaching_client.cpp)
+add_dependencies(finalApproaching_client manager_msg_gencpp)
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -144,6 +148,10 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  finalApproaching_client
+  ${catkin_LIBRARIES}
+)
 #############
 ## Install ##
 #############

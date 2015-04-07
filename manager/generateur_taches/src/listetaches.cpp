@@ -30,7 +30,7 @@ list<Tache> creation_liste_taches_prod(Produit prod,int debut_livr,int fin_livr)
     liste.push_back(Tache(int(orderRequest::TAKE_BASE),    prod.get_param(0), prod.get_nbr_ring(),debut_livr,fin_livr,270));
     liste.push_back(Tache(int(orderRequest::PUT_RING),     prod.get_param(1), prod.get_nbr_ring(),debut_livr,fin_livr,240));
     liste.push_back(Tache(int(orderRequest::TAKE_RING),    prod.get_param(1), prod.get_nbr_ring(),debut_livr,fin_livr,210));
-    liste.push_back(Tache(int(orderRequest::BRING_RING_RS),prod.get_param(2), prod.get_nbr_ring(),debut_livr,fin_livr,180));
+    liste.push_back(Tache(int(orderRequest::BRING_BASE_RS),prod.get_param(2), prod.get_nbr_ring(),debut_livr,fin_livr,180));
     liste.push_back(Tache(int(orderRequest::PUT_RING),     prod.get_param(2), prod.get_nbr_ring(),debut_livr,fin_livr,150));
     liste.push_back(Tache(int(orderRequest::TAKE_RING),    prod.get_param(2), prod.get_nbr_ring(),debut_livr,fin_livr,120));
     liste.push_back(Tache(int(orderRequest::PUT_CAP),      prod.get_param(3), prod.get_nbr_ring(),debut_livr,fin_livr,90));
@@ -41,11 +41,11 @@ list<Tache> creation_liste_taches_prod(Produit prod,int debut_livr,int fin_livr)
     liste.push_back(Tache(int(orderRequest::TAKE_BASE),    prod.get_param(0), prod.get_nbr_ring(),debut_livr,fin_livr,390));
     liste.push_back(Tache(int(orderRequest::PUT_RING),     prod.get_param(1), prod.get_nbr_ring(),debut_livr,fin_livr,360));
     liste.push_back(Tache(int(orderRequest::TAKE_RING),    prod.get_param(1), prod.get_nbr_ring(),debut_livr,fin_livr,330));
-    liste.push_back(Tache(int(orderRequest::BRING_RING_RS),prod.get_param(2), prod.get_nbr_ring(),debut_livr,fin_livr,300));
-    liste.push_back(Tache(int(orderRequest::BRING_RING_RS),prod.get_param(2), prod.get_nbr_ring(),debut_livr,fin_livr,270));
+    liste.push_back(Tache(int(orderRequest::BRING_BASE_RS),prod.get_param(2), prod.get_nbr_ring(),debut_livr,fin_livr,300));
+    liste.push_back(Tache(int(orderRequest::BRING_BASE_RS),prod.get_param(2), prod.get_nbr_ring(),debut_livr,fin_livr,270));
     liste.push_back(Tache(int(orderRequest::PUT_RING),     prod.get_param(2), prod.get_nbr_ring(),debut_livr,fin_livr,240));
     liste.push_back(Tache(int(orderRequest::TAKE_RING),    prod.get_param(2), prod.get_nbr_ring(),debut_livr,fin_livr,210));
-    liste.push_back(Tache(int(orderRequest::BRING_RING_RS),prod.get_param(3), prod.get_nbr_ring(),debut_livr,fin_livr,180));
+    liste.push_back(Tache(int(orderRequest::BRING_BASE_RS),prod.get_param(3), prod.get_nbr_ring(),debut_livr,fin_livr,180));
     liste.push_back(Tache(int(orderRequest::PUT_RING),     prod.get_param(3), prod.get_nbr_ring(),debut_livr,fin_livr,150));
     liste.push_back(Tache(int(orderRequest::TAKE_RING),    prod.get_param(3), prod.get_nbr_ring(),debut_livr,fin_livr,120));
     liste.push_back(Tache(int(orderRequest::PUT_CAP),      prod.get_param(4), prod.get_nbr_ring(),debut_livr,fin_livr,90));
