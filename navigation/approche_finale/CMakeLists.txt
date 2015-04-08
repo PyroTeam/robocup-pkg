@@ -9,6 +9,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   actionlib_msgs
   actionlib
+  sensor_msgs
+  message_runtime
 )
 
 ## System dependencies are found with CMake's conventions
@@ -81,9 +83,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES approche_finale
-  CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib
+  INCLUDE_DIRS include
+  LIBRARIES approche_finale
+  CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib sensor_msgs message_runtime
 #  DEPENDS system_lib
 )
 
@@ -91,7 +93,11 @@ catkin_package(
 ## Build ##
 ###########
 
-add_executable(finalApproaching_server src/finalApproaching_server.cpp)
+add_executable(finalApproaching_server 
+  src/fa_utils.cpp
+  src/laserScan.cpp
+  src/Point.cpp
+  src/finalApproaching_server.cpp)
 
 target_link_libraries(
   finalApproaching_server
@@ -109,6 +115,7 @@ add_dependencies(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  include/approche_finale
 )
 
 ## Declare a cpp library
@@ -150,11 +157,11 @@ include_directories(
 # )
 
 ## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
+ install(DIRECTORY include/${PROJECT_NAME}/
+   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+   FILES_MATCHING PATTERN "*.h"
+   PATTERN ".svn" EXCLUDE
+ )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES

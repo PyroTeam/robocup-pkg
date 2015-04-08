@@ -2,6 +2,9 @@
 #include <actionlib/server/simple_action_server.h>
 #include <manager_msg/finalApproachingAction.h>
 
+#include "laserScan.h"
+#include "Point.h"
+
 class finalApproachingAction
 {
 protected:
