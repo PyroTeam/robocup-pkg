@@ -20,8 +20,15 @@ using namespace llsf_msgs;
 
 
 
-RefBoxComm::RefBoxComm()
+RefBoxComm::RefBoxComm(std::string teamName, std::string teamColor, std::string robotName, int robotNumber)
 {
+    //configuration
+    m_status.teamName = teamName;
+    m_status.robotName = robotName;
+    m_status.robotNumber = robotNumber;
+  	m_status.teamColor = (teamColor == "cyan") ? CYAN : MAGENTA;
+	m_status.gamePhase = PHASE_PRE_GAME;
+
     //initialisation des composants ROS
     m_gameState_pub = m_nh.advertise<comm_msg::GameState>("/refBoxComm/GameState", 1000);
     m_explorationInfo_pub = m_nh.advertise<comm_msg::ExplorationInfo>("/refBoxComm/ExplorationInfo", 1000);
@@ -30,35 +37,6 @@ RefBoxComm::RefBoxComm()
   
     m_pose_sub = m_nh.subscribe("/odom", 1000, &RefBoxComm::PoseCallback, this);
   
-  	m_status.robotName = "R1";
-	m_status.robotNumber = 1;
-	m_status.teamName = "PyroTeam";
-	m_status.teamColor = CYAN;
-	m_status.gamePhase = PHASE_PRE_GAME;
-
-	llsfrb::Configuration *config_ = new llsfrb::YamlConfiguration(CONFDIR);
-	config_->load("config.yaml");
-
-    //chargement des info du robot
-    if (config_->exists("/llsfrb/game/team"))
-    {
-        m_status.teamName = config_->get_string("/llsfrb/game/team");
-    }
-    if (config_->exists("/llsfrb/game/robot_number"))
-    {
-        m_status.robotNumber = config_->get_uint("/llsfrb/game/robot_number");
-    }
-    if (config_->exists("/llsfrb/game/robot_name"))
-    {
-        m_status.robotName = config_->get_string("/llsfrb/game/robot_name");
-    }
-    if (config_->exists("/llsfrb/game/color"))
-    {
-        std::string color = config_->get_string("/llsfrb/game/color");
-        m_status.teamColor = ((color == "cyan") ? CYAN : MAGENTA);
-    }
-    delete config_;
-
     //lancement de l'ordonnanceur de messages
     m_sendScheduler.spawn();
 
@@ -97,7 +75,7 @@ void RefBoxComm::setTransport(std::shared_ptr<RefBoxTransport> &refBoxTr)
     m_dispatcher->Add<RobotInfo>(std::function<bool(google::protobuf::Message&)>(boost::bind(&RefBoxComm::fireRobotInfo, this, _1)));
     m_dispatcher->Add<Team>(std::function<bool(google::protobuf::Message&)>(boost::bind(&RefBoxComm::fireUnknown, this, _1)));
     
-    m_transport->setReceiveDispatcher(m_dispatcher);
+    m_transport->setReceiveDispatcher(m_dispatcher);    
     
     m_sendScheduler.setTransport(m_transport);
 }
