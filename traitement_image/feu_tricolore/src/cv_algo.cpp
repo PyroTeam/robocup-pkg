@@ -1070,7 +1070,6 @@ int LectureFeu::freakProcessing(std::string detector_str, std::string extractor_
 
     msg = cv_bridge::CvImage(std_msgs::Header(), enc::RGB8, imgKeypointB).toImageMsg();
     output_2_pub_.publish(msg);
-    before_morphops_pub_.publish(msg);
 
     processed = true;
 
