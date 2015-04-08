@@ -4,7 +4,13 @@ project(robot_comm)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  rospy
+  std_msgs
+  message_generation
+)
+find_package(Protobuf REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -76,9 +82,9 @@ find_package(catkin REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+   INCLUDE_DIRS include
 #  LIBRARIES robot_comm
-#  CATKIN_DEPENDS other_catkin_pkg
+   CATKIN_DEPENDS message_runtime roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -90,22 +96,46 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 
+include_directories(
+  include
+  ${PROTOBUF_INCLUDE_DIRS})
+
+PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS 
+  proto_msg/Activity.proto
+  proto_msg/Beacon.proto
+  proto_msg/Time.proto
+  proto_msg/Pose2D.proto
+  proto_msg/OrderRequest.proto
+  proto_msg/OrderResponse.proto
+)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+#add_executable(bar bar.cc ${PROTO_SRCS} ${PROTO_HDRS})
+#target_link_libraries(bar ${PROTOBUF_LIBRARIES})
+
+
 ## Declare a cpp library
 # add_library(robot_comm
 #   src/${PROJECT_NAME}/robot_comm.cpp
 # )
 
 ## Declare a cpp executable
-# add_executable(robot_comm_node src/robot_comm_node.cpp)
+add_executable(robot_comm_node src/robotCommNode.cpp ${PROTO_SRCS} ${PROTO_HDRS})
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(robot_comm_node robot_comm_generate_messages_cpp)
+add_dependencies(robot_comm_node ${catkin_EXPORTED_TARGETS} robot_comm_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(robot_comm_node
 #   ${catkin_LIBRARIES}
 # )
+target_link_libraries(robot_comm_node
+  ${catkin_LIBRARIES}
+  ${PROTOBUF_LIBRARIES}
+)
 
 #############
 ## Install ##
