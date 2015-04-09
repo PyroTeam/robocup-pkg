@@ -12,7 +12,7 @@ int main() {
   
   /*** INITIALISATION ***/
   vector<int> black(1,10);
-  
+  bool take[3];
   Produit action(0,black);
 
   list< list<Tache> > work;
@@ -48,7 +48,7 @@ int main() {
   
   /*** TEST DE LA FONCTION CALCUL_RATIO ***/
   cout << "\n\tTest de la fonction calcul_ratio" << endl;
-  calcul_ratio(work,10);
+  calcul_ratio(work,5,1,take);
   get_info_liste_de_liste(work);
   
   /*** TEST DE LA FONCTION MAX_RATIO ***/

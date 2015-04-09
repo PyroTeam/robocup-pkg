@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   message_generation
+  actionlib_msgs        
 )
 
 ## System dependencies are found with CMake's conventions
@@ -53,6 +54,7 @@ FILES
    GripperStatus.msg
    activity.msg
    Landmarks.msg
+   GameState.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -68,11 +70,12 @@ FILES
 
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
+ add_action_files(
+   DIRECTORY
+   action
+   FILES
+   finalApproaching.action
+ )
 
 ## Generate added messages and services with any dependencies listed here
 
@@ -80,6 +83,7 @@ FILES
    DEPENDENCIES
    std_msgs
    geometry_msgs
+   actionlib_msgs
  )
 
 
@@ -95,7 +99,7 @@ FILES
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES beginner_tutorials
-   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
+   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime actionlib_msgs
 #  DEPENDS system_lib
 )
 

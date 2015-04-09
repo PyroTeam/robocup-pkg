@@ -1,34 +1,31 @@
-#ifndef ACTION_H
-#define ACTION_H
+#ifndef ETATDUJEU_H
+#define ETATDUJEU_H
 
 #include <ros/ros.h>
-#include "robot.h"
-#include "manager_msg/activity.h"
+#include "manager_msg/GameState.h" //a passer apres en comm_msg/GameState.h
 
-class Action {
+class Etatdujeu {
 
 public:
 
-    Action();
+    Etatdujeu();
     
-    int get_nb_robot(){return m_nb_robot;}
-    int get_state(){return m_state;}
-    int get_machine_used(){return m_machine_used;}
-    int get_nb_order(){return m_nb_order;}
+    int get_etat(){return m_etat;}
+    int get_phase(){return m_phase;}
+    ros::Time get_temps(){return m_temps;}
+    int get_points(){return m_points;}
     
-    void tesCallback(const manager_msg::activity &msg);
-    void update_robot(Robot (&robot)[3]);
-
+    void gsCallback(const manager_msg::GameState &msg); //ici aussi
 
 private:
     
     ros::NodeHandle m_nh;
-    ros::Subscriber m_activity_sub;
+    ros::Subscriber m_gamestate_sub;
     
-    int m_nb_robot;
-    int m_state;
-    int m_machine_used;
-    int m_nb_order;
+    int m_etat;
+    int m_phase;
+    ros::Time m_temps;
+    int m_points;
     
 };
 

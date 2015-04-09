@@ -16,5 +16,5 @@
 
 
 void travail_phase_exploration(Machine (&tab_machine)[6], Robot (&tabrobot)[3],int &cpt_order, int robot);
-void travail_phase_production(std::list<std::list<Tache> > &work, Machine (&tab_machine)[6], Robot (&tabrobot)[3],Stockage (&tab_stock)[6], int &cpt_order, int robot, int temps, int &cap_dispo, int &storage,Ordre &order);
+void travail_phase_production(std::list<std::list<Tache> > &work, Machine (&tab_machine)[6], Robot (&tabrobot)[3],Stockage (&tab_stock)[6], bool (&take)[3], int &cpt_order, int robot, int &cap_dispo, int &storage,Ordre &order, double temps);
 #endif

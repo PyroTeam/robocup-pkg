@@ -1,5 +1,7 @@
 #include <list>
 #include <iostream>
+#include <ros/ros.h>
+
 #include "travail.h"
 #include "tache.h"
 #include "listetaches.h"
@@ -49,6 +51,18 @@ void rajout_dans_travail(list<list<Tache> > &travail, Ordre &order,int &cap_disp
   }
 }
 
+//verifie s'il y a des taches qui ont un ratio superieur a zero
+bool ratio_positif(list<list<Tache> > travail){
+  bool tmp = false;
+  list<list<Tache> >::iterator it;
+  for(it = travail.begin(); it != travail.end(); it++){
+    if(it->begin()->get_ratio() > 0){
+      tmp = true;
+    }
+  }
+  return tmp;
+}
+
 //renvoie la tâche qui le plus grand ratio 
 list<list<Tache> >::iterator max_ratio(list<list<Tache> > &travail){
   list<list<Tache> >::iterator travail_iterator;
@@ -61,7 +75,7 @@ list<list<Tache> >::iterator max_ratio(list<list<Tache> > &travail){
 }
 
 //calcule le ratio de chaque première tâche de chaque liste de tâche
-void calcul_ratio(list<list<Tache> > &travail, int temps){
+void calcul_ratio(list<list<Tache> > &travail,double temps,int robot,bool take[]){
   list<list<Tache> >::iterator t_it;
   for(t_it = travail.begin(); t_it != travail.end(); t_it++){
     t_it->begin()->set_ratio(0);
@@ -74,6 +88,11 @@ void calcul_ratio(list<list<Tache> > &travail, int temps){
       }
       else{
 	t_it->begin()->set_ratio(t_it->begin()->point_par_produit());
+      }
+    }
+    if(take[robot]==true){
+      if(t_it->begin()->get_intitule() == int(orderRequest::PUT_CAP) || t_it->begin()->get_intitule() == int(orderRequest::PUT_RING) || t_it->begin()->get_intitule() == int(orderRequest::DELIVER)){
+        t_it->begin()->set_ratio(300);
       }
     }
     if(t_it->begin()->get_en_traitement()){
@@ -99,9 +118,10 @@ void get_info_liste_de_liste(list<list<Tache> > travail){
 }			
 			
 //enlève ce qui est déjà fait
-void nettoyage_travail(list<list<Tache> > &travail,list<list<Tache> >::iterator &it){
+void nettoyage_travail(list<list<Tache> > &travail,list<list<Tache> >::iterator &it,double temps){
   if(!it->empty()) {
     it->pop_front();
+    it->begin()->set_fin_execution(it->begin()->get_creation() + temps);
   }
   if(it->empty()) {
     travail.erase(it);
@@ -109,7 +129,7 @@ void nettoyage_travail(list<list<Tache> > &travail,list<list<Tache> >::iterator 
 }
 
 //quelques traitements à faire en plus en cas de tâche particulière
-void tache_particuliere_travail(list<list<Tache> > ::iterator &it,int temps, int &cap_dispo, int &storage){
+void tache_particuliere_travail(list<list<Tache> > ::iterator &it, int &cap_dispo, int &storage,double temps){
   //si la seule tâche est de décapsuler dans la liste
   if((it->begin()->get_intitule() == int(orderRequest::UNCAP)) && (it->size() == 1)){ 
     cap_dispo ++;
@@ -120,14 +140,19 @@ void tache_particuliere_travail(list<list<Tache> > ::iterator &it,int temps, int
     if(it->begin()->dans_les_temps(temps)){
       it->begin()->set_parametre(orderRequest::DS);
     }
-    else
-      it->begin()->set_parametre(int(orderRequest::STOCK));{
-      vector<int> rien(1,20);
-      Produit prod_tmp(it->begin()->get_produit(),rien);
-      list<Tache> ltmp = creation_liste_taches_act(int(orderRequest::DESTOCK),prod_tmp,it->begin()->get_debut_livraison(),it->begin()->get_fin_livraison());
-      it->splice(it->end(),ltmp);
+    else{
+      it->begin()->set_parametre(int(orderRequest::STOCK));
     }
   }  	
 }
 
- 
+//verifie les taches terminees
+void taches_terminees(list<list<Tache> > &travail, int robot, double temps){
+  list<list<Tache> >::iterator wit;
+  for(wit=travail.begin(); wit!=travail.end(); wit++){
+    if(wit->begin()->get_fin_execution() > temps){
+      wit->begin()->set_en_traitement(false);
+    }
+  }
+}  
+  

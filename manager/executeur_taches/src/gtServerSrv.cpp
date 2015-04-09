@@ -2,7 +2,7 @@
 
 gtServerSrv::gtServerSrv() {
   ros::NodeHandle n;
-  n.param<int>("robotNumber",nb_robot,0); 
+  n.param<int>("robotNumber",nb_robot,1);
 }
 gtServerSrv::~gtServerSrv(){}
 
