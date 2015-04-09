@@ -22,7 +22,7 @@ private:
     ros::ServiceClient m_client;
     manager_msg::order m_srv;
     
-    int m_accepted;
+    bool m_accepted;
     int m_number_order;
     int m_number_robot;
     int m_id;
