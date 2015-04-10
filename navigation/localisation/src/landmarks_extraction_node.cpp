@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
 
     //on souscrit au topic /fake_scan sur lequel les données laser sont transmises
-    ros::Subscriber sub_laser  = n.subscribe("/scan", 1000, &laserScan::laserCallback, &laserData);
+    ros::Subscriber sub_laser  = n.subscribe("/fake_scan", 1000, &laserScan::laserCallback, &laserData);
 
     //on publie les machines trouvées sur le topic /machines
     //et les segments sur le topic /segments
@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     while(n.ok())
     {
         const std::list<Point> &listOfPoints    = laserData.getPoints();
-        std::list<Modele>  listOfModeles        = findLines(listOfPoints, 20, 0.05, 20);
+        std::list<Modele>  listOfModeles        = findLines(listOfPoints, 30, 0.1, 30);
         //voir amélioration avec la fonction convertModelesIntoMachines
         std::list<Segment> listOfSegments       = buildSegments(listOfModeles);
         std::vector<Machine> listOfMachines     = recognizeMachinesFrom(listOfSegments);

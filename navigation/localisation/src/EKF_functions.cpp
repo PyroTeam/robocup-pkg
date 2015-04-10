@@ -90,19 +90,6 @@ void mapInitialization(VectorXd &xMean, MatrixXd &P){
 	P.setZero();
 }
 
-void addMachine(geometry_msgs::Pose2D machine, VectorXd &xMean, MatrixXd &P){
-	//on redimensionne xMean et P pour accueillir la nouvelle machines
-	xMean.conservativeResize(xMean.rows() + 3);
-	P.conservativeResize(P.rows() + 3,P.rows() + 3);
-	//on remplit avec les coordonnées de la nouvelle machine
-	xMean(xMean.rows()-3) = machine.x;
-	xMean(xMean.rows()-2) = machine.y;
-	xMean(xMean.rows()-1) = machine.theta;
-
-	//plus compliqué que ça
-	P.bottomRightCorner(3,3);
-}
-
 int checkStateVector(VectorXd xMean, geometry_msgs::Pose2D machine){
  	for (int i = 3; i < xMean.rows(); i=i+3){
  		if (std::abs(machine.x - xMean(i)) < 0.5 &&	std::abs(machine.y - xMean(i+1)) < 0.5){
@@ -125,6 +112,20 @@ MatrixXd buildPm(MatrixXd P, int i){
  	return Pm;
 }
 
+void buildHetHtranspose(MatrixXd &H, MatrixXd &Ht){
+	H(3,6);
+	H.topLeftCorner(3,3) = MatrixXd::Identity(3,3);
+	H.bottomRightCorner(3,3) = MatrixXd::Identity(3,3);
+
+	Ht(6,3);
+	Ht.topLeftCorner(3,3) = MatrixXd::Identity(3,3);
+	Ht.bottomRightCorner(3,3) = MatrixXd::Identity(3,3);
+}
+
+MatrixXd buildZ(MatrixXd P, MatrixXd Pm, MatrixXd H){
+
+}
+
 Vector3d predict(VectorXd xMean, MatrixXd &P, geometry_msgs::Pose2D cmdVel){
 	Vector3d xPredicted, cmdVelVect;
 	cmdVelVect = Pose2DToVector(cmdVel);
@@ -135,4 +136,30 @@ Vector3d predict(VectorXd xMean, MatrixXd &P, geometry_msgs::Pose2D cmdVel){
 	xPredicted = xMean.topLeftCorner(3,1) + periode*cmdVelVect;
 
 	return xPredicted;
+}
+
+//
+void addMachine(geometry_msgs::Pose2D machine, VectorXd &xMean, MatrixXd &P){
+	//on redimensionne xMean et P pour accueillir la nouvelle machines
+	xMean.conservativeResize(xMean.rows() + 3);
+	P.conservativeResize(P.rows() + 3,P.rows() + 3);
+	//on remplit avec les coordonnées de la nouvelle machine
+	xMean(xMean.rows()-3) = machine.x;
+	xMean(xMean.rows()-2) = machine.y;
+	xMean(xMean.rows()-1) = machine.theta;
+
+	//calcul de tous les PLi
+	//initialisation des PLi à 0
+	P.block(P.rows() - 3, 0, 3, P.cols()).setZero();
+	P.block(0, P.cols() - 3, P.rows(), 3).setZero();
+	//remplissage avec les vecteurs de positionnement
+	for (int i = 0; i < P.cols(); i = i + 3){
+		for (int j = 0; j < xMean.rows(); j = j + 3){
+			//dérivées partielles suivant x, y et theta
+			P(P.rows()-3, i  ) = xMean(xMean.rows()-3) - xMean(j  );
+			P(P.rows()-2, i+1) = xMean(xMean.rows()-2) - xMean(j+1);
+			P(P.rows()-1, i+2) = xMean(xMean.rows()-1) - xMean(j+2);
+		}
+	}
+	
 }
