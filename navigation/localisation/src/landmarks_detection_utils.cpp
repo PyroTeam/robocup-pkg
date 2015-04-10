@@ -144,7 +144,7 @@ std::list<Modele> findLines(const std::list<Point> &listOfPoints, int NbPtPertin
     //ransac(listOfPoints, n, NbPtPertinent, proba, seuil, NbPts)
     m = ransac(listWithoutPrecModelPoints, 2, NbPtPertinent, 0.99, seuil, NbPts);
 
-    if( std::abs(m.getCorrel()) > 0/*.5*/){
+    if( std::abs(m.getCorrel()) > 0){
       maj(listWithoutPrecModelPoints, m);
       listOfDroites.push_back(m);
     }
@@ -246,7 +246,7 @@ std::list<Segment> buildSegments(std::list<Modele> &listOfModeles){
   std::list<Segment> listOfSegments;
   //pour tous les modèles de la liste
   for (auto &it : listOfModeles){
-    std::list<Segment> listTmp = buildSegment(it, 1);
+    std::list<Segment> listTmp = buildSegment(it, 0.3);
     //on concatène les listes de segments trouvés à partir de chaque modèle ensemble
     listOfSegments.splice(listOfSegments.end(),listTmp);
   }
@@ -276,20 +276,21 @@ Machine calculateCoordMachine(Segment s){
 
   geometry_msgs::Pose2D c1, c2, point;
 
+  double tmp = atan2(tan(angle),1);
+
   //optimisation possible
   if ((size > p-seuil) && (size < p+seuil)){
-    c1.x = absMilieu - g/2*sin(angle/* + M_PI_2*/);
-    c1.y = ordMilieu + g/2*cos(angle/* + M_PI_2*/);
+    c1.x = absMilieu - g/2*sin(angle);
+    c1.y = ordMilieu + g/2*cos(angle);
 
-    c2.x = absMilieu + g/2*sin(angle/* + M_PI_2*/);
-    c2.y = ordMilieu - g/2*cos(angle/* + M_PI_2*/);
+    c2.x = absMilieu + g/2*sin(angle);
+    c2.y = ordMilieu - g/2*cos(angle);
 
     m.setType(1);
 
     point = test(c1,c2);
-    double tmp = atan2(tan(angle+M_PI_2),1);
     if (tmp < 0){
-      tmp += M_PI;
+      tmp += M_PI_2;
     }
     point.theta = tmp;
   }
@@ -303,7 +304,6 @@ Machine calculateCoordMachine(Segment s){
     m.setType(2);
 
     point = test(c1,c2);
-    double tmp = atan2(tan(angle),1);
     if (tmp < 0){
       tmp += M_PI;
     }

@@ -136,10 +136,10 @@ add_executable(
   try
   src/try.cpp)
 
-#add_executable(
-#  EKF_node
-#  src/EKF.cpp
-#  src/EKF_functions.cpp)
+add_executable(
+  EKF_node
+  src/EKF.cpp
+  src/EKF_functions.cpp)
 
 set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
@@ -176,10 +176,10 @@ target_link_libraries(
   try
   ${catkin_LIBRARIES}
 )
-#target_link_libraries(
-#  EKF_node
-#  ${catkin_LIBRARIES}
-#)
+target_link_libraries(
+  EKF_node
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
