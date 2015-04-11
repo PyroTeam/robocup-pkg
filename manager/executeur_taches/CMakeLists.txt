@@ -7,6 +7,8 @@ project(executeur_taches)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  actionlib_msgs
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -80,7 +82,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES executeur_taches
-  CATKIN_DEPENDS roscpp rospy
+  CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib
 #  DEPENDS system_lib
 )
 
@@ -114,6 +116,7 @@ add_executable(
   src/GtServerSrv.cpp
   src/LocaSubscriber.cpp
   src/MyElements.cpp
+  src/FeuClientAction.cpp
 )
 add_executable(
   test_publish
@@ -139,7 +142,11 @@ target_link_libraries(
 #  test_topic
 #  ${catkin_LIBRARIES}
 #)
-
+add_dependencies(
+  test_exec
+  ${manager_msg_EXPORTED_TARGETS}
+  manager_msg_gencpp
+)
 #############
 ## Install ##
 #############
