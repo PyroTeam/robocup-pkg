@@ -12,6 +12,7 @@
 geometry_msgs::Pose2D odomRobot;
 geometry_msgs::Pose2D initRobot;
 geometry_msgs::Pose2D cmdVel;
+ros::Time temps;
 
 void odomCallback(const nav_msgs::Odometry& odom){
   odomRobot.x = odom.pose.pose.position.x;
