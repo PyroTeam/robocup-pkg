@@ -101,48 +101,78 @@ int checkStateVector(VectorXd xMean, geometry_msgs::Pose2D machine){
 }
 
 MatrixXd buildPm(MatrixXd P, int i){
-	MatrixXd Pm(6,6);
+	MatrixXd Pm(P.rows(),P.cols());
 	Pm.setZero();
 
-	Pm.topLeftCorner(3,3) 		= P.topLeftCorner(3,3);
- 	Pm.bottomRightCorner(3,3) 	= P.block(i,i,3,3);
- 	Pm.topRightCorner(3,3)		= P.block(0,i,3,3);
- 	Pm.bottomLeftCorner(3,3) 	= P.block(i,0,3,3); 	
+	Pm.block(0,0,3,3) = P.block(0,0,3,3);
+ 	Pm.block(i,i,3,3) = P.block(i,i,3,3);
+ 	Pm.block(0,i,3,3) = P.block(0,i,3,3);
+ 	Pm.block(i,0,3,3) = P.block(i,0,3,3); 	
 
  	return Pm;
 }
 
-void buildHetHtranspose(MatrixXd &H, MatrixXd &Ht){
-	H(3,6);
-	H.topLeftCorner(3,3) = MatrixXd::Identity(3,3);
-	H.bottomRightCorner(3,3) = MatrixXd::Identity(3,3);
+MatrixXd buildH(int taille, int i){
+	MatrixXd H(3,taille);
+	H.block(0,0,3,3) = MatrixXd::Identity(3,3);
+	H.block(0,i,3,3) = MatrixXd::Identity(3,3);
 
-	Ht(6,3);
-	Ht.topLeftCorner(3,3) = MatrixXd::Identity(3,3);
-	Ht.bottomRightCorner(3,3) = MatrixXd::Identity(3,3);
+	return H;
 }
 
-MatrixXd buildZ(MatrixXd P, MatrixXd Pm, MatrixXd H){
+Vector3d prediction(VectorXd xMean, MatrixXd &P, geometry_msgs::Pose2D cmdVel, ros::Time &temps){
+	Vector3d cmdVelVect = Pose2DToVector(cmdVel);
 
-}
+	//calcul de la période pour la prédiction
+	ros::Duration duree = ros::Time::now() - temps;
+	double periode = duree.toSec();
 
-Vector3d predict(VectorXd xMean, MatrixXd &P, geometry_msgs::Pose2D cmdVel){
-	Vector3d xPredicted, cmdVelVect;
-	cmdVelVect = Pose2DToVector(cmdVel);
- 	xPredicted.setZero();
+	//calcul de la position du robot pour l'instant n+1
+	Vector3d xPredicted = xMean.topLeftCorner(3,1) + periode*cmdVelVect;
 
-	int periode = 2;
+	MatrixXd Fx;
+	Fx = MatrixXd::Identity(P.rows(), P.cols());
+	Fx(0,0) = xPredicted(0);
+	Fx(1,1) = xPredicted(1);
+	Fx(2,2) = xPredicted(2);
 
-	xPredicted = xMean.topLeftCorner(3,1) + periode*cmdVelVect;
+	//mise à jour de P
+	P = Fx*P*(Fx.transpose());
+	//mise à jour du temps
+	temps = ros::Time::now();
 
 	return xPredicted;
 }
 
-//
+void correction(VectorXd &xMean, MatrixXd &P, Vector3d xPredicted, geometry_msgs::Pose2D m){
+	int taille = P.rows();
+	int i = checkStateVector(xMean, m);
+
+	//calcul de H
+	MatrixXd H(3, taille);
+	H = buildH(taille, i);
+	//calcul de Pm
+	MatrixXd Pm(taille, taille);
+	Pm = buildPm(P, i);
+	//calcul de Z
+	MatrixXd Z(taille, taille);
+	Z = H*Pm*(H.transpose());
+
+	//calcul du gain de Kalman
+	MatrixXd K(taille, taille);
+	K = P*(H.transpose())*(Z.inverse());
+
+	//mise à jour du vecteur xMean
+	xMean += K*(xMean.block(xMean.rows()-3,0,3,1) - xPredicted);
+	//mise à jour de la matrice P
+	P -= K*Z*(K.transpose());
+}
+
 void addMachine(geometry_msgs::Pose2D machine, VectorXd &xMean, MatrixXd &P){
 	//on redimensionne xMean et P pour accueillir la nouvelle machines
 	xMean.conservativeResize(xMean.rows() + 3);
-	P.conservativeResize(P.rows() + 3,P.rows() + 3);
+	P.conservativeResize(P.rows() + 3,P.cols() + 3);
+	
 	//on remplit avec les coordonnées de la nouvelle machine
 	xMean(xMean.rows()-3) = machine.x;
 	xMean(xMean.rows()-2) = machine.y;
@@ -152,14 +182,22 @@ void addMachine(geometry_msgs::Pose2D machine, VectorXd &xMean, MatrixXd &P){
 	//initialisation des PLi à 0
 	P.block(P.rows() - 3, 0, 3, P.cols()).setZero();
 	P.block(0, P.cols() - 3, P.rows(), 3).setZero();
+
+	double x, y, theta;
+
 	//remplissage avec les vecteurs de positionnement
-	for (int i = 0; i < P.cols(); i = i + 3){
-		for (int j = 0; j < xMean.rows(); j = j + 3){
-			//dérivées partielles suivant x, y et theta
-			P(P.rows()-3, i  ) = xMean(xMean.rows()-3) - xMean(j  );
-			P(P.rows()-2, i+1) = xMean(xMean.rows()-2) - xMean(j+1);
-			P(P.rows()-1, i+2) = xMean(xMean.rows()-1) - xMean(j+2);
-		}
+	for (int j = 0; j < xMean.rows(); j = j + 3){
+		//dérivées partielles suivant x, y et theta
+		x 	  = xMean(xMean.rows()-3) - xMean(j  );
+		y 	  = xMean(xMean.rows()-2) - xMean(j+1);
+		theta = xMean(xMean.rows()-1) - xMean(j+2);
+
+		P(P.rows()-3, j  ) = x;
+		P(P.rows()-2, j+1) = y;
+		P(P.rows()-1, j+2) = theta;
+
+		P(j  , P.rows()-3) = x;
+		P(j+1, P.rows()-2) = y;
+		P(j+2, P.rows()-1) = theta;
 	}
-	
 }
