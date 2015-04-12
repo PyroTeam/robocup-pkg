@@ -78,3 +78,12 @@ manager_msg::activity Machine::msgToGT(int n_robot, int stateOfOrder, int machin
   // Pince => depose le produit 
   // refBoxCom(Communication machine)
 //}
+
+void Machine::explore(){
+  ROS_INFO(" Starting exploring the ARTag ");
+  ROS_INFO(" Starting exploring the lights ");
+  FeuClientAction f_c;
+  FinalApproachingClient fa_c;
+  f_c.lightsStates(); 
+  fa_c.starting(1,100);/*test*/
+}

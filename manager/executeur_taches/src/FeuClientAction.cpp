@@ -4,7 +4,7 @@ FeuClientAction::FeuClientAction() {
 }
 FeuClientAction::~FeuClientAction(){}
 
-void FeuClientAction::feu(){
+void FeuClientAction::lightsStates(){
 	
 	actionlib::SimpleActionClient<manager_msg::processLightSignalAction> client("processLightSignal",true);
 
