@@ -1,5 +1,5 @@
 # Define the goal
-# uint32 sample # Specify which dishwasher we want to use
+# uint32 sample 
 ---
 # Define the result
 LightSpec[] light_signal

@@ -7,7 +7,7 @@ project(executeur_taches)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  actionlib_msgs
+  genmsg actionlib_msgs
   actionlib
 )
 
@@ -117,6 +117,7 @@ add_executable(
   src/LocaSubscriber.cpp
   src/MyElements.cpp
   src/FeuClientAction.cpp
+  src/FinalApproachingClient.cpp
 )
 add_executable(
   test_publish

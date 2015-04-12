@@ -10,7 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   message_generation
-  actionlib_msgs
+  genmsg actionlib_msgs
   actionlib
   message_runtime
 )
@@ -77,6 +77,7 @@ FILES
    action
    FILES
    processLightSignal.action
+   finalApproaching.action
 #   Action2.action
  )
 
