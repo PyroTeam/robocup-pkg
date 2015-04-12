@@ -4,6 +4,7 @@
 #include <tf/transform_datatypes.h>
 #include <Eigen/Dense>
 #include <string>
+#include <limits>
 
 #include "EKF_functions.h"
 
@@ -28,8 +29,6 @@ geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser){
 	before(1) = PosLaser.y;
 	before(2) = 1;
 
- 	std::cout << m << std::endl;
-
 	after = m*before;
 
 	p.x = after(0) ;
@@ -45,13 +44,12 @@ geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser){
 	return p;
 }
 
-geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D PosInitRobot, geometry_msgs::Pose2D odomRobot){
-	geometry_msgs::Pose2D p;
+geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose2D PosInitRobot, geometry_msgs::Pose2D odomRobot){
 	Vector3d before, after;
 	Matrix3d m;
 
-	before(0) = odomRobot.x + PosInitRobot.x;
-	before(1) = odomRobot.y + PosInitRobot.y;
+	before(0) = p.x + odomRobot.x + PosInitRobot.x;
+	before(1) = p.y + odomRobot.y + PosInitRobot.y;
 	before(2) = 1; //toujours 1 ici !
 
 	m.setZero();
@@ -80,19 +78,51 @@ Vector3d Pose2DToVector(geometry_msgs::Pose2D p){
 	tmp(1) = p.y;
 	tmp(2) = p.theta;
 
+	std::cout << "vecteur cmdVel : \n" << p << std::endl;
+
 	return tmp;
 }
 
-void mapInitialization(VectorXd &xMean, MatrixXd &P){
-	xMean(3);
-	xMean.setZero();
-	P(3,3);
-	P.setZero();
+void addMachine(geometry_msgs::Pose2D machine, VectorXd &xMean, MatrixXd &P){
+	//on redimensionne xMean et P pour accueillir la nouvelle machines
+	xMean.conservativeResize(xMean.rows() + 3);
+	P.conservativeResize(P.rows()+3,P.cols()+3);
+
+	//on remplit avec les coordonnées de la nouvelle machine
+	xMean(xMean.rows()-3) = machine.x;
+	xMean(xMean.rows()-2) = machine.y;
+	xMean(xMean.rows()-1) = machine.theta;
+
+	//calcul de tous les PLi
+	//initialisation des PLi à 0
+	P.block(P.rows() - 3, 0, 3, P.cols()).setZero();
+	P.block(0, P.cols() - 3, P.rows(), 3).setZero();
+
+	for (int j = 0; j < xMean.rows(); j = j + 3){
+		//position de la nouvelle machines par rapport au robot
+		//et à toutes les autres
+		double x 	 = xMean(xMean.rows()-3) - xMean(j  );
+		double y 	 = xMean(xMean.rows()-2) - xMean(j+1);
+		double theta = xMean(xMean.rows()-1) - xMean(j+2);
+
+		P(P.rows()-3, j  ) = x;
+		P(P.rows()-2, j+1) = y;
+		P(P.rows()-1, j+2) = theta;
+
+		P(j  , P.rows()-3) = x;
+		P(j+1, P.rows()-2) = y;
+		P(j+2, P.rows()-1) = theta;
+
+		P(j  , j  ) = xMean(j  ) - xMean(0);
+		P(j+1, j+1) = xMean(j+1) - xMean(1);
+		P(j+2, j+2) = xMean(j+2) - xMean(2);
+	}
 }
 
 int checkStateVector(VectorXd xMean, geometry_msgs::Pose2D machine){
  	for (int i = 3; i < xMean.rows(); i=i+3){
- 		if (std::abs(machine.x - xMean(i)) < 0.5 &&	std::abs(machine.y - xMean(i+1)) < 0.5){
+ 		if (std::abs(machine.x - xMean(i  )) < 0.5 &&
+ 			std::abs(machine.y - xMean(i+1)) < 0.5){
  			return i;
  		}
  	}
@@ -121,6 +151,7 @@ MatrixXd buildH(int taille, int i){
 }
 
 Vector3d prediction(VectorXd xMean, MatrixXd &P, geometry_msgs::Pose2D cmdVel, ros::Time &temps){
+	std::cout << "prediction\n" << std::endl;
 	Vector3d cmdVelVect = Pose2DToVector(cmdVel);
 
 	//calcul de la période pour la prédiction
@@ -129,15 +160,22 @@ Vector3d prediction(VectorXd xMean, MatrixXd &P, geometry_msgs::Pose2D cmdVel, r
 
 	//calcul de la position du robot pour l'instant n+1
 	Vector3d xPredicted = xMean.topLeftCorner(3,1) + periode*cmdVelVect;
+	std::cout << "position du robot avant = \n" << xMean.topLeftCorner(3,1) << std::endl;
+	std::cout << "prediction de la position du robot apres = \n" << xPredicted << std::endl;
 
 	MatrixXd Fx;
 	Fx = MatrixXd::Identity(P.rows(), P.cols());
-	Fx(0,0) = xPredicted(0);
-	Fx(1,1) = xPredicted(1);
-	Fx(2,2) = xPredicted(2);
+	Fx(0,0) = xPredicted(0) - xMean(0);
+	Fx(1,1) = xPredicted(1) - xMean(1);
+	Fx(2,2) = xPredicted(2)	- xMean(2);
+	//std::cout << "Fx = \n" << Fx << std::endl;
+	xMean(0) = xPredicted(0);
+	xMean(1) = xPredicted(1);
+	xMean(2) = xPredicted(2);
 
 	//mise à jour de P
 	P = Fx*P*(Fx.transpose());
+	//std::cout << "P = \n"  << P << std::endl;
 	//mise à jour du temps
 	temps = ros::Time::now();
 
@@ -147,57 +185,57 @@ Vector3d prediction(VectorXd xMean, MatrixXd &P, geometry_msgs::Pose2D cmdVel, r
 void correction(VectorXd &xMean, MatrixXd &P, Vector3d xPredicted, geometry_msgs::Pose2D m){
 	int taille = P.rows();
 	int i = checkStateVector(xMean, m);
+	std::cout << "correction\n" << std::endl;
+	std::cout << "machine presente à l'indice " << i/3 << std::endl;
 
-	//calcul de H
-	MatrixXd H(3, taille);
-	H = buildH(taille, i);
-	//calcul de Pm
-	MatrixXd Pm(taille, taille);
-	Pm = buildPm(P, i);
-	//calcul de Z
-	MatrixXd Z(taille, taille);
-	Z = H*Pm*(H.transpose());
+	if (i != 0){
+		//calcul de H
+		MatrixXd H(3, taille);
+		H = buildH(taille, i);
+		//std::cout << "H = \n" << H << std::endl;
+		//calcul de Pm
+		MatrixXd Pm(taille, taille);
+		Pm = buildPm(P, i);
+		//std::cout << "Pm = \n" << Pm << std::endl;
+		//calcul de Z
+		MatrixXd Z(taille, taille);
+		Z = H*Pm*(H.transpose());
+		//std::cout << "Z = \n" << Z << std::endl;
+	
+		//calcul du gain de Kalman
+		MatrixXd K(taille, taille);
+		K = P*(H.transpose())*(Z.inverse());
+	
+		//mise à jour du vecteur xMean
+		xMean = xMean + K*(xPredicted - xMean.block(xMean.rows()-3,0,3,1));
+		std::cout << "position du robot corrigee = \n" <<  xMean.topLeftCorner(3,1) << std::endl;
 
-	//calcul du gain de Kalman
-	MatrixXd K(taille, taille);
-	K = P*(H.transpose())*(Z.inverse());
-
-	//mise à jour du vecteur xMean
-	xMean += K*(xMean.block(xMean.rows()-3,0,3,1) - xPredicted);
-	//mise à jour de la matrice P
-	P -= K*Z*(K.transpose());
+		//mise à jour de la matrice P
+		P = P - K*Z*(K.transpose());
+		std::cout << "P = \n" << P << std::endl;
+	}
+	else {
+		std::cout << "ajout machine\n" << std::endl;
+		addMachine(m, xMean, P);
+	}
 }
 
-void addMachine(geometry_msgs::Pose2D machine, VectorXd &xMean, MatrixXd &P){
-	//on redimensionne xMean et P pour accueillir la nouvelle machines
-	xMean.conservativeResize(xMean.rows() + 3);
-	P.conservativeResize(P.rows() + 3,P.cols() + 3);
-	
-	//on remplit avec les coordonnées de la nouvelle machine
-	xMean(xMean.rows()-3) = machine.x;
-	xMean(xMean.rows()-2) = machine.y;
-	xMean(xMean.rows()-1) = machine.theta;
+int chooseMachine(std::vector<geometry_msgs::Pose2D> tabMachines, VectorXd xMean){
+	int bestMachine = 0;
+	double ecart = std::numeric_limits<double>::max();
+	double tmp;
 
-	//calcul de tous les PLi
-	//initialisation des PLi à 0
-	P.block(P.rows() - 3, 0, 3, P.cols()).setZero();
-	P.block(0, P.cols() - 3, P.rows(), 3).setZero();
+	for (int i = 0; i < tabMachines.size(); ++i){
+		for (int j = 3; j < xMean.size(); j = j + 3){
+			tmp =(tabMachines[i].x     - xMean(j  )) +
+				 (tabMachines[i].y 	   - xMean(j+1)) +
+				 (tabMachines[i].theta - xMean(j+2));
 
-	double x, y, theta;
-
-	//remplissage avec les vecteurs de positionnement
-	for (int j = 0; j < xMean.rows(); j = j + 3){
-		//dérivées partielles suivant x, y et theta
-		x 	  = xMean(xMean.rows()-3) - xMean(j  );
-		y 	  = xMean(xMean.rows()-2) - xMean(j+1);
-		theta = xMean(xMean.rows()-1) - xMean(j+2);
-
-		P(P.rows()-3, j  ) = x;
-		P(P.rows()-2, j+1) = y;
-		P(P.rows()-1, j+2) = theta;
-
-		P(j  , P.rows()-3) = x;
-		P(j+1, P.rows()-2) = y;
-		P(j+2, P.rows()-1) = theta;
+			if (tmp < ecart){
+				bestMachine = i;
+			}
+		}
 	}
+
+	return bestMachine;
 }

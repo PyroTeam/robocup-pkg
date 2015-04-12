@@ -3,6 +3,8 @@
     <group ns="localisation">
         <node pkg="localisation" name="landmarks_extraction_node" type="landmarks_extraction_node"/>
         <node pkg="localisation" name="visualisation" type="visualisation"/>
+        <node pkg="localisation" name="odometry_correction_node" type="odometry_correction_node"/>
+        <node pkg="localisation" name="EKF_node" type="EKF_node"/>
     </group>
 
 
