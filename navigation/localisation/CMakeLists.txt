@@ -146,7 +146,7 @@ set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(odometry_correction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(visualisation PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(try PROPERTIES COMPILE_FLAGS -std=c++0x)
-#set_target_properties(EKF_node PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(EKF_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

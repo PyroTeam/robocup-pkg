@@ -1,33 +1,51 @@
 #include <ros/ros.h>
 #include <tf/transform_datatypes.h>
 #include <visualization_msgs/Marker.h>
+#include <Eigen/Dense>
+#include <cmath>
 #include "deplacement_msg/Landmarks.h"
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/Pose2D.h"
 #include "geometry_msgs/Twist.h"
 #include "nav_msgs/Odometry.h"
 
-#include <cmath>
+#include "EKF_functions.h"
+
+using namespace Eigen;
 
 geometry_msgs::Pose2D odomRobot;
 geometry_msgs::Pose2D initRobot;
 geometry_msgs::Pose2D cmdVel;
+std::vector<geometry_msgs::Pose2D> tabMachines;
 ros::Time temps;
 
 void odomCallback(const nav_msgs::Odometry& odom){
   odomRobot.x = odom.pose.pose.position.x;
   odomRobot.y = odom.pose.pose.position.y;
   odomRobot.theta = tf::getYaw(odom.pose.pose.orientation);
+
+  cmdVel.x     = odom.twist.twist.linear.x;
+  cmdVel.y     = odom.twist.twist.linear.y;
+  cmdVel.theta = odom.twist.twist.angular.z;
 }
 
-void cmdVelCallback(const geometry_msgs::Twist& cmd_vel){
-  cmdVel.x     = cmd_vel.linear.x;
-  cmdVel.y     = cmd_vel.linear.y;
-  cmdVel.theta = cmd_vel.angular.z;
+void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
+  tabMachines.clear();
+  for (auto &it : machines->landmarks){
+    geometry_msgs::Pose2D posLaser;
+    posLaser.x     = it.x;
+    posLaser.y     = it.y;
+    posLaser.theta = it.theta;
+    //changement de base vers le repère du robot
+    geometry_msgs::Pose2D p = LaserToRobot(posLaser);
+    //changment de base dans le repère global
+    geometry_msgs::Pose2D pDansRepereGlobal = RobotToGlobal(p, initRobot, odomRobot);
+    tabMachines.push_back(pDansRepereGlobal);
+  }
 }
 
 void initPosRobot(std::string s,int n){
-  int color = 0;
+  /*int color = 0;
   if (s == "cyan"){
     color = 1;
   }
@@ -50,7 +68,11 @@ void initPosRobot(std::string s,int n){
     break;
     default :
     break;
-  }
+  }*/
+
+  initRobot.x     = 0.0;
+  initRobot.y     = 0.0;
+  initRobot.theta = 0.0;
 }
 
 int main( int argc, char** argv )
@@ -59,8 +81,8 @@ int main( int argc, char** argv )
 
   ros::NodeHandle n;
 
-  ros::Subscriber sub_cmd_vel  = n.subscribe("/cmd_vel",  1000, cmdVelCallback);
   ros::Subscriber sub_odom     = n.subscribe("/new_odom", 1000, odomCallback);
+  ros::Subscriber sub_machines = n.subscribe("/machines", 1000, machinesCallback);
 
   //selon la couleur de l'équipe (côté du terrain) et le numéro du robot,
   //on choisit une position initiale pour initialiser l'odométrie et la position initRobot
@@ -71,13 +93,27 @@ int main( int argc, char** argv )
 
   initPosRobot(s,num);
 
-  std::cout << "Machine ("<< initRobot.x << ", " << initRobot.y << ")" << std::endl;
-  std::cout << "\n" << std::endl;
+  ros::Rate loop_rate(1);
 
-  ros::Rate loop_rate (5);
+  VectorXd xMean(3);
+  xMean(0) = initRobot.x;
+  xMean(1) = initRobot.y;
+  xMean(2) = initRobot.theta;
+
+  MatrixXd P(3,3);
+  P.setZero();
+
+  Vector3d xPredicted;
 
   while (ros::ok())
   {
+    xPredicted = prediction(xMean, P, cmdVel, temps);
+
+    //si on observe une machine
+    if (tabMachines.size() > 0){
+      int i = chooseMachine(tabMachines, xMean);
+      correction(xMean, P, xPredicted, tabMachines[i]);
+    }
 
     // Spin
     ros::spinOnce();
