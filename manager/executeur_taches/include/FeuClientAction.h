@@ -12,6 +12,6 @@ class FeuClientAction{
 public :
 	FeuClientAction();
 	virtual  ~FeuClientAction();
-	void feu();
+	void lightsStates();
 };
 #endif

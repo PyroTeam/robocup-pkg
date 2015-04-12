@@ -6,6 +6,7 @@
 #include "geometry_msgs/Pose2D.h"
 #include "manager_msg/activity.h"
 #include "manager_msg/order.h"
+#include "FeuClientAction.h"
 
 using namespace manager_msg;
 
@@ -35,6 +36,7 @@ class Machine{
     //void goTo(geometry_msgs::Pose2D pt_dest);
     //void Machine::take( );
     //void Machine::let( );
+    void explore();
     
 };
 

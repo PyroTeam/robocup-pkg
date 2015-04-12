@@ -14,27 +14,33 @@ using namespace std;
 int main(int argc, char **argv) {
 
     ros::init(argc,argv,"executeur_taches");
-    ros::NodeHandle n;
+    ros::NodeHandle n; // création du noeud 
     int nb_robot;
     n.param<int>("robotNumber",nb_robot,0);  // nb robot, par défaut 0
-
-/* service reponse au générateur de taches */
-    GtServerSrv gtsrv;
-    ROS_INFO("I'm READY ! ");
-    gtsrv.setId(1);
-    ros::ServiceServer service = n.advertiseService("order", &GtServerSrv::responseToGT, &gtsrv);
+    ros::Rate loop_rate(1);
     
- 
-/* Publisher topic générateur de taches */
-    ros::Publisher activite_pub = n.advertise<manager_msg::activity>("/task_exec_state", 1000);
-    activite_pub.publish(gtsrv.getActivityMsg()); 
+    while(ros::ok){
+            /* service reponse au générateur de taches */
+            GtServerSrv gtsrv;
+            ROS_INFO("I'm READY ! ");
+            gtsrv.setId(1);
+            ros::ServiceServer service = n.advertiseService("order", &GtServerSrv::responseToGT, &gtsrv);
+            
+         
+            /* Publisher topic générateur de taches */
+            ros::Publisher activite_pub = n.advertise<manager_msg::activity>("/task_exec_state", 1000);
+            activite_pub.publish(gtsrv.getActivityMsg()); 
 
-/* Subscriber topic localisation */
-    LocaSubscriber loca_sub;
-    ros::Subscriber sub = n.subscribe("/landmarks",1000,&LocaSubscriber::tesCallback, &loca_sub);
+            /* Subscriber topic localisation */
+            LocaSubscriber loca_sub;
+            ros::Subscriber sub = n.subscribe("/landmarks",1000,&LocaSubscriber::tesCallback, &loca_sub);
 
-/* Let's Spin until the end of the world !! */
-    ros::spin();
+            /* Let's Spin until the end of the world !! */
+            ros::spinOnce();
+            loop_rate.sleep();
+
+    }
+
     return 0;
   
 }

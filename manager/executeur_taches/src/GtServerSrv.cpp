@@ -161,6 +161,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request  &req,manager_msg::or
                 break;
           case orderRequest::DISCOVER:
                 /* phase d'exploration */
+                 ROS_INFO(" Starting exploring the ARTag ");
+
                 break;
       }
 
