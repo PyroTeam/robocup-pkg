@@ -11,10 +11,10 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
 )
 find_package(Protobuf REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -98,9 +98,10 @@ catkin_package(
 
 include_directories(
   include
-  ${PROTOBUF_INCLUDE_DIRS})
+  ${PROTOBUF_INCLUDE_DIRS}
+  ${OPENSSL_INCLUDE_DIR})
 
-PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS 
+PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS
   proto_msg/Activity.proto
   proto_msg/Beacon.proto
   proto_msg/Time.proto
@@ -111,17 +112,22 @@ PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-#add_executable(bar bar.cc ${PROTO_SRCS} ${PROTO_HDRS})
-#target_link_libraries(bar ${PROTOBUF_LIBRARIES})
-
-
 ## Declare a cpp library
 # add_library(robot_comm
 #   src/${PROJECT_NAME}/robot_comm.cpp
 # )
 
 ## Declare a cpp executable
-add_executable(robot_comm_node src/robotCommNode.cpp src/UdpPeer.cpp ${PROTO_SRCS} ${PROTO_HDRS})
+add_executable(robot_comm_node
+  src/robotCommNode.cpp
+  src/UdpPeer.cpp
+  src/encryptUtils.cpp
+  src/entryPoint.cpp
+  src/inboundPoint.cpp
+  src/msgConvertUtils.cpp
+  ${PROTO_SRCS}
+  ${PROTO_HDRS})
+
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -135,7 +141,9 @@ add_dependencies(robot_comm_node ${catkin_EXPORTED_TARGETS} robot_comm_generate_
 target_link_libraries(robot_comm_node
   ${catkin_LIBRARIES}
   ${PROTOBUF_LIBRARIES}
+  ${OPENSSL_LIBRARIES}
 )
+set_target_properties(robot_comm_node PROPERTIES COMPILE_FLAGS "-std=c++0x -g3")
 
 #############
 ## Install ##
