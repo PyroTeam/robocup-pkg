@@ -20,7 +20,7 @@
 #include <openssl/aes.h>
 #include <openssl/rand.h>
 
-EncryptUtils::EncryptUtils(Buffer_type key, CIPHER_TYPE cipher)
+EncryptUtils::EncryptUtils(Buffer_type &key, CIPHER_TYPE cipher)
 {
 
     setConfig(key, cipher);
