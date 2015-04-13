@@ -121,7 +121,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 # )
 
 ## Declare a cpp executable
-add_executable(robot_comm_node src/robotCommNode.cpp ${PROTO_SRCS} ${PROTO_HDRS})
+add_executable(robot_comm_node src/robotCommNode.cpp src/UdpPeer.cpp ${PROTO_SRCS} ${PROTO_HDRS})
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
