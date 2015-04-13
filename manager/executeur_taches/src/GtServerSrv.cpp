@@ -40,15 +40,15 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request  &req,manager_msg::or
                 break;
           case orderRequest::TAKE_CAP:
                switch(req.parameter){
-                        case orderRequest::BLACK : 
-                                if(m.getCS1().getBlackCap() != 0)        m.getCS1().take_cap(req.parameter,nb_robot,req.number_order,activity::CS1);
-                                else if(m.getCS2().getBlackCap() != 0)   m.getCS2().take_cap(req.parameter,nb_robot,req.number_order,activity::CS2);
-                                break;
-                        case orderRequest::GREY : 
-                                if(m.getCS1().getGreyCap() != 0)         m.getCS1().take_cap(req.parameter,nb_robot,req.number_order,activity::CS1); 
-                                else if(m.getCS2().getGreyCap() != 0)    m.getCS2().take_cap(req.parameter,nb_robot,req.number_order,activity::CS2);
-                                break;
-                    }
+                    case orderRequest::BLACK : 
+                            if(m.getCS1().getBlackCap() != 0)        m.getCS1().take_cap(req.parameter,nb_robot,req.number_order,activity::CS1);
+                            else if(m.getCS2().getBlackCap() != 0)   m.getCS2().take_cap(req.parameter,nb_robot,req.number_order,activity::CS2);
+                            break;
+                    case orderRequest::GREY : 
+                            if(m.getCS1().getGreyCap() != 0)         m.getCS1().take_cap(req.parameter,nb_robot,req.number_order,activity::CS1); 
+                            else if(m.getCS2().getGreyCap() != 0)    m.getCS2().take_cap(req.parameter,nb_robot,req.number_order,activity::CS2);
+                            break;
+                }
                 break;
           case orderRequest::PUT_RING:
                 switch(req.parameter){
@@ -160,8 +160,35 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request  &req,manager_msg::or
                 else("ERROR : req.id is not between 0 and 5 ");
                 break;
           case orderRequest::DISCOVER:
+                /* test */
+                bool input = true;
+                bool output = false;
+                int machine = 2;
+                int id = 1;
+                /* fin test */
+
                 /* phase d'exploration */
                  ROS_INFO(" Starting exploring the ARTag ");
+                 switch(machine){
+                      case 0 : //BS ==> lights on OUTPUT
+                              if(output) m.getBS().readlights();
+                              break;
+
+                      case 1 : //RS ==> lights on INPUT
+                              if(input){
+                                  if(id == 1)  m.getRS1().readlights();
+                                  if(id == 2)  m.getRS2().readlights();
+                              }  
+                              break;
+                      case 2 : //CS ==> lights on OUTPUT
+                              if(output){
+                                  if(id == 1)  m.getCS1().readlights();
+                                  if(id == 2)  m.getCS2().readlights();
+                              }  
+                              break;
+                      case 3 : //DS ==> no lights
+                              break;
+                 }
 
                 break;
       }
