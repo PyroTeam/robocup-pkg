@@ -1,12 +1,12 @@
 /**
- * \file 		encryptUtils.h
+ * \file        encryptUtils.h
  *
- * \brief		
+ * \brief
  *
- * \author		Coelen Vincent (vincent.coelen@polytech-lille.net)
+ * \author      Coelen Vincent (vincent.coelen@polytech-lille.net)
  *              Tissot Elise
- * \date		2015-04-07
- * \copyright	PyroTeam, Polytech-Lille
+ * \date        2015-04-07
+ * \copyright   PyroTeam, Polytech-Lille
  * \license
  * \version
  */
@@ -14,24 +14,44 @@
 #ifndef ENCRYPTUTILS_H_
 #define ENCRYPTUTILS_H_
 
+#include <string>
+#include <vector>
+#include <initializer_list>
+
+typedef std::vector<unsigned char> Buffer_type;
+
 class EncryptUtils
 {
 public:
-    EncryptUtils(std::string key = "random", std::string cipher = "aes-128");
+    enum CIPHER_TYPE
+    {
+        AES_CBC_128,
+        AES_CBC_192,
+        AES_CBC_256
+    };
+
+    EncryptUtils(Buffer_type &key, CIPHER_TYPE cipher = EncryptUtils::AES_CBC_128);
     ~EncryptUtils();
-    
-    void setConfig(std::string key, std::string cipher)
+
+    void setConfig(Buffer_type key, CIPHER_TYPE cipher)
     {
         m_key = key;
         m_cipher = cipher;
     }
-    
-    void encrypt(const std::string &bufferIn, std::string &bufferOut, std::string &initialisationVector);
-    void decrypt(const std::string &bufferIn, std::string &bufferOut, const std::string &initialisationVector);
-    
+
+
+    void encrypt(const Buffer_type &message, Buffer_type &encryptedMessaget, Buffer_type &initialisationVector);
+    void decrypt(const Buffer_type &encryptedMessage, Buffer_type &decryptedMessage, const Buffer_type &initialisationVector);
+
 private:
-    std::string m_key;
-    std::string m_cipher;
+    Buffer_type m_key;
+    CIPHER_TYPE m_cipher;
+
+    void getRandomIV(Buffer_type &iv);
+
+    int encrypt_(const unsigned char *plaintext, int plaintext_len, unsigned char *key, const unsigned char *iv, unsigned char *ciphertext);
+    int decrypt_(const unsigned char *ciphertext, int ciphertext_len, unsigned char *key, const unsigned char *iv, unsigned char *plaintext);
+
 };
 
 #endif /* ENCRYPTUTILS_H_ */
