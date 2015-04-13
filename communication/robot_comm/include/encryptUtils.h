@@ -33,7 +33,7 @@ public:
     EncryptUtils(Buffer_type &key, CIPHER_TYPE cipher = EncryptUtils::AES_CBC_128);
     ~EncryptUtils();
 
-    void setConfig(Buffer_type key, CIPHER_TYPE cipher)
+    void setConfig(Buffer_type &key, CIPHER_TYPE cipher)
     {
         m_key = key;
         m_cipher = cipher;
