@@ -79,11 +79,11 @@ manager_msg::activity Machine::msgToGT(int n_robot, int stateOfOrder, int machin
   // refBoxCom(Communication machine)
 //}
 
-void Machine::explore(){
-  ROS_INFO(" Starting exploring the ARTag ");
+void Machine::readlights(){
+ 
   ROS_INFO(" Starting exploring the lights ");
   FeuClientAction f_c;
-  FinalApproachingClient fa_c;
+  //FinalApproachingClient fa_c;
   f_c.lightsStates(); 
-  fa_c.starting(1,100);/*test*/
+  //fa_c.starting(1,100);/*test*/
 }

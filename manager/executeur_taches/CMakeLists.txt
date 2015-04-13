@@ -124,7 +124,11 @@ add_executable(
   
   src/fake_publisher_node.cpp
 )
-
+add_executable(
+  test_lights
+  
+  src/fake_light_server_node.cpp
+)
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -137,6 +141,10 @@ target_link_libraries(
 )
 target_link_libraries(
   test_publish
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_lights
   ${catkin_LIBRARIES}
 )
 #target_link_libraries(

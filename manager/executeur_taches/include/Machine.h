@@ -36,7 +36,7 @@ class Machine{
     //void goTo(geometry_msgs::Pose2D pt_dest);
     //void Machine::take( );
     //void Machine::let( );
-    void explore();
+    void readlights();
     
 };
 
