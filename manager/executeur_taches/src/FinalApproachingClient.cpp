@@ -4,7 +4,7 @@ FinalApproachingClient::FinalApproachingClient() {
 }
 FinalApproachingClient::~FinalApproachingClient(){}
 
-void FinalApproachingClient::starting(int8_t machineType, int32_t machineSide){
+void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide){
 	
 	actionlib::SimpleActionClient<manager_msg::finalApproachingAction> client("finalApproaching",true);
 

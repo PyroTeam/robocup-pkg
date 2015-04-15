@@ -7,6 +7,7 @@
 #include "manager_msg/activity.h"
 #include "manager_msg/order.h"
 #include "FeuClientAction.h"
+#include "FinalApproachingClient.h"
 
 using namespace manager_msg;
 
@@ -33,10 +34,11 @@ class Machine{
     void majEntry(geometry_msgs::Pose2D point);
     void majExit(geometry_msgs::Pose2D point);
     manager_msg::activity msgToGT(int n_robot, int stateOfOrder, int machine, int n_order);
-    //void goTo(geometry_msgs::Pose2D pt_dest);
+    void goTo(geometry_msgs::Pose2D pt_dest);
     //void Machine::take( );
     //void Machine::let( );
     void readlights();
+    void startFinalAp(int8_t machineType, int8_t machineSide);
     
 };
 
