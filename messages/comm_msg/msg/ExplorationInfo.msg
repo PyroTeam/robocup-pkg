@@ -1,2 +1,2 @@
 ExplorationSignal[] signals
-ExplorationMachine[] machines
+ExplorationZone[] zones

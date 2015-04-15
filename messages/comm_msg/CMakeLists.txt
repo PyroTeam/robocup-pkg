@@ -53,6 +53,8 @@ add_message_files(
     ExplorationSignal.msg
     GameState.msg
     LightSpec.msg
+	Machine.msg
+	Zone.msg
 )
 
 ## Generate services in the 'srv' folder
