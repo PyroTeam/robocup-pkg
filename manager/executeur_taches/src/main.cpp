@@ -8,6 +8,7 @@
 #include "LocaSubscriber.h"
 #include "Machine.h"
 
+LocaSubscriber loca_sub;
 
 using namespace std;
 
@@ -32,7 +33,7 @@ int main(int argc, char **argv) {
             activite_pub.publish(gtsrv.getActivityMsg()); 
 
             /* Subscriber topic localisation */
-            LocaSubscriber loca_sub;
+            
             ros::Subscriber sub = n.subscribe("/landmarks",1000,&LocaSubscriber::tesCallback, &loca_sub);
 
             /* Let's Spin until the end of the world !! */

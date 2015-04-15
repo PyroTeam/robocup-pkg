@@ -129,6 +129,7 @@ add_executable(
   
   src/fake_light_server_node.cpp
 )
+
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

@@ -14,7 +14,11 @@ manager_msg::activity GtServerSrv::getActivityMsg(){
   return m_msg;
 }
 
-bool GtServerSrv::responseToGT(manager_msg::order::Request  &req,manager_msg::order::Response &res){
+manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction(){
+  return m_act;
+}
+
+bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::order::Response &res){
 
   if (req.number_robot == nb_robot){
       res.number_order = req.number_order;
@@ -160,7 +164,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request  &req,manager_msg::or
                 else("ERROR : req.id is not between 0 and 5 ");
                 break;
           case orderRequest::DISCOVER:
-                /* test */
+                /* test, partie qui remplace les ARTag */
                 bool input = true;
                 bool output = false;
                 int machine = 2;
@@ -171,22 +175,66 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request  &req,manager_msg::or
                  ROS_INFO(" Starting exploring the ARTag ");
                  switch(machine){
                       case 0 : //BS ==> lights on OUTPUT
-                              if(output) m.getBS().readlights();
+                              if(output){
+                                  m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT);
+                                  m.getBS().readlights();
+                              } 
+                              else{
+                                  m.getBS().goTo(m.getBS().getExitMachine());
+                                  m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT);
+                                  m.getBS().readlights();
+                              }
                               break;
 
-                      case 1 : //RS ==> lights on INPUT
-                              if(input){
-                                  if(id == 1)  m.getRS1().readlights();
-                                  if(id == 2)  m.getRS2().readlights();
+                      case 1 : //RS ==> lights on OUTPUT
+                              if(output){
+                                  if(id == 1){
+                                      m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT);
+                                      m.getRS1().readlights();
+                                  }  
+                                  if(id == 2){
+                                      m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT);
+                                      m.getRS2().readlights();
+                                  }  
                               }  
+                              else{
+                                  if(id == 1){
+                                       m.getRS1().goTo(m.getRS1().getExitMachine());
+                                       m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT);
+                                       m.getRS1().readlights();
+                                  }  
+                                  if(id == 2){
+                                       m.getRS2().goTo(m.getRS2().getExitMachine());
+                                       m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT);
+                                       m.getRS2().readlights();
+                                  }                              
+                              }
                               break;
                       case 2 : //CS ==> lights on OUTPUT
                               if(output){
-                                  if(id == 1)  m.getCS1().readlights();
-                                  if(id == 2)  m.getCS2().readlights();
+                                  if(id == 1){
+                                      m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT);
+                                      m.getCS1().readlights();
+                                  }  
+                                  if(id == 2){
+                                      m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT);
+                                      m.getCS2().readlights();
+                                  }  
                               }  
+                              else{
+                                  if(id == 1){
+                                       m.getCS1().goTo(m.getCS1().getExitMachine());
+                                       m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT);
+                                       m.getCS1().readlights();
+                                  }  
+                                  if(id == 2){
+                                       m.getCS2().goTo(m.getCS2().getExitMachine());
+                                       m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT);
+                                       m.getCS2().readlights();
+                                  }                              
+                              }
                               break;
-                      case 3 : //DS ==> no lights
+                      case 3 : //DS ==> no lights?
                               break;
                  }
 

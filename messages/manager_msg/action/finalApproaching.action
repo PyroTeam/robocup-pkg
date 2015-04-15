@@ -7,8 +7,8 @@ int8 DS =3
 
 int8 type
 
-int32 IN  = 100
-int32 OUT = 200
+int8 IN  = 100
+int8 OUT = 101
 
 int32 side
 

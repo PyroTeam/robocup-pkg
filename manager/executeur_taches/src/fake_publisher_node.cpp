@@ -17,16 +17,16 @@ int main(int argc, char **argv)
 
   ros::Publisher landmarks_pub = n.advertise<manager_msg::Landmarks>("/landmarks", 1000);
 
-  ros::Rate loop_rate(10);
+  ros::Rate loop_rate(1);
 
   int count = 0;
   while (ros::ok())
   {
     
-    ROS_INFO("test");
+    ROS_INFO("testing");
     std::vector<geometry_msgs::Pose2D> msg;
 
-    while(count < 12){
+    while(count < 100000){
       geometry_msgs::Pose2D pose;
 
       pose.x = count;
@@ -34,6 +34,7 @@ int main(int argc, char **argv)
       pose.theta = count;
       msg.push_back(pose);
       ++count;
+      ROS_INFO("count : %d", count);
     }
 
     manager_msg::Landmarks pub;
