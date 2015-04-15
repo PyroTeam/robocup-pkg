@@ -11,6 +11,9 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   sensor_msgs
   message_runtime
+  std_msgs
+  message_generation
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -85,7 +88,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES approche_finale
-  CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib sensor_msgs message_runtime
+  CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib sensor_msgs geometry_msgs message_runtime std_msgs message_generation
 #  DEPENDS system_lib
 )
 
@@ -97,12 +100,37 @@ add_executable(finalApproaching_server
   src/fa_utils.cpp
   src/laserScan.cpp
   src/Point.cpp
+  src/Segment.cpp
   src/finalApproaching_server.cpp)
 
+add_executable(test_fonctions_laser
+	src/test_fonctions_laser.cpp
+	src/laserScan.cpp
+	src/Point.cpp
+	src/Segment.cpp
+	src/fa_utils.cpp)
+
+add_executable(fake_scan_node
+	src/fake_scan_node.cpp)
+	
 target_link_libraries(
   finalApproaching_server
   ${catkin_LIBRARIES}
 )
+
+target_link_libraries(
+  test_fonctions_laser
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  fake_scan_node
+  ${catkin_LIBRARIES}
+)
+
+set_target_properties(finalApproaching_server PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+set_target_properties(test_fonctions_laser PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 add_dependencies(
   finalApproaching_server
