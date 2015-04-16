@@ -3,6 +3,7 @@
 #include "std_msgs/String.h"
 #include "geometry_msgs/Pose2D.h"
 #include "manager_msg/activity.h"
+#include "manager_msg/order.h"
 
 #include "GtServerSrv.h"
 #include "LocaSubscriber.h"

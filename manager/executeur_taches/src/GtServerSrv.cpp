@@ -234,8 +234,18 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                   }                              
                               }
                               break;
-                      case 3 : //DS ==> no lights?
+                      case 3 : //DS ==> lights on OUTPUT?
+                              if(output){
+                                  m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT);
+                                  m.getDS().readlights();
+                              } 
+                              else{
+                                  m.getDS().goTo(m.getDS().getExitMachine());
+                                  m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT);
+                                  m.getDS().readlights();
+                              }
                               break;
+
                  }
 
                 break;
