@@ -5,9 +5,9 @@
 /* Constructeur */
 CapStation::CapStation(){
   m_type = "CapStation";
-  m_capNoir = 0;
-  m_capGris = 0;
-  m_stock[0] = 0; m_stock[1] = 0; m_stock[2] = 0;
+  m_blackCap = 0;
+  m_greyCap = 0;
+  m_stockID[0] = 0, m_stockID[1] = 0, m_stockID[2] = 0;
   m_stockage.x = 0.0;
   m_stockage.y = 0.0;
   m_stockage.theta = 0.0; 
@@ -20,29 +20,65 @@ CapStation::~CapStation(){}
 void CapStation::FonctionVirtuelle(){}
 
 /* Méthodes */
-int CapStation::getCapGris(){
-  return m_capGris;
+int CapStation::getGreyCap(){
+  return m_greyCap;
 }
-int CapStation::getCapNoir(){
-  return m_capNoir;
+int CapStation::getBlackCap(){
+  return m_blackCap;
+}
+int CapStation::getStockage(int i){
+  return  m_stockID[i];
+}
+
+void CapStation::majStockID(int i, int val){
+  m_stockID[i] = val;
 }
 geometry_msgs::Pose2D CapStation::getStockage(){
   return m_stockage;
 }
 
-void CapStation::majNoir(int nbNoir){
-  m_capNoir = nbNoir;
+void CapStation::majBlack(int nbNoir){
+  m_blackCap = nbNoir;
 }
-void CapStation::majGris(int nbGris){
-  m_capGris = nbGris;
+void CapStation::majGrey(int nbGris){
+  m_greyCap = nbGris;
 }
 
-//int CapStation::stocker(){
-	/* MANQUE DU CODE */
-/*	AllerMachine(m_stockage);
-	int i = 1;
-	while(i <= m_stock.length && !m_stock[i]){
-		i++;
-	} 
-	return i;
-}*/
+void CapStation::put_cap(int color, int n_robot, int n_order, int machine){
+    /* TOPIC Générateur de taches : infos sur l'avancement de la tache */
+    manager_msg::activity msg;
+    msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order); 
+    ROS_INFO("Putting a Cap, color : %d", color);
+}
+
+void CapStation::take_cap(int color, int n_robot, int n_order, int machine){
+    /* TOPIC Générateur de taches : infos sur l'avancement de la tache */
+    manager_msg::activity msg;
+    msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order); 
+    ROS_INFO("Taking a Cap, color : %d", color);
+}
+
+
+
+void CapStation::stock(int id, int n_robot, int n_order,int machine){
+    /* TOPIC Générateur de taches : infos sur l'avancement de la tache */
+    manager_msg::activity msg;
+    msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order); 
+    ROS_INFO("Stocking @ place : %d", id);
+}
+
+void CapStation::destock(int id, int n_robot, int n_order,int machine){
+    /* TOPIC Générateur de taches : infos sur l'avancement de la tache */
+    manager_msg::activity msg;
+    msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order); 
+    ROS_INFO("Destocking @ place : %d", id);
+}
+
+void CapStation::uncap(int id, int n_robot, int n_order,int machine){
+    /* TOPIC Générateur de taches : infos sur l'avancement de la tache */
+    manager_msg::activity msg;
+    msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order); 
+    ROS_INFO("Uncaping");
+}
+
+

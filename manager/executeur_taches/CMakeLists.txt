@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   actionlib_msgs 
   actionlib
+  manager_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -113,28 +114,31 @@ add_executable(
   src/CapStation.cpp
   src/RingStation.cpp
   src/DeliveryStation.cpp
-  src/gtServerSrv.cpp
+  src/GtServerSrv.cpp
   src/LocaSubscriber.cpp
+  src/MyElements.cpp
 )
-#add_executable(
- # test_service
-  
-  # src/service_node.cpp
-   #
-  #)
+add_dependencies(test_exec manager_msg_gencpp)
 
-#add_executable(
-#  test_topic
+add_executable(
+  test_publish
   
-#   src/gtPublisher.cpp
-#  )
-  
+  src/fake_publisher_node.cpp
+)
+add_dependencies(test_publish manager_msg_gencpp)
 
 add_executable(
   test_reponse_service
-  src/gtServerSrv.cpp
   src/service_node.cpp
+  src/GtServerSrv.cpp
+  src/BaseStation.cpp
+  src/CapStation.cpp
+  src/DeliveryStation.cpp
+  src/Machine.cpp
+  src/MyElements.cpp
+  src/RingStation.cpp
   )
+add_dependencies(test_reponse_service manager_msg_gencpp)
 
 add_executable(finalApproaching_client src/finalApproaching_client.cpp)
 add_dependencies(finalApproaching_client manager_msg_gencpp)
@@ -148,10 +152,10 @@ target_link_libraries(
   test_exec
   ${catkin_LIBRARIES}
 )
-#target_link_libraries(
- # test_service
-  #${catkin_LIBRARIES}
-#)
+target_link_libraries(
+  test_publish
+  ${catkin_LIBRARIES}
+)
 #target_link_libraries(
 #  test_topic
 #  ${catkin_LIBRARIES}

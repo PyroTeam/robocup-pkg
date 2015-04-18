@@ -4,7 +4,7 @@
 
 //#include "fakeClientSrv.h"
 //#include "gtPublisher.h"
-#include "gtServerSrv.h"
+#include "GtServerSrv.h"
 
 
 using namespace std;
@@ -16,9 +16,9 @@ int main(int argc, char **argv) {
         ros::NodeHandle n;
         //int nb_robot;
         //n.param<int>("robotNumber",nb_robot,0);
-        gtServerSrv gtsrv;
+        GtServerSrv gtsrv;
         gtsrv.setId(1);
-        ros::ServiceServer service = n.advertiseService("order", &gtServerSrv::responseToGT, &gtsrv);
+        ros::ServiceServer service = n.advertiseService("order", &GtServerSrv::responseToGT, &gtsrv);
         ROS_INFO("I'm READDY ! ");
         ros::spin();
 

@@ -44,11 +44,13 @@
   <!--   <build_depend>message_generation</build_depend> -->
   <build_depend>roscpp</build_depend>
   <build_depend>trait_im_msg</build_depend>
+  <build_depend>cv_bridge</build_depend>
 
   <!-- Use run_depend for packages you need at runtime: -->
   <!--   <run_depend>message_runtime</run_depend> -->
   <run_depend>roscpp</run_depend>
   <run_depend>trait_im_msg</run_depend>
+  <build_depend>cv_bridge</build_depend>
 
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->

@@ -7,7 +7,6 @@ project(feu_tricolore)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   trait_im_msg
-  OpenCV
   image_transport
   cv_bridge
   actionlib
@@ -16,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
+find_package(OpenCV)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed

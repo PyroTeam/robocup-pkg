@@ -13,8 +13,8 @@
 #include <time.h>
 #include <vector>
 
-#include "deplacement_msg/Points.h"
-#include "deplacement_msg/Droites.h"
+// #include "deplacement_msg/Points.h"
+// #include "deplacement_msg/Droites.h"
 
 double dist(Point a, Droite d);
 
