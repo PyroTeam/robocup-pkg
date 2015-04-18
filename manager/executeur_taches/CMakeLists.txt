@@ -129,6 +129,11 @@ add_executable(
   
   src/fake_light_server_node.cpp
 )
+add_executable(
+  test_order
+  
+  src/fake_client_order.cpp
+)
 
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
@@ -146,6 +151,10 @@ target_link_libraries(
 )
 target_link_libraries(
   test_lights
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_order
   ${catkin_LIBRARIES}
 )
 #target_link_libraries(

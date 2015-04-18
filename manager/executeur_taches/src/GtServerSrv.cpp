@@ -20,6 +20,7 @@ manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction(){
 
 bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::order::Response &res){
 
+  ROS_INFO("test server order");
   if (req.number_robot == nb_robot){
       res.number_order = req.number_order;
       res.number_robot = nb_robot;
@@ -253,6 +254,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
       if(req.id != 0) ROS_INFO(" DESTOCKAGE à l'endroit d'id = %d", (int) req.id);
       else ROS_INFO(" NON DESTOCKAGE ");
+      res.accepted = true;
 
   }
   else res.accepted = false;
