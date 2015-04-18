@@ -4,6 +4,7 @@
 
 #include "Activity.pb.h"
 #include "Beacon.pb.h"
+#include "UdpPeer.h"
 #include "encryptUtils.h"
 #include "topicToUdpEntry.h"
 
@@ -60,7 +61,9 @@ int main(int argc, char **argv)
     //fin test EncryptUtils
 
     //test TopicToUdpEntry
-    UdpPeer udpPeer;
+    boost::asio::io_service io_service;
+    int port;
+    std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, port));
     TopicToUdpEntry<comm_msg::activity> test_inpt(udpPeer, "/activity");
 
 

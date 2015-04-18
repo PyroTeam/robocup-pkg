@@ -20,6 +20,13 @@
 #include <openssl/aes.h>
 #include <openssl/rand.h>
 
+EncryptUtils::EncryptUtils()
+{
+    std::string skey = "random_key";
+    m_key.assign(skey.begin(), skey.end());
+    m_cipher = AES_CBC_128;
+}
+
 EncryptUtils::EncryptUtils(Buffer_type &key, CIPHER_TYPE cipher)
 {
 
