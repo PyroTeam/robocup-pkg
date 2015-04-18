@@ -123,7 +123,8 @@ add_executable(robot_comm_node
   src/UdpPeer.cpp
   src/encryptUtils.cpp
   src/entryPoint.cpp
-  src/inboundPoint.cpp
+  src/topicToUdpEntry.cpp
+  src/udpToTopicEntry.cpp
   src/msgConvertUtils.cpp
   ${PROTO_SRCS}
   ${PROTO_HDRS})

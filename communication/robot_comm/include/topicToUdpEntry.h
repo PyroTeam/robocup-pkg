@@ -1,5 +1,5 @@
 /**
- * \file         inboundPoint.h
+ * \file         topicToUdpEntry.h
  *
  * \brief
  *
@@ -10,8 +10,8 @@
  * \license
  * \version
  */
-#ifndef INBOUNDPOINT_H_
-#define INBOUNDPOINT_H_
+#ifndef TOPICTOUDPENTRY_H_
+#define TOPICTOUDPENTRY_H_
 
 #include <string>
 #include <ros/ros.h>
@@ -25,11 +25,11 @@
 
 
 template<class T>
-class InboundPoint : public EntryPoint
+class TopicToUdpEntry : public EntryPoint
 {
 public:
-    InboundPoint(const std::string &name);
-    virtual ~InboundPoint(){}
+    TopicToUdpEntry(std::shared_ptr<UdpPeer> &udpPeer, const std::string &name);
+    virtual ~TopicToUdpEntry(){}
 
 private:
     ros::Subscriber m_sub;
@@ -53,12 +53,12 @@ private:
 };
 
 template<class T>
-InboundPoint<T>::InboundPoint(const std::string &name) : EntryPoint(name)
+TopicToUdpEntry<T>::TopicToUdpEntry(std::shared_ptr<UdpPeer> &udpPeer, const std::string &name) : EntryPoint(udpPeer, name)
 {
-    m_sub = m_nh.subscribe<T, InboundPoint>(m_name, 1000, &InboundPoint::Callback, this);
+    m_sub = m_nh.subscribe<T, TopicToUdpEntry>(m_name, 1000, &TopicToUdpEntry::Callback, this);
 }
 
 
 
 
-#endif /* INBOUNDPOINT_H_ */
+#endif /* TOPICTOUDPENTRY_H_ */

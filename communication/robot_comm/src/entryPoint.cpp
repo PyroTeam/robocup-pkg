@@ -13,7 +13,7 @@
 
 #include "entryPoint.h"
 
-EntryPoint::EntryPoint(const std::string &name):m_name(name)
+EntryPoint::EntryPoint(std::shared_ptr<UdpPeer> &udpPeer, const std::string &name):m_udpPeer(udpPeer), m_name(name)
 {
 
 }

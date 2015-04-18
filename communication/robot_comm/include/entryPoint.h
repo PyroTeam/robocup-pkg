@@ -22,7 +22,7 @@ class UdpPeer;
 class EntryPoint
 {
 public:
-    EntryPoint(const std::string &name);
+    EntryPoint(std::shared_ptr<UdpPeer> &udpPeer, const std::string &name);
     virtual ~EntryPoint();
 
     virtual bool execute(google::protobuf::Message &msg){}

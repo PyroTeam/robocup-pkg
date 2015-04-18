@@ -1,5 +1,5 @@
 /**
- * \file         inboundPoint.cpp
+ * \file         topicToUdpEntry.cpp
  *
  * \brief
  *
@@ -11,10 +11,4 @@
  * \version
  */
 
-#include "inboundPoint.h"
-
-
-bool execute(google::protobuf::Message &msg)
-{
-
-}
+#include "topicToUdpEntry.h"

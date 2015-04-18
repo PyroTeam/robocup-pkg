@@ -1,12 +1,11 @@
 
-
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
 #include "Activity.pb.h"
 #include "Beacon.pb.h"
 #include "encryptUtils.h"
-#include "inboundPoint.h"
+#include "topicToUdpEntry.h"
 
 #include "comm_msg/activity.h"
 
@@ -60,8 +59,9 @@ int main(int argc, char **argv)
     std::cout << std::endl;
     //fin test EncryptUtils
 
-    //test InboundPoint
-    InboundPoint<comm_msg::activity> test_inpt("/activity");
+    //test TopicToUdpEntry
+    UdpPeer udpPeer;
+    TopicToUdpEntry<comm_msg::activity> test_inpt(udpPeer, "/activity");
 
 
     ros::Rate loop_rate(100);
