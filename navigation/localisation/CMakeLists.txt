@@ -11,13 +11,13 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   visualization_msgs
-  Eigen
-  REQUIRED
+  cmake_modules
+  deplacement_msg
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(Eigen)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -99,6 +99,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  ${Eigen_INCLUDE_DIRS}
   include/localisation
 )
 
@@ -144,9 +145,10 @@ set_target_properties(try PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(landmarks_extraction_node localisation_generate_messages_cpp {catkin_EXPORTED_TARGETS})
-add_dependencies(fake_scan_node localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
-add_dependencies(odometry_correction_node localisation_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+add_dependencies(landmarks_extraction_node deplacement_msg_generate_messages_cpp {catkin_EXPORTED_TARGETS})
+add_dependencies(fake_scan_node deplacement_msg_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+add_dependencies(odometry_correction_node deplacement_msg_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+add_dependencies(visualisation deplacement_msg_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 

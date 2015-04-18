@@ -1,5 +1,5 @@
 #include <ros/ros.h>
-#include "manager_msg/ordre.h"
+#include "manager_msg/order.h"
 #include "srvorder.h"
 
 Srvorder::Srvorder(ros::Time game_time,int nb_order,int nb_robot,int type,int parametre,int id){

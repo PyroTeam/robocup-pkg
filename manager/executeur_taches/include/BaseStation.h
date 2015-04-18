@@ -3,13 +3,15 @@
 
 #include "Machine.h"
 
+using namespace manager_msg;
+
 class BaseStation : public Machine{
   private:
     
       /* Variables d'instance*/
-      int m_baseRouge;
-      int m_baseNoir;
-      int m_baseArgent;
+      int m_redBase;
+      int m_blackBase;
+      int m_silverBase;
       
   public:
     
@@ -20,12 +22,14 @@ class BaseStation : public Machine{
       virtual void FonctionVirtuelle();
       
        /* Méthodes */   
-       int getBaseRouge();
-       int getBaseNoir();      
-       int getBaseArgent();
-       void majRouge(int nbRouge);
-       void majNoir(int nbNoir);
-       void majArgent(int nbArgent);
+       int getRedBase();
+       int getBlackBase();      
+       int getSilverBase();
+       void majRed(int nbRouge);
+       void majBlack(int nbNoir);
+       void majSilver(int nbArgent);
+       void take_base(int color,int n_robot,int n_order);
+       void bring_base_rs(int color,int n_robot,int n_order,int machine);
 };
 
 #endif

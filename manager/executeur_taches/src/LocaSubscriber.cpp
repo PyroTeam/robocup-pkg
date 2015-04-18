@@ -1,4 +1,5 @@
 #include "LocaSubscriber.h"
+#include "Machine.h"
 
 LocaSubscriber::LocaSubscriber(){
 }

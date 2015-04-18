@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
   geometry_msgs
+  comm_msg
 )
 
 #set the default path for built executables to the "bin" directory
@@ -78,6 +79,7 @@ add_library(
     src/sendScheduler.cpp
     src/refBoxUtils.cpp
 )
+add_dependencies(refBoxTransport comm_msg_gencpp)
 
 add_executable(
   refBoxComm 
@@ -86,14 +88,14 @@ add_executable(
   src/refBoxCommNode.cpp 
 )
 
-add_dependencies(refBoxComm ${catkin_EXPORTED_TARGETS})
+add_dependencies(refBoxComm ${catkin_EXPORTED_TARGETS} comm_msg_gencpp)
 
 add_executable(
   eiListener
   src/explorationInfoListenerNode.cpp 
 )
 
-add_dependencies(eiListener ${catkin_EXPORTED_TARGETS})
+add_dependencies(eiListener ${catkin_EXPORTED_TARGETS} comm_msg_gencpp)
 
 
 target_link_libraries(

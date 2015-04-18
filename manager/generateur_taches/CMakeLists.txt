@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  manager_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -111,6 +112,8 @@ add_executable(test_fonctions_travail
   src/travail.cpp
   src/produit.cpp
   src/main.cpp)
+target_link_libraries(test_fonctions_travail ${catkin_LIBRARIES})
+add_dependencies(test_fonctions_travail manager_msg_gencpp)
   
 add_executable(algo_node
   src/etatdujeu.cpp
@@ -126,11 +129,15 @@ add_executable(algo_node
   src/travail.cpp
   src/produit.cpp
   src/main2.cpp)
+target_link_libraries(algo_node ${catkin_LIBRARIES} )
+add_dependencies(algo_node manager_msg_gencpp)
 
 add_executable(action_node 
     src/action.cpp
     src/action_node.cpp
 )
+target_link_libraries(action_node ${catkin_LIBRARIES} )
+add_dependencies(action_node manager_msg_gencpp)
 
 
 set_target_properties(test_fonctions_travail PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
@@ -141,10 +148,7 @@ set_target_properties(action_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 # add_dependencies(generateur_taches_node generateur_taches_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(test_fonctions_travail ${catkin_LIBRARIES})
 
-target_link_libraries(algo_node ${catkin_LIBRARIES} )
-add_dependencies(algo_node manager_msg_gencpp)
 
 add_executable(envoi_ordre src/envoi_ordre.cpp)
 target_link_libraries(envoi_ordre ${catkin_LIBRARIES})
@@ -157,9 +161,6 @@ add_dependencies(reception_ordre manager_msg_gencpp)
 add_executable(emetteur_topic src/emetteur_topic.cpp)
 target_link_libraries(emetteur_topic ${catkin_LIBRARIES})
 add_dependencies(emetteur_topic manager_msg_gencpp)
-
-target_link_libraries(action_node ${catkin_LIBRARIES} )
-add_dependencies(action_node manager_msg_gencpp)
 #############
 ## Install ##
 #############

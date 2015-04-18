@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   tf
+  deplacement_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -112,8 +113,8 @@ add_executable(construct_map_test src/Test.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(construct_map_node path_finder_generate_messages_cpp)
-add_dependencies(construct_map_test path_finder_generate_messages_cpp)
+add_dependencies(construct_map_node path_finder_generate_messages_cpp deplacement_msg_gencpp)
+add_dependencies(construct_map_test path_finder_generate_messages_cpp deplacement_msg_gencpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(construct_map_node
