@@ -53,7 +53,6 @@ int main(int argc, char** argv){
 			}
 			cout << "le laser se situe a " << moy(position_y) <<" m du bord gauche de l'objet le plus proche" << endl;
 			cout << "pente = " << moy(pente) << endl;
-			asservissement_angle(n,moy(pente));
 			
 			}
 		}

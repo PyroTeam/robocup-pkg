@@ -93,7 +93,7 @@ float laserScan::distance_objet(int i){
     it++;
     compteur++;
   }
-  float tmp = m_ranges[min];
+  float tmp = min;
   for(int i=min;i<(min+it->size()-1);i++){
   	if(m_ranges[tmp]>m_ranges[i]){
   		tmp = i;

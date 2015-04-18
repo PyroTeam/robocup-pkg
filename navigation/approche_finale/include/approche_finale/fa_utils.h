@@ -7,6 +7,8 @@
 
 float distance2points(Point a, Point b);
 float moy(std::vector<float> position_y);
-void asservissement_angle(ros::NodeHandle n,float moy_pente);
+int asservissement_angle(ros::Publisher pub_mvt,float moy_pente);
+int asservissement_position_y(ros::Publisher pub_mvt, float moy_pos,float objectif);
+int asservissement_position_x(ros::Publisher pub_mvt, float distance);
 
 #endif

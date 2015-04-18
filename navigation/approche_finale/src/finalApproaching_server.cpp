@@ -5,6 +5,7 @@
 #include <vector>
 #include <list>
 
+#include "geometry_msgs/Twist.h"
 #include "fa_utils.h"
 #include "laserScan.h"
 #include "Point.h"
@@ -130,6 +131,7 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "finalApproaching");
 	ros::NodeHandle n;
+	ros::Publisher pub_mvt = n.advertise<geometry_msgs::Twist>("/cmd_vel",1000);
 	ros::Time::init();
 	ros::Rate loop_rate(1000);
 	laserScan ls;
@@ -170,8 +172,10 @@ int main(int argc, char** argv)
 			}
 			std::cout << "le laser se situe a " << moy(position_y) <<" m du bord gauche de l'objet le plus proche" << std::endl;
 			std::cout << "pente = " << moy(pente) << std::endl;
-			asservissement_angle(n,moy(pente));
-			
+			if(asservissement_angle(pub_mvt,moy(pente))) 
+				asservissement_position_y(pub_mvt,moy(position_y),0.65);
+			if(asservissement_position_y(pub_mvt,moy(position_y),0.65))
+				asservissement_position_x(pub_mvt,ls.distance_objet(max_points));
 			}
 		}
 		
