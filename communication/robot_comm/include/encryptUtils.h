@@ -30,6 +30,7 @@ public:
         AES_CBC_256
     };
 
+    EncryptUtils();
     EncryptUtils(Buffer_type &key, CIPHER_TYPE cipher = EncryptUtils::AES_CBC_128);
     ~EncryptUtils();
 

@@ -14,7 +14,7 @@ find_package(Protobuf REQUIRED)
 find_package(OpenSSL REQUIRED)
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -98,6 +98,7 @@ catkin_package(
 
 include_directories(
   include
+  ${Boost_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
   ${OPENSSL_INCLUDE_DIR})
 
@@ -140,6 +141,7 @@ add_dependencies(robot_comm_node ${catkin_EXPORTED_TARGETS} robot_comm_generate_
 #   ${catkin_LIBRARIES}
 # )
 target_link_libraries(robot_comm_node
+  ${Boost_LIBRAIRIES}
   ${catkin_LIBRARIES}
   ${PROTOBUF_LIBRARIES}
   ${OPENSSL_LIBRARIES}
