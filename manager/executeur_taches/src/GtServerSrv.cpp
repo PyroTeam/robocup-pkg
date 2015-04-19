@@ -20,7 +20,6 @@ manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction(){
 
 bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::order::Response &res){
 
-  ROS_INFO("test server order");
   if (req.number_robot == nb_robot){
       res.number_order = req.number_order;
       res.number_robot = nb_robot;
@@ -125,13 +124,13 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                             int i = 0; 
                             for(i = 0; i<3; i++){
                                 if(m.getCS1().getStockage(i) ==0 ){
-                                    m.getCS1().majStockID(i, 1);
                                     m.getCS1().stock(i,nb_robot,req.number_order,activity::CS1);
+                                    m.getCS1().majStockID(i,1);
                                     break;
                                 }
                                 else if(m.getCS2().getStockage(i+3) ==0 ){
-                                    m.getCS2().majStockID(i+3, 1);
                                     m.getCS2().stock(i+3,nb_robot,req.number_order,activity::CS1);
+                                    m.getCS2().majStockID(i+3,1);
                                     break;
                                 }
                                 else{
@@ -177,12 +176,12 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                  switch(machine){
                       case 0 : //BS ==> lights on OUTPUT
                               if(output){
-                                  m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT);
+                                  m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                   m.getBS().readlights();
                               } 
                               else{
                                   m.getBS().goTo(m.getBS().getExitMachine());
-                                  m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT);
+                                  m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                   m.getBS().readlights();
                               }
                               break;
@@ -190,23 +189,23 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       case 1 : //RS ==> lights on OUTPUT
                               if(output){
                                   if(id == 1){
-                                      m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT);
+                                      m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                       m.getRS1().readlights();
                                   }  
                                   if(id == 2){
-                                      m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT);
+                                      m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                       m.getRS2().readlights();
                                   }  
                               }  
                               else{
                                   if(id == 1){
                                        m.getRS1().goTo(m.getRS1().getExitMachine());
-                                       m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT);
+                                       m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                        m.getRS1().readlights();
                                   }  
                                   if(id == 2){
                                        m.getRS2().goTo(m.getRS2().getExitMachine());
-                                       m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT);
+                                       m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                        m.getRS2().readlights();
                                   }                              
                               }
@@ -214,35 +213,35 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       case 2 : //CS ==> lights on OUTPUT
                               if(output){
                                   if(id == 1){
-                                      m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT);
+                                      m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                       m.getCS1().readlights();
                                   }  
                                   if(id == 2){
-                                      m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT);
+                                      m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                       m.getCS2().readlights();
                                   }  
                               }  
                               else{
                                   if(id == 1){
                                        m.getCS1().goTo(m.getCS1().getExitMachine());
-                                       m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT);
+                                       m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                        m.getCS1().readlights();
                                   }  
                                   if(id == 2){
                                        m.getCS2().goTo(m.getCS2().getExitMachine());
-                                       m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT);
+                                       m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                        m.getCS2().readlights();
                                   }                              
                               }
                               break;
                       case 3 : //DS ==> lights on OUTPUT?
                               if(output){
-                                  m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT);
+                                  m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                   m.getDS().readlights();
                               } 
                               else{
                                   m.getDS().goTo(m.getDS().getExitMachine());
-                                  m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT);
+                                  m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                   m.getDS().readlights();
                               }
                               break;

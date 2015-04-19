@@ -115,6 +115,7 @@ add_executable(
   src/DeliveryStation.cpp
   src/GtServerSrv.cpp
   src/LocaSubscriber.cpp
+  src/GripperClientSrv.cpp
   src/MyElements.cpp
   src/FeuClientAction.cpp
   src/FinalApproachingClient.cpp
