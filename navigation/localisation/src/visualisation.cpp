@@ -8,6 +8,7 @@
 
 std::vector<geometry_msgs::Point> tabMachines;
 std::vector<geometry_msgs::Point> tabSegments;
+geometry_msgs::Point r;
 
 //cette putin de fonction de callback ne marche pas !!!
 void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments){
@@ -31,21 +32,29 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
   }
 }
 
+void robotCallback(const geometry_msgs::Point& pos){
+  geometry_msgs::Point p;
+  r.x = pos.x;
+  r.y = pos.y;
+}
+
 int main( int argc, char** argv )
 {
   ros::init(argc, argv, "visualisation");
 
   visualization_msgs::Marker line_list;
   visualization_msgs::Marker points;
+  visualization_msgs::Marker robot;
 
   ros::NodeHandle n;
 
   ros::Subscriber sub_machines  = n.subscribe("/machines", 1000, machinesCallback);
   ros::Subscriber sub_segments  = n.subscribe("/segments", 1000, segmentsCallback);
+  ros::Subscriber sub_pos_robot = n.subscribe("/robot", 1000, robotCallback);
 
   ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("/visualization_marker", 1000);
 
-  ros::Rate r(30);
+  ros::Rate rate(30);
 
   while (ros::ok())
   {
@@ -75,8 +84,8 @@ int main( int argc, char** argv )
     points.type = visualization_msgs::Marker::POINTS;
 
     // POINTS markers use x and y scale for width/height respectively
-    points.scale.x = 0.1;
-    points.scale.y = 0.1;
+    points.scale.x = 0.35;
+    points.scale.y = 0.7;
 
     // Points are green
     points.color.g = 1.0f;
@@ -84,11 +93,36 @@ int main( int argc, char** argv )
 
     points.points = tabMachines;
 
-    marker_pub.publish(line_list);
+    robot.header.frame_id = "/laser_link";
+    robot.header.stamp = ros::Time::now();
+    robot.ns = "visualisation_robot";
+    robot.action = visualization_msgs::Marker::ADD;
+    robot.pose.orientation.w = 1.0;
+    robot.id = 1;
+    robot.type = visualization_msgs::Marker::CYLINDER;
+
+    // POINTS markers use x and y scale for width/height respectively
+    robot.scale.x = 0.35;
+    robot.scale.y = 0.35;
+    robot.scale.z = 0.80;
+
+    robot.pose.position.x = r.x;
+    robot.pose.position.y = r.y;
+    robot.pose.orientation.x = 0.0;
+    robot.pose.orientation.y = 0.0;
+    robot.pose.orientation.z = 0.0;
+    robot.pose.orientation.w = 1.0;
+
+    // Robot is blue
+    robot.color.b = 1.0f;
+    robot.color.a = 1.0;
+
+    //marker_pub.publish(line_list);
     marker_pub.publish(points);
+    marker_pub.publish(robot);
 
     ros::spinOnce();
 
-    r.sleep();
+    rate.sleep();
   }
 }
