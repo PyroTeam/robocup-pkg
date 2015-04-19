@@ -33,11 +33,11 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #)
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   std_msgs
-   geometry_msgs
- )
+ # generate_messages(
+ #   DEPENDENCIES
+ #   std_msgs
+ #   geometry_msgs
+ # )
 ###################################
 ## catkin specific configuration ##
 ###################################
@@ -53,8 +53,19 @@ set(LLSF_BASEDIR $ENV{HOME}/refbox/llsf-refbox)
 #set(CONFDIR ${LLSF_BASEDIR}/cfg)
 set(CONFDIR ${PROJECT_SOURCE_DIR}/cfg)
 
-add_definitions( -DCONFDIR=\\"${CONFDIR}\\" )
-add_definitions( -DUSERDIR=\\".\\" )
+# With CMake >= 2.6, got this warning
+#   -> Policy CMP0005 is not set: Preprocessor definition values are now escaped automatically
+if(POLICY CMP0005)
+  cmake_policy(PUSH)
+  cmake_policy(SET CMP0005 OLD)
+endif()
+
+  add_definitions( -DCONFDIR=\\"${CONFDIR}\\" )
+  add_definitions( -DUSERDIR=\\".\\" )
+
+if(POLICY CMP0005)
+  cmake_policy(POP)
+endif()
 
 include_directories(
     include
@@ -80,6 +91,34 @@ add_library(
     src/refBoxUtils.cpp
 )
 add_dependencies(refBoxTransport comm_msg_gencpp)
+
+# See below
+if(COMMAND cmake_policy)
+  cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+# Policy CMP0003 should be set before this line.  Add code such as
+
+#     if(COMMAND cmake_policy)
+#       cmake_policy(SET CMP0003 NEW)
+#     endif(COMMAND cmake_policy)
+
+#   as early as possible but after the most recent call to
+#   cmake_minimum_required or cmake_policy(VERSION).  This warning appears
+#   because target "refBoxComm" links to some libraries for which the linker
+#   must search:
+
+#     llsf_msgs, llsf_protobuf_comm, protobuf, llsfrbconfig, yaml-cpp
+
+#   and other libraries with known full path:
+
+#     /home/leak/catkin_tests_ws/devel/lib/librefBoxTransport.so
+#     /opt/ros/indigo/lib/libroscpp.so
+
+#   CMake is adding directories in the second list to the linker search path in
+#   case they are needed to find libraries from the first list (for backwards
+#   compatibility with CMake 2.4).  Set policy CMP0003 to OLD or NEW to enable
+#   or disable this behavior explicitly.  Run "cmake --help-policy CMP0003" for
+#   more information.
 
 add_executable(
   refBoxComm 

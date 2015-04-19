@@ -1,0 +1,6 @@
+
+<launch>
+
+    <node pkg="robot_comm" name="robot_comm_node" type="robot_comm_node" launch-prefix="valgrind"/>
+
+</launch>
