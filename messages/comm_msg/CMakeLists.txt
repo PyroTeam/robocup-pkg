@@ -53,6 +53,7 @@ add_message_files(
     ExplorationSignal.msg
     GameState.msg
     LightSpec.msg
+  activity.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -86,9 +87,8 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES comm_msg
-#  CATKIN_DEPENDS roscpp rospy
+   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
 #  DEPENDS system_lib
-	CATKIN_DEPENDS message_runtime
 )
 
 ###########
