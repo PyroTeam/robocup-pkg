@@ -9,6 +9,11 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   actionlib_msgs
   actionlib
+  sensor_msgs
+  message_runtime
+  std_msgs
+  message_generation
+  geometry_msgs
   manager_msg
 )
 
@@ -82,9 +87,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES approche_finale
-  CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib
+  INCLUDE_DIRS include
+  LIBRARIES approche_finale
+  CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib sensor_msgs geometry_msgs message_runtime std_msgs message_generation
 #  DEPENDS system_lib
 )
 
@@ -92,12 +97,41 @@ catkin_package(
 ## Build ##
 ###########
 
-add_executable(finalApproaching_server src/finalApproaching_server.cpp)
+add_executable(finalApproaching_server 
+  src/fa_utils.cpp
+  src/laserScan.cpp
+  src/Point.cpp
+  src/Segment.cpp
+  src/finalApproaching_server.cpp)
 
+add_executable(test_fonctions_laser
+	src/test_fonctions_laser.cpp
+	src/laserScan.cpp
+	src/Point.cpp
+	src/Segment.cpp
+	src/fa_utils.cpp)
+
+# add_executable(fake_scan_node
+# 	src/fake_scan_node.cpp)
+	
 target_link_libraries(
   finalApproaching_server
   ${catkin_LIBRARIES}
 )
+
+target_link_libraries(
+  test_fonctions_laser
+  ${catkin_LIBRARIES}
+)
+
+# target_link_libraries(
+#   fake_scan_node
+#   ${catkin_LIBRARIES}
+# )
+
+set_target_properties(finalApproaching_server PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+# set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+set_target_properties(test_fonctions_laser PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 add_dependencies(
   finalApproaching_server
@@ -110,6 +144,7 @@ add_dependencies(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  include/approche_finale
 )
 
 ## Declare a cpp library
@@ -151,11 +186,11 @@ include_directories(
 # )
 
 ## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
+ install(DIRECTORY include/${PROJECT_NAME}/
+   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+   FILES_MATCHING PATTERN "*.h"
+   PATTERN ".svn" EXCLUDE
+ )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
