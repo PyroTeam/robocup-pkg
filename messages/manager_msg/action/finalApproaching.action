@@ -7,10 +7,10 @@ int8 DS = 3
 
 int8 type
 
-uint8 IN  = 100
-uint8 OUT = 200
+int8 IN  = 100
+int8 OUT = 101
 
-int8 side
+int32 side
 
 int8 S1       = 10
 int8 S2       = 20

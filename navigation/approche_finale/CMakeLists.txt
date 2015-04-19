@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   actionlib_msgs
   actionlib
+  manager_msg
 )
 
 ## System dependencies are found with CMake's conventions
