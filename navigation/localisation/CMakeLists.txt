@@ -137,11 +137,23 @@ add_executable(
   try
   src/try.cpp)
 
+add_executable(
+  EKF_node_2
+  src/EKF_2.cpp
+  src/EKF_class.cpp)
+
+add_executable(
+  EKF_node
+  src/EKF.cpp
+  src/EKF_functions.cpp)
+
 set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(odometry_correction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(visualisation PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(try PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(EKF_node_2 PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(EKF_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -166,10 +178,20 @@ target_link_libraries(
 )
 target_link_libraries(
   visualisation
-  ${catkin_LIBRARIES})
+  ${catkin_LIBRARIES}
+)
 target_link_libraries(
   try
-  ${catkin_LIBRARIES})
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  EKF_node_2
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  EKF_node
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

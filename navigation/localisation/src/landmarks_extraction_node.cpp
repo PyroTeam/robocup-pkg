@@ -33,8 +33,7 @@ int main(int argc, char** argv)
     while(n.ok())
     {
         const std::list<Point> &listOfPoints    = laserData.getPoints();
-        std::list<Modele>  listOfModeles        = findLines(listOfPoints, 20, 0.05, 20);
-        //voir amélioration avec la fonction convertModelesIntoMachines
+        std::list<Modele>  listOfModeles        = findLines(listOfPoints, 30, 0.1, 30);
         std::list<Segment> listOfSegments       = buildSegments(listOfModeles);
         std::vector<Machine> listOfMachines     = recognizeMachinesFrom(listOfSegments);
         
