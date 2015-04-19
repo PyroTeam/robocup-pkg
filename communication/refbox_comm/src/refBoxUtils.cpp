@@ -104,7 +104,8 @@ comm_msg::ExplorationInfo llsf2ros_explorationInfo(llsf_msgs::ExplorationInfo ll
         machine.pose.theta =em.pose().ori();
         machine.team_color = em.team_color();
         
-        rosExplorationInfo.machines.push_back(machine);
+        // TODO VINCENT : currently NOT WORKING, Exploration Info has no member called 'machines'
+        // rosExplorationInfo.machines.push_back(machine);
     }
 
     return rosExplorationInfo;

@@ -51,9 +51,12 @@ add_message_files(
     ExplorationInfo.msg
     ExplorationMachine.msg
     ExplorationSignal.msg
+    ExplorationZone.msg
     GameState.msg
     LightSpec.msg
-  activity.msg
+  	Machine.msg
+  	Zone.msg
+    activity.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -61,6 +64,7 @@ add_service_files(
     FILES
     ReportMachine.srv
 )
+
 ## Generate actions in the 'action' folder
 # add_action_files(
 #   FILES
@@ -89,6 +93,7 @@ catkin_package(
 #  LIBRARIES comm_msg
    CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
 #  DEPENDS system_lib
+	CATKIN_DEPENDS message_runtime
 )
 
 ###########
