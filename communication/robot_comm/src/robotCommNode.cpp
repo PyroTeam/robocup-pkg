@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 
     //test TopicToUdpEntry
     boost::asio::io_service io_service;
-    int port;
+    int port = 5001;
     std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, port));
     TopicToUdpEntry<comm_msg::activity> test_inpt(udpPeer, "/activity");
 

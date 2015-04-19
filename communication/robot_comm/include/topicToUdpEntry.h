@@ -16,6 +16,7 @@
 #include <string>
 #include <ros/ros.h>
 
+#include "UdpPeer.h"
 #include "entryPoint.h"
 #include "msgConvertUtils.h"
 
@@ -46,7 +47,7 @@ private:
         }
 
         //send it via UdpPeer
-        //m_udpPeer.send(proto_msg);
+        m_udpPeer->send(proto_msg);
         std::cout << "Receive msg" <<std::endl;
     }
 

@@ -13,6 +13,8 @@ using boost::asio::ip::udp;
 
 UdpPeer::UdpPeer(boost::asio::io_service& io_service, int port):
 m_port(port), m_socket(io_service, udp::endpoint(udp::v4(), m_port)){
+	m_broadcastEndpoint = udp::endpoint(boost::asio::ip::address_v4::broadcast(), m_port);
+	m_socket.set_option(udp::socket::broadcast(true));
 	m_socket.async_receive_from(boost::asio::buffer(m_buffer_recv), m_broadcastEndpoint,
 	boost::bind(&UdpPeer::handle_receive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
@@ -21,14 +23,16 @@ m_port(port), m_socket(io_service, udp::endpoint(udp::v4(), m_port)){
 void UdpPeer::send(std::shared_ptr<google::protobuf::Message>& msg){
 	std::vector<unsigned char> m_buffer;
 	std::vector<unsigned char>::iterator it;
-	it = m_buffer.begin();	
+	it = m_buffer.begin();
 	//std::string code = m_msgCatalog.serialize(m_buffer, msg);
 	m_buffer.insert(it, 'c');
 	std::vector<unsigned char> m_buffer_s;
 	std::vector<unsigned char> IV;
 	m_encryptUtil.encrypt(m_buffer, m_buffer_s, IV);
+	it = m_buffer_s.begin();
 	m_buffer_s.insert(it, '1');
 	//std::string code = "code";
+	it = m_buffer_s.begin();
 	m_buffer_s.insert(it, 'c');
 
 	m_socket.async_send_to(boost::asio::buffer(m_buffer_s), m_broadcastEndpoint,
@@ -60,7 +64,7 @@ void UdpPeer::handle_receive(const boost::system::error_code &error, std::size_t
 				std::vector<unsigned char> IV(m_buffer_recv.begin()+2, m_buffer_recv.begin()+16);
 				m_buffer_recv.erase(it, it_fin);
 				std::vector<unsigned char> m_buffer_s;
-				m_encryptUtil.decrypt(m_buffer_recv, m_buffer_s, IV);			
+				m_encryptUtil.decrypt(m_buffer_recv, m_buffer_s, IV);
 				unsigned char code = m_buffer_s[0];
 				m_buffer_s.erase(it);
 				//google::protobuf::Message* msg = m_msgCatalog.deserialize(code, m_buffer_s);
