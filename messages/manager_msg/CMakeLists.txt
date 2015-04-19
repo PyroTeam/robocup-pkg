@@ -11,6 +11,9 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   message_generation
   actionlib_msgs        
+  actionlib
+  message_runtime
+  comm_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -75,6 +78,8 @@ FILES
    action
    FILES
    finalApproaching.action
+   processLightSignal.action
+#   Action2.action
  )
 
 ## Generate added messages and services with any dependencies listed here
@@ -82,8 +87,9 @@ FILES
  generate_messages(
    DEPENDENCIES
    std_msgs
-   geometry_msgs
    actionlib_msgs
+   geometry_msgs
+   comm_msg
  )
 
 
@@ -99,7 +105,7 @@ FILES
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES beginner_tutorials
-   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime actionlib_msgs
+   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime actionlib_msgs actionlib
 #  DEPENDS system_lib
 )
 

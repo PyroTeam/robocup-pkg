@@ -32,7 +32,7 @@ void BaseStation::majBlack(int nbNoir){
   m_blackBase = nbNoir;
 }
 void BaseStation::majSilver(int nbArgent){
-  m_silverBase= nbArgent;
+  m_silverBase = nbArgent;
 }
 
 void BaseStation::take_base(int color,int n_robot,int n_order){

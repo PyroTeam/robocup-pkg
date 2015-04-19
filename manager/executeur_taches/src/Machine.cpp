@@ -59,11 +59,12 @@ manager_msg::activity Machine::msgToGT(int n_robot, int stateOfOrder, int machin
 }
 
 /* Fonction abstraite qui permet d'aller vers une machine (Point centre/entree/sortie d'une machine) */
-//void Machine::goTo(geometry_msgs::Pose2D pt_dest){
+void Machine::goTo(geometry_msgs::Pose2D pt_dest){
+  ROS_INFO("going to the point : x %lf - y %lf - theta %lf",pt_dest.x,pt_dest.y,pt_dest.theta);
   // refBoxCom(Robotinos)
   // SupervisionChemin(pt_dest);
   // Approche Finale
-//}
+}
 
 /* Fonction qui permet de prendre un produit */
 //void Machine::take( ){
@@ -78,3 +79,15 @@ manager_msg::activity Machine::msgToGT(int n_robot, int stateOfOrder, int machin
   // Pince => depose le produit 
   // refBoxCom(Communication machine)
 //}
+
+void Machine::readlights(){
+ 
+  ROS_INFO(" Starting exploring the lights ");
+  FeuClientAction f_c;
+  f_c.lightsStates(); 
+}
+
+void Machine::startFinalAp(int8_t machineType, int8_t machineSide){
+  FinalApproachingClient fa_c;
+  fa_c.starting(machineType,machineSide);
+}

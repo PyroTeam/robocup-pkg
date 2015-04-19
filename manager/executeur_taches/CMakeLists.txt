@@ -117,6 +117,8 @@ add_executable(
   src/GtServerSrv.cpp
   src/LocaSubscriber.cpp
   src/MyElements.cpp
+  src/FeuClientAction.cpp
+  src/FinalApproachingClient.cpp
 )
 add_dependencies(test_exec manager_msg_gencpp)
 
@@ -128,6 +130,20 @@ add_executable(
 add_dependencies(test_publish manager_msg_gencpp)
 
 add_executable(
+  test_lights
+  
+  src/fake_light_server_node.cpp
+)
+add_dependencies(test_lights manager_msg_gencpp)
+
+add_executable(
+  test_order
+  
+  src/fake_client_order.cpp
+)
+add_dependencies(test_order manager_msg_gencpp)
+
+add_executable(
   test_reponse_service
   src/service_node.cpp
   src/GtServerSrv.cpp
@@ -137,6 +153,9 @@ add_executable(
   src/Machine.cpp
   src/MyElements.cpp
   src/RingStation.cpp
+  
+  src/FeuClientAction.cpp
+  src/FinalApproachingClient.cpp
   )
 add_dependencies(test_reponse_service manager_msg_gencpp)
 
@@ -154,6 +173,14 @@ target_link_libraries(
 )
 target_link_libraries(
   test_publish
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_lights
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_order
   ${catkin_LIBRARIES}
 )
 #target_link_libraries(
