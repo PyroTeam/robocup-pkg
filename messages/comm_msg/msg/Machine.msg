@@ -8,7 +8,7 @@ uint8 team_color
 
 LightSpec[] lights
 geometry_msgs/Pose2D pose
-Zone zone
+uint8 zone
 bool correctly_reported
-unit32 loaded_with
+uint32 loaded_with
 RingColor[] ring_colors
