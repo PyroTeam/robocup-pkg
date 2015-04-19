@@ -47,9 +47,7 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
-#set(LLSF_BASEDIR /home/vincent/refbox/llsf-refbox-crypto)
 set(LLSF_BASEDIR $ENV{HOME}/refbox/llsf-refbox)
-#set(CONFDIR ${LLSF_BASEDIR}/cfg)
 set(CONFDIR ${PROJECT_SOURCE_DIR}/cfg)
 
 add_definitions( -DCONFDIR=\\"${CONFDIR}\\" )
@@ -57,9 +55,9 @@ add_definitions( -DUSERDIR=\\".\\" )
 
 include_directories(
     include
-    ${catkin_INCLUDE_DIRS} 
+    ${catkin_INCLUDE_DIRS}
     ${LLSF_BASEDIR}/src
-    ${LLSF_BASEDIR}/src/libs 
+    ${LLSF_BASEDIR}/src/libs
     ${roscpp_INCLUDE_DIRS})
 
 #include_directories(${LLSF_BASEDIR}/src ${roscpp_INCLUDE_DIRS})
@@ -71,7 +69,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(
-    refBoxTransport 
+    refBoxTransport
 
     src/refBoxTransport.cpp
     src/refBoxMessage.cpp
@@ -80,40 +78,40 @@ add_library(
 )
 
 add_executable(
-  refBoxComm 
-  
+  refBoxComm
+
   src/refBoxComm.cpp
-  src/refBoxCommNode.cpp 
+  src/refBoxCommNode.cpp
 )
 
 add_dependencies(refBoxComm ${catkin_EXPORTED_TARGETS})
 
 add_executable(
   eiListener
-  src/explorationInfoListenerNode.cpp 
+  src/explorationInfoListenerNode.cpp
 )
 
 add_dependencies(eiListener ${catkin_EXPORTED_TARGETS})
 
 
 target_link_libraries(
-  refBoxComm 
+  refBoxComm
 
   refBoxTransport
   llsf_msgs
-  llsf_protobuf_comm 
-  protobuf 
+  llsf_protobuf_comm
+  protobuf
   llsfrbconfig
   #llsfrbcore
   #llsfrbutils
   yaml-cpp
 
-  ${Boost_LIBRARIES} 
+  ${Boost_LIBRARIES}
   ${catkin_LIBRARIES}
   ${roscpp_LIBRARIES}
 )
 
-target_link_libraries( 
+target_link_libraries(
   eiListener
   ${catkin_LIBRARIES}
   ${roscpp_LIBRARIES}
@@ -144,4 +142,3 @@ install(TARGETS refBoxComm eiListener
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
-

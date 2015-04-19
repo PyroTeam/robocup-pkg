@@ -51,10 +51,15 @@ add_message_files(
     ExplorationInfo.msg
     ExplorationMachine.msg
     ExplorationSignal.msg
+	ExplorationZone.msg
     GameState.msg
     LightSpec.msg
 	Machine.msg
-	Zone.msg
+	MachineInfo.msg
+	MachineReportInfo.msg
+	RingColor.msg
+	Robot.msg
+	RobotInfo.msg
 )
 
 ## Generate services in the 'srv' folder
