@@ -32,6 +32,8 @@ RefBoxComm::RefBoxComm(std::string teamName, std::string teamColor, std::string 
     //initialisation des composants ROS
     m_gameState_pub = m_nh.advertise<comm_msg::GameState>("/refBoxComm/GameState", 1000);
     m_explorationInfo_pub = m_nh.advertise<comm_msg::ExplorationInfo>("/refBoxComm/ExplorationInfo", 1000);
+    m_machineReportInfo_pub = m_nh.advertise<comm_msg::MachineReportInfo>("/refBoxComm/ReportedMachines", 1000);
+
 
     m_reportMachineService = m_nh.advertiseService("/refBoxComm/ReportMachine", &RefBoxComm::ReportMachineSrv, this);
 
@@ -334,22 +336,25 @@ bool RefBoxComm::fireMachineInfo(protoMsg &m)
 bool RefBoxComm::fireMachineReportInfo(protoMsg &m)
 {
 	MachineReportInfo &mri = dynamic_cast<MachineReportInfo&>(m);
+    comm_msg::MachineReportInfo machineReportInfo;
 
-    printf("MachineReportInfo received:\n");
+    //printf("MachineReportInfo received:\n");
     if (mri.reported_machines_size() > 0)
     {
-        printf("  Reported machines:");
+        //printf("  Reported machines:");
         for (int i = 0; i < mri.reported_machines_size(); ++i)
         {
-            printf(" %s", mri.reported_machines(i).c_str());
+            //printf(" %s", mri.reported_machines(i).c_str());
+            machineReportInfo.reported_machines.push_back(mri.reported_machines(i));
         }
-        printf("\n");
+        //printf("\n");
     }
     else
     {
-        printf("  no machines reported, yet\n");
+        //printf("  no machines reported, yet\n");
     }
 
+    m_machineReportInfo_pub.publish(machineReportInfo);
 	return true;
 }
 
