@@ -1,7 +1,7 @@
 /**
  * \file 		refBoxComm.h
  *
- * \brief		
+ * \brief
  *
  * \author		Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date		2015-03-03
@@ -48,18 +48,19 @@ class RefBoxComm
 public:
     RefBoxComm(std::string teamName, std::string teamColor, std::string robotName, int robotNumber);
     virtual ~RefBoxComm();
-    
+
     void setTransport(std::shared_ptr<RefBoxTransport> &refBoxTr);
 private:
     ros::NodeHandle m_nh;
-    
+
     ros::Publisher m_gameState_pub;
     ros::Publisher m_explorationInfo_pub;
-    
+    ros::Publisher m_machineReportInfo_pub;
+
     ros::ServiceServer m_reportMachineService;
-    
+
     ros::Subscriber m_pose_sub;
-    
+
     struct Status
     {
         Status():seq(0){}
@@ -69,26 +70,26 @@ private:
 	    std::string teamName;
 	    std::string robotName;
 	    unsigned int robotNumber;
-	    
+
 	    llsf_msgs::MachineReport machineToReport;
 	    GamePhase gamePhase;
-	    
+
 	    comm_msg::GameState gameState;
     } m_status;
-    
+
     std::shared_ptr<RefBoxTransport> m_transport;
     std::shared_ptr<MessageDispatcher> m_dispatcher;
-    
+
     SendScheduler m_sendScheduler;
-    
+
     //ros callback
     void PoseCallback(const nav_msgs::Odometry &odom);
-    
+
     //ros services
     bool ReportMachineSrv(comm_msg::ReportMachine::Request  &req,
                           comm_msg::ReportMachine::Response &res);
 
-    
+
     //dispatcher receive handler
     bool fireBeaconSignal(protoMsg &m);
     bool fireGameState(protoMsg &m);
@@ -103,7 +104,7 @@ private:
     //send callBack
     bool sendBeaconSignalCB(protoMsg &m);
     bool sendMachineReportCB(protoMsg &m);
-    
+
 };
 
 #endif /* REFBOXCOMM_H_ */
