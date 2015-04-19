@@ -161,6 +161,9 @@ add_dependencies(landmarks_extraction_node deplacement_msg_generate_messages_cpp
 add_dependencies(fake_scan_node deplacement_msg_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 add_dependencies(odometry_correction_node deplacement_msg_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 add_dependencies(visualisation deplacement_msg_generate_messages_cpp)
+add_dependencies(try deplacement_msg_generate_messages_cpp)
+add_dependencies(EKF_node_2 deplacement_msg_generate_messages_cpp)
+add_dependencies(EKF_node deplacement_msg_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 
