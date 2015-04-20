@@ -1,17 +1,13 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(path_finder)
+project(path_tracker)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  geometry_msgs
-  nav_msgs
-  roscpp
-  rospy
-  std_msgs
-  tf
-  deplacement_msg
+    rospy
+    geometry_msgs
+    turtlesim
 )
 
 ## System dependencies are found with CMake's conventions
@@ -71,7 +67,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs#   nav_msgs#   std_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ###################################
@@ -84,9 +80,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include/path_finder
-#  LIBRARIES path_finder
-  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs tf
+#  INCLUDE_DIRS include
+#  LIBRARIES gpio_interface
+#  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
 
@@ -96,33 +92,60 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
-include_directories(
-	include/path_finder
-  ${catkin_INCLUDE_DIRS}
-)
+# include_directories(
+#     include
+#     /usr/local/include
+#     ${catkin_INCLUDE_DIRS}
+# )
 
 ## Declare a cpp library
-# add_library(path_finder
-#   src/${PROJECT_NAME}/path_finder.cpp
+# add_library(gpio_interface
+#   src/${PROJECT_NAME}/gpio_interface.cpp
 # )
 
 ## Declare a cpp executable
-add_executable(construct_map_node src/Map.cpp)
-add_executable(construct_map_test src/Test.cpp)
+# add_executable(leds_button_node
+#         src/leds_button_node.cpp
+# )
+
+# add_executable(fake_vocal_interpreter_node
+#         src/fake_vocal_interpreter_node.cpp
+# )
+
+# add_executable(fake_vocal_wake_node
+#         src/fake_vocal_wake_node.cpp
+# )
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(construct_map_node path_finder_generate_messages_cpp deplacement_msg_gencpp)
-add_dependencies(construct_map_test path_finder_generate_messages_cpp deplacement_msg_gencpp)
+# add_dependencies(leds_button_node 
+#     gpio_messages_gencpp
+#     sound_messages_gencpp)
+
+# add_dependencies(fake_vocal_interpreter_node 
+#     gpio_messages_gencpp
+#     sound_messages_gencpp)
+
+# add_dependencies(fake_vocal_wake_node 
+#     gpio_messages_gencpp
+#     sound_messages_gencpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(construct_map_node
- ${catkin_LIBRARIES}
-  )
-  target_link_libraries(construct_map_test
- ${catkin_LIBRARIES}
-  )
+# target_link_libraries(
+#     leds_button_node
+#     ${catkin_LIBRARIES}
+#     # -lwiringPi
+# )
+
+# target_link_libraries(
+#     fake_vocal_interpreter_node
+#     ${catkin_LIBRARIES}
+# )
+
+# target_link_libraries(
+#     fake_vocal_wake_node
+#     ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -139,7 +162,7 @@ target_link_libraries(construct_map_node
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS path_finder path_finder_node
+# install(TARGETS gpio_interface gpio_interface_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -164,7 +187,7 @@ target_link_libraries(construct_map_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_path_finder.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_gpio_interface.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
