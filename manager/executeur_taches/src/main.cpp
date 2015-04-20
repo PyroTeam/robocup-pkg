@@ -7,6 +7,7 @@
 
 #include "GtServerSrv.h"
 #include "LocaSubscriber.h"
+#include "FeuClientAction.h"
 #include "Machine.h"
 
 LocaSubscriber loca_sub;
@@ -32,7 +33,10 @@ int main(int argc, char **argv) {
     /* Subscriber topic localisation */    
     ros::Subscriber sub = n.subscribe("/landmarks",1000,&LocaSubscriber::tesCallback, &loca_sub);
 
-    
+    /* Test du FeuClient */
+    FeuClientAction f_c;
+    f_c.lightsStates(); 
+
     while(ros::ok){
         ROS_INFO("I'm READY ! ");
         activite_pub.publish(gtsrv.getActivityMsg()); 
