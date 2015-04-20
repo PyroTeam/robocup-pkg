@@ -28,8 +28,5 @@ void FeuClientAction::lightsStates(){
 	else{
 		ROS_INFO("Action didn't finish before the time out");
 	}
-	/*if(client.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
-		printf("No problem and the current state is \n", client.getState().toString().c_str());
-	}*/
 
 }
