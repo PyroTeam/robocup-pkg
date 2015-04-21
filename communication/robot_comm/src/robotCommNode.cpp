@@ -7,6 +7,7 @@
 #include "UdpPeer.h"
 #include "encryptUtils.h"
 #include "topicToUdpEntry.h"
+#include "udpToTopicEntry.h"
 
 #include "comm_msg/activity.h"
 
@@ -66,6 +67,8 @@ int main(int argc, char **argv)
     std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, port));
     TopicToUdpEntry<comm_msg::activity> test_inpt(udpPeer, "/activity");
 
+    //test udpToTopicEntry
+    UdpToTopicEntry<Activity, comm_msg::activity> testUdpToTopic(udpPeer, "activity");
 
     ros::Rate loop_rate(100);
     while(ros::ok())

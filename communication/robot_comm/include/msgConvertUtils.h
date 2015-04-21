@@ -22,7 +22,7 @@
 void rosToProtobuf(const boost::shared_ptr<const comm_msg::activity> &msg,
                    std::shared_ptr<google::protobuf::Message> &proto_msg);
 
-void ProtobufToRos(const std::shared_ptr<google::protobuf::Message> &proto_msg,
-                   const boost::shared_ptr<const comm_msg::activity> &msg);
+void ProtobufToRos(const Activity &proto_msg,
+                   std::shared_ptr<comm_msg::activity> &msg);
 
 #endif /* MSGCONVERTUTILS_H_ */

@@ -28,8 +28,15 @@ void rosToProtobuf(const boost::shared_ptr<const comm_msg::activity> &msg,
 
 
 
-void ProtobufToRos(const std::shared_ptr<google::protobuf::Message> &proto_msg,
-                   const boost::shared_ptr<comm_msg::activity> &msg)
+void ProtobufToRos(const Activity &proto_msg,
+                   std::shared_ptr<comm_msg::activity> &msg)
 {
     std::shared_ptr<comm_msg::activity> activity(new comm_msg::activity());
+
+    msg->nb_robot = proto_msg.nb_robot();
+    msg->state = int8(proto_msg.state());
+    msg->machine_used = int8(proto_msg.machine_used());
+    msg->nb_order = proto_msg.nb_order();
+
+    msg = activity;
 }
