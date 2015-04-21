@@ -74,8 +74,8 @@ int main(int argc, char **argv)
     while(ros::ok())
     {
 
-
-
+	std::cout << ".";
+	io_service.poll();
         ros::spinOnce();
         loop_rate.sleep();
     }
