@@ -4,10 +4,12 @@
 #include <cmath>
 #include <vector>
 
-Segment::Segment(Point a, Point b){
+Segment::Segment(Point a, Point b,int min_r,int max_r){
   m_min = a;
   m_max = b;
   m_pente = (b.gety()-a.gety()) / (b.getx()-a.getx()); 
+	m_min_ranges = min_r;
+	m_max_ranges = max_r;
 }
 
 Segment::~Segment(){}
@@ -18,6 +20,7 @@ bool Segment::pente_nulle(){
   else 
     return false;
 }
+
 
 void Segment::regression_lineaire(std::vector<Point> tabpoints){
   float n = (float)tabpoints.size();
@@ -48,5 +51,6 @@ void Segment::regression_lineaire(std::vector<Point> tabpoints){
 	varY = ecart_y2 /n;
 	float correl = covXY/sqrt(varX * varY);
 	set_correlation(correl*correl);
-	m_pente = covXY/varX;
+	m_angle = atan2(varX,covXY) - M_PI_2;
+	
 }

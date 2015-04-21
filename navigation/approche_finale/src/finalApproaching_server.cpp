@@ -1,6 +1,6 @@
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
-#include <manager_msg/finalApproachingAction.h>
+//#include <manager_msg/finalApproachingAction.h>
 #include <cmath>
 #include <vector>
 #include <list>
@@ -9,7 +9,7 @@
 #include "fa_utils.h"
 #include "laserScan.h"
 #include "Point.h"
-
+/*
 class finalApproachingAction
 {
 protected:
@@ -51,7 +51,7 @@ public:
     nh_.param<int>("fa_parameter",parameter,goal->parameter);
     
     
-    /*
+   
     bool objectif=false
     while(objectif==false){
         while(deplacement_msg::landmarks[2] > 1.60 || geometry_msgs/Pose2D[2] < 1.54){
@@ -90,7 +90,7 @@ public:
         percent_complete = 100;
         objectif=true;   
     }
-    */
+    
    
     // start executing the action
     for(int i=1; i<=100; i++)
@@ -125,7 +125,9 @@ public:
 
 
 };
+*/
 
+int a=0,b=0;
 
 int main(int argc, char** argv)
 {
@@ -133,26 +135,35 @@ int main(int argc, char** argv)
 	ros::NodeHandle n;
 	ros::Publisher pub_mvt = n.advertise<geometry_msgs::Twist>("/cmd_vel",1000);
 	ros::Time::init();
-	ros::Rate loop_rate(1000);
+	ros::Rate loop_rate(100);
 	laserScan ls;
 	loop_rate.sleep();
-	std::vector<float> position_y(100);
-	std::vector<float> pente(100);
+	float position_y;
+	float angle;
+	float ortho;
 	int max_points=0;
 	int nearby=0;
-	float d=0;
-	int j=0;
-	float pos=0;
 	std::cout << "En attente d'un scan laser complet" << std::endl;
 	while(ros::ok()){
 		
-    if(ls.getRanges().size() == 513){
-			max_points = ls.max_number_points();
-			nearby = ls.nearest_object();
-			d = ls.distance_objet(max_points);
-			pos = ls.position_y(nearby,d);
-			Segment s = ls.build_segment(nearby);
-			if(j < position_y.size()){
+    if(ls.getRanges().size() == 513 && ls.getTabSegments().size()>0){
+			nearby = ls.nearest_segment();
+			std::cout << " numero du segment le plus proche = " << nearby << std::endl;
+			std::vector<Segment> tabseg = ls.getTabSegments();
+			angle = tabseg[nearby].get_angle();
+			std::cout << "angle du segment le plus proche : " << angle << std::endl;
+			position_y = ls.position_y(tabseg[nearby]);
+			std::cout << "l objet se trouve a environ "<< position_y << " m du bord gauche" << std::endl;
+			a = asservissement_angle(pub_mvt,angle);
+			ortho = ls.distance_ortho(tabseg[nearby]);
+			if(a == 1 ){
+				b = asservissement_position_y(pub_mvt,position_y,0.32,ortho);
+				if(b == 1){
+					asservissement_position_x(pub_mvt,ortho);
+				}
+			}
+			//Segment s = ls.build_segment(nearby);
+			/*if(j < position_y.size()){
 				if(pos > 0){
 					position_y[j] = ls.position_y(nearby,d);
 					j++;
@@ -160,7 +171,7 @@ int main(int argc, char** argv)
 			}
 			else{				
 				if(pos>0){
-					s = ls.build_segment(max_points);
+					//s = ls.build_segment(max_points);
 					for(int i=0;i<position_y.size()-1;i++){
 						position_y[i] = position_y[i+1];
 						pente[i] = pente[i+1];
@@ -169,19 +180,19 @@ int main(int argc, char** argv)
 					pente[pente.size()-1] = s.get_pente();
 					
 				}
+			}*/
+			//std::cout << "le laser se situe a " << moy(position_y) <<" m du bord gauche de l'objet le plus proche" << std::endl;
+			//std::cout << "pente = " << moy(pente) << std::endl;
+			//asservissement_angle(pub_mvt,moy(pente)); 
+			//	asservissement_position_y(pub_mvt,moy(position_y),0.15);
+			//if(asservissement_position_y(pub_mvt,moy(position_y),0.15))
+			//	asservissement_position_x(pub_mvt,ls.distance_objet(max_points));
 			}
-			std::cout << "le laser se situe a " << moy(position_y) <<" m du bord gauche de l'objet le plus proche" << std::endl;
-			std::cout << "pente = " << moy(pente) << std::endl;
-			if(asservissement_angle(pub_mvt,moy(pente))) 
-				asservissement_position_y(pub_mvt,moy(position_y),0.65);
-			if(asservissement_position_y(pub_mvt,moy(position_y),0.65))
-				asservissement_position_x(pub_mvt,ls.distance_objet(max_points));
-			}
-		}
+		
 		
 		ros::spinOnce();
     loop_rate.sleep();
-	
+	}
 		/*
 		//pour l instant 15 cm rentré en dur
 		float distance_x = s.get_min().getr()*cos(s.get_min().getphi());
