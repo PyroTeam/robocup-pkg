@@ -2,11 +2,11 @@
 
 	Map::Map()
 	: _clean(true),
-	_resolution(0.56),
-	_width(19),
-	_height(9),
-	_origin_x(5.32),
-	_origin_y(0.28)
+	_resolution(0.05),
+	_width(280),
+	_height(180),
+	_origin_x(-7),
+	_origin_y(-2)
 	{		
 		ROS_INFO("Objet Map, instanciation");	
 
@@ -86,7 +86,7 @@
 
 		_allowDiagonal 		= true;
 		_crossCorner 		= false;
-		_heuristicFonction  = MANHATTAN;
+		_heuristicFonction  = EUCLIDEAN;
 		_poidsHeuristic 	= 1;
 
 		ROS_INFO("Objet Map correctement instanciee");
@@ -96,7 +96,11 @@
 
 	void Map::gridCallback(nav_msgs::OccupancyGridConstPtr grid)
 	{
-	    ROS_INFO("Grid received");
+		// static bool onceReceived = false;
+		// if(onceReceived)
+		// 	return;
+		// onceReceived = true;
+	    // ROS_INFO("Grid received");
 	    constructMap(grid);
 	}
 
@@ -107,8 +111,10 @@
 		{
 			for (int j = 0; j < _width; ++j)
 			{
-				_pointsPassage[i][j] = new Point(-_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
-				if(grid->data[i*_width+j] == 100) {
+				_pointsPassage[i][j] = new Point(_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
+				// ROS_INFO("%d:%d  %f:%f",i,j,_pointsPassage[i][j]->getX(),_pointsPassage[i][j]->getY());
+				// ROS_INFO("%f / %f / %f",-_origin_x+_resolution/2+j*_resolution,_origin_x,j*_resolution);
+				if(grid->data[i*_width+j] != 0) {
 					_pointsPassage[i][j]->setType(INTERDIT);
 				} else {
 					_pointsPassage[i][j]->setType(LIBRE);
@@ -401,13 +407,14 @@
 				do
 				{
 					count++;
-		            ROS_INFO("Count = %d", count);
+		            // ROS_INFO("Count = %d", count);
 
 					chemin.push_back(p);
 					p->getPointPrec(prec);
 					p = prec;
 
 				} while(prec != NULL);
+		        ROS_INFO("Nb Points chemin = %d", count);
 
 				// Le chemin est constuit a l'envers, il faut le retourner
 				std::reverse(chemin.begin(),chemin.end());
@@ -494,6 +501,8 @@
 					dx = x - _pointsPassage[l][c]->getX();
 					dy = y - _pointsPassage[l][c]->getY();
 					dist = dx*dx+dy*dy;
+
+					// ROS_INFO("%d:%d  %f:%f dist %f",l,c,_pointsPassage[l][c]->getX(),_pointsPassage[l][c]->getY(),dist);
 
 					if(dist < minDist)
 					{

@@ -54,8 +54,8 @@ private:
 	Objet *_recycling_machine[nbRecyclingMachine];
 
 	// Points
-	const static int nbPointsLignes = 9;
-	const static int nbPointsColonnes = 19;
+	const static int nbPointsLignes = 180;
+	const static int nbPointsColonnes = 280;
 	Point *_pointsPassage[nbPointsLignes][nbPointsColonnes];
 
 	// AStar	

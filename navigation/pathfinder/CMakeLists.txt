@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
 set(BOOST_LIBRARYDIR /usr/lib/x86_64-linux-gnu)
 string(ASCII 27 ESCAPE)
 message(STATUS "${ESCAPE}[1;31mREADME\n${ESCAPE}[0m${ESCAPE}[1;33mAUTHOR WARNING : ${ESCAPE}[0mBOOST_LIBRARYDIR set to ${BOOST_LIBRARYDIR}, be sure it's needed")
-find_package(Boost REQUIRED COMPONENTS system atomic thread)
+find_package(Boost REQUIRED COMPONENTS thread)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
