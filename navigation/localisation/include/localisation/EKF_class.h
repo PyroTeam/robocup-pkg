@@ -11,6 +11,8 @@
 
 #include "deplacement_msg/Landmarks.h"
 #include "EKF_functions.h"
+#include "laserScan.h"
+#include "landmarks_detection_utils.h"
 
 using namespace Eigen;
 
@@ -18,9 +20,12 @@ class EKF{
 public:
 	EKF(std::string s, int num);
 
+	int machineToArea(geometry_msgs::Pose2D machine);
+
 	//callbacks
 	void odomCallback(const nav_msgs::Odometry& odom);
 	void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines);
+	void laserCallback(const deplacement_msg::LandmarksConstPtr& laser);
 
 	void correctAngle(double &angle);
 	void correctStateVector();
@@ -43,10 +48,16 @@ public:
 	MatrixXd buildH2(int taille, int i);
 
 	void prediction();
-	void correction(int posMachineInTabMachines);
+	void correction(geometry_msgs::Pose2D p, int posMachineInTabMachines);
 
 	VectorXd getXmean() {return m_xMean;}
+	std::vector<int> getZones() {return m_zones;}
+	std::vector<geometry_msgs::Pose2D> getScan(){return m_scan;}
+
 	std::vector<geometry_msgs::Pose2D> getTabMachines() {return m_tabMachines;}
+	void setZone(int i){m_zones.push_back(i);}
+	bool test(int area);
+	void printZones();
 private:
 	geometry_msgs::Pose2D m_odomRobot;
 	geometry_msgs::Pose2D m_initRobot;
@@ -57,7 +68,11 @@ private:
 	Vector3d m_xPredicted;
 	Vector3d m_cmdVel;
 
-	std::vector<geometry_msgs::Pose2D> m_tabMachines;
+	std::vector<geometry_msgs::Pose2D> 	m_tabMachines;
+	std::vector<geometry_msgs::Pose2D> 	m_tabLandmarks;
+	std::vector<geometry_msgs::Pose2D> 	m_scan;
+	std::vector<int>					m_zones;
+
 	ros::Time m_temps;
 };
 
