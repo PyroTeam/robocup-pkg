@@ -3,6 +3,23 @@
 
 std::vector<geometry_msgs::Pose2D> tab;
 
+class Machine
+{
+public:
+	Machine():zone(0){x=0;y=0;theta=0;draw=false;};
+	Machine(int zone):zone(zone){x=0;y=0;theta=0;draw=false;};
+	~Machine(){};
+
+	float x;
+	float y;
+	float theta;
+	int zone;
+	bool draw;
+	
+};
+std::vector<Machine> mps(24);
+
+
 
 /*==========  Main  ==========*/
 int main(int argc, char **argv)
@@ -14,146 +31,270 @@ int main(int argc, char **argv)
     ROS_INFO("Ready to Generate the Map");
     float xA,yA;
     ros::Rate loop_rate(1);
-    while(ros::ok())
-    {
+
+    // Empty map
     nav_msgs::OccupancyGrid Map;
     Create_Empty_Map(Map);
-    Set_Wall(Map);
-    for (int z=0;z<tab.size();z++)
+
+    // ROS Loop
+    while(ros::ok())
     {
-    	ROS_INFO("Machine %d : %f/%f",z,tab[z].x,tab[z].y);
-		Get_One_Point_Of_The_Rectangle(tab[z].x, xA, tab[z].y, yA, tab[z].theta, 0.275, 0.450);
-    	ROS_INFO("%f/%f",xA,yA);
-		Set_Machines_In_Map(100, tab[z].theta, xA, yA, Map, 0.275, 0.450);
-		// Map.data[1470+floor(xA/100)+floor(yA/100)*140]=100;
-  	}
- 	Map_Pub.publish(Map);
- 	ros::spinOnce();
-	loop_rate.sleep();
+    	// // Draw MPS if needed (ABORTED TEMPORARILY)
+   		// for(int i=0; i < mps.size(); ++i) {
+   		// 	if(mps[i].draw) {
+   		// 		// ERASE
+   		// 		eraseZone(Map, mps[i].zone);
+
+   		// 		// DRAW
+	    // 		drawRect(Map, mps[i].x, mps[i].y, mps[i].theta,0.35,0.7,0.3);
+	    // 		mps[i].draw = false;
+   		// 	}
+   		// }
+
+    	// Redraw all map
+    	Create_Empty_Map(Map);
+   		Set_Wall(Map);
+   		for(int i=0; i < mps.size(); ++i) {
+			// DRAW
+			if(mps[i].draw) {
+	    		drawRect(Map, mps[i].x, mps[i].y, mps[i].theta,0.35,0.7,0.25);
+	    	}
+   		}
+
+	 	Map_Pub.publish(Map);
+	 	ros::spinOnce();
+		loop_rate.sleep();
  	}
+
     return 0;
 }
 
 void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines)
 {
+	// Romain legacy
 	tab=machines->landmarks;
-	for (int i=0; i<tab.size(); i++)
+
+	// Valentin
+	// Remplissage du tableau de MPS
+	for (int i=0; i< machines->landmarks.size(); i++)
     {
-    	tab[i].x = tab[i].x;
-    	tab[i].y = tab[i].y;
-	}
-   
+    	int zone = getZone(machines->landmarks[i].x, machines->landmarks[i].y);
+    	mps[zone-1].x = machines->landmarks[i].x;
+    	mps[zone-1].y = machines->landmarks[i].y;
+    	mps[zone-1].theta = machines->landmarks[i].theta;
+    	mps[zone-1].draw = true;
+    	mps[zone-1].zone = zone;
+	}   
 }
 
 void Create_Empty_Map(nav_msgs::OccupancyGrid &Map)
 {
 	Map.info.origin.position.x=-7.000;
-	Map.info.origin.position.y=-1.000;
+	Map.info.origin.position.y=-2.000;
 	Map.info.origin.position.z=0;
 	Map.info.origin.orientation.x=0;
 	Map.info.origin.orientation.y=0;
 	Map.info.origin.orientation.z=0;
 	Map.info.origin.orientation.w=1;
 	Map.info.map_load_time=ros::Time::now();
-	Map.info.resolution=0.0100;
-	Map.info.width=1400;
-	Map.info.height=800;
+	Map.info.resolution=0.05;
+	Map.info.width=14/Map.info.resolution;
+	Map.info.height=9/Map.info.resolution;
 	Map.data.assign(Map.info.width*Map.info.height, 0);
 }
 
 void Set_Wall(nav_msgs::OccupancyGrid &Map)
 {
+	// Left Side
+    	drawRect(Map, -2, 0, 0, 0.1, 2, 0.25);   
+    	drawRect(Map, -3, -0.5, 0, 1, 0.1, 0.25);
+    	drawRect(Map, -4, -1, 0, 0.1, 2, 0.25);
+    	drawRect(Map, -5, 0, 0, 0.1, 2, 0.25);
+		drawRect(Map, -6, 1.5, 0, 3, 0.1, 0.25);
+		drawRect(Map, -6, 5.5, 0, 1, 0.1, 0.25);
+		drawRect(Map, -5, 6, 0, 0.1, 2, 0.25);			
+		drawRect(Map, -1, 6, 0, 0.1, 2, 0.25);
 
-	for (int i=0;i<Map.info.height;i++)
-	{
-		for (int j=0;j<Map.info.width;j++)
-		{	
-			if ((i<130)||(i>670)) Map.data[j+i*Map.info.width]=100;
-			if ((j<130)||(j>1270)) Map.data[j+i*Map.info.width]=100;
-		}
-	}
-	for (int i=0;i<Map.info.height;i++)
-	{
-		for (int j=0;j<Map.info.width;j++)
-		{
-			if ((i<100)||(i>700)) Map.data[j+i*Map.info.width]=50;
-			if ((j<100)||(j>1300)) Map.data[j+i*Map.info.width]=50;
-		}
-	}
-
-	for (int i=0;i<Map.info.height;i++)
-	{
-		for (int j=0;j<Map.info.width;j++)
-		{
-			if ((i<100)&&(j<400)) Map.data[j+i*Map.info.width]=0;
-			if ((i<100)&&(j>1000)) Map.data[j+i*Map.info.width]=0;
-		}
-	}
-	for (int i=0;i<Map.info.height;i++)
-	{
-		for (int j=0;j<Map.info.width;j++)
-		{
-			if (((i>90)&&(i<130))&&((j>120)&&(j<400))) Map.data[j+i*Map.info.width]=0;
-			if (((i>90)&&(i<130))&&((j>1000)&&(j<1280))) Map.data[j+i*Map.info.width]=0;
-		}
-	}
-	for (int i=0;i<Map.info.height;i++)
-	{
-		for (int j=0;j<Map.info.width;j++)
-		{
-			if ((i<130)&&((j>370)&&(j<410))) Map.data[j+i*Map.info.width]=100;
-			if ((i<130)&&((j>1000)&&(j<1040))) Map.data[j+i*Map.info.width]=100;
-		}
-	}
-	for (int i=0;i<Map.info.height;i++)
-	{
-		for (int j=0;j<Map.info.width;j++)
-		{
-			if (((i>90)&&(i<130))&&((j>90)&&(j<310))) Map.data[j+i*Map.info.width]=100;
-			if (((i>90)&&(i<130))&&((j>1090)&&(j<1310))) Map.data[j+i*Map.info.width]=100;
-		}
-	}
-
+	// Right side
+    	drawRect(Map, 2, 0, 0, 0.1, 2, 0.25);   
+    	drawRect(Map, 3, -0.5, 0, 1, 0.1, 0.25);
+    	drawRect(Map, 4, -1, 0, 0.1, 2, 0.25);
+    	drawRect(Map, 5, 0, 0, 0.1, 2, 0.25);
+		drawRect(Map, 6, 1.5, 0, 3, 0.1, 0.25);
+		drawRect(Map, 6, 5.5, 0, 1, 0.1, 0.25);
+		drawRect(Map, 5, 6, 0, 0.1, 2, 0.25);			
+		drawRect(Map, 1, 6, 0, 0.1, 2, 0.25);
 }
 
-void Get_One_Point_Of_The_Rectangle(float x, float &xA, float y, float &yA, float theta, float largeur, float longueur)
+int getCell(nav_msgs::OccupancyGrid Map, float x, float y)
 {
-	float x1,y1;
-	x1 = x - cos(theta)*longueur;
-	y1 = y - sin(theta)*longueur;
-
-	xA = x1 + sin(M_PI_2-theta)*largeur;
-	yA = y1 - cos(M_PI_2-theta)*largeur;
-}
-
-void Set_Machines_In_Map(float rank, float theta, float xA, float yA, nav_msgs::OccupancyGrid &Map, float largeur, float longueur)
-{
+// Environement
 	float res = Map.info.resolution;
-	int wid = Map.info.width;
+	int width = Map.info.width;
 	float xO = Map.info.origin.position.x;
 	float yO = Map.info.origin.position.y;
+	int hCell = 0;
+	int wCell = 0;
+	int cell = 0;
 
-	float projectionLongueur = fabs(longueur * cos(theta)) + fabs(largeur * sin(theta));
-	float projectionLargueur = fabs(largeur * cos(theta)) + fabs(longueur * sin(theta));
-	ROS_INFO("Longueur : %f | Largeur : %f",projectionLongueur, projectionLargueur);
+// Algo
+	hCell = (y-yO)/res;
+	wCell = (x-xO)/res;
+	cell = hCell*width + wCell;
 
-	int nbWidthCells = ceil(longueur/res);
-	int nbHeightCells = ceil(largeur/res);
-	ROS_INFO("Nb Cells Longueur : %d | Nb Cells Largeur : %d",nbWidthCells, nbHeightCells);
+	return cell;
+}
 
-	int cellOrigin = (int)floor((xA-xO)/res)+(int)floor((yA-yO)/res*wid);
+int drawRect(nav_msgs::OccupancyGrid &Map, float x, float y, float theta, float height, float width, float margin)
+{
+// Environment
+	static bool alreadyDone = false;
+	if(alreadyDone && 0)
+		return -1;
+	alreadyDone = true;
 
-	for (int w = 0; w < nbWidthCells; ++w)
+	float res = Map.info.resolution;
+	const int samplingMultiplier = 2;
+	float totalDrawHeight = (2*margin+height);
+	float totalDrawWidth = (2*margin+width);
+
+
+	// ROS_INFO("totalDrawHeight %f", totalDrawHeight);
+	// ROS_INFO("totalDrawWidth %f", totalDrawWidth);
+	// ROS_INFO("__________________________________");
+
+// Algo
+	for (int i = 0; i < (int)(totalDrawWidth*samplingMultiplier/res); ++i)
 	{
-		for (int h = 0; h < nbHeightCells; ++h)
+		for (int j = 0; j < (int)(totalDrawHeight*samplingMultiplier/res); ++j)
 		{
-			float xN = xA + fabs(res * w * cos(theta)) + fabs(res * h * sin(theta));
-			float yN = yA + fabs(res * h * cos(theta)) + fabs(res * w * sin(theta));
+			// ROS_INFO("%d:%d",i,j);
+			// Define the gain for this point
+			int gain = 0;
+			// Outside of the rect (margin zones)
+			if(	i < (int)(margin*samplingMultiplier/res)
+				|| i > (int)((margin+width)*samplingMultiplier/res)
+				|| j < (int)(margin*samplingMultiplier/res)
+				|| j > (int)((margin+height)*samplingMultiplier/res))
+			{
+				// Variable gain, proportional to the distance with the rect
+				// 	/!\ Temporarily to 50
+				gain = 25;
+			}
+			// Into the rect
+			else {
+				// Static gain, set to maximum (100)
+				gain = 100;
+			}
 
-			int cell = round((xN-xO)/res)+round((yN-yO)/res)*wid;;
-			ROS_INFO("%d/%d _ %d",w, h, cell);
-			ROS_INFO("%f/%f | %f",xN, yN, theta);
-			Map.data[cell]=rank;
+			// ROS_INFO("Gain : %d",gain);
+
+			// Get the coords
+			float deltaX = -totalDrawWidth/2 + i*res/samplingMultiplier;
+			float deltaY = totalDrawHeight/2 - j*res/samplingMultiplier;
+
+			// ROS_INFO("deltaX : %f",deltaX);
+			// ROS_INFO("deltaY : %f",deltaY);
+
+			// ROS_INFO("dXc %f dYs %f",deltaX*cos(theta),deltaY*sin(theta));
+			// ROS_INFO("dYc %f dXs %f",deltaY*cos(theta),deltaX*sin(theta));
+			// float xP = x + deltaX*cos(theta) - deltaY*sin(theta);
+			// float yP = y + deltaY*cos(theta) - deltaX*sin(theta);
+			float xP = x + deltaX*cos(theta) - deltaY*sin(theta);
+			float yP = y - deltaY*cos(theta) - deltaX*sin(theta);
+
+			// ROS_INFO("xP : %f",xP);
+			// ROS_INFO("yP : %f",yP);
+
+			// Get the corresponding cell
+			int cell = getCell(Map, xP, yP);
+
+			// ROS_INFO("cell : %d",cell);
+
+			// Fill it
+			Map.data[cell] = gain;
+		}
+
+		// ROS_INFO("\t__________________________________");
+	}
+
+	return 0;
+}
+
+// TODO - ERASE zones
+int eraseZone(nav_msgs::OccupancyGrid &Map, int zone)
+{
+	// Get bottom-left coord of zone
+	float x=0;
+	float y=0;
+	// Right side
+	if(zone>0 && zone<13) {
+		x = ((zone-1)/4)*2;
+		y = ((zone-1)%4)*1.5;
+	}
+	// Left side
+	else if (zone<=24) {
+		zone -=12;
+		x = -((zone-1)/4)*2 - 2;
+		y = ((zone-1)%4)*1.5;
+	}
+	else {
+		return -1;
+	}
+	x+=0.001;
+	y+=0.001;
+
+	// Erase it
+	for (int i = 0; i < (int)(2.0/Map.info.resolution); ++i)
+	{
+		for (int j = 0; j < (int)(1.5/Map.info.resolution); ++j)
+		{
+			float xP = x+i*Map.info.resolution;
+			float yP = y+j*Map.info.resolution;
+
+			// Get cell
+			int cell = getCell(Map, xP, yP);
+
+			// Erase it
+			Map.data[cell] = 0;
 		}
 	}
+
+	return 0;
 }
+
+// TODO - Get zones
+int getZone(float x, float y)
+{
+	int zone = 0;
+
+	// Right side
+	if(x >= 0 && y >= 0) {
+		// Anti-division par 0
+		if(x==0) x=1;
+		int w = (int)(x/2);
+
+		// Anti-division par 0
+		if(y==0) y=1;
+		int h = (int)(y/1.5)+1;
+
+		zone = w*4 + h;
+	}
+	// Left side
+	else if (x < 0 && y >= 0) {
+		int w = (int)(-x/2);
+
+		// Anti-division par 0
+		if(y==0) y=1;
+		int h = (int)(y/1.5)+1;
+
+		zone = w*4 + h + 12;
+	}
+	else {
+		int zone = 0;
+	}
+
+	return zone;
+}
+
+// TODO - Dynamic

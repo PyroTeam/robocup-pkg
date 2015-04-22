@@ -30,8 +30,8 @@ Arrivee:
     w: 0.0
 Depart:
   position:
-    x: -5.0
-    y: 3.0
+    x: 0
+    y: 0
     z: 0.0
   orientation:
     x: 0.0

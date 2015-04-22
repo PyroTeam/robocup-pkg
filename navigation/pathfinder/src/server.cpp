@@ -143,9 +143,9 @@ void computeAStar_thread_function()
                 pathReq.startPose.y,
                 startPoint);
 
-            ROS_INFO("computeAStar with real point: Start - x %f | y %f  /  End - x %f | y %f",pathReq.startPose.x,pathReq.startPose.y,pathReq.goalPose.x,pathReq.goalPose.y);
+            ROS_INFO("computeAStar with real point: \nStart - x:%f | y:%f  \nEnd - x:%f | y:%f",pathReq.startPose.x,pathReq.startPose.y,pathReq.goalPose.x,pathReq.goalPose.y);
 
-            ROS_INFO("computeAStar with : Start - x %f | y %f  /  End - x %f | y %f",startPoint->getX(),startPoint->getY(),endPoint->getX(),endPoint->getY());
+            ROS_INFO("computeAStar with : \nStart - x:%f | y:%f  \nEnd - x:%f | y:%f",startPoint->getX(),startPoint->getY(),endPoint->getX(),endPoint->getY());
             
             pathFound.id = actualOrders.id;
             pathFound.path.poses.erase(
