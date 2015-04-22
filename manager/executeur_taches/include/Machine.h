@@ -9,6 +9,7 @@
 #include "FeuClientAction.h"
 #include "GripperClientSrv.h"
 #include "FinalApproachingClient.h"
+#include "ExploInfoSubscriber.h"
 
 using namespace manager_msg;
 

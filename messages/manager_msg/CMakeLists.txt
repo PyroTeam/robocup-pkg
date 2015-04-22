@@ -57,6 +57,9 @@ FILES
    activity.msg
    Landmarks.msg
    LightSpec.msg
+   ExplorationInfo.msg
+   ExplorationSignal.msg
+   ExplorationZone.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -66,6 +69,7 @@ DIRECTORY
 FILES
    order.srv
    SetGripper.srv
+   ReportMachine.srv
  )
 
 

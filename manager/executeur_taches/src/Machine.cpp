@@ -78,8 +78,16 @@ void Machine::let( ){
 
 void Machine::readlights(){
   ROS_INFO(" Starting exploring the lights ");
+  /*std::vector<manager_msg::LightSpec> lSpec;
+  lSpec[0].color = 0;
+  lSpec[0].state = 0;
+  lSpec[1].color = 1;
+  lSpec[1].state = 1;
   FeuClientAction f_c;
-  f_c.lightsStates(); 
+  f_c.lightsStates(lSpec); */
+  ExploInfoSubscriber ei_sub;
+  ros::NodeHandle n;
+  ros::Subscriber sub = n.subscribe("/ExplorationInfo",1000,&ExploInfoSubscriber::tesCallback, &ei_sub);
 }
 
 void Machine::startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter){

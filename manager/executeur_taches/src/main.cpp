@@ -22,6 +22,7 @@ int main(int argc, char **argv) {
     n.param<int>("robotNumber",nb_robot,0);  // nb robot, par défaut 0
     ros::Rate loop_rate(1);
 
+
     /* service reponse au générateur de taches */
     GtServerSrv gtsrv;
     gtsrv.setId(1);
@@ -34,9 +35,9 @@ int main(int argc, char **argv) {
     ros::Subscriber sub = n.subscribe("/landmarks",1000,&LocaSubscriber::tesCallback, &loca_sub);
 
     /* Test du FeuClient */
+    std::vector<manager_msg::LightSpec> lSpec;
     FeuClientAction f_c;
-    f_c.lightsStates(); 
-
+    f_c.lightsStates(lSpec); 
     while(ros::ok){
         ROS_INFO("I'm READY ! ");
         activite_pub.publish(gtsrv.getActivityMsg()); 

@@ -119,6 +119,8 @@ add_executable(
   src/MyElements.cpp
   src/FeuClientAction.cpp
   src/FinalApproachingClient.cpp
+  src/ExploInfoSubscriber.cpp
+  src/ReportingMachineSrvClient.cpp
 )
 add_executable(
   test_publish
@@ -134,6 +136,11 @@ add_executable(
   test_order
   
   src/fake_client_order.cpp
+)
+add_executable(
+  test_ei
+  
+  src/fake_publisher_ei.cpp
 )
 
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
@@ -156,6 +163,10 @@ target_link_libraries(
 )
 target_link_libraries(
   test_order
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_ei
   ${catkin_LIBRARIES}
 )
 #target_link_libraries(
