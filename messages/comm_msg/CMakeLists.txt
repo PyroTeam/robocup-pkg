@@ -60,6 +60,8 @@ add_message_files(
 	RingColor.msg
 	Robot.msg
 	RobotInfo.msg
+    activity.msg
+
 )
 
 ## Generate services in the 'srv' folder
@@ -93,8 +95,8 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES trait_im_msg
-#  CATKIN_DEPENDS std_msgs
+#  LIBRARIES comm_msg
+   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
 #  DEPENDS system_lib
 	CATKIN_DEPENDS message_runtime
 )
@@ -111,19 +113,19 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(trait_im_msg
-#   src/${PROJECT_NAME}/trait_im_msg.cpp
+# add_library(comm_msg
+#   src/${PROJECT_NAME}/comm_msg.cpp
 # )
 
 ## Declare a cpp executable
-# add_executable(trait_im_msg_node src/trait_im_msg_node.cpp)
+# add_executable(comm_msg_node src/comm_msg_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(trait_im_msg_node trait_im_msg_generate_messages_cpp)
+# add_dependencies(comm_msg_node comm_msg_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(trait_im_msg_node
+# target_link_libraries(comm_msg_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -142,7 +144,7 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS trait_im_msg trait_im_msg_node
+# install(TARGETS comm_msg comm_msg_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -167,7 +169,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_trait_im_msg.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_comm_msg.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

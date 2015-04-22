@@ -19,6 +19,7 @@
 #include "nav_msgs/Odometry.h"
 #include "comm_msg/GameState.h"
 #include "comm_msg/ExplorationInfo.h"
+#include "comm_msg/ExplorationMachine.h"
 #include "comm_msg/ReportMachine.h"
 #include "comm_msg/MachineInfo.h"
 #include "comm_msg/MachineReportInfo.h"
