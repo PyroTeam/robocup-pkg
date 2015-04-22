@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import rospy
+import tf
 from math import atan2, pi, cos, sin
 from geometry_msgs.msg import Twist, PoseStamped, Point
 from turtlesim.msg import Pose
@@ -283,11 +284,17 @@ def callback(data):
 
     # Rejoindre point d'avance
     ## Viser
-    adj = pointAvance.x - data.x
-    opp = pointAvance.y - data.y
+    adj = pointAvance.x - data.pose.pose.position.x
+    opp = pointAvance.y - data.pose.pose.position.y
     angle = atan2(opp, adj)
 
-    errAngle = (angle - data.theta)
+    quaternion = (data.pose.pose.orientation.x,data.pose.pose.orientation.y,data.pose.pose.orientation.z,data.pose.pose.orientation.w)
+    euler = tf.transformations.euler_from_quaternion(quaternion)
+    roll = euler[0]
+    pitch = euler[1]
+    yaw = euler[2]
+
+    errAngle = (angle - yaw)
     errAngle = ((errAngle+pi) % (2*pi)) - pi
     vitAngle = errAngle*30
     rospy.loginfo("Angle %f",angle)
