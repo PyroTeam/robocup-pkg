@@ -5,13 +5,14 @@
 
 int main(int argc, char **argv){
 	ros::init(argc, argv, "order");
+	ROS_INFO("ORDER ");
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient <manager_msg::order>("order");
 	manager_msg::order srv;
 	ros::Time game_time = ros::Time::now();
-	srv.request.number_order = 9;
+	srv.request.number_order = 0;
 	srv.request.number_robot = 0;
-	srv.request.type = 0; // TAKE_BASE
+	srv.request.type = 9; // TAKE_BASE
 	srv.request.parameter = 10;
 	srv.request.id = 2;
 	if(client.call(srv)){

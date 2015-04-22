@@ -1,6 +1,8 @@
 #include "ExploInfoSubscriber.h"
 
 ExploInfoSubscriber::ExploInfoSubscriber(){
+	ros::NodeHandle n;
+	m_sub = n.subscribe("/explorationInfo",1000,&ExploInfoSubscriber::tesCallback, this);
 }
 
 ExploInfoSubscriber::~ExploInfoSubscriber(){
@@ -12,14 +14,14 @@ void ExploInfoSubscriber::tesCallback(const manager_msg::ExplorationInfo &msg)
 
 	m_signals = msg.signals;
 	m_zones   = msg.zones;
-	this->interpretationFeu();
+	//this->interpretationFeu();
 }
 void ExploInfoSubscriber::interpretationFeu(){
 	int i=0, j=0;
-	std::vector<manager_msg::LightSpec> lSpec;
+	//std::vector<manager_msg::LightSpec> lSpec;
 	manager_msg::LightSpec light;
-    FeuClientAction f_c;
-    f_c.lightsStates(lSpec);
+    //FeuClientAction f_c;
+    //f_c.lightsStates(lSpec);
     uint8_t r_state,g_state,y_state;
     for(i = 0;i<lSpec.size() ;i++){
     	if(lSpec[i].color == light.RED)    r_state = lSpec[i].state;

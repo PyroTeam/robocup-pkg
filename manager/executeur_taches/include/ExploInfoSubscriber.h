@@ -17,9 +17,10 @@ public :
   void interpretationFeu();
   std::string type;
   uint8_t zone;
-private :
+  std::vector<manager_msg::LightSpec> lSpec;
   std::vector<manager_msg::ExplorationSignal>  m_signals;
   std::vector<manager_msg::ExplorationZone>  m_zones;
+  ros::Subscriber m_sub;
 };
 #endif 
 
