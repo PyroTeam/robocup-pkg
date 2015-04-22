@@ -41,6 +41,39 @@ EKF::EKF(std::string s, int num){
   m_temps = ros::Time::now();
 }
 
+int EKF::machineToArea(geometry_msgs::Pose2D m){
+  if (m.x > 0.0 && m.x < 2.0 && m.y > 0.0 && m.y < 1.5) return 1;
+  if (m.x > 0.0 && m.x < 2.0 && m.y > 1.5 && m.y < 3.0) return 2;
+  if (m.x > 0.0 && m.x < 2.0 && m.y > 3.0 && m.y < 4.5) return 3;
+  if (m.x > 0.0 && m.x < 2.0 && m.y > 4.5 && m.y < 6.0) return 4;
+
+  if (m.x > 2.0 && m.x < 4.0 && m.y > 0.0 && m.y < 1.5) return 5;
+  if (m.x > 2.0 && m.x < 4.0 && m.y > 1.5 && m.y < 3.0) return 6;
+  if (m.x > 2.0 && m.x < 4.0 && m.y > 3.0 && m.y < 4.5) return 7;
+  if (m.x > 2.0 && m.x < 4.0 && m.y > 4.5 && m.y < 6.0) return 8;
+
+  if (m.x > 4.0 && m.x < 6.0 && m.y > 0.0 && m.y < 1.5) return 9;
+  if (m.x > 4.0 && m.x < 6.0 && m.y > 1.5 && m.y < 3.0) return 10;
+  if (m.x > 4.0 && m.x < 6.0 && m.y > 3.0 && m.y < 4.5) return 11;
+  if (m.x > 4.0 && m.x < 6.0 && m.y > 4.5 && m.y < 6.0) return 12;
+
+  if (m.x > -2.0 && m.x < 0.0 && m.y > 0.0 && m.y < 1.5) return 13;
+  if (m.x > -2.0 && m.x < 0.0 && m.y > 1.5 && m.y < 3.0) return 14;
+  if (m.x > -2.0 && m.x < 0.0 && m.y > 3.0 && m.y < 4.5) return 15;
+  if (m.x > -2.0 && m.x < 0.0 && m.y > 4.5 && m.y < 6.0) return 16;
+
+  if (m.x > -4.0 && m.x < -2.0 && m.y > 0.0 && m.y < 1.5) return 17;
+  if (m.x > -4.0 && m.x < -2.0 && m.y > 1.5 && m.y < 3.0) return 18;
+  if (m.x > -4.0 && m.x < -2.0 && m.y > 3.0 && m.y < 4.5) return 19;
+  if (m.x > -4.0 && m.x < -2.0 && m.y > 4.5 && m.y < 6.0) return 20;
+
+  if (m.x > -6.0 && m.x < -4.0 && m.y > 0.0 && m.y < 1.5) return 21;
+  if (m.x > -6.0 && m.x < -4.0 && m.y > 1.5 && m.y < 3.0) return 22;
+  if (m.x > -6.0 && m.x < -4.0 && m.y > 3.0 && m.y < 4.5) return 23;
+  if (m.x > -6.0 && m.x < -4.0 && m.y > 4.5 && m.y < 6.0) return 24;
+  else                                                    return 0;
+}
+
 void EKF::odomCallback(const nav_msgs::Odometry& odom){
   m_odomRobot.x = odom.pose.pose.position.x;
   m_odomRobot.y = odom.pose.pose.position.y;
@@ -65,13 +98,27 @@ void EKF::machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
     //changment de base dans le repère global
 
     geometry_msgs::Pose2D pDansRepereGlobal = RobotToGlobal(p);
-    if (pDansRepereGlobal.x > -6.0 &&
-        pDansRepereGlobal.x <  6.0 &&
-        pDansRepereGlobal.y >  0.0 &&
-        pDansRepereGlobal.y <  6.0)
+    int i = machineToArea(pDansRepereGlobal);
+    if (i != 0)
     {
+      //std::cout << "la machine (" << pDansRepereGlobal.x << "," << pDansRepereGlobal.x << ")" << " appartient à la zone " << i << std::endl;
       m_tabMachines.push_back(pDansRepereGlobal);
     }
+  }
+}
+
+void EKF::laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
+  m_scan.clear();
+  for (auto &it : laser->landmarks){
+    geometry_msgs::Pose2D posLaser;
+    posLaser.x     = it.x;
+    posLaser.y     = it.y;
+    //changement de base vers le repère du robot
+    geometry_msgs::Pose2D p = LaserToRobot(posLaser);
+    //changment de base dans le repère global
+    geometry_msgs::Pose2D pDansRepereGlobal = RobotToGlobal(p);
+    
+    m_scan.push_back(pDansRepereGlobal);
   }
 }
 
@@ -103,10 +150,10 @@ geometry_msgs::Pose2D EKF::LaserToRobot(geometry_msgs::Pose2D PosLaser){
   Vector3d after;
 
   //translation
-  m(1,2) = 0.2;
+  m(1,2) = 0.1;
   //rotation
   Matrix2d rot;
-  rot = Rotation2Dd(M_PI_2);
+  rot = Rotation2Dd(-M_PI_2);
   m.topLeftCorner(2,2) = rot;
   m(2,2) = 1;
 
@@ -118,13 +165,7 @@ geometry_msgs::Pose2D EKF::LaserToRobot(geometry_msgs::Pose2D PosLaser){
 
   p.x = after(0) ;
   p.y = after(1) ;
-  //on veut l'angle machine dans [0, 2*PI]
-  if (PosLaser.theta >= 0){
-    p.theta = PosLaser.theta - M_PI_2;
-  }
-  else {
-    p.theta = PosLaser.theta + M_PI_2;
-  }
+  p.theta = atan2(PosLaser.theta,1);
 
   return p;
 }
@@ -141,8 +182,8 @@ geometry_msgs::Pose2D EKF::RobotToGlobal(geometry_msgs::Pose2D p){
 
   m.setZero();
   //translation
-  m(0,2) = m_initRobot.x + m_odomRobot.x;
-  m(1,2) = m_initRobot.y + m_odomRobot.y;
+  m(0,2) = m_xMean(0);
+  m(1,2) = m_xMean(1);
   //rotation
   Matrix2d rot;
   rot = Rotation2Dd(angle);
@@ -209,12 +250,12 @@ void EKF::addMachine(geometry_msgs::Pose2D machine){
 }
 
 int EKF::checkStateVector(geometry_msgs::Pose2D machine){
-  std::cout << "taille de m_xMean :" << m_xMean.rows() << "\n" << std::endl;
+  //std::cout << "taille de m_xMean :" << m_xMean.rows() << "\n" << std::endl;
   for (int i = 3; i < m_xMean.rows(); i=i+3){
     double d = sqrt((machine.x-m_xMean(i))*(machine.x-m_xMean(i)) +
                     (machine.y-m_xMean(i+1))*(machine.y-m_xMean(i+1)));
-    std::cout << "la distance entre machines est de " << d << std::endl;
-    if (d < 2.0) return i;
+    //std::cout << "la distance entre machines est de " << d << std::endl;
+    if (d < 0.5) return i;
   }
 
   return 0;
@@ -239,11 +280,6 @@ void EKF::updateP(const MatrixXd &Pm, int i){
   m_P.block(i,0,3,3) = Pm.block(3,0,3,3);   
 }
 
-void EKF::updateXmean(const VectorXd &tmp, int i){
-  m_xMean.block(0,0,3,1) = tmp.block(0,0,3,1);
-  m_xMean.block(i,0,3,1) = tmp.block(3,0,3,1);
-}
-
 MatrixXd EKF::buildH(int i){
   MatrixXd H(3,6);
   H.setZero();
@@ -251,6 +287,8 @@ MatrixXd EKF::buildH(int i){
   H(0,3) = m_xMean(0) - m_xMean(i  );
   H(1,4) = m_xMean(1) - m_xMean(i+1);
   H(2,5) = m_xMean(2) - m_xMean(i+2);
+
+  //std::cout << "H = \n" << H << "\n" <<  std::endl;
 
   return H;
 }
@@ -267,7 +305,7 @@ MatrixXd EKF::buildH2(int taille, int i){
 }
 
 void EKF::prediction(){
-  std::cout << "prediction\n" << std::endl;
+  std::cout << "prediction" << std::endl;
 
   //calcul de la période pour la prédiction
   ros::Duration duree = ros::Time::now() - m_temps;
@@ -294,21 +332,30 @@ void EKF::prediction(){
   m_temps = ros::Time::now();
 }
 
-void EKF::correction(int posMachineInStateVector){
-  std::cout << "correction\n" << std::endl;
+void EKF::correction(geometry_msgs::Pose2D p, int i){
+  //std::cout << "correction\n" << std::endl;
 
-  int taille = m_P.rows();
+  //int taille = m_P.rows();
 
   //calcul de z
-  Vector3d z;
+  VectorXd z(6);
   z.setZero();
-  z = m_xPredicted - m_xMean.block(m_xMean.rows()-3,0,3,1);
+  z.block(0,0,3,1) = m_xPredicted - m_xMean.block(m_xMean.rows()-3,0,3,1);
+  z(3) = p.x     - m_xMean(i  );
+  z(4) = p.y     - m_xMean(i+1);
+  z(5) = p.theta - m_xMean(i+2);
   //std::cout << "z = \n" << z << "\n" << std::endl;
 
   //calcul de H
-  MatrixXd H(3, taille);
-  H = buildH(posMachineInStateVector);
+  MatrixXd H(3,6);
+  H = buildH(i);
   //std::cout << "H = \n" << H << "\n" <<  std::endl;
+
+  //calcul de Ht
+  MatrixXd Ht(6,3);
+  Ht.block(0,0,3,3) = H.block(0,0,3,3).transpose();
+  Ht.block(3,0,3,3) = H.block(0,3,3,3).transpose();
+  //std::cout << "Ht = \n" << Ht << "\n" <<  std::endl;
 
   //calcul de R
   MatrixXd R(3,3);
@@ -316,30 +363,28 @@ void EKF::correction(int posMachineInStateVector){
   R(0,0) = m_xMean(0);
   R(1,1) = m_xMean(1);
   R(2,2) = m_xMean(2);
+  //std::cout << "R = \n" << R << "\n" <<  std::endl;
 
   //calcul de Pm
-  MatrixXd Pm = buildPm(posMachineInStateVector);
+  MatrixXd Pm = buildPm(i);
   //std::cout << "Pm = \n" << Pm << "\n" <<  std::endl;
 
   //calcul de Z
-  MatrixXd Z(taille, taille);
+  MatrixXd Z(3,3);
   Z.setZero();
-  Z = H*Pm*(H.transpose()) + R;
+  Z = H*Pm*Ht + R;
   //std::cout << "Z = \n" << Z << "\n" <<  std::endl;
 
   //calcul du gain de Kalman
   MatrixXd K(3, 3);
   K.setZero();
-  K = Pm*(H.transpose())*(Z.inverse());
+  K = Pm*Ht*(Z.inverse());
   //std::cout << "K = \n" << K << "\n" <<  std::endl;
 
   //mise à jour du vecteur m_xMean
-  VectorXd tmp(6,1);
-  tmp.block(0,0,3,1) = m_xMean.block(0,0,3,1);
-  tmp.block(3,0,3,1) = m_xMean.block(posMachineInStateVector,0,3,1);
-  //std::cout << "tmp = \n" << tmp << "\n" <<  std::endl;
-  tmp +=  K*z;
-  updateXmean(tmp, posMachineInStateVector);
+  m_xMean.block(0,0,3,1) += K.block(0,0,3,3)*z.block(0,0,3,1);
+  m_xMean.block(i,0,3,1) += K.block(3,0,3,3)*z.block(3,0,3,1);
+
   correctStateVector();
   //std::cout << "position du robot corrigee = \n" <<  m_xMean.topLeftCorner(3,1) << "\n" << std::endl;
 
@@ -347,5 +392,20 @@ void EKF::correction(int posMachineInStateVector){
   Pm = Pm - K*Z*(K.transpose());
   //std::cout << "Pm = \n" << Pm << "\n" <<  std::endl;
   //std::cout << "KZKt = \n" << K*Z*(K.transpose()) << "\n" <<  std::endl;
-  updateP(Pm, posMachineInStateVector);
+  updateP(Pm, i);
+}
+
+bool EKF::test(int area){
+  for (int i = 0; i < m_zones.size(); i++){
+    if (area == m_zones[i]){
+      return true;
+    }
+  }
+  return false;
+}
+
+void EKF::printZones(){
+  for (int i = 0; i < m_zones.size(); ++i){
+    std::cout << "machine en zone " << m_zones[i] << std::endl;
+  }
 }

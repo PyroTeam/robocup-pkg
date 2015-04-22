@@ -134,7 +134,7 @@ void maj(std::list<Point> &list, Modele m){
 }
 
 //rentrer tous les paramètres de RANSAC dans le prototype de findLines
-std::list<Modele> findLines(const std::list<Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts){
+std::list<Modele> findLines(const std::list<Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list<Point> &l){
 	std::list<Modele> listOfDroites;
 	std::list<Point>  listWithoutPrecModelPoints = listOfPoints;
 	Modele            m;
@@ -153,7 +153,7 @@ std::list<Modele> findLines(const std::list<Point> &listOfPoints, int NbPtPertin
     }
   }
 
-  //publier la listWithoutPrecModelPoints !!!
+  l = listWithoutPrecModelPoints;
 
   return listOfDroites;
 }
@@ -279,7 +279,7 @@ Machine calculateCoordMachine(Segment s){
   double tmp = atan2(tan(angle),1);
 
   //optimisation possible
-  if ((size > p-seuil) && (size < p+seuil)){
+  /*if ((size > p-seuil) && (size < p+seuil)){
     c1.x = absMilieu - g/2*sin(angle);
     c1.y = ordMilieu + g/2*cos(angle);
 
@@ -294,7 +294,8 @@ Machine calculateCoordMachine(Segment s){
     }
     point.theta = tmp;
   }
-  else if ((size > g-seuil) && (size < g+seuil)){
+  else */
+  if ((size > g-seuil) && (size < g+seuil)){
     c1.x = absMilieu - p/2*sin(angle);
     c1.y = ordMilieu + p/2*cos(angle);
 
