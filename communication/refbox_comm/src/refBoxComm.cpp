@@ -246,7 +246,7 @@ bool RefBoxComm::fireGameState(protoMsg &m)
 bool RefBoxComm::fireOrderInfo(protoMsg &m)
 {
 	OrderInfo &oi = dynamic_cast<OrderInfo&>(m);
-
+/*
     printf("Order Info received:\n");
     for (int i = 0; i < oi.orders_size(); ++i)
     {
@@ -262,7 +262,7 @@ bool RefBoxComm::fireOrderInfo(protoMsg &m)
         begin_min, begin_sec, end_min, end_sec,
         llsf_msgs::Order::DeliveryGate_Name(o.delivery_gate()).c_str());
     }
-
+*/
 	return true;
 }
 
