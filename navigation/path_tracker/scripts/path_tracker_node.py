@@ -4,8 +4,9 @@ from math import atan2, pi, cos, sin
 from geometry_msgs.msg import Twist, PoseStamped, Point
 from turtlesim.msg import Pose
 from nav_msgs.msg import Path
+from nav_msgs.msg import Odometry
 
-pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
+pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 points = []
 
 # point = PoseStamped()
@@ -234,8 +235,8 @@ def callback(data):
 
     # Chercher point le plus proche
     pose = Point()
-    pose.x = data.x
-    pose.y = data.y
+    pose.x = data.pose.pose.position.x
+    pose.y = data.pose.pose.position.y
     closest = Point()
     display = False
     stopTurtle = False
@@ -306,7 +307,7 @@ def callback(data):
 
 def path_tracker_node():
     rospy.init_node('path_tracker_node', anonymous=False)
-    rospy.Subscriber("/turtle1/pose", Pose, callback)
+    rospy.Subscriber("/odom", Odometry, callback)
     rospy.spin()
 
 if __name__ == '__main__':
