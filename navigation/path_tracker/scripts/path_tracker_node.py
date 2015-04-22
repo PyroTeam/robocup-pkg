@@ -38,172 +38,219 @@ points = []
 coeffX= 1.3
 coeffY=1.3
 offsetY=-3
-# P*coeffY
+
+# # P*
+# point = PoseStamped()
+# point.pose.position.x = 0*coeffX
+# point.pose.position.y = 8*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 1*coeffX
+# point.pose.position.y = 8*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 1*coeffX
+# point.pose.position.y = 10*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 1.5*coeffX
+# point.pose.position.y = 10*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 1.75*coeffX
+# point.pose.position.y = 9.75*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 1.87*coeffX
+# point.pose.position.y = 9.5*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 1.75*coeffX
+# point.pose.position.y = 9.25*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 1.5*coeffX
+# point.pose.position.y = 9*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 1*coeffX
+# point.pose.position.y = 9*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 1*coeffX
+# point.pose.position.y = 8*coeffY+offsetY
+# points.append(point)
+
+# # Y
+# point = PoseStamped()
+# point.pose.position.x = 2.5*coeffX
+# point.pose.position.y = 8*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 3.5*coeffX
+# point.pose.position.y = 10*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 3*coeffX
+# point.pose.position.y = 9*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 2.5*coeffX
+# point.pose.position.y = 10*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 3*coeffX
+# point.pose.position.y = 9*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 2.5*coeffX
+# point.pose.position.y = 8*coeffY+offsetY
+# points.append(point)
+
+# # R
+# point = PoseStamped()
+# point.pose.position.x = 4*coeffX
+# point.pose.position.y = 8*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 4*coeffX
+# point.pose.position.y = 10*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 4.5*coeffX
+# point.pose.position.y = 10*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 4.75*coeffX
+# point.pose.position.y = 9.75*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 4.87*coeffX
+# point.pose.position.y = 9.5*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 4.75*coeffX
+# point.pose.position.y = 9.25*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 4.5*coeffX
+# point.pose.position.y = 9*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 4*coeffX
+# point.pose.position.y = 9*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 4.5*coeffX
+# point.pose.position.y = 9*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 5*coeffX
+# point.pose.position.y = 8*coeffY+offsetY
+# points.append(point)
+
+# # O
+# point = PoseStamped()
+# point.pose.position.x = 6.5*coeffX
+# point.pose.position.y = 8*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 6*coeffX
+# point.pose.position.y = 8.25*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 5.75*coeffX
+# point.pose.position.y = 8.5*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 5.5*coeffX
+# point.pose.position.y = 9*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 5.75*coeffX
+# point.pose.position.y = 9.5*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 6*coeffX
+# point.pose.position.y = 9.75*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 6.5*coeffX
+# point.pose.position.y = 10*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 7*coeffX
+# point.pose.position.y = 9.75*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 7.25*coeffX
+# point.pose.position.y = 9.5*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 7.5*coeffX
+# point.pose.position.y = 9*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 7.25*coeffX
+# point.pose.position.y = 8.5*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 7*coeffX
+# point.pose.position.y = 8.25*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 6.5*coeffX
+# point.pose.position.y = 8*coeffY+offsetY
+# points.append(point)
+# point = PoseStamped()
+# point.pose.position.x = 6.5*coeffX
+# point.pose.position.y = 9*coeffY+offsetY
+# points.append(point)
+
+
 point = PoseStamped()
-point.pose.position.x = 0*coeffX
-point.pose.position.y = 8*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 1*coeffX
-point.pose.position.y = 8*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 1*coeffX
-point.pose.position.y = 10*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 1.5*coeffX
-point.pose.position.y = 10*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 1.75*coeffX
-point.pose.position.y = 9.75*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 1.87*coeffX
-point.pose.position.y = 9.5*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 1.75*coeffX
-point.pose.position.y = 9.25*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 1.5*coeffX
-point.pose.position.y = 9*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 1*coeffX
-point.pose.position.y = 9*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 1*coeffX
-point.pose.position.y = 8*coeffY+offsetY
+point.pose.position.x = 0
+point.pose.position.y = 0
 points.append(point)
 
-# Y
 point = PoseStamped()
-point.pose.position.x = 2.5*coeffX
-point.pose.position.y = 8*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 3.5*coeffX
-point.pose.position.y = 10*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 3*coeffX
-point.pose.position.y = 9*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 2.5*coeffX
-point.pose.position.y = 10*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 3*coeffX
-point.pose.position.y = 9*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 2.5*coeffX
-point.pose.position.y = 8*coeffY+offsetY
+point.pose.position.x = 0.3
+point.pose.position.y = 0.3
 points.append(point)
 
-# R
 point = PoseStamped()
-point.pose.position.x = 4*coeffX
-point.pose.position.y = 8*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 4*coeffX
-point.pose.position.y = 10*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 4.5*coeffX
-point.pose.position.y = 10*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 4.75*coeffX
-point.pose.position.y = 9.75*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 4.87*coeffX
-point.pose.position.y = 9.5*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 4.75*coeffX
-point.pose.position.y = 9.25*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 4.5*coeffX
-point.pose.position.y = 9*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 4*coeffX
-point.pose.position.y = 9*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 4.5*coeffX
-point.pose.position.y = 9*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 5*coeffX
-point.pose.position.y = 8*coeffY+offsetY
+point.pose.position.x = 0
+point.pose.position.y = 0.6
 points.append(point)
 
-# O
 point = PoseStamped()
-point.pose.position.x = 6.5*coeffX
-point.pose.position.y = 8*coeffY+offsetY
+point.pose.position.x = -0.3
+point.pose.position.y = 0.9
 points.append(point)
+
 point = PoseStamped()
-point.pose.position.x = 6*coeffX
-point.pose.position.y = 8.25*coeffY+offsetY
+point.pose.position.x = 0
+point.pose.position.y = 1.2
 points.append(point)
+
 point = PoseStamped()
-point.pose.position.x = 5.75*coeffX
-point.pose.position.y = 8.5*coeffY+offsetY
+point.pose.position.x = 0.3
+point.pose.position.y = 0.9
 points.append(point)
+
 point = PoseStamped()
-point.pose.position.x = 5.5*coeffX
-point.pose.position.y = 9*coeffY+offsetY
+point.pose.position.x = 0
+point.pose.position.y = 0.6
 points.append(point)
+
 point = PoseStamped()
-point.pose.position.x = 5.75*coeffX
-point.pose.position.y = 9.5*coeffY+offsetY
+point.pose.position.x = -0.3
+point.pose.position.y = 0.3
 points.append(point)
+
 point = PoseStamped()
-point.pose.position.x = 6*coeffX
-point.pose.position.y = 9.75*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 6.5*coeffX
-point.pose.position.y = 10*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 7*coeffX
-point.pose.position.y = 9.75*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 7.25*coeffX
-point.pose.position.y = 9.5*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 7.5*coeffX
-point.pose.position.y = 9*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 7.25*coeffX
-point.pose.position.y = 8.5*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 7*coeffX
-point.pose.position.y = 8.25*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 6.5*coeffX
-point.pose.position.y = 8*coeffY+offsetY
-points.append(point)
-point = PoseStamped()
-point.pose.position.x = 6.5*coeffX
-point.pose.position.y = 9*coeffY+offsetY
+point.pose.position.x = 0
+point.pose.position.y = 0
 points.append(point)
 
 point = points[0].pose.position
