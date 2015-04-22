@@ -1,0 +1,1 @@
+LightSpec[] lights

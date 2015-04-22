@@ -1,0 +1,6 @@
+<launch>
+    <param name="teamColor" value="cyan" />
+    <param name="robotNumber" value="1" />
+    <param name="robotName" value="R1" />
+    <node pkg="refbox_comm" name="Com_node" type="refBoxComm" output="screen"/>
+</launch>
