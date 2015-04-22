@@ -8,7 +8,7 @@
 int main(int argc, char **argv)
 {
 
-  ros::init(argc, argv, "talker");
+  ros::init(argc, argv, "talker_ei");
 
   ROS_INFO("Starting publishing ");
 
@@ -21,7 +21,6 @@ int main(int argc, char **argv)
   while (ros::ok())
   {
     
-    ROS_INFO("testing");
     manager_msg::ExplorationInfo msg;
     manager_msg::LightSpec light;
 
@@ -63,6 +62,7 @@ int main(int argc, char **argv)
     msg.signals = m_signals;
     msg.zones = m_zones;
     ei_pub.publish(msg);
+    ROS_INFO("publishing type 0 : %s", msg.signals[0].type.c_str());
     ros::spinOnce();
     loop_rate.sleep();
   }

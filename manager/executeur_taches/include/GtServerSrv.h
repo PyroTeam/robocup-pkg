@@ -6,6 +6,7 @@
 #include "manager_msg/activity.h"
 #include "manager_msg/finalApproachingAction.h"
 
+#include "ExploInfoSubscriber.h"
 #include "Machine.h"
 #include "RingStation.h"
 #include "CapStation.h"
@@ -26,6 +27,7 @@ private :
 	int m_id;
 	manager_msg::activity m_msg;
 	manager_msg::finalApproachingAction m_act;
+	ExploInfoSubscriber *m_ei;
 };
 
 #endif

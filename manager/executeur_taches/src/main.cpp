@@ -35,9 +35,9 @@ int main(int argc, char **argv) {
     ros::Subscriber sub = n.subscribe("/landmarks",1000,&LocaSubscriber::tesCallback, &loca_sub);
 
     /* Test du FeuClient */
-    std::vector<manager_msg::LightSpec> lSpec;
-    FeuClientAction f_c;
-    f_c.lightsStates(lSpec); 
+    //std::vector<manager_msg::LightSpec> lSpec;
+    //FeuClientAction f_c;
+    //f_c.lightsStates(lSpec); 
     while(ros::ok){
         ROS_INFO("I'm READY ! ");
         activite_pub.publish(gtsrv.getActivityMsg()); 
