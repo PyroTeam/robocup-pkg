@@ -121,6 +121,7 @@ add_executable(
   src/FinalApproachingClient.cpp
   src/ExploInfoSubscriber.cpp
   src/ReportingMachineSrvClient.cpp
+  src/ArTagClientSrv.cpp
 )
 add_executable(
   test_publish
@@ -142,7 +143,11 @@ add_executable(
   
   src/fake_publisher_ei.cpp
 )
-
+add_executable(
+  test_arTag
+  
+  src/fake_arTag_server.cpp
+)
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -167,6 +172,10 @@ target_link_libraries(
 )
 target_link_libraries(
   test_ei
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_arTag
   ${catkin_LIBRARIES}
 )
 #target_link_libraries(

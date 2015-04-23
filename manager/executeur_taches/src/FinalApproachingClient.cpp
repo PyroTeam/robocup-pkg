@@ -8,7 +8,7 @@ void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, in
 	
 	actionlib::SimpleActionClient<manager_msg::finalApproachingAction> client("finalApproaching",true);
 
-	ROS_INFO("Waiting for action Server to start");
+	ROS_INFO("Waiting for fa action Server to start");
 
 	client.waitForServer(); 
 
