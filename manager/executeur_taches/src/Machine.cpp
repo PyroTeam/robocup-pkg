@@ -61,7 +61,10 @@ manager_msg::activity Machine::msgToGT(int n_robot, int stateOfOrder, int machin
 /* Fonction abstraite qui permet d'aller vers une machine (Point centre/entree/sortie d'une machine) */
 void Machine::goTo(geometry_msgs::Pose2D pt_dest){ 
   ROS_INFO("going to the point : x %f - y %f - theta %f",pt_dest.x,pt_dest.y,pt_dest.theta);
-  // SupervisionChemin(pt_dest);
+  NavigationClientAction n_c;
+  int stateOfNavigation = n_c.goToAPoint(pt_dest);
+  if(stateOfNavigation == manager_msg::MoveToPoseResult::ERROR) ROS_ERROR("Can't go to this point Sorry :( ");
+  else ROS_INFO ("I went to the asked point successfully ");
 }
 
 /* Fonction qui permet de prendre un produit */
@@ -78,15 +81,8 @@ void Machine::let( ){
 
 void Machine::readlights(std::vector<manager_msg::LightSpec> lSpec){
   ROS_INFO(" Starting exploring the lights ");
-  /*lSpec[0].color = 0;
-  lSpec[0].state = 0;
-  lSpec[1].color = 1;
-  lSpec[1].state = 1;*/
   FeuClientAction f_c;
   f_c.lightsStates(lSpec); 
-  //ExploInfoSubscriber ei_sub;
-  //ros::NodeHandle n;
-  //ros::Subscriber sub = n.subscribe("/explorationInfo",1000,&ExploInfoSubscriber::tesCallback, &ei_sub);
   ROS_INFO("end of exploring the lights");
 }
 
@@ -94,8 +90,3 @@ void Machine::startFinalAp(int8_t machineType, int8_t machineSide, int8_t machin
   FinalApproachingClient fa_c;
   fa_c.starting(machineType,machineSide,machineParameter);
 }
-
-//int16_t Machine::askingId(){
-//  ArTagClienSrv atg;
-//  return atg.askForId();
-//}

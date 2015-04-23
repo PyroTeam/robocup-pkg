@@ -83,6 +83,7 @@ FILES
    FILES
    processLightSignal.action
    finalApproaching.action
+   MoveToPose.action
 #   Action2.action
  )
 
