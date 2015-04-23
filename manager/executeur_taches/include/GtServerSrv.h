@@ -14,6 +14,7 @@
 #include "BaseStation.h"
 #include "MyElements.h"
 #include "ArTagClientSrv.h"
+#include "ReportingMachineSrvClient.h"
 
 #define C_CS1_IN   1
 #define C_CS1_OUT  2
@@ -53,11 +54,15 @@ public :
 	int teamColorOfId(int arTag);
 	manager_msg::activity getActivityMsg();
 	manager_msg::finalApproachingAction getFinalAppAction();
+	void interpretationZone();
 private :
 	int nb_robot;
-	int m_id;
 	int t_color;
+	int m_id;
+	float x;
+	float y;
 	manager_msg::activity m_msg;
+	std::string name;
 	manager_msg::finalApproachingAction m_act;
 	ExploInfoSubscriber *m_ei;
 };

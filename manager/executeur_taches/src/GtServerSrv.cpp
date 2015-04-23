@@ -21,59 +21,82 @@ manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction(){
   return m_act;
 }
 
+void GtServerSrv::interpretationZone(){
+  int zone = this->m_id;
+  // Get bottom-left coord of zone
+  x = 0;
+  y = 0;
+  // Right side
+  if(zone>0 && zone<13) {
+    x = ((zone-1)/4)*2;
+    y = ((zone-1)%4)*1.5;
+  }
+  // Left side
+  else if (zone<=24) {
+    zone -=12;
+    x = -((zone-1)/4)*2 - 2;
+    y = ((zone-1)%4)*1.5;
+  }
+  else {
+    ROS_ERROR("There is only 23 zones ");
+  }
+  x+=0.001;
+  y+=0.001;
+}
+
 int GtServerSrv::teamColorOfId(int arTag){
 
 int team_color = 0;
 
 switch(arTag) {
-              case 1:       team_color = CYAN;     break;
+              case  C_CS1_IN    :       team_color = CYAN;       name = "CS";      break;
 
-              case 2:       team_color = CYAN;     break;
+              case  C_CS1_OUT   :       team_color = CYAN;       name = "CS";      break;
 
-              case 17:      team_color = CYAN;     break;
+              case  C_CS2_IN    :       team_color = CYAN;       name = "CS";      break;
 
-              case 18:      team_color = CYAN;     break;
+              case  C_CS2_OUT   :       team_color = CYAN;       name = "CS";      break;
 
-              case 33:      team_color = CYAN;     break;
+              case  C_RS1_IN    :       team_color = CYAN;       name = "RS";      break;
 
-              case 34:      team_color = CYAN;     break;
+              case  C_RS1_OUT   :       team_color = CYAN;       name = "RS";      break;
 
-              case 177:     team_color = CYAN;     break;
+              case  C_RS2_IN    :       team_color = CYAN;       name = "RS";      break;
 
-              case 178:     team_color = CYAN;     break;
+              case  C_RS2_OUT   :       team_color = CYAN;       name = "RS";      break;
 
-              case 65:      team_color = CYAN;     break;
+              case  C_BS_IN     :       team_color = CYAN;       name = "BS";      break;
 
-              case 66:      team_color = CYAN;     break;
+              case  C_BS_OUT    :       team_color = CYAN;       name = "BS";      break;
 
-              case 81:      team_color = CYAN;     break;
+              case  C_DS_IN     :       team_color = CYAN;       name = "DS";      break;
 
-              case 82:      team_color = CYAN;     break;
-
-              case 97:      team_color = CYAN;     break;
+              case  C_DS_OUT    :       team_color = CYAN;       name = "DS";      break;
 
 
-              case 98:      team_color = MAGENTA;  break;
+              case  M_CS1_IN    :       team_color = MAGENTA;    name = "CS";      break;
 
-              case 113:     team_color = MAGENTA;  break;
+              case  M_CS1_OUT   :       team_color = MAGENTA;    name = "CS";      break;
 
-              case 114:     team_color = MAGENTA;  break;
+              case  M_CS2_IN    :       team_color = MAGENTA;    name = "CS";      break;
 
-              case 129:     team_color = MAGENTA;  break;
+              case  M_CS2_OUT   :       team_color = MAGENTA;    name = "CS";      break;
 
-              case 130:     team_color = MAGENTA;  break;
+              case  M_RS1_IN    :       team_color = MAGENTA;    name = "RS";      break;
 
-              case 145:     team_color = MAGENTA;  break;
+              case  M_RS1_OUT   :       team_color = MAGENTA;    name = "RS";      break;
 
-              case 146:     team_color = MAGENTA;  break;
+              case  M_RS2_IN    :       team_color = MAGENTA;    name = "RS";      break;
 
-              case 161:     team_color = MAGENTA;  break;
+              case  M_RS2_OUT   :       team_color = MAGENTA;    name = "RS";      break;
 
-              case 162:     team_color = MAGENTA;  break;
+              case  M_BS_IN     :       team_color = MAGENTA;    name = "BS";      break;
 
-              case 49:      team_color = MAGENTA;  break;
+              case  M_BS_OUT    :       team_color = MAGENTA;    name = "BS";      break;
 
-              case 50:      team_color = MAGENTA;  break;
+              case  M_DS_IN     :       team_color = MAGENTA;    name = "DS";      break;
+
+              case  M_DS_OUT    :       team_color = MAGENTA;    name = "DS";      break;
 
               default:      team_color = -1;     break;
               }
@@ -84,6 +107,7 @@ switch(arTag) {
 bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::order::Response &res){
 
   ROS_INFO("No problem, I received the order ");
+  setId(req.id);
   if (req.number_robot == nb_robot){
       res.number_order = req.number_order;
       res.number_robot = nb_robot;
@@ -230,6 +254,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                 }
                 break;
           case orderRequest::DISCOVER:  
+                interpretationZone();
                 //goto               
                 int16_t m_id;
                 ArTagClienSrv atg;
@@ -241,20 +266,10 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       res.accepted = false;
                       break;
                 } 
-                /* test, partie qui remplace les ARTag */
-                //bool input, output;
-                //int machine, id;
-                //if(m_id = 2){
-                //      input = true;
-                //      output = false;
-                //      machine = 2;
-                //      id = 1;
-                //}
-
-                /* fin test */
 
                 /* phase d'exploration */
                  ROS_INFO(" Starting exploring the ARTag ");
+                 ReportingMachineSrvClient rm_c;
                  switch(m_id){
                       case M_BS_IN  : 
                       case M_BS_OUT :
@@ -266,6 +281,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                   if(m_ei->m_signals.size() != 0) {
                                           m.getBS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                   }
                               } 
                               else if (m_id == C_BS_IN || m_id == M_BS_IN){
@@ -274,6 +290,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                   if(m_ei->m_signals.size() != 0) {
                                           m.getBS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                   }
                               }
                               break;
@@ -287,40 +304,39 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       case C_RS2_IN  :
                       case C_RS2_OUT :
 
-                              //if(m_id == C_RS1_OUT || m_id == M_RS1_OUT || m_id == C_RS2_OUT || m_id == M_RS2_OUT){
                                   if(m_id == C_RS1_OUT || m_id == M_RS1_OUT){
-                                      //m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getRS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                       }
                                   }  
-                                  if(m_id == C_RS2_OUT || m_id == M_RS2_OUT){
+                                  else if(m_id == C_RS2_OUT || m_id == M_RS2_OUT){
                                       m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getRS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                       }
                                   }  
-                              //}  
-                              //else if (m_id == C_RS1_IN || m_id == M_RS1_IN || m_id == C_RS2_IN || m_id == M_RS2_IN) {
-                                  if(m_id == C_RS1_IN || m_id == M_RS1_IN){
+                                  else if(m_id == C_RS1_IN || m_id == M_RS1_IN){
                                        m.getRS1().goTo(m.getRS1().getExitMachine());
                                        m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getRS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                        }
                                   }  
-                                  if(m_id == C_RS2_IN || m_id == M_RS2_IN){
+                                  else if(m_id == C_RS2_IN || m_id == M_RS2_IN){
                                        m.getRS2().goTo(m.getRS2().getExitMachine());
                                        m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getRS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                        }
-                                  }                              
-                              //}
+                                  }  
                               break;
                       case M_CS1_OUT : 
                       case M_CS1_IN  :
@@ -331,41 +347,42 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       case C_CS2_IN  :
                       case C_CS2_OUT : 
                               
-                              //if(m_id == C_CS1_OUT || m_id == M_CS1_OUT || m_id == C_CS2_OUT || m_id == M_CS2_OUT){
                                   if(m_id == C_CS1_OUT || m_id == M_CS1_OUT){
                                       m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getCS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                       }
                                   }  
-                                  if(m_id == C_CS2_OUT || m_id == M_CS2_OUT){
+                                  else if(m_id == C_CS2_OUT || m_id == M_CS2_OUT){
                                       m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getCS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                       }
                                   }  
-                              //}  
-                              //else if (m_id == C_CS1_IN || m_id == M_CS1_IN || m_id == C_CS2_IN || m_id == M_CS2_IN) {
-                                  if(m_id == C_CS1_IN || m_id == M_CS1_IN){
+
+                                  else if(m_id == C_CS1_IN || m_id == M_CS1_IN){
                                        m.getCS1().goTo(m.getCS1().getExitMachine());
                                        m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getCS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                         }
                                        
                                   }  
-                                  if(m_id == C_CS2_IN || m_id == M_CS2_IN){
+                                  else if(m_id == C_CS2_IN || m_id == M_CS2_IN){
                                        m.getCS2().goTo(m.getCS2().getExitMachine());
                                        m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getCS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                        }
-                                  }                              
-                              //}
+                                  }   
                               break;
                       case M_DS_IN  : 
                       case M_DS_OUT :
@@ -376,6 +393,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                    if(m_ei->m_signals.size() != 0) {
                                           m.getDS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                    }
                               } 
                               else if (m_id == C_DS_IN || m_id == M_DS_IN){
@@ -384,6 +402,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                   if(m_ei->m_signals.size() != 0) {
                                           m.getDS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          rm_c.reporting(name, m_ei->type,m_id);
                                   }
                               }
                               break;
@@ -393,8 +412,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                 break;
       }
 
-      if(req.id != 0) ROS_INFO(" DESTOCKAGE à l'endroit d'id = %d", (int) req.id);
-      else ROS_INFO(" NON DESTOCKAGE ");
+      //if(req.id != 0) ROS_INFO(" DESTOCKAGE à l'endroit d'id = %d", (int) req.id);
+      //else ROS_INFO(" NON DESTOCKAGE ");
       res.accepted = true;
 
   }
