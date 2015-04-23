@@ -6,8 +6,14 @@ from geometry_msgs.msg import Twist, PoseStamped, Point
 from turtlesim.msg import Pose
 from nav_msgs.msg import Path
 from nav_msgs.msg import Odometry
+from std_msgs.msg import Float32
 
 pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+pubInfos = rospy.Publisher('/tracker_info', Float32, queue_size=10)
+
+
+pubAngle = rospy.Publisher('/t_angle', Float32, queue_size=10)
+pubErrAngle = rospy.Publisher('/t_err_angle', Float32, queue_size=10)
 points = []
 
 # point = PoseStamped()
@@ -219,33 +225,33 @@ point.pose.position.y = 0.3
 points.append(point)
 
 point = PoseStamped()
-point.pose.position.x = 0
-point.pose.position.y = 0.6
+point.pose.position.x = 0.6
+point.pose.position.y = 0
 points.append(point)
 
 point = PoseStamped()
-point.pose.position.x = -0.3
-point.pose.position.y = 0.9
+point.pose.position.x = 0.9
+point.pose.position.y = -0.3
 points.append(point)
 
 point = PoseStamped()
-point.pose.position.x = 0
-point.pose.position.y = 1.2
+point.pose.position.x = 1.2
+point.pose.position.y = 0
+points.append(point)
+
+point = PoseStamped()
+point.pose.position.x = 0.9
+point.pose.position.y = 0.3
+points.append(point)
+
+point = PoseStamped()
+point.pose.position.x = 0.6
+point.pose.position.y = 0
 points.append(point)
 
 point = PoseStamped()
 point.pose.position.x = 0.3
-point.pose.position.y = 0.9
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = 0
-point.pose.position.y = 0.6
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = -0.3
-point.pose.position.y = 0.3
+point.pose.position.y = -0.3
 points.append(point)
 
 point = PoseStamped()
@@ -288,6 +294,7 @@ def callback(data):
     closest = Point()
     display = False
     stopTurtle = False
+    pointObjectif = points[0].pose.position
     for i in xrange(len(points)):
         display = True
         sizePath = len(points)
@@ -296,6 +303,7 @@ def callback(data):
             start = points[0].pose.position
             if sizePath >= 2:
                 stop = points[1].pose.position
+                pointObjectif = stop
                 closest = closestPoint(start, stop, pose)
                 if closest == stop:
                     points.pop(0)
@@ -343,21 +351,46 @@ def callback(data):
 
     errAngle = (angle - yaw)
     errAngle = ((errAngle+pi) % (2*pi)) - pi
-    vitAngle = errAngle*30
-    rospy.loginfo("Angle %f",angle)
+
+    errAnglePointSuiv = (ang - yaw)
+    errAnglePointSuiv = ((errAnglePointSuiv+pi) % (2*pi)) - pi
+
+    vitAngle = errAnglePointSuiv*1
+
+    rospy.loginfo("----------------")
+    rospy.loginfo(stopTurtle)
+    rospy.loginfo("PointObjectif : ")
+    rospy.loginfo(pointObjectif)
+    rospy.loginfo("Pose : ")
+    rospy.loginfo(data.pose.pose.position)
+    rospy.loginfo(yaw)
+    rospy.loginfo("PointClosest : ")
+    rospy.loginfo(closest)
+    rospy.loginfo("PointAvance : ")
+    rospy.loginfo(pointAvance)
+    rospy.loginfo("Angle %f - VitAngle %f",angle,vitAngle)
+		
+    if vitAngle > 30:
+	vitAngle = 30
+    elif vitAngle < -30:
+	vitAngle = -30
 
     # Publication du message sur le topic
     vel_msg = Twist()
+    # stopTurtle = True
     if not stopTurtle:
-        vel_msg.linear.x = 1
-        vel_msg.linear.y = 0
-        vel_msg.angular.z = vitAngle
+        vel_msg.linear.x = 0.2
+        vel_msg.linear.y = errAngle/10
+        vel_msg.angular.z = vitAngle*1
     else :
         vel_msg.linear.x = 0
         vel_msg.linear.y = 0
         vel_msg.angular.z = 0
 
     pub.publish(vel_msg)
+    pubInfos.publish(ang)
+    pubAngle.publish(angle)
+    pubErrAngle.publish(errAngle)
 
 def path_tracker_node():
     rospy.init_node('path_tracker_node', anonymous=False)
