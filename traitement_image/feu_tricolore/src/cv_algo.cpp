@@ -126,7 +126,7 @@ bool LectureFeu::ok()
 void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
 {
     // Quit if inactive action server
-    if (!as_.isActive())
+    if (!as_.isActive() && 0)
           return;
 
     // Get image
@@ -302,7 +302,7 @@ void LectureFeu::lectureFeu(cv::Mat &imgToProcess)  // NB : il faudrait utiliser
     preTraitement(imgToProcess);
     imgToProcess.copyTo(_output_1);
     traitement(imgToProcess);
-    imgToProcess.copyTo(_output_4);
+    imgToProcess.copyTo(_output_5);
     publishResults(imgToProcess);
 }
 
@@ -636,6 +636,8 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
     cv::Mat binS = binaryThreshold(BGR,'S');
     cv::Mat binV = binaryThreshold(BGR,'V');
 
+    singleToMultChannels(binG,3).copyTo(_output_2);
+
     // // Show results
     // imshow("Blue", binB); moveWindow("Blue", 400*0, 300*0);
     // imshow("Green", binG); moveWindow("Green", 400*1, 300*0);
@@ -653,6 +655,8 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
     binH = morphOps(binH,'H');
     binS = morphOps(binS,'S');
     binV = morphOps(binV,'V');
+
+    singleToMultChannels(binG,3).copyTo(_output_3);
     
     // // Show results
     // imshow("Blue", binB); moveWindow("Blue", 400*0, 300*0);
@@ -671,6 +675,8 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
     imgH = binaryMask(imgH, binH);
     imgS = binaryMask(imgS, binS);
     imgV = binaryMask(imgV, binV);
+
+    imgG.copyTo(_output_4);
 
     // // Show results
     // imshow("Blue", imgB); moveWindow("Blue", 400*0, 300*0);
@@ -732,7 +738,7 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
         green_=true;
     if(yellow_pix > 10 && yellow_pix_max >= 6)
         yellow_=true;
-    // ROS_INFO_STREAM("LIGHTS ON : "<<((red_)?"RED ":"")<<((yellow_)?"YELLOW ":"")<<((green_)?"GREEN ":""));
+    ROS_INFO_STREAM("LIGHTS ON : "<<((red_)?"RED ":"")<<((yellow_)?"YELLOW ":"")<<((green_)?"GREEN ":""));
 }
 
 void LectureFeu::templateProcessing()
@@ -1214,8 +1220,9 @@ cv::Mat LectureFeu::binaryThreshold(cv::Mat imgBgr, char channel)
     nh_.param<int>(paramBaseName+"min", min, 0);
     nh_.param<int>(paramBaseName+"max", max, 255);
 
-// Algo
+    ROS_INFO_STREAM(enabled << " " << min << " " << max);
 
+// Algo
     // In case of HSV, convert colors
     std::string HSV("HSV");
     cv::Mat imgToProcess;
