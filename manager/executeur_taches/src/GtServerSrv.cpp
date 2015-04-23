@@ -2,7 +2,8 @@
 
 GtServerSrv::GtServerSrv() {
   ros::NodeHandle n;
-  n.param<int>("robotNumber",nb_robot,0); 
+  n.param<int>("robotNumber",nb_robot,0);
+  n.param<int>("teamColor",t_color,CYAN); 
 
   m_ei = new ExploInfoSubscriber();
 }
@@ -20,13 +21,73 @@ manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction(){
   return m_act;
 }
 
+int GtServerSrv::teamColorOfId(int arTag){
+
+int team_color = 0;
+
+switch(arTag) {
+              case 1:       team_color = CYAN;     break;
+
+              case 2:       team_color = CYAN;     break;
+
+              case 17:      team_color = CYAN;     break;
+
+              case 18:      team_color = CYAN;     break;
+
+              case 33:      team_color = CYAN;     break;
+
+              case 34:      team_color = CYAN;     break;
+
+              case 177:     team_color = CYAN;     break;
+
+              case 178:     team_color = CYAN;     break;
+
+              case 65:      team_color = CYAN;     break;
+
+              case 66:      team_color = CYAN;     break;
+
+              case 81:      team_color = CYAN;     break;
+
+              case 82:      team_color = CYAN;     break;
+
+              case 97:      team_color = CYAN;     break;
+
+
+              case 98:      team_color = MAGENTA;  break;
+
+              case 113:     team_color = MAGENTA;  break;
+
+              case 114:     team_color = MAGENTA;  break;
+
+              case 129:     team_color = MAGENTA;  break;
+
+              case 130:     team_color = MAGENTA;  break;
+
+              case 145:     team_color = MAGENTA;  break;
+
+              case 146:     team_color = MAGENTA;  break;
+
+              case 161:     team_color = MAGENTA;  break;
+
+              case 162:     team_color = MAGENTA;  break;
+
+              case 49:      team_color = MAGENTA;  break;
+
+              case 50:      team_color = MAGENTA;  break;
+
+              default:      team_color = -1;     break;
+              }
+      return team_color;
+
+}
+
 bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::order::Response &res){
 
+  ROS_INFO("No problem, I received the order ");
   if (req.number_robot == nb_robot){
       res.number_order = req.number_order;
       res.number_robot = nb_robot;
       res.id = m_id;
-      res.accepted = true;
       MyElements m;
       switch(req.type){ // à rajouter => machine non occupée par un robotino et au départ (on ne sait pas cs1/cs2 et rs1/rs2)
           case orderRequest::TAKE_BASE:
@@ -163,68 +224,131 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                    m.getCS2().destock(req.id,nb_robot,req.number_order,activity::CS2);
                    m.getCS2().majStockID(req.id, 0);
                 }   
-                else("ERROR : req.id is not between 0 and 5 ");
+                else {
+                  ROS_ERROR("ERROR : req.id is not between 0 and 5 ");
+                  res.accepted =false;
+                }
                 break;
-          case orderRequest::DISCOVER:
+          case orderRequest::DISCOVER:  
+                //goto               
+                int16_t m_id;
+                ArTagClienSrv atg;
+                ROS_INFO("debugg : BEFORE ASK FOR ID");
+                m_id = atg.askForId();
+                int team_color = teamColorOfId(m_id);
+                if(team_color != this->t_color){
+                      ROS_ERROR(" Machine isn't for my team ");
+                      res.accepted = false;
+                      break;
+                } 
                 /* test, partie qui remplace les ARTag */
-                bool input = true;
-                bool output = false;
-                int machine = 2;
-                int id = 1;
+                //bool input, output;
+                //int machine, id;
+                //if(m_id = 2){
+                //      input = true;
+                //      output = false;
+                //      machine = 2;
+                //      id = 1;
+                //}
+
                 /* fin test */
 
                 /* phase d'exploration */
                  ROS_INFO(" Starting exploring the ARTag ");
-                 switch(machine){
-                      case 0 : //BS ==> lights on OUTPUT
-                              if(output){
+                 switch(m_id){
+                      case M_BS_IN  : 
+                      case M_BS_OUT :
+                      case C_BS_IN  :
+                      case C_BS_OUT :
+
+                              if(m_id == C_BS_OUT || m_id == M_BS_OUT){
                                   m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
-                                  //m.getBS().readlights();
+                                  if(m_ei->m_signals.size() != 0) {
+                                          m.getBS().readlights(m_ei->lSpec);
+                                          m_ei->interpretationFeu();
+                                  }
                               } 
-                              else{
+                              else if (m_id == C_BS_IN || m_id == M_BS_IN){
                                   m.getBS().goTo(m.getBS().getExitMachine());
                                   m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
-                                  //m.getBS().readlights();
+                                  if(m_ei->m_signals.size() != 0) {
+                                          m.getBS().readlights(m_ei->lSpec);
+                                          m_ei->interpretationFeu();
+                                  }
                               }
                               break;
 
-                      case 1 : //RS ==> lights on OUTPUT
-                              if(output){
-                                  if(id == 1){
-                                      m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
-                                      //m.getRS1().readlights();
+                      case M_RS1_OUT : 
+                      case M_RS1_IN  :
+                      case C_RS1_IN  :
+                      case C_RS1_OUT :
+                      case M_RS2_OUT : 
+                      case M_RS2_IN  :
+                      case C_RS2_IN  :
+                      case C_RS2_OUT :
+
+                              //if(m_id == C_RS1_OUT || m_id == M_RS1_OUT || m_id == C_RS2_OUT || m_id == M_RS2_OUT){
+                                  if(m_id == C_RS1_OUT || m_id == M_RS1_OUT){
+                                      //m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                      if(m_ei->m_signals.size() != 0) {
+                                          m.getRS1().readlights(m_ei->lSpec);
+                                          m_ei->interpretationFeu();
+                                      }
                                   }  
-                                  if(id == 2){
+                                  if(m_id == C_RS2_OUT || m_id == M_RS2_OUT){
                                       m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
-                                      //m.getRS2().readlights();
+                                      if(m_ei->m_signals.size() != 0) {
+                                          m.getRS2().readlights(m_ei->lSpec);
+                                          m_ei->interpretationFeu();
+                                      }
                                   }  
-                              }  
-                              else{
-                                  if(id == 1){
+                              //}  
+                              //else if (m_id == C_RS1_IN || m_id == M_RS1_IN || m_id == C_RS2_IN || m_id == M_RS2_IN) {
+                                  if(m_id == C_RS1_IN || m_id == M_RS1_IN){
                                        m.getRS1().goTo(m.getRS1().getExitMachine());
                                        m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
-                                       //m.getRS1().readlights();
+                                       if(m_ei->m_signals.size() != 0) {
+                                          m.getRS1().readlights(m_ei->lSpec);
+                                          m_ei->interpretationFeu();
+                                       }
                                   }  
-                                  if(id == 2){
+                                  if(m_id == C_RS2_IN || m_id == M_RS2_IN){
                                        m.getRS2().goTo(m.getRS2().getExitMachine());
                                        m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
-                                       //m.getRS2().readlights();
+                                       if(m_ei->m_signals.size() != 0) {
+                                          m.getRS2().readlights(m_ei->lSpec);
+                                          m_ei->interpretationFeu();
+                                       }
                                   }                              
-                              }
+                              //}
                               break;
-                      case 2 : //CS ==> lights on OUTPUT
-                              if(output){
-                                  if(id == 1){
+                      case M_CS1_OUT : 
+                      case M_CS1_IN  :
+                      case C_CS1_IN  :
+                      case C_CS1_OUT :
+                      case M_CS2_OUT : 
+                      case M_CS2_IN  :
+                      case C_CS2_IN  :
+                      case C_CS2_OUT : 
+                              
+                              //if(m_id == C_CS1_OUT || m_id == M_CS1_OUT || m_id == C_CS2_OUT || m_id == M_CS2_OUT){
+                                  if(m_id == C_CS1_OUT || m_id == M_CS1_OUT){
                                       m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
-                                      //m.getCS1().readlights();
+                                      if(m_ei->m_signals.size() != 0) {
+                                          m.getCS1().readlights(m_ei->lSpec);
+                                          m_ei->interpretationFeu();
+                                      }
                                   }  
-                                  if(id == 2){
+                                  if(m_id == C_CS2_OUT || m_id == M_CS2_OUT){
                                       m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
-                                      //m.getCS2().readlights();
+                                      if(m_ei->m_signals.size() != 0) {
+                                          m.getCS2().readlights(m_ei->lSpec);
+                                          m_ei->interpretationFeu();
+                                      }
                                   }  
-                              }  
-                              else{
-                                  if(id == 1){
+                              //}  
+                              //else if (m_id == C_CS1_IN || m_id == M_CS1_IN || m_id == C_CS2_IN || m_id == M_CS2_IN) {
+                                  if(m_id == C_CS1_IN || m_id == M_CS1_IN){
                                        m.getCS1().goTo(m.getCS1().getExitMachine());
                                        m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                        if(m_ei->m_signals.size() != 0) {
@@ -233,22 +357,34 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                         }
                                        
                                   }  
-                                  if(id == 2){
+                                  if(m_id == C_CS2_IN || m_id == M_CS2_IN){
                                        m.getCS2().goTo(m.getCS2().getExitMachine());
                                        m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
-                                       //m.getCS2().readlights();
+                                       if(m_ei->m_signals.size() != 0) {
+                                          m.getCS2().readlights(m_ei->lSpec);
+                                          m_ei->interpretationFeu();
+                                       }
                                   }                              
-                              }
+                              //}
                               break;
-                      case 3 : //DS ==> lights on OUTPUT?
-                              if(output){
+                      case M_DS_IN  : 
+                      case M_DS_OUT :
+                      case C_DS_IN  :
+                      case C_DS_OUT :
+                              if(m_id == C_DS_OUT || m_id == M_DS_OUT){
                                   m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
-                                  //m.getDS().readlights();
+                                   if(m_ei->m_signals.size() != 0) {
+                                          m.getDS().readlights(m_ei->lSpec);
+                                          m_ei->interpretationFeu();
+                                   }
                               } 
-                              else{
+                              else if (m_id == C_DS_IN || m_id == M_DS_IN){
                                   m.getDS().goTo(m.getDS().getExitMachine());
                                   m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
-                                  //m.getDS().readlights();
+                                  if(m_ei->m_signals.size() != 0) {
+                                          m.getDS().readlights(m_ei->lSpec);
+                                          m_ei->interpretationFeu();
+                                  }
                               }
                               break;
 

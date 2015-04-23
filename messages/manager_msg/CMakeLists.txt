@@ -70,6 +70,7 @@ FILES
    order.srv
    SetGripper.srv
    ReportMachine.srv
+   artag.srv
  )
 
 
