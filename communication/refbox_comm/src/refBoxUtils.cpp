@@ -1,7 +1,7 @@
 /**
  * \file 		refBoxUtils.cpp
  *
- * \brief		
+ * \brief
  *
  * \author		Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date		2015-03-05
@@ -15,7 +15,7 @@
 comm_msg::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, llsf_msgs::Team team_color)
 {
     comm_msg::GameState rosGameState;
-        
+
     switch (llsfGameState.state())
     {
     default:
@@ -30,9 +30,9 @@ comm_msg::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, llsf_
         break;
     case llsf_msgs::GameState::PAUSED:
         rosGameState.state = comm_msg::GameState::PAUSED;
-        break;        
+        break;
     }
-    
+
     switch (llsfGameState.phase())
     {
     default:
@@ -61,26 +61,27 @@ comm_msg::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, llsf_
         rosGameState.phase = comm_msg::GameState::WHACK_A_MOLE_CHALLENGE;
         break;
     }
-    
-    rosGameState.points = ((team_color == llsf_msgs::Team::CYAN) ? 
+
+    rosGameState.points = ((team_color == llsf_msgs::Team::CYAN) ?
                 llsfGameState.points_cyan() : llsfGameState.points_magenta());
-    
+
     rosGameState.game_time.sec = llsfGameState.game_time().sec();
     rosGameState.game_time.nsec = llsfGameState.game_time().nsec();
 
     return rosGameState;
 }
 
-comm_msg::ExplorationInfo llsf2ros_explorationInfo(llsf_msgs::ExplorationInfo llsfExplorationInfo, llsf_msgs::Team team_color)
+
+comm_msg::ExplorationInfo llsf2ros_explorationInfo(const llsf_msgs::ExplorationInfo llsfExplorationInfo, llsf_msgs::Team team_color)
 {
     comm_msg::ExplorationInfo rosExplorationInfo;
 
 
-    for (int i = 0; i < llsfExplorationInfo.signals_size(); ++i) 
+    for (int i = 0; i < llsfExplorationInfo.signals_size(); ++i)
     {
         const llsf_msgs::ExplorationSignal &es = llsfExplorationInfo.signals(i);
         comm_msg::ExplorationSignal signal;
-        for (int j = 0; j < es.lights_size(); ++j) 
+        for (int j = 0; j < es.lights_size(); ++j)
         {
             const llsf_msgs::LightSpec &lspec = es.lights(j);
             comm_msg::LightSpec light;
@@ -93,21 +94,39 @@ comm_msg::ExplorationInfo llsf2ros_explorationInfo(llsf_msgs::ExplorationInfo ll
         rosExplorationInfo.signals.push_back(signal);
     }
 
-    for (int i = 0; i < llsfExplorationInfo.machines_size(); ++i) 
+    for (int i = 0; i < llsfExplorationInfo.zones_size(); ++i)
     {
-        const llsf_msgs::ExplorationMachine &em = llsfExplorationInfo.machines(i);
-        comm_msg::ExplorationMachine machine;
-        
-        machine.name = em.name();
-        machine.pose.x = em.pose().x();
-        machine.pose.y = em.pose().y();
-        machine.pose.theta =em.pose().ori();
-        machine.team_color = em.team_color();
-        
-        // TODO VINCENT : currently NOT WORKING, Exploration Info has no member called 'machines'
-        // rosExplorationInfo.machines.push_back(machine);
+        const llsf_msgs::ExplorationZone &ez = llsfExplorationInfo.zones(i);
+        comm_msg::ExplorationZone eZone;
+
+        eZone.zone = uint8_t(ez.zone());
+        eZone.team_color = uint8_t(ez.team_color());
+
+        rosExplorationInfo.zones.push_back(eZone);
     }
 
     return rosExplorationInfo;
 }
 
+comm_msg::MachineInfo llsf2ros_machineInfo(const llsf_msgs::MachineInfo &llsfMachineInfo)
+{
+    comm_msg::MachineInfo rosMachineInfo;
+
+    rosMachineInfo.team_color = uint8_t(llsfMachineInfo.team_color());
+
+    for(int i=0; i< llsfMachineInfo.machines_size(); ++i)
+    {
+        const llsf_msgs::Machine &machine = llsfMachineInfo.machines(i);
+        comm_msg::Machine rosMachine;
+
+        rosMachine.name = machine.name();
+        rosMachine.type = machine.type();
+        rosMachine.state = machine.state();
+        rosMachine.team_color = machine.team_color();
+        //TODO voir messages refBox
+
+        rosMachineInfo.machines.push_back(rosMachine);
+    }
+
+    return rosMachineInfo;
+}
