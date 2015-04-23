@@ -56,3 +56,4 @@ void ExploInfoSubscriber::interpretationFeu(){
 	}
 	ROS_INFO("type : %s", this->type.c_str());
 }
+

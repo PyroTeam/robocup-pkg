@@ -2,12 +2,14 @@
 #define EXPLOINFOSUBSCRIBER_H
 
 #include <ros/ros.h>
+#include <string>
+
 #include "manager_msg/ExplorationInfo.h" 
 #include "manager_msg/ExplorationSignal.h" 
 #include "manager_msg/ExplorationZone.h"
 #include "manager_msg/LightSpec.h"
+
 #include "FeuClientAction.h" 
-#include <string>
 
 class ExploInfoSubscriber {
 public :
