@@ -122,6 +122,7 @@ add_executable(
   src/ExploInfoSubscriber.cpp
   src/ReportingMachineSrvClient.cpp
   src/ArTagClientSrv.cpp
+  src/NavigationClientAction.cpp
 )
 add_executable(
   test_publish

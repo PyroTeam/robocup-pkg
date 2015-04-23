@@ -3,13 +3,15 @@
 
 #include <string>
 #include <ros/ros.h>
-#include "geometry_msgs/Pose2D.h"
+#include <geometry_msgs/Pose2D.h>
 #include "manager_msg/activity.h"
 #include "manager_msg/order.h"
+#include "manager_msg/MoveToPoseAction.h"
 #include "FeuClientAction.h"
 #include "GripperClientSrv.h"
 #include "FinalApproachingClient.h"
 #include "ExploInfoSubscriber.h"
+#include "NavigationClientAction.h"
 
 using namespace manager_msg;
 

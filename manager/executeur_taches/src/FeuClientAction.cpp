@@ -10,7 +10,7 @@ void FeuClientAction::lightsStates(std::vector<manager_msg::LightSpec> &m_lightS
 
 	actionlib::SimpleActionClient<manager_msg::processLightSignalAction> client("processLightSignal",true);
 
-	ROS_INFO("Waiting for action Server to start");
+	ROS_INFO("Waiting for action Lights Server to start");
 
 	client.waitForServer(); 
 
