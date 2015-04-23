@@ -2,6 +2,8 @@
 #include "Machine.h"
 
 LocaSubscriber::LocaSubscriber(){
+	ros::NodeHandle n;
+	ros::Subscriber sub = n.subscribe("/landmarks",1000,&LocaSubscriber::tesCallback, this);
 }
 
 LocaSubscriber::~LocaSubscriber(){

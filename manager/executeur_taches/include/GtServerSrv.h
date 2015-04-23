@@ -1,7 +1,8 @@
 #ifndef GTSERVERSRV_H
 #define GTSERVERSRV_H
 
-#include "ros/ros.h"
+#include <ros/ros.h>
+#include <geometry_msgs/Pose2D.h>
 #include "manager_msg/order.h"
 #include "manager_msg/activity.h"
 #include "manager_msg/finalApproachingAction.h"
