@@ -23,19 +23,23 @@ manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction(){
 
 void GtServerSrv::interpretationZone(){
   int zone = this->m_id;
-  // Get bottom-left coord of zone
+  // Get center coord of zone
   x = 0;
   y = 0;
   // Right side
   if(zone>0 && zone<13) {
     x = ((zone-1)/4)*2;
     y = ((zone-1)%4)*1.5;
+    x+=1;
+    y+=0.75;
   }
   // Left side
   else if (zone<=24) {
     zone -=12;
     x = -((zone-1)/4)*2 - 2;
     y = ((zone-1)%4)*1.5;
+    y+=0.75;
+    x+=1;
   }
   else {
     ROS_ERROR("There is only 23 zones ");
@@ -255,7 +259,17 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                 break;
           case orderRequest::DISCOVER:  
                 interpretationZone();
-                //goto               
+                geometry_msgs::Pose2D pt_dest;
+                pt_dest.x = this->x;
+                pt_dest.y = this->y;
+                pt_dest.theta = 0;
+                //goto          
+                ROS_INFO("going to the point : x : %f - y : %f - theta %f",pt_dest.x,pt_dest.y,pt_dest.theta);
+                NavigationClientAction n_c;
+                int stateOfNavigation = n_c.goToAPoint(pt_dest);
+                if(stateOfNavigation == manager_msg::MoveToPoseResult::ERROR) ROS_ERROR("Can't go to this point Sorry :( ");
+                else ROS_INFO ("I went to the asked point successfully "); 
+                //    
                 int16_t m_id;
                 ArTagClienSrv atg;
                 ROS_INFO("debugg : BEFORE ASK FOR ID");

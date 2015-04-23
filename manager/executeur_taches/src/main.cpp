@@ -10,8 +10,6 @@
 #include "FeuClientAction.h"
 #include "Machine.h"
 
-LocaSubscriber loca_sub;
-
 using namespace std;
 
 int main(int argc, char **argv) {
@@ -31,13 +29,6 @@ int main(int argc, char **argv) {
     /* Publisher topic générateur de taches */
     ros::Publisher activite_pub = n.advertise<manager_msg::activity>("/task_exec_state", 1000);
 
-    /* Subscriber topic localisation */    
-    ros::Subscriber sub = n.subscribe("/landmarks",1000,&LocaSubscriber::tesCallback, &loca_sub);
-
-    /* Test du FeuClient */
-    //std::vector<manager_msg::LightSpec> lSpec;
-    //FeuClientAction f_c;
-    //f_c.lightsStates(lSpec); 
     while(ros::ok){
         ROS_INFO("I'm READY ! ");
         activite_pub.publish(gtsrv.getActivityMsg()); 
