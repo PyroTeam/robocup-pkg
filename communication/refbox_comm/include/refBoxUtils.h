@@ -1,7 +1,7 @@
 /**
  * \file 		refBoxUtils.h
  *
- * \brief		
+ * \brief
  *
  * \author		Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date		2015-03-05
@@ -21,6 +21,8 @@
 #include "comm_msg/ExplorationInfo.h"
 #include "comm_msg/ExplorationMachine.h"
 #include "comm_msg/ReportMachine.h"
+#include "comm_msg/MachineInfo.h"
+#include "comm_msg/MachineReportInfo.h"
 
 
 #include <msgs/BeaconSignal.pb.h>
@@ -45,6 +47,6 @@ enum GamePhase
 
 comm_msg::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, llsf_msgs::Team team_color);
 comm_msg::ExplorationInfo llsf2ros_explorationInfo(llsf_msgs::ExplorationInfo llsfExplorationInfo, llsf_msgs::Team team_color);
+comm_msg::MachineInfo llsf2ros_machineInfo(const llsf_msgs::MachineInfo &llsfMachineInfo);
 
 #endif /* REFBOXUTILS_H_ */
-
