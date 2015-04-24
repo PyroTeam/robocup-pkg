@@ -9,6 +9,7 @@
 #include "tableaustockage.h"
 #include "produit.h"
 #include "listetaches.h"
+#include "correspondanceZE.h"
 
 #include <ros/ros.h>
 #include <list> 
@@ -19,19 +20,24 @@
 using namespace manager_msg;
 using namespace std;
 
-void travail_phase_exploration(Machine (&tab_machine)[6], Robot (&tabrobot)[3],int &cpt_order, int robot){  
+void travail_phase_exploration(Machine (&tab_machine)[6], Robot (&tabrobot)[3],int &cpt_order, int robot,int &cpt_zone){  
   //update_zone(tab_machine,tabrobot); //trouver une maniere efficace d'attribuer aux machines un robot
-  int k=0;
-  while((k<NBR_MACHINES) && (tab_machine[k].get_traite()) && (robot != tab_machine[k].get_robot())) {
-    k++;
-    }
-  Srvorder srvexplo(ros::Time::now(),cpt_order,robot+1,orderRequest::DISCOVER,orderRequest::NONE,k+1);
-  cout <<"Robot n°"<<robot<<" execute la tache :DISCOVER sur la machine n°"<<k<<endl;
-  cpt_order++;
-  if(1/*srvexplo.get_accepted()*/){ //pour l'instant reponse du service non faite
-    tab_machine[k].set_traite(true);
-    tabrobot[robot].set_occupe(true);
-  }
+  int cpt_machine=0;
+  CorrespondanceZE correspondanceZE;
+  vector<int> zone = correspondanceZE.get_zone_utile();
+  if(zone.size() == 12){
+		while(cpt_machine<6){
+			Srvorder srvexplo(ros::Time::now(),cpt_order,robot+1,orderRequest::DISCOVER,orderRequest::NONE,zone[cpt_zone]);
+			cpt_zone++;
+			cout <<"Robot n°"<<robot<<" execute la tache DISCOVER sur la zone n "<<zone[cpt_zone]<<endl;
+			cpt_order++;
+			if(srvexplo.get_accepted()){ //pour l'instant reponse du service non faite
+				//tab_machine[k].set_traite(true);
+				cpt_machine++;
+				tabrobot[robot].set_occupe(true);
+			}
+		}
+	}
 }
 
 
