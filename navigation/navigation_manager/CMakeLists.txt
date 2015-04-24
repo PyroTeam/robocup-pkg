@@ -1,17 +1,18 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(path_finder)
+project(navigation_manager)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  actionlib
+  deplacement_msg
   geometry_msgs
   nav_msgs
+  robotino_msgs
   roscpp
   rospy
   std_msgs
-  tf
-  deplacement_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -71,7 +72,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs#   nav_msgs#   std_msgs
+#   geometry_msgs#   nav_msgs#   robotino_msgs#   std_msgs
 # )
 
 ###################################
@@ -84,10 +85,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include/path_finder
-#  LIBRARIES path_finder
-  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs tf
-#  DEPENDS system_lib
+  INCLUDE_DIRS include  include/navigation_manager
+  LIBRARIES navigation_manager
+  CATKIN_DEPENDS actionlib deplacement_msg geometry_msgs nav_msgs robotino_msgs roscpp rospy std_msgs
+  DEPENDS system_lib
 )
 
 ###########
@@ -98,31 +99,30 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-	include/path_finder
+  include
+  include/navigation_manager
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
-# add_library(path_finder
-#   src/${PROJECT_NAME}/path_finder.cpp
+# add_library(navigation_manager
+#   src/${PROJECT_NAME}/navigation_manager.cpp
 # )
 
 ## Declare a cpp executable
-add_executable(construct_map_node src/Map.cpp)
-add_executable(construct_map_test src/Test.cpp)
+add_executable(navigation_manager_node
+  src/navigation_manager_node.cpp
+  src/moveToPose.cpp
+)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(construct_map_node path_finder_generate_messages_cpp deplacement_msg_gencpp)
-add_dependencies(construct_map_test path_finder_generate_messages_cpp deplacement_msg_gencpp)
+add_dependencies(navigation_manager_node navigation_manager_generate_messages_cpp deplacement_msg_gencpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(construct_map_node
- ${catkin_LIBRARIES}
-  )
-  target_link_libraries(construct_map_test
- ${catkin_LIBRARIES}
-  )
+ target_link_libraries(navigation_manager_node
+  ${catkin_LIBRARIES}
+ )
 
 #############
 ## Install ##
@@ -139,7 +139,7 @@ target_link_libraries(construct_map_node
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS path_finder path_finder_node
+# install(TARGETS navigation_manager navigation_manager_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -164,7 +164,7 @@ target_link_libraries(construct_map_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_path_finder.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_navigation_manager.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

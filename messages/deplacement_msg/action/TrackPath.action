@@ -1,0 +1,12 @@
+# Define the goal
+uint16 id
+---
+# Define the result
+int16 result
+
+int16 FINISHED=1
+int16 ERROR=2
+---
+# Define a feedback message
+uint8 percent_complete
+uint16 id
