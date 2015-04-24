@@ -25,21 +25,8 @@ void correctAngle(double &angle){
 }
 
 void odomCallback(const nav_msgs::Odometry& odom){
-    static bool first = true;
-    static double x0 = 0.0, y0 = 0.0, theta0 = 0.0;
-    nav_msgs::Odometry newOdom = odom;/*
-    if (first){
-        x0 = odom.pose.pose.position.x;
-        y0 = odom.pose.pose.position.y;
-        theta0 = tf::getYaw(odom.pose.pose.orientation);
-        first = false;
-    }
-    newOdom.pose.pose.position.x -=  x0;
-    newOdom.pose.pose.position.y -=  y0;
-    double angle = atan2(tan(tf::getYaw(odom.pose.pose.orientation) - theta0),1);
-    correctAngle(angle);
-    newOdom.pose.pose.orientation = tf::createQuaternionMsgFromYaw(angle);
-*/
+    nav_msgs::Odometry newOdom = odom;
+
     double diff = tf::getYaw(odom.pose.pose.orientation) - tf::getYaw(prec.pose.pose.orientation);
     if (diff > M_PI){
         diff -= 2*M_PI;
