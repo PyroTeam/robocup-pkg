@@ -12,7 +12,7 @@ int main(int argc, char **argv){
 	ros::Time game_time = ros::Time::now();
 	srv.request.number_order = 0;
 	srv.request.number_robot = 0;
-	srv.request.type = 9; // TAKE_BASE
+	srv.request.type = 9; 
 	srv.request.parameter = 10;
 	srv.request.id = 2;
 	if(client.call(srv)){

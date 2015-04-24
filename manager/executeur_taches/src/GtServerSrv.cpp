@@ -32,9 +32,7 @@ geometry_msgs::Pose2D GtServerSrv::calculOutPoint(geometry_msgs::Pose2D pt_actue
         geometry_msgs::Pose2D pt_dest, center;
         center.x = m_ls->machine[zone - 1].x;
         center.y = m_ls->machine[zone - 1].y;
-        center.theta = m_ls->machine[zone - 1].theta;
-        //center = m_ls->machine[req.id - 1];
-        //pt_actuel = pt_dest;
+        center.theta = m_ls->machine[zone - 1].theta;;
         pt_dest.x = 2*center.x - pt_actuel.x;
         pt_dest.y = 2*center.y - pt_actuel.y;
         pt_dest.theta = pt_actuel.theta - M_PI;
@@ -339,7 +337,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                   if(m_ei->m_signals.size() != 0) {
                                           m.getBS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
-                                          rm_c.reporting(name, m_ei->type,m_id);
+                                          rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                   }
                               } 
                               else if (m_id == C_BS_IN || m_id == M_BS_IN){
@@ -350,7 +348,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                 if(m_ei->m_signals.size() != 0) {
                                         m.getBS().readlights(m_ei->lSpec);
                                         m_ei->interpretationFeu();
-                                        rm_c.reporting(name, m_ei->type,m_id);
+                                        rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                 }
                               }
                               break;
@@ -369,7 +367,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getRS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
-                                          rm_c.reporting(name, m_ei->type,m_id);
+                                          rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                       }
                                   }  
                                   else if(m_id == C_RS2_OUT || m_id == M_RS2_OUT){
@@ -377,18 +375,18 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getRS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
-                                          rm_c.reporting(name, m_ei->type,m_id);
+                                          rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                       }
                                   }  
                                   else if(m_id == C_RS1_IN || m_id == M_RS1_IN){
-                                        pt_actuel = pt_dest;
-                                        pt_dest = calculOutPoint(pt_actuel, req.id);
-                                        going(pt_dest);
-                                        m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                       pt_actuel = pt_dest;
+                                       pt_dest = calculOutPoint(pt_actuel, req.id);
+                                       going(pt_dest);
+                                       m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getRS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
-                                          rm_c.reporting(name, m_ei->type,m_id);
+                                          rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                        }
                                   }  
                                   else if(m_id == C_RS2_IN || m_id == M_RS2_IN){
@@ -399,7 +397,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getRS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
-                                          rm_c.reporting(name, m_ei->type,m_id);
+                                          rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                        }
                                   }  
                               break;
@@ -417,7 +415,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getCS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
-                                          rm_c.reporting(name, m_ei->type,m_id);
+                                          rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                       }
                                   }  
                                   else if(m_id == C_CS2_OUT || m_id == M_CS2_OUT){
@@ -425,7 +423,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getCS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
-                                          rm_c.reporting(name, m_ei->type,m_id);
+                                          rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                       }
                                   }  
 
@@ -437,7 +435,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getCS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
-                                          rm_c.reporting(name, m_ei->type,m_id);
+                                          rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                         }
                                        
                                   }  
@@ -449,7 +447,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getCS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
-                                          rm_c.reporting(name, m_ei->type,m_id);
+                                          rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                        }
                                   }   
                               break;
@@ -458,11 +456,11 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       case C_DS_IN  :
                       case C_DS_OUT :
                               if(m_id == C_DS_IN || m_id == M_DS_IN){
-                                  m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                   m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
                                    if(m_ei->m_signals.size() != 0) {
                                           m.getDS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
-                                          rm_c.reporting(name, m_ei->type,m_id);
+                                          rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                    }
                               } 
                               else if (m_id == C_DS_OUT || m_id == M_DS_OUT){
@@ -473,7 +471,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                   if(m_ei->m_signals.size() != 0) {
                                           m.getDS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
-                                          rm_c.reporting(name, m_ei->type,m_id);
+                                          rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                   }
                               }
                               break;
