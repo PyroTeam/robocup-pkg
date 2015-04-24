@@ -1,7 +1,7 @@
 #include "etatdujeu.h"
 #include <ros/ros.h>
 
-#include "manager_msg/GameState.h" //a passer apres en comm_msg/GameState.h
+#include "comm_msg/GameState.h" //a passer apres en comm_msg/GameState.h
 
 void Etatdujeu::gsCallback(const manager_msg::GameState &msg) //ici aussi
 {
