@@ -169,6 +169,7 @@ add_dependencies(visualisation deplacement_msg_generate_messages_cpp)
 add_dependencies(try deplacement_msg_generate_messages_cpp)
 add_dependencies(EKF_node_2 deplacement_msg_generate_messages_cpp)
 add_dependencies(EKF_node deplacement_msg_generate_messages_cpp)
+add_dependencies(Cartographie deplacement_msg_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 
