@@ -14,7 +14,7 @@
 #include "travailphase.h"
 #include "etatdujeu.h"
 
-#include "manager_msg/GameState.h" //a changer en comm_msg plus tard
+#include "comm_msg/GameState.h" //a changer en comm_msg plus tard
 
 using namespace std;
 using namespace manager_msg;
@@ -55,6 +55,8 @@ int main(int argc, char **argv) {
   double t0 = ros::Time::now().toSec();
   double temps = t0;
   
+  int cpt_zone = 0;
+  
   /***FONCTION PRINCIPALE ***/
     
     
@@ -65,14 +67,14 @@ int main(int argc, char **argv) {
       cout << "temps en sec = " << temps << endl;
       action_exec.update_robot(tabrobot);
       //mettre a jour les infos envoyees par la refbox
-      if(!tabrobot[j].get_occupe()){
-        if(etat_jeu.get_phase()==GameState::EXPLORATION && !exploration_finie(tab_machine)){
+      if(!tabrobot[j].get_occupe() && cpt_zone<12){
+        if(etat_jeu.get_phase()==GameState::EXPLORATION /*&& !exploration_finie(tab_machine)*/){
           travail_phase_exploration(tab_machine,tabrobot,cpt_order,j);  
         }
-        if(etat_jeu.get_phase()==GameState::PRODUCTION && !work.empty()){
+        /*if(etat_jeu.get_phase()==GameState::PRODUCTION && !work.empty()){
           travail_phase_production(work,tab_machine,tabrobot,tab_stock,take,cpt_order,j,cap_dispo,storage,order,temps);
           get_info_liste_de_liste(work);
-        }
+        }*/
       }
     ros::spinOnce();
     loop_rate.sleep();
