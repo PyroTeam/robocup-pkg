@@ -10,9 +10,36 @@ inline double getTimeAsDouble(ros::Time t){
     return double(t.sec) + double(t.nsec)/1000000000.0;
 }
 
-void odomCallback(const nav_msgs::Odometry& odom){
-    nav_msgs::Odometry newOdom = odom;
+void correctAngle(double &angle){
+  double dx = 0;
+  while (angle > M_PI || angle <= -M_PI){
+    if (angle > M_PI){
+      dx = M_PI - angle;
+      angle = -M_PI + dx;
+    }
+    else if (angle <= -M_PI){
+      dx = -M_PI - angle;
+      angle = M_PI - dx;
+    }
+  }
+}
 
+void odomCallback(const nav_msgs::Odometry& odom){
+    static bool first = true;
+    static double x0 = 0.0, y0 = 0.0, theta0 = 0.0;
+    nav_msgs::Odometry newOdom = odom;/*
+    if (first){
+        x0 = odom.pose.pose.position.x;
+        y0 = odom.pose.pose.position.y;
+        theta0 = tf::getYaw(odom.pose.pose.orientation);
+        first = false;
+    }
+    newOdom.pose.pose.position.x -=  x0;
+    newOdom.pose.pose.position.y -=  y0;
+    double angle = atan2(tan(tf::getYaw(odom.pose.pose.orientation) - theta0),1);
+    correctAngle(angle);
+    newOdom.pose.pose.orientation = tf::createQuaternionMsgFromYaw(angle);
+*/
     double diff = tf::getYaw(odom.pose.pose.orientation) - tf::getYaw(prec.pose.pose.orientation);
     if (diff > M_PI){
         diff -= 2*M_PI;

@@ -279,7 +279,8 @@ Machine calculateCoordMachine(Segment s){
   double tmp = atan2(tan(angle),1);
 
   //optimisation possible
-  /*if ((size > p-seuil) && (size < p+seuil)){
+  /*
+  if ((size > p-seuil) && (size < p+seuil)){
     c1.x = absMilieu - g/2*sin(angle);
     c1.y = ordMilieu + g/2*cos(angle);
 

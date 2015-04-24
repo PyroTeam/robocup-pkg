@@ -8,156 +8,99 @@
 #include "geometry_msgs/Pose2D.h"
 #include "geometry_msgs/Twist.h"
 #include "nav_msgs/Odometry.h"
+#include "laserScan.h"
+#include "landmarks_detection_utils.h"
 
-#include "EKF_functions.h"
+#include "EKF_class.h"
 
 using namespace Eigen;
-
-geometry_msgs::Pose2D odomRobot;
-geometry_msgs::Pose2D initRobot;
-
-VectorXd xMean;
-MatrixXd P;
-
-Vector3d xPredicted;
-Vector3d cmdVel;
-
-std::vector<geometry_msgs::Pose2D> tabMachines;
-ros::Time temps;
-
-void init(std::string s, int num){
-  /*int color = 0;
-  if (s == "cyan"){
-    color = 1;
-  }
-  else {
-    color = -1;
-  }
-
-  m_initRobot.theta =  0.0;
-  m_initRobot.y   = -0.5;
-
-  switch(n){
-    case 1 :
-      m_initRobot.x = color*3.5;
-    break;
-    case 2 :
-      m_initRobot.x = color*4.5;
-    break;
-    case 3 :
-      m_initRobot.x = color*5.5;
-    break;
-    default :
-    break;
-  }*/
-
-  initRobot.x     = 0.0;
-  initRobot.y     = 0.0;
-  initRobot.theta = 0.0;
-
-  xMean.conservativeResize(3);
-  xMean.setZero();
-  P.conservativeResize(3,3);
-  P.setZero();
-
-  temps = ros::Time::now();
-}
-
-void odomCallback(const nav_msgs::Odometry& odom){
-  odomRobot.x = odom.pose.pose.position.x;
-  odomRobot.y = odom.pose.pose.position.y;
-  odomRobot.theta = tf::getYaw(odom.pose.pose.orientation);
-
-  cmdVel(0) = odom.twist.twist.linear.x;
-  cmdVel(1) = odom.twist.twist.linear.y;
-  cmdVel(2) = odom.twist.twist.angular.z;
-
-  std::cout << "cmdVel = \n" << cmdVel << std::endl;
-}
-
-void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
-  tabMachines.clear();
-  for (auto &it : machines->landmarks){
-    geometry_msgs::Pose2D posLaser;
-    posLaser.x     = it.x;
-    posLaser.y     = it.y;
-    posLaser.theta = it.theta;
-    //changement de base vers le repère du robot
-    geometry_msgs::Pose2D p = LaserToRobot(posLaser);
-    //changment de base dans le repère global
-
-    geometry_msgs::Pose2D pDansRepereGlobal = RobotToGlobal(p,initRobot,odomRobot);
-    if (pDansRepereGlobal.x > -6.0 &&
-        pDansRepereGlobal.x <  6.0 &&
-        pDansRepereGlobal.y >  0.0 &&
-        pDansRepereGlobal.y <  6.0)
-    {
-      tabMachines.push_back(pDansRepereGlobal);
-    }
-  }
-}
 
 int main( int argc, char** argv )
 {
   ros::init(argc, argv, "EKF_node");
 
   ros::NodeHandle n;
-
-  ros::Subscriber sub_odom     = n.subscribe("/new_odom", 1000, &odomCallback);
-  ros::Subscriber sub_machines = n.subscribe("/machines", 1000, &machinesCallback);
-
-  ros::Publisher pub_robot = n.advertise<geometry_msgs::Point>("/robot", 1000);
-  ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("/m", 1000);
-
   //selon la couleur de l'équipe (côté du terrain) et le numéro du robot,
   //on choisit une position initiale pour initialiser l'odométrie et la position initRobot
   std::string s;
-  n.param<std::string>("Team_Color", s, "cyan");    //à droite
+  n.param<std::string>("teamColor", s, "cyan");    //à droite
   int num;
-  n.param<int>("Robot_Number", num, 1);             //robot 1 par défaut
+  n.param<int>("robotNumber", num, 1);             //robot 1 par défaut
+ 
+  std::cout << s << "\n" << num << std::endl;
 
-  init(s,num);
+  EKF ekf = EKF(s, num);
 
-  ros::Rate loop_rate(5);
+  ros::Subscriber sub_odom     = n.subscribe("/new_odom", 1000, &EKF::odomCallback, &ekf);
+  ros::Subscriber sub_machines = n.subscribe("/machines", 1000, &EKF::machinesCallback, &ekf);
+  ros::Subscriber sub_laser    = n.subscribe("/laser", 1000, &EKF::laserCallback, &ekf);
+
+  ros::Publisher pub_robot    = n.advertise< geometry_msgs::Point >("/robot", 1000);
+  ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("/landmarks", 1000);
+  ros::Publisher pub_laser    = n.advertise< deplacement_msg::Landmarks >("/scan_global", 1000);
+
+  ros::Rate loop_rate(10);
 
   int cpt = 0;
 
   while (ros::ok())
   {
-    xPredicted = prediction(xMean, P, cmdVel, temps);
-    int pos = 0;
-    //std::cout << "odométrie du robot : \n" << odomRobot << "\n" << std::endl;
+    ekf.prediction();
+    int pos = 0, area = 0;
 
     //si on observe une machine
-    if (tabMachines.size() > 0/* && cpt < 12*/){
-      for (auto &it : tabMachines){
-        //si le vecteur d'état contient déjà des machines
-        if (xMean.rows() > 3){
-          //on cherche une correspondance
-          pos = checkStateVector(xMean, it);
-          //s'il n'y en a pas
-          if (pos == 0){
-            //std::cout << "la machine n'existe pas \n" << std::endl;
-            addMachine(it, xMean, P);
+    if (ekf.getTabMachines().size() > 0){
+      //pour toutes les machines observées
+      for (auto &it : ekf.getTabMachines()){
+        //on transpose la machine dans le repère global
+        geometry_msgs::Pose2D m = ekf.RobotToGlobal(ekf.LaserToRobot(it));
+
+        int pos = ekf.checkStateVector(m);
+        if (pos != 0){
+          ekf.correction(m,pos);
+        }
+        else {
+          ekf.addMachine(m,area);
+          cpt++;
+        }
+
+        /*
+        //on convertit la machine en zone
+        int area = ekf.machineToArea(m);
+
+        if (area != 0){
+          std::cout << "machine (" << m.x << "," << m.y << ") dans zone " << area << std::endl;
+        }
+
+        //si la zone est cohérente
+        if ((area != 0) && (std::abs(m.x) < 2.8) && (std::abs(m.y - 3.0) < 2.8)){
+          //s'il n'y pas eu de machines déclarées dans la zone précédemment
+          if (!ekf.test(area)){
+            //on l'ajoute
+            ekf.addMachine(m,area);
             cpt++;
-            //std::cout << "ajout machine\n" << std::endl;
+            std::cout << "ajout machine (" << m.x << "," << m.y << ") dans zone " << area << std::endl;
           }
           else {
-            //std::cout << "la machine existe en position " << pos/3 << "\n" << std::endl;
-            correction(xMean, P, xPredicted, pos);
-            //std::cout << "xMean : \n" << xMean << "\n" << std::endl;
+            int pos = ekf.checkStateVector(m);
+            if (pos != 0){
+              //std::cout << " position dans le vecteur d'état : " << pos << std::endl;
+              //std::cout << "correction machine dans zone " << area << std::endl;
+              std::cout << "correction machine à la position " << pos/3 << std::endl;
+              ekf.correction(m,pos);
+            }
           }
-        }
-        else{
-          //std::cout << "il n'y a jamais eu de machine \n" << std::endl;
-          addMachine(it, xMean, P);
-          cpt++;
-          //std::cout << "ajout machine\n" << std::endl;
-        }
+        }*/
       }      
     }
 
-    std::cout << "vecteur d'état : \n" << xMean << "\n" << std::endl;
+    //std::cout << "machine(s) ajoutée(s) = " << cpt << "\n" << std::endl;
+
+    VectorXd xMean = ekf.getXmean();
+    std::cout << "xMean : \n" << xMean << std::endl;
+
+    ekf.printZones();
+
     geometry_msgs::Point robot;
     robot.x = xMean(0);
     robot.y = xMean(1);
@@ -165,17 +108,23 @@ int main( int argc, char** argv )
     deplacement_msg::Landmarks m;
     for (int i = 3; i < xMean.rows(); i = i + 3){
       geometry_msgs::Pose2D md;
-      md.x = xMean(i);
-      md.y = xMean(i+1);
+      md.x     = xMean(i);
+      md.y     = xMean(i+1);
+      md.theta = xMean(i+2);
       m.landmarks.push_back(md);
+    }
+
+    deplacement_msg::Landmarks l;
+    for (auto &it : ekf.getScan()){
+      l.landmarks.push_back(it);
     }
 
     pub_robot.publish(robot);
     pub_machines.publish(m);
+    pub_laser.publish(l);
 
     m.landmarks.clear();
-
-    std::cout << "machine(s) ajoutée(s) = " << cpt << "\n" << std::endl;
+    l.landmarks.clear();
 
     // Spin
     ros::spinOnce();

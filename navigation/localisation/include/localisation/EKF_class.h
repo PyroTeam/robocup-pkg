@@ -10,7 +10,6 @@
 #include <string>
 
 #include "deplacement_msg/Landmarks.h"
-#include "EKF_functions.h"
 #include "laserScan.h"
 #include "landmarks_detection_utils.h"
 
@@ -30,14 +29,10 @@ public:
 	void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines);
 	void laserCallback(const deplacement_msg::LandmarksConstPtr& laser);
 
-	void correctAngle(double &angle);
-	void correctStateVector();
-
 	geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser);
 	geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p);
 	VectorXd RobotToLaser(VectorXd PosRobot);
 	VectorXd GlobalToRobot(VectorXd p);
-	void cmdVelDansGlobal(double angle);
 
 	void addMachine(geometry_msgs::Pose2D machine, int area);
 
