@@ -19,67 +19,13 @@ pubAngle = rospy.Publisher('/t_angle', Float32, queue_size=10)
 pubErrAngle = rospy.Publisher('/t_err_angle', Float32, queue_size=10)
 pubInfos = rospy.Publisher('/tracker_info', Float32, queue_size=10)
 
-# Tableau de points a suivre (PoseStamped)
+# Tableau de points a suivre et dernier chemin sauve (PoseStamped)
 points = []
-
-point = PoseStamped()
-point.pose.position.x = 0
-point.pose.position.y = 0
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = 0.3
-point.pose.position.y = 0.3
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = 0.6
-point.pose.position.y = 0
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = 0.9
-point.pose.position.y = -0.3
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = 1.2
-point.pose.position.y = 0
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = 0.9
-point.pose.position.y = 0.3
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = 0.6
-point.pose.position.y = 0
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = 0.3
-point.pose.position.y = -0.3
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = 0
-point.pose.position.y = 0
-points.append(point)
-
-
-point = points[0].pose.position
-
-
-
-
-
-
-
-
-
-
-
+path = []
+pathId = 0
+pointsId = 0
+stopRobot = True
+pathFinished = False
 
 
 #*====================================
@@ -90,6 +36,7 @@ class TrackPathAction(object):
   # create messages that are used to publish feedback/result
   _feedback = deplacement_msg.msg.TrackPathFeedback()
   _result   = deplacement_msg.msg.TrackPathResult()
+  _state   = deplacement_msg.msg.TrackPathResult()
 
   def __init__(self, name):
     self._action_name = "trackPath"
@@ -97,33 +44,73 @@ class TrackPathAction(object):
     self._as.start()
     
   def execute_cb(self, goal):
+    global points
+    global path
+    global pathId
+    global pointsId
+    global stopRobot
+    global pathFinished
+
     # helper variables
     r = rospy.Rate(1)
-    success = True
+    success = False
+    failure = False
 
-    idPath = goal.id    
-    
-    # Fill the feedback
-    self._feedback.percent_complete=50
-    self._feedback.id=idPath
-    
-    # publish info to the console for the user
-    rospy.loginfo('%s: Executing, creating TrackPath sequence of order, %i' % (self._action_name, goal.id))
-    
-    # start executing the action
+    ## Check l'id du Path
+    idPath = goal.id
+    # Already running the good path
+    if pointsId == idPath:
+        pass
+    # New path requested, path received from pathfinder 
+    elif pathId == idPath:
+        points = path
+        pointsId = pathId
+        stopRobot = False
+        pathFinished = False
+    # New path requested, but path not received from pathfinder
+    else:
+        failure = True
+        stopRobot = True
 
-    # check that preempt has not been requested by the client
-    if self._as.is_preempt_requested():
-        rospy.loginfo('%s: Preempted' % self._action_name)
-        self._as.set_preempted()
-        success = False
-    # publish the feedback
-    self._as.publish_feedback(self._feedback) 
+    if not failure:
+        # Log
+        rospy.loginfo('%s: Executing, creating TrackPath sequence of order, %i' % (self._action_name, goal.id))
+
+        # Do we have finished
+        while not pathFinished:
+
+            # Fill the feedback
+            self._feedback.percent_complete=50
+            self._feedback.id=idPath
+            
+            # Check that preempt has not been requested by the client
+            if self._as.is_preempt_requested():
+                rospy.loginfo('%s: Preempted' % self._action_name)
+                self._as.set_preempted()
+                success = False
+                stopRobot = True
+                break
+
+            # Publish the feedback
+            self._as.publish_feedback(self._feedback)
+
+            rospy.sleep(0.1)
+
+        if pathFinished:
+            success = True        
       
+    # Process the result if needed
+    rospy.loginfo('Before Result')
     if success:
+      rospy.loginfo('SUCESS')
       self._result.result = self._result.FINISHED
       rospy.loginfo('%s: Succeeded' % self._action_name)
       self._as.set_succeeded(self._result)
+    elif failure:
+      rospy.loginfo('FAILURE')
+      self._result.result = self._result.ERROR
+      rospy.loginfo('%s: Failed' % self._action_name)
+      self._as.set_aborted(self._result)
 
 #*-----  End of CLASS ACTION  ------*/
 
@@ -169,6 +156,12 @@ def closestPoint(segmentStart, segmentStop, point):
 
 
 def callbackOdom(data):
+    global points
+    global path
+    global pathId
+    global pointsId
+    global stopRobot
+    global pathFinished
 
     # Chercher point le plus proche
     pose = Point()
@@ -176,7 +169,8 @@ def callbackOdom(data):
     pose.y = data.pose.pose.position.y
     closest = Point()
     display = False
-    stopTurtle = False
+    if len(points) != 0:
+        stopRobot = False
     pointObjectif = points[0].pose.position
     for i in xrange(len(points)):
         display = True
@@ -195,7 +189,8 @@ def callbackOdom(data):
                     break
             else:
                 closest = start
-                stopTurtle = True
+                stopRobot = True
+                pathFinished = True
 
     if display:
         rospy.loginfo(closest)
@@ -241,7 +236,7 @@ def callbackOdom(data):
     vitAngle = errAnglePointSuiv*1
 
     rospy.loginfo("----------------")
-    rospy.loginfo(stopTurtle)
+    rospy.loginfo(stopRobot)
     rospy.loginfo("PointObjectif : ")
     rospy.loginfo(pointObjectif)
     rospy.loginfo("Pose : ")
@@ -260,8 +255,8 @@ def callbackOdom(data):
 
     # Publication du message sur le topic
     vel_msg = Twist()
-    # stopTurtle = True
-    if not stopTurtle:
+    # stopRobot = True
+    if not stopRobot:
         vel_msg.linear.x = 0.2
         vel_msg.linear.y = errAngle/10
         vel_msg.angular.z = vitAngle*1
@@ -277,8 +272,15 @@ def callbackOdom(data):
 
 
 def callbackPath(data):
-    # rospy.loginfo(data.id)
-    points = data.path.poses
+    global points
+    global path
+    global pathId
+    global pointsId
+    global stopRobot
+    global pathFinished
+
+    path = data.path.poses
+    pathId = data.id
 
 def path_tracker_node():
     rospy.init_node('path_tracker_node', anonymous=False)
