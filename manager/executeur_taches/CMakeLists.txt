@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib_msgs
   actionlib
   manager_msg
+  comm_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -126,21 +127,21 @@ add_executable(
   src/NavigationClientAction.cpp
   src/MPS.cpp
 )
-add_dependencies(test_exec manager_msg_gencpp)
+add_dependencies(test_exec manager_msg_gencpp trait_im_msg_gencpp comm_msg_gencpp)
 
 add_executable(
   test_publish
 
   src/fake_publisher_node.cpp
 )
-add_dependencies(test_publish manager_msg_gencpp)
+add_dependencies(test_publish manager_msg_gencpp comm_msg_gencpp)
 
 add_executable(
   test_lights
 
   src/fake_light_server_node.cpp
 )
-add_dependencies(test_lights manager_msg_gencpp)
+add_dependencies(test_lights manager_msg_gencpp comm_msg_gencpp)
 
 add_executable(
   test_order
@@ -148,11 +149,11 @@ add_executable(
   src/fake_client_order.cpp
 )
 
-add_dependencies(test_order manager_msg_gencpp)
+add_dependencies(test_order manager_msg_gencpp comm_msg_gencpp)
 
 
 add_executable(finalApproaching_client src/finalApproaching_client.cpp)
-add_dependencies(finalApproaching_client manager_msg_gencpp)
+add_dependencies(finalApproaching_client manager_msg_gencpp comm_msg_gencpp)
 
 add_executable(
   test_ei
@@ -174,7 +175,7 @@ add_executable(
 
   src/fake_action_navigation.cpp
 )
-add_dependencies(test_navigation manager_msg_gencpp)
+add_dependencies(test_navigation manager_msg_gencpp comm_msg_gencpp)
 
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
