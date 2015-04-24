@@ -7,7 +7,7 @@ project(executeur_taches)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  actionlib_msgs 
+  actionlib_msgs
   actionlib
   manager_msg
 )
@@ -107,7 +107,7 @@ include_directories(
 ## Declare a cpp executable
 add_executable(
   test_exec
-  
+
   src/main.cpp
   src/Machine.cpp
   src/BaseStation.cpp
@@ -130,21 +130,21 @@ add_dependencies(test_exec manager_msg_gencpp)
 
 add_executable(
   test_publish
-  
+
   src/fake_publisher_node.cpp
 )
 add_dependencies(test_publish manager_msg_gencpp)
 
 add_executable(
   test_lights
-  
+
   src/fake_light_server_node.cpp
 )
 add_dependencies(test_lights manager_msg_gencpp)
 
 add_executable(
   test_order
-  
+
   src/fake_client_order.cpp
 )
 
@@ -156,24 +156,25 @@ add_dependencies(finalApproaching_client manager_msg_gencpp)
 
 add_executable(
   test_ei
-  
+
   src/fake_publisher_ei.cpp
 )
 add_executable(
   test_arTag
-  
+
   src/fake_arTag_server.cpp
 )
 add_executable(
   test_report
-  
+
   src/fake_server_reporting.cpp
 )
 add_executable(
   test_navigation
-  
+
   src/fake_action_navigation.cpp
 )
+add_dependencies(test_navigation manager_msg_gencpp)
 
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
