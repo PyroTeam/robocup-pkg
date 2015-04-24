@@ -139,20 +139,25 @@ add_executable(
 add_executable(
   EKF_node_2
   src/EKF_2.cpp
-  src/EKF_class.cpp)
+  src/EKF_class_2.cpp)
 
 add_executable(
   EKF_node
   src/EKF.cpp
   src/EKF_functions.cpp)
 
+add_executable(
+  Cartographie
+  src/Cartographie.cpp)
+
 set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(odometry_correction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(visualisation PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(try PROPERTIES COMPILE_FLAGS -std=c++0x)
-set_target_properties(EKF_node_2 PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(EKF_node_2 PROPERTIES COMPILE_FLAGS "-std=c++0x -g3")
 set_target_properties(EKF_node PROPERTIES COMPILE_FLAGS -std=c++0x)
+set_target_properties(Cartographie PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -188,6 +193,10 @@ target_link_libraries(
 )
 target_link_libraries(
   EKF_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  Cartographie
   ${catkin_LIBRARIES}
 )
 

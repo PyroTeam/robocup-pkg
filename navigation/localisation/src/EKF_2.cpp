@@ -23,10 +23,10 @@ int main( int argc, char** argv )
   //selon la couleur de l'équipe (côté du terrain) et le numéro du robot,
   //on choisit une position initiale pour initialiser l'odométrie et la position initRobot
   std::string s;
-  n.param<std::string>("Team_Color", s, "cyan");    //à droite
+  n.param<std::string>("teamColor", s, "cyan");    //à droite
   int num;
-  n.param<int>("Robot_Number", num, 1);             //robot 1 par défaut
-
+  n.param<int>("robotNumber", num, 1);             //robot 1 par défaut
+ 
   std::cout << s << "\n" << num << std::endl;
 
   EKF ekf = EKF(s, num);
@@ -39,7 +39,7 @@ int main( int argc, char** argv )
   ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("/landmarks", 1000);
   ros::Publisher pub_laser    = n.advertise< deplacement_msg::Landmarks >("/scan_global", 1000);
 
-  ros::Rate loop_rate(5);
+  ros::Rate loop_rate(10);
 
   int cpt = 0;
 
@@ -48,7 +48,11 @@ int main( int argc, char** argv )
     ekf.prediction();
     int pos = 0, area = 0;
     //std::cout << "odométrie du robot : \n" << odomRobot << "\n" << std::endl;
-
+    
+    if (ekf.getTabMachines().size() != 0){
+      std::cout << "je vois " << ekf.getTabMachines().size() << " machine" << std::endl;
+    }
+    
     //si on observe une machine
     if (ekf.getTabMachines().size() > 0 && cpt < 12){
       //pour toutes les machines observées
@@ -56,42 +60,40 @@ int main( int argc, char** argv )
         //on convertit la machine en zone
         int area = ekf.machineToArea(it);
 
-        //std::cout << "la machine (" << it.x << "," << it.y << ")" << " appartient à la zone " << area << std::endl;
-        
-        //si le vecteur d'état contient déjà des machines
-        if (ekf.getXmean().rows() > 3){
+        //std::cout << "machine (" << it.x << "," << it.y << ") dans zone " << area << std::endl;
+        //si la zone est cohérente
+        if (area != 0){
           //s'il n'y pas eu de machines déclarées dans la zone précédemment
           if (!ekf.test(area)){
             //on l'ajoute
-            ekf.addMachine(it);
-            ekf.setZone(area);
+            ekf.addMachine(it,area);
             cpt++;
-            std::cout << "ajout machine dans zone " << area << std::endl;
+            std::cout << "ajout machine (" << it.x << "," << it.y << ") dans zone " << area << std::endl;
           }
           else {
             int pos = ekf.checkStateVector(it);
+            std::cout << "correction machine à la position " << pos/3 << std::endl;
             if (pos != 0){
+              //std::cout << " position dans le vecteur d'état : " << pos << std::endl;
+              //std::cout << "correction machine dans zone " << area << std::endl;
               ekf.correction(it,pos);
-              std::cout << "correction machine dans zone " << area << std::endl;
             }
           }
-        }
-        else{
-          //std::cout << "il n'y a jamais eu de machine \n" << std::endl;
-          ekf.addMachine(it);
-          ekf.setZone(area);
-          cpt++;
+        }/*
+        else if (ekf.getXmean().size() == 3) {
           std::cout << "premier ajout machine dans zone " << area << std::endl;
-        }
+          ekf.addMachine(it,area);
+          cpt++;
+        }*/
       }      
     }
 
     //std::cout << "machine(s) ajoutée(s) = " << cpt << "\n" << std::endl;
 
     VectorXd xMean = ekf.getXmean();
-    //std::cout << "xMean : \n" << xMean << std::endl;
+    std::cout << "xMean : \n" << xMean << std::endl;
 
-    ekf.printZones();
+    //ekf.printZones();
 
     geometry_msgs::Point robot;
     robot.x = xMean(0);
