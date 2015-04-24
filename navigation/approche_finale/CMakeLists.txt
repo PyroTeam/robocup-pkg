@@ -102,6 +102,7 @@ add_executable(finalApproaching_node
   src/Point.cpp
   src/Segment.cpp
   src/finalApproaching.cpp
+  src/bumperlistener.cpp
   src/finalApproaching_server.cpp)
 
 target_link_libraries(

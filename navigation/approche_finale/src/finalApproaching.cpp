@@ -23,7 +23,7 @@ int a=0,b=0,c=0,d=0;
     ROS_INFO("test2");
     ros::Rate loop_rate(100);
     m_pub_mvt = nh_.advertise<geometry_msgs::Twist>("/cmd_vel",1000);
-    m_marker_pub = n.advertise<visualization_msgs::Marker>("/visualization_marker",1000);
+    //m_marker_pub = nh_.advertise<visualization_msgs::Marker>("/visualization_marker",1000);
 	bool success = true;
     
     BumperListener bp;
@@ -59,7 +59,7 @@ int a=0,b=0,c=0,d=0;
 		int j = 0;
 		std::list<float> liste_position_y;
 		std::list<float> liste_ortho;
-		visualization::Marker msg_marker;
+		/*visualization::Marker msg_marker;
 		msg_marker.header.frame.id = "/laser_link";
 		msg_marker.header.stamp = ros::Time::now();
 		msg_marker.ns = "visualization_segments";
@@ -73,7 +73,7 @@ int a=0,b=0,c=0,d=0;
 		msg_marker.color.a = 1.0;
 		geometry_msgs::Point p;
 		msg_marker.points.push_back(p);
-		msg_marker.points.push_back(p);
+		msg_marker.points.push_back(p);*/
 		std::cout << "En attente d'un scan laser complet" << std::endl;
 		while(ros::ok() && !bp.get_state() && c!=2){
 		  if(ls.getRanges().size() == 513 && ls.getTabSegments().size()>0){
@@ -81,11 +81,11 @@ int a=0,b=0,c=0,d=0;
 				std::cout << " numero du segment le plus proche = " << nearby << std::endl;
 
 
-				msg_marker.points[0].x;
+				/*msg_marker.points[0].x;
 				msg_marker.points[0].y;
 				msg_marker.points[1].x;
 				msg_marker.points[1].y;
-				m_marker_pub.publish(msg_marker);
+				m_marker_pub.publish(msg_marker);*/
 
 				std::vector<Segment> tabseg = ls.getTabSegments();
 				angle = tabseg[nearby].get_angle();
@@ -127,7 +127,7 @@ int a=0,b=0,c=0,d=0;
 				/*if(c==2){
 					d = asservissement_position_x(m_pub_mvt,moy_o,objectif_x());
 				*/}
-			}
+			
 		feedback_.percent_complete = avancement(a,b,c);
 		as_.publishFeedback(feedback_);
 		ros::spinOnce();
