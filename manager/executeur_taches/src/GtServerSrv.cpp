@@ -49,7 +49,7 @@ void GtServerSrv::asking(geometry_msgs::Pose2D point){
             else if(count = 3) {point.y -= 1.5; point.theta += M_PI/2;  going(point);}
             else if(count = 4) {point.x += 2;   point.theta += M_PI/2;  going(point);}
             else count = 0;
-            fa_c.starting(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+            //fa_c.starting(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
             mid = atg.askForId(); 
             count ++;
       }while(mid == -1);
@@ -299,6 +299,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                 break;
           case orderRequest::DISCOVER:  
 
+                ROS_INFO (" test  "); 
+
                 geometry_msgs::Pose2D pt_dest;
                 geometry_msgs::Pose2D pt_actuel;
 
@@ -316,6 +318,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                 asking(pt_dest);  
 
                 int team_color = teamColorOfId(m_id);
+                if (team_color == CYAN)         name = "C-" + name;
+                else if(team_color == MAGENTA)  name = "M-" + name;
 
                 if(team_color != this->t_color){
                       ROS_ERROR(" Machine isn't for my team ");
@@ -333,7 +337,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       case C_BS_OUT :
 
                               if(m_id == C_BS_OUT || m_id == M_BS_OUT){
-                                  m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                  m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                   if(m_ei->m_signals.size() != 0) {
                                           m.getBS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
@@ -344,7 +348,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                 pt_actuel = pt_dest;
                                 pt_dest = calculOutPoint(pt_actuel, req.id);
                                 going(pt_dest);
-                                m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                 if(m_ei->m_signals.size() != 0) {
                                         m.getBS().readlights(m_ei->lSpec);
                                         m_ei->interpretationFeu();
@@ -363,18 +367,20 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       case C_RS2_OUT :
 
                                   if(m_id == C_RS1_OUT || m_id == M_RS1_OUT){
-                                      m.getBS().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);                                 
+                                      //m.getBS().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);                                 
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getRS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          name = name+"1";
                                           rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                       }
                                   }  
                                   else if(m_id == C_RS2_OUT || m_id == M_RS2_OUT){
-                                      m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                      //m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getRS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          name = name+"2";
                                           rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                       }
                                   }  
@@ -382,10 +388,11 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                        pt_actuel = pt_dest;
                                        pt_dest = calculOutPoint(pt_actuel, req.id);
                                        going(pt_dest);
-                                       m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                       //m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getRS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          name = name+"1";
                                           rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                        }
                                   }  
@@ -393,10 +400,11 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                        pt_actuel = pt_dest;
                                        pt_dest = calculOutPoint(pt_actuel, req.id);
                                        going(pt_dest);
-                                       m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                       //m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getRS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          name = name+"2";
                                           rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                        }
                                   }  
@@ -411,18 +419,20 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       case C_CS2_OUT : 
                               
                                   if(m_id == C_CS1_OUT || m_id == M_CS1_OUT){
-                                      m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                      m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getCS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          name = name+"1";
                                           rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                       }
                                   }  
                                   else if(m_id == C_CS2_OUT || m_id == M_CS2_OUT){
-                                      m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                      m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                       if(m_ei->m_signals.size() != 0) {
                                           m.getCS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          name = name+"2";
                                           rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                       }
                                   }  
@@ -431,10 +441,11 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                        pt_actuel = pt_dest;
                                        pt_dest = calculOutPoint(pt_actuel, req.id);
                                        going(pt_dest);
-                                       m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                       m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getCS1().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          name = name+"1";
                                           rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                         }
                                        
@@ -443,10 +454,11 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                        pt_actuel = pt_dest;
                                        pt_dest = calculOutPoint(pt_actuel, req.id);
                                        going(pt_dest);
-                                       m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                       m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                        if(m_ei->m_signals.size() != 0) {
                                           m.getCS2().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
+                                          name = name+"2";
                                           rm_c.reporting(name, m_ei->type,/*m_id*/req.id);
                                        }
                                   }   
@@ -456,7 +468,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       case C_DS_IN  :
                       case C_DS_OUT :
                               if(m_id == C_DS_IN || m_id == M_DS_IN){
-                                   m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                   m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                    if(m_ei->m_signals.size() != 0) {
                                           m.getDS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
@@ -467,7 +479,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                   pt_actuel = pt_dest;
                                   pt_dest = calculOutPoint(pt_actuel, req.id);
                                   going(pt_dest);
-                                  m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::FIRE);
+                                  m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                   if(m_ei->m_signals.size() != 0) {
                                           m.getDS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();

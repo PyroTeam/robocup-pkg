@@ -1,4 +1,5 @@
 <launch>
+    <param name="teamName" value="PYRO" />
     <param name="teamColor" value="cyan" />
     <param name="robotNumber" value="1" />
     <param name="robotName" value="R1" />

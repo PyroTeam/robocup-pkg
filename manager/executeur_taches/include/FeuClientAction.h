@@ -6,14 +6,14 @@
 #include <actionlib/client/terminal_state.h>
 
 #include <manager_msg/processLightSignalAction.h>
-#include <manager_msg/LightSpec.h>
+#include <comm_msg/LightSpec.h>
 
 
 class FeuClientAction{
 public :
 	FeuClientAction();
 	virtual  ~FeuClientAction();
-	void lightsStates(std::vector<manager_msg::LightSpec> &m_lightSpec);
+	void lightsStates(std::vector<comm_msg::LightSpec> &m_lightSpec);
 //private :
 	//manager_msg::LightSpec m_lightSpec[];
 };

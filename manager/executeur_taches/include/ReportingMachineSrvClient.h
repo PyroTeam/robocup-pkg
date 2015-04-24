@@ -4,7 +4,7 @@
 #include <ros/ros.h>
 #include <string>
 
-#include <manager_msg/ReportMachine.h>
+#include <comm_msg/ReportMachine.h>
 
 
 class ReportingMachineSrvClient{

@@ -80,7 +80,7 @@ void Machine::let( ){
   gsrv.gripper_uppdate(false); 
 }
 
-void Machine::readlights(std::vector<manager_msg::LightSpec> lSpec){
+void Machine::readlights(std::vector<comm_msg::LightSpec> lSpec){
   ROS_INFO(" Starting exploring the lights ");
   FeuClientAction f_c;
   f_c.lightsStates(lSpec); 

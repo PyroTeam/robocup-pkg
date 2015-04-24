@@ -150,21 +150,6 @@ add_executable(
 
 add_dependencies(test_order manager_msg_gencpp)
 
-add_executable(
-  test_reponse_service
-  src/service_node.cpp
-  src/GtServerSrv.cpp
-  src/BaseStation.cpp
-  src/CapStation.cpp
-  src/DeliveryStation.cpp
-  src/Machine.cpp
-  src/MyElements.cpp
-  src/RingStation.cpp
-  
-  src/FeuClientAction.cpp
-  src/FinalApproachingClient.cpp
-  )
-add_dependencies(test_reponse_service manager_msg_gencpp)
 
 add_executable(finalApproaching_client src/finalApproaching_client.cpp)
 add_dependencies(finalApproaching_client manager_msg_gencpp)
@@ -233,10 +218,6 @@ target_link_libraries(
 #  ${catkin_LIBRARIES}
 #)
 
-target_link_libraries(
-  test_reponse_service
-  ${catkin_LIBRARIES}
-)
 
 target_link_libraries(
   finalApproaching_client
