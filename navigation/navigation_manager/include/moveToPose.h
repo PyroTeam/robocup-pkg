@@ -4,6 +4,7 @@
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
 #include <actionlib/client/simple_action_client.h>
+#include <sensor_msgs/PointCloud.h>
 
 #include "deplacement_msg/MoveToPoseAction.h"
 #include "deplacement_msg/TrackPathAction.h"
@@ -23,18 +24,28 @@ private:
     actionlib::SimpleActionClient<deplacement_msg::TrackPathAction> m_trackPathAction;
     ros::ServiceClient m_generatePathClient;
     ros::Subscriber m_odom_sub;
+    ros::Subscriber m_sharpSensor_sub;
 
+    sensor_msgs::PointCloud m_sharpSensor;
     int m_last_id;
     geometry_msgs::Pose m_pose_odom;
     int m_path_id;
+    int m_pathTrackPercentComplete;
+
+    enum PathTrackStatus
+    {
+        RUNNING,
+        PAUSED
+    };
 
     void PoseCallback(const nav_msgs::Odometry &odom);
     void PathCallback(const pathfinder::AstarPath &path);
+    void DistSensorCallback(const sensor_msgs::PointCloud &sensor);
     void doneCb(const actionlib::SimpleClientGoalState& state,
                 const deplacement_msg::TrackPathResultConstPtr& result);
     void activeCb();
     void feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& feedback);
-    protected:
+protected:
 
     ros::NodeHandle m_nh;
     // NodeHandle instance must be created before this line. Otherwise strange error may occur.
@@ -44,7 +55,7 @@ private:
     deplacement_msg::MoveToPoseFeedback m_feedback;
     deplacement_msg::MoveToPoseResult m_result;
 
-    public:
+public:
 
     MoveToPose(std::string name) :
     m_as(m_nh, name, boost::bind(&MoveToPose::executeCB, this, _1), false),
@@ -55,6 +66,7 @@ private:
         m_path_id = 0;
         m_odom_sub = m_nh.subscribe("/odom", 1000, &MoveToPose::PoseCallback, this);
         m_path_sub = m_nh.subscribe("/pathFound", 1000, &MoveToPose::PathCallback, this);
+        m_sharpSensor_sub = m_nh.subsrcibe("/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
         m_generatePathClient = m_nh.serviceClient<pathfinder::GeneratePath>("/generatePath");
 
         m_as.start();
