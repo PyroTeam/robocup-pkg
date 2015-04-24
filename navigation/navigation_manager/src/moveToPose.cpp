@@ -1,4 +1,4 @@
-#include "moveToPose.h"
+#include "navigation_manager/moveToPose.h"
 #include <tf/transform_datatypes.h>
 
 void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
