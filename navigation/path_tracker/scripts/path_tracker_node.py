@@ -1,213 +1,27 @@
 #!/usr/bin/env python
 import rospy
 import tf
+import actionlib
+import deplacement_msg.msg
 from math import atan2, pi, cos, sin
 from geometry_msgs.msg import Twist, PoseStamped, Point
 from turtlesim.msg import Pose
 from nav_msgs.msg import Path
 from nav_msgs.msg import Odometry
+from std_msgs.msg import Float32
+from pathfinder.msg import AstarPath
 
+# Publisher de consignes en vitesse
 pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+
+# Publisher de debug rqt_plot
+pubAngle = rospy.Publisher('/t_angle', Float32, queue_size=10)
+pubErrAngle = rospy.Publisher('/t_err_angle', Float32, queue_size=10)
+pubInfos = rospy.Publisher('/tracker_info', Float32, queue_size=10)
+
+# Tableau de points a suivre (PoseStamped)
 points = []
 
-# point = PoseStamped()
-# point.pose.position.x = 1
-# point.pose.position.y = 10
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 1
-# point.pose.position.y = 1
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 1
-# point.pose.position.y = 2
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 2
-# point.pose.position.y = 2
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 4
-# point.pose.position.y = 4
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 9
-# point.pose.position.y = 4
-# points.append(point)
-
-coeffX= 1.3
-coeffY=1.3
-offsetY=-3
-
-# # P*
-# point = PoseStamped()
-# point.pose.position.x = 0*coeffX
-# point.pose.position.y = 8*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 1*coeffX
-# point.pose.position.y = 8*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 1*coeffX
-# point.pose.position.y = 10*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 1.5*coeffX
-# point.pose.position.y = 10*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 1.75*coeffX
-# point.pose.position.y = 9.75*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 1.87*coeffX
-# point.pose.position.y = 9.5*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 1.75*coeffX
-# point.pose.position.y = 9.25*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 1.5*coeffX
-# point.pose.position.y = 9*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 1*coeffX
-# point.pose.position.y = 9*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 1*coeffX
-# point.pose.position.y = 8*coeffY+offsetY
-# points.append(point)
-
-# # Y
-# point = PoseStamped()
-# point.pose.position.x = 2.5*coeffX
-# point.pose.position.y = 8*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 3.5*coeffX
-# point.pose.position.y = 10*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 3*coeffX
-# point.pose.position.y = 9*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 2.5*coeffX
-# point.pose.position.y = 10*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 3*coeffX
-# point.pose.position.y = 9*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 2.5*coeffX
-# point.pose.position.y = 8*coeffY+offsetY
-# points.append(point)
-
-# # R
-# point = PoseStamped()
-# point.pose.position.x = 4*coeffX
-# point.pose.position.y = 8*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 4*coeffX
-# point.pose.position.y = 10*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 4.5*coeffX
-# point.pose.position.y = 10*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 4.75*coeffX
-# point.pose.position.y = 9.75*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 4.87*coeffX
-# point.pose.position.y = 9.5*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 4.75*coeffX
-# point.pose.position.y = 9.25*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 4.5*coeffX
-# point.pose.position.y = 9*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 4*coeffX
-# point.pose.position.y = 9*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 4.5*coeffX
-# point.pose.position.y = 9*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 5*coeffX
-# point.pose.position.y = 8*coeffY+offsetY
-# points.append(point)
-
-# # O
-# point = PoseStamped()
-# point.pose.position.x = 6.5*coeffX
-# point.pose.position.y = 8*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 6*coeffX
-# point.pose.position.y = 8.25*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 5.75*coeffX
-# point.pose.position.y = 8.5*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 5.5*coeffX
-# point.pose.position.y = 9*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 5.75*coeffX
-# point.pose.position.y = 9.5*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 6*coeffX
-# point.pose.position.y = 9.75*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 6.5*coeffX
-# point.pose.position.y = 10*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 7*coeffX
-# point.pose.position.y = 9.75*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 7.25*coeffX
-# point.pose.position.y = 9.5*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 7.5*coeffX
-# point.pose.position.y = 9*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 7.25*coeffX
-# point.pose.position.y = 8.5*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 7*coeffX
-# point.pose.position.y = 8.25*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 6.5*coeffX
-# point.pose.position.y = 8*coeffY+offsetY
-# points.append(point)
-# point = PoseStamped()
-# point.pose.position.x = 6.5*coeffX
-# point.pose.position.y = 9*coeffY+offsetY
-# points.append(point)
-
-
 point = PoseStamped()
 point.pose.position.x = 0
 point.pose.position.y = 0
@@ -219,41 +33,116 @@ point.pose.position.y = 0.3
 points.append(point)
 
 point = PoseStamped()
-point.pose.position.x = 0
-point.pose.position.y = 0.6
+point.pose.position.x = 0.6
+point.pose.position.y = 0
 points.append(point)
 
 point = PoseStamped()
-point.pose.position.x = -0.3
-point.pose.position.y = 0.9
+point.pose.position.x = 0.9
+point.pose.position.y = -0.3
 points.append(point)
 
 point = PoseStamped()
-point.pose.position.x = 0
-point.pose.position.y = 1.2
+point.pose.position.x = 1.2
+point.pose.position.y = 0
+points.append(point)
+
+point = PoseStamped()
+point.pose.position.x = 0.9
+point.pose.position.y = 0.3
+points.append(point)
+
+point = PoseStamped()
+point.pose.position.x = 0.6
+point.pose.position.y = 0
 points.append(point)
 
 point = PoseStamped()
 point.pose.position.x = 0.3
-point.pose.position.y = 0.9
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = 0
-point.pose.position.y = 0.6
-points.append(point)
-
-point = PoseStamped()
-point.pose.position.x = -0.3
-point.pose.position.y = 0.3
+point.pose.position.y = -0.3
 points.append(point)
 
 point = PoseStamped()
 point.pose.position.x = 0
 point.pose.position.y = 0
 points.append(point)
+
 
 point = points[0].pose.position
+
+
+
+
+
+
+
+
+
+
+
+
+
+#*====================================
+#            CLASS ACTION            =
+#===================================*/
+
+class TrackPathAction(object):
+  # create messages that are used to publish feedback/result
+  _feedback = deplacement_msg.msg.TrackPathFeedback()
+  _result   = deplacement_msg.msg.TrackPathResult()
+
+  def __init__(self, name):
+    self._action_name = "trackPath"
+    self._as = actionlib.SimpleActionServer(self._action_name, deplacement_msg.msg.TrackPathAction, execute_cb=self.execute_cb, auto_start = False)
+    self._as.start()
+    
+  def execute_cb(self, goal):
+    # helper variables
+    r = rospy.Rate(1)
+    success = True
+
+    idPath = goal.id    
+    
+    # Fill the feedback
+    self._feedback.percent_complete=50
+    self._feedback.id=idPath
+    
+    # publish info to the console for the user
+    rospy.loginfo('%s: Executing, creating TrackPath sequence of order, %i' % (self._action_name, goal.id))
+    
+    # start executing the action
+
+    # check that preempt has not been requested by the client
+    if self._as.is_preempt_requested():
+        rospy.loginfo('%s: Preempted' % self._action_name)
+        self._as.set_preempted()
+        success = False
+    # publish the feedback
+    self._as.publish_feedback(self._feedback) 
+      
+    if success:
+      self._result.result = self._result.FINISHED
+      rospy.loginfo('%s: Succeeded' % self._action_name)
+      self._as.set_succeeded(self._result)
+
+#*-----  End of CLASS ACTION  ------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def closestPoint(segmentStart, segmentStop, point):
     closestPoint = Point()
@@ -279,7 +168,7 @@ def closestPoint(segmentStart, segmentStop, point):
     return closestPoint;
 
 
-def callback(data):
+def callbackOdom(data):
 
     # Chercher point le plus proche
     pose = Point()
@@ -288,6 +177,7 @@ def callback(data):
     closest = Point()
     display = False
     stopTurtle = False
+    pointObjectif = points[0].pose.position
     for i in xrange(len(points)):
         display = True
         sizePath = len(points)
@@ -296,6 +186,7 @@ def callback(data):
             start = points[0].pose.position
             if sizePath >= 2:
                 stop = points[1].pose.position
+                pointObjectif = stop
                 closest = closestPoint(start, stop, pose)
                 if closest == stop:
                     points.pop(0)
@@ -343,25 +234,59 @@ def callback(data):
 
     errAngle = (angle - yaw)
     errAngle = ((errAngle+pi) % (2*pi)) - pi
-    vitAngle = errAngle*30
-    rospy.loginfo("Angle %f",angle)
+
+    errAnglePointSuiv = (ang - yaw)
+    errAnglePointSuiv = ((errAnglePointSuiv+pi) % (2*pi)) - pi
+
+    vitAngle = errAnglePointSuiv*1
+
+    rospy.loginfo("----------------")
+    rospy.loginfo(stopTurtle)
+    rospy.loginfo("PointObjectif : ")
+    rospy.loginfo(pointObjectif)
+    rospy.loginfo("Pose : ")
+    rospy.loginfo(data.pose.pose.position)
+    rospy.loginfo(yaw)
+    rospy.loginfo("PointClosest : ")
+    rospy.loginfo(closest)
+    rospy.loginfo("PointAvance : ")
+    rospy.loginfo(pointAvance)
+    rospy.loginfo("Angle %f - VitAngle %f",angle,vitAngle)
+        
+    if vitAngle > 30:
+        vitAngle = 30
+    elif vitAngle < -30:
+        vitAngle = -30
 
     # Publication du message sur le topic
     vel_msg = Twist()
+    # stopTurtle = True
     if not stopTurtle:
-        vel_msg.linear.x = 1
-        vel_msg.linear.y = 0
-        vel_msg.angular.z = vitAngle
+        vel_msg.linear.x = 0.2
+        vel_msg.linear.y = errAngle/10
+        vel_msg.angular.z = vitAngle*1
     else :
         vel_msg.linear.x = 0
         vel_msg.linear.y = 0
         vel_msg.angular.z = 0
 
     pub.publish(vel_msg)
+    pubInfos.publish(ang)
+    pubAngle.publish(angle)
+    pubErrAngle.publish(errAngle)
+
+
+def callbackPath(data):
+    # rospy.loginfo(data.id)
+    points = data.path.poses
 
 def path_tracker_node():
     rospy.init_node('path_tracker_node', anonymous=False)
-    rospy.Subscriber("/odom", Odometry, callback)
+    rospy.Subscriber("/odom", Odometry, callbackOdom)
+    rospy.Subscriber("/pathFound", AstarPath, callbackPath)
+
+    TrackPathAction(rospy.get_name())
+
     rospy.spin()
 
 if __name__ == '__main__':
