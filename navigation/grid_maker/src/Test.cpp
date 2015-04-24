@@ -5,7 +5,7 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "test");
     ros::NodeHandle n;
-    ros::Publisher Pose_Machines_Pub = n.advertise<deplacement_msg::Landmarks>("/machines", 1000);
+    ros::Publisher Pose_Machines_Pub = n.advertise<deplacement_msg::Landmarks>("/landmarks", 1000);
     ROS_INFO("Ready to send poses machines");
     int xA,yA;
     ros::Rate loop_rate(1);
