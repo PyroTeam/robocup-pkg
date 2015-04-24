@@ -81,7 +81,7 @@ void laserScan::build_segments(){
 	Point pmin(m_ranges[min],m_ranges[min]*sin(m_angle_min+(double)min*m_angle_inc));
 	Point pmax(m_ranges[min+it->size()-1],m_ranges[min+it->size()-1]*sin(m_angle_min+m_angle_inc*(double)(min+it->size()-1)));
   	std::cout << "min_build: "<<min<<" max_build: "<<min +it->size() -1<<std::endl;
-	std::cout << "m_ranges[min_build]: "<<m_ranges[min]<<" m_ranges[max_build]: "<<m_ranges[min+it->size()-1]<<std::endl;
+	//std::cout << "m_ranges[min_build]: "<<m_ranges[min]<<" m_ranges[max_build]: "<<m_ranges[min+it->size()-1]<<std::endl;
 	float d = length(i,min+it->size()-1); 
   	std::cout << "taille objet: " << d << std::endl;
   	if(d>0.65 && d<0.75){
@@ -94,6 +94,18 @@ void laserScan::build_segments(){
 		}
 		min = min + it->size();
 		i++;
+	}
+	Segment s;
+	if(m_tabsegments.size()>0){
+		if(nearest_segment()==max_number_points()){
+			std::cout<<"test build s 1"<<std::endl;
+			s=m_tabsegments[max_number_points()];
+			std::cout<<"test build s 2"<<std::endl;
+			m_tabsegments.clear();
+			std::cout<<"test build s 3"<<std::endl;
+			m_tabsegments.push_back(s);
+			std::cout<<"test build s 4"<<std::endl;
+		}
 	}
 }
 
@@ -110,9 +122,12 @@ float laserScan::length(int i,int j){
   }if(i!=j){
 	std::cout << "min: " << cpt2 << " max: " << cpt2+it->size() -1 << std::endl;
   std::vector<Point> tab = *it;
-std::cout<<"test"<<std::endl;
-Point pmin(m_ranges[i],m_ranges[i]+(float)i*sin((double)i*m_angle_inc));
-Point pmax(m_ranges[j],m_ranges[j]+(float)j*sin((double)j*m_angle_inc));
+std::cout <<"testlenght1"<<std::endl;
+std::cout <<"r:"<<m_ranges[i]<<" phi: "<<m_angle_min+(double)i*m_angle_inc<<std::endl;
+Point pmin(m_ranges[i],m_angle_min+(double)i*m_angle_inc);
+std::cout <<"r:"<<m_ranges[j] <<" phi: "<<m_angle_min+(double)j*m_angle_inc<<std::endl;
+Point pmax(m_ranges[j],m_angle_min+(double)j*m_angle_inc);
+std::cout<<"testlenght2"<<std::endl;
 //return distance2points(pmin,pmax);
   return distance2points(tab[0],tab[tab.size()-1]);} 
 //	return distance2points(m_ranges[cpt2],m_ranges[cpt2+it->size() -1]);
@@ -133,28 +148,25 @@ int laserScan::nearest_segment(){
 		if(distance_objet(m_tabsegments[i]) < distance_objet(m_tabsegments[tmp]))
 			tmp = i;
 	}
-	for(int j=0;j<m_tabsegments.size(); j++){
+	/*for(int j=0;j<m_tabsegments.size(); j++){
 		if(j != tmp){
 			m_tabsegments[j] = m_tabsegments[tmp];
 		
 		}
-	}
+	}*/
 	return tmp;
 }
 
 
 
 int laserScan::max_number_points(){
-  std::vector<Point> tmp = m_tabpoints.front();
-  std::list<std::vector<Point> >::iterator it;
-  int compteur=0;
-  for(it = m_tabpoints.begin();it != m_tabpoints.end(); it++){
-    if(it->size() > tmp.size()){
-      tmp = *it;
-      compteur++;
-    }
-  }
-  return compteur;
+	int tmp = m_tabsegments[0].get_max_ranges()-m_tabsegments[0].get_min_ranges();
+	for(int i=0;i<m_tabsegments.size();i++){
+		if((m_tabsegments[i].get_max_ranges()-m_tabsegments[i].get_min_ranges())>tmp)
+			tmp = i;
+	}
+	
+  return tmp;
 }
 
 

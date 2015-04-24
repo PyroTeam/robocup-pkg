@@ -4,6 +4,8 @@
 #include <cmath>
 #include <vector>
 
+Segment::Segment(){}
+
 Segment::Segment(Point a, Point b,int min_r,int max_r){
   m_min = a;
   m_max = b;
