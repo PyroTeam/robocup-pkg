@@ -38,15 +38,18 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
         ros::spinOnce();
     }
     if (ros::Time::now() >= t){
+        ROS_INFO("Path generate : Timeout!");
         m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
         return;
     }
+
     if (m_last_id == m_path_id){
-        deplacement_msg::TrackPathGoal goal;
-        goal.id = m_last_id;
-        m_trackPathAction.sendGoal(goal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
-                 actionlib::SimpleActionClient<deplacement_msg::TrackPathAction>::SimpleActiveCallback(),
-                 actionlib::SimpleActionClient<deplacement_msg::TrackPathAction>::SimpleFeedbackCallback());
+        ROS_INFO("Path generated! with id : %d", m_path_id);
+        deplacement_msg::TrackPathGoal tgoal;
+        tgoal.id = m_last_id;
+        m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
+        boost::bind(&MoveToPose::activeCb, this),
+        boost::bind(&MoveToPose::feedbackCb, this, _1));
 
 
 
@@ -59,7 +62,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
             ROS_INFO("Action did not finish before the time out.");  */
 
         while (ros::ok() && !(m_as.isPreemptRequested()) && m_trackPathAction.getResult()->result != deplacement_msg::MoveToPoseResult::FINISHED){
-        // m_feedback.percent_complete = m_trackPathAction.getFeedback()->percent_complete;
+
             //algo calculs
             m_as.publishFeedback(m_feedback);
         }
@@ -69,7 +72,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
         else{
             m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
         }
-
+        m_as.setSucceeded(m_result);
 
     }
 
@@ -105,7 +108,7 @@ void MoveToPose::doneCb(const actionlib::SimpleClientGoalState& state,
 {
   ROS_INFO("Finished in state [%s]", state.toString().c_str());
   ROS_INFO("Answer: %d", result->result);
-  ros::shutdown();
+
 }
 
 // Called once when the goal becomes active
