@@ -24,6 +24,7 @@ int main(int argc, char** argv)
     //et les segments sur le topic /segments
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("/machines", 1000);
     ros::Publisher pub_segments = n.advertise< deplacement_msg::Landmarks >("/segments", 1000);
+    ros::Publisher pub_laser    = n.advertise< deplacement_msg::Landmarks >("/laser", 1000);
 
     //initialisation du random
     srand(time(NULL));
@@ -33,12 +34,14 @@ int main(int argc, char** argv)
     while(n.ok())
     {
         const std::list<Point> &listOfPoints    = laserData.getPoints();
-        std::list<Modele>  listOfModeles        = findLines(listOfPoints, 30, 0.1, 30);
+        std::list<Point> l;
+        std::list<Modele>  listOfModeles        = findLines(listOfPoints, 30, 0.1, 30, l);
         std::list<Segment> listOfSegments       = buildSegments(listOfModeles);
         std::vector<Machine> listOfMachines     = recognizeMachinesFrom(listOfSegments);
-        
+
         deplacement_msg::Landmarks machines;
         deplacement_msg::Landmarks segments;
+        deplacement_msg::Landmarks laser;
 
         for (auto &it : listOfMachines){ 
             machines.landmarks.push_back(it.getCentre());
@@ -47,10 +50,14 @@ int main(int argc, char** argv)
             segments.landmarks.push_back(pointToPose2D(it.getMin()));
             segments.landmarks.push_back(pointToPose2D(it.getMax()));
         }
+        for (auto &it : laserData.getPoints()){
+            laser.landmarks.push_back(pointToPose2D(it));
+        }
 
         // Publish
         pub_machines.publish(machines);
         pub_segments.publish(segments);
+        pub_laser.publish(laser);
 
         // Spin
         ros::spinOnce();
