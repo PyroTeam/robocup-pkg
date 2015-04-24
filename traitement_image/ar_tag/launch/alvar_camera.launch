@@ -6,7 +6,7 @@
         <arg name="cam_info_topic" default="/usb_cam_node/camera_info" />
         <arg name="output_frame" default="/torso_lift_link" />
 
-        <param name="/usb_cam/video_device" value="/dev/video0" />
+        <param name="/usb_cam_node/video_device" value="/dev/video1" />
 
         <node name="usb_cam_node" pkg="usb_cam" type="usb_cam_node" />
 
