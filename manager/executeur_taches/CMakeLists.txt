@@ -123,6 +123,7 @@ add_executable(
   src/ReportingMachineSrvClient.cpp
   src/ArTagClientSrv.cpp
   src/NavigationClientAction.cpp
+  src/MPS.cpp
 )
 add_executable(
   test_publish
@@ -153,6 +154,11 @@ add_executable(
   test_report
   
   src/fake_server_reporting.cpp
+)
+add_executable(
+  test_navigation
+  
+  src/fake_action_navigation.cpp
 )
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
@@ -186,6 +192,10 @@ target_link_libraries(
 )
 target_link_libraries(
   test_report
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_navigation
   ${catkin_LIBRARIES}
 )
 #target_link_libraries(
