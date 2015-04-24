@@ -3,6 +3,7 @@
 
 #include <ros/ros.h>
 #include <geometry_msgs/Pose2D.h>
+#include <cmath>
 #include "manager_msg/order.h"
 #include "manager_msg/activity.h"
 #include "manager_msg/finalApproachingAction.h"
@@ -16,6 +17,8 @@
 #include "MyElements.h"
 #include "ArTagClientSrv.h"
 #include "ReportingMachineSrvClient.h"
+#include "LocaSubscriber.h"
+#include "FinalApproachingClient.h"
 
 #define C_CS1_IN   1
 #define C_CS1_OUT  2
@@ -56,6 +59,9 @@ public :
 	manager_msg::activity getActivityMsg();
 	manager_msg::finalApproachingAction getFinalAppAction();
 	void interpretationZone();
+	void going(geometry_msgs::Pose2D point);
+	geometry_msgs::Pose2D calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone);
+	void asking(geometry_msgs::Pose2D point);
 private :
 	int nb_robot;
 	int t_color;
@@ -66,6 +72,7 @@ private :
 	std::string name;
 	manager_msg::finalApproachingAction m_act;
 	ExploInfoSubscriber *m_ei;
+	LocaSubscriber *m_ls;
 };
 
 #endif

@@ -23,6 +23,8 @@ class Machine{
     geometry_msgs::Pose2D m_centerMachine;
     geometry_msgs::Pose2D m_entryMachine;
     geometry_msgs::Pose2D m_exitMachine;
+    int zone;
+    bool isHere;
     
   public:
     Machine();
