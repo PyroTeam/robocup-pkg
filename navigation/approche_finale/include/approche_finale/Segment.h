@@ -7,7 +7,8 @@
 class Segment{
 
 public:
-  Segment(Point a,Point b, int min_r,int max_r);
+	Segment();  
+Segment(Point a,Point b, int min_r,int max_r);
   ~Segment();
   
   Point get_min(){return m_min;}
