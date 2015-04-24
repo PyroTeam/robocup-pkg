@@ -265,10 +265,11 @@ MatrixXd EKF::buildPm(int i){
   MatrixXd Pm(6,6);
   Pm.setZero();
 
-  Pm.block(0,0,3,3) = m_P.block(0,0,3,3);
-  Pm.block(3,3,3,3) = m_P.block(i,i,3,3);
-  Pm.block(0,3,3,3) = m_P.block(0,i,3,3);
-  Pm.block(3,0,3,3) = m_P.block(i,0,3,3);   
+  Pm.block(0,0,3,3) = m_P_prev.block(0,0,3,3);
+  Pm.block(3,3,3,3) = m_P_prev.block(i,i,3,3);
+  Pm.block(0,3,3,3) = m_P_prev.block(0,i,3,3);
+  Pm.block(3,0,3,3) = m_P_prev.block(i,0,3,3);
+  std::cout << "Pm :" << Pm << std::endl;   
 
   return Pm;
 }
@@ -284,9 +285,9 @@ MatrixXd EKF::buildH(int i){
   MatrixXd H(3,6);
   H.setZero();
   H.block(0,0,3,3) = MatrixXd::Identity(3,3);
-  H(0,3) = m_xMean(0) - m_xMean(i  );
-  H(1,4) = m_xMean(1) - m_xMean(i+1);
-  H(2,5) = m_xMean(2) - m_xMean(i+2);
+  H(0,3) = m_xPredicted(0) - m_xMean(i  );
+  H(1,4) = m_xPredicted(1) - m_xMean(i+1);
+  H(2,5) = m_xPredicted(2) - m_xMean(i+2);
 
   //std::cout << "H = \n" << H << "\n" <<  std::endl;
 
@@ -317,23 +318,23 @@ void EKF::prediction(){
   //calcul de la position du robot pour l'instant n+1
   m_xPredicted = m_xMean.topLeftCorner(3,1) + periode*m_cmdVel;
 
-  MatrixXd Fx = MatrixXd::Identity(m_P.rows(),m_P.cols());
+  MatrixXd Fx = MatrixXd::Identity(m_P.rows(),m_P.cols());/*
   Fx(0,0) = m_xPredicted(0) - m_xMean(0);
   Fx(1,1) = m_xPredicted(1) - m_xMean(1);
-  Fx(2,2) = m_xPredicted(2) - m_xMean(2);
+  Fx(2,2) = m_xPredicted(2) - m_xMean(2);*/
   //std::cout << "Fx = \n" << Fx << std::endl;
 
-  m_xMean.topLeftCorner(3,1) = m_xPredicted;
-  correctAngle(m_xMean(2));
+  //m_xMean.topLeftCorner(3,1) = m_xPredicted;
+  //correctAngle(m_xMean(2));
 
   //mise à jour de m_P
-  m_P = Fx*m_P*(Fx.transpose());
+  m_P_prev = Fx*m_P*(Fx.transpose());
   //mise à jour du temps
   m_temps = ros::Time::now();
 }
 
 void EKF::correction(geometry_msgs::Pose2D p, int i){
-  //std::cout << "correction\n" << std::endl;
+  std::cout << "correction\n" << std::endl;
 
   //int taille = m_P.rows();
 
@@ -341,9 +342,9 @@ void EKF::correction(geometry_msgs::Pose2D p, int i){
   VectorXd z(6);
   z.setZero();
   z.block(0,0,3,1) = m_xPredicted - m_xMean.block(m_xMean.rows()-3,0,3,1);
-  z(3) = p.x     - m_xMean(i  );
-  z(4) = p.y     - m_xMean(i+1);
-  z(5) = p.theta - m_xMean(i+2);
+  z(3) = p.x     - m_xPredicted(0);
+  z(4) = p.y     - m_xPredicted(1);
+  z(5) = p.theta - m_xPredicted(2);
   //std::cout << "z = \n" << z << "\n" << std::endl;
 
   //calcul de H
@@ -360,9 +361,9 @@ void EKF::correction(geometry_msgs::Pose2D p, int i){
   //calcul de R
   MatrixXd R(3,3);
   R.setZero();
-  R(0,0) = m_xMean(0);
-  R(1,1) = m_xMean(1);
-  R(2,2) = m_xMean(2);
+  R(0,0) = 0.1;
+  R(1,1) = 0.1;
+  R(2,2) = 0.1;
   //std::cout << "R = \n" << R << "\n" <<  std::endl;
 
   //calcul de Pm
@@ -376,7 +377,7 @@ void EKF::correction(geometry_msgs::Pose2D p, int i){
   //std::cout << "Z = \n" << Z << "\n" <<  std::endl;
 
   //calcul du gain de Kalman
-  MatrixXd K(3, 3);
+  MatrixXd K;
   K.setZero();
   K = Pm*Ht*(Z.inverse());
   //std::cout << "K = \n" << K << "\n" <<  std::endl;
@@ -385,11 +386,15 @@ void EKF::correction(geometry_msgs::Pose2D p, int i){
   m_xMean.block(0,0,3,1) += K.block(0,0,3,3)*z.block(0,0,3,1);
   m_xMean.block(i,0,3,1) += K.block(3,0,3,3)*z.block(3,0,3,1);
 
+  std::cout << "je corrige la machine (" << p.x << "," << p.y << ")" << std::endl;
+  std::cout << "la nouvelle position :(" << m_xMean(i) << "," << m_xMean(i+1) << ")" << std::endl;
+
   correctStateVector();
   //std::cout << "position du robot corrigee = \n" <<  m_xMean.topLeftCorner(3,1) << "\n" << std::endl;
 
   //mise à jour de la matrice m_P
-  Pm = Pm - K*Z*(K.transpose());
+  MatrixXd tmp = MatrixXd::Identity(Pm.rows(),Pm.cols()) - K*H; 
+  Pm = tmp*Pm;
   //std::cout << "Pm = \n" << Pm << "\n" <<  std::endl;
   //std::cout << "KZKt = \n" << K*Z*(K.transpose()) << "\n" <<  std::endl;
   updateP(Pm, i);

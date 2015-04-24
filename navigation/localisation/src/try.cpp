@@ -4,19 +4,42 @@
 #include <chrono>
 #include <random>
 #include "ros/ros.h"
+#include <tf/transform_datatypes.h>
+#include <visualization_msgs/Marker.h>
+#include "deplacement_msg/Landmarks.h"
+#include "geometry_msgs/Point.h"
+#include "geometry_msgs/Pose2D.h"
+#include "geometry_msgs/Twist.h"
+#include "nav_msgs/Odometry.h"
+#include "laserScan.h"
+#include "landmarks_detection_utils.h"
 
 using namespace Eigen;
 
 int main()
 {
-	MatrixXd P(12,12);
-	P.setRandom();
-	MatrixXd H(3,12);
-	H.block(0,0,3,3) = MatrixXd::Identity(3,3);
-	H.block(0,6,3,3) = MatrixXd::Identity(3,3);
+  geometry_msgs::Pose2D p;
+  Matrix3d m;
+  m.setZero();
+  Vector3d before;
+  Vector3d after;
 
-	std::cout << P << "\n" << std::endl;
-	std::cout << H << "\n" << std::endl;
-	std::cout << H.transpose() << "\n" << std::endl;
-	std::cout << H*P*H.transpose() << "\n" << std::endl;
+  //translation
+  m(1,2) = 0.1;
+  
+  //rotation
+  Matrix2d rot;
+  rot = Rotation2Dd(-M_PI_2);
+  m.topLeftCorner(2,2) = rot;
+  m(2,2) = 1;
+  std::cout << "m : \n" << m << std::endl;
+
+  before(0) = 1;
+  before(1) = 1;
+  before(2) = 1;
+  std::cout << "avant :" << before << std::endl;
+
+  after = m*before;
+
+  std::cout << "après :" << after << std::endl;
 }
