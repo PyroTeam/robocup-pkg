@@ -7,9 +7,8 @@
 
 #include "GtServerSrv.h"
 #include "LocaSubscriber.h"
+#include "FeuClientAction.h"
 #include "Machine.h"
-
-LocaSubscriber loca_sub;
 
 using namespace std;
 
@@ -21,6 +20,7 @@ int main(int argc, char **argv) {
     n.param<int>("robotNumber",nb_robot,0);  // nb robot, par défaut 0
     ros::Rate loop_rate(1);
 
+
     /* service reponse au générateur de taches */
     GtServerSrv gtsrv;
     gtsrv.setId(1);
@@ -29,10 +29,6 @@ int main(int argc, char **argv) {
     /* Publisher topic générateur de taches */
     ros::Publisher activite_pub = n.advertise<manager_msg::activity>("/task_exec_state", 1000);
 
-    /* Subscriber topic localisation */    
-    ros::Subscriber sub = n.subscribe("/landmarks",1000,&LocaSubscriber::tesCallback, &loca_sub);
-
-    
     while(ros::ok){
         ROS_INFO("I'm READY ! ");
         activite_pub.publish(gtsrv.getActivityMsg()); 

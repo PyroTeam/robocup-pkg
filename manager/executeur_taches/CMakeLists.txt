@@ -116,9 +116,15 @@ add_executable(
   src/DeliveryStation.cpp
   src/GtServerSrv.cpp
   src/LocaSubscriber.cpp
+  src/GripperClientSrv.cpp
   src/MyElements.cpp
   src/FeuClientAction.cpp
   src/FinalApproachingClient.cpp
+  src/ExploInfoSubscriber.cpp
+  src/ReportingMachineSrvClient.cpp
+  src/ArTagClientSrv.cpp
+  src/NavigationClientAction.cpp
+  src/MPS.cpp
 )
 add_dependencies(test_exec manager_msg_gencpp)
 
@@ -141,6 +147,7 @@ add_executable(
   
   src/fake_client_order.cpp
 )
+
 add_dependencies(test_order manager_msg_gencpp)
 
 add_executable(
@@ -161,6 +168,28 @@ add_dependencies(test_reponse_service manager_msg_gencpp)
 
 add_executable(finalApproaching_client src/finalApproaching_client.cpp)
 add_dependencies(finalApproaching_client manager_msg_gencpp)
+
+add_executable(
+  test_ei
+  
+  src/fake_publisher_ei.cpp
+)
+add_executable(
+  test_arTag
+  
+  src/fake_arTag_server.cpp
+)
+add_executable(
+  test_report
+  
+  src/fake_server_reporting.cpp
+)
+add_executable(
+  test_navigation
+  
+  src/fake_action_navigation.cpp
+)
+
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -181,6 +210,22 @@ target_link_libraries(
 )
 target_link_libraries(
   test_order
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_ei
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_arTag
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_report
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_navigation
   ${catkin_LIBRARIES}
 )
 #target_link_libraries(

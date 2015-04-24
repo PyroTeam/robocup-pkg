@@ -35,6 +35,7 @@ int main(int argc, char **argv)
       msg.push_back(pose);
       ++count;
       ROS_INFO("count : %d", count);
+      sleep(1);
     }
 
     manager_msg::Landmarks pub;

@@ -4,11 +4,11 @@ FinalApproachingClient::FinalApproachingClient() {
 }
 FinalApproachingClient::~FinalApproachingClient(){}
 
-void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide){
+void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, int8_t machineParameter){
 	
 	actionlib::SimpleActionClient<manager_msg::finalApproachingAction> client("finalApproaching",true);
 
-	ROS_INFO("Waiting for action Server to start");
+	ROS_INFO("Waiting for fa action Server to start");
 
 	client.waitForServer(); 
 
@@ -17,6 +17,7 @@ void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide){
 	manager_msg::finalApproachingGoal goal;
 	goal.type = machineType;
 	goal.side = machineSide;
+	goal.parameter = machineParameter;
 	client.sendGoal(goal);  
 
 	//wait for the action to return
