@@ -6,9 +6,10 @@
 #include "Point.h"
 
 float distance2points(Point a, Point b);
-float moy(std::vector<float> position_y);
+float moy(std::list<float> position_y);
 int asservissement_angle(ros::Publisher pub_mvt,float moy_pente);
-int asservissement_position_y(ros::Publisher pub_mvt, float moy_pos,float objectif);
-int asservissement_position_x(ros::Publisher pub_mvt, float distance);
+int asservissement_position_y(ros::Publisher pub_mvt, float moy_pos,float objectif, float ortho);
+int asservissement_position_x(ros::Publisher pub_mvt, float distance, float objectif);
+
 
 #endif
