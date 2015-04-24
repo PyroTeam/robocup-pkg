@@ -5,7 +5,7 @@
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/client/terminal_state.h>
 
-#include <manager_msg/processLightSignalAction.h>
+#include <trait_im_msg/processLightSignalAction.h>
 #include <comm_msg/LightSpec.h>
 
 

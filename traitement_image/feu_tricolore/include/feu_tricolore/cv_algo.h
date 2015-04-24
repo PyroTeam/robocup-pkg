@@ -11,7 +11,7 @@
 #include <sys/time.h>
 #include <sstream>
 
-#include "trait_im_msg/LightSpec.h"
+#include "comm_msg/LightSpec.h"
 #include "trait_im_msg/LightSignal.h"
 #include "std_msgs/String.h"
 
@@ -43,12 +43,12 @@ private:
     image_transport::Publisher output_3_pub_;
     image_transport::Publisher output_4_pub_;
     image_transport::Publisher output_5_pub_;
-  
-    // OpenCV    
+
+    // OpenCV
     cv::Mat _origin_treated, _origin_rgb, _hsv, _thesholded;
     cv::Mat _origin, _output_1, _output_2, _output_3, _output_4, _output_5, _result;
 
-    // Signals    
+    // Signals
     bool red_, yellow_, green_;
     int red_last_results_;
     int yellow_last_results_;
