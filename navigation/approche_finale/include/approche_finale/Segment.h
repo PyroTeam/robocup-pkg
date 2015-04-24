@@ -14,7 +14,7 @@ public:
   Point get_max(){return m_max;}
   float get_pente(){return m_pente;}
   float get_correlation(){return m_correlation;}
-  float get_angle(){return m_angle;}
+  float get_angle() const{return m_angle;}
   float get_distance(){return m_distance;}
   int get_min_ranges(){return m_min_ranges;}
   int get_max_ranges(){return m_max_ranges;}

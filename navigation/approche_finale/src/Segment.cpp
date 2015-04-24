@@ -47,8 +47,8 @@ void Segment::regression_lineaire(std::vector<Point> tabpoints){
 		ecart_y2  += ecart_y * ecart_y;
 	}
 	covXY = sum_ecart_xy/n;
-	varX = ecart_x2 /n;
-	varY = ecart_y2 /n;
+	varX = ecart_x2 /n;if(varX==0) varX = 1;
+	varY = ecart_y2 /n;if(varY==0) varY = 1;
 	float correl = covXY/sqrt(varX * varY);
 	set_correlation(correl*correl);
 	m_angle = atan2(varX,covXY) - M_PI_2;
