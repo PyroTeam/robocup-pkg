@@ -67,7 +67,6 @@ DIRECTORY
 FILES
    order.srv
    SetGripper.srv
-   artag.srv
  )
 
 
