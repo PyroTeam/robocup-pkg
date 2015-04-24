@@ -97,11 +97,13 @@ catkin_package(
 ## Build ##
 ###########
 
-add_executable(finalApproaching_server 
+add_executable(finalApproaching_node 
   src/fa_utils.cpp
   src/laserScan.cpp
   src/Point.cpp
   src/Segment.cpp
+  src/finalApproaching.cpp
+  src/bumperlistener.cpp
   src/finalApproaching_server.cpp)
 
 add_executable(test_fonctions_laser
@@ -111,11 +113,11 @@ add_executable(test_fonctions_laser
 	src/Segment.cpp
 	src/fa_utils.cpp)
 
-# add_executable(fake_scan_node
-# 	src/fake_scan_node.cpp)
+add_executable(fake_scan_node
+	src/fake_scan_node.cpp)
 	
 target_link_libraries(
-  finalApproaching_server
+  finalApproaching_node
   ${catkin_LIBRARIES}
 )
 
@@ -124,17 +126,17 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-# target_link_libraries(
-#   fake_scan_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(
+  fake_scan_node
+  ${catkin_LIBRARIES}
+)
 
 set_target_properties(finalApproaching_server PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-# set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 set_target_properties(test_fonctions_laser PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 add_dependencies(
-  finalApproaching_server
+  finalApproaching_node
   ${manager_msg_EXPORTED_TARGETS}
   manager_msg_gencpp
 )

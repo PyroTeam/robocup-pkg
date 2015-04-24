@@ -11,7 +11,7 @@ using namespace std;
 int main(int argc, char** argv){
 	ros::init(argc,argv,"test_fonctions_laser");
 	ros::NodeHandle n;
-  ros::Publisher set_angle = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
+  //ros::Publisher set_angle = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
 	ros::Time::init();
 	ros::Rate loop_rate(1000);
 	laserScan ls;
@@ -29,11 +29,10 @@ int main(int argc, char** argv){
 		
     if(ls.getRanges().size() == 513){
 			max_points = ls.max_number_points();
-			nearby = ls.nearest_object();
-			d = ls.distance_objet(max_points);
-			pos = ls.position_y(nearby,d);
-			Segment s = ls.build_segment(nearby);
-			if(j < position_y.size()){
+			nearby = ls.nearest_segment();
+			
+			//Segment s = ls.build_segment(nearby);
+			/*if(j < position_y.size()){
 				if(pos > 0){
 					position_y[j] = ls.position_y(nearby,d);
 					j++;
@@ -41,7 +40,7 @@ int main(int argc, char** argv){
 			}
 			else{				
 				if(pos>0){
-					s = ls.build_segment(max_points);
+					//s = ls.build_segment(max_points);
 					for(int i=0;i<position_y.size()-1;i++){
 						position_y[i] = position_y[i+1];
 						pente[i] = pente[i+1];
@@ -53,11 +52,12 @@ int main(int argc, char** argv){
 			}
 			cout << "le laser se situe a " << moy(position_y) <<" m du bord gauche de l'objet le plus proche" << endl;
 			cout << "pente = " << moy(pente) << endl;
-			
+			*/
 			}
-		}
+		
 		
 	ros::spinOnce();
   loop_rate.sleep();
+	}
 } 
 

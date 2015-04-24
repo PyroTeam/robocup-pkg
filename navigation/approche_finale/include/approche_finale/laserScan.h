@@ -21,12 +21,12 @@ laserScan();
 void Objects();
 void laserCallback(const sensor_msgs::LaserScanConstPtr& scan);
 int max_number_points();
-float length(int i);
-bool nearby_object(int i);
-float distance_objet(int i);
-int nearest_object();
-Segment build_segment(int i);
-float position_y(int i,float d);
+float length(int i,int j);
+float distance_objet(Segment s);
+int nearest_segment();
+void build_segments();
+float position_y(Segment s);
+float distance_ortho(Segment s);
 
 float getRangeMin(){return m_range_min;}
 float getRangeMax(){return m_range_max;}
@@ -34,7 +34,8 @@ float getAngleMin(){return m_angle_min;}
 float getAngleMax(){return m_angle_max;}
 double getAngleInc(){return m_angle_inc;}
 std::vector<float>& getRanges() {return m_ranges;}
-std::list<std::vector<Point> >& gettabPoints() {return m_tabpoints;}
+std::list<std::vector<Point> > getTabPoints() {return m_tabpoints;}
+std::vector<Segment> getTabSegments() {return m_tabsegments;}
 
 void setRangeMin(float min){m_range_min=min;}
 void setRangeMax(float max){m_range_max=max;}
@@ -47,6 +48,7 @@ private:
 
 std::vector<float> m_ranges;
 std::list<std::vector<Point> > m_tabpoints;
+std::vector<Segment> m_tabsegments;
 float m_range_min;
 float m_range_max;
 float m_angle_min;
