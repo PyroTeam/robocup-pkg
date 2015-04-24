@@ -8,8 +8,8 @@ ArTagClienSrv::~ArTagClienSrv(){
 
 int16_t ArTagClienSrv::askForId(){
   ros::NodeHandle n;
-  ros::ServiceClient client = n.serviceClient<manager_msg::artag>("/artag");
-  manager_msg::artag srv;
+  ros::ServiceClient client = n.serviceClient<trait_im_msg::artag>("/artag");
+  trait_im_msg::artag srv;
   if (client.call(srv))
   {
   	m_id = srv.response.id;

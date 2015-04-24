@@ -2,7 +2,7 @@
 #define ARTAGCLIENTSRV_H
 
 #include <ros/ros.h>
-#include <manager_msg/artag.h>
+#include <trait_im_msg/artag.h>
 
 class ArTagClienSrv {
 public :
