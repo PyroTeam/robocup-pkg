@@ -6,8 +6,15 @@ std::vector<geometry_msgs::Pose2D> tab;
 class Machine
 {
 public:
-	Machine():zone(0){x=0;y=0;theta=0;draw=false;};
-	Machine(int zone):zone(zone){x=0;y=0;theta=0;draw=false;};
+	Machine(int zone = 0):
+	zone(zone),
+	nbActu(0),
+	xSum(0),
+	ySum(0),
+	thetaSum(0)
+	{
+		x=0;y=0;theta=0;draw=false;
+	};
 	~Machine(){};
 
 	float x;
@@ -15,6 +22,11 @@ public:
 	float theta;
 	int zone;
 	bool draw;
+
+	int nbActu;
+	float xSum;
+	float ySum;
+	float thetaSum;
 	
 };
 std::vector<Machine> mps(24);
@@ -79,9 +91,17 @@ void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines)
 	for (int i=0; i< machines->landmarks.size(); i++)
     {
     	int zone = getZone(machines->landmarks[i].x, machines->landmarks[i].y);
-    	mps[zone-1].x = machines->landmarks[i].x;
-    	mps[zone-1].y = machines->landmarks[i].y;
-    	mps[zone-1].theta = machines->landmarks[i].theta;
+    	if(zone==0)
+    		continue;
+
+    	mps[zone-1].xSum += machines->landmarks[i].x;
+    	mps[zone-1].ySum += machines->landmarks[i].y;
+    	mps[zone-1].thetaSum += machines->landmarks[i].theta;
+    	mps[zone-1].nbActu += 1;
+
+    	mps[zone-1].x = mps[zone-1].xSum/mps[zone-1].nbActu;
+    	mps[zone-1].y = mps[zone-1].ySum/mps[zone-1].nbActu;
+    	mps[zone-1].theta = mps[zone-1].thetaSum/mps[zone-1].nbActu;
     	mps[zone-1].draw = true;
     	mps[zone-1].zone = zone;
 	}   
