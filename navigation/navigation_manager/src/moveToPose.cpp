@@ -1,6 +1,8 @@
 #include "moveToPose.h"
 #include <tf/transform_datatypes.h>
 
+const int timeOutGenePath = 5;
+
 void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
 {
     // helper variables
@@ -30,42 +32,73 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     }
     else{
         ROS_ERROR("Failed to call service generate path");
+        m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
+        m_as.setAborted(m_result);
+        return;
     }
 
-    ros::Time t = ros::Time::now() + ros::Duration(5);
+    ros::Time t = ros::Time::now() + ros::Duration(timeOutGenePath);
     while (m_last_id != m_path_id && ros::ok() && ros::Time::now() < t){
         r.sleep();
         ros::spinOnce();
     }
+    //timeout genePath
     if (ros::Time::now() >= t){
         ROS_INFO("Path generate : Timeout!");
         m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
+        m_as.setAborted(m_result);
         return;
     }
 
+    //path Found
     if (m_last_id == m_path_id){
         ROS_INFO("Path generated! with id : %d", m_path_id);
         deplacement_msg::TrackPathGoal tgoal;
         tgoal.id = m_last_id;
         m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
-        boost::bind(&MoveToPose::activeCb, this),
-        boost::bind(&MoveToPose::feedbackCb, this, _1));
+                                          boost::bind(&MoveToPose::activeCb, this),
+                                          boost::bind(&MoveToPose::feedbackCb, this, _1));
 
+        bool isOk = true;
+        bool obstacleInRange = false;
+        PathTrackStatus pathTrackStatus = PathTrackStatus::RUNNING;
 
+        while (isOk)
+        {
 
-        /*bool finished_before_timeout = m_trackPathAction.waitForResult(ros::Duration(30.0));
-        if (finished_before_timeout){
-            actionlib::SimpleClientGoalState state = ac.getState();
-            ROS_INFO("Action finished: %s",state.toString().c_str());
-        }
-        else
-            ROS_INFO("Action did not finish before the time out.");  */
+            if(obstacleInRange && pathTrackStatus == PathTrackStatus::RUNNING)
+            {
+                m_trackPathAction.cancelGoal();
+                pathTrackStatus = PathTrackStatus::PAUSE;
+            }
+            else if(!obstacleInRange && pathTrackStatus == PathTrackStatus::PAUSE)
+            {
+                m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
+                                                  boost::bind(&MoveToPose::activeCb, this),
+                                                  boost::bind(&MoveToPose::feedbackCb, this, _1));
+                pathTrackStatus = PathTrackStatus::RUNNING;
+            }
 
-        while (ros::ok() && !(m_as.isPreemptRequested()) && m_trackPathAction.getResult()->result != deplacement_msg::MoveToPoseResult::FINISHED){
-
-            //algo calculs
+            m_feedback.percent_complete = m_pathTrackPercentComplete;
             m_as.publishFeedback(m_feedback);
+
+
+            if (!ros::ok())
+            {
+                isOk = false;
+            }
+            else if (m_as.isPreemptRequested())
+            {
+                isOk = false;
+            }
+            else if (m_trackPathAction.getResult()->result != deplacement_msg::MoveToPoseResult::FINISHED)
+            {
+                isOk = false;
+            }
+
         }
+
+
         if (m_trackPathAction.getResult()->result == deplacement_msg::MoveToPoseResult::FINISHED){
             m_result.result = deplacement_msg::MoveToPoseResult::FINISHED;
         }
@@ -74,6 +107,12 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
         }
         m_as.setSucceeded(m_result);
 
+    }
+    else
+    {
+        m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
+        m_as.setAborted(m_result);
+        return;
     }
 
 
@@ -104,23 +143,24 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
 
 // Called once when the goal completes
 void MoveToPose::doneCb(const actionlib::SimpleClientGoalState& state,
-            const deplacement_msg::TrackPathResultConstPtr& result)
+                        const deplacement_msg::TrackPathResultConstPtr& result)
 {
-  ROS_INFO("Finished in state [%s]", state.toString().c_str());
-  ROS_INFO("Answer: %d", result->result);
+    ROS_INFO("Finished in state [%s]", state.toString().c_str());
+    ROS_INFO("Answer: %d", result->result);
 
 }
 
 // Called once when the goal becomes active
 void MoveToPose::activeCb()
 {
-  ROS_INFO("Goal just went active");
+    ROS_INFO("Goal just went active");
 }
 
 // Called every time feedback is received for the goal
 void MoveToPose::feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& feedback)
 {
-  ROS_INFO("Got Feedback of length %d", feedback->percent_complete);
+    ROS_INFO("Got Feedback of length %d", feedback->percent_complete);
+    m_pathTrackPercentComplete = feedback->percent_complete;
 }
 
 void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom){
@@ -129,4 +169,10 @@ void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom){
 
 void MoveToPose::PathCallback(const pathfinder::AstarPath &path){
     m_path_id = path.id;
+}
+
+
+void DistSensorCallback(const sensor_msgs::PointCloud &sensor)
+{
+    m_sharpSensor = sensor;
 }
