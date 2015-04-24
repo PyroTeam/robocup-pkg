@@ -113,7 +113,7 @@ add_executable(test_fonctions_laser
 	src/Segment.cpp
 	src/fa_utils.cpp)
 
-add_executable(fake_scan_node
+add_executable(fake_scan_node_cyril
 	src/fake_scan_node.cpp)
 	
 target_link_libraries(
@@ -127,12 +127,12 @@ target_link_libraries(
 )
 
 target_link_libraries(
-  fake_scan_node
+  fake_scan_node_cyril
   ${catkin_LIBRARIES}
 )
 
-set_target_properties(finalApproaching_server PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+set_target_properties(finalApproaching_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+set_target_properties(fake_scan_node_cyril PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 set_target_properties(test_fonctions_laser PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 add_dependencies(
