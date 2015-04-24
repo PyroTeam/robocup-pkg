@@ -13,10 +13,10 @@ Point(float r = 0.0, double phi = 0.0);
 
 void setr(float val){m_r = val;}
 void setphi(double val){m_phi = val;}
-float getr() const{return m_r;}
-double getphi() const{return m_phi;}
-float getx() const{return m_r*cos(-M_PI_2 + m_phi);}
-float gety() const{return m_r*sin(-M_PI_2 + m_phi);}
+float getr() {return m_r;}
+double getphi() {return m_phi;}
+float getx() {return m_r*cos(-M_PI_2 + m_phi);}
+float gety() {return m_r*sin(-M_PI_2 + m_phi);}
 private:
 
 float m_r;
