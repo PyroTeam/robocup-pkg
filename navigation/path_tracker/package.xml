@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<package>
+  <name>path_tracker</name>
+  <version>0.0.0</version>
+  <description>The path_tracker package</description>
+
+  <maintainer email="valentin.vergez@gmail.com">Valentin Vergez</maintainer>
+
+  <license>GPLv3</license>
+
+  <url type="repository">https://github.com/PyroTeam/robocup-pkg</url>
+  <url type="bugtracker">https://github.com/PyroTeam/robocup-pkg/issues</url>
+  <url type="website">https://github.com/PyroTeam/robocup-pkg/wiki</url>
+
+  <author email="valentin.vergez@gmail.com">Valentin Vergez</author>
+
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rospy</build_depend>
+  <build_depend>geometry_messages</build_depend>
+  <build_depend>turtlesim</build_depend>
+
+  <run_depend>rospy</run_depend>
+  <run_depend>geometry_messages</run_depend>
+  <run_depend>turtlesim</run_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- You can specify that this package is a metapackage here: -->
+    <!-- <metapackage/> -->
+
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>
