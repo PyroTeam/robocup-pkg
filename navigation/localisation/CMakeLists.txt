@@ -137,14 +137,9 @@ add_executable(
   src/try.cpp)
 
 add_executable(
-  EKF_node_2
-  src/EKF_2.cpp
-  src/EKF_class_2.cpp)
-
-add_executable(
   EKF_node
   src/EKF.cpp
-  src/EKF_functions.cpp)
+  src/EKF_class.cpp)
 
 add_executable(
   Cartographie
@@ -155,7 +150,6 @@ set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(odometry_correction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(visualisation PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(try PROPERTIES COMPILE_FLAGS -std=c++0x)
-set_target_properties(EKF_node_2 PROPERTIES COMPILE_FLAGS "-std=c++0x -g3")
 set_target_properties(EKF_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(Cartographie PROPERTIES COMPILE_FLAGS -std=c++0x)
 
@@ -185,10 +179,6 @@ target_link_libraries(
 )
 target_link_libraries(
   try
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(
-  EKF_node_2
   ${catkin_LIBRARIES}
 )
 target_link_libraries(

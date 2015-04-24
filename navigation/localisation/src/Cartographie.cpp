@@ -96,6 +96,8 @@ geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p){
 
   m(2,2) = 1;
 
+  //std::cout << m << std::endl;
+
   after = m*before;
 
   p2.x   = after(0);
@@ -108,11 +110,11 @@ geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p){
 void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
   for (auto &it : machines->landmarks){
     geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it));
-
-    //std::cout << "machine en zone " << machineToArea(p) << std::endl;
-    if (machineToArea(p) >= 12){
+/*
+    std::cout << "machine en zone " << machineToArea(p) << std::endl;
+    if (machineToArea(p) > 0){*/
         tabMachines.landmarks.push_back(p);
-    }
+    //}
   }
 }
 
@@ -125,7 +127,6 @@ void laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
 }    
 
 void init(std::string s, int n){
-  /*
   int color = 0;
   if (s == "cyan"){
     color = 1;
@@ -135,7 +136,7 @@ void init(std::string s, int n){
   }
 
   initRobot.theta =  0.0;
-  initRobot.y   = -0.5;
+  initRobot.y     = -0.5;
 
   switch(n){
     case 1 :
@@ -149,10 +150,7 @@ void init(std::string s, int n){
     break;
     default :
     break;
-  }*/
-  initRobot.x     = 0.0;
-  initRobot.y     = 0.0;
-  initRobot.theta = 0.0;
+  }
 }
 
 int main( int argc, char** argv )
