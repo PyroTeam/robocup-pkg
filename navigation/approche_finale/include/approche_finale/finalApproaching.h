@@ -18,7 +18,8 @@ protected:
   manager_msg::finalApproachingFeedback feedback_;
   manager_msg::finalApproachingResult result_;
   ros::Publisher m_pub_mvt;
-  int m_type;
+  ros::Publisher m_marker_pub;
+	int m_type;
   int m_side;
   int m_parameter;
 
