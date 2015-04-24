@@ -4,11 +4,13 @@ FeuClientAction::FeuClientAction() {
 }
 FeuClientAction::~FeuClientAction(){}
 
-void FeuClientAction::lightsStates(){
+void FeuClientAction::lightsStates(std::vector<manager_msg::LightSpec> &m_lightSpec){
 	
+	int i=0;
+
 	actionlib::SimpleActionClient<manager_msg::processLightSignalAction> client("processLightSignal",true);
 
-	ROS_INFO("Waiting for action Server to start");
+	ROS_INFO("Waiting for action Lights Server to start");
 
 	client.waitForServer(); 
 
@@ -23,13 +25,14 @@ void FeuClientAction::lightsStates(){
 	if(finished_before_timeout){
 		actionlib::SimpleClientGoalState state = client.getState();
 		ROS_INFO("Action finished : %s ",state.toString().c_str());
+		m_lightSpec = client.getResult()->light_signal;
+		/*for(i = 0 ; i < m_lightSpec.size() ; i++){
+		 	ROS_INFO("color : %d , state : %d",m_lightSpec[i].color,m_lightSpec[i].state);
+		}*/
 
 	}
 	else{
 		ROS_INFO("Action didn't finish before the time out");
 	}
-	/*if(client.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
-		printf("No problem and the current state is \n", client.getState().toString().c_str());
-	}*/
 
 }

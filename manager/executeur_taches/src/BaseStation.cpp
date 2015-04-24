@@ -36,21 +36,41 @@ void BaseStation::majSilver(int nbArgent){
 }
 
 void BaseStation::take_base(int color,int n_robot,int n_order){
-     /* TOPIC Générateur de taches : infos sur l'avancement de la tache */
+  // A verifier si la bs est dispo
+  // si OK : (sinon erreur )
+
+  // TOPIC Générateur de taches : infos sur l'avancement de la tache 
   manager_msg::activity msg;
   msg = msgToGT(n_robot,activity::IN_PROGRESS,activity::BS,n_order); 
   ROS_INFO("Taking a Base, color : %d", color); 
 
-  //goTo(this.m_entryMachine);
+  goTo(this->m_exitMachine);
+
   //Communication_RefBox(je veux une base de couleur "couleur" )
-  //goTo(this.m_exitMachine);
+
   // while(Communication_RefBox(bs n'a terminé de livrer)) { }
+
+  this->startFinalAp(finalApproachingGoal::BS, finalApproachingGoal::OUT, finalApproachingGoal::CONVEYOR);
+  this->take();
+  msg = msgToGT(n_robot,activity::END,activity::BS,n_order); 
 }
 
 void BaseStation::bring_base_rs(int color,int n_robot,int n_order,int machine){
-     /* TOPIC Générateur de taches : infos sur l'avancement de la tache */
+
   manager_msg::activity msg;
-  msg = msgToGT(n_robot,activity::IN_PROGRESS,activity::BS,n_order); 
+  /* 1ere partie : prendre la base */
+
+  this->take_base(color,n_robot,n_order);
+  
+  /* 2eme partie : emener la base */
+
+    // A verifier si la bs est dispo
+  // si OK : (sinon erreur )
   ROS_INFO("Bringing a Base to a RS"); 
-  /* puis, msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order); */
+
+  goTo(this->m_centerMachine);
+  this->startFinalAp(finalApproachingGoal::RS, finalApproachingGoal::IN, finalApproachingGoal::LANE_RS);
+  this->let();
+  msg = msgToGT(n_robot,activity::END,activity::BS,n_order);
+
 }
