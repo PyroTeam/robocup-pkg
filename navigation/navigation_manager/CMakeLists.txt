@@ -100,7 +100,6 @@ catkin_package(
 # include_directories(include)
 include_directories(
   include
-  include/navigation_manager
   ${catkin_INCLUDE_DIRS}
 )
 
