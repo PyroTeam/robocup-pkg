@@ -78,7 +78,6 @@ FILES
    action
    FILES
    finalApproaching.action
-   MoveToPose.action
 #   Action2.action
  )
 

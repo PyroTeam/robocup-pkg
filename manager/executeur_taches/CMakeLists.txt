@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   manager_msg
   comm_msg
+  deplacement_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -153,7 +154,7 @@ add_dependencies(test_order manager_msg_gencpp comm_msg_gencpp)
 
 
 add_executable(finalApproaching_client src/finalApproaching_client.cpp)
-add_dependencies(finalApproaching_client manager_msg_gencpp comm_msg_gencpp)
+add_dependencies(finalApproaching_client manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
 
 add_executable(
   test_ei
@@ -175,7 +176,7 @@ add_executable(
 
   src/fake_action_navigation.cpp
 )
-add_dependencies(test_navigation manager_msg_gencpp comm_msg_gencpp)
+add_dependencies(test_navigation manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
 
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
