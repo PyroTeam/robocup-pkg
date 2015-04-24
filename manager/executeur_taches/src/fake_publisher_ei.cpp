@@ -1,8 +1,8 @@
 /* Fake Localisation Publisher Node */
 
 #include "ros/ros.h"
-#include "manager_msg/ExplorationInfo.h"
-#include "manager_msg/LightSpec.h"
+#include "comm_msg/ExplorationInfo.h"
+#include "comm_msg/LightSpec.h"
 #include <string>
 
 int main(int argc, char **argv)
@@ -14,17 +14,17 @@ int main(int argc, char **argv)
 
   ros::NodeHandle n;
 
-  ros::Publisher ei_pub = n.advertise<manager_msg::ExplorationInfo>("/explorationInfo", 1000);
+  ros::Publisher ei_pub = n.advertise<comm_msg::ExplorationInfo>("/explorationInfo", 1000);
 
   ros::Rate loop_rate(1);
 
   while (ros::ok())
   {
     
-    manager_msg::ExplorationInfo msg;
-    manager_msg::LightSpec light;
+    comm_msg::ExplorationInfo msg;
+    comm_msg::LightSpec light;
 
-    std::vector<manager_msg::ExplorationSignal>  m_signals(2);
+    std::vector<comm_msg::ExplorationSignal>  m_signals(2);
 
     m_signals[0].type="dgDH567q";
 
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
     light.state = light.ON;
     m_signals[1].lights.push_back(light);
 
-    std::vector<manager_msg::ExplorationZone>  m_zones(2);
+    std::vector<comm_msg::ExplorationZone>  m_zones(2);
     m_zones[0].zone = 0;
     m_zones[0].team_color = 0;
     m_zones[1].zone = 1;

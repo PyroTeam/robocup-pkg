@@ -2,13 +2,13 @@
 
 ExploInfoSubscriber::ExploInfoSubscriber(){
 	ros::NodeHandle n;
-	m_sub = n.subscribe("/explorationInfo",1000,&ExploInfoSubscriber::tesCallback, this);
+	m_sub = n.subscribe("/refBoxComm/ExplorationInfo",1000,&ExploInfoSubscriber::tesCallback, this);
 }
 
 ExploInfoSubscriber::~ExploInfoSubscriber(){
 }
 
-void ExploInfoSubscriber::tesCallback(const manager_msg::ExplorationInfo &msg)
+void ExploInfoSubscriber::tesCallback(const comm_msg::ExplorationInfo &msg)
 {
 	ROS_INFO("I heard the ExplorationInfo publisher ");
 
@@ -17,7 +17,7 @@ void ExploInfoSubscriber::tesCallback(const manager_msg::ExplorationInfo &msg)
 }
 void ExploInfoSubscriber::interpretationFeu(){
 	int i=0, j=0;
-	manager_msg::LightSpec light;
+	comm_msg::LightSpec light;
     uint8_t r_state,g_state,y_state;
     for(i = 0;i<lSpec.size() ;i++){
     	if(lSpec[i].color == light.RED)    r_state = lSpec[i].state;

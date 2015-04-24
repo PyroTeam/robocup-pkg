@@ -1,2 +1,0 @@
-string type
-LightSpec[] lights

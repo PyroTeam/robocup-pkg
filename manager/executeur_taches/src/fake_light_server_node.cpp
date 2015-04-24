@@ -1,13 +1,13 @@
 #include "ros/ros.h"
 #include <manager_msg/processLightSignalAction.h>
-#include <manager_msg/LightSpec.h>
+#include <comm_msg/LightSpec.h>
 #include <actionlib/server/simple_action_server.h>
 
 typedef actionlib::SimpleActionServer<manager_msg::processLightSignalAction> Server;
 
 void execute(const manager_msg::processLightSignalGoalConstPtr &goal, Server* as){
 	manager_msg::processLightSignalResult result;
-	manager_msg::LightSpec light;
+	comm_msg::LightSpec light;
 	// yellow
 	light.color = light.YELLOW;
 	light.state = light.ON;

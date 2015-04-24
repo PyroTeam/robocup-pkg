@@ -4,7 +4,7 @@ FeuClientAction::FeuClientAction() {
 }
 FeuClientAction::~FeuClientAction(){}
 
-void FeuClientAction::lightsStates(std::vector<manager_msg::LightSpec> &m_lightSpec){
+void FeuClientAction::lightsStates(std::vector<comm_msg::LightSpec> &m_lightSpec){
 	
 	int i=0;
 
