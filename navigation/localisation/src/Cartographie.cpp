@@ -125,7 +125,7 @@ void laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
     scan.landmarks.push_back(p);
   }
 }    
-
+/*
 void init(std::string s, int n){
   int color = 0;
   if (s == "cyan"){
@@ -152,12 +152,13 @@ void init(std::string s, int n){
     break;
   }
 }
-
+*/
 int main( int argc, char** argv )
 {
   ros::init(argc, argv, "EKF_node");
 
   ros::NodeHandle n;
+  /*
   //selon la couleur de l'équipe (côté du terrain) et le numéro du robot,
   //on choisit une position initiale pour initialiser l'odométrie et la position initRobot
   std::string s;
@@ -167,8 +168,8 @@ int main( int argc, char** argv )
  
   //std::cout << s << "\n" << num << std::endl;
 
-  init(s, num);
-
+  //init(s, num);
+*/
   ros::Subscriber sub_odom     = n.subscribe("/new_odom", 1000, odomCallback);
   ros::Subscriber sub_machines = n.subscribe("/machines", 1000, machinesCallback);
   ros::Subscriber sub_laser    = n.subscribe("/laser", 1000, laserCallback);
