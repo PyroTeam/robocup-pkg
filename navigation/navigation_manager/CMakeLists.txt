@@ -13,6 +13,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  sensor_msgs
+  pathfinder
 )
 
 ## System dependencies are found with CMake's conventions
@@ -85,7 +87,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include  include/navigation_manager
+  INCLUDE_DIRS include
   LIBRARIES navigation_manager
   CATKIN_DEPENDS actionlib deplacement_msg geometry_msgs nav_msgs robotino_msgs roscpp rospy std_msgs
   DEPENDS system_lib
@@ -100,7 +102,6 @@ catkin_package(
 # include_directories(include)
 include_directories(
   include
-  include/navigation_manager
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -117,7 +118,7 @@ add_executable(navigation_manager_node
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(navigation_manager_node navigation_manager_generate_messages_cpp deplacement_msg_gencpp)
+add_dependencies(navigation_manager_node navigation_manager_generate_messages_cpp deplacement_msg_gencpp pathfinder_gencpp)
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(navigation_manager_node
