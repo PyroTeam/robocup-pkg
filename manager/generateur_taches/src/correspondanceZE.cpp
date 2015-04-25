@@ -1,20 +1,24 @@
 #include "correspondanceZE.h"
 #include "comm_msg/ExplorationInfo.h"
 #include <vector>
+#include <string>
 
 CorrespondanceZE::CorrespondanceZE(){
-	m_correspondanceZE_sub = m_nh.subscribe("exploration_info",1000,&comm_msg::ExplorationInfo,this); 	
+	m_correspondanceZE_sub = m_nh.subscribe("/refBoxComm/ExplorationInfo",1000,&CorrespondanceZE::cZECallback,this);
 }
 
 CorrespondanceZE::~CorrespondanceZE(){}
 
-void correspondanceZE::cZECallback(const comm_msg::ExplorationInfo &msg){	
+void CorrespondanceZE::cZECallback(const comm_msg::ExplorationInfo &msg){
 	m_zone_utile.clear();
-	for(int i=0;i<zone.size();i++){ 
+	std::cout << "Taille zone msg = " << msg.zones.size() << std::endl;
+	for(int i=0;i<msg.zones.size();i++){
 		int team=0;
-		m_nh.getParam("teamColor",team);
-		if((team == msg.zone[i].team_color){
-			m_zone_utile.push_back(i);
+		std::string teamStr;
+		m_nh.getParam("teamColor",teamStr);
+		team = (teamStr == "cyan") ? 0 : 1;
+		if(team == msg.zones[i].team_color){
+			m_zone_utile.push_back(msg.zones[i].zone);
 		}
 	}
 }

@@ -26,7 +26,7 @@ void execute(const trait_im_msg::processLightSignalGoalConstPtr &goal, Server* a
 int main(int argc, char** argv){
 	ros::init(argc,argv,"process_light_signal_server");
 	ros::NodeHandle n;
-	Server server(n,"processLightSignal",boost::bind(&execute, _1, &server), false);
+	Server server(n,"lecture_feu",boost::bind(&execute, _1, &server), false);
 	server.start();
 	ros::spin();
 	return 0;

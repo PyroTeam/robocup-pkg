@@ -13,7 +13,7 @@ void execute(const deplacement_msg::MoveToPoseGoalConstPtr &goal, Server* as){
 int main(int argc, char** argv){
 	ros::init(argc,argv,"move_to_pose_server");
 	ros::NodeHandle n;
-	Server server(n,"MoveToPose",boost::bind(&execute, _1, &server), false);
+	Server server(n,"moveToPose",boost::bind(&execute, _1, &server), false);
 	server.start();
 	ros::spin();
 	return 0;
