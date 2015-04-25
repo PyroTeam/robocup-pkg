@@ -38,8 +38,8 @@ llsfrb:
   game:
     team: PyroTeam
     color: cyan
-    robot_number: 2
-    robot_name: R2
-    
+    robot_number: 3
+    robot_name: R3
+
     crypto-keys:
       PyroTeam: tk3P2mKD
