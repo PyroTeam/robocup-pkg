@@ -143,7 +143,9 @@ add_executable(
 
 add_executable(
   Cartographie
-  src/Cartographie.cpp)
+  src/Cartographie.cpp
+  src/Cartographie_utils.cpp
+  src/Machine.cpp)
 
 set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
