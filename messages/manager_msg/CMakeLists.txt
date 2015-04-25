@@ -10,7 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   message_generation
-  actionlib_msgs        
+  actionlib_msgs
   actionlib
   message_runtime
   comm_msg
@@ -57,7 +57,7 @@ FILES
    GripperStatus.msg
    activity.msg
    Landmarks.msg
-   GameState.msg
+
  )
 
 ## Generate services in the 'srv' folder
@@ -78,7 +78,6 @@ FILES
    action
    FILES
    finalApproaching.action
-   processLightSignal.action
 #   Action2.action
  )
 

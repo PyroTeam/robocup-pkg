@@ -1,1 +1,1 @@
-LightSpec[] lights
+comm_msg/LightSpec[] lights

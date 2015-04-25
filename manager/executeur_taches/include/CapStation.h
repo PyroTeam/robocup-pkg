@@ -12,7 +12,7 @@ class CapStation : public Machine{
       int m_blackCap;
       int m_greyCap;
       int m_stockID[3];
-      geometry_msgs::Pose2D m_stockage;
+      int m_capID[3];
       
   public:
     
@@ -26,8 +26,7 @@ class CapStation : public Machine{
       int getGreyCap();
       int getBlackCap();  
       int getStockage(int i);
-      void majStockID(int i, int val);   
-      geometry_msgs::Pose2D getStockage(); 
+      void majStockID(int i, int val); 
       void majBlack(int nbNoir);
       void majGrey(int nbGris);
       void put_cap(int color, int n_robot, int n_order, int machine);

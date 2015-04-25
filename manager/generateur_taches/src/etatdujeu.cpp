@@ -1,9 +1,9 @@
 #include "etatdujeu.h"
 #include <ros/ros.h>
 
-#include "manager_msg/GameState.h" //a passer apres en comm_msg/GameState.h
+#include "comm_msg/GameState.h" //a passer apres en comm_msg/GameState.h
 
-void Etatdujeu::gsCallback(const manager_msg::GameState &msg) //ici aussi
+void Etatdujeu::gsCallback(const comm_msg::GameState &msg) //ici aussi
 {
   m_etat=msg.state;
   m_phase=msg.phase;
@@ -13,6 +13,5 @@ void Etatdujeu::gsCallback(const manager_msg::GameState &msg) //ici aussi
 
 Etatdujeu::Etatdujeu(){
   ROS_INFO("test");
-  m_gamestate_sub = m_nh.subscribe("game_state",1000,&Etatdujeu::gsCallback,this);        
+  m_gamestate_sub = m_nh.subscribe("/refBoxComm/GameState",1000,&Etatdujeu::gsCallback,this);
 }
-

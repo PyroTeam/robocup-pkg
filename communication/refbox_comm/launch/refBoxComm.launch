@@ -1,7 +1,7 @@
 <launch>
     <param name="teamName" value="PYRO" />
     <param name="teamColor" value="magenta" />
-    <param name="robotNumber" value="2" />
-    <param name="robotName" value="R2" />
+    <param name="robotNumber" value="1" />
+    <param name="robotName" value="R1" />
     <node pkg="refbox_comm" name="Com_node" type="refBoxComm" output="screen"/>
 </launch>

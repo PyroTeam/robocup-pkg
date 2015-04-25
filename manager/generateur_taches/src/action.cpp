@@ -14,7 +14,7 @@ void Action::tesCallback(const manager_msg::activity &msg)
 }
 
 Action::Action(){
-  m_activity_sub = m_nh.subscribe("task_exec_state",1000,&Action::tesCallback,this);        
+  m_activity_sub = m_nh.subscribe("task_exec_state",1000,&Action::tesCallback,this);
 }
 
 void Action::update_robot(Robot (&robot)[3]){
