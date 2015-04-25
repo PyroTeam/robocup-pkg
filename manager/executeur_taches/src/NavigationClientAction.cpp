@@ -24,10 +24,12 @@ int NavigationClientAction::goToAPoint(geometry_msgs::Pose2D dest_point){
 	if(finished_before_timeout){
 		actionlib::SimpleClientGoalState state = client.getState();
 		ROS_INFO("Action finished : %s ",state.toString().c_str());
-		return client.getResult()->result;
 	}
 	else{
-		ROS_INFO("Action didn't finish before the time out");
+		actionlib::SimpleClientGoalState state = client.getState();
+		ROS_INFO("Action finished but FAILED: %s ",state.toString().c_str());
 	}
+	
+	return client.getResult()->result;
 
 }
