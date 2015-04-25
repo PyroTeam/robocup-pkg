@@ -3,6 +3,15 @@
 
 const int timeOutGenePath = 5;
 
+bool isInZone(float x, float y, float xmin, float xmax, float ymin, float ymax)
+{
+    if((x < xmin || xmax < x) || (y < ymin || ymax < y))
+    {
+        return false;
+    }
+    return true;
+}
+
 void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
 {
     // helper variables
@@ -63,26 +72,51 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
         enum PathTrackStatus pathTrackStatus = RUNNING;
         bool obstacleInRange;
 
-
+	float xmax = 0.4, xmin = 0, ymin = -0.3, ymax = 0.3;
 
         while (isOk)
         {
             obstacleInRange = false;
-            if (m_sharpSensor.points[0].x < 1 && m_sharpSensor.points[0].y < 1){
+            /*if (std::abs(m_sharpSensor.points[0].x) < max && std::abs(m_sharpSensor.points[0].y) < max){
                 obstacleInRange = true;
             }
-            if (m_sharpSensor.points[1].x < 1 && m_sharpSensor.points[1].y < 1){
+            if (std::abs(m_sharpSensor.points[1].x) < max && std::abs(m_sharpSensor.points[1].y) < max){
                 obstacleInRange = true;
             }
-            if (m_sharpSensor.points[2].x < 1 && m_sharpSensor.points[2].y < 1){
+            if (std::abs(m_sharpSensor.points[2].x) < max && std::abs(m_sharpSensor.points[2].y) < max){
                 obstacleInRange = true;
             }
-            if (m_sharpSensor.points[7].x < 1 && m_sharpSensor.points[7].y < 1){
+            if (std::abs(m_sharpSensor.points[7].x) < max && std::abs(m_sharpSensor.points[7].y) < max){
                 obstacleInRange = true;
             }
-            if (m_sharpSensor.points[8].x < 1 && m_sharpSensor.points[8].y < 1){
+            if (std::abs(m_sharpSensor.points[8].x) < max && std::abs(m_sharpSensor.points[8].y) < max){
+                obstacleInRange = true;
+            }*/
+
+
+            if (isInZone(m_sharpSensor.points[0].x, m_sharpSensor.points[0].y, xmin, xmax, ymin, ymax))
+            {
                 obstacleInRange = true;
             }
+            if (isInZone(m_sharpSensor.points[1].x, m_sharpSensor.points[1].y, xmin, xmax, ymin, ymax))
+            {
+                obstacleInRange = true;
+            }
+            if (isInZone(m_sharpSensor.points[2].x, m_sharpSensor.points[2].y, xmin, xmax, ymin, ymax))
+            {
+                obstacleInRange = true;
+            }
+            if (isInZone(m_sharpSensor.points[7].x, m_sharpSensor.points[7].y, xmin, xmax, ymin, ymax))
+            {
+                obstacleInRange = true;
+            }
+            if (isInZone(m_sharpSensor.points[8].x, m_sharpSensor.points[8].y, xmin, xmax, ymin, ymax))
+            {
+                obstacleInRange = true;
+            }
+
+
+            std::cout << "Obstacle in range :" << obstacleInRange << std::endl;
 
             if(obstacleInRange && pathTrackStatus == RUNNING)
             {
@@ -97,6 +131,8 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
                 pathTrackStatus = RUNNING;
             }
 
+            std::cout << "PathTrack Status = " << pathTrackStatus << std::endl;
+
             m_feedback.percent_complete = m_pathTrackPercentComplete;
             m_as.publishFeedback(m_feedback);
 
@@ -108,8 +144,9 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
             else if (m_as.isPreemptRequested())
             {
                 isOk = false;
+		//todo cancel path_track
             }
-            else if (m_trackPathAction.getResult()->result != deplacement_msg::MoveToPoseResult::FINISHED)
+            else if (m_trackPathAction.getResult()->result == deplacement_msg::MoveToPoseResult::FINISHED)
             {
                 isOk = false;
             }
@@ -167,6 +204,6 @@ void MoveToPose::DistSensorCallback(const sensor_msgs::PointCloud &sensor)
 {
     m_sharpSensor = sensor;
     for (int i = 0 ; i < 9 ; i++){
-        ROS_INFO("Données capteur %d : %f %f %f", i, m_sharpSensor.points[i].x, m_sharpSensor.points[i].y, m_sharpSensor.points[i].z);
+//        ROS_INFO("Données capteur %d : %f %f %f", i, m_sharpSensor.points[i].x, m_sharpSensor.points[i].y, m_sharpSensor.points[i].z);
     }
 }
