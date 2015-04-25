@@ -166,6 +166,7 @@ add_executable(
 
   src/fake_arTag_server.cpp
 )
+add_dependencies(test_arTag manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
 add_executable(
   test_report
 
