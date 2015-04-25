@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  sensor_msgs
   pathfinder
 )
 
@@ -86,7 +87,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include  include/navigation_manager
+  INCLUDE_DIRS include
   LIBRARIES navigation_manager
   CATKIN_DEPENDS actionlib deplacement_msg geometry_msgs nav_msgs robotino_msgs roscpp rospy std_msgs
   DEPENDS system_lib
