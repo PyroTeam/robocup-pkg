@@ -24,13 +24,13 @@ void GtServerSrv::going(geometry_msgs::Pose2D point){
                    ROS_INFO("going to the point : x : %f - y : %f - theta %f",point.x,point.y,point.theta);
                    NavigationClientAction n_c;
                    stateOfNavigation = n_c.goToAPoint(point);
-                   if(stateOfNavigation == manager_msg::MoveToPoseResult::ERROR){
+                   if(stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR){
                             count ++;
                             ROS_INFO("Can't go to the asked point sorry :(.. I will try another one ");
                             point.x -= 0.2;
                             point.y += 0.2;
                    }
-       }while (stateOfNavigation == manager_msg::MoveToPoseResult::ERROR);
+       }while (stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR);
 }
 geometry_msgs::Pose2D GtServerSrv::calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone){
         geometry_msgs::Pose2D pt_dest, center;
