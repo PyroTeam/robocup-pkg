@@ -6,7 +6,7 @@
 #include <geometry_msgs/Pose2D.h>
 #include "manager_msg/activity.h"
 #include "manager_msg/order.h"
-#include "manager_msg/MoveToPoseAction.h"
+#include "deplacement_msg/MoveToPoseAction.h"
 #include "FeuClientAction.h"
 #include "GripperClientSrv.h"
 #include "FinalApproachingClient.h"
@@ -17,7 +17,7 @@ using namespace manager_msg;
 
 class Machine{
   protected:
- 
+
     /* Variables d'instance */
     std::string m_type;
     geometry_msgs::Pose2D m_centerMachine;
@@ -25,13 +25,13 @@ class Machine{
     geometry_msgs::Pose2D m_exitMachine;
     int zone;
     bool isHere;
-    
+
   public:
     Machine();
     virtual ~Machine();
-    
+
     virtual void FonctionVirtuelle() = 0;
-    
+
     /* méthodes */
     std::string getType();
     geometry_msgs::Pose2D getCenterMachine();
@@ -49,6 +49,3 @@ class Machine{
 };
 
 #endif
-
-
-

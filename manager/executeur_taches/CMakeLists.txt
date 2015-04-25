@@ -142,7 +142,7 @@ add_executable(
 
   src/fake_light_server_node.cpp
 )
-add_dependencies(test_lights manager_msg_gencpp comm_msg_gencpp)
+add_dependencies(test_lights manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
 
 add_executable(
   test_order
