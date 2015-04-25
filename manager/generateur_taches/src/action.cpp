@@ -6,7 +6,7 @@
 
 void Action::tesCallback(const manager_msg::activity &msg)
 {
-  m_nb_robot = msg.nb_robot-1;
+  m_nb_robot = msg.nb_robot;
   m_state = msg.state;
   m_machine_used = msg.machine_used;
   m_nb_order = msg.nb_order;
