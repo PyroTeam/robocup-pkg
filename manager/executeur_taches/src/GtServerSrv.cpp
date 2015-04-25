@@ -305,20 +305,20 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                 geometry_msgs::Pose2D pt_actuel;
 
                 if(req.id == 4) { // DS CYAN
-                    pt_dest.x = 2;
-                    pt_dest.y = 5.25;
+                    pt_dest.x = 1.8;
+                    pt_dest.y = 4.9;
                     pt_dest.theta = M_PI;
                     going(pt_dest);
-                    pt_dest.x = 1.8;
-                    pt_dest.y = 5.25;
+                    pt_dest.x = 1.5;
+                    pt_dest.y = 4.9;
                 }
                 else if (req.id == 16) { // DS MAGENTA
-                    pt_dest.x = -2;
-                    pt_dest.y = 5.25;
+                    pt_dest.x = -1.8;
+                    pt_dest.y = 4.9;
                     pt_dest.theta = 0;
                     going(pt_dest);
-                    pt_dest.x = -1.8;
-                    pt_dest.y = 5.25;
+                    pt_dest.x = -1.5;
+                    pt_dest.y = 4.9;
                 }
                 else {
                     interpretationZone();
