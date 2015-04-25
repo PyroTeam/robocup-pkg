@@ -18,7 +18,7 @@ public:
 	float getX() const;
 	float getY() const;
 	typePoint getType() const;
-	
+
 	// AStar
 	int setPointPrec(Point *pointPrecedent);
 	int getPointPrec(Point *&pointPrecedent);
@@ -51,7 +51,7 @@ private:
 	float _h;	// Distance estimee jusqu'a arrivee (heuristic)
 	float _g;	// Distance connue depuis depart
 	float _f;	// Distance du chemin via ce point -> connue depuis depart + estimee jusqu'a arrivee (g+h)
-	
+
 };
 
 // Surcharge d'opérateurs de comparaison

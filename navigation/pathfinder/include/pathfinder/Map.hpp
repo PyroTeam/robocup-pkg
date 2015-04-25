@@ -15,6 +15,8 @@
 
 enum typeHeuristic{MANHATTAN,EUCLIDEAN,Chebyshev};
 
+class CompareF;
+
 class Map
 {
 public:
@@ -25,10 +27,10 @@ public:
 	void setAllowDiagonal(bool allowDiagonal);
 	void setCrossCorner(bool crossCorner);
 	void setPoidsHeuristic(signed int poids);
-	float heuristic(Point const& pointDepart, Point const& pointDistant);
-	float heuristicManhattan(Point const& pointDepart, Point const& pointDistant);
-	float heuristicEuclidean(Point const& pointDepart, Point const& pointDistant);
-	float heuristicChebyshev(Point const& pointDepart, Point const& pointDistant);
+	float heuristic(const Point& pointDepart, const Point& pointDistant);
+	float heuristicManhattan(const Point& pointDepart, const Point& pointDistant);
+	float heuristicEuclidean(const Point& pointDepart, const Point& pointDistant);
+	float heuristicChebyshev(const Point& pointDepart, const Point& pointDistant);
 	void setHeuristicFunction(typeHeuristic heuristicFonction);
 	bool isFreeAt(signed int li, signed int col);
 	signed int getVoisins(std::vector<Point*> &voisins, Point *oirigin);
@@ -58,7 +60,7 @@ private:
 	const static int nbPointsColonnes = 280;
 	Point *_pointsPassage[nbPointsLignes][nbPointsColonnes];
 
-	// AStar	
+	// AStar
 	bool _allowDiagonal;
 	bool _crossCorner;
 	signed int _poidsHeuristic;
@@ -71,6 +73,10 @@ private:
 	float _width;
 	float _origin_x;
 	float _origin_y;
+
+
+	bool isInMultiset(const std::multiset<Point *> &mset, Point& p);
+	bool isInMultiset(const std::multiset<Point *, CompareF> &mset, Point& p);
 };
 
 class CompareF

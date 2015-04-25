@@ -62,7 +62,7 @@
 		return _type;
 	}
 
-	// A Star	
+	// A Star
 	int Point::setPointPrec(Point *pointPrecedent)
 	{
 		_pointPrecedent = pointPrecedent;
