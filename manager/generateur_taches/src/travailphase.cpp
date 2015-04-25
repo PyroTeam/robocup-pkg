@@ -27,9 +27,9 @@ void travail_phase_exploration(Machine (&tab_machine)[6], Robot (&tabrobot)[3],i
   vector<int> zone = correspondanceZE.get_zone_utile();
   std::cout << "Taile zone : " << zone.size() << std::endl;
   if(zone.size() == 12){
-		if(cpt_machine<6){
-			Srvorder srvexplo(ros::Time::now(),cpt_order,robot+1,orderRequest::DISCOVER,orderRequest::NONE,zone[cpt_zone]);
-            cout <<"Robot n°"<<robot+1<<" execute la tache DISCOVER sur la zone n "<<zone[cpt_zone]<<endl;
+		/*if(cpt_machine<6)*/{
+			Srvorder srvexplo(ros::Time::now(),cpt_order,2,orderRequest::DISCOVER,orderRequest::NONE,16);
+            cout <<"Robot n°"<<2<<" execute la tache DISCOVER sur la zone n "<<16<<endl;
 			cpt_zone++;
 			cpt_order++;
 			if(srvexplo.get_accepted()){ //pour l'instant reponse du service non faite

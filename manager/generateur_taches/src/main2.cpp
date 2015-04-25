@@ -14,6 +14,7 @@
 #include "travailphase.h"
 #include "etatdujeu.h"
 #include "correspondanceZE.h"
+#include "srvorder.h"
 
 #include "comm_msg/GameState.h" //a changer en comm_msg plus tard
 
@@ -33,11 +34,11 @@ int main(int argc, char **argv) {
   Stockage tab_stock[6];
 
   Robot tabrobot[3];
-  vector<int> black(1,10);
-  Produit action(0,black);
+  //vector<int> black(1,10);
+  //Produit action(0,black);
 
   list< list<Tache> > work;
-  for(int i=0;i<6;i++){
+  /*for(int i=0;i<6;i++){
     work.push_back(creation_liste_taches_act(7,action,0,0));
   }
   get_info_liste_de_liste(work);
@@ -47,7 +48,7 @@ int main(int argc, char **argv) {
   couleurs.push_back(10);
   couleurs.push_back(20);
   Produit product(0,couleurs);
-  Ordre order(product,20,30,2,false);
+  Ordre order(product,20,30,2,false);*/
 
   Machine tab_machine[6];
 
@@ -62,7 +63,7 @@ int main(int argc, char **argv) {
   /***FONCTION PRINCIPALE ***/
 
 
-  while(ros::ok() && !work.empty()) {
+  while(ros::ok() /*&& !work.empty()*/) {
     // il y a trois robots
     for(int j=0; j<3; j++){
       temps = ros::Time::now().toSec() - t0;
@@ -70,9 +71,12 @@ int main(int argc, char **argv) {
       action_exec.update_robot(tabrobot);
       std::cout << "tabrobot j etat : " << tabrobot[j].get_occupe() << std::endl;
       //mettre a jour les infos envoyees par la refbox
-      if(!tabrobot[j].get_occupe() && cpt_zone<12){
+      if(!tabrobot[j].get_occupe() && cpt_zone<1){
         if(etat_jeu.get_phase()==comm_msg::GameState::EXPLORATION /*&& !exploration_finie(tab_machine)*/){
-          travail_phase_exploration(tab_machine,tabrobot,cpt_order,j,cpt_zone, correspondanceZE);
+            std::cout<<"test"<<std::endl;
+            Srvorder srvexplo(ros::Time::now(),cpt_order,1,orderRequest::DISCOVER,orderRequest::NONE,16);
+            cpt_zone++;
+          //travail_phase_exploration(tab_machine,tabrobot,cpt_order,2,cpt_zone, correspondanceZE);
         }
         /*if(etat_jeu.get_phase()==GameState::PRODUCTION && !work.empty()){
           travail_phase_production(work,tab_machine,tabrobot,tab_stock,take,cpt_order,j,cap_dispo,storage,order,temps);
