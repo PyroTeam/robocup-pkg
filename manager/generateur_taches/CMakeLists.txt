@@ -114,7 +114,7 @@ add_executable(test_fonctions_travail
   src/main.cpp)
 target_link_libraries(test_fonctions_travail ${catkin_LIBRARIES})
 add_dependencies(test_fonctions_travail manager_msg_gencpp)
-  
+
 add_executable(algo_node
   src/etatdujeu.cpp
   src/travailphase.cpp
@@ -128,11 +128,12 @@ add_executable(algo_node
   src/listetaches.cpp
   src/travail.cpp
   src/produit.cpp
-  src/main2.cpp)
+  src/main2.cpp
+  src/correspondanceZE.cpp)
 target_link_libraries(algo_node ${catkin_LIBRARIES} )
 add_dependencies(algo_node manager_msg_gencpp)
 
-add_executable(action_node 
+add_executable(action_node
     src/action.cpp
     src/action_node.cpp
 )

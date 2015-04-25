@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  pathfinder
 )
 
 ## System dependencies are found with CMake's conventions
@@ -116,7 +117,7 @@ add_executable(navigation_manager_node
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(navigation_manager_node navigation_manager_generate_messages_cpp deplacement_msg_gencpp)
+add_dependencies(navigation_manager_node navigation_manager_generate_messages_cpp deplacement_msg_gencpp pathfinder_gencpp)
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(navigation_manager_node

@@ -1,23 +1,24 @@
 #include "FinalApproachingClient.h"
 
-FinalApproachingClient::FinalApproachingClient() { 
+FinalApproachingClient::FinalApproachingClient() {
 }
 FinalApproachingClient::~FinalApproachingClient(){}
 
-void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide){
-	
-	actionlib::SimpleActionClient<manager_msg::finalApproachingAction> client("finalApproaching",true);
+void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, int8_t machineParameter){
 
-	ROS_INFO("Waiting for action Server to start");
+	actionlib::SimpleActionClient<manager_msg::finalApproachingAction> client("finalApproaching_node",true);
 
-	client.waitForServer(); 
+	ROS_INFO("Waiting for fa action Server to start");
+
+	client.waitForServer();
 
 	ROS_INFO("Action server started, sending goal");
 
 	manager_msg::finalApproachingGoal goal;
 	goal.type = machineType;
 	goal.side = machineSide;
-	client.sendGoal(goal);  
+	goal.parameter = machineParameter;
+	client.sendGoal(goal);
 
 	//wait for the action to return
 	bool finished_before_timeout = client.waitForResult(ros::Duration(5.0));
@@ -32,7 +33,3 @@ void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide){
 	}
 
 }
-
-
-
-
