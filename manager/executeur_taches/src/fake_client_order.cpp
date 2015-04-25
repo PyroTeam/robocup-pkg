@@ -11,7 +11,7 @@ int main(int argc, char **argv){
 	manager_msg::order srv;
 	ros::Time game_time = ros::Time::now();
 	srv.request.number_order = 0;
-	srv.request.number_robot = 1;
+	srv.request.number_robot = 0;
 	srv.request.type = 9; 
 	srv.request.parameter = 10;
 	srv.request.id = 3;
