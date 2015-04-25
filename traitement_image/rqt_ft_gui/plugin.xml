@@ -1,0 +1,12 @@
+<library path="lib/librqt_ft_gui">
+  <class name="rqt_ft_gui/FtGui" type="rqt_ft_gui::FtGui" base_class_type="rqt_gui_cpp::Plugin">
+    <description>
+      A GUI plugin to view a sensor_msgs/Image topic.
+    </description>
+    <qtgui>
+      <label>FT Gui</label>
+      <icon type="theme">image-x-generic</icon>
+      <statustip>A GUI plugin to view a sensor_msgs/Image topic.</statustip>
+    </qtgui>
+  </class>
+</library>

@@ -1,0 +1,39 @@
+time game_time
+
+int8 number_order
+
+int8 number_robot
+
+int8 TAKE_BASE     = 0
+int8 PUT_CAP       = 1
+int8 TAKE_CAP      = 2
+int8 PUT_RING      = 3
+int8 TAKE_RING     = 4
+int8 BRING_BASE_RS = 5
+int8 DELIVER       = 6
+int8 UNCAP         = 7
+int8 DESTOCK       = 8
+int8 DISCOVER      = 9
+
+int8 type
+
+int8 BLACK   = 10
+int8 SILVER  = 11
+int8 RED     = 12
+int8 ORANGE  = 13
+int8 YELLOW  = 14
+int8 BLUE    = 15
+int8 GREEN   = 16
+int8 GREY    = 17
+int8 DS      = 18
+int8 STOCK   = 19
+int8 NONE    = 20
+
+int8 parameter
+
+int8 id
+---
+bool accepted
+int8 number_order
+int8 number_robot
+int8 id

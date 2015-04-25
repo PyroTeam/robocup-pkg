@@ -1,0 +1,6 @@
+/**
+\mainpage
+\htmlinclude manifest.html
+
+\b rqt_ft_gui provides a GUI plugin for displaying images using image_transport.
+*/

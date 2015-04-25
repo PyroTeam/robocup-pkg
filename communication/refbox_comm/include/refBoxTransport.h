@@ -56,7 +56,7 @@ public:
 	RefBoxTransport();
 	~RefBoxTransport();
 
-	void init();
+	void init(std::string teamColor);
 	void startTimer();
 	void update();
 	bool isExit();
@@ -69,9 +69,9 @@ public:
 
     void send(google::protobuf::Message &msg)
     {
-        if (m_peer_team_ != NULL)
+        if (m_peer_team != NULL)
         {
-            m_peer_team_->send(msg);
+            m_peer_team->send(msg);
         }
         else
         {
@@ -79,13 +79,6 @@ public:
         }
     }
 
-	
-/*
-    Team get_teamColor()
-    {
-        return m_team_color_;
-    }
-   */     
 protected:
 
 	void signal_handler(const boost::system::error_code& error, int signum);
@@ -95,16 +88,13 @@ protected:
 	void handle_message(boost::asio::ip::udp::endpoint &sender,
 		       uint16_t component_id, uint16_t msg_type,
 		       std::shared_ptr<google::protobuf::Message> msg);
-	//void handle_timer(const boost::system::error_code& error);
 	
-	std::string m_name_;
-	Team m_team_color_;
-	std::string m_team_name_;
-	unsigned int m_robot_number_;
-	unsigned long m_seq_;
-	ProtobufBroadcastPeer *m_peer_public_;
-	ProtobufBroadcastPeer *m_peer_team_;
-	bool m_crypto_setup_;
+	Team m_team_color;
+	std::string m_team_name;
+	unsigned long m_seq;
+	ProtobufBroadcastPeer *m_peer_public;
+	ProtobufBroadcastPeer *m_peer_team;
+	bool m_crypto_setup;
 
 	bool m_quit;
 
@@ -113,7 +103,7 @@ protected:
 
 	boost::asio::io_service m_io_service;
 
-    llsfrb::Configuration *m_config_;
+    llsfrb::Configuration *m_config;
 
     boost::mutex m_dataMutex;
 };
