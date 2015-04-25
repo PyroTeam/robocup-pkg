@@ -14,13 +14,13 @@ int main(int argc, char **argv)
 
   ros::NodeHandle n;
 
-  ros::Publisher ei_pub = n.advertise<comm_msg::ExplorationInfo>("/explorationInfo", 1000);
+  ros::Publisher ei_pub = n.advertise<comm_msg::ExplorationInfo>("/refBoxComm/ExplorationInfo", 1000);
 
   ros::Rate loop_rate(1);
 
   while (ros::ok())
   {
-    
+
     comm_msg::ExplorationInfo msg;
     comm_msg::LightSpec light;
 
