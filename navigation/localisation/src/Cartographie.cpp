@@ -7,6 +7,7 @@
 #include "nav_msgs/Odometry.h"
 #include "laserScan.h"
 #include "landmarks_detection_utils.h"
+#include "cartographie_utils.h"
 
 #include "EKF_class.h"
 
@@ -15,30 +16,7 @@ using namespace Eigen;
 deplacement_msg::Landmarks tabMachines;
 deplacement_msg::Landmarks scan;
 geometry_msgs::Pose2D      odomRobot;
-
-int machineToArea(geometry_msgs::Pose2D m){
-  int zone = 0;
-
-  //côté droit
-  if(m.x >= 0 && m.y >= 0) {
-    int w = int(m.x/2);
-    int h = int(m.y/1.5)+1;
-
-    zone = w*4 + h;
-  }
-  //côté gauche
-  else if (m.x < 0 && m.y >= 0) {
-    int w = int(-m.x/2);
-    int h = int(m.y/1.5)+1;
-
-    zone = w*4 + h + 12;
-  }
-  else {
-    int zone = 0;
-  }
-
-  return zone;
-}
+std::vector<Machine>       mps(24);
 
 void odomCallback(const nav_msgs::Odometry& odom){
   odomRobot.x = odom.pose.pose.position.x;
@@ -111,8 +89,17 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
   for (auto &it : machines->landmarks){
     geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it));
 
-    tabMachines.landmarks.push_back(p);
-  }
+    int zone = getZone(p);
+    if(zone==0)
+      continue;
+
+    mps[zone-1].addX(p.x);
+    mps[zone-1].addY(p.y);
+    mps[zone-1].addTheta(p.theta);
+    mps[zone-1].incNbActu();
+
+    mps[zone-1].maj();
+  } 
 }
 
 void laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
@@ -133,7 +120,6 @@ int main( int argc, char** argv )
   ros::Subscriber sub_machines = n.subscribe("/machines", 1000, machinesCallback);
   ros::Subscriber sub_laser    = n.subscribe("/laser", 1000, laserCallback);
 
-  //transmettre le nom du topic à Valentin !!!
   ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("/landmarks", 1000);
   ros::Publisher pub_laser    = n.advertise< deplacement_msg::Landmarks >("/scan_global", 1000);
 
@@ -141,7 +127,13 @@ int main( int argc, char** argv )
 
   while (n.ok())
   { 
-    pub_machines.publish(tabMachines);
+    deplacement_msg::Landmarks tabMPS = convert(mps);
+
+    for (int i = 0; i < tabMPS.landmarks.size(); i++){
+      std::cout << "machine (" << tabMPS.landmarks[i].x << "," << tabMPS.landmarks[i].y << ") en zone " << i+1 << std::endl;
+    }
+
+    pub_machines.publish(tabMPS);
     pub_laser.publish(scan);
 
     //tabMachines.landmarks.clear();

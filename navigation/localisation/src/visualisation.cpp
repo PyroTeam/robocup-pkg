@@ -84,7 +84,7 @@ int main( int argc, char** argv )
   while (ros::ok())
   {
     
-    line_list.header.frame_id = "/laser_link";
+    line_list.header.frame_id = "/odom";
     line_list.header.stamp = ros::Time::now();
     line_list.ns = "visualisation_segments";
     line_list.action = visualization_msgs::Marker::ADD;
@@ -101,7 +101,7 @@ int main( int argc, char** argv )
 
     line_list.points = tabSegments;
 
-    points.header.frame_id = "/laser_link";
+    points.header.frame_id = "/odom";
     points.header.stamp = ros::Time::now();
     points.ns = "visualisation_trajectoire";
     points.action = visualization_msgs::Marker::ADD;
@@ -119,7 +119,7 @@ int main( int argc, char** argv )
 
     points.points = trajectoire;
 
-    laser.header.frame_id = "/laser_link";
+    laser.header.frame_id = "/odom";
     laser.header.stamp = ros::Time::now();
     laser.ns = "visualisation_laser";
     laser.action = visualization_msgs::Marker::ADD;
@@ -139,7 +139,7 @@ int main( int argc, char** argv )
     //points.points = tabMachines;
     laser.points = scan_global;
 
-    machines.header.frame_id = "/laser_link";
+    machines.header.frame_id = "/odom";
     machines.header.stamp = ros::Time::now();
     machines.ns = "visualisation_machines";
     machines.action = visualization_msgs::Marker::ADD;
@@ -157,7 +157,7 @@ int main( int argc, char** argv )
 
     machines.points = tabMachines;
 
-    robot.header.frame_id = "/laser_link";
+    robot.header.frame_id = "/odom";
     robot.header.stamp = ros::Time::now();
     robot.ns = "visualisation_robot";
     robot.action = visualization_msgs::Marker::ADD;
@@ -181,7 +181,7 @@ int main( int argc, char** argv )
     robot.color.b = 1.0f;
     robot.color.a = 1.0;
 
-    odom_brut.header.frame_id = "/laser_link";
+    odom_brut.header.frame_id = "/odom";
     odom_brut.header.stamp = ros::Time::now();
     odom_brut.ns = "visualisation_odom";
     odom_brut.action = visualization_msgs::Marker::ADD;
