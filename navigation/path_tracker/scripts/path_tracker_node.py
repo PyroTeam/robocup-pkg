@@ -264,8 +264,9 @@ def callbackOdom(data):
         vel_msg.linear.x = 0
         vel_msg.linear.y = 0
         vel_msg.angular.z = 0
-
-    pub.publish(vel_msg)
+    if stopRobot:
+        pub.publish(vel_msg)
+    
     pubInfos.publish(ang)
     pubAngle.publish(angle)
     pubErrAngle.publish(errAngle)
