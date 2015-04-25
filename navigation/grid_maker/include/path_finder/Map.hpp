@@ -8,6 +8,7 @@
 void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines);
 void Create_Empty_Map(nav_msgs::OccupancyGrid &Map);
 void Set_Wall(nav_msgs::OccupancyGrid &Map);
+void Set_Forbidden_Zone(nav_msgs::OccupancyGrid &Map);
 
 
 int getCell(nav_msgs::OccupancyGrid Map, float x, float y);

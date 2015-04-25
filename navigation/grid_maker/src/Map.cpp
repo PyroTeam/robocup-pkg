@@ -54,6 +54,7 @@ int main(int argc, char **argv)
     	// Redraw all map
     	Create_Empty_Map(Map);
    		Set_Wall(Map);
+   		Set_Forbidden_Zone(Map);
    		for(int i=0; i < mps.size(); ++i) {
 			// DRAW
 			if(mps[i].draw) {
@@ -106,24 +107,78 @@ void Create_Empty_Map(nav_msgs::OccupancyGrid &Map)
 void Set_Wall(nav_msgs::OccupancyGrid &Map)
 {
 	// Left Side
-    	drawRect(Map, -2, 0, 0, 0.1, 2, 0.25);   
-    	drawRect(Map, -3, -0.5, 0, 1, 0.1, 0.25);
-    	drawRect(Map, -4, -1, 0, 0.1, 2, 0.25);
-    	drawRect(Map, -5, 0, 0, 0.1, 2, 0.25);
-		drawRect(Map, -6, 1.5, 0, 3, 0.1, 0.25);
-		drawRect(Map, -6, 5.5, 0, 1, 0.1, 0.25);
-		drawRect(Map, -5, 6, 0, 0.1, 2, 0.25);			
-		drawRect(Map, -1, 6, 0, 0.1, 2, 0.25);
+		// IN RIGHT
+    	drawRect(Map, -2, 0, 0, 0.1, 0.55*2, 0);   
+    	// IN WALL RIGHT
+    	drawRect(Map, -2.55, -0.5, 0, 1, 0.1, 0);
+    	// IN WALL BOTTOM
+    	drawRect(Map, -4, -1, 0, 0.1, 5, 0);
+    	// IN LEFT
+    	drawRect(Map, -5, 0, 0, 0.1, 2.5, 0);
+		drawRect(Map, -6, 1.5, 0, 3, 0.1, 0);
+		drawRect(Map, -6, 5.5, 0, 1, 0.1, 0);
+		drawRect(Map, -5, 6, 0, 0.1, 2, 0);			
+		drawRect(Map, -1, 6, 0, 0.1, 2, 0);
 
 	// Right side
-    	drawRect(Map, 2, 0, 0, 0.1, 2, 0.25);   
-    	drawRect(Map, 3, -0.5, 0, 1, 0.1, 0.25);
-    	drawRect(Map, 4, -1, 0, 0.1, 2, 0.25);
-    	drawRect(Map, 5, 0, 0, 0.1, 2, 0.25);
-		drawRect(Map, 6, 1.5, 0, 3, 0.1, 0.25);
-		drawRect(Map, 6, 5.5, 0, 1, 0.1, 0.25);
-		drawRect(Map, 5, 6, 0, 0.1, 2, 0.25);			
-		drawRect(Map, 1, 6, 0, 0.1, 2, 0.25);
+    	drawRect(Map, 2, 0, 0, 0.1, 0.55*2, 0);   
+    	drawRect(Map, 2.55, -0.5, 0, 1, 0.1, 0);
+    	drawRect(Map, 4, -1, 0, 0.1, 5, 0);
+    	drawRect(Map, 5, 0, 0, 0.1, 2.5, 0);
+		drawRect(Map, 6, 1.5, 0, 3, 0.1, 0);
+		drawRect(Map, 6, 5.5, 0, 1, 0.1, 0);
+		drawRect(Map, 5, 6, 0, 0.1, 2, 0);			
+		drawRect(Map, 1, 6, 0, 0.1, 2, 0);
+
+}
+
+void Set_Forbidden_Zone(nav_msgs::OccupancyGrid &Map)
+{
+	// Left Side
+		// R1
+    	drawRect(Map, -4, 5.25, 0, 1.5, 4, 0); 
+    	// R2
+    	drawRect(Map, -5.1, 3.75, 0, 1.5, 1.8, 0); 
+    	// R3
+    	drawRect(Map, -4.1, 2.25, 0, 1, 0.2, 0); 
+    	// R4
+    	drawRect(Map, -3, 2.25, 0, 1.5, 2, 0); 
+    	// R5
+    	drawRect(Map, -5.1, 0.75, 0, 1.5, 1.8, 0); 
+    	// R6
+    	drawRect(Map, -3, 0.75, 0, 0.7, 1, 0); 
+    	// R7
+    	drawRect(Map, -3.5, 1.25, 0, 0.5, 1, 0); 
+    	// R8
+    	drawRect(Map, -3.25, 0.75, 0, 0.5, 0.5, 0); 
+
+    	// IN RIGHT
+    	drawRect(Map, -(2.55+0.25), 0, 0, 1.5, 0.5, 0);     	
+    	// IN LEFT
+    	drawRect(Map, -5, -0.2, 0, 0.5, 2.5, 0);
+
+	// Right side
+		// R1
+    	drawRect(Map, 4, 5.25, 0, 1.5, 4, 0); 
+    	// R2
+    	drawRect(Map, 5.1, 3.75, 0, 1.5, 1.8, 0); 
+    	// R3
+    	drawRect(Map, 4.1, 2.25, 0, 1, 0.2, 0); 
+    	// R4
+    	drawRect(Map, 3, 2.25, 0, 1.5, 2, 0); 
+    	// R5
+    	drawRect(Map, 5.1, 0.75, 0, 1.5, 1.8, 0); 
+    	// R6
+    	drawRect(Map, 3, 0.75, 0, 0.7, 1, 0); 
+    	// R7
+    	drawRect(Map, 3.5, 1.25, 0, 0.5, 1, 0); 
+    	// R8
+    	drawRect(Map, 3.25, 0.75, 0, 0.5, 0.5, 0); 
+
+    	// IN RIGHT
+    	drawRect(Map, (2.55+0.25), 0, 0, 1.5, 0.5, 0);     	
+    	// IN LEFT
+    	drawRect(Map, 5, -0.2, 0, 0.5, 2.5, 0);
 }
 
 int getCell(nav_msgs::OccupancyGrid Map, float x, float y)
