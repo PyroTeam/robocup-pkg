@@ -7,10 +7,10 @@
 	_height(180),
 	_origin_x(-7),
 	_origin_y(-2)
-	{		
-		ROS_INFO("Objet Map, instanciation");	
+	{
+		ROS_INFO("Objet Map, instanciation");
 
-		// Création des machines 
+		// Création des machines
 		_production_machine[0] = new Objet(MACHINE,(float)56/100,(float)168/100,-90);
 		_production_machine[1] = new Objet(MACHINE,(float)56/100,(float)280/100,90);
 		_production_machine[2] = new Objet(MACHINE,(float)168/100,(float)168/100,180);
@@ -53,7 +53,7 @@
 		// 	{
 		// 		_pointsPassage[i][j] = new Point(-5.04+j*0.56,0.56+i*0.56,i,j);
 		// 	}
-		// }				
+		// }
 		// _pointsPassage[2][2]->setType(INTERDIT);
 		// _pointsPassage[2][4]->setType(INTERDIT);
 		// _pointsPassage[2][6]->setType(INTERDIT);
@@ -62,7 +62,7 @@
 		// _pointsPassage[2][12]->setType(INTERDIT);
 		// _pointsPassage[2][14]->setType(INTERDIT);
 		// _pointsPassage[2][16]->setType(INTERDIT);
-		
+
 		// _pointsPassage[4][2]->setType(INTERDIT);
 		// _pointsPassage[4][6]->setType(INTERDIT);
 		// _pointsPassage[4][8]->setType(INTERDIT);
@@ -121,7 +121,7 @@
 					_pointsPassage[i][j]->setType(LIBRE);
 				}
 			}
-		}		
+		}
 	}
 
 	void Map::constructMap()
@@ -134,11 +134,11 @@
 				delete _pointsPassage[i][j];
 				_pointsPassage[i][j] = new Point(-_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
 			}
-		}		
+		}
 	}
 
 	Map::~Map()
-	{	
+	{
 		// Desallocations des objets et points
 		for (int i = 0; i < nbPointsLignes; ++i)
 		{
@@ -146,7 +146,7 @@
 			{
 				delete _pointsPassage[i][j];
 			}
-		}			
+		}
 		for (int i = 0; i < nbProductionMachine; ++i)
 		{
 			delete _production_machine[i];
@@ -161,7 +161,7 @@
 		}
 	}
 
-	// AStar	
+	// AStar
 	void Map::setAllowDiagonal(bool allowDiagonal)
 	{
 		_allowDiagonal = allowDiagonal;
@@ -178,7 +178,7 @@
 	}
 
 	// Utilise la fonction heuristic appropriee, selon notre choix de depart
-	float Map::heuristic(Point const& pointDepart, Point const& pointDistant)
+	float Map::heuristic(const Point & pointDepart, const Point & pointDistant)
 	{
 		switch(_heuristicFonction)
 		{
@@ -197,7 +197,7 @@
 	}
 
 	// Heuristic du taxi -> voir wikipedia, pertinent quand on ne se deplace pas ou peu en diagonale
-	float Map::heuristicManhattan(Point const& pointDepart, Point const& pointDistant)
+	float Map::heuristicManhattan(const Point & pointDepart, const Point & pointDistant)
 	{
 		float dist  = 0;
 		float distX = 0, distY = 0;
@@ -211,7 +211,7 @@
 	}
 
 	// Heuristic "vol d'oiseau"
-	float Map::heuristicEuclidean(Point const& pointDepart, Point const& pointDistant)
+	float Map::heuristicEuclidean(const Point & pointDepart, const Point & pointDistant)
 	{
 		float dist  = 0;
 		float distX = 0, distY = 0;
@@ -224,7 +224,7 @@
 		return dist;
 	}
 
-	float Map::heuristicChebyshev(Point const& pointDepart, Point const& pointDistant)
+	float Map::heuristicChebyshev(const Point& pointDepart, const Point& pointDistant)
 	{
 		float dist = 0;
 		float distX = 0, distY = 0;
@@ -246,7 +246,7 @@
 	{
 		if(li < nbPointsLignes && li >= 0 && col < nbPointsColonnes && col>=0)
 			return _pointsPassage[li][col]->isFree();
-		else 
+		else
 			return false;
 	}
 
@@ -263,7 +263,7 @@
  *
  */
  /**
-  * Retourne tous les voisins d'un point en prenant en compte les paramètres : 
+  * Retourne tous les voisins d'un point en prenant en compte les paramètres :
   * _allowDiagonal et _crossCorner
   */
 	signed int Map::getVoisins(std::vector<Point*> &voisins, Point *oirigin)
@@ -307,7 +307,7 @@
 	    if (!_allowDiagonal)
 	        return 0;
 
-	    // Les simple s0 à s3 remplient precedemment permettent 
+	    // Les simple s0 à s3 remplient precedemment permettent
 	    // de trouver les diagonals d0 à d3 franchissable ou non
 	    if (!_crossCorner)
 	    {
@@ -373,7 +373,6 @@
 			Point *p;
 
 			p = *(aEvaluer.begin());				// On commence par evaluer le point avec le plus petit F (au tout debut il n'y a que start)
-
 			//ROS_INFO("\nA Evaluer Contains :");
 			//Affichage du tableau de points à évaluer
 
@@ -385,9 +384,9 @@
  				<< (*it)->getLigne() << ','
  				<< (*it)->getColonne() << "):"
  				<< (*it)->getF();
- 			} 
+ 			}
  			std::cout << '\n';
- 
+
  			//Affichage du point évalué
 
          	std::cout << "Point evalue: ("
@@ -437,33 +436,32 @@
 			for (i = 0; i < voisins.size(); i++)
 			{
 				// Si voisins[i] a déjà été évalué - iteration suivante
-				if(dejaEvalue.count(voisins[i]) > 0 && voisins[i])
+				if(isInMultiset(dejaEvalue, *(voisins[i])))
 				{
 					continue;
 				}
 
 				// Sinon - calcul g potentiel
-				signed int newG = p->getG() + voisins[i]->distWith(*p);
+				float newG = p->getG() + heuristic(*(voisins[i]), *p);
 
-				// Si le voisins[i] n'et pas deja dans a evalue 
+				// Si le voisins[i] n'et pas deja dans a evalue
 				// ou que le nouveau g est plus interessant
 				// on modifie et on stocke
-
-				if( aEvaluer.count(voisins[i]) == 0 ||
-					newG < voisins[i]->getG())
+				bool insert = !isInMultiset(aEvaluer, *(voisins[i]));
+				if( insert)// || newG < voisins[i]->getG())//utile uniquement avec des heuristiques non admissibles (MANHATTAN en connectivité 8 nb à tester)
 				{
 					voisins[i]->setPointPrec(p);
 					voisins[i]->setG(newG);
 					voisins[i]->setH((voisins[i]->getH())?voisins[i]->getH():heuristic(*voisins[i], *endPoint));
 					voisins[i]->setF(voisins[i]->getG()+_poidsHeuristic*voisins[i]->getH());
-					
+
 					aEvaluer.insert(voisins[i]);
 				}
 			}
 		}
 
 		setClean(false);
-		return 0;		
+		return 0;
 	}
 
 
@@ -477,7 +475,7 @@
 			point = _pointsPassage[ligne][colonne];
 			return 0;
 		}
-		else 
+		else
 		{
 			return -1;
 		}
@@ -518,6 +516,31 @@
 		return 0;
 	}
 
+	bool Map::isInMultiset(const std::multiset<Point *> &mset, Point& p)
+	{
+		std::multiset<Point*>::iterator it;
+		for(it = mset.begin(); it != mset.end(); ++it)
+		{
+			if (**it == p)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool Map::isInMultiset(const std::multiset<Point *, CompareF> &mset, Point& p)
+	{
+		std::multiset<Point*>::iterator it;
+		for(it = mset.begin(); it != mset.end(); ++it)
+		{
+			if (**it == p)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	void Map::reset()
 	{
@@ -529,9 +552,9 @@
 				{
 					_pointsPassage[i][j]->reset();
 				}
-			}		
+			}
 
-			setClean(true);	
+			setClean(true);
 		}
 	}
 
