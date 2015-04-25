@@ -1,0 +1,9 @@
+# Define the goal
+# uint32 sample  # Specify which dishwasher we want to use
+---
+# Define the result
+LightSpec[] light_signal
+---
+# Define a feedback message
+uint32 percent_complete
+uint32 images_processed

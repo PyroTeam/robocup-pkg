@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
   geometry_msgs
+  comm_msg
 )
 
 #set the default path for built executables to the "bin" directory
@@ -32,11 +33,11 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #)
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   std_msgs
-   geometry_msgs
- )
+ # generate_messages(
+ #   DEPENDENCIES
+ #   std_msgs
+ #   geometry_msgs
+ # )
 ###################################
 ## catkin specific configuration ##
 ###################################
@@ -47,19 +48,28 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
-#set(LLSF_BASEDIR /home/vincent/refbox/llsf-refbox-crypto)
 set(LLSF_BASEDIR $ENV{HOME}/refbox/llsf-refbox)
-#set(CONFDIR ${LLSF_BASEDIR}/cfg)
 set(CONFDIR ${PROJECT_SOURCE_DIR}/cfg)
 
-add_definitions( -DCONFDIR=\\"${CONFDIR}\\" )
-add_definitions( -DUSERDIR=\\".\\" )
+# With CMake >= 2.6, got this warning
+#   -> Policy CMP0005 is not set: Preprocessor definition values are now escaped automatically
+if(POLICY CMP0005)
+  cmake_policy(PUSH)
+  cmake_policy(SET CMP0005 OLD)
+endif()
+
+  add_definitions( -DCONFDIR=\\"${CONFDIR}\\" )
+  add_definitions( -DUSERDIR=\\".\\" )
+
+if(POLICY CMP0005)
+  cmake_policy(POP)
+endif()
 
 include_directories(
     include
-    ${catkin_INCLUDE_DIRS} 
+    ${catkin_INCLUDE_DIRS}
     ${LLSF_BASEDIR}/src
-    ${LLSF_BASEDIR}/src/libs 
+    ${LLSF_BASEDIR}/src/libs
     ${roscpp_INCLUDE_DIRS})
 
 #include_directories(${LLSF_BASEDIR}/src ${roscpp_INCLUDE_DIRS})
@@ -71,49 +81,78 @@ find_package(Boost REQUIRED COMPONENTS system)
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(
-    refBoxTransport 
+    refBoxTransport
 
     src/refBoxTransport.cpp
     src/refBoxMessage.cpp
     src/sendScheduler.cpp
     src/refBoxUtils.cpp
 )
+add_dependencies(refBoxTransport comm_msg_gencpp)
+
+# See below
+if(COMMAND cmake_policy)
+  cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+# Policy CMP0003 should be set before this line.  Add code such as
+
+#     if(COMMAND cmake_policy)
+#       cmake_policy(SET CMP0003 NEW)
+#     endif(COMMAND cmake_policy)
+
+#   as early as possible but after the most recent call to
+#   cmake_minimum_required or cmake_policy(VERSION).  This warning appears
+#   because target "refBoxComm" links to some libraries for which the linker
+#   must search:
+
+#     llsf_msgs, llsf_protobuf_comm, protobuf, llsfrbconfig, yaml-cpp
+
+#   and other libraries with known full path:
+
+#     /home/leak/catkin_tests_ws/devel/lib/librefBoxTransport.so
+#     /opt/ros/indigo/lib/libroscpp.so
+
+#   CMake is adding directories in the second list to the linker search path in
+#   case they are needed to find libraries from the first list (for backwards
+#   compatibility with CMake 2.4).  Set policy CMP0003 to OLD or NEW to enable
+#   or disable this behavior explicitly.  Run "cmake --help-policy CMP0003" for
+#   more information.
 
 add_executable(
-  refBoxComm 
-  
+  refBoxComm
+
   src/refBoxComm.cpp
-  src/refBoxCommNode.cpp 
+  src/refBoxCommNode.cpp
 )
 
-add_dependencies(refBoxComm ${catkin_EXPORTED_TARGETS})
+add_dependencies(refBoxComm ${catkin_EXPORTED_TARGETS} comm_msg_gencpp)
 
 add_executable(
   eiListener
-  src/explorationInfoListenerNode.cpp 
+  src/explorationInfoListenerNode.cpp
 )
 
-add_dependencies(eiListener ${catkin_EXPORTED_TARGETS})
+add_dependencies(eiListener ${catkin_EXPORTED_TARGETS} comm_msg_gencpp)
 
 
 target_link_libraries(
-  refBoxComm 
+  refBoxComm
 
   refBoxTransport
   llsf_msgs
-  llsf_protobuf_comm 
-  protobuf 
+  llsf_protobuf_comm
+  protobuf
   llsfrbconfig
   #llsfrbcore
   #llsfrbutils
   yaml-cpp
 
-  ${Boost_LIBRARIES} 
+  ${Boost_LIBRARIES}
   ${catkin_LIBRARIES}
   ${roscpp_LIBRARIES}
 )
 
-target_link_libraries( 
+target_link_libraries(
   eiListener
   ${catkin_LIBRARIES}
   ${roscpp_LIBRARIES}
@@ -144,4 +183,3 @@ install(TARGETS refBoxComm eiListener
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
-

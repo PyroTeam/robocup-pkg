@@ -1,0 +1,38 @@
+import "Time.proto";
+
+message OrderRequest{
+	required Time game_time = 1;
+	required int32 number_order = 2;
+	required int32 number_robot = 3;
+
+	enum ORDER_TYPE{
+		TAKE_BASE = 0;
+		PUT_CAP = 1;
+		TAKE_CAP = 2;
+		PUT_RING = 3;
+		TAKE_RING = 4;
+		BRING_RING_RS = 5;
+		DELIVER = 6;
+		UNCAP = 7;
+		DESTOCK = 8;
+		DISCOVER = 9;
+	}
+	required ORDER_TYPE type = 4;
+	
+	enum PARAMETER_TYPE{
+		BLACK = 10;
+		SILVER = 11;
+		RED = 12;
+		ORANGE = 13;
+		YELLOW = 14;
+		BLUE = 15;
+		GREEN = 16;
+		GREY = 17;
+		DS = 18;
+		STOCK = 19;
+		NONE = 20;
+	}
+	required PARAMETER_TYPE parameter = 5 [default = NONE];
+	
+	required int32 id = 6 [default = -1];
+}
