@@ -60,28 +60,29 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
                                           boost::bind(&MoveToPose::feedbackCb, this, _1));
 
         bool isOk = true;
-        bool obstacleInRange = false;
         enum PathTrackStatus pathTrackStatus = RUNNING;
+        bool obstacleInRange;
 
 
-        if (m_sharpSensor.points[0].x < 1 && m_sharpSensor.points[0].y < 1){
-            obstacleInRange = true;
-        }
-        if (m_sharpSensor.points[1].x < 1 && m_sharpSensor.points[1].y < 1){
-            obstacleInRange = true;
-        }
-        if (m_sharpSensor.points[2].x < 1 && m_sharpSensor.points[2].y < 1){
-            obstacleInRange = true;
-        }
-        if (m_sharpSensor.points[7].x < 1 && m_sharpSensor.points[7].y < 1){
-            obstacleInRange = true;
-        }
-        if (m_sharpSensor.points[8].x < 1 && m_sharpSensor.points[8].y < 1){
-            obstacleInRange = true;
-        }
 
         while (isOk)
         {
+            obstacleInRange = false;
+            if (m_sharpSensor.points[0].x < 1 && m_sharpSensor.points[0].y < 1){
+                obstacleInRange = true;
+            }
+            if (m_sharpSensor.points[1].x < 1 && m_sharpSensor.points[1].y < 1){
+                obstacleInRange = true;
+            }
+            if (m_sharpSensor.points[2].x < 1 && m_sharpSensor.points[2].y < 1){
+                obstacleInRange = true;
+            }
+            if (m_sharpSensor.points[7].x < 1 && m_sharpSensor.points[7].y < 1){
+                obstacleInRange = true;
+            }
+            if (m_sharpSensor.points[8].x < 1 && m_sharpSensor.points[8].y < 1){
+                obstacleInRange = true;
+            }
 
             if(obstacleInRange && pathTrackStatus == RUNNING)
             {
