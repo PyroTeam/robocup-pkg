@@ -17,16 +17,19 @@ using namespace Eigen;
 
 class EKF{
 public:
-	EKF(std::string s, int num);
+	EKF();
 
-	int machineToArea(geometry_msgs::Pose2D machine);
-	int machineToArea2(geometry_msgs::Pose2D p);
-	bool test(int area);
+	void set();
+	int getZone(geometry_msgs::Pose2D m);
+	geometry_msgs::Pose2D getCenter(int zone);
+	double dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m);
+	int machineToArea(geometry_msgs::Pose2D m);
 	void printZones();
 
 	//callbacks
 	void odomCallback(const nav_msgs::Odometry& odom);
 	void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines);
+	void machinesVuesCallback(const deplacement_msg::LandmarksConstPtr& machines);
 	void laserCallback(const deplacement_msg::LandmarksConstPtr& laser);
 
 	geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser);
@@ -34,7 +37,7 @@ public:
 	VectorXd RobotToLaser(VectorXd PosRobot);
 	VectorXd GlobalToRobot(VectorXd p);
 
-	void addMachine(geometry_msgs::Pose2D machine, int area);
+	void addMachine(geometry_msgs::Pose2D machine);
 
 	int checkStateVector(geometry_msgs::Pose2D machine);
 
@@ -66,9 +69,9 @@ public:
 		return m_tabMachines;
 	}
 	void setZone(int i){m_zones.push_back(i);}
+	void fillMachines();
 private:
 	geometry_msgs::Pose2D m_odomRobot;
-	geometry_msgs::Pose2D m_initRobot;
 
 	VectorXd m_xMean;
 	MatrixXd m_P;
