@@ -66,7 +66,7 @@ public:
         m_path_id = 0;
         m_odom_sub = m_nh.subscribe("/odom", 1000, &MoveToPose::PoseCallback, this);
         m_path_sub = m_nh.subscribe("/pathFound", 1000, &MoveToPose::PathCallback, this);
-        m_sharpSensor_sub = m_nh.subsrcibe("/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
+        m_sharpSensor_sub = m_nh.subscribe("/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
         m_generatePathClient = m_nh.serviceClient<pathfinder::GeneratePath>("/generatePath");
 
         m_as.start();

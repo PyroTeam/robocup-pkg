@@ -61,22 +61,39 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
 
         bool isOk = true;
         bool obstacleInRange = false;
-        PathTrackStatus pathTrackStatus = PathTrackStatus::RUNNING;
+        enum PathTrackStatus pathTrackStatus = RUNNING;
+
+
+        if (m_sharpSensor.points[0].x < 1 && m_sharpSensor.points[0].y < 1){
+            obstacleInRange = true;
+        }
+        if (m_sharpSensor.points[1].x < 1 && m_sharpSensor.points[1].y < 1){
+            obstacleInRange = true;
+        }
+        if (m_sharpSensor.points[2].x < 1 && m_sharpSensor.points[2].y < 1){
+            obstacleInRange = true;
+        }
+        if (m_sharpSensor.points[7].x < 1 && m_sharpSensor.points[7].y < 1){
+            obstacleInRange = true;
+        }
+        if (m_sharpSensor.points[8].x < 1 && m_sharpSensor.points[8].y < 1){
+            obstacleInRange = true;
+        }
 
         while (isOk)
         {
 
-            if(obstacleInRange && pathTrackStatus == PathTrackStatus::RUNNING)
+            if(obstacleInRange && pathTrackStatus == RUNNING)
             {
                 m_trackPathAction.cancelGoal();
-                pathTrackStatus = PathTrackStatus::PAUSE;
+                pathTrackStatus = PAUSED;
             }
-            else if(!obstacleInRange && pathTrackStatus == PathTrackStatus::PAUSE)
+            else if(!obstacleInRange && pathTrackStatus == PAUSED)
             {
                 m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
                                                   boost::bind(&MoveToPose::activeCb, this),
                                                   boost::bind(&MoveToPose::feedbackCb, this, _1));
-                pathTrackStatus = PathTrackStatus::RUNNING;
+                pathTrackStatus = RUNNING;
             }
 
             m_feedback.percent_complete = m_pathTrackPercentComplete;
@@ -98,7 +115,6 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
 
         }
 
-
         if (m_trackPathAction.getResult()->result == deplacement_msg::MoveToPoseResult::FINISHED){
             m_result.result = deplacement_msg::MoveToPoseResult::FINISHED;
         }
@@ -114,31 +130,6 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
         m_as.setAborted(m_result);
         return;
     }
-
-
-    // check that preempt has not been requested by the client
-    /*   if (as_.isPreemptRequested() || !ros::ok())
-    {
-        ROS_INFO("%s: Preempted", action_name_.c_str());
-        // set the action state to preempted
-        as_.setPreempted();
-        success = false;
-        break;
-    }
-    feedback_.sequence.push_back(feedback_.sequence[i] + feedback_.sequence[i-1]);
-    // publish the feedback
-    as_.publishFeedback(feedback_);
-    // this sleep is not necessary, the sequence is computed at 1 Hz for demonstration purposes
-    r.sleep();
-
-    if(success)
-    {
-        result_.sequence = feedback_.sequence;
-        ROS_INFO("%s: Succeeded", action_name_.c_str());
-        // set the action state to succeeded
-        as_.setSucceeded(result_);
-    }
-    */
 }
 
 // Called once when the goal completes
@@ -171,8 +162,10 @@ void MoveToPose::PathCallback(const pathfinder::AstarPath &path){
     m_path_id = path.id;
 }
 
-
-void DistSensorCallback(const sensor_msgs::PointCloud &sensor)
+void MoveToPose::DistSensorCallback(const sensor_msgs::PointCloud &sensor)
 {
     m_sharpSensor = sensor;
+    for (int i = 0 ; i < 9 ; i++){
+        ROS_INFO("Données capteur %d : %f %f %f", i, m_sharpSensor.points[i].x, m_sharpSensor.points[i].y, m_sharpSensor.points[i].z);
+    }
 }
