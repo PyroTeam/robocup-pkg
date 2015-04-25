@@ -55,11 +55,10 @@ find_package(catkin REQUIRED COMPONENTS
 #)
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+#add_service_files(
+#  FILES
+#  Alarm.srv
+#)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -142,6 +141,10 @@ add_executable(
   src/EKF_class.cpp)
 
 add_executable(
+  EKF_client
+  src/EKF_client.cpp)
+
+add_executable(
   Cartographie
   src/Cartographie.cpp
   src/Cartographie_utils.cpp
@@ -185,6 +188,10 @@ target_link_libraries(
 )
 target_link_libraries(
   EKF_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  EKF_client
   ${catkin_LIBRARIES}
 )
 target_link_libraries(

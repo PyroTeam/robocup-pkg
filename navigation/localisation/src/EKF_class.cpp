@@ -3,40 +3,9 @@
 
 using namespace Eigen;
 
-EKF::EKF(std::string s, int num){
-  /*int color = 0;
-  if (s == "cyan"){
-    color = 1;
-  }
-  else {
-    color = -1;
-  }
-
-  m_initRobot.theta =  0.0;
-  m_initRobot.y   = -0.5;
-
-  switch(n){
-    case 1 :
-      m_initRobot.x = color*3.5;
-    break;
-    case 2 :
-      m_initRobot.x = color*4.5;
-    break;
-    case 3 :
-      m_initRobot.x = color*5.5;
-    break;
-    default :
-    break;
-  }*/
-
-  m_initRobot.x     = -3.1;
-  m_initRobot.y     =  0.0;
-  m_initRobot.theta =  0.0;
-
+EKF::EKF(){
   m_xMean.conservativeResize(3);
-  m_xMean(0) = -3.1;
-  m_xMean(1) =  0.0;
-  m_xMean(2) =  0.0;
+  m_xMean.setZero();
 
   m_xPredicted.conservativeResize(3);
   m_xPredicted.setZero();
@@ -53,63 +22,65 @@ EKF::EKF(std::string s, int num){
   m_temps = ros::Time::now();
 }
 
-int EKF::machineToArea(geometry_msgs::Pose2D p){
-  geometry_msgs::Pose2D m = RobotToGlobal(LaserToRobot(p));
-
-  if (m.x > 0.1 && m.x < 1.9 && m.y > 0.1 && m.y < 1.4) return 1;
-  if (m.x > 0.1 && m.x < 1.9 && m.y > 1.6 && m.y < 2.9) return 2;
-  if (m.x > 0.1 && m.x < 1.9 && m.y > 3.1 && m.y < 4.4) return 3;
-  if (m.x > 0.1 && m.x < 1.9 && m.y > 4.6 && m.y < 5.9) return 4;
-
-  if (m.x > 2.1 && m.x < 3.9 && m.y > 0.1 && m.y < 1.4) return 5;
-  if (m.x > 2.1 && m.x < 3.9 && m.y > 1.6 && m.y < 2.9) return 6;
-  if (m.x > 2.1 && m.x < 3.9 && m.y > 3.1 && m.y < 4.4) return 7;
-  if (m.x > 2.1 && m.x < 3.9 && m.y > 4.6 && m.y < 5.9) return 8;
-
-  if (m.x > 4.1 && m.x < 5.9 && m.y > 0.1 && m.y < 1.4) return 9;
-  if (m.x > 4.1 && m.x < 5.9 && m.y > 1.6 && m.y < 2.9) return 10;
-  if (m.x > 4.1 && m.x < 5.9 && m.y > 3.1 && m.y < 4.4) return 11;
-  if (m.x > 4.1 && m.x < 5.9 && m.y > 4.6 && m.y < 5.9) return 12;
-
-  if (m.x > -1.9 && m.x < -0.1 && m.y > 0.1 && m.y < 1.4) return 13;
-  if (m.x > -1.9 && m.x < -0.1 && m.y > 1.6 && m.y < 2.9) return 14;
-  if (m.x > -1.9 && m.x < -0.1 && m.y > 3.1 && m.y < 4.4) return 15;
-  if (m.x > -1.9 && m.x < -0.1 && m.y > 4.6 && m.y < 5.9) return 16;
-
-  if (m.x > -3.9 && m.x < -2.1 && m.y > 0.1 && m.y < 1.4) return 17;
-  if (m.x > -3.9 && m.x < -2.1 && m.y > 1.6 && m.y < 2.9) return 18;
-  if (m.x > -3.9 && m.x < -2.1 && m.y > 3.1 && m.y < 4.4) return 19;
-  if (m.x > -3.9 && m.x < -2.1 && m.y > 4.6 && m.y < 5.9) return 20;
-
-  if (m.x > -5.9 && m.x < -4.1 && m.y > 0.1 && m.y < 1.4) return 21;
-  if (m.x > -5.9 && m.x < -4.1 && m.y > 1.6 && m.y < 2.9) return 22;
-  if (m.x > -5.9 && m.x < -4.1 && m.y > 3.1 && m.y < 4.4) return 23;
-  if (m.x > -5.9 && m.x < -4.1 && m.y > 4.6 && m.y < 5.9) return 24;
-  else                                                    return 0;
+void EKF::set(){
+  m_xMean(0) = m_odomRobot.x;
+  m_xMean(1) = m_odomRobot.y;
+  m_xMean(2) = m_odomRobot.theta;
 }
 
-int EKF::machineToArea2(geometry_msgs::Pose2D m){
-  //geometry_msgs::Pose2D m = RobotToGlobal(LaserToRobot(p));
-
-  int zone = 0;
-
-  if(m.x >= 0 && m.y >= 0) {
+int EKF::getZone(geometry_msgs::Pose2D m){
+  //côté droit
+  if(m.x >= 0 && m.y >= 0 && m.x <= 6 && m.y < 6) {
     int w = int(m.x/2);
     int h = int(m.y/1.5)+1;
 
-    zone = w*4 + h;
+    return w*4 + h;
   }
-  else if (m.x < 0 && m.y >= 0) {
+  //côté gauche
+  else if (m.x < 0 && m.y >= 0 && m.x <= -6 && m.y < 6) {
     int w = int(-m.x/2);
     int h = int(m.y/1.5)+1;
 
-    zone = w*4 + h + 12;
+    return w*4 + h + 12;
   }
   else {
-    int zone = 0;
+    return 0;
+  }
+}
+
+geometry_msgs::Pose2D EKF::getCenter(int zone){
+  geometry_msgs::Pose2D c;
+
+  // Right side
+  if(zone<=12) {
+    c.x = ((zone-1)/4)*2 + 1;
+    c.y = ((zone-1)%4)*1.5 + 0.75;
+  }
+  // Left side
+  else if (zone<=24) {
+    zone -=12;
+    c.x = -((zone-1)/4)*2 - 1;
+    c.y = ((zone-1)%4)*1.5 + 0.75;
   }
 
-  return zone;
+  return c;
+}
+
+double EKF::dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m){
+  return (m.x - c.x)*(m.x - c.x) + (m.y - c.y)*(m.y - c.y);
+}
+
+int EKF::machineToArea(geometry_msgs::Pose2D m){
+  int zone = getZone(m);
+  std::cout << "machine (" << m.x << "," << m.y << ") en zone " << zone << std::endl;
+  if ((zone != 0) && (dist(m,getCenter(zone)) <= 0.36)){
+  //si on est dans le cercle de centre le centre de zone et de rayon 0.6 m
+  //pour éviter un sqrt() on met le seuil au carré
+    return zone;
+  }
+  else {
+    return 0;
+  }
 }
 
 void EKF::odomCallback(const nav_msgs::Odometry& odom){
@@ -123,21 +94,33 @@ void EKF::odomCallback(const nav_msgs::Odometry& odom){
 }
 
 void EKF::machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
+  m_tabLandmarks.clear();
+  for (auto &it : machines->landmarks){
+    //geometry_msgs::Pose2D posLaser;
+    //posLaser.x     = it.x;
+    //posLaser.y     = it.y;
+    //posLaser.theta = it.theta;
+
+    //geometry_msgs::Pose2D pDansRepereGlobal = RobotToGlobal(LaserToRobot(posLaser));
+    //int i = machineToArea2(pDansRepereGlobal);
+    //if (i != 0)
+    //{
+      //std::cout << "la machine (" << pDansRepereGlobal.x << "," << pDansRepereGlobal.x << ")" << " appartient à la zone " << i << std::endl;
+      m_tabLandmarks.push_back(it);
+    //}
+  }
+}
+
+void EKF::machinesVuesCallback(const deplacement_msg::LandmarksConstPtr& machines){
   m_tabMachines.clear();
   for (auto &it : machines->landmarks){
-    geometry_msgs::Pose2D posLaser;
-    posLaser.x     = it.x;
-    posLaser.y     = it.y;
-    posLaser.theta = it.theta;
+    geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it));
 
-    geometry_msgs::Pose2D pDansRepereGlobal = RobotToGlobal(LaserToRobot(posLaser));
-    int i = machineToArea2(pDansRepereGlobal);
-    if (i != 0)
-    {
-      //std::cout << "la machine (" << pDansRepereGlobal.x << "," << pDansRepereGlobal.x << ")" << " appartient à la zone " << i << std::endl;
-      m_tabMachines.push_back(posLaser);
+    int zone = machineToArea(p);
+    if(zone!=0){
+      m_tabMachines.push_back(p);
     }
-  }
+  } 
 }
 
 void EKF::laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
@@ -221,7 +204,7 @@ geometry_msgs::Pose2D EKF::RobotToGlobal(geometry_msgs::Pose2D p){
   Vector3d before, after;
   Matrix3d m;
   geometry_msgs::Pose2D p2;
-  double angle = m_xMean(2)/*m_odomRobot.theta*/;
+  double angle = m_xMean(2);
 
   before(0) = p.x;
   before(1) = p.y;
@@ -229,8 +212,8 @@ geometry_msgs::Pose2D EKF::RobotToGlobal(geometry_msgs::Pose2D p){
 
   m.setZero();
   //translation
-  m(0,2) = m_xMean(0)/*m_odomRobot.x*/;
-  m(1,2) = m_xMean(1)/*m_odomRobot.y*/;
+  m(0,2) = m_xMean(0);
+  m(1,2) = m_xMean(1);
   //rotation
   Matrix2d rot;
   rot = Rotation2Dd(angle - M_PI_2);
@@ -279,8 +262,7 @@ VectorXd EKF::GlobalToRobot(VectorXd p){
   return after;
 }
 
-void EKF::addMachine(geometry_msgs::Pose2D m, int area){
-  //setZone(area);  
+void EKF::addMachine(geometry_msgs::Pose2D m){
   //on redimensionne m_xMean et m_P pour accueillir la nouvelle machines
   m_xMean.conservativeResize(m_xMean.rows() + 3);
   m_xPredicted.conservativeResize(m_xMean.rows());
@@ -442,7 +424,7 @@ void EKF::correction(geometry_msgs::Pose2D p, int i){
 
   //mise à jour du vecteur m_xMean
   m_xMean.block(0,0,3,1) += (K*z).block(0,0,3,1);
-  m_xMean.block(i,0,3,1) += (K*z).block(i,0,3,1);
+  //m_xMean.block(i,0,3,1) += (K*z).block(i,0,3,1);
 
   //std::cout << "je corrige la machine (" << m.x << "," << m.y << ")" << std::endl;
   //std::cout << "la nouvelle position :(" << m_xMean(i) << "," << m_xMean(i+1) << ")" << std::endl;
@@ -455,17 +437,14 @@ void EKF::correction(geometry_msgs::Pose2D p, int i){
   updateP(Pm, i);
 }
 
-bool EKF::test(int area){
-  for (int i = 0; i < m_zones.size(); i++){
-    if (area == m_zones[i]){
-      return true;
-    }
-  }
-  return false;
-}
-
 void EKF::printZones(){
   for (int i = 0; i < m_zones.size(); ++i){
     std::cout << "machine en zone " << m_zones[i] << std::endl;
+  }
+}
+
+void EKF::fillMachines(){
+  for (auto &it : m_tabMachines){
+    addMachine(it);
   }
 }
