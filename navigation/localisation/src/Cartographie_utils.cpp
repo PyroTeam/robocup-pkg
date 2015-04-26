@@ -1,18 +1,90 @@
+#include <ros/ros.h>
+#include <tf/transform_datatypes.h>
+#include <visualization_msgs/Marker.h>
+#include <Eigen/Dense>
+#include <cmath>
+#include "geometry_msgs/Point.h"
 #include "geometry_msgs/Pose2D.h"
 #include "deplacement_msg/Landmarks.h"
 #include "Machine.h"
 #include <cmath>
 
+
+#include "EKF_class.h"
+
+using namespace Eigen;
+
+geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser){
+  geometry_msgs::Pose2D p;
+  Matrix3d m;
+  m.setZero();
+  Vector3d before;
+  Vector3d after;
+
+  //translation
+  m(1,2) = 0.1;
+  
+  //rotation
+  Matrix2d rot;
+  rot = Rotation2Dd(M_PI_2);
+  m.topLeftCorner(2,2) = rot;
+  m(2,2) = 1;
+
+  before(0) = PosLaser.x;
+  before(1) = PosLaser.y;
+  before(2) = 1;
+
+  after = m*before;
+
+  p.x = after(0) ;
+  p.y = after(1);
+  p.theta = PosLaser.theta;
+
+  return p;
+}
+
+geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose2D odomRobot){
+  Vector3d before, after;
+  Matrix3d m;
+  geometry_msgs::Pose2D p2;
+  double angle = odomRobot.theta;
+
+  before(0) = p.x;
+  before(1) = p.y;
+  before(2) = 1; //toujours 1 ici !
+
+  m.setZero();
+  //translation
+  m(0,2) = odomRobot.x;
+  m(1,2) = odomRobot.y;
+  //rotation
+  Matrix2d rot;
+  rot = Rotation2Dd(angle - M_PI_2);
+  m.topLeftCorner(2,2) = rot;
+
+  m(2,2) = 1;
+
+  //std::cout << m << std::endl;
+
+  after = m*before;
+
+  p2.x   = after(0);
+  p2.y   = after(1);
+  p2.theta = p.theta;
+
+  return p2;
+}
+
 int getZone(geometry_msgs::Pose2D m){
   //côté droit
-  if(m.x >= 0 && m.y >= 0 && m.x <= 6 && m.y < 6) {
+  if(m.x >= 0 && m.x <= 6 && m.y >= 0 && m.y < 6) {
     int w = int(m.x/2);
     int h = int(m.y/1.5)+1;
 
     return w*4 + h;
   }
   //côté gauche
-  else if (m.x < 0 && m.y >= 0 && m.x <= -6 && m.y < 6) {
+  else if (m.x >= -6 && m.x < 0 && m.y >= 0 && m.y < 6) {
     int w = int(-m.x/2);
     int h = int(m.y/1.5)+1;
 
@@ -42,15 +114,17 @@ geometry_msgs::Pose2D getCenter(int zone){
 }
 
 double dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m){
-  return (m.x - c.x)*(m.x - c.x) + (m.y - c.y)*(m.y - c.y);
+  double d = (m.x - c.x)*(m.x - c.x) + (m.y - c.y)*(m.y - c.y);
+  //std::cout << "la distance mesurée est de " << d << std::endl;
+  return d;
 }
 
 int machineToArea(geometry_msgs::Pose2D m){
   int zone = getZone(m);
-  std::cout << "machine (" << m.x << "," << m.y << ") en zone " << zone << std::endl;
   if ((zone != 0) && (dist(m,getCenter(zone)) <= 0.36)){
-  //si on est dans le cercle de centre le centre de zone et de rayon 0.6 m
-  //pour éviter un sqrt() on met le seuil au carré
+    //si on est dans le cercle de centre le centre de zone et de rayon 0.6 m
+    //pour éviter un sqrt() on met le seuil au carré
+    std::cout << "machine (" << m.x << "," << m.y << ") en zone " << zone << std::endl;
     return zone;
   }
   else {
