@@ -129,7 +129,9 @@ add_executable(
 
 add_executable(
   visualisation
-  src/visualisation.cpp)
+  src/visualisation.cpp
+  src/Cartographie_utils.cpp
+  src/Machine.cpp)
 
 add_executable(
   try

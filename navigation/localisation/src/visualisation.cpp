@@ -1,9 +1,12 @@
 #include <ros/ros.h>
+#include <tf/transform_datatypes.h>
 #include <visualization_msgs/Marker.h>
+#include <visualization_msgs/MarkerArray.h>
 #include "deplacement_msg/Landmarks.h"
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/Pose2D.h"
 #include "nav_msgs/Odometry.h"
+#include "cartographie_utils.h"
 
 #include <cmath>
 
@@ -12,7 +15,7 @@ std::vector<geometry_msgs::Point> tabSegments;
 std::vector<geometry_msgs::Point> trajectoire;
 std::vector<geometry_msgs::Point> scan_global;
 std::vector<geometry_msgs::Point> odometrie;
-geometry_msgs::Point r;
+geometry_msgs::Pose2D r;
 
 void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments){
   tabSegments.clear();
@@ -31,8 +34,35 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
     geometry_msgs::Point p;
     p.x = it.x;
     p.y = it.y;
+
+    //std::cout << "machine (" << it.x << "," << it.y << "," << it.theta << ")" << std::endl;
+    //visualization_msgs::Marker m;
+    //m.header.frame_id = "/odom";
+    //m.header.stamp = ros::Time::now();
+    //m.ns = "visualisation_machines";
+    //m.action = visualization_msgs::Marker::ADD;
+    //m.pose.position.x = it.x;
+    //m.pose.position.y = it.y;
+    //m.pose.orientation = tf::createQuaternionMsgFromYaw(it.theta);
+    //m.id = getZone(it);
+    //m.type = visualization_msgs::Marker::POINTS;
+
+    //m.lifetime = 0;
+  
+    // POINTS markers use x and y scale for width/height respectively
+    //m.scale.x = 0.35;
+    //m.scale.y = 0.70;
+  
+      // Points are red
+    //m.color.r = 1.0;
+    //m.color.a = 1.0;
+
+    //std::cout << "Marker : " << m << std::endl;
+
     tabMachines.push_back(p);
   }
+
+  //std::cout << "MarkerArray : " << tabMachines << std::endl;
 }
 
 void robotCallback(const geometry_msgs::Point& pos){
@@ -62,12 +92,12 @@ int main( int argc, char** argv )
 {
   ros::init(argc, argv, "visualisation");
 
-  visualization_msgs::Marker line_list;
-  visualization_msgs::Marker points;
-  visualization_msgs::Marker robot;
-  visualization_msgs::Marker machines;
-  visualization_msgs::Marker laser;
-  visualization_msgs::Marker odom_brut;
+  visualization_msgs::Marker   line_list;
+  visualization_msgs::Marker   points;
+  visualization_msgs::Marker   robot;
+  visualization_msgs::Marker   laser;
+  visualization_msgs::Marker   odom_brut;
+  visualization_msgs::Marker   machines;
 
   ros::NodeHandle n;
 
@@ -77,13 +107,14 @@ int main( int argc, char** argv )
   ros::Subscriber sub_scan_global = n.subscribe("/scan_global", 1000, laserCallback);
   ros::Subscriber sub_odom        = n.subscribe("/new_odom", 1000, odomCallback);
 
-  ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("/visualization_marker", 10000);
+  //ros::Publisher machines_pub = n.advertise<visualization_msgs::MarkerArray>("/visualization_machines", 10000);
+  ros::Publisher markers_pub = n.advertise<visualization_msgs::Marker>("/visualization_markers", 10000);
 
   ros::Rate rate(20);
 
   while (ros::ok())
   {
-    
+    /*
     line_list.header.frame_id = "/odom";
     line_list.header.stamp = ros::Time::now();
     line_list.ns = "visualisation_segments";
@@ -100,7 +131,7 @@ int main( int argc, char** argv )
     line_list.color.a = 1.0;
 
     line_list.points = tabSegments;
-
+*//*
     points.header.frame_id = "/odom";
     points.header.stamp = ros::Time::now();
     points.ns = "visualisation_trajectoire";
@@ -118,27 +149,7 @@ int main( int argc, char** argv )
     points.color.a = 1.0;
 
     points.points = trajectoire;
-
-    laser.header.frame_id = "/odom";
-    laser.header.stamp = ros::Time::now();
-    laser.ns = "visualisation_laser";
-    laser.action = visualization_msgs::Marker::ADD;
-    laser.pose.orientation.w = 1.0;
-    laser.id = 3;
-    laser.type = visualization_msgs::Marker::POINTS;
-
-    // POINTS markers use x and y scale for width/height respectively
-    laser.scale.x = 0.1;
-    laser.scale.y = 0.1;
-
-    // Points are I don't know
-    //laser.color.r = 1.0f;
-    laser.color.b = 1.0f;
-    laser.color.a = 1.0;
-
-    //points.points = tabMachines;
-    laser.points = scan_global;
-
+*/    
     machines.header.frame_id = "/odom";
     machines.header.stamp = ros::Time::now();
     machines.ns = "visualisation_machines";
@@ -153,16 +164,37 @@ int main( int argc, char** argv )
 
     // Points are green
     machines.color.r = 1.0f;
+    machines.color.b = 1.0f;
     machines.color.a = 1.0;
 
     machines.points = tabMachines;
+
+    laser.header.frame_id = "/odom";
+    laser.header.stamp = ros::Time::now();
+    laser.ns = "visualisation_laser";
+    laser.action = visualization_msgs::Marker::ADD;
+    laser.pose.orientation.w = 1.0;
+    laser.id = 30;
+    laser.type = visualization_msgs::Marker::POINTS;
+
+    // POINTS markers use x and y scale for width/height respectively
+    laser.scale.x = 0.1;
+    laser.scale.y = 0.1;
+
+    // Points are I don't know
+    //laser.color.r = 1.0f;
+    laser.color.b = 1.0f;
+    laser.color.a = 1.0;
+
+    //points.points = tabMachines;
+    laser.points = scan_global;
 
     robot.header.frame_id = "/odom";
     robot.header.stamp = ros::Time::now();
     robot.ns = "visualisation_robot";
     robot.action = visualization_msgs::Marker::ADD;
     robot.pose.orientation.w = 1.0;
-    robot.id = 1;
+    robot.id = 31;
     robot.type = visualization_msgs::Marker::CYLINDER;
 
     // POINTS markers use x and y scale for width/height respectively
@@ -172,10 +204,6 @@ int main( int argc, char** argv )
 
     robot.pose.position.x = r.x;
     robot.pose.position.y = r.y;
-    robot.pose.orientation.x = 0.0;
-    robot.pose.orientation.y = 0.0;
-    robot.pose.orientation.z = 0.0;
-    robot.pose.orientation.w = 1.0;
 
     // Robot is blue
     robot.color.b = 1.0f;
@@ -186,7 +214,7 @@ int main( int argc, char** argv )
     odom_brut.ns = "visualisation_odom";
     odom_brut.action = visualization_msgs::Marker::ADD;
     odom_brut.pose.orientation.w = 1.0;
-    odom_brut.id = 7;
+    odom_brut.id = 32;
     odom_brut.type = visualization_msgs::Marker::POINTS;
 
     // POINTS markers use x and y scale for width/height respectively
@@ -201,12 +229,13 @@ int main( int argc, char** argv )
     odom_brut.points = odometrie;
 
     //marker_pub.publish(line_list);
-    marker_pub.publish(points);
-    marker_pub.publish(robot);
-    marker_pub.publish(machines);
-    marker_pub.publish(laser);
-    marker_pub.publish(odom_brut);
-    marker_pub.publish(line_list);
+    //marker_pub.publish(points);
+    markers_pub.publish(robot);
+    markers_pub.publish(laser);
+    markers_pub.publish(odom_brut);
+    markers_pub.publish(machines);
+
+    //machines_pub.publish(tabMachines);
 
     ros::spinOnce();
 

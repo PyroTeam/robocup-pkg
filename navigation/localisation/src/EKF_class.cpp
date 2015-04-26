@@ -448,3 +448,19 @@ void EKF::fillMachines(){
     addMachine(it);
   }
 }
+
+VectorXd EKF::getXmean() {
+  return m_xMean;
+}
+VectorXd EKF::getXpredicted() {
+  return m_xPredicted;
+}
+std::vector<int> EKF::getZones() {
+  return m_zones;
+}
+std::vector<geometry_msgs::Pose2D> EKF::getScan(){
+  return m_scan;
+}
+std::vector<geometry_msgs::Pose2D> EKF::getTabMachines() {
+  return m_tabMachines;
+}
