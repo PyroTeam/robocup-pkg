@@ -1,9 +1,0 @@
-# Define the goal
-# uint32 sample 
----
-# Define the result
-comm_msg/LightSpec[] light_signal
----
-# Define a feedback message
-uint32 percent_complete
-uint32 images_processed

@@ -1,8 +1,8 @@
 #include "ros/ros.h"
-#include <manager_msg/ReportMachine.h>
+#include <comm_msg/ReportMachine.h>
 
-bool add(manager_msg::ReportMachine::Request  &req,
-         manager_msg::ReportMachine::Response &res)
+bool add(comm_msg::ReportMachine::Request  &req,
+         comm_msg::ReportMachine::Response &res)
 {
   ROS_INFO("request: name=%s, type=%s, zone = Z%d", req.name.c_str(), req.type.c_str(), req.zone);
   return true;

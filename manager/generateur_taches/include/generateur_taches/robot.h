@@ -7,7 +7,7 @@ class Robot{
  
  public :
  
-  Robot(){m_occupe=false; m_machine=manager_msg::activity::NONE; m_nb_ordre=0;}
+  Robot(){m_occupe=true; m_machine=manager_msg::activity::NONE; m_nb_ordre=0;}
   
   bool get_occupe(){return m_occupe;}
   void set_occupe(bool occupe){m_occupe = occupe;}

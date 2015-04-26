@@ -6,7 +6,7 @@
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/client/terminal_state.h>
 
-#include <manager_msg/MoveToPoseAction.h>
+#include <deplacement_msg/MoveToPoseAction.h>
 
 
 class NavigationClientAction{

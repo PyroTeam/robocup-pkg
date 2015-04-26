@@ -1,12 +1,12 @@
 #include "ros/ros.h"
-#include <manager_msg/processLightSignalAction.h>
+#include <trait_im_msg/processLightSignalAction.h>
 #include <comm_msg/LightSpec.h>
 #include <actionlib/server/simple_action_server.h>
 
-typedef actionlib::SimpleActionServer<manager_msg::processLightSignalAction> Server;
+typedef actionlib::SimpleActionServer<trait_im_msg::processLightSignalAction> Server;
 
-void execute(const manager_msg::processLightSignalGoalConstPtr &goal, Server* as){
-	manager_msg::processLightSignalResult result;
+void execute(const trait_im_msg::processLightSignalGoalConstPtr &goal, Server* as){
+	trait_im_msg::processLightSignalResult result;
 	comm_msg::LightSpec light;
 	// yellow
 	light.color = light.YELLOW;
@@ -26,7 +26,7 @@ void execute(const manager_msg::processLightSignalGoalConstPtr &goal, Server* as
 int main(int argc, char** argv){
 	ros::init(argc,argv,"process_light_signal_server");
 	ros::NodeHandle n;
-	Server server(n,"processLightSignal",boost::bind(&execute, _1, &server), false);
+	Server server(n,"lecture_feu",boost::bind(&execute, _1, &server), false);
 	server.start();
 	ros::spin();
 	return 0;
