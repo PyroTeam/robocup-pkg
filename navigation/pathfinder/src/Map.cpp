@@ -7,10 +7,10 @@
 	_height(180),
 	_origin_x(-7),
 	_origin_y(-2)
-	{
-		ROS_INFO("Objet Map, instanciation");
+	{		
+		ROS_INFO("Objet Map, instanciation");	
 
-		// Création des machines
+		// Création des machines 
 		_production_machine[0] = new Objet(MACHINE,(float)56/100,(float)168/100,-90);
 		_production_machine[1] = new Objet(MACHINE,(float)56/100,(float)280/100,90);
 		_production_machine[2] = new Objet(MACHINE,(float)168/100,(float)168/100,180);
@@ -46,7 +46,43 @@
 		_recycling_machine[0] = new Objet(RECYCLING,(float)56/100,(float)504/100,0);
 		_recycling_machine[1] = new Objet(RECYCLING,(float)-56/100,(float)504/100,180);
 
-		constructMap();
+		// //Création des points
+		// for (int i = 0; i < nbPointsLignes; ++i)
+		// {
+		// 	for (int j = 0; j < nbPointsColonnes; ++j)
+		// 	{
+		// 		_pointsPassage[i][j] = new Point(-5.04+j*0.56,0.56+i*0.56,i,j);
+		// 	}
+		// }				
+		// _pointsPassage[2][2]->setType(INTERDIT);
+		// _pointsPassage[2][4]->setType(INTERDIT);
+		// _pointsPassage[2][6]->setType(INTERDIT);
+		// _pointsPassage[2][8]->setType(INTERDIT);
+		// _pointsPassage[2][10]->setType(INTERDIT);
+		// _pointsPassage[2][12]->setType(INTERDIT);
+		// _pointsPassage[2][14]->setType(INTERDIT);
+		// _pointsPassage[2][16]->setType(INTERDIT);
+		
+		// _pointsPassage[4][2]->setType(INTERDIT);
+		// _pointsPassage[4][6]->setType(INTERDIT);
+		// _pointsPassage[4][8]->setType(INTERDIT);
+		// _pointsPassage[4][10]->setType(INTERDIT);
+		// _pointsPassage[4][12]->setType(INTERDIT);
+		// _pointsPassage[4][16]->setType(INTERDIT);
+
+		// _pointsPassage[6][4]->setType(INTERDIT);
+		// _pointsPassage[6][6]->setType(INTERDIT);
+		// _pointsPassage[6][12]->setType(INTERDIT);
+		// _pointsPassage[6][14]->setType(INTERDIT);
+
+		// _pointsPassage[8][0]->setType(INTERDIT);
+		// _pointsPassage[8][2]->setType(INTERDIT);
+		// _pointsPassage[8][4]->setType(INTERDIT);
+		// _pointsPassage[8][8]->setType(INTERDIT);
+		// _pointsPassage[8][10]->setType(INTERDIT);
+		// _pointsPassage[8][14]->setType(INTERDIT);
+		// _pointsPassage[8][16]->setType(INTERDIT);
+		// _pointsPassage[8][18]->setType(INTERDIT);
 
 		_allowDiagonal 		= true;
 		_crossCorner 		= false;
@@ -65,16 +101,18 @@
 		// 	return;
 		// onceReceived = true;
 	    // ROS_INFO("Grid received");
-	    updateMap(grid);
+	    constructMap(grid);
 	}
 
-	void Map::updateMap(nav_msgs::OccupancyGridConstPtr grid)
+	void Map::constructMap(nav_msgs::OccupancyGridConstPtr grid)
 	{
 		//Création des points
 		for (int i = 0; i < _height; ++i)
 		{
 			for (int j = 0; j < _width; ++j)
 			{
+				delete _pointsPassage[i][j];
+				_pointsPassage[i][j] = new Point(_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
 				// ROS_INFO("%d:%d  %f:%f",i,j,_pointsPassage[i][j]->getX(),_pointsPassage[i][j]->getY());
 				// ROS_INFO("%f / %f / %f",-_origin_x+_resolution/2+j*_resolution,_origin_x,j*_resolution);
 				if(grid->data[i*_width+j] != 0) {
@@ -83,7 +121,7 @@
 					_pointsPassage[i][j]->setType(LIBRE);
 				}
 			}
-		}
+		}		
 	}
 
 	void Map::constructMap()
@@ -94,27 +132,21 @@
 			for (int j = 0; j < _width; ++j)
 			{
 				delete _pointsPassage[i][j];
-				_pointsPassage[i][j] = new Point(_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
+				_pointsPassage[i][j] = new Point(-_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
 			}
-		}
-	}
-
-	void Map::destructMap()
-	{
-		//Création des points
-		for (int i = 0; i < _height; ++i)
-		{
-			for (int j = 0; j < _width; ++j)
-			{
-				delete _pointsPassage[i][j];
-			}
-		}
+		}		
 	}
 
 	Map::~Map()
-	{
+	{	
 		// Desallocations des objets et points
-		destructMap();
+		for (int i = 0; i < nbPointsLignes; ++i)
+		{
+			for (int j = 0; j < nbPointsColonnes; ++j)
+			{
+				delete _pointsPassage[i][j];
+			}
+		}			
 		for (int i = 0; i < nbProductionMachine; ++i)
 		{
 			delete _production_machine[i];
@@ -129,7 +161,7 @@
 		}
 	}
 
-	// AStar
+	// AStar	
 	void Map::setAllowDiagonal(bool allowDiagonal)
 	{
 		_allowDiagonal = allowDiagonal;
@@ -146,7 +178,7 @@
 	}
 
 	// Utilise la fonction heuristic appropriee, selon notre choix de depart
-	float Map::heuristic(const Point & pointDepart, const Point & pointDistant)
+	float Map::heuristic(Point const& pointDepart, Point const& pointDistant)
 	{
 		switch(_heuristicFonction)
 		{
@@ -165,7 +197,7 @@
 	}
 
 	// Heuristic du taxi -> voir wikipedia, pertinent quand on ne se deplace pas ou peu en diagonale
-	float Map::heuristicManhattan(const Point & pointDepart, const Point & pointDistant)
+	float Map::heuristicManhattan(Point const& pointDepart, Point const& pointDistant)
 	{
 		float dist  = 0;
 		float distX = 0, distY = 0;
@@ -179,7 +211,7 @@
 	}
 
 	// Heuristic "vol d'oiseau"
-	float Map::heuristicEuclidean(const Point & pointDepart, const Point & pointDistant)
+	float Map::heuristicEuclidean(Point const& pointDepart, Point const& pointDistant)
 	{
 		float dist  = 0;
 		float distX = 0, distY = 0;
@@ -192,7 +224,7 @@
 		return dist;
 	}
 
-	float Map::heuristicChebyshev(const Point& pointDepart, const Point& pointDistant)
+	float Map::heuristicChebyshev(Point const& pointDepart, Point const& pointDistant)
 	{
 		float dist = 0;
 		float distX = 0, distY = 0;
@@ -214,7 +246,7 @@
 	{
 		if(li < nbPointsLignes && li >= 0 && col < nbPointsColonnes && col>=0)
 			return _pointsPassage[li][col]->isFree();
-		else
+		else 
 			return false;
 	}
 
@@ -231,7 +263,7 @@
  *
  */
  /**
-  * Retourne tous les voisins d'un point en prenant en compte les paramètres :
+  * Retourne tous les voisins d'un point en prenant en compte les paramètres : 
   * _allowDiagonal et _crossCorner
   */
 	signed int Map::getVoisins(std::vector<Point*> &voisins, Point *oirigin)
@@ -275,7 +307,7 @@
 	    if (!_allowDiagonal)
 	        return 0;
 
-	    // Les simple s0 à s3 remplient precedemment permettent
+	    // Les simple s0 à s3 remplient precedemment permettent 
 	    // de trouver les diagonals d0 à d3 franchissable ou non
 	    if (!_crossCorner)
 	    {
@@ -312,7 +344,6 @@
 	    {
 	        voisins.push_back(_pointsPassage[li + 1][col - 1]);
 	    }
-
 	    return 0;
 	}
 
@@ -338,62 +369,39 @@
 		aEvaluer.insert(startPoint);				// On commence l'evaluation par le point de depart
 
 		while(!aEvaluer.empty())					// Tant qu'il reste des points a evaluer, on persevere
-		{	
-			static long int precSize = -5;
-			static long int pprecSize = -2;
-			static long int ppprecSize = -1;
+		{
 			Point *p;
-			Point *precP;
 
 			p = *(aEvaluer.begin());				// On commence par evaluer le point avec le plus petit F (au tout debut il n'y a que start)
-			ROS_INFO("OpenList size : %lu, prec %ld",aEvaluer.size(),precSize);
 
-			// ROS_INFO("\nA Evaluer Contains :");
-			// //Affichage du tableau de points à évaluer
+			//ROS_INFO("\nA Evaluer Contains :");
+			//Affichage du tableau de points à évaluer
 
- 		// 	for (std::multiset<Point*>::iterator it=aEvaluer.begin();
- 		// 		 it!=aEvaluer.end();
- 		// 		 ++it )
- 		// 	{
- 		// 		std::cout << " ("
- 		// 		<< (*it)->getLigne() << ','
- 		// 		<< (*it)->getColonne() << "):"
- 		// 		<< (*it)->getF();
- 		// 	}
- 		// 	std::cout << '\n';
+ 			/*for (std::multiset<Point*>::iterator it=aEvaluer.begin();
+ 				 it!=aEvaluer.end();
+ 				 ++it )
+ 			{
+ 				std::cout << " ("
+ 				<< (*it)->getLigne() << ','
+ 				<< (*it)->getColonne() << "):"
+ 				<< (*it)->getF();
+ 			} 
+ 			std::cout << '\n';
+ 
+ 			//Affichage du point évalué
 
- 		// 	//Affichage du point évalué
-
-
-         	ROS_INFO_STREAM("Point : ("
- 				<< p->getX() << ','
- 				<< p->getY() << "):"
+         	std::cout << "Point evalue: ("
+ 				<< p->getLigne() << ','
+ 				<< p->getColonne() << "):"
 				<< " f :" << p->getF()
 				<< " g :" << p->getG()
 				<< " h :" << p->getH()
-				<< " PTX :" << p);
-
-			// if(ppprecSize==aEvaluer.size() && ppprecSize==pprecSize && ppprecSize == precSize){
-			if(precP == p){
-				ROS_ERROR("BREAK");
-				break;
-			}
-			ppprecSize = pprecSize;
-			pprecSize = precSize;
-			precSize= aEvaluer.size();
-			precP = p;
-   //       	std::cout << "Point evalue: ("
- 		// 		<< p->getLigne() << ','
- 		// 		<< p->getColonne() << "):"
-			// 	<< " f :" << p->getF()
-			// 	<< " g :" << p->getG()
-			// 	<< " h :" << p->getH()
-			// 	<< std::endl;
+				<< std::endl;*/
 
 			// Si le point a evaluer est le point d'arrive, on a trouve notre chemin
 			if(p == endPoint)
 			{
-				// ROS_INFO("Arrive au point terminal !");
+				ROS_INFO("Arrive au point terminal !");
 
 				// Il faut reconstruire le chemin en remontant de parents en parents
 				Point* prec;
@@ -425,44 +433,37 @@
 			// On va ajouter tous les voisins a la liste aEvaluer, en construisant leurs infos F, G et H
 			// Ils seront automatiquement tries par F croissant, ainsi au prochain tours on evaluera celui le plus proche de l'arrivee
 			// (celui avec le F le plus petit)
-			// ROS_INFO("Non evalue, evaluation des voisins");
-			int nbVoisins=0;
+			//ROS_INFO("Non evalue, evaluation des voisins");
 			for (i = 0; i < voisins.size(); i++)
 			{
-				nbVoisins++;
 				// Si voisins[i] a déjà été évalué - iteration suivante
-				if(voisins[i]!=NULL && dejaEvalue.find(voisins[i])!=dejaEvalue.end())
+				if(dejaEvalue.count(voisins[i]) > 0 && voisins[i])
 				{
 					continue;
 				}
 
-				// Sinon - calcul g potentiel;
-				float newG = p->getG() + voisins[i]->distWith(*p);
+				// Sinon - calcul g potentiel
+				signed int newG = p->getG() + voisins[i]->distWith(*p);
 
-				// Si le voisins[i] n'et pas deja dans a evalue
+				// Si le voisins[i] n'et pas deja dans a evalue 
 				// ou que le nouveau g est plus interessant
 				// on modifie et on stocke
-				bool insert = aEvaluer.find(voisins[i])==aEvaluer.end();
-				if( insert || newG < voisins[i]->getG())
+
+				if( aEvaluer.count(voisins[i]) == 0 ||
+					newG < voisins[i]->getG())
 				{
 					voisins[i]->setPointPrec(p);
 					voisins[i]->setG(newG);
 					voisins[i]->setH((voisins[i]->getH())?voisins[i]->getH():heuristic(*voisins[i], *endPoint));
 					voisins[i]->setF(voisins[i]->getG()+_poidsHeuristic*voisins[i]->getH());
-
-					if (insert)
-						aEvaluer.insert(voisins[i]);
+					
+					aEvaluer.insert(voisins[i]);
 				}
 			}
-			ROS_INFO_STREAM("NB Voisins : " << nbVoisins);
 		}
 
 		setClean(false);
-
-		ros::Duration sleep_time(0.1);
-		sleep_time.sleep();
-
-		return 0;
+		return 0;		
 	}
 
 
@@ -476,7 +477,7 @@
 			point = _pointsPassage[ligne][colonne];
 			return 0;
 		}
-		else
+		else 
 		{
 			return -1;
 		}
@@ -512,10 +513,11 @@
 					}
 				}
 			}
-		}					
+		}
 
 		return 0;
 	}
+
 
 	void Map::reset()
 	{
@@ -527,9 +529,9 @@
 				{
 					_pointsPassage[i][j]->reset();
 				}
-			}
+			}		
 
-			setClean(true);
+			setClean(true);	
 		}
 	}
 
