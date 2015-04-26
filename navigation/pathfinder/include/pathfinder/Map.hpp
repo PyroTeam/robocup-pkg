@@ -15,8 +15,6 @@
 
 enum typeHeuristic{MANHATTAN,EUCLIDEAN,Chebyshev};
 
-class CompareF;
-
 class Map
 {
 public:
@@ -27,10 +25,10 @@ public:
 	void setAllowDiagonal(bool allowDiagonal);
 	void setCrossCorner(bool crossCorner);
 	void setPoidsHeuristic(signed int poids);
-	float heuristic(const Point& pointDepart, const Point& pointDistant);
-	float heuristicManhattan(const Point& pointDepart, const Point& pointDistant);
-	float heuristicEuclidean(const Point& pointDepart, const Point& pointDistant);
-	float heuristicChebyshev(const Point& pointDepart, const Point& pointDistant);
+	float heuristic(Point const& pointDepart, Point const& pointDistant);
+	float heuristicManhattan(Point const& pointDepart, Point const& pointDistant);
+	float heuristicEuclidean(Point const& pointDepart, Point const& pointDistant);
+	float heuristicChebyshev(Point const& pointDepart, Point const& pointDistant);
 	void setHeuristicFunction(typeHeuristic heuristicFonction);
 	bool isFreeAt(signed int li, signed int col);
 	signed int getVoisins(std::vector<Point*> &voisins, Point *oirigin);
@@ -42,10 +40,9 @@ public:
 	void setClean(bool c);
 
 	// Grid
-	void gridCallback(nav_msgs::OccupancyGridConstPtr grid);	
-	void updateMap(nav_msgs::OccupancyGridConstPtr grid);
+	void gridCallback(nav_msgs::OccupancyGridConstPtr grid);
+	void constructMap(nav_msgs::OccupancyGridConstPtr grid);
 	void constructMap();
-	void destructMap();
 
 private:
 	// Machines
@@ -61,7 +58,7 @@ private:
 	const static int nbPointsColonnes = 280;
 	Point *_pointsPassage[nbPointsLignes][nbPointsColonnes];
 
-	// AStar
+	// AStar	
 	bool _allowDiagonal;
 	bool _crossCorner;
 	signed int _poidsHeuristic;
