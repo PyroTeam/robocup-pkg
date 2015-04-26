@@ -46,43 +46,7 @@
 		_recycling_machine[0] = new Objet(RECYCLING,(float)56/100,(float)504/100,0);
 		_recycling_machine[1] = new Objet(RECYCLING,(float)-56/100,(float)504/100,180);
 
-		// //Création des points
-		// for (int i = 0; i < nbPointsLignes; ++i)
-		// {
-		// 	for (int j = 0; j < nbPointsColonnes; ++j)
-		// 	{
-		// 		_pointsPassage[i][j] = new Point(-5.04+j*0.56,0.56+i*0.56,i,j);
-		// 	}
-		// }
-		// _pointsPassage[2][2]->setType(INTERDIT);
-		// _pointsPassage[2][4]->setType(INTERDIT);
-		// _pointsPassage[2][6]->setType(INTERDIT);
-		// _pointsPassage[2][8]->setType(INTERDIT);
-		// _pointsPassage[2][10]->setType(INTERDIT);
-		// _pointsPassage[2][12]->setType(INTERDIT);
-		// _pointsPassage[2][14]->setType(INTERDIT);
-		// _pointsPassage[2][16]->setType(INTERDIT);
-
-		// _pointsPassage[4][2]->setType(INTERDIT);
-		// _pointsPassage[4][6]->setType(INTERDIT);
-		// _pointsPassage[4][8]->setType(INTERDIT);
-		// _pointsPassage[4][10]->setType(INTERDIT);
-		// _pointsPassage[4][12]->setType(INTERDIT);
-		// _pointsPassage[4][16]->setType(INTERDIT);
-
-		// _pointsPassage[6][4]->setType(INTERDIT);
-		// _pointsPassage[6][6]->setType(INTERDIT);
-		// _pointsPassage[6][12]->setType(INTERDIT);
-		// _pointsPassage[6][14]->setType(INTERDIT);
-
-		// _pointsPassage[8][0]->setType(INTERDIT);
-		// _pointsPassage[8][2]->setType(INTERDIT);
-		// _pointsPassage[8][4]->setType(INTERDIT);
-		// _pointsPassage[8][8]->setType(INTERDIT);
-		// _pointsPassage[8][10]->setType(INTERDIT);
-		// _pointsPassage[8][14]->setType(INTERDIT);
-		// _pointsPassage[8][16]->setType(INTERDIT);
-		// _pointsPassage[8][18]->setType(INTERDIT);
+		constructMap();
 
 		_allowDiagonal 		= true;
 		_crossCorner 		= false;
@@ -101,18 +65,16 @@
 		// 	return;
 		// onceReceived = true;
 	    // ROS_INFO("Grid received");
-	    constructMap(grid);
+	    updateMap(grid);
 	}
 
-	void Map::constructMap(nav_msgs::OccupancyGridConstPtr grid)
+	void Map::updateMap(nav_msgs::OccupancyGridConstPtr grid)
 	{
 		//Création des points
 		for (int i = 0; i < _height; ++i)
 		{
 			for (int j = 0; j < _width; ++j)
 			{
-				delete _pointsPassage[i][j];
-				_pointsPassage[i][j] = new Point(_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
 				// ROS_INFO("%d:%d  %f:%f",i,j,_pointsPassage[i][j]->getX(),_pointsPassage[i][j]->getY());
 				// ROS_INFO("%f / %f / %f",-_origin_x+_resolution/2+j*_resolution,_origin_x,j*_resolution);
 				if(grid->data[i*_width+j] != 0) {
@@ -132,7 +94,19 @@
 			for (int j = 0; j < _width; ++j)
 			{
 				delete _pointsPassage[i][j];
-				_pointsPassage[i][j] = new Point(-_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
+				_pointsPassage[i][j] = new Point(_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
+			}
+		}
+	}
+
+	void Map::destructMap()
+	{
+		//Création des points
+		for (int i = 0; i < _height; ++i)
+		{
+			for (int j = 0; j < _width; ++j)
+			{
+				delete _pointsPassage[i][j];
 			}
 		}
 	}
@@ -140,13 +114,7 @@
 	Map::~Map()
 	{
 		// Desallocations des objets et points
-		for (int i = 0; i < nbPointsLignes; ++i)
-		{
-			for (int j = 0; j < nbPointsColonnes; ++j)
-			{
-				delete _pointsPassage[i][j];
-			}
-		}
+		destructMap();
 		for (int i = 0; i < nbProductionMachine; ++i)
 		{
 			delete _production_machine[i];
@@ -344,6 +312,7 @@
 	    {
 	        voisins.push_back(_pointsPassage[li + 1][col - 1]);
 	    }
+
 	    return 0;
 	}
 
@@ -369,38 +338,62 @@
 		aEvaluer.insert(startPoint);				// On commence l'evaluation par le point de depart
 
 		while(!aEvaluer.empty())					// Tant qu'il reste des points a evaluer, on persevere
-		{
+		{	
+			static long int precSize = -5;
+			static long int pprecSize = -2;
+			static long int ppprecSize = -1;
 			Point *p;
+			Point *precP;
 
 			p = *(aEvaluer.begin());				// On commence par evaluer le point avec le plus petit F (au tout debut il n'y a que start)
-			//ROS_INFO("\nA Evaluer Contains :");
-			//Affichage du tableau de points à évaluer
+			ROS_INFO("OpenList size : %lu, prec %ld",aEvaluer.size(),precSize);
 
- 			/*for (std::multiset<Point*>::iterator it=aEvaluer.begin();
- 				 it!=aEvaluer.end();
- 				 ++it )
- 			{
- 				std::cout << " ("
- 				<< (*it)->getLigne() << ','
- 				<< (*it)->getColonne() << "):"
- 				<< (*it)->getF();
- 			}
- 			std::cout << '\n';
+			// ROS_INFO("\nA Evaluer Contains :");
+			// //Affichage du tableau de points à évaluer
 
- 			//Affichage du point évalué
+ 		// 	for (std::multiset<Point*>::iterator it=aEvaluer.begin();
+ 		// 		 it!=aEvaluer.end();
+ 		// 		 ++it )
+ 		// 	{
+ 		// 		std::cout << " ("
+ 		// 		<< (*it)->getLigne() << ','
+ 		// 		<< (*it)->getColonne() << "):"
+ 		// 		<< (*it)->getF();
+ 		// 	}
+ 		// 	std::cout << '\n';
 
-         	std::cout << "Point evalue: ("
- 				<< p->getLigne() << ','
- 				<< p->getColonne() << "):"
+ 		// 	//Affichage du point évalué
+
+
+         	ROS_INFO_STREAM("Point : ("
+ 				<< p->getX() << ','
+ 				<< p->getY() << "):"
 				<< " f :" << p->getF()
 				<< " g :" << p->getG()
 				<< " h :" << p->getH()
-				<< std::endl;*/
+				<< " PTX :" << p);
+
+			// if(ppprecSize==aEvaluer.size() && ppprecSize==pprecSize && ppprecSize == precSize){
+			if(precP == p){
+				ROS_ERROR("BREAK");
+				break;
+			}
+			ppprecSize = pprecSize;
+			pprecSize = precSize;
+			precSize= aEvaluer.size();
+			precP = p;
+   //       	std::cout << "Point evalue: ("
+ 		// 		<< p->getLigne() << ','
+ 		// 		<< p->getColonne() << "):"
+			// 	<< " f :" << p->getF()
+			// 	<< " g :" << p->getG()
+			// 	<< " h :" << p->getH()
+			// 	<< std::endl;
 
 			// Si le point a evaluer est le point d'arrive, on a trouve notre chemin
 			if(p == endPoint)
 			{
-				ROS_INFO("Arrive au point terminal !");
+				// ROS_INFO("Arrive au point terminal !");
 
 				// Il faut reconstruire le chemin en remontant de parents en parents
 				Point* prec;
@@ -432,35 +425,43 @@
 			// On va ajouter tous les voisins a la liste aEvaluer, en construisant leurs infos F, G et H
 			// Ils seront automatiquement tries par F croissant, ainsi au prochain tours on evaluera celui le plus proche de l'arrivee
 			// (celui avec le F le plus petit)
-			//ROS_INFO("Non evalue, evaluation des voisins");
+			// ROS_INFO("Non evalue, evaluation des voisins");
+			int nbVoisins=0;
 			for (i = 0; i < voisins.size(); i++)
 			{
+				nbVoisins++;
 				// Si voisins[i] a déjà été évalué - iteration suivante
-				if(isInMultiset(dejaEvalue, *(voisins[i])))
+				if(voisins[i]!=NULL && dejaEvalue.find(voisins[i])!=dejaEvalue.end())
 				{
 					continue;
 				}
 
-				// Sinon - calcul g potentiel
-				float newG = p->getG() + heuristic(*(voisins[i]), *p);
+				// Sinon - calcul g potentiel;
+				float newG = p->getG() + voisins[i]->distWith(*p);
 
 				// Si le voisins[i] n'et pas deja dans a evalue
 				// ou que le nouveau g est plus interessant
 				// on modifie et on stocke
-				bool insert = !isInMultiset(aEvaluer, *(voisins[i]));
-				if( insert)// || newG < voisins[i]->getG())//utile uniquement avec des heuristiques non admissibles (MANHATTAN en connectivité 8 nb à tester)
+				bool insert = aEvaluer.find(voisins[i])==aEvaluer.end();
+				if( insert || newG < voisins[i]->getG())
 				{
 					voisins[i]->setPointPrec(p);
 					voisins[i]->setG(newG);
 					voisins[i]->setH((voisins[i]->getH())?voisins[i]->getH():heuristic(*voisins[i], *endPoint));
 					voisins[i]->setF(voisins[i]->getG()+_poidsHeuristic*voisins[i]->getH());
 
-					aEvaluer.insert(voisins[i]);
+					if (insert)
+						aEvaluer.insert(voisins[i]);
 				}
 			}
+			ROS_INFO_STREAM("NB Voisins : " << nbVoisins);
 		}
 
 		setClean(false);
+
+		ros::Duration sleep_time(0.1);
+		sleep_time.sleep();
+
 		return 0;
 	}
 
@@ -511,35 +512,9 @@
 					}
 				}
 			}
-		}
+		}					
 
 		return 0;
-	}
-
-	bool Map::isInMultiset(const std::multiset<Point *> &mset, Point& p)
-	{
-		std::multiset<Point*>::iterator it;
-		for(it = mset.begin(); it != mset.end(); ++it)
-		{
-			if (**it == p)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	bool Map::isInMultiset(const std::multiset<Point *, CompareF> &mset, Point& p)
-	{
-		std::multiset<Point*>::iterator it;
-		for(it = mset.begin(); it != mset.end(); ++it)
-		{
-			if (**it == p)
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 
 	void Map::reset()
