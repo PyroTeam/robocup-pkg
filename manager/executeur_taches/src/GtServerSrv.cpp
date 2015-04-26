@@ -484,7 +484,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       case C_DS_IN  :
                       case C_DS_OUT :
                               if(m_id == C_DS_IN || m_id == M_DS_IN){
-                                   m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+                                   //m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                    if(m_ei->m_signals.size() != 0) {
                                           m.getDS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();
@@ -495,7 +495,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                   pt_actuel = pt_dest;
                                   pt_dest = calculOutPoint(pt_actuel, req.id);
                                   going(pt_dest);
-                                  m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+                                  //m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                   if(m_ei->m_signals.size() != 0) {
                                           m.getDS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();

@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 
   ros::NodeHandle n;
 
-  ros::Publisher ei_pub = n.advertise<comm_msg::ExplorationInfo>("/explorationInfo", 1000);
+  ros::Publisher ei_pub = n.advertise<comm_msg::ExplorationInfo>("/refBoxComm/ExplorationInfo", 1000);
 
   ros::Rate loop_rate(1);
 
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     light.state = light.ON;
     m_signals[0].lights.push_back(light);
 
-    m_signals[1].type="dgDDV67q";
+    m_signals[1].type="w-'V(6gh";
 
     light.color = light.RED;
     light.state = light.OFF;
@@ -63,6 +63,7 @@ int main(int argc, char **argv)
     msg.zones = m_zones;
     ei_pub.publish(msg);
     ROS_INFO("publishing type 0 : %s", msg.signals[0].type.c_str());
+    ROS_INFO("publishing type 1 : %s", msg.signals[1].type.c_str());
     ros::spinOnce();
     loop_rate.sleep();
   }
