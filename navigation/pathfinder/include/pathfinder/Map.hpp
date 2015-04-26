@@ -42,9 +42,10 @@ public:
 	void setClean(bool c);
 
 	// Grid
-	void gridCallback(nav_msgs::OccupancyGridConstPtr grid);
-	void constructMap(nav_msgs::OccupancyGridConstPtr grid);
+	void gridCallback(nav_msgs::OccupancyGridConstPtr grid);	
+	void updateMap(nav_msgs::OccupancyGridConstPtr grid);
 	void constructMap();
+	void destructMap();
 
 private:
 	// Machines
@@ -73,10 +74,6 @@ private:
 	float _width;
 	float _origin_x;
 	float _origin_y;
-
-
-	bool isInMultiset(const std::multiset<Point *> &mset, Point& p);
-	bool isInMultiset(const std::multiset<Point *, CompareF> &mset, Point& p);
 };
 
 class CompareF
