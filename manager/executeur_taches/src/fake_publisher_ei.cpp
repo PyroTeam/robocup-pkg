@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 
   while (ros::ok())
   {
-    
+
     comm_msg::ExplorationInfo msg;
     comm_msg::LightSpec light;
 

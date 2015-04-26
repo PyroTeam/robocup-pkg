@@ -29,7 +29,7 @@ String cascade_name = cascade_dir + "cascade.xml";
 CascadeClassifier cascade;
 
 LectureFeu::LectureFeu()
-  : it_(nh_), 
+  : it_(nh_),
   as_(nh_, ros::this_node::getName(), false),
   action_name_(ros::this_node::getName())
 {
@@ -50,7 +50,7 @@ LectureFeu::LectureFeu()
     result_pub_ = it_.advertise("feu_tricolore/img_result", 1);
     nh_.setParam("feu_tricolore/image_result/list/6_Image_resultat", "/feu_tricolore/img_result");
 
-    // Images - init _origin, _origin_rbg, _result, etc 
+    // Images - init _origin, _origin_rbg, _result, etc
     initMembersImgs();
 
     // Ros action server
@@ -120,7 +120,7 @@ bool LectureFeu::ok()
 /**
  * @brief CallBack fonction
  * @details [long description]
- * 
+ *
  * @param msg [description]
  */
 void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
@@ -164,7 +164,7 @@ void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
         // Good result only if we have enough images processed
         if (nbImgProcessed_/timeElapsed >= minNbImgProcessedPerSecond_) {
             // Action result
-            trait_im_msg::LightSpec light;
+            comm_msg::LightSpec light;
 
             light.color = light.RED;
             if(red_last_results_ > nbImgProcessed_*0.66)
@@ -174,7 +174,7 @@ void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
             else
                 light.state = light.BLINK;
             result_.light_signal.push_back(light);
-            
+
             light.color = light.YELLOW;
             if(yellow_last_results_ > nbImgProcessed_*0.66)
                 light.state = light.ON;
@@ -183,7 +183,7 @@ void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
             else
                 light.state = light.BLINK;
             result_.light_signal.push_back(light);
-            
+
             light.color = light.GREEN;
             if(green_last_results_ > nbImgProcessed_*0.66)
                 light.state = light.ON;
@@ -198,16 +198,16 @@ void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
         }
         else {
             // Action result - all off because of abortion
-            trait_im_msg::LightSpec light;
+            comm_msg::LightSpec light;
 
             light.color = light.RED;
             light.state = light.OFF;
             result_.light_signal.push_back(light);
-            
+
             light.color = light.YELLOW;
             light.state = light.OFF;
             result_.light_signal.push_back(light);
-            
+
             light.color = light.GREEN;
             light.state = light.OFF;
             result_.light_signal.push_back(light);
@@ -216,7 +216,7 @@ void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
             as_.setAborted(result_);
         }
     }
-    else {    
+    else {
     // Action Feedback
         feedback_.percent_complete = (timeElapsed*100)/minProcessTimeNeeded_;
         // feedback_.percent_complete = timeElapsed;
@@ -311,7 +311,7 @@ void LectureFeu::lectureFeu(cv::Mat &imgToProcess)  // NB : il faudrait utiliser
 
 void LectureFeu::hsvProcessing(cv::Mat imgToProcess)
 {
-// Recupération des params 
+// Recupération des params
 //  (actualisation des parametres a chaque nouvelle image et non pas pendant le traitement)
     int HSV_max_value = getHSV_max_value();
     int HSV_min_value = getHSV_min_value();
@@ -325,7 +325,7 @@ void LectureFeu::hsvProcessing(cv::Mat imgToProcess)
     int closingIterations = getClosingIterations();
     bool enableClosing = getEnableClosing();
 
-// Conversion couleur    
+// Conversion couleur
     cv::Mat hsv;
     cv::cvtColor(imgToProcess,hsv,CV_BGR2HSV);
 
@@ -357,21 +357,21 @@ void LectureFeu::hsvProcessing(cv::Mat imgToProcess)
     if(enableOpening) {
         for(int k=0;k<openingIterations;k++) {
             opening(threshold_binary, cv::Size(openingSize,openingSize));
-        }        
+        }
     }
 
     // Opération de fermeture -1
     if(enableClosing) {
         for(int k=0;k<closingIterations;k++) {
             closing(threshold_binary, cv::Size(closingSize,closingSize));
-        }        
+        }
     }
 
     // Opération d'ouverture - 2
     if(enableOpening) {
         for(int k=0;k<openingIterations;k++) {
             opening(threshold_binary, cv::Size(openingSize,openingSize));
-        }        
+        }
     }
 
 // Conversion de l'image resultat, un masque binaire, en image 3canaux
@@ -420,10 +420,10 @@ void LectureFeu::hsvProcessing(cv::Mat imgToProcess)
 // vector<cv::KeyPoint> keypoints;
 // blob_detector.detect(imgToProcess, keypoints);
 
-// // extract the x y coordinates of the keypoints: 
+// // extract the x y coordinates of the keypoints:
 
 // for (int i=0; i<keypoints.size(); i++){
-//     float X = keypoints[i].pt.x; 
+//     float X = keypoints[i].pt.x;
 //     float Y = keypoints[i].pt.y;
 
 // Draw
@@ -517,7 +517,7 @@ void LectureFeu::hsvProcessing(cv::Mat imgToProcess)
     normalize(v_hist, v_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
 
     // // Compte les classes avant le filtrage
-    int green_pix= 0, red_pix = 0, yellow_pix;    
+    int green_pix= 0, red_pix = 0, yellow_pix;
     // for( int i = 1; i < histSize; i++ )
     // {
     //     if(i < 50 || i >= 220)
@@ -544,7 +544,7 @@ void LectureFeu::hsvProcessing(cv::Mat imgToProcess)
     // }
 
     // Compte les classes apres le filtrage
-    green_pix= 0; red_pix = 0; yellow_pix = 0;    
+    green_pix= 0; red_pix = 0; yellow_pix = 0;
     for( int i = 1; i < histSize; i++ )
     {
         if(i < 0 || i >= 235)
@@ -603,7 +603,7 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
     cv::Mat HSV;
     cvtColor(imgToProcess, HSV, CV_BGR2HSV);
 
-    // Split channels    
+    // Split channels
     vector<Mat> hsvChannels;
     split(HSV, hsvChannels);
     vector<Mat> bgrChannels;
@@ -653,7 +653,7 @@ void LectureFeu::hsvProcessing_V2(cv::Mat imgToProcess)
     binH = morphOps(binH,'H');
     binS = morphOps(binS,'S');
     binV = morphOps(binV,'V');
-    
+
     // // Show results
     // imshow("Blue", binB); moveWindow("Blue", 400*0, 300*0);
     // imshow("Green", binG); moveWindow("Green", 400*1, 300*0);
@@ -771,21 +771,21 @@ void LectureFeu::templateProcessing()
         // cv::normalize( result, result, 0, 1, NORM_MINMAX, -1, Mat() );
 
         /// Localizing the best match with minMaxLoc
-        double minVal; double maxVal; 
+        double minVal; double maxVal;
         cv::Point minLoc; cv::Point maxLoc;
         cv::Point matchLoc;
 
         cv::minMaxLoc( result, &minVal, &maxVal, &minLoc, &maxLoc, cv::Mat() );
 
         /// For SQDIFF and SQDIFF_NORMED, the best matches are lower values. For all the other methods, the higher the better
-        if( match_method  == CV_TM_SQDIFF || match_method == CV_TM_SQDIFF_NORMED ) { 
-            matchLoc = minLoc; 
+        if( match_method  == CV_TM_SQDIFF || match_method == CV_TM_SQDIFF_NORMED ) {
+            matchLoc = minLoc;
             if(minMax == -1 || minVal < minMax) {
                 minMax = minVal;
                 true_matchLoc = matchLoc;
             }
         }
-        else { 
+        else {
             matchLoc = maxLoc;
             if(minMax == -1 || maxVal > minMax) {
                 minMax = maxVal;
@@ -942,7 +942,7 @@ int LectureFeu::freakProcessing(std::string detector_str, std::string extractor_
     // BruteForceMatcher<Hamming> matcher;
     // or the proposed cascade of hamming distance using SSSE3
     // BFMatcher matcher(NORM_HAMMING);
-    /** 
+    /**
      * BruteForce (it uses L2 )
      * BruteForce-L1
      * BruteForce-Hamming
@@ -966,7 +966,7 @@ int LectureFeu::freakProcessing(std::string detector_str, std::string extractor_
     extractor->compute( imgObject, keypointsObject, descriptorsObject );
     extractor->compute( imgScene, keypointsScene, descriptorsScene );
     // t = ((double)getTickCount() - t)/getTickFrequency();
-    // std::cout << "extraction time [s]: " << t << std::endl;    
+    // std::cout << "extraction time [s]: " << t << std::endl;
     ROS_INFO_STREAM("Keeped " << keypointsObject.size() << " keyPoints for Object and " << keypointsScene.size() << " for Scene");
 
     // match
@@ -989,7 +989,7 @@ int LectureFeu::freakProcessing(std::string detector_str, std::string extractor_
 
     //-- Quick calculation of max and min distances between keypoints
     for( int i = 0; i < descriptorsObject.rows; i++ )
-    {   
+    {
         double dist = matches[i].distance;
         if( dist < min_dist ) min_dist = dist;
         if( dist > max_dist ) max_dist = dist;
@@ -1002,10 +1002,10 @@ int LectureFeu::freakProcessing(std::string detector_str, std::string extractor_
     std::vector< DMatch > good_matches;
 
     for( int i = 0; i < descriptorsObject.rows; i++ )
-    { 
+    {
         if( matches[i].distance < 3*min_dist )
-        { 
-            good_matches.push_back( matches[i]); 
+        {
+            good_matches.push_back( matches[i]);
         }
     }
 
@@ -1284,21 +1284,21 @@ cv::Mat LectureFeu::morphOps(cv::Mat imgBinary, char channel)
     if(enableOpening) {
         for(int k=0;k<openingIterations;k++) {
             opening(binary, cv::Size(openingSize,openingSize));
-        }        
+        }
     }
 
     // Closing operation -1
     if(enableClosing) {
         for(int k=0;k<closingIterations;k++) {
             closing(binary, cv::Size(closingSize,closingSize));
-        }        
+        }
     }
 
     // Openng operation- 2
     if(enableOpening) {
         for(int k=0;k<openingIterations;k++) {
             opening(binary, cv::Size(openingSize,openingSize));
-        }        
+        }
     }
 
     return binary;
@@ -1428,7 +1428,7 @@ cv::Mat LectureFeu::histToImg(cv::Mat hist)
 //     normalize(v_hist, v_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
 
 //     // // Compte les classes avant le filtrage
-//     int green_pix= 0, red_pix = 0, yellow_pix;    
+//     int green_pix= 0, red_pix = 0, yellow_pix;
 //     // for( int i = 1; i < histSize; i++ )
 //     // {
 //     //     if(i < 50 || i >= 220)
@@ -1455,7 +1455,7 @@ cv::Mat LectureFeu::histToImg(cv::Mat hist)
 //     // }
 
 //     // Compte les classes apres le filtrage
-//     green_pix= 0; red_pix = 0; yellow_pix = 0;    
+//     green_pix= 0; red_pix = 0; yellow_pix = 0;
 //     for( int i = 1; i < histSize; i++ )
 //     {
 //         if(i < 0 || i >= 235)

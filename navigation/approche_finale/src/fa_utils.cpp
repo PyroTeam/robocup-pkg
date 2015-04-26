@@ -3,6 +3,7 @@
 #include <functional>
 #include <ros/ros.h>
 #include <math.h>
+#include <iostream>
 
 #include "fa_utils.h"
 #include "Point.h"
@@ -10,10 +11,15 @@
 
 
 float distance2points(Point a, Point b){
+	std::cout<<"test dist2pts 1"<<std::endl;
 	float xa = a.getx();
+	std::cout<<"test dist2pts 2"<<std::endl;
 	float xb = b.getx();
+	std::cout<<"test dist2pts 3"<<std::endl;
 	float ya = a.gety();
+	std::cout<<"test dist2pts 4"<<std::endl;
 	float yb = b.gety();
+	std::cout<<"test dist2pts 5"<<std::endl;
 	return sqrt( std::abs(xb-xa)*std::abs(xb-xa) + std::abs(yb-ya)*std::abs(yb-ya) );
 }
 

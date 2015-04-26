@@ -111,6 +111,7 @@
 		{
 			for (int j = 0; j < _width; ++j)
 			{
+				delete _pointsPassage[i][j];
 				_pointsPassage[i][j] = new Point(_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
 				// ROS_INFO("%d:%d  %f:%f",i,j,_pointsPassage[i][j]->getX(),_pointsPassage[i][j]->getY());
 				// ROS_INFO("%f / %f / %f",-_origin_x+_resolution/2+j*_resolution,_origin_x,j*_resolution);
@@ -130,6 +131,7 @@
 		{
 			for (int j = 0; j < _width; ++j)
 			{
+				delete _pointsPassage[i][j];
 				_pointsPassage[i][j] = new Point(-_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
 			}
 		}		
