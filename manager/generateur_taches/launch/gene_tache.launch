@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="generateur_taches" name="generateur_taches_node" type="algo_node"/>
+</launch>

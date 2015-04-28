@@ -1,0 +1,5 @@
+<launch>
+
+    <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node.py"/>
+
+</launch>
