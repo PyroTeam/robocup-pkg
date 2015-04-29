@@ -83,7 +83,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES generateur_tasks
+#  LIBRARIES generateur_taches
   CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
@@ -101,8 +101,8 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(generateur_tasks
-#   src/${PROJECT_NAME}/generateur_tasks.cpp
+# add_library(generateur_taches
+#   src/${PROJECT_NAME}/generateur_taches.cpp
 # )
 
 ## Declare a cpp executable
@@ -162,7 +162,7 @@ add_dependencies(activityTalker manager_msg_gencpp)
 set_target_properties(activityTalker PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(generateur_tasks_node generateur_tasks_generate_messages_cpp)
+# add_dependencies(generateur_taches_node generateur_taches_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 
@@ -183,7 +183,7 @@ set_target_properties(activityTalker PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS generateur_tasks generateur_tasks_node
+# install(TARGETS generateur_taches generateur_taches_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -208,7 +208,7 @@ set_target_properties(activityTalker PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_generateur_tasks.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_generateur_taches.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
