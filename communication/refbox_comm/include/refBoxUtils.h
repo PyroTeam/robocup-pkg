@@ -23,7 +23,7 @@
 #include "comm_msg/ReportMachine.h"
 #include "comm_msg/MachineInfo.h"
 #include "comm_msg/MachineReportInfo.h"
-#include "comm_msg/"
+#include "comm_msg/OrderInfo.h"
 
 
 
