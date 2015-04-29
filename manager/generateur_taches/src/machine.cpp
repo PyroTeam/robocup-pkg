@@ -4,11 +4,11 @@
 Machine::Machine(){
         m_x = 0;
         m_y = 0;
-        m_traite = false;
+        m_processed = false;
         m_robot = 0;
 }
 
-void Machine::correspondance_zone(){
+void Machine::correspondanceZone(){
         if((m_x > -12) && (m_x <= -6))
                 m_robot = 1;
         if((m_x > -6) && (m_x <= 6))
@@ -17,22 +17,22 @@ void Machine::correspondance_zone(){
                 m_robot = 3;
 }
 
-void Machine::update_machine(Robot tab_robot[]){
-        if(tab_robot[0].get_occupe() && tab_robot[1].get_occupe() && tab_robot[2].get_occupe())
+void Machine::updateMachine(Robot tabRobot[]){
+        if(tabRobot[0].getOccuped() && tabRobot[1].getOccuped() && tabRobot[2].getOccuped())
                 m_robot = -10;
-        if(!tab_robot[0].get_occupe() && tab_robot[1].get_occupe() && tab_robot[2].get_occupe())
+        if(!tabRobot[0].getOccuped() && tabRobot[1].getOccuped() && tabRobot[2].getOccuped())
                 m_robot = 0;
-        if(tab_robot[0].get_occupe() && !tab_robot[1].get_occupe() && tab_robot[2].get_occupe())
+        if(tabRobot[0].getOccuped() && !tabRobot[1].getOccuped() && tabRobot[2].getOccuped())
                 m_robot = 1;
-        if(!tab_robot[0].get_occupe() && !tab_robot[1].get_occupe() && tab_robot[2].get_occupe())
+        if(!tabRobot[0].getOccuped() && !tabRobot[1].getOccuped() && tabRobot[2].getOccuped())
                 m_robot = 0;
-        if(tab_robot[0].get_occupe() && tab_robot[1].get_occupe() && !tab_robot[2].get_occupe())
+        if(tabRobot[0].getOccuped() && tabRobot[1].getOccuped() && !tabRobot[2].getOccuped())
                 m_robot = 2;
-        if(!tab_robot[0].get_occupe() && tab_robot[1].get_occupe() && !tab_robot[2].get_occupe())
+        if(!tabRobot[0].getOccuped() && tabRobot[1].getOccuped() && !tabRobot[2].getOccuped())
                 m_robot = 2; 
-        if(tab_robot[0].get_occupe() && !tab_robot[1].get_occupe() && !tab_robot[2].get_occupe())
+        if(tabRobot[0].getOccuped() && !tabRobot[1].getOccuped() && !tabRobot[2].getOccuped())
                 m_robot = 1;
-        if(!tab_robot[0].get_occupe() && !tab_robot[1].get_occupe() && !tab_robot[2].get_occupe())
+        if(!tabRobot[0].getOccuped() && !tabRobot[1].getOccuped() && !tabRobot[2].getOccuped())
                 m_robot = 0;       
 }
 

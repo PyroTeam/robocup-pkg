@@ -12,13 +12,13 @@ class CorrespondanceZE {
 	CorrespondanceZE();
 	~CorrespondanceZE();
 	void cZECallback(const comm_msg::ExplorationInfo &msg);
-	std::vector<int> get_zone_utile();
+	std::vector<int> getUsefulZone();
 
 	private:
 
 	ros::NodeHandle m_nh;
-  ros::Subscriber m_correspondanceZE_sub;
-	std::vector<int> m_zone_utile;
+	ros::Subscriber m_correspondanceZESub;
+	std::vector<int> m_usefulZone;
 };
 
 #endif

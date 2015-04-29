@@ -2,17 +2,17 @@
 #include <iostream>
 #include <ros/ros.h>
 
-#include "stockage.h"
+#include "storage.h"
 #include "action.h"
-#include "tache.h"
-#include "listetaches.h"
+#include "task.h"
+#include "tasksList.h"
 #include "manager_msg/order.h"
-#include "travail.h"
+#include "work.h"
 #include "robot.h"
-#include "produit.h"
+#include "product.h"
 #include "machine.h"
-#include "travailphase.h"
-#include "etatdujeu.h"
+#include "workPerPhase.h"
+#include "gameState.h"
 #include "correspondanceZE.h"
 #include "srvorder.h"
 
@@ -21,71 +21,66 @@
 using namespace std;
 using namespace manager_msg;
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv) 
+{
 
-  /*** INITIALISATION ***/
-
-  ros::init(argc, argv, "action_node");
-  Action action_exec;
-  Etatdujeu etat_jeu;
-  ros::Rate loop_rate(1);
-
-  int cap_dispo = 0,storage =0, id=0, cpt_order = 0, k=0;
-  Stockage tab_stock[6];
-
-  Robot tabrobot[3];
-  //vector<int> black(1,10);
-  //Produit action(0,black);
-
-  list< list<Tache> > work;
-  /*for(int i=0;i<6;i++){
-    work.push_back(creation_liste_taches_act(7,action,0,0));
-  }
-  get_info_liste_de_liste(work);
-  cout <<""<<endl;
-
-  vector<int> couleurs;
-  couleurs.push_back(10);
-  couleurs.push_back(20);
-  Produit product(0,couleurs);
-  Ordre order(product,20,30,2,false);*/
-
-  Machine tab_machine[6];
-
-  bool take[3] = {false,false,false};
-
-  double t0 = ros::Time::now().toSec();
-  double temps = t0;
-
-  int cpt_zone = 0;
-
-  CorrespondanceZE correspondanceZE;
-  /***FONCTION PRINCIPALE ***/
+	/*** INITIALISATION ***/
+	ros::init(argc, argv, "action_node");
+	Action action;
+	GameState gameState;
+	ros::Rate loop_rate(1);
+	int availableCap = 0,storage =0, id=0, cptOrder = 0, k=0;
+	Storage tabStock[6];
+	Robot tabRobot[3];
+	vector<int> black(1,10);
+	Product act(0,black);
+	list< list<Task> > work;
+	for(int i=0;i<6;i++)
+	{
+		work.push_back(creationListTasksAction(7,act,0,0));
+	}
+	getInfoWork(work);
+	cout <<""<<endl;
+	vector<int> couleurs;
+	couleurs.push_back(10);
+	couleurs.push_back(20);
+	Product product(0,couleurs);
+	Order order(product,20,30,2,false);
+	Machine tabMachine[6];
+	bool take[3] = {false,false,false};
+	double t0 = ros::Time::now().toSec();
+	double time = t0;
+	int cptZone = 0;
+	CorrespondanceZE correspondanceZE;
 
 
-  while(ros::ok() /*&& !work.empty()*/) {
-    // il y a trois robots
-    for(int j=0; j<3; j++){
-      temps = ros::Time::now().toSec() - t0;
-      cout << "temps en sec = " << temps << endl;
-      action_exec.update_robot(tabrobot);
-      std::cout << "tabrobot j etat : " << tabrobot[j].get_occupe() << std::endl;
-      //mettre a jour les infos envoyees par la refbox
-      if(!tabrobot[j].get_occupe() && cpt_zone<1){
-        if(etat_jeu.get_phase()==comm_msg::GameState::EXPLORATION /*&& !exploration_finie(tab_machine)*/){
-            std::cout<<"test"<<std::endl;
-            Srvorder srvexplo(ros::Time::now(),cpt_order,1,orderRequest::DISCOVER,orderRequest::NONE,16);
-            cpt_zone++;
-          //travail_phase_exploration(tab_machine,tabrobot,cpt_order,2,cpt_zone, correspondanceZE);
-        }
-        /*if(etat_jeu.get_phase()==GameState::PRODUCTION && !work.empty()){
-          travail_phase_production(work,tab_machine,tabrobot,tab_stock,take,cpt_order,j,cap_dispo,storage,order,temps);
-          get_info_liste_de_liste(work);
-        }*/
-      }
-    ros::spinOnce();
-    loop_rate.sleep();
-    }
-  }
-  return 0;
+
+	/***FONCTION PRINCIPALE ***/
+	
+	while(ros::ok()) 
+	{
+	// il y a trois robots
+		for(int j=0; j<3; j++)
+		{
+			time = ros::Time::now().toSec() - t0;
+			cout << "time en sec = " << time << endl;
+			action.updateRobot(tabRobot);
+			std::cout << "tabRobot j etat : " << tabRobot[j].getOccuped() << std::endl;
+			//mettre a jour les infos envoyees par la refbox
+			if(!tabRobot[j].getOccuped() && cptZone<12)
+			{
+				if(gameState.getPhase() == comm_msg::GameState::EXPLORATION)
+				{
+					workInExplorationPhase(tabMachine,tabRobot,cptOrder,j,cptZone, correspondanceZE);
+				}
+				if(gameState.getPhase() == comm_msg::GameState::PRODUCTION && !work.empty()){
+					workInProductionPhase(work, tabMachine, tabRobot, tabStock, take, cptOrder, j, availableCap, storage, order, time);
+					getInfoWork(work);
+				}
+			}
+			ros::spinOnce();
+			loop_rate.sleep();
+		}
+	}
+	return 0;
 }
