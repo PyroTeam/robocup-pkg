@@ -133,7 +133,7 @@ comm_msg::MachineInfo llsf2ros_machineInfo(const llsf_msgs::MachineInfo &llsfMac
 
 comm_msg::OrderInfo llsf2ros_orderInfo(const llsf_msgs::OrderInfo &llsfOrderInfo)
 {
-    comm_msg::OrederInfo rosOrderInfo;
+    comm_msg::OrderInfo rosOrderInfo;
 /*
     for(int i=0; i<llsfOrderInfo.orders_size(); ++i)
     {
