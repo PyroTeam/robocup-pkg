@@ -6,7 +6,7 @@
 #include "machine.h"
 #include "robot.h"
 
-bool exploration_finie(Machine tab_machine[]);
-void update_zone(Machine (&tab_machine)[NBR_MACHINES], Robot tab_robot[]);
+bool finishedExploration(Machine tabMachine[]);
+void updateZone(Machine (&tabMachine)[NBR_MACHINES], Robot tab_robot[]);
 
 #endif

@@ -4,13 +4,13 @@
 #include <string>
 
 CorrespondanceZE::CorrespondanceZE(){
-	m_correspondanceZE_sub = m_nh.subscribe("/refBoxComm/ExplorationInfo",1000,&CorrespondanceZE::cZECallback,this);
+	m_correspondanceZESub = m_nh.subscribe("/refBoxComm/ExplorationInfo",1000,&CorrespondanceZE::cZECallback,this);
 }
 
 CorrespondanceZE::~CorrespondanceZE(){}
 
 void CorrespondanceZE::cZECallback(const comm_msg::ExplorationInfo &msg){
-	m_zone_utile.clear();
+	m_usefulZone.clear();
 	std::cout << "Taille zone msg = " << msg.zones.size() << std::endl;
 	for(int i=0;i<msg.zones.size();i++){
 		int team=0;
@@ -18,11 +18,11 @@ void CorrespondanceZE::cZECallback(const comm_msg::ExplorationInfo &msg){
 		m_nh.getParam("teamColor",teamStr);
 		team = (teamStr == "cyan") ? 0 : 1;
 		if(team == msg.zones[i].team_color){
-			m_zone_utile.push_back(msg.zones[i].zone);
+			m_usefulZone.push_back(msg.zones[i].zone);
 		}
 	}
 }
 
-std::vector<int> CorrespondanceZE::get_zone_utile(){
-	return m_zone_utile;
+std::vector<int> CorrespondanceZE::getUsefulZone(){
+	return m_usefulZone;
 }

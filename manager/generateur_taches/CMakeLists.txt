@@ -83,7 +83,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES generateur_taches
+#  LIBRARIES generateur_tasks
   CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
@@ -101,37 +101,41 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(generateur_taches
-#   src/${PROJECT_NAME}/generateur_taches.cpp
+# add_library(generateur_tasks
+#   src/${PROJECT_NAME}/generateur_tasks.cpp
 # )
 
 ## Declare a cpp executable
-add_executable(test_fonctions_travail
-  src/tache.cpp
-  src/listetaches.cpp
-  src/travail.cpp
-  src/produit.cpp
+add_executable(work_fonctions_test
+  src/task.cpp
+  src/tasksList.cpp
+  src/work.cpp
+  src/product.cpp
   src/main.cpp)
-target_link_libraries(test_fonctions_travail ${catkin_LIBRARIES})
-add_dependencies(test_fonctions_travail manager_msg_gencpp)
+target_link_libraries(work_fonctions_test ${catkin_LIBRARIES})
+add_dependencies(work_fonctions_test manager_msg_gencpp)
+set_target_properties(work_fonctions_test PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
 
 add_executable(algo_node
-  src/etatdujeu.cpp
-  src/travailphase.cpp
+  src/gameState.cpp
+  src/workPerPhase.cpp
   src/tabmachine.cpp
   src/machine.cpp
-  src/stockage.cpp
-  src/tableaustockage.cpp
+  src/storage.cpp
+  src/storageChart.cpp
   src/srvorder.cpp
   src/action.cpp
-  src/tache.cpp
-  src/listetaches.cpp
-  src/travail.cpp
-  src/produit.cpp
+  src/task.cpp
+  src/tasksList.cpp
+  src/work.cpp
+  src/product.cpp
   src/main2.cpp
   src/correspondanceZE.cpp)
 target_link_libraries(algo_node ${catkin_LIBRARIES} )
 add_dependencies(algo_node manager_msg_gencpp)
+set_target_properties(algo_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
 
 add_executable(action_node
     src/action.cpp
@@ -139,29 +143,31 @@ add_executable(action_node
 )
 target_link_libraries(action_node ${catkin_LIBRARIES} )
 add_dependencies(action_node manager_msg_gencpp)
-
-
-set_target_properties(test_fonctions_travail PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-set_target_properties(algo_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 set_target_properties(action_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
+
+add_executable(sendOrder src/sendOrder.cpp)
+target_link_libraries(sendOrder ${catkin_LIBRARIES})
+add_dependencies(sendOrder manager_msg_gencpp)
+set_target_properties(sendOrder PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
+add_executable(orderListener src/orderListener.cpp)
+target_link_libraries(orderListener ${catkin_LIBRARIES})
+add_dependencies(orderListener manager_msg_gencpp)
+set_target_properties(orderListener PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
+add_executable(activityTalker src/activityTalker.cpp)
+target_link_libraries(activityTalker ${catkin_LIBRARIES})
+add_dependencies(activityTalker manager_msg_gencpp)
+set_target_properties(activityTalker PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(generateur_taches_node generateur_taches_generate_messages_cpp)
+# add_dependencies(generateur_tasks_node generateur_tasks_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 
 
-add_executable(envoi_ordre src/envoi_ordre.cpp)
-target_link_libraries(envoi_ordre ${catkin_LIBRARIES})
-add_dependencies(envoi_ordre manager_msg_gencpp)
 
-add_executable(reception_ordre src/reception_ordre.cpp)
-target_link_libraries(reception_ordre ${catkin_LIBRARIES})
-add_dependencies(reception_ordre manager_msg_gencpp)
-
-add_executable(emetteur_topic src/emetteur_topic.cpp)
-target_link_libraries(emetteur_topic ${catkin_LIBRARIES})
-add_dependencies(emetteur_topic manager_msg_gencpp)
 #############
 ## Install ##
 #############
@@ -177,7 +183,7 @@ add_dependencies(emetteur_topic manager_msg_gencpp)
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS generateur_taches generateur_taches_node
+# install(TARGETS generateur_tasks generateur_tasks_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -202,7 +208,7 @@ add_dependencies(emetteur_topic manager_msg_gencpp)
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_generateur_taches.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_generateur_tasks.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
