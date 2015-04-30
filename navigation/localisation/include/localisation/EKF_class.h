@@ -20,12 +20,12 @@ public:
 	EKF();
 
 	void set();
-	void printZones();
+	void printAreas();
 
 	//callbacks
 	void odomCallback(const nav_msgs::Odometry& odom);
 	void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines);
-	void machinesVuesCallback(const deplacement_msg::LandmarksConstPtr& machines);
+	void machinesSeenCallback(const deplacement_msg::LandmarksConstPtr& machines);
 	void laserCallback(const deplacement_msg::LandmarksConstPtr& laser);
 
 	VectorXd RobotToLaser(VectorXd PosRobot);
@@ -38,8 +38,11 @@ public:
 	void addMachine(geometry_msgs::Pose2D machine);
 
 	int checkStateVector(geometry_msgs::Pose2D machine);
-	int getZone(geometry_msgs::Pose2D m);
+	int getArea(geometry_msgs::Pose2D m);
 	int machineToArea(geometry_msgs::Pose2D m);
+	bool test(int area);
+	bool initOdom();
+	bool isFarFromEverything(geometry_msgs::Pose2D p);
 	double dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m);
 
 	void updateP(const MatrixXd &Pm, int i);
@@ -48,7 +51,7 @@ public:
 
 	MatrixXd buildPm(int i);
 	MatrixXd buildH(int i);
-	MatrixXd buildH2(geometry_msgs::Pose2D p, int taille, int i);
+	MatrixXd buildH2(geometry_msgs::Pose2D p, int size, int i);
 
 	void prediction();
 	void correction(geometry_msgs::Pose2D p, int posMachineInTabMachines);
@@ -56,12 +59,11 @@ public:
 	VectorXd getXmean();
 	VectorXd getXpredicted();
 
-	std::vector<int> getZones();
+	std::vector<int> getAreas();
 	std::vector<geometry_msgs::Pose2D> getScan();
 	std::vector<geometry_msgs::Pose2D> getTabMachines();
 	
-	void setZone(int i){m_zones.push_back(i);}
-	void fillMachines();
+	void setArea(int i){m_areas.push_back(i);}
 private:
 	geometry_msgs::Pose2D m_odomRobot;
 
@@ -72,12 +74,13 @@ private:
 	VectorXd m_xPredicted;
 	VectorXd m_cmdVel;
 
-	std::vector<geometry_msgs::Pose2D> 	m_tabMachines;
-	std::vector<geometry_msgs::Pose2D> 	m_tabLandmarks;
+	std::vector<geometry_msgs::Pose2D> 	m_landmarksArray;
 	std::vector<geometry_msgs::Pose2D> 	m_scan;
-	std::vector<int>					m_zones;
+	std::vector<int>					m_areas;
 
 	ros::Time m_temps;
+
+	bool 	m_begin;
 };
 
 #endif

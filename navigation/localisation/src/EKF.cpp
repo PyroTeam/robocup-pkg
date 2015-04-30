@@ -16,78 +16,53 @@
 
 using namespace Eigen;
 
-bool stand_up;
-
-bool ReqToBool(deplacement_msg::Alarm::Request  req){
-  if (req.wake_up == deplacement_msg::AlarmRequest::WAKE_UP) return true;
-  else                                                       return false;
-}
-
-bool wakeUp(deplacement_msg::Alarm::Request  &req,
-            deplacement_msg::Alarm::Response &res)
-{
-  stand_up = ReqToBool(req);
-  std::cout << "stand up a la valeur " << stand_up << std::endl;
-  res.stand_up = req.wake_up;
-  return true;
-}
-
 int main( int argc, char** argv )
 {
   ros::init(argc, argv, "EKF_node");
 
-  stand_up = false;
-
   ros::NodeHandle n;
-  //selon la couleur de l'équipe (côté du terrain) et le numéro du robot,
-  //on choisit une position initiale pour initialiser l'odométrie et la position initRobot
-  std::string s;
-  n.param<std::string>("teamColor", s, "cyan");    //à droite
-  int num;
-  n.param<int>("robotNumber", num, 1);             //robot 1 par défaut
- 
-  std::cout << s << "\n" << num << std::endl;
 
   EKF ekf = EKF();
 
   ros::Subscriber sub_odom      = n.subscribe("/new_odom", 1000, &EKF::odomCallback, &ekf);
-  ros::Subscriber sub_landmarks = n.subscribe("/landmarks", 1000, &EKF::machinesCallback, &ekf);
-  ros::Subscriber sub_machines  = n.subscribe("/machines", 1000, &EKF::machinesVuesCallback, &ekf);
+  ros::Subscriber sub_machines  = n.subscribe("/machines", 1000, &EKF::machinesCallback, &ekf);
   ros::Subscriber sub_laser     = n.subscribe("/laser", 1000, &EKF::laserCallback, &ekf);
 
   ros::Publisher pub_robot    = n.advertise<geometry_msgs::Point>("/robot", 1000);
-  //ros::Publisher pub_machines = n.advertise<deplacement_msg::Landmarks>("/landmarks", 1000);
-  //ros::Publisher pub_laser    = n.advertise<deplacement_msg::Landmarks>("/scan_global", 1000);
+  ros::Publisher pub_machines = n.advertise<deplacement_msg::Landmarks>("/landmarks", 1000);
+  ros::Publisher pub_laser    = n.advertise<deplacement_msg::Landmarks>("/scan_global", 1000);
 
-  ros::ServiceServer wake_up  = n.advertiseService("wake_up", wakeUp);
+  ros::Rate loop_rate(20);
 
-  ros::Rate loop_rate(10);
-
-  //int cpt = 0;
+  int cpt = 0;
 
   while (n.ok())
   {
-    if(stand_up){
-      ekf.set();
-      ekf.fillMachines();
+    if(ekf.initOdom()) {
       ekf.prediction();
-      int pos = 0, area = 0;
+      int area;
   
       //si on observe une machine
       if (ekf.getTabMachines().size() > 0){
         //pour toutes les machines observées
         for (auto &it : ekf.getTabMachines()){
-          //on transpose la machine dans le repère global
-          geometry_msgs::Pose2D m = ekf.RobotToGlobal(ekf.LaserToRobot(it));
-  
-          int pos = ekf.checkStateVector(m);
-          if (pos != 0){
-            ekf.correction(m,pos);
+          //on regarde si elle appartient à une zone
+          int area = ekf.machineToArea(it);
+          //si oui
+          if (area != 0){
+            //si on a déjà vu une machine dans cette zone
+            if (ekf.test(area)){
+              //on corrige sa position et on se recale par rapport à celle ci
+              ekf.correction(it, ekf.checkStateVector(it));
+            }
+            //sinon si elle est assez loin de toutes les machines existantes
+            else if (ekf.isFarFromEverything(it)){
+              // on ajoute cette machine
+              std::cout << "ajout machine" << std::endl;
+              ekf.addMachine(it);
+              cpt++;
+            }
           }
-          //else {
-          //  ekf.addMachine(m,area);
-          //  cpt++;
-          //}
         }      
       }
   
@@ -96,7 +71,7 @@ int main( int argc, char** argv )
       VectorXd xMean = ekf.getXmean();
       //std::cout << "xMean : \n" << xMean << std::endl;
   
-      ekf.printZones();
+      ekf.printAreas();
   
       geometry_msgs::Point robot;
       robot.x = xMean(0);
@@ -117,18 +92,13 @@ int main( int argc, char** argv )
       }
   
       pub_robot.publish(robot);
-      //pub_machines.publish(m);
-      //pub_laser.publish(l);
+      pub_machines.publish(m);
+      pub_laser.publish(l);
   
-      //m.landmarks.clear();
-      //l.landmarks.clear();
+      m.landmarks.clear();
+      l.landmarks.clear();
     }
-    else {
-      while(n.ok() && !stand_up){
-        sleep(1);
-        ros::spinOnce();
-      }
-    }
+
     // Spin
     ros::spinOnce();
     loop_rate.sleep();

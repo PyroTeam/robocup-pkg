@@ -124,7 +124,7 @@ int machineToArea(geometry_msgs::Pose2D m){
   if ((zone != 0) && (dist(m,getCenter(zone)) <= 0.36)){
     //si on est dans le cercle de centre le centre de zone et de rayon 0.6 m
     //pour éviter un sqrt() on met le seuil au carré
-    std::cout << "machine (" << m.x << "," << m.y << ") en zone " << zone << std::endl;
+    //std::cout << "machine (" << m.x << "," << m.y << ") en zone " << zone << std::endl;
     return zone;
   }
   else {

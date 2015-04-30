@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   visualization_msgs
+  message_generation
   Eigen
   REQUIRED
 )
