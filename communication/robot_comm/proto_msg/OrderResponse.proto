@@ -1,0 +1,6 @@
+message OrderResponse{
+	required bool accepted = 1;
+	required int32 number_order = 2;
+	required int32 number_robot = 3;
+	required int32 id = 4;
+}

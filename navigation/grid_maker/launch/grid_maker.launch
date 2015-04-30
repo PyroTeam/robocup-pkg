@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="grid_maker" name="construct_map_test" type="construct_map_test"/>
+    <node pkg="grid_maker" name="construct_map_node" type="construct_map_node"/>
+
+</launch>

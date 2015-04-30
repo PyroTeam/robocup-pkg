@@ -1,3 +1,4 @@
+
 /* Classe abstraite qui permet d'aller vers une machine */
 
 #include <string>
@@ -7,15 +8,15 @@
 
 /* Constructeur */
 Machine::Machine(){
-  m_centreMachine.x = 0.0;
-  m_centreMachine.y = 0.0;
-  m_centreMachine.theta = 0.0; 
-  m_entreeMachine.x = 0.0;
-  m_entreeMachine.y = 0.0;
-  m_entreeMachine.theta = 0.0; 
-  m_sortieMachine.x = 0.0;
-  m_sortieMachine.y = 0.0;
-  m_sortieMachine.theta = 0.0; 
+  m_centerMachine.x = 0.0;
+  m_centerMachine.y = 0.0;
+  m_centerMachine.theta = 0.0;
+  m_entryMachine.x = 0.0;
+  m_entryMachine.y = 0.0;
+  m_entryMachine.theta = 0.0;
+  m_exitMachine.x = 0.0;
+  m_exitMachine.y = 0.0;
+  m_exitMachine.theta = 0.0;
 }
 
 /* Destructeur */
@@ -26,28 +27,67 @@ std::string Machine::getType(){
   return m_type;
 }
 
-geometry_msgs::Pose2D Machine::getCentreMachine(){
-  return m_centreMachine;
+geometry_msgs::Pose2D Machine::getCenterMachine(){
+  return m_centerMachine;
 }
 
-geometry_msgs::Pose2D Machine::getEntreeMachine(){
-  return m_entreeMachine;
+geometry_msgs::Pose2D Machine::getEntryMachine(){
+  return m_entryMachine;
 }
 
-geometry_msgs::Pose2D Machine::getSortieMachine(){
-  return m_sortieMachine;
+geometry_msgs::Pose2D Machine::getExitMachine(){
+  return m_exitMachine;
 }
 
-void Machine::majEntree(geometry_msgs::Pose2D point){
-  m_entreeMachine = point;
+void Machine::majEntry(geometry_msgs::Pose2D point){
+  m_entryMachine = point;
 }
 
-void Machine::majSortie(geometry_msgs::Pose2D point){
-  m_sortieMachine = point;
+void Machine::majExit(geometry_msgs::Pose2D point){
+  m_exitMachine = point;
 }
 
-//void Machine::AllerMachine(geometry_msgs::Pose2D pt_dest){
-  // refBoxCom(Robotinos)
-  // navigation (pt_dest);
-  // Approche Finale
-//}
+manager_msg::activity Machine::msgToGT(int n_robot, int stateOfOrder, int machine, int n_order) // A Verifier
+{
+       manager_msg::activity msg;
+       msg.nb_robot = n_robot;
+       msg.state = stateOfOrder;
+       msg.machine_used = machine;
+       msg.nb_order = n_order;
+       return msg;
+
+}
+
+/* Fonction abstraite qui permet d'aller vers une machine (Point centre/entree/sortie d'une machine) */
+
+void Machine::goTo(geometry_msgs::Pose2D pt_dest){
+  ROS_INFO("going to the point : x %f - y %f - theta %f",pt_dest.x,pt_dest.y,pt_dest.theta);
+  NavigationClientAction n_c;
+  int stateOfNavigation = n_c.goToAPoint(pt_dest);
+  if(stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR) ROS_ERROR("Can't go to this point Sorry :( ");
+  else ROS_INFO ("I went to the asked point successfully ");
+}
+
+/* Fonction qui permet de prendre un produit */
+void Machine::take( ){
+  GripperClientSrv gsrv;
+  gsrv.gripper_uppdate(true);
+}
+
+/* Fonction qui permet de deposer un produit */
+void Machine::let( ){
+  GripperClientSrv gsrv;
+  gsrv.gripper_uppdate(false);
+}
+
+void Machine::readlights(std::vector<comm_msg::LightSpec> lSpec){
+  ROS_INFO(" Starting exploring the lights ");
+  FeuClientAction f_c;
+  f_c.lightsStates(lSpec);
+  ROS_INFO("end of exploring the lights");
+}
+
+void Machine::startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter){
+  FinalApproachingClient fa_c;
+  fa_c.starting(machineType,machineSide,machineParameter);
+}

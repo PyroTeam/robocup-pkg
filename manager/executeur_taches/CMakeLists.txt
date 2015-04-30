@@ -7,8 +7,11 @@ project(executeur_taches)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  actionlib_msgs 
+  actionlib_msgs
   actionlib
+  manager_msg
+  comm_msg
+  deplacement_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -46,7 +49,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 # add_message_files(
 #   FILES
-#   Message1.msg
+#   Landmarks.msg
 #   Message2.msg
 # )
 
@@ -106,28 +109,81 @@ include_directories(
 ## Declare a cpp executable
 add_executable(
   test_exec
-  
+
   src/main.cpp
   src/Machine.cpp
   src/BaseStation.cpp
   src/CapStation.cpp
   src/RingStation.cpp
   src/DeliveryStation.cpp
+  src/GtServerSrv.cpp
+  src/LocaSubscriber.cpp
+  src/GripperClientSrv.cpp
+  src/MyElements.cpp
+  src/FeuClientAction.cpp
+  src/FinalApproachingClient.cpp
+  src/ExploInfoSubscriber.cpp
+  src/ReportingMachineSrvClient.cpp
+  src/ArTagClientSrv.cpp
+  src/NavigationClientAction.cpp
+  src/MPS.cpp
 )
-add_executable(
-  test_topic
-
-  src/emetteur_topic.cpp
-  )
+add_dependencies(test_exec manager_msg_gencpp trait_im_msg_gencpp comm_msg_gencpp)
 
 add_executable(
-  test_reponse_service
-  src/gtServerSrv.cpp
-  src/service_node.cpp
-  )
+  test_publish
+
+  src/fake_publisher_node.cpp
+)
+add_dependencies(test_publish manager_msg_gencpp comm_msg_gencpp)
+
+add_executable(
+  test_lights
+
+  src/fake_light_server_node.cpp
+)
+add_dependencies(test_lights manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
+
+add_executable(
+  test_order
+
+  src/fake_client_order.cpp
+)
+
+add_dependencies(test_order manager_msg_gencpp comm_msg_gencpp)
+
 
 add_executable(finalApproaching_client src/finalApproaching_client.cpp)
-add_dependencies(finalApproaching_client manager_msg_gencpp)
+add_dependencies(finalApproaching_client manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
+
+add_executable(
+  test_ei
+
+  src/fake_publisher_ei.cpp
+)
+add_dependencies(test_ei comm_msg_gencpp)
+
+add_executable(
+  test_arTag
+
+  src/fake_arTag_server.cpp
+)
+add_dependencies(test_arTag manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
+
+add_executable(
+  test_report
+
+  src/fake_server_reporting.cpp
+)
+add_dependencies(test_report comm_msg_gencpp)
+
+add_executable(
+  test_navigation
+
+  src/fake_action_navigation.cpp
+)
+add_dependencies(test_navigation manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
+
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -139,14 +195,38 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 target_link_libraries(
-  test_topic
+  test_publish
   ${catkin_LIBRARIES}
 )
-
 target_link_libraries(
-  test_reponse_service
+  test_lights
   ${catkin_LIBRARIES}
 )
+target_link_libraries(
+  test_order
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_ei
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_arTag
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_report
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_navigation
+  ${catkin_LIBRARIES}
+)
+#target_link_libraries(
+#  test_topic
+#  ${catkin_LIBRARIES}
+#)
+
 
 target_link_libraries(
   finalApproaching_client
