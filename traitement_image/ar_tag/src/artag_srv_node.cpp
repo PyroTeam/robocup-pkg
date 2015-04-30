@@ -1,6 +1,6 @@
 #include <ros/ros.h>
 #include "std_msgs/Int16.h"
-#include "ar_track_alvar/AlvarMarkers.h"
+#include "ar_track_alvar_msgs/AlvarMarkers.h"
 #include "trait_im_msg/artag.h"
 
 std_msgs::Int16 id;
@@ -11,7 +11,7 @@ bool giveId(trait_im_msg::artag::Request &req,trait_im_msg::artag::Response &res
 }
 
 
-void artagCallback(const ar_track_alvar::AlvarMarkers::ConstPtr& msg){
+void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg){
    ROS_INFO("test");
    if(msg->markers.size()!=0){
    	ROS_INFO("I see: [%d]", msg->markers[0].id);
@@ -28,7 +28,7 @@ int main(int argc, char **argv){
  	ros::ServiceServer service = n.advertiseService("/artag", giveId);
  	ros::Rate r(10);
  	ROS_INFO("Subscribe");
-	ros::Subscriber artag_topic = n.subscribe<ar_track_alvar::AlvarMarkers>("/ar_pose_marker", 1000, artagCallback);
+	ros::Subscriber artag_topic = n.subscribe<ar_track_alvar_msgs::AlvarMarkers>("/ar_pose_marker", 1000, artagCallback);
 	while(ros::ok()){
 		r.sleep();
 		ros::spinOnce();
