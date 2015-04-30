@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-find_package(Eigen)
+find_package(Eigen REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -118,93 +118,90 @@ add_executable(
   src/Droite.cpp
   src/Modele.cpp
   src/Machine.cpp)
+set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(landmarks_extraction_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+target_link_libraries(
+  landmarks_extraction_node
+  ${catkin_LIBRARIES}
+)
 
 add_executable(
   fake_scan_node
   src/fake_scan_node.cpp
   src/Point.cpp
   src/laserScan.cpp)
-
-add_executable(
-  odometry_correction_node
-  src/odometry_correction_node.cpp)
-
-add_executable(
-  visualisation
-  src/visualisation.cpp)
-
-add_executable(
-  try
-  src/try.cpp)
-
-add_executable(
-  EKF_node_2
-  src/EKF_2.cpp
-  src/EKF_class_2.cpp)
-
-add_executable(
-  EKF_node
-  src/EKF.cpp
-  src/EKF_functions.cpp)
-
-add_executable(
-  Cartographie
-  src/Cartographie.cpp)
-
-set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
-set_target_properties(odometry_correction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
-set_target_properties(visualisation PROPERTIES COMPILE_FLAGS -std=c++0x)
-set_target_properties(try PROPERTIES COMPILE_FLAGS -std=c++0x)
-set_target_properties(EKF_node_2 PROPERTIES COMPILE_FLAGS "-std=c++0x -g3")
-set_target_properties(EKF_node PROPERTIES COMPILE_FLAGS -std=c++0x)
-set_target_properties(Cartographie PROPERTIES COMPILE_FLAGS -std=c++0x)
-
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-add_dependencies(landmarks_extraction_node deplacement_msg_generate_messages_cpp {catkin_EXPORTED_TARGETS})
-add_dependencies(fake_scan_node deplacement_msg_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
-add_dependencies(odometry_correction_node deplacement_msg_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
-add_dependencies(visualisation deplacement_msg_generate_messages_cpp)
-add_dependencies(try deplacement_msg_generate_messages_cpp)
-add_dependencies(EKF_node_2 deplacement_msg_generate_messages_cpp)
-add_dependencies(EKF_node deplacement_msg_generate_messages_cpp)
-add_dependencies(Cartographie deplacement_msg_generate_messages_cpp)
-
-## Specify libraries to link a library or executable target against
-
-target_link_libraries(
-  landmarks_extraction_node
-  ${catkin_LIBRARIES}
-)
+add_dependencies(fake_scan_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   fake_scan_node
   ${catkin_LIBRARIES}
 )
+
+add_executable(
+  odometry_correction_node
+  src/odometry_correction_node.cpp)
+set_target_properties(odometry_correction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(odometry_correction_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   odometry_correction_node
   ${catkin_LIBRARIES}
 )
+
+add_executable(
+  visualisation
+  src/visualisation.cpp
+  src/Cartographie_utils.cpp
+  src/Machine.cpp)
+set_target_properties(visualisation PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(visualisation deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   visualisation
   ${catkin_LIBRARIES}
 )
+
+add_executable(
+  try
+  src/try.cpp)
+set_target_properties(try PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(try deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   try
   ${catkin_LIBRARIES}
 )
-target_link_libraries(
-  EKF_node_2
-  ${catkin_LIBRARIES}
-)
+
+add_executable(
+  EKF_node
+  src/EKF.cpp
+  src/EKF_class.cpp)
+set_target_properties(EKF_node PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(EKF_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   EKF_node
   ${catkin_LIBRARIES}
 )
+
+add_executable(
+  EKF_client
+  src/EKF_client.cpp)
+set_target_properties(EKF_client PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(EKF_client deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+target_link_libraries(
+  EKF_client
+  ${catkin_LIBRARIES}
+)
+
+add_executable(
+  Cartographie
+  src/Cartographie.cpp
+  src/Cartographie_utils.cpp
+  src/Machine.cpp)
+set_target_properties(Cartographie PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(Cartographie deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   Cartographie
   ${catkin_LIBRARIES}
 )
+
 
 #############
 ## Install ##

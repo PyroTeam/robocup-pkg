@@ -161,17 +161,22 @@ add_executable(
 
   src/fake_publisher_ei.cpp
 )
+add_dependencies(test_ei comm_msg_gencpp)
+
 add_executable(
   test_arTag
 
   src/fake_arTag_server.cpp
 )
 add_dependencies(test_arTag manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
+
 add_executable(
   test_report
 
   src/fake_server_reporting.cpp
 )
+add_dependencies(test_report comm_msg_gencpp)
+
 add_executable(
   test_navigation
 
