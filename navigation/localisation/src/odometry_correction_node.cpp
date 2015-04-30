@@ -10,6 +10,20 @@ inline double getTimeAsDouble(ros::Time t){
     return double(t.sec) + double(t.nsec)/1000000000.0;
 }
 
+void correctAngle(double &angle){
+  double dx = 0;
+  while (angle > M_PI || angle <= -M_PI){
+    if (angle > M_PI){
+      dx = M_PI - angle;
+      angle = -M_PI + dx;
+    }
+    else if (angle <= -M_PI){
+      dx = -M_PI - angle;
+      angle = M_PI - dx;
+    }
+  }
+}
+
 void odomCallback(const nav_msgs::Odometry& odom){
     nav_msgs::Odometry newOdom = odom;
 
