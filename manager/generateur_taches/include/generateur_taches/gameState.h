@@ -1,8 +1,17 @@
+/**
+ * \file 		gameState.h
+ * \class		GameState
+ * \brief		classe représentant l'état du jeu
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
 #include <ros/ros.h>
-#include "comm_msg/GameState.h" //a passer apres en comm_msg/GameState.h
+#include "comm_msg/GameState.h" 
 
 class GameState {
 
@@ -15,7 +24,10 @@ public:
     ros::Time getTime(){return m_time;}
     int getPoints(){return m_points;}
 
-    void gsCallback(const comm_msg::GameState &msg); //ici aussi
+/**
+ *	\brief		Callback permettant de mettre à jour les infos du topic comm_msg::GameState
+ */
+    void gsCallback(const comm_msg::GameState &msg); 
 
 private:
 

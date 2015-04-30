@@ -1,3 +1,11 @@
+/**
+ * \file 		activityTalker_node.cpp
+ * \brief		Programme de test pour simuler l envoi du topic manager_msg::activity
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+ 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "manager_msg/activity.h" 

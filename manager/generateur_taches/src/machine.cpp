@@ -18,21 +18,21 @@ void Machine::correspondanceZone(){
 }
 
 void Machine::updateMachine(Robot tabRobot[]){
-        if(tabRobot[0].getOccuped() && tabRobot[1].getOccuped() && tabRobot[2].getOccuped())
+        if(tabRobot[0].getBusy() && tabRobot[1].getBusy() && tabRobot[2].getBusy())
                 m_robot = -10;
-        if(!tabRobot[0].getOccuped() && tabRobot[1].getOccuped() && tabRobot[2].getOccuped())
+        if(!tabRobot[0].getBusy() && tabRobot[1].getBusy() && tabRobot[2].getBusy())
                 m_robot = 0;
-        if(tabRobot[0].getOccuped() && !tabRobot[1].getOccuped() && tabRobot[2].getOccuped())
+        if(tabRobot[0].getBusy() && !tabRobot[1].getBusy() && tabRobot[2].getBusy())
                 m_robot = 1;
-        if(!tabRobot[0].getOccuped() && !tabRobot[1].getOccuped() && tabRobot[2].getOccuped())
+        if(!tabRobot[0].getBusy() && !tabRobot[1].getBusy() && tabRobot[2].getBusy())
                 m_robot = 0;
-        if(tabRobot[0].getOccuped() && tabRobot[1].getOccuped() && !tabRobot[2].getOccuped())
+        if(tabRobot[0].getBusy() && tabRobot[1].getBusy() && !tabRobot[2].getBusy())
                 m_robot = 2;
-        if(!tabRobot[0].getOccuped() && tabRobot[1].getOccuped() && !tabRobot[2].getOccuped())
+        if(!tabRobot[0].getBusy() && tabRobot[1].getBusy() && !tabRobot[2].getBusy())
                 m_robot = 2; 
-        if(tabRobot[0].getOccuped() && !tabRobot[1].getOccuped() && !tabRobot[2].getOccuped())
+        if(tabRobot[0].getBusy() && !tabRobot[1].getBusy() && !tabRobot[2].getBusy())
                 m_robot = 1;
-        if(!tabRobot[0].getOccuped() && !tabRobot[1].getOccuped() && !tabRobot[2].getOccuped())
+        if(!tabRobot[0].getBusy() && !tabRobot[1].getBusy() && !tabRobot[2].getBusy())
                 m_robot = 0;       
 }
 

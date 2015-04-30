@@ -26,11 +26,11 @@ void Action::updateRobot(Robot (&robot)[3]){
 			robot[i].setNbOrder(m_nbOrder);
 			if(m_state==manager_msg::activity::IN_PROGRESS || m_state==manager_msg::activity::ERROR)
 			{
-				robot[i].setOccuped(true);
+				robot[i].setBusy(true);
 			}
 			else
 			{
-				robot[i].setOccuped(false);
+				robot[i].setBusy(false);
 			}
 		}
 	}

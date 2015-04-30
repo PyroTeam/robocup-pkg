@@ -1,3 +1,11 @@
+/**
+ * \file 		main_node.cpp
+ * \brief		Programme principal du générateur de tâches
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-30
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
 #include <list>
 #include <iostream>
 #include <ros/ros.h>
@@ -16,7 +24,7 @@
 #include "correspondanceZE.h"
 #include "srvorder.h"
 
-#include "comm_msg/GameState.h" //a changer en comm_msg plus tard
+#include "comm_msg/GameState.h" 
 
 using namespace std;
 using namespace manager_msg;
@@ -65,9 +73,9 @@ int main(int argc, char **argv)
 			time = ros::Time::now().toSec() - t0;
 			cout << "time en sec = " << time << endl;
 			action.updateRobot(tabRobot);
-			std::cout << "tabRobot j etat : " << tabRobot[j].getOccuped() << std::endl;
+			std::cout << "etat de tabRobot["<<j<<"] : " << tabRobot[j].getBusy() << std::endl;
 			//mettre a jour les infos envoyees par la refbox
-			if(!tabRobot[j].getOccuped() && cptZone<12)
+			if(!tabRobot[j].getBusy() && cptZone<12)
 			{
 				if(gameState.getPhase() == comm_msg::GameState::EXPLORATION)
 				{

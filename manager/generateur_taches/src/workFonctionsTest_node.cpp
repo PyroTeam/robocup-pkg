@@ -1,3 +1,12 @@
+/**
+ * \file 		workFonctionsTest_node.cpp
+ * \brief		Programme de test pour les fonctions de work.cpp
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
+
 #include <list> 
 #include <iostream> 
 #include "task.h"

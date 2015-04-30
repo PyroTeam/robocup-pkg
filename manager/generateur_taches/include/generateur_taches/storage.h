@@ -1,3 +1,12 @@
+/**
+ * \file 		storage.h
+ * \class		Storage
+ * \brief		classe représentant un produit stocké
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
 #ifndef STORAGE_H
 #define STORAGE_H
 
