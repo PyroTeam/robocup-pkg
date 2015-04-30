@@ -1,3 +1,11 @@
+/**
+ * \file 		storageChart.h
+ * \brief		fonctions concernant les 6 espaces de stockage disponibles
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
 #ifndef TABMACHINE_H
 #define TABMACHINE_H
 
@@ -6,7 +14,16 @@
 #include "machine.h"
 #include "robot.h"
 
-bool exploration_finie(Machine tab_machine[]);
-void update_zone(Machine (&tab_machine)[NBR_MACHINES], Robot tab_robot[]);
+
+/**
+ *	\brief		vérifie si toutes les machines ont été explorées
+ *	\return		true si toutes les machines explorées sinon false
+ */
+bool finishedExploration(Machine tabMachine[]);
+
+/**
+ *	\brief		met à jour les zones explorées ou non
+ */
+void updateZone(Machine (&tabMachine)[NBR_MACHINES], Robot tab_robot[]);
 
 #endif

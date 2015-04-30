@@ -1,0 +1,5 @@
+<launch>
+<group ns="gentache2">
+<node pkg="generateur_taches" name="Tasks_generator" type="main_node" />
+</group>
+</launch>

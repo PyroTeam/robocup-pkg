@@ -1,3 +1,12 @@
+/**
+ * \file 		action.h
+ * \class		Action
+ * \brief		classe représentant les infos collectées du topic manager_msg::activity
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
 #ifndef ACTION_H
 #define ACTION_H
 
@@ -9,26 +18,32 @@ class Action {
 
 public:
 
-    Action();
+	Action();
     
-    int get_nb_robot(){return m_nb_robot;}
-    int get_state(){return m_state;}
-    int get_machine_used(){return m_machine_used;}
-    int get_nb_order(){return m_nb_order;}
-    
+    int getNbRobot(){return m_nbRobot;}
+    int getState(){return m_state;}
+    int getUsedMachine(){return m_usedMachine;}
+    int getNbOrder(){return m_nbOrder;}
+/**
+ *	\brief		Callback qui met à jour les infos reçues du topic manager_msg::activity
+ */    
     void tesCallback(const manager_msg::activity &msg);
-    void update_robot(Robot (&robot)[3]);
+    
+/**
+ *	\brief		met à jour l'état des robots grâce au topic manager_msg::activity
+ */
+    void updateRobot(Robot (&robot)[3]);
 
 
 private:
     
     ros::NodeHandle m_nh;
-    ros::Subscriber m_activity_sub;
+    ros::Subscriber m_activitySub;
     
-    int m_nb_robot;
+    int m_nbRobot;
     int m_state;
-    int m_machine_used;
-    int m_nb_order;
+    int m_usedMachine;
+    int m_nbOrder;
     
 };
 
