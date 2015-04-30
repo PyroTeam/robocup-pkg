@@ -1,3 +1,12 @@
+/**
+ * \file 		srvorder.h
+ * \class		Srvorder
+ * \brief		classe permettant le traitement du service manager_msg::order
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
 #ifndef SRVORDER_H
 #define SRVORDER_H
 

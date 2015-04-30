@@ -1,3 +1,11 @@
+/**
+ * \file 		sendOrder_node.cpp
+ * \brief		Programme de test pour simuler un client du service manager_msg::order
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
 #include "ros/ros.h"
 #include "manager_msg/order.h"
 #include "manager_msg/activity.h"

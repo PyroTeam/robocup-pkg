@@ -1,3 +1,11 @@
+/**
+ * \file 		action_node.cpp
+ * \brief		Programme de test pour recevoir les infos du topic manager_msg::activity
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
 #include "action.h"
 #include <ros/ros.h>
 #include <iostream>
@@ -7,7 +15,7 @@ using namespace std;
 
 void infoRobot(Robot robot)
 {
-	cout << "\toccupe: "<<(int)robot.getOccuped()
+	cout << "\toccupe: "<<(int)robot.getBusy()
 		 << " machine: "<<robot.getMachine()
 		 << " nb_ordre: "<<robot.getNbOrder()<<endl;
 }

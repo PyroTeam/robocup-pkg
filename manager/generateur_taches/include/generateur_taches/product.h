@@ -1,3 +1,12 @@
+/**
+ * \file 		product.h
+ * \class		Product
+ * \brief		classe représentant un produit
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+ 
 #ifndef PRODUCT_H
 #define PRODUCT_H
 

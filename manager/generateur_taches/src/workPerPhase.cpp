@@ -34,7 +34,7 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
 		if(srvexplo.getAccepted())
 		{
 		cptMachine++;
-		tabRobot[robot].setOccuped(true);
+		tabRobot[robot].setBusy(true);
 		}
 	}
 }
@@ -44,7 +44,7 @@ void workInProductionPhase(std::list<std::list<Task> > &work, Machine (&tabMachi
 						   Storage (&tabStock)[6], bool (&take)[3], int &cptOrder, int robot, int &availableCap, 
 						   int &storage,Order &order, double time)
 {
-	if(!tabRobot[robot].getOccuped())
+	if(!tabRobot[robot].getBusy())
 	{
 		int id = 0;
 		finishedTasks(work,robot,time);
@@ -85,7 +85,7 @@ void workInProductionPhase(std::list<std::list<Task> > &work, Machine (&tabMachi
 					take[robot] = false;
 				}
 				cleanWork(work,it,time);
-				tabRobot[robot].setOccuped(true);
+				tabRobot[robot].setBusy(true);
 			}
 		}
 		//on prend en compte les ordres de la refbox

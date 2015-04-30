@@ -1,3 +1,12 @@
+/**
+ * \file 		action.h
+ * \class		Action
+ * \brief		classe représentant les infos collectées du topic manager_msg::activity
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
 #ifndef ACTION_H
 #define ACTION_H
 
@@ -15,8 +24,14 @@ public:
     int getState(){return m_state;}
     int getUsedMachine(){return m_usedMachine;}
     int getNbOrder(){return m_nbOrder;}
-    
+/**
+ *	\brief		Callback qui met à jour les infos reçues du topic manager_msg::activity
+ */    
     void tesCallback(const manager_msg::activity &msg);
+    
+/**
+ *	\brief		met à jour l'état des robots grâce au topic manager_msg::activity
+ */
     void updateRobot(Robot (&robot)[3]);
 
 

@@ -1,3 +1,12 @@
+/**
+ * \file 		task.h
+ * \class		Task
+ * \brief		classe représentant la tâche élémentaire que puisse demande le générateur de tâches
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+ 
 #ifndef TASK_H
 #define TASK_H
 
@@ -31,8 +40,16 @@ public:
 	int getRobot(){return m_robot;}
 	void setEndCarryingOut(int fin){m_endCarryingOut=fin;}
 	int getEndCarryingOut(){return m_endCarryingOut;}  
-  
+
+/**
+ *  \brief		Nombre de point par produit
+ *  \return		le nombre de point que vaut un produit
+ */  
 	int pointPerProduct();
+/**
+ *	\brief		vérifie si c'est le bon moment pour livrer
+ *	\return		true s'il faut livrer sinon false
+ */
 	bool inTime(double temps);
   
 private:

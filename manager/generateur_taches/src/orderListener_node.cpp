@@ -1,3 +1,11 @@
+/**
+ * \file 		orderListener_node.cpp
+ * \brief		Programme de test du serveur pour le service manager_msg::order
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
 #include "ros/ros.h"
 #include "manager_msg/order.h"
 
