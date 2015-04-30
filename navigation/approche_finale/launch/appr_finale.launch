@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="approche_finale" name="FA_node" type="finalApproaching_node"/>
+</launch>

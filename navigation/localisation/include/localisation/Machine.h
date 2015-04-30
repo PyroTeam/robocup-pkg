@@ -8,26 +8,28 @@ public:
 	Machine();
 	~Machine();
 
-	geometry_msgs::Pose2D getCentre(){
-		return m_centre;
-	}
-	bool getType(){
-		return m_type;
-	}
+	geometry_msgs::Pose2D getCentre();
+	bool getType();
 
-	void setCentre(geometry_msgs::Pose2D c){
-		m_centre = c;
-	}
-	void setType(int val){
-		m_type = val;
-	}
-	void resetType(){
-		m_type = 0;
-	}
+	void setCentre(geometry_msgs::Pose2D c);
+	void setType(int val);
+	void resetType();
+	void addX(double x);
+	void addY(double y);
+	void addTheta(double theta);
+	void incNbActu();
+
+	void maj();
+	bool exist();
 
 private:
 	geometry_msgs::Pose2D 	m_centre;
 	int						m_type;
+	bool					m_state;
+	double 					m_xSum;
+	double 					m_ySum;
+	double 					m_thetaSum;
+	int 					m_nbActu;
 };
 
 #endif

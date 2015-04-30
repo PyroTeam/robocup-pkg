@@ -26,6 +26,7 @@ pathId = 0
 pointsId = 0
 stopRobot = True
 pathFinished = False
+cptCmdVel = 5
 
 
 #*====================================
@@ -256,17 +257,23 @@ def callbackOdom(data):
     # Publication du message sur le topic
     vel_msg = Twist()
     # stopRobot = True
+
+    global cptCmdVel
     if not stopRobot:
         vel_msg.linear.x = 0.2
         vel_msg.linear.y = errAngle/10
         vel_msg.angular.z = vitAngle*1
-    else :
+        cptCmdVel = 5
+    else:
         vel_msg.linear.x = 0
         vel_msg.linear.y = 0
         vel_msg.angular.z = 0
 
-    #if stopRobot:
-    pub.publish(vel_msg)
+        cptCmdVel-=1
+
+
+    if not stopRobot or (stopRobot and cptCmdVel > 0):
+        pub.publish(vel_msg)
     
     pubInfos.publish(ang)
     pubAngle.publish(angle)
