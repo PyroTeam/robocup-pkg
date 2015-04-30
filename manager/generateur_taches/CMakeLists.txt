@@ -106,44 +106,66 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(test_fonctions_travail
-  src/tache.cpp
-  src/listetaches.cpp
-  src/travail.cpp
-  src/produit.cpp
-  src/main.cpp)
-target_link_libraries(test_fonctions_travail ${catkin_LIBRARIES})
-add_dependencies(test_fonctions_travail manager_msg_gencpp)
+add_executable(work_fonctions_test
+  src/task.cpp
+  src/tasksList.cpp
+  src/work.cpp
+  src/product.cpp
+  src/workFonctionsTest_node.cpp)
+target_link_libraries(work_fonctions_test ${catkin_LIBRARIES})
+add_dependencies(work_fonctions_test manager_msg_gencpp)
+set_target_properties(work_fonctions_test PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
-add_executable(algo_node
-  src/etatdujeu.cpp
-  src/travailphase.cpp
+
+add_executable(main_node
+  src/gameState.cpp
+  src/workPerPhase.cpp
   src/tabmachine.cpp
   src/machine.cpp
-  src/stockage.cpp
-  src/tableaustockage.cpp
+  src/storage.cpp
+  src/storageChart.cpp
   src/srvorder.cpp
   src/action.cpp
-  src/tache.cpp
-  src/listetaches.cpp
-  src/travail.cpp
-  src/produit.cpp
-  src/main2.cpp
-  src/correspondanceZE.cpp)
-target_link_libraries(algo_node ${catkin_LIBRARIES} )
-add_dependencies(algo_node manager_msg_gencpp)
+  src/task.cpp
+  src/tasksList.cpp
+  src/work.cpp
+  src/product.cpp
+  src/correspondanceZE.cpp
+  src/main_node.cpp)
+target_link_libraries(main_node ${catkin_LIBRARIES} )
+add_dependencies(main_node manager_msg_gencpp)
+set_target_properties(main_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
 
 add_executable(action_node
     src/action.cpp
-    src/action_node.cpp
-)
+    src/action_node.cpp)
 target_link_libraries(action_node ${catkin_LIBRARIES} )
 add_dependencies(action_node manager_msg_gencpp)
-
-
-set_target_properties(test_fonctions_travail PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-set_target_properties(algo_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 set_target_properties(action_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
+
+add_executable(sendOrder_node 
+	src/sendOrder_node.cpp)
+target_link_libraries(sendOrder_node ${catkin_LIBRARIES})
+add_dependencies(sendOrder_node manager_msg_gencpp)
+set_target_properties(sendOrder_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
+
+add_executable(orderListener_node 
+	src/orderListener_node.cpp)
+target_link_libraries(orderListener_node ${catkin_LIBRARIES})
+add_dependencies(orderListener_node manager_msg_gencpp)
+set_target_properties(orderListener_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
+
+add_executable(activityTalker_node 
+	src/activityTalker_node.cpp)
+target_link_libraries(activityTalker_node ${catkin_LIBRARIES})
+add_dependencies(activityTalker_node manager_msg_gencpp)
+set_target_properties(activityTalker_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
+
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(generateur_taches_node generateur_taches_generate_messages_cpp)
@@ -151,17 +173,7 @@ set_target_properties(action_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 ## Specify libraries to link a library or executable target against
 
 
-add_executable(envoi_ordre src/envoi_ordre.cpp)
-target_link_libraries(envoi_ordre ${catkin_LIBRARIES})
-add_dependencies(envoi_ordre manager_msg_gencpp)
 
-add_executable(reception_ordre src/reception_ordre.cpp)
-target_link_libraries(reception_ordre ${catkin_LIBRARIES})
-add_dependencies(reception_ordre manager_msg_gencpp)
-
-add_executable(emetteur_topic src/emetteur_topic.cpp)
-target_link_libraries(emetteur_topic ${catkin_LIBRARIES})
-add_dependencies(emetteur_topic manager_msg_gencpp)
 #############
 ## Install ##
 #############
