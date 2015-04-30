@@ -42,9 +42,6 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
 
     mps[zone-1].maj();
   } 
-  for (auto &it : mps){
-    if (it.getCentre().x != 0 && it.getCentre().y != 0) count++;
-  }
 }
 
 void laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
@@ -79,6 +76,8 @@ int main( int argc, char** argv )
   { 
     deplacement_msg::Landmarks tabMPS = convert(mps);
 
+    count = tabMPS.landmarks.size();
+
     if (count == 6/*12*/){
       srv.request.wake_up = 2;
       client.call(srv);
@@ -93,6 +92,13 @@ int main( int argc, char** argv )
     pub_laser.publish(scan);
 
     //tabMachines.landmarks.clear();
+    if (count >= 6){
+      for (auto &it : mps){
+        if (it.getCentre().x != 0 && it.getCentre().y != 0){
+          std::cout << "machine (" << it.getCentre().x << "," << it.getCentre().y << "," << it.getCentre().theta << ")" << std::endl;
+        }
+      }
+    }
 
     // Spin
     ros::spinOnce();

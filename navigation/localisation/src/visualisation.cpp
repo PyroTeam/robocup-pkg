@@ -131,7 +131,7 @@ int main( int argc, char** argv )
     line_list.color.a = 1.0;
 
     line_list.points = tabSegments;
-*//*
+*/
     points.header.frame_id = "/odom";
     points.header.stamp = ros::Time::now();
     points.ns = "visualisation_trajectoire";
@@ -149,7 +149,7 @@ int main( int argc, char** argv )
     points.color.a = 1.0;
 
     points.points = trajectoire;
-*/    
+    
     machines.header.frame_id = "/odom";
     machines.header.stamp = ros::Time::now();
     machines.ns = "visualisation_machines";
@@ -229,7 +229,7 @@ int main( int argc, char** argv )
     odom_brut.points = odometrie;
 
     //marker_pub.publish(line_list);
-    //marker_pub.publish(points);
+    markers_pub.publish(points);
     markers_pub.publish(robot);
     markers_pub.publish(laser);
     markers_pub.publish(odom_brut);

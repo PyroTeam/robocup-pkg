@@ -6,8 +6,8 @@ project(deplacement_msg)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
 	roscpp
-   	rospy
-   	std_msgs
+  rospy
+  std_msgs
 	message_generation
 	geometry_msgs
 	sensor_msgs
@@ -84,7 +84,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES trait_im_msg
-#  CATKIN_DEPENDS std_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
 #  DEPENDS system_lib
 	CATKIN_DEPENDS message_runtime
 )
