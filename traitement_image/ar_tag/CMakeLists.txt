@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   ar_track_alvar
   ar_track_alvar_msgs
+  trait_im_msg
 )
 
 ## System dependencies are found with CMake's conventions
