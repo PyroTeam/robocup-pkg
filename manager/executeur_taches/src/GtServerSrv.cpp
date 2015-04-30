@@ -309,12 +309,28 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                 geometry_msgs::Pose2D pt_dest;
                 geometry_msgs::Pose2D pt_actuel;
 
-                interpretationZone();
-
-                pt_dest.x = this->x;
-                pt_dest.y = this->y;
-                pt_dest.theta = M_PI/4;
-
+                if(req.id == 4) { // DS CYAN
+                    pt_dest.x = 1.8;
+                    pt_dest.y = 4.9;
+                    pt_dest.theta = M_PI;
+                    going(pt_dest);
+                    pt_dest.x = 1.5;
+                    pt_dest.y = 4.9;
+                }
+                else if (req.id == 16) { // DS MAGENTA
+                    pt_dest.x = -1.8;
+                    pt_dest.y = 4.9;
+                    pt_dest.theta = 0;
+                    going(pt_dest);
+                    pt_dest.x = -1.5;
+                    pt_dest.y = 4.9;
+                }
+                else {
+                    interpretationZone();
+                    pt_dest.x = this->x;
+                    pt_dest.y = this->y;
+                    pt_dest.theta = M_PI/4;
+                }
                 going(pt_dest);
 
                 ROS_INFO ("I went to the asked point successfully ");
@@ -497,7 +513,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                                   pt_actuel = pt_dest;
                                   pt_dest = calculOutPoint(pt_actuel, req.id);
                                   going(pt_dest);
-                                  m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+                                  //m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
                                   if(m_ei->m_signals.size() != 0) {
                                           m.getDS().readlights(m_ei->lSpec);
                                           m_ei->interpretationFeu();

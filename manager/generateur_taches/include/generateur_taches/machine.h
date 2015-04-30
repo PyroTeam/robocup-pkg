@@ -1,3 +1,12 @@
+/**
+ * \file 		machine.h
+ * \class		Machine
+ * \brief		classe représentant l'état d'une machine
+ * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date		2015-04-01
+ * \copyright	PyroTeam, Polytech-Lille
+ */
+
 #ifndef MACHINE_H
 #define MACHINE_H
 
@@ -5,25 +14,36 @@
 
 class Machine{
 
-        public:
-                Machine();
-                
-                int get_x(){return m_x;}
-                void set_x(int x){m_x=x;}
-                int get_y(){return m_y;}
-                void set_y(int y){m_y=y;}
-                bool get_traite(){return m_traite;}
-                void set_traite(bool traite){m_traite=traite;}
-                int get_robot(){return m_robot;}
-                
-                void correspondance_zone();
-                void update_machine(Robot tab_robot[]);
+public:
 
-        private:
-                float m_x;
-                float m_y;
-                int m_robot;
-                bool m_traite;
+	Machine();
+                
+	int getX(){return m_x;}
+	void setX(int x){m_x=x;}
+	int getY(){return m_y;}
+	void setY(int y){m_y=y;}
+	bool getProcessed(){return m_processed;}
+	void setProcessed(bool traite){m_processed=traite;}
+	int getRobot(){return m_robot;}
+
+
+/**
+ *	\brief		fait correspondre la machine à une zone
+ */	                
+	void correspondanceZone();
+	
+/**
+ *	\brief		met à jour les infos concernant la machine
+ */
+	void updateMachine(Robot tab_robot[]);
+
+private:
+
+	float m_x;
+	float m_y;
+	int m_robot;
+	bool m_processed;
+
 };
 
 #endif
