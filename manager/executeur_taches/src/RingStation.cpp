@@ -5,10 +5,10 @@
 /* Constructeur */
 RingStation::RingStation(){
   m_type = "RingStation";
-  m_ringVert = 0;
-  m_ringJaune = 0;
-  m_ringBleu = 0;
-  m_ringOrange = 0;
+  m_greenRing = 0;
+  m_yellowRing = 0;
+  m_blueRing = 0;
+  m_orangeRing = 0;
 }
 
 /* Destructeur */
@@ -18,27 +18,68 @@ RingStation::~RingStation(){}
 void RingStation::FonctionVirtuelle(){}
 
 /* Méthodes */
-int RingStation::getRingVert(){
-  return m_ringVert;
+int RingStation::getGreenRing(){
+  return m_greenRing;
 }
-int RingStation::getRingJaune(){
-  return m_ringJaune;
+int RingStation::getYellowRing(){
+  return m_yellowRing;
 }
-int RingStation::getRingBleu(){
-  return m_ringBleu;
+int RingStation::getBlueRing(){
+  return m_blueRing;
 }
-int RingStation::getRingOrange(){
-  return m_ringOrange;
+int RingStation::getOrangeRing(){
+  return m_orangeRing;
 }
-void RingStation::majVert(int nbVert){
-  m_ringVert = nbVert;
+void RingStation::majGreen(int nbVert){
+  m_greenRing = nbVert;
 }
-void RingStation::majJaune(int nbJaune){
-  m_ringJaune = nbJaune;
+void RingStation::majYellow(int nbJaune){
+  m_yellowRing = nbJaune;
 }
-void RingStation::majBleu(int nbBleu){
-  m_ringBleu = nbBleu;
+void RingStation::majBlue(int nbBleu){
+  m_blueRing = nbBleu;
 }
 void RingStation::majOrange(int nbOrange){
-  m_ringOrange = nbOrange;
+  m_orangeRing = nbOrange;
+}
+
+void RingStation::put_ring(int color,int n_robot,int n_order,int machine){
+
+    // A verifier si la rs est dispo
+    // si OK : (sinon erreur )
+
+    /* TOPIC Générateur de taches : infos sur l'avancement de la tache */
+    manager_msg::activity msg;
+    msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order); 
+    ROS_INFO("Putting a Ring, color : %d", color);
+
+    goTo(this->m_entryMachine);
+
+    this->startFinalAp(finalApproachingGoal::RS, finalApproachingGoal::IN, finalApproachingGoal::CONVEYOR);
+    this->let();
+
+    //Communication_RefBox(je veux un ring de couleur "couleur" )
+
+    msg = msgToGT(n_robot,activity::END,machine,n_order); 
+}
+
+void RingStation::take_ring(int color,int n_robot,int n_order,int machine){
+
+    // A verifier si la rs est dispo (pas en panne uniquement => cz elle sera entrain de faire un ring "noramlement")
+    // si OK : (sinon erreur )
+
+    /* TOPIC Générateur de taches : infos sur l'avancement de la tache */
+    manager_msg::activity msg;
+    msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order); 
+    ROS_INFO("Taking a Ring, color : %d", color);
+
+    //Communication_RefBox(give me the product ) 
+
+    goTo(this->m_exitMachine);
+
+    // while(Communication_RefBox(rs n'a terminé de livrer))
+
+    this->startFinalAp(finalApproachingGoal::RS, finalApproachingGoal::OUT, finalApproachingGoal::CONVEYOR);
+    this->take();
+    msg = msgToGT(n_robot,activity::END,machine,n_order);
 }

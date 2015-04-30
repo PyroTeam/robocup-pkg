@@ -1,17 +1,19 @@
-#ifndef RINGTATION_H
+#ifndef RINGSTATION_H
 #define RINGSTATION_H
 
 #include "Machine.h"
 
+using namespace manager_msg;
+
 class RingStation : public Machine{
   private:
     
-      /* Variables d'instance*/
-      int m_ringVert;
-      int m_ringJaune;
-      int m_ringBleu;
-      int m_ringOrange;
-      
+      /* Variables d'instance */
+      int m_greenRing;
+      int m_yellowRing;
+      int m_blueRing;
+      int m_orangeRing;
+
   public:
       RingStation();
       
@@ -20,14 +22,17 @@ class RingStation : public Machine{
       virtual void FonctionVirtuelle();
       
       /* Méthodes */
-      int getRingVert();
-      int getRingJaune();  
-      int getRingBleu();
-      int getRingOrange(); 
-      void majVert(int nbVert);
-      void majJaune(int nbJaune);
-      void majBleu(int nbBleu);
+      int getGreenRing();
+      int getYellowRing();  
+      int getBlueRing();
+      int getOrangeRing(); 
+      void majGreen(int nbVert);
+      void majYellow(int nbJaune);
+      void majBlue(int nbBleu);
       void majOrange(int nbOrange);
+      void put_ring(int color,int n_robot,int n_order,int machine);
+      void take_ring(int color,int n_robot,int n_order,int machine);
 };
 
 #endif
+

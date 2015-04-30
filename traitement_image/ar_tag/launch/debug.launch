@@ -1,0 +1,7 @@
+<launch>
+
+	<node pkg="ar_tag" name="artag" type="ar_tag_srv_node" launch-prefix="ddd --args"/>
+
+
+
+</launch>

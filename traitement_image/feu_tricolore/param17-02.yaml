@@ -1,0 +1,20 @@
+HSV_threshold:
+  enabled: true
+  value: {min: 240}
+closing: {enabled: true, iteration: 1, size: 7}
+image_result:
+  list: {0_Flux_origine: /image_raw, 1_Image_hsv: /feu_tricolore/img_hsv, 2_Image_seuillee: /feu_tricolore/img_before_morphops,
+    3_Image_resultat: /feu_tricolore/img_result}
+img_before_morphops:
+  compressed: {format: jpeg, jpeg_quality: 80, png_level: 9}
+  compressedDepth: {depth_max: 10.0, depth_quantization: 100.0, png_level: 9}
+  theora: {keyframe_frequency: 64, optimize_for: 1, quality: 31, target_bitrate: 800000}
+img_hsv:
+  compressed: {format: jpeg, jpeg_quality: 80, png_level: 9}
+  compressedDepth: {depth_max: 10.0, depth_quantization: 100.0, png_level: 9}
+  theora: {keyframe_frequency: 64, optimize_for: 1, quality: 31, target_bitrate: 800000}
+img_result:
+  compressed: {format: jpeg, jpeg_quality: 80, png_level: 9}
+  compressedDepth: {depth_max: 10.0, depth_quantization: 100.0, png_level: 9}
+  theora: {keyframe_frequency: 64, optimize_for: 1, quality: 31, target_bitrate: 800000}
+opening: {enabled: true, iteration: 1, size: 1}
