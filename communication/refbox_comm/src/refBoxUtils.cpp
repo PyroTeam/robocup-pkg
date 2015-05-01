@@ -12,7 +12,7 @@
 
 #include "refBoxUtils.h"
 
-comm_msg::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, llsf_msgs::Team team_color)
+comm_msg::GameState llsf2ros_gameState(const llsf_msgs::GameState &llsfGameState, llsf_msgs::Team team_color)
 {
     comm_msg::GameState rosGameState;
 
@@ -72,7 +72,7 @@ comm_msg::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, llsf_
 }
 
 
-comm_msg::ExplorationInfo llsf2ros_explorationInfo(const llsf_msgs::ExplorationInfo llsfExplorationInfo, llsf_msgs::Team team_color)
+comm_msg::ExplorationInfo llsf2ros_explorationInfo(const llsf_msgs::ExplorationInfo &llsfExplorationInfo, llsf_msgs::Team team_color)
 {
     comm_msg::ExplorationInfo rosExplorationInfo;
 
@@ -129,4 +129,23 @@ comm_msg::MachineInfo llsf2ros_machineInfo(const llsf_msgs::MachineInfo &llsfMac
     }
 
     return rosMachineInfo;
+}
+
+comm_msg::OrderInfo llsf2ros_orderInfo(const llsf_msgs::OrderInfo &llsfOrderInfo)
+{
+    comm_msg::OrderInfo rosOrderInfo;
+/*
+    for(int i=0; i<llsfOrderInfo.orders_size(); ++i)
+    {
+        const llsf_msgs::Order &llsfOrder = llsfOrderInfo.orders(i);
+        llsfOrder.id = id();
+        llsfOrder.complexity = complexity();
+        llsfOrder.base_color = base_color();
+        for (int j=0; j < llsfOrder.ring_colors_size(); ++j)
+        {
+            rosOrderInfo.gb uint8_t(llsfOrder.ring_colors(j));
+        }
+
+    }
+    */
 }
