@@ -58,6 +58,8 @@ add_message_files(
 	MachineInfo.msg
 	MachineReportInfo.msg
 	RingColor.msg
+	OrderInfo.msg
+	Order.msg
 	Robot.msg
 	RobotInfo.msg
     activity.msg
