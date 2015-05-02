@@ -37,6 +37,7 @@ RefBoxComm::RefBoxComm(std::string teamName, std::string teamColor, std::string 
     m_machineInfo_pub = m_nh.advertise<comm_msg::MachineInfo>("/refBoxComm/MachineInfo", 1000);
 
     m_reportMachineService = m_nh.advertiseService("/refBoxComm/ReportMachine", &RefBoxComm::ReportMachineSrv, this);
+    m_prepareMachineService =  m_nh.advertiseService("/refBoxComm/PrepareMachine", &RefBoxComm::PrepareMachineSrv, this);
 
     m_pose_sub = m_nh.subscribe("/odom", 1000, &RefBoxComm::PoseCallback, this);
 
@@ -153,6 +154,47 @@ bool RefBoxComm::ReportMachineSrv(comm_msg::ReportMachine::Request  &req,
     return true;
 }
 
+
+bool RefBoxComm::PrepareMachineSrv(comm_msg::PrepareMachine::Request  &req,
+                                   comm_msg::PrepareMachine::Response &res)
+{
+
+    std::shared_ptr<PrepareMachine> prep(new PrepareMachine());
+    prep->set_team_color(m_status.teamColor);
+    prep->set_machine(req.machine);
+    std::string machineType = req.machine.substr(2,2);
+
+    if (machineType == "BS")
+    {
+        llsf_msgs::PrepareInstructionBS *prepBS = prep->mutable_instruction_bs();
+        prepBS->set_side(llsf_msgs::MachineSide(req.instruction_bs.side));
+    	prepBS->set_color(llsf_msgs::BaseColor(req.instruction_bs.color));
+    }
+    else if (machineType == "DS")
+    {
+        llsf_msgs::PrepareInstructionDS *prepDS = prep->mutable_instruction_ds();
+        prepDS->set_gate(req.instruction_ds.gate);
+    }
+    else if (machineType == "RS")
+    {
+        llsf_msgs::PrepareInstructionRS *prepRS = prep->mutable_instruction_rs();
+        prepRS->set_ring_color(llsf_msgs::RingColor(req.instruction_rs.ring_color));
+    }
+    else if (machineType == "CS")
+    {
+        llsf_msgs::PrepareInstructionCS *prepCS = prep->mutable_instruction_cs();
+        prepCS->set_operation(llsf_msgs::CsOp(req.instruction_cs.operation));
+    }
+
+    RefBoxMessage prepareMachineMessage(prep, RefBoxMessage::NON_PERIODIC, 1000.0);
+    prepareMachineMessage.setCallBack(std::function<bool(google::protobuf::Message&)>(boost::bind(&RefBoxComm::sendPrepareMachineCB, this, _1)));
+    m_sendScheduler.push(prepareMachineMessage);
+
+    return true;
+}
+
+
+
 //send CallBack functions
 bool RefBoxComm::sendBeaconSignalCB(protoMsg &m)
 {
@@ -197,6 +239,14 @@ bool RefBoxComm::sendMachineReportCB(protoMsg &m)
     }
 
 }
+
+bool RefBoxComm::sendPrepareMachineCB(protoMsg &m)
+{
+    PrepareMachine &pm = dynamic_cast<PrepareMachine&>(m);
+
+    return true;
+}
+
 
 
 //receive Handlers
