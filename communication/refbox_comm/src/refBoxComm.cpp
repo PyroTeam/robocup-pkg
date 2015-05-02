@@ -34,6 +34,7 @@ RefBoxComm::RefBoxComm(std::string teamName, std::string teamColor, std::string 
     m_explorationInfo_pub = m_nh.advertise<comm_msg::ExplorationInfo>("/refBoxComm/ExplorationInfo", 1000);
     m_machineReportInfo_pub = m_nh.advertise<comm_msg::MachineReportInfo>("/refBoxComm/ReportedMachines", 1000);
     m_orderInfo_pub = m_nh.advertise<comm_msg::OrderInfo>("/refBoxComm/OrderInfo", 1000);
+    m_machineInfo_pub = m_nh.advertise<comm_msg::MachineInfo>("/refBoxComm/MachineInfo", 1000);
 
     m_reportMachineService = m_nh.advertiseService("/refBoxComm/ReportMachine", &RefBoxComm::ReportMachineSrv, this);
 
@@ -321,7 +322,7 @@ bool RefBoxComm::fireMachineInfo(protoMsg &m)
 {
 	MachineInfo &mi = dynamic_cast<MachineInfo&>(m);
 
-    printf("MachineInfo received:\n");
+    /*printf("MachineInfo received:\n");
     for (int i = 0; i < mi.machines_size(); ++i)
     {
         const Machine &m = mi.machines(i);
@@ -330,9 +331,12 @@ bool RefBoxComm::fireMachineInfo(protoMsg &m)
                 m.name().c_str(), m.type().substr(0, 2).c_str(),
         Team_Name(m.team_color()).substr(0, 2).c_str(),
                 p.x(), p.y(), p.ori());
-    }
+    }*/
 
-	return true;
+    comm_msg::MachineInfo rosMachineInfo = llsf2ros_machineInfo(mi);
+    m_machineInfo_pub.publish(rosMachineInfo);
+
+    return true;
 }
 
 
