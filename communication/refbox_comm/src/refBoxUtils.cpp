@@ -134,18 +134,30 @@ comm_msg::MachineInfo llsf2ros_machineInfo(const llsf_msgs::MachineInfo &llsfMac
 comm_msg::OrderInfo llsf2ros_orderInfo(const llsf_msgs::OrderInfo &llsfOrderInfo)
 {
     comm_msg::OrderInfo rosOrderInfo;
-/*
+
     for(int i=0; i<llsfOrderInfo.orders_size(); ++i)
     {
         const llsf_msgs::Order &llsfOrder = llsfOrderInfo.orders(i);
-        llsfOrder.id = id();
-        llsfOrder.complexity = complexity();
-        llsfOrder.base_color = base_color();
+        comm_msg::Order rosOrder;
+        rosOrder.id = llsfOrder.id();
+        rosOrder.complexity = llsfOrder.complexity();
+        rosOrder.base_color = llsfOrder.base_color();
         for (int j=0; j < llsfOrder.ring_colors_size(); ++j)
         {
-            rosOrderInfo.gb uint8_t(llsfOrder.ring_colors(j));
+            rosOrder.ring_colors.push_back(uint8_t(llsfOrder.ring_colors(j)));
         }
+        rosOrder.cap_color = llsfOrder.cap_color();
+        rosOrder.quantity_requested = llsfOrder.quantity_requested();
+        rosOrder.quantity_delivered_cyan = llsfOrder.quantity_delivered_cyan();
+        rosOrder.quantity_delivered_magenta = llsfOrder.quantity_delivered_magenta();
 
+        rosOrder.delivery_period_begin = llsfOrder.delivery_period_begin();
+        rosOrder.delivery_period_end = llsfOrder.delivery_period_end();
+
+        rosOrder.delivery_gate = llsfOrder.delivery_gate();
+
+        rosOrderInfo.orders.push_back(rosOrder);
     }
-    */
+    return rosOrderInfo;
+
 }

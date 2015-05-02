@@ -33,7 +33,7 @@ RefBoxComm::RefBoxComm(std::string teamName, std::string teamColor, std::string 
     m_gameState_pub = m_nh.advertise<comm_msg::GameState>("/refBoxComm/GameState", 1000);
     m_explorationInfo_pub = m_nh.advertise<comm_msg::ExplorationInfo>("/refBoxComm/ExplorationInfo", 1000);
     m_machineReportInfo_pub = m_nh.advertise<comm_msg::MachineReportInfo>("/refBoxComm/ReportedMachines", 1000);
-
+    m_orderInfo_pub = m_nh.advertise<comm_msg::OrderInfo>("/refBoxComm/OrderInfo", 1000);
 
     m_reportMachineService = m_nh.advertiseService("/refBoxComm/ReportMachine", &RefBoxComm::ReportMachineSrv, this);
 
@@ -263,6 +263,9 @@ bool RefBoxComm::fireOrderInfo(protoMsg &m)
         llsf_msgs::Order::DeliveryGate_Name(o.delivery_gate()).c_str());
     }
 */
+    comm_msg::OrderInfo rosOrderInfo  = llsf2ros_orderInfo(oi);
+    m_orderInfo_pub.publish(rosOrderInfo);
+
 	return true;
 }
 
