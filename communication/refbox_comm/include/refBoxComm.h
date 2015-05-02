@@ -57,6 +57,7 @@ private:
     ros::Publisher m_explorationInfo_pub;
     ros::Publisher m_machineReportInfo_pub;
     ros::Publisher m_orderInfo_pub;
+    ros::Publisher m_machineInfo_pub;
 
     ros::ServiceServer m_reportMachineService;
 

@@ -123,7 +123,12 @@ comm_msg::MachineInfo llsf2ros_machineInfo(const llsf_msgs::MachineInfo &llsfMac
         rosMachine.type = machine.type();
         rosMachine.state = machine.state();
         rosMachine.team_color = machine.team_color();
-        //TODO voir messages refBox
+        rosMachine.prepared = machine.prepared();
+        rosMachine.pose.x = machine.pose().x();
+        rosMachine.pose.y = machine.pose().y();
+        rosMachine.pose.theta = machine.pose().ori();
+        rosMachine.zone = uint8_t(machine.zone());
+        //TODO loadedWith et lights si necessaire
 
         rosMachineInfo.machines.push_back(rosMachine);
     }

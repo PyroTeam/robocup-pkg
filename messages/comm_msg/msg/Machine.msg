@@ -12,6 +12,8 @@ string type
 string state
 uint8 team_color
 
+bool prepared
+
 LightSpec[] lights
 geometry_msgs/Pose2D pose
 uint8 zone
