@@ -2,8 +2,8 @@
 #define _HEADER_MAP_
 
 #include "Point.hpp"
-#include "Objet.hpp"
 #include "ros/ros.h"
+
 #include <set>
 #include <vector>
 #include <cmath>
@@ -15,11 +15,11 @@
 
 enum typeHeuristic{MANHATTAN,EUCLIDEAN,Chebyshev};
 
-class Map
+class AStar
 {
 public:
-	Map();
-	~Map();
+	AStar();
+	~AStar();
 
 	// AStar
 	void setAllowDiagonal(bool allowDiagonal);
@@ -45,14 +45,6 @@ public:
 	void constructMap();
 
 private:
-	// Machines
-	const static int nbProductionMachine = 24;
-	const static int nbDeliveryMachine = 6;
-	const static int nbRecyclingMachine = 2;
-	Objet *_production_machine[nbProductionMachine];
-	Objet *_delivery_machine[nbDeliveryMachine];
-	Objet *_recycling_machine[nbRecyclingMachine];
-
 	// Points
 	const static int nbPointsLignes = 180;
 	const static int nbPointsColonnes = 280;
