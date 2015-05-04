@@ -1,5 +1,5 @@
 /*==========  Includes  ==========*/
-#include "pathfinder/server.hpp"
+#include "pathfinder/pathfinder_node.hpp"
 
 /*==========  Global variables  ==========*/
 PathOrders pathReq = {-1,{0.0,0.0,0.0},{0.0,0},false};
@@ -13,7 +13,7 @@ bool stop = false;
 /*==========  Main  ==========*/
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "server");
+    ros::init(argc, argv, "pathfinder");
     ros::NodeHandle n;
 
     pathfinderState.state = pathfinderState.LIBRE;
@@ -116,12 +116,12 @@ void computeAStar_thread_function()
     int lastId = -1;
     PathOrders actualOrders;
 
-    Map mapRobocup;
+    AStar mapRobocup;
     Point *startPoint,*endPoint;
     std::vector<Point*> chemin;
 
     ros::NodeHandle n;
-    ros::Subscriber sub_grid  = n.subscribe("/grid", 1000, &Map::gridCallback, &mapRobocup);
+    ros::Subscriber sub_grid  = n.subscribe("/grid", 1000, &AStar::gridCallback, &mapRobocup);
 
     while(1 && !stop)
     {

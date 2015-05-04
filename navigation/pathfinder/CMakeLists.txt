@@ -69,10 +69,10 @@ add_service_files(
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
-  	DEPENDENCIES
-  	std_msgs  # Or other packages containing msgs
-  	nav_msgs
-  	geometry_msgs
+    DEPENDENCIES
+    std_msgs  # Or other packages containing msgs
+    nav_msgs
+    geometry_msgs
 )
 
 ###################################
@@ -96,8 +96,6 @@ catkin_package(
 ###########
 
 ## Specify additional locations of header files
-## Your package locations should be listed before other locations
-# include_directories(include)
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
@@ -110,43 +108,20 @@ include_directories(
 #   src/${PROJECT_NAME}/feu_tricolore.cpp
 # )
 
-# Declare a cpp executable
-# add_executable(feu_tricolore_node src/feu_tricolore_node.cpp)
-add_executable(server  
-    src/server.cpp 
-    src/Map.cpp 
+# Declare a cpp executable - pathfinder_node
+add_executable(pathfinder_node  
+    src/pathfinder_node.cpp 
+    src/AStar.cpp 
     src/Point.cpp 
-    src/Objet.cpp
 )
 
-add_dependencies(server
-  pathfinder_gencpp
-  )
-
-add_executable(server_static   
-	src/server_static.cpp
-    src/server_static_utils.cpp
+add_dependencies(pathfinder_node
+    pathfinder_gencpp
 )
 
-add_dependencies(server_static
-  pathfinder_gencpp
-  )
-
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-# add_dependencies(feu_tricolore_node feu_tricolore_generate_messages_cpp)
-
-# Specify libraries to link a library or executable target against
-target_link_libraries(
-	server
-  	${catkin_LIBRARIES}
-  	${Boost_LIBRARIES}
-)
-
-target_link_libraries(
-  server_static
+target_link_libraries(pathfinder_node
     ${catkin_LIBRARIES}
-  	${Boost_LIBRARIES}
+    ${Boost_LIBRARIES}
 )
 
 #############

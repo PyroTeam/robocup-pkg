@@ -1,6 +1,6 @@
-#include "pathfinder/Map.hpp"
+#include "pathfinder/AStar.hpp"
 
-	Map::Map()
+	AStar::AStar()
 	: _clean(true),
 	_resolution(0.05),
 	_width(280),
@@ -8,103 +8,25 @@
 	_origin_x(-7),
 	_origin_y(-2)
 	{		
-		ROS_INFO("Objet Map, instanciation");	
-
-		// Création des machines 
-		_production_machine[0] = new Objet(MACHINE,(float)56/100,(float)168/100,-90);
-		_production_machine[1] = new Objet(MACHINE,(float)56/100,(float)280/100,90);
-		_production_machine[2] = new Objet(MACHINE,(float)168/100,(float)168/100,180);
-		_production_machine[3] = new Objet(MACHINE,(float)168/100,(float)280/100,0);
-		_production_machine[4] = new Objet(MACHINE,(float)168/100,(float)392/100,0);
-		_production_machine[5] = new Objet(MACHINE,(float)280/100,(float)168/100,90);
-		_production_machine[6] = new Objet(MACHINE,(float)280/100,(float)392/100,-90);
-		_production_machine[7] = new Objet(MACHINE,(float)280/100,(float)504/100,180);
-		_production_machine[8] = new Objet(MACHINE,(float)392/100,(float)168/100,0);
-		_production_machine[9] = new Objet(MACHINE,(float)392/100,(float)280/100,90);
-		_production_machine[10] = new Objet(MACHINE,(float)392/100,(float)504/100,-90);
-		_production_machine[11] = new Objet(MACHINE,(float)504/100,(float)504/100,-90);
-		_production_machine[12] = new Objet(MACHINE,(float)-56/100,(float)168/100,-90);
-		_production_machine[13] = new Objet(MACHINE,(float)-56/100,(float)280/100,90);
-		_production_machine[14] = new Objet(MACHINE,(float)-168/100,(float)168/100,180);
-		_production_machine[15] = new Objet(MACHINE,(float)-168/100,(float)280/100,0);
-		_production_machine[16] = new Objet(MACHINE,(float)-168/100,(float)392/100,0);
-		_production_machine[17] = new Objet(MACHINE,(float)-280/100,(float)168/100,90);
-		_production_machine[18] = new Objet(MACHINE,(float)-280/100,(float)392/100,-90);
-		_production_machine[19] = new Objet(MACHINE,(float)-280/100,(float)504/100,180);
-		_production_machine[20] = new Objet(MACHINE,(float)-392/100,(float)168/100,0);
-		_production_machine[21] = new Objet(MACHINE,(float)-392/100,(float)280/100,90);
-		_production_machine[22] = new Objet(MACHINE,(float)-392/100,(float)504/100,-90);
-		_production_machine[23] = new Objet(MACHINE,(float)-504/100,(float)504/100,-90);
-
-		_delivery_machine[0] = new Objet(DELIVERY,(float)534/100,(float)245/100,180);
-		_delivery_machine[1] = new Objet(DELIVERY,(float)534/100,(float)280/100,180);
-		_delivery_machine[2] = new Objet(DELIVERY,(float)534/100,(float)315/100,180);
-		_delivery_machine[3] = new Objet(DELIVERY,(float)-534/100,(float)245/100,0);
-		_delivery_machine[4] = new Objet(DELIVERY,(float)-534/100,(float)280/100,0);
-		_delivery_machine[5] = new Objet(DELIVERY,(float)-534/100,(float)315/100,0);
-
-		_recycling_machine[0] = new Objet(RECYCLING,(float)56/100,(float)504/100,0);
-		_recycling_machine[1] = new Objet(RECYCLING,(float)-56/100,(float)504/100,180);
-
-		// //Création des points
-		// for (int i = 0; i < nbPointsLignes; ++i)
-		// {
-		// 	for (int j = 0; j < nbPointsColonnes; ++j)
-		// 	{
-		// 		_pointsPassage[i][j] = new Point(-5.04+j*0.56,0.56+i*0.56,i,j);
-		// 	}
-		// }				
-		// _pointsPassage[2][2]->setType(INTERDIT);
-		// _pointsPassage[2][4]->setType(INTERDIT);
-		// _pointsPassage[2][6]->setType(INTERDIT);
-		// _pointsPassage[2][8]->setType(INTERDIT);
-		// _pointsPassage[2][10]->setType(INTERDIT);
-		// _pointsPassage[2][12]->setType(INTERDIT);
-		// _pointsPassage[2][14]->setType(INTERDIT);
-		// _pointsPassage[2][16]->setType(INTERDIT);
-		
-		// _pointsPassage[4][2]->setType(INTERDIT);
-		// _pointsPassage[4][6]->setType(INTERDIT);
-		// _pointsPassage[4][8]->setType(INTERDIT);
-		// _pointsPassage[4][10]->setType(INTERDIT);
-		// _pointsPassage[4][12]->setType(INTERDIT);
-		// _pointsPassage[4][16]->setType(INTERDIT);
-
-		// _pointsPassage[6][4]->setType(INTERDIT);
-		// _pointsPassage[6][6]->setType(INTERDIT);
-		// _pointsPassage[6][12]->setType(INTERDIT);
-		// _pointsPassage[6][14]->setType(INTERDIT);
-
-		// _pointsPassage[8][0]->setType(INTERDIT);
-		// _pointsPassage[8][2]->setType(INTERDIT);
-		// _pointsPassage[8][4]->setType(INTERDIT);
-		// _pointsPassage[8][8]->setType(INTERDIT);
-		// _pointsPassage[8][10]->setType(INTERDIT);
-		// _pointsPassage[8][14]->setType(INTERDIT);
-		// _pointsPassage[8][16]->setType(INTERDIT);
-		// _pointsPassage[8][18]->setType(INTERDIT);
+		ROS_INFO("Objet AStar, instanciation");	
 
 		_allowDiagonal 		= true;
 		_crossCorner 		= false;
 		_heuristicFonction  = EUCLIDEAN;
+        // _heuristicFonction  = MANHATTAN;
 		_poidsHeuristic 	= 1;
 
-		ROS_INFO("Objet Map correctement instanciee");
+		ROS_INFO("Objet AStar correctement instanciee (EUCLIDEAN)");
 	}
 
 
 
-	void Map::gridCallback(nav_msgs::OccupancyGridConstPtr grid)
+	void AStar::gridCallback(nav_msgs::OccupancyGridConstPtr grid)
 	{
-		// static bool onceReceived = false;
-		// if(onceReceived)
-		// 	return;
-		// onceReceived = true;
-	    // ROS_INFO("Grid received");
 	    constructMap(grid);
 	}
 
-	void Map::constructMap(nav_msgs::OccupancyGridConstPtr grid)
+	void AStar::constructMap(nav_msgs::OccupancyGridConstPtr grid)
 	{
 		//Création des points
 		for (int i = 0; i < _height; ++i)
@@ -113,8 +35,6 @@
 			{
 				delete _pointsPassage[i][j];
 				_pointsPassage[i][j] = new Point(_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
-				// ROS_INFO("%d:%d  %f:%f",i,j,_pointsPassage[i][j]->getX(),_pointsPassage[i][j]->getY());
-				// ROS_INFO("%f / %f / %f",-_origin_x+_resolution/2+j*_resolution,_origin_x,j*_resolution);
 				if(grid->data[i*_width+j] != 0) {
 					_pointsPassage[i][j]->setType(INTERDIT);
 				} else {
@@ -124,7 +44,7 @@
 		}		
 	}
 
-	void Map::constructMap()
+	void AStar::constructMap()
 	{
 		//Création des points
 		for (int i = 0; i < _height; ++i)
@@ -137,48 +57,28 @@
 		}		
 	}
 
-	Map::~Map()
+	AStar::~AStar()
 	{	
-		// Desallocations des objets et points
-		for (int i = 0; i < nbPointsLignes; ++i)
-		{
-			for (int j = 0; j < nbPointsColonnes; ++j)
-			{
-				delete _pointsPassage[i][j];
-			}
-		}			
-		for (int i = 0; i < nbProductionMachine; ++i)
-		{
-			delete _production_machine[i];
-		}
-		for (int i = 0; i < nbDeliveryMachine; ++i)
-		{
-			delete _delivery_machine[i];
-		}
-		for (int i = 0; i < nbRecyclingMachine; ++i)
-		{
-			delete _recycling_machine[i];
-		}
 	}
 
 	// AStar	
-	void Map::setAllowDiagonal(bool allowDiagonal)
+	void AStar::setAllowDiagonal(bool allowDiagonal)
 	{
 		_allowDiagonal = allowDiagonal;
 	}
 
-	void Map::setCrossCorner(bool crossCorner)
+	void AStar::setCrossCorner(bool crossCorner)
 	{
 		_crossCorner = crossCorner;
 	}
 
-	void Map::setPoidsHeuristic(signed int poids)
+	void AStar::setPoidsHeuristic(signed int poids)
 	{
 		_poidsHeuristic = poids;
 	}
 
 	// Utilise la fonction heuristic appropriee, selon notre choix de depart
-	float Map::heuristic(Point const& pointDepart, Point const& pointDistant)
+	float AStar::heuristic(Point const& pointDepart, Point const& pointDistant)
 	{
 		switch(_heuristicFonction)
 		{
@@ -197,7 +97,7 @@
 	}
 
 	// Heuristic du taxi -> voir wikipedia, pertinent quand on ne se deplace pas ou peu en diagonale
-	float Map::heuristicManhattan(Point const& pointDepart, Point const& pointDistant)
+	float AStar::heuristicManhattan(Point const& pointDepart, Point const& pointDistant)
 	{
 		float dist  = 0;
 		float distX = 0, distY = 0;
@@ -211,7 +111,7 @@
 	}
 
 	// Heuristic "vol d'oiseau"
-	float Map::heuristicEuclidean(Point const& pointDepart, Point const& pointDistant)
+	float AStar::heuristicEuclidean(Point const& pointDepart, Point const& pointDistant)
 	{
 		float dist  = 0;
 		float distX = 0, distY = 0;
@@ -224,7 +124,7 @@
 		return dist;
 	}
 
-	float Map::heuristicChebyshev(Point const& pointDepart, Point const& pointDistant)
+	float AStar::heuristicChebyshev(Point const& pointDepart, Point const& pointDistant)
 	{
 		float dist = 0;
 		float distX = 0, distY = 0;
@@ -237,12 +137,12 @@
 		return dist;
 	}
 
-	void Map::setHeuristicFunction(typeHeuristic heuristicFonction)
+	void AStar::setHeuristicFunction(typeHeuristic heuristicFonction)
 	{
 		_heuristicFonction = heuristicFonction;
 	}
 
-	bool Map::isFreeAt(signed int li, signed int col)
+	bool AStar::isFreeAt(signed int li, signed int col)
 	{
 		if(li < nbPointsLignes && li >= 0 && col < nbPointsColonnes && col>=0)
 			return _pointsPassage[li][col]->isFree();
@@ -266,7 +166,7 @@
   * Retourne tous les voisins d'un point en prenant en compte les paramètres : 
   * _allowDiagonal et _crossCorner
   */
-	signed int Map::getVoisins(std::vector<Point*> &voisins, Point *oirigin)
+	signed int AStar::getVoisins(std::vector<Point*> &voisins, Point *oirigin)
 	{
 		voisins.clear();
 		signed int col, li;
@@ -348,7 +248,7 @@
 	}
 
 	// Algo AStar a proprement parler
-	signed int Map::computeAStar(std::vector<Point*> &chemin,
+	signed int AStar::computeAStar(std::vector<Point*> &chemin,
 								 Point *startPoint,
 								 Point *endPoint)
 	{
@@ -467,7 +367,7 @@
 	}
 
 
-	signed int Map::getPointAt(signed int ligne, signed int colonne, Point*& point) const
+	signed int AStar::getPointAt(signed int ligne, signed int colonne, Point*& point) const
 	{
 		if( ligne < nbPointsLignes &&
 			ligne >= 0 &&
@@ -484,7 +384,7 @@
 	}
 
 
-	signed int Map::getNearestPoint(float x, float y, Point*& point) const
+	signed int AStar::getNearestPoint(float x, float y, Point*& point) const
 	{
 		if(nbPointsLignes == 0 || nbPointsColonnes == 0)
 		{
@@ -519,7 +419,7 @@
 	}
 
 
-	void Map::reset()
+	void AStar::reset()
 	{
 		if(!getClean())
 		{
@@ -535,12 +435,12 @@
 		}
 	}
 
-	bool Map::getClean()
+	bool AStar::getClean()
 	{
 		return _clean;
 	}
 
-	void Map::setClean(bool c)
+	void AStar::setClean(bool c)
 	{
 		_clean = c;
 	}
