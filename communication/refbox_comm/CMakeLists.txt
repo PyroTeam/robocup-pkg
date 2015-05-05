@@ -123,7 +123,7 @@ add_executable(
   refBoxComm
 
   src/refBoxComm.cpp
-  src/refBoxCommNode.cpp
+  src/refBoxComm_node.cpp
 )
 
 target_link_libraries(
