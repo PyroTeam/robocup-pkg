@@ -185,6 +185,11 @@ bool RefBoxComm::PrepareMachineSrv(comm_msg::PrepareMachine::Request  &req,
         llsf_msgs::PrepareInstructionCS *prepCS = prep->mutable_instruction_cs();
         prepCS->set_operation(llsf_msgs::CsOp(req.instruction_cs.operation));
     }
+    else
+    {
+        ROS_ERROR("Prepare Machine service : Wrong machine type");
+        return false;
+    }
 
     RefBoxMessage prepareMachineMessage(prep, RefBoxMessage::NON_PERIODIC, 1000.0);
     prepareMachineMessage.setCallBack(std::function<bool(google::protobuf::Message&)>(boost::bind(&RefBoxComm::sendPrepareMachineCB, this, _1)));
@@ -253,13 +258,14 @@ bool RefBoxComm::sendPrepareMachineCB(protoMsg &m)
 bool RefBoxComm::fireBeaconSignal(protoMsg &m)
 {
 	BeaconSignal &bs = dynamic_cast<BeaconSignal&>(m);
-
+/*
 #if __WORDSIZE == 64
     printf("Detected robot: %u %s:%s (seq %lu)\n",
 #else
     printf("Detected robot: %u %s:%s (seq %llu)\n",
 #endif
          bs.number(), bs.team_name().c_str(), bs.peer_name().c_str(), bs.seq());
+         */
 	return true;
 }
 
