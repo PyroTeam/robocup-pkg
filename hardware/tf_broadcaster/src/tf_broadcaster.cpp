@@ -1,0 +1,28 @@
+#include "tf_broadcaster/tf_broadcaster.h"
+
+void poseCallback(const nav_msgs::Odometry &odom)
+{
+    static tf::TransformBroadcaster mapToOdom;
+    static tf::TransformBroadcaster odomToBaseLink;
+    static tf::TransformBroadcaster baseLinkToLaserLink;
+
+    // Map to odom
+    tf::Transform transform;
+    transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
+    tf::Quaternion q;
+    q.setRPY(0.0, 0.0, 0.0);
+    transform.setRotation(q);
+    mapToOdom.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "map", "odom"));
+
+    // Odom to Base Link
+    transform.setOrigin(tf::Vector3(odom.pose.pose.position.x, odom.pose.pose.position.y, 0.0));
+    tf::quaternionMsgToTF(odom.pose.pose.orientation, q);
+    transform.setRotation(q);
+    odomToBaseLink.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "odom", "base_link"));
+
+    // Base Link to Laser Link
+    transform.setOrigin(tf::Vector3(0.1, 0.0, 0.232));
+    q.setRPY(0.0, 0.0, 0.0);
+    transform.setRotation(q);
+    baseLinkToLaserLink.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", "laser_link"));
+}
