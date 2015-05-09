@@ -21,7 +21,10 @@ void poseCallback(const nav_msgs::Odometry &odom)
     odomToBaseLink.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "odom", "base_link"));
 
     // Base Link to Laser Link
-    transform.setOrigin(tf::Vector3(0.1, 0.0, 0.232));
+    static double laser_link_x = 0;
+    ros::NodeHandle nh;
+    nh.param<double>("/laser_link_x", laser_link_x, 0.10);
+    transform.setOrigin(tf::Vector3(laser_link_x, 0.0, 0.232));
     q.setRPY(0.0, 0.0, 0.0);
     transform.setRotation(q);
     baseLinkToLaserLink.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", "laser_link"));
