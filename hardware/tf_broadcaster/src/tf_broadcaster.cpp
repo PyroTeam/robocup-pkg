@@ -12,13 +12,13 @@ void poseCallback(const nav_msgs::Odometry &odom)
     tf::Quaternion q;
     q.setRPY(0.0, 0.0, 0.0);
     transform.setRotation(q);
-    mapToOdom.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "map", "odom"));
+    mapToOdom.sendTransform(tf::StampedTransform(transform, odom.header.stamp, "map", "odom"));
 
     // Odom to Base Link
     transform.setOrigin(tf::Vector3(odom.pose.pose.position.x, odom.pose.pose.position.y, 0.0));
     tf::quaternionMsgToTF(odom.pose.pose.orientation, q);
     transform.setRotation(q);
-    odomToBaseLink.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "odom", "base_link"));
+    odomToBaseLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, "odom", "base_link"));
 
     // Base Link to Laser Link
     static double laser_link_x = 0;
@@ -27,5 +27,5 @@ void poseCallback(const nav_msgs::Odometry &odom)
     transform.setOrigin(tf::Vector3(laser_link_x, 0.0, 0.232));
     q.setRPY(0.0, 0.0, 0.0);
     transform.setRotation(q);
-    baseLinkToLaserLink.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", "laser_link"));
+    baseLinkToLaserLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, "base_link", "laser_link"));
 }
