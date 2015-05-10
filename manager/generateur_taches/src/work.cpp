@@ -40,25 +40,25 @@ void addInWork(list<list<Task> > &work, Order &order,int &availableCap){
 														order.getEndDelivery()));
 				availableCap --;
 			}
-		else
-		{
-			list<list<Task> >::iterator workIterator;
-			workIterator = work.begin();
-			while(workIterator != work.end() && !uncapInWork(*workIterator))
+			else
 			{
-				workIterator++;
-			}
-			if(workIterator != work.end())
-			{
-				list<Task> ltmp = creationListTasksProduct(order.getProduct(),order.getBeginningDelivery(), 
-														   order.getEndDelivery());
-				int tmpCreation = ltmp.begin()->getCreation();
-				workIterator->splice(workIterator->end(), ltmp);
-				workIterator->begin()->setCreation(tmpCreation + 30);
+				list<list<Task> >::iterator workIterator;
+				workIterator = work.begin();
+				while(workIterator != work.end() && !uncapInWork(*workIterator))
+				{
+					workIterator++;
+				}
+				if(workIterator != work.end())
+				{
+					list<Task> ltmp = creationListTasksProduct(order.getProduct(),order.getBeginningDelivery(), 
+															   order.getEndDelivery());
+					int tmpCreation = ltmp.begin()->getCreation();
+					workIterator->splice(workIterator->end(), ltmp);
+					workIterator->begin()->setCreation(tmpCreation + 30);
+				}
 			}
 		}
 	}
-}
 }
 
 //verifie s'il y a des taches qui ont un ratio superieur a zero
@@ -117,7 +117,7 @@ void ratioCalculus(list<list<Task> > &work,double time,int robot,bool take[]){
 		{
 			if(t_it->begin()->getTitle() == int(orderRequest::PUT_CAP) || 
 			   t_it->begin()->getTitle() == int(orderRequest::PUT_RING) || 
-			   t_it->begin()->getTitle() == int(orderRequest::DELIVER))
+			   t_it->begin()->getTitle() == int(orderRequest::DESTOCK))
 			{
 				t_it->begin()->setRatio(300);
 			}
