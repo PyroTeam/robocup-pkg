@@ -2,11 +2,12 @@
 #define LASERSCAN_H
 
 #include <vector>
+#include <list>
 #include <sensor_msgs/LaserScan.h>
+#include "geometry_msgs/Point.h"
 
-#include "Point.h"
-#include "Droite.h"
-#include "Modele.h"
+#include "Line.h"
+#include "Model.h"
 #include "Segment.h"
 
 class laserScan
@@ -17,50 +18,28 @@ public:
 
 	void PolarToCart();
 
-	float getRangeMin(){
-		return m_range_min;
-	}
-	float getRangeMax(){
-		return m_range_max;
-	}
-	float getAngleMin(){
-		return m_angle_min;
-	}
-	float getAngleMax(){
-		return m_angle_max;
-	}
-	float getAngleInc(){
-		return m_angle_inc;
-	}
-	const std::vector<float>& getRanges() const{
-		return m_ranges;
-	}
-	const std::list<Point>& getPoints() const{
-		return m_points;
-	}
+	float getRangeMin();
+	float getRangeMax();
+	float getAngleMin();
+	float getAngleMax();
+	float getAngleInc();
 
-	void setRangeMin(float min){
-		m_range_min=min;
-	}	
-	void setRangeMax(float max){
-		m_range_max=max;
-	}
-	void setAngleMin(float min){
-		m_angle_min=min;
-	}
-	void setAngleMax(float max){
-		m_angle_max=max;
-	}	
-	void setAngleInc(float inc){
-		m_angle_inc=inc;
-	}
+	const std::vector<float>& getRanges() const;
+	const std::list<geometry_msgs::Point>& getPoints() const;
+
+	void setRangeMin(float min);
+	void setRangeMax(float max);
+	void setAngleMin(float min);
+	void setAngleMax(float max);
+	void setAngleInc(float inc);
+
 	void set(const sensor_msgs::LaserScanConstPtr& scan);
 
 	void laserCallback(const sensor_msgs::LaserScanConstPtr& scan); 
 
 private:
 	std::vector<float> m_ranges;
-	std::list<Point>   m_points;
+	std::list<geometry_msgs::Point>   m_points;
 
 	float m_range_min;
 	float m_range_max;

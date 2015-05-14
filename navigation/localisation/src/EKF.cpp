@@ -38,25 +38,31 @@ int main( int argc, char** argv )
 
   while (n.ok())
   {
-    if(ekf.initOdom()) {
+    if(ekf.initOdom())
+    {
       ekf.prediction();
       int area;
   
       //si on observe une machine
-      if (ekf.getTabMachines().size() > 0){
+      if (ekf.getTabMachines().size() > 0)
+      {
         //pour toutes les machines observées
-        for (auto &it : ekf.getTabMachines()){
+        for (auto &it : ekf.getTabMachines())
+        {
           //on regarde si elle appartient à une zone
           int area = ekf.machineToArea(it);
           //si oui
-          if (area != 0){
+          if (area != 0)
+          {
             //si on a déjà vu une machine dans cette zone
-            if (ekf.test(area)){
+            if (ekf.test(area))
+            {
               //on corrige sa position et on se recale par rapport à celle ci
               ekf.correction(it, ekf.checkStateVector(it));
             }
             //sinon si elle est assez loin de toutes les machines existantes
-            else if (ekf.isFarFromEverything(it)){
+            else if (ekf.isFarFromEverything(it))
+            {
               // on ajoute cette machine
               std::cout << "ajout machine" << std::endl;
               ekf.addMachine(it);
@@ -78,7 +84,8 @@ int main( int argc, char** argv )
       robot.y = xMean(1);
   
       deplacement_msg::Landmarks m;
-      for (int i = 3; i < xMean.rows(); i = i + 3){
+      for (int i = 3; i < xMean.rows(); i = i + 3)
+      {
         geometry_msgs::Pose2D md;
         md.x     = xMean(i);
         md.y     = xMean(i+1);
@@ -87,7 +94,8 @@ int main( int argc, char** argv )
       }
   
       deplacement_msg::Landmarks l;
-      for (auto &it : ekf.getScan()){
+      for (auto &it : ekf.getScan())
+      {
         l.landmarks.push_back(it);
       }
   

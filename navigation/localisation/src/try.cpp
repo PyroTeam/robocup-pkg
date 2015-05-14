@@ -21,15 +21,13 @@ int main()
   geometry_msgs::Pose2D p;
   Matrix3d m;
   m.setZero();
-  Vector3d before;
-  Vector3d after;
+  Vector3d before, after;
 
   //translation
   m(1,2) = 0.1;
   
   //rotation
-  Matrix2d rot;
-  rot = Rotation2Dd(-M_PI_2);
+  Matrix2d rot = Rotation2Dd(-M_PI_2);
   m.topLeftCorner(2,2) = rot;
   m(2,2) = 1;
   std::cout << "m : \n" << m << std::endl;

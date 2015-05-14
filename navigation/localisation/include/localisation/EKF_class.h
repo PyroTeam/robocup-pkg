@@ -1,10 +1,9 @@
 #ifndef EKF_CLASS_H
 #define EKF_CLASS_H
 
-#include "geometry_msgs/Pose2D.h"
 #include "ros/ros.h"
-#include "nav_msgs/Odometry.h"
 #include "geometry_msgs/Pose2D.h"
+#include "nav_msgs/Odometry.h"
 #include <tf/transform_datatypes.h>
 #include <Eigen/Dense>
 #include <string>
