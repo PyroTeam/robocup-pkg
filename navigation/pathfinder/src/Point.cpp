@@ -1,5 +1,23 @@
 #include "pathfinder/Point.hpp"
 
+Point::Point()
+{
+    setPosition(0,0);
+    setType(INTERDIT);
+
+    setH(0);
+    setG(0);
+    setF(0);
+    setPointPrec(NULL);
+    setRaw(-1);
+    setColumn(-1);
+
+    m_opened=false;
+    m_closed=false;
+    m_lowerPoint=NULL;
+    m_greaterEqualPoint=NULL;
+    m_heapFatherPoint=NULL;
+}
 
 Point::Point(float x, float y, typePoint type)
 {
@@ -162,6 +180,15 @@ void Point::reset()
     setG(0);
     setF(0);
     setPointPrec(NULL);
+
+    m_lowerPoint = NULL;
+    m_greaterEqualPoint = NULL;
+    m_heapFatherPoint = NULL;
+    m_opened = false;
+    m_closed = false;
+
+    sm_openListSize = 0;
+    sm_closeListSize = 0;
 }
 
 
@@ -200,41 +227,126 @@ bool Point::isInCloseList()
     return m_closed;
 }
 
-void Point::insertInOpenList(Point *openList)
+void Point::insertInOpenList(Point** openList, bool trueInsert)
 {
     // Cas terminal, on insert le point ici
-    if(openList == NULL)
+    if((*openList) == NULL)
     {
         m_opened = true;
+        (*openList) = this;
+        if(trueInsert)
+        {
+            sm_openListSize++;
+        }
         return;
     }
 
-    // On sauvegarde le parent (au cas ou on est insere a la prochaine iteration)
-    m_heapFatherPoint = openList;
-    if(*this < *openList)
+    if(*this < *(*openList))
     {
         // On tente l'insertion sur la branche des inferieurs
-        insertInOpenList(openList->m_lowerPoint);
+        insertInOpenList(&((*openList)->m_lowerPoint), (*openList), trueInsert);
     }
     else
     {
         // On tente l'insertion sur la branche des superieurs ou egaux
-        insertInOpenList(openList->m_greaterEqualPoint);
+        insertInOpenList(&((*openList)->m_greaterEqualPoint), (*openList), trueInsert);
     }
 }
 
-void Point::removeFromOpenList()
+void Point::insertInOpenList(Point** openList, Point* father, bool trueInsert)
 {
-    // Reconstruction de l'arbre binaire
-    m_heapFatherPoint->m_greaterEqualPoint = m_lowerPoint;
-    m_greaterEqualPoint->insertInOpenList(m_lowerPoint);
+    m_heapFatherPoint = father;
+    insertInOpenList(openList, trueInsert);
+}
 
-    // RAZ du point
+void Point::insertInCloseList()
+{
+    m_closed = true;
+    sm_closeListSize++;
+}
+
+void Point::removeFromOpenList(Point** openList)
+{
+    // - Reconstruction de l'abre binaire
+    // Si il n'y a pas de pere
+    if(m_heapFatherPoint == NULL)
+    {
+        // On est le premier point de l'openList
+        if(m_greaterEqualPoint != NULL)
+        {
+            m_greaterEqualPoint->m_heapFatherPoint = m_heapFatherPoint;
+            *openList = m_greaterEqualPoint;
+
+            if(m_lowerPoint!=NULL) 
+            {
+                m_lowerPoint->insertInOpenList(&m_greaterEqualPoint, m_greaterEqualPoint, false); 
+            }
+        }
+        else
+        {
+            if(m_lowerPoint != NULL)
+            {
+                m_lowerPoint->m_heapFatherPoint = m_heapFatherPoint;
+            }
+            *openList = m_lowerPoint;
+        }
+    }
+    // Si il y a un pere
+    else 
+    {
+        // Si plus petit que le pere
+        if(*this < *m_heapFatherPoint)
+        {
+            if(m_greaterEqualPoint != NULL)
+            {
+                m_greaterEqualPoint->m_heapFatherPoint = m_heapFatherPoint;
+                m_heapFatherPoint->m_lowerPoint = m_greaterEqualPoint;
+
+                if(m_lowerPoint!=NULL) 
+                {
+                    m_lowerPoint->insertInOpenList(&m_greaterEqualPoint, m_greaterEqualPoint, false); 
+                }
+            }
+            else
+            {
+                if(m_lowerPoint != NULL)
+                {
+                    m_lowerPoint->m_heapFatherPoint = m_heapFatherPoint;
+                }
+                m_heapFatherPoint->m_lowerPoint = m_lowerPoint;
+            }
+
+        }
+        // Si plus grand que le pere
+        else 
+        {
+            if(m_lowerPoint != NULL)
+            {
+                m_lowerPoint->m_heapFatherPoint = m_heapFatherPoint;
+                m_heapFatherPoint->m_greaterEqualPoint = m_lowerPoint;
+
+                if(m_greaterEqualPoint!=NULL) 
+                {
+                    m_greaterEqualPoint->insertInOpenList(&m_lowerPoint, m_lowerPoint, false); 
+                }
+            }
+            else
+            {
+                if(m_greaterEqualPoint != NULL)
+                {
+                    m_greaterEqualPoint->m_heapFatherPoint = m_heapFatherPoint;
+                }
+                m_heapFatherPoint->m_greaterEqualPoint = m_greaterEqualPoint;
+            }
+        }
+    }
+
+    // - Raz du point
     m_lowerPoint = NULL;
     m_greaterEqualPoint = NULL;
     m_heapFatherPoint = NULL;
     m_opened = false;
-    m_closed = true;
+    sm_openListSize--;    
 }
 
 Point* Point::getLowerFromOpenList(Point *openList)
@@ -264,3 +376,107 @@ bool Point::openListIsEmpty(Point *openList)
         return true;
     }
 }
+
+unsigned int Point::openListSize()
+{
+    return sm_openListSize;
+}
+
+unsigned int Point::closeListSize()
+{
+    return sm_closeListSize;
+}
+
+void Point::printList(Point* openList, int &cpt)
+{
+    if(openList == NULL)
+    {
+        std::cout << "Open List is Empty ! " << std::endl;
+        return;
+    }
+
+    if(openList->m_lowerPoint != NULL)
+    {
+        printList(openList->m_lowerPoint, cpt);
+    }
+    
+    std::cout << openList->getF() << " (" << openList->getRaw() << ";" << openList->getColumn() << ")" << std::endl;
+    std::cout << " \t:Fat: " <<((openList->m_heapFatherPoint)?openList->m_heapFatherPoint->str():"NULL") 
+    << " :Low: " << ((openList->m_lowerPoint)?openList->m_lowerPoint->str():"NULL") 
+    << " :Gre: " << ((openList->m_greaterEqualPoint)?openList->m_greaterEqualPoint->str():"NULL") << "" << std::endl;
+    cpt++;
+
+    if(openList->m_greaterEqualPoint != NULL)
+    {
+        printList(openList->m_greaterEqualPoint, cpt);
+    }
+}
+
+int Point::countListRecurs(Point* openList, int &cpt)
+{
+    if(openList == NULL)
+    {
+        cpt = 0;
+        return cpt;
+    }
+
+    if(openList->m_lowerPoint != NULL)
+    {
+        countListRecurs(openList->m_lowerPoint, cpt);
+    }
+    cpt++;
+
+    if(openList->m_greaterEqualPoint != NULL)
+    {
+        countListRecurs(openList->m_greaterEqualPoint, cpt);
+    }
+
+    return cpt;
+}
+
+
+int Point::countList(Point* openList)
+{
+    int count = 0;
+    countListRecurs(openList, count);
+
+    return count;
+}
+
+void Point::printList2(Point* openList, int &cpt)
+{
+    if(openList == NULL)
+    {
+        std::cout << "Open List is Empty ! " << std::endl;
+        return;
+    }
+
+    std::cout << openList->getF() << " (" << openList->getRaw() << ";" << openList->getColumn() << ")" << std::endl;
+    std::cout << " \t:Fat: " <<((openList->m_heapFatherPoint)?openList->m_heapFatherPoint->str():"NULL") 
+    << " :Low: " <<openList->m_lowerPoint<<" "<< ((openList->m_lowerPoint)?openList->m_lowerPoint->str():"NULL") 
+    << " :Gre: " <<openList->m_greaterEqualPoint<<" "<< ((openList->m_greaterEqualPoint)?openList->m_greaterEqualPoint->str():"NULL") << "" << std::endl;
+    cpt++;
+
+    std::cout << "LOW " << openList->m_lowerPoint <<std::endl;
+    if(openList->m_lowerPoint != NULL)
+    {
+        printList2(openList->m_lowerPoint, cpt);
+    }
+    
+    std::cout << "UP " << openList->m_greaterEqualPoint << std::endl;
+    if(openList->m_greaterEqualPoint != NULL)
+    {
+        printList2(openList->m_greaterEqualPoint, cpt);
+    }
+}
+
+std::string Point::str()
+{
+    std::cout << getF() <<" ("<< getRaw() <<";"<< getColumn() <<") ";
+    
+    return "";
+}
+
+// Static init
+unsigned int Point::sm_openListSize = 0;
+unsigned int Point::sm_closeListSize = 0;

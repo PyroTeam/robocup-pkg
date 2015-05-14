@@ -40,9 +40,11 @@ public:
     void setClean(bool c);
 
     // Grid
-    void gridCallback(nav_msgs::OccupancyGridConstPtr grid);
+    void gridCallback(nav_msgs::OccupancyGridConstPtr grid);    
     void constructMap(nav_msgs::OccupancyGridConstPtr grid);
+    void updateMap(nav_msgs::OccupancyGridConstPtr grid);
     void constructMap();
+    void destructMap();
 
 private:
     // Points

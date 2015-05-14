@@ -13,6 +13,8 @@ m_origin_y(-2)
     m_heuristicFonction  = EUCLIDEAN;
     m_poidsHeuristic     = 1;
 
+    constructMap();
+
     ROS_INFO("Objet AStar correctement instanciee (EUCLIDEAN)");
 }
 
@@ -20,25 +22,23 @@ m_origin_y(-2)
 
 void AStar::gridCallback(nav_msgs::OccupancyGridConstPtr grid)
 {
-    constructMap(grid);
+    updateMap(grid);
 }
 
-void AStar::constructMap(nav_msgs::OccupancyGridConstPtr grid)
+void AStar::updateMap(nav_msgs::OccupancyGridConstPtr grid)
 {
     //Création des points
     for (int i = 0; i < m_height; ++i)
     {
         for (int j = 0; j < m_width; ++j)
         {
-            delete m_pointsPassage[i][j];
-            m_pointsPassage[i][j] = new Point(m_origin_x+m_resolution/2+j*m_resolution,m_origin_y+m_resolution/2+i*m_resolution,i,j);
             if(grid->data[i*m_width+j] != 0) {
                 m_pointsPassage[i][j]->setType(INTERDIT);
             } else {
                 m_pointsPassage[i][j]->setType(LIBRE);
             }
         }
-    }       
+    }
 }
 
 void AStar::constructMap()
@@ -49,13 +49,26 @@ void AStar::constructMap()
         for (int j = 0; j < m_width; ++j)
         {
             delete m_pointsPassage[i][j];
-            m_pointsPassage[i][j] = new Point(-m_origin_x+m_resolution/2+j*m_resolution,m_origin_y+m_resolution/2+i*m_resolution,i,j);
+            m_pointsPassage[i][j] = new Point(m_origin_x+m_resolution/2+j*m_resolution,m_origin_y+m_resolution/2+i*m_resolution,i,j);
         }
-    }       
+    }
+}
+
+void AStar::destructMap()
+{
+    //Création des points
+    for (int i = 0; i < m_height; ++i)
+    {
+        for (int j = 0; j < m_width; ++j)
+        {
+            delete m_pointsPassage[i][j];
+        }
+    }
 }
 
 AStar::~AStar()
 {   
+    destructMap();
 }
 
 // AStar    
@@ -257,27 +270,31 @@ signed int AStar::computeAStar(std::vector<Point*> &path,
 // Environement
     // Il faut remettre a zero tout AStar
     reset();
-    std::set<Point*,CompareF> openList;    // Tableau associatifs de points tries selon F
-    std::set<Point*> closeList;
-
+    Point* openList = NULL;
 
 // Algo 
     // Le point de depart sera le premier evalue
-    openList.insert(startPoint);      
-    ROS_INFO_STREAM("startPoint : " << startPoint <<" count in list ? " << openList.count(startPoint));      
+    startPoint->insertInOpenList(&openList, openList);   
 
     // Tant qu'il reste des points a evaluer, on persevere   
-    while(!openList.empty())                   
+    while(!Point::openListIsEmpty(openList))                   
     {
-        ROS_INFO_STREAM("OpenList size : " << openList.size());
+        ROS_INFO_STREAM("OpenList size : " << Point::openListSize());
+        ROS_INFO_STREAM("CloseList size : " << Point::closeListSize());    
+        if(Point::openListSize() != Point::countList(openList))
+        {
+            ROS_ERROR("Incoherence size et count");
+            exit(666);
+        }
 
         // A chaque iteartion, on evalue le point avec le plus petit F 
         //  (au tout debut il n'y a que startPoint)
-        Point *actualPoint = *(openList.begin());
-        ROS_INFO_STREAM("actualPoint : " << actualPoint <<" count in list ? " << openList.count(actualPoint));
+        Point *actualPoint = Point::getLowerFromOpenList(openList);
 
-        if(openList.count(actualPoint) == 0)
+        if(!actualPoint->isInOpenList())
         {
+            ROS_ERROR("ActualPoint not int OpenList");
+
             ROS_WARN("ActualPoint %d;%d (%f;%f) %f|%f|%f"
                 , actualPoint->getRaw()
                 , actualPoint->getColumn()
@@ -287,33 +304,13 @@ signed int AStar::computeAStar(std::vector<Point*> &path,
                 , actualPoint->getG()
                 , actualPoint->getH());
 
-            ROS_INFO("startPoint %d;%d (%f;%f) %f|%f|%f"
-                , startPoint->getRaw()
-                , startPoint->getColumn()
-                , startPoint->getX()
-                , startPoint->getY()
-                , startPoint->getF()
-                , startPoint->getG()
-                , startPoint->getH());
-
-
             exit(666);
         }
 
         // On passe le point d'open a close list
-        closeList.insert(actualPoint);
-        openList.erase(actualPoint);
-
-
-        ROS_INFO("ActualPoint %d;%d (%f;%f) %f|%f|%f"
-            , actualPoint->getRaw()
-            , actualPoint->getColumn()
-            , actualPoint->getX()
-            , actualPoint->getY()
-            , actualPoint->getF()
-            , actualPoint->getG()
-            , actualPoint->getH());
-
+        actualPoint->removeFromOpenList(&openList);
+        actualPoint->insertInCloseList();
+        
         // Si le point a evaluer n'est pas le point d'arrive, on continue AStar
         if(actualPoint != endPoint)
         {
@@ -330,7 +327,7 @@ signed int AStar::computeAStar(std::vector<Point*> &path,
             for (auto &neighbour : neighbours)
             {
                 // Si neighbour a déjà été évalué - iteration suivante
-                if(closeList.count(neighbour) != 0)
+                if(neighbour->isInCloseList())
                 {
                     continue;
                 }
@@ -341,28 +338,50 @@ signed int AStar::computeAStar(std::vector<Point*> &path,
                 // Si le neighbour n'et pas deja dans a evalue 
                 // ou que le nouveau g est plus interessant
                 // on modifie et on stocke
-                if( openList.count(neighbour) == 0 ||
+                if( !neighbour->isInOpenList() ||
                     newG < neighbour->getG())
-                {
-                    neighbour->setPointPrec(actualPoint);
-                    neighbour->setG(newG);
-                    neighbour->setH((neighbour->getH())?neighbour->getH():heuristic(neighbour, endPoint));
-                    neighbour->setF(neighbour->getG()+m_poidsHeuristic*neighbour->getH());
-                    
+                {             
+                    if(!neighbour->isInOpenList()) 
+                    {   
+                        neighbour->setPointPrec(actualPoint);
+                        neighbour->setG(newG);
+                        neighbour->setH((neighbour->getH())?neighbour->getH():heuristic(neighbour, endPoint));
+                        neighbour->setF(neighbour->getG()+m_poidsHeuristic*neighbour->getH());
 
-                    if(openList.count(neighbour) == 0) 
-                    {
-                        openList.insert(neighbour);
+                        neighbour->insertInOpenList(&openList);
                         newPointCounter++;
+
+
+                        // ROS_WARN("Ajout %d;%d "
+                        //     , neighbour->getRaw()
+                        //     , neighbour->getColumn());
                     }
                     else
                     {
+                        neighbour->removeFromOpenList(&openList);
+
+                        float oldF = neighbour->getF();
+
+                        neighbour->setPointPrec(actualPoint);
+                        neighbour->setG(newG);
+                        neighbour->setH((neighbour->getH())?neighbour->getH():heuristic(neighbour, endPoint));
+                        neighbour->setF(neighbour->getG()+m_poidsHeuristic*neighbour->getH());
+
+                        neighbour->insertInOpenList(&openList);
+
                         updatedPointCounter++;
                         s_totalUpdatedPointCounter++;
+
+                        // ROS_WARN("Update %d;%d NEWF %f OLD %f"
+                        //     , neighbour->getRaw()
+                        //     , neighbour->getColumn()
+                        //     , neighbour->getF()
+                        //     , oldF);
                     }
                 }
             }
             ROS_INFO("Ajout de %d point(s), MAJ de %d point(s)",newPointCounter,updatedPointCounter);
+            ROS_INFO("MAJ TOTAL de %d point(s)",s_totalUpdatedPointCounter);
 
         }
         // Sinon si le point a evaluer est le point d'arrive, on a trouve notre chemin
