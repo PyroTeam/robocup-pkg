@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 
     ros::ServiceServer service = n.advertiseService("generatePath", generatePath_callback);
     
-    ROS_INFO("Ready to compute A Star pathfinding.");
+    ROS_DEBUG("Ready to compute A Star pathfinding.");
 
     boost::thread computeAStar_thread(&computeAStar_thread_function);
 
@@ -53,28 +53,19 @@ int main(int argc, char **argv)
 bool generatePath_callback( pathfinder::GeneratePath::Request  &req,
                             pathfinder::GeneratePath::Response &res)
 {
-    ROS_INFO("GeneratePath request - ID : %d", req.id);
+    ROS_DEBUG("GeneratePath request - ID : %d", req.id);
     if(!req.utilisePositionOdometry)
     {
-        ROS_INFO("Pose Depart (Utilisation du parametre) : \n\
+        ROS_DEBUG("Pose Depart (Utilisation du parametre) : \n\
                   X: %f |\
-                  Y : %f |\
-                  Theta : %f",
+                  Y : %f",
                   req.Depart.position.x,
-                  req.Depart.position.y,
-                  tf::getYaw(req.Depart.orientation));
+                  req.Depart.position.y);
     }
     else
     {
-        ROS_INFO("Pose Depart (Utilisation de l'odometrie): \nX: %f | Y : %f | Theta : %f",0.0,0.0,0.0);
+        ROS_DEBUG("Pose Depart (Utilisation de l'odometrie): \nX: %f | Y : %f | Theta : %f",0.0,0.0,0.0);
     }
-    ROS_INFO("Pose Arrivee :\n\
-              X: %f |\
-              Y : %f |\
-              Theta : %f",
-              req.Arrivee.position.x,
-              req.Arrivee.position.y,
-              tf::getYaw(req.Arrivee.orientation));
 
     if(pathReq.processing == true || req.id == lastIdReceived)
     {
@@ -127,7 +118,7 @@ void computeAStar_thread_function()
     {
         if(lastId != pathReq.id)
         {
-            ROS_INFO("~~~~~~~~~~\ncomputeAStar : will start the path request id:%d\
+            ROS_DEBUG("~~~~~~~~~~\ncomputeAStar : will start the path request id:%d\
                 \nWith points start %f:%f and end %f:%f",pathReq.id,pathReq.startPose.x,pathReq.startPose.y,pathReq.goalPose.x,pathReq.goalPose.y);
 
             pathReq.processing = true;
@@ -142,14 +133,14 @@ void computeAStar_thread_function()
                 pathReq.startPose.y,
                 startPoint)){ROS_ERROR("getNearestPoint START Failed");}
             else{
-                ROS_INFO("getNearestPoint START Suceeded, will start at %f:%f",startPoint->getX(),startPoint->getY());
+                ROS_DEBUG("getNearestPoint START Suceeded, will start at %f:%f",startPoint->getX(),startPoint->getY());
             }
             if(mapRobocup.getNearestPoint(
                 pathReq.goalPose.x,
                 pathReq.goalPose.y,
                 endPoint)){ROS_ERROR("getNearestPoint END Failed");}
             else{
-                ROS_INFO("getNearestPoint END Suceeded, will stop at %f:%f",endPoint->getX(),endPoint->getY());
+                ROS_DEBUG("getNearestPoint END Suceeded, will stop at %f:%f",endPoint->getX(),endPoint->getY());
             }
             
             pathFound.id = actualOrders.id;
@@ -174,7 +165,7 @@ void computeAStar_thread_function()
                 chemin.front() == startPoint &&
                 chemin.back() == endPoint)
             {
-                ROS_WARN("Path finding sucessfull. Will publish path soon.");
+                ROS_INFO("Path finding sucessfull. Will publish path soon.");
                 std::size_t i;
 
                 for(i=0;i<chemin.size()-1;++i)
@@ -200,7 +191,6 @@ void computeAStar_thread_function()
             }
             else
             {
-                ROS_WARN("Path finding unsucessfull ...");
                 pathfinderState.state = pathfinderState.ECHEC;
             }
 
