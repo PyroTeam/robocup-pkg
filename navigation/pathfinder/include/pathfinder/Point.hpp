@@ -3,12 +3,17 @@
 
 #include <cmath>
 #include <cstddef>
+#include <string>
+
+#include "ros/ros.h"
 
 enum typePoint{LIBRE=1,OCCUPE_AMI,OCCUPE_ADVERSAIRE,INTERDIT};
 
 class Point
 {
 public:
+
+    Point();
     Point(float x, float y, typePoint type = LIBRE);
     Point(float x, float y, signed int raw, signed int column, typePoint type = LIBRE);
     ~Point();
@@ -39,10 +44,19 @@ public:
     // AStar Openset
     bool isInOpenList();
     bool isInCloseList();
-    void insertInOpenList(Point *openList);
-    void removeFromOpenList();
-    Point* getLowerFromOpenList(Point *openList);
-    bool openListIsEmpty(Point *openList);
+    void insertInOpenList(Point** openList, bool trueInsert = true);
+    void insertInOpenList(Point** openList, Point* father, bool trueInsert = true);
+    void insertInCloseList();
+    void removeFromOpenList(Point** openList);
+    static Point* getLowerFromOpenList(Point *openList);
+    static bool openListIsEmpty(Point *openList);
+    static unsigned int openListSize();
+    static unsigned int closeListSize();
+    static void printList(Point* openList, int &cpt);
+    static int countListRecurs(Point* openList, int &cpt);
+    static int countList(Point* openList);
+    static void printList2(Point* openList, int &cpt);
+    std::string str();
 
 private:
     // Position du point
@@ -60,12 +74,15 @@ private:
     float m_g;  // Distance connue depuis depart
     float m_f;  // Distance du chemin via ce point -> connue depuis depart + estimee jusqu'a arrivee (g+h)
 
+public:
     // AStar Openset
     bool m_opened;
     bool m_closed;
     Point* m_lowerPoint;
     Point* m_greaterEqualPoint;
     Point* m_heapFatherPoint;
+    static unsigned int sm_openListSize;
+    static unsigned int sm_closeListSize;
 
 };
 
