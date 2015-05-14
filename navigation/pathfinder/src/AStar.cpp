@@ -1,158 +1,160 @@
 #include "pathfinder/AStar.hpp"
 
-	AStar::AStar()
-	: _clean(true),
-	_resolution(0.05),
-	_width(280),
-	_height(180),
-	_origin_x(-7),
-	_origin_y(-2)
-	{		
-		ROS_INFO("Objet AStar, instanciation");	
+AStar::AStar()
+: m_clean(true),
+m_resolution(0.05),
+m_width(280),
+m_height(180),
+m_origin_x(-7),
+m_origin_y(-2)
+{       
+    m_allowDiagonal      = true;
+    m_crossCorner        = false;
+    m_heuristicFonction  = EUCLIDEAN;
+    m_poidsHeuristic     = 1;
 
-		_allowDiagonal 		= true;
-		_crossCorner 		= false;
-		_heuristicFonction  = EUCLIDEAN;
-        // _heuristicFonction  = MANHATTAN;
-		_poidsHeuristic 	= 1;
-
-		ROS_INFO("Objet AStar correctement instanciee (EUCLIDEAN)");
-	}
+    ROS_INFO("Objet AStar correctement instanciee (EUCLIDEAN)");
+}
 
 
 
-	void AStar::gridCallback(nav_msgs::OccupancyGridConstPtr grid)
-	{
-	    constructMap(grid);
-	}
+void AStar::gridCallback(nav_msgs::OccupancyGridConstPtr grid)
+{
+    constructMap(grid);
+}
 
-	void AStar::constructMap(nav_msgs::OccupancyGridConstPtr grid)
-	{
-		//Création des points
-		for (int i = 0; i < _height; ++i)
-		{
-			for (int j = 0; j < _width; ++j)
-			{
-				delete _pointsPassage[i][j];
-				_pointsPassage[i][j] = new Point(_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
-				if(grid->data[i*_width+j] != 0) {
-					_pointsPassage[i][j]->setType(INTERDIT);
-				} else {
-					_pointsPassage[i][j]->setType(LIBRE);
-				}
-			}
-		}		
-	}
+void AStar::constructMap(nav_msgs::OccupancyGridConstPtr grid)
+{
+    //Création des points
+    for (int i = 0; i < m_height; ++i)
+    {
+        for (int j = 0; j < m_width; ++j)
+        {
+            delete m_pointsPassage[i][j];
+            m_pointsPassage[i][j] = new Point(m_origin_x+m_resolution/2+j*m_resolution,m_origin_y+m_resolution/2+i*m_resolution,i,j);
+            if(grid->data[i*m_width+j] != 0) {
+                m_pointsPassage[i][j]->setType(INTERDIT);
+            } else {
+                m_pointsPassage[i][j]->setType(LIBRE);
+            }
+        }
+    }       
+}
 
-	void AStar::constructMap()
-	{
-		//Création des points
-		for (int i = 0; i < _height; ++i)
-		{
-			for (int j = 0; j < _width; ++j)
-			{
-				delete _pointsPassage[i][j];
-				_pointsPassage[i][j] = new Point(-_origin_x+_resolution/2+j*_resolution,_origin_y+_resolution/2+i*_resolution,i,j);
-			}
-		}		
-	}
+void AStar::constructMap()
+{
+    //Création des points
+    for (int i = 0; i < m_height; ++i)
+    {
+        for (int j = 0; j < m_width; ++j)
+        {
+            delete m_pointsPassage[i][j];
+            m_pointsPassage[i][j] = new Point(-m_origin_x+m_resolution/2+j*m_resolution,m_origin_y+m_resolution/2+i*m_resolution,i,j);
+        }
+    }       
+}
 
-	AStar::~AStar()
-	{	
-	}
+AStar::~AStar()
+{   
+}
 
-	// AStar	
-	void AStar::setAllowDiagonal(bool allowDiagonal)
-	{
-		_allowDiagonal = allowDiagonal;
-	}
+// AStar    
+void AStar::setAllowDiagonal(bool allowDiagonal)
+{
+    m_allowDiagonal = allowDiagonal;
+}
 
-	void AStar::setCrossCorner(bool crossCorner)
-	{
-		_crossCorner = crossCorner;
-	}
+void AStar::setCrossCorner(bool crossCorner)
+{
+    m_crossCorner = crossCorner;
+}
 
-	void AStar::setPoidsHeuristic(signed int poids)
-	{
-		_poidsHeuristic = poids;
-	}
+void AStar::setPoidsHeuristic(signed int poids)
+{
+    m_poidsHeuristic = poids;
+}
 
-	// Utilise la fonction heuristic appropriee, selon notre choix de depart
-	float AStar::heuristic(Point const& pointDepart, Point const& pointDistant)
-	{
-		switch(_heuristicFonction)
-		{
-			case MANHATTAN:
-				return heuristicManhattan(pointDepart,pointDistant);
-			break;
+// Utilise la fonction heuristic appropriee, selon notre choix de depart
+float AStar::heuristic(Point const *pointDepart, Point const *pointDistant)
+{
+    switch(m_heuristicFonction)
+    {
+        case MANHATTAN:
+            return heuristicManhattan(pointDepart,pointDistant);
+        break;
 
-			case EUCLIDEAN:
-				return heuristicEuclidean(pointDepart,pointDistant);
-			break;
+        case EUCLIDEAN:
+            return heuristicEuclidean(pointDepart,pointDistant);
+        break;
 
-			default:
-				return -1;
-			break;
-		}
-	}
+        case CHEBYSHEV:
+            return heuristicChebyshev(pointDepart,pointDistant);
+        break;
 
-	// Heuristic du taxi -> voir wikipedia, pertinent quand on ne se deplace pas ou peu en diagonale
-	float AStar::heuristicManhattan(Point const& pointDepart, Point const& pointDistant)
-	{
-		float dist  = 0;
-		float distX = 0, distY = 0;
+        default:
+            ROS_ERROR("AStar::heuristic : Heuristique %d INCONNU", m_heuristicFonction);
+            return -1;
+        break;
+    }
+}
 
-		distX = fabs(pointDistant.getX() - pointDepart.getX());
-		distY = fabs(pointDistant.getY() - pointDepart.getY());
+// Heuristic du taxi -> voir wikipedia, pertinent quand on ne se deplace pas ou peu en diagonale
+float AStar::heuristicManhattan(Point const *pointDepart, Point const *pointDistant)
+{
+    float dist  = 0;
+    float distX = 0, distY = 0;
 
-		dist  = distX + distY;
+    distX = fabs(pointDistant->getX() - pointDepart->getX());
+    distY = fabs(pointDistant->getY() - pointDepart->getY());
 
-		return dist;
-	}
+    dist  = distX + distY;
 
-	// Heuristic "vol d'oiseau"
-	float AStar::heuristicEuclidean(Point const& pointDepart, Point const& pointDistant)
-	{
-		float dist  = 0;
-		float distX = 0, distY = 0;
+    return dist;
+}
 
-		distX = fabs(pointDistant.getX() - pointDepart.getX());
-		distY = fabs(pointDistant.getY() - pointDepart.getY());
+// Heuristic "vol d'oiseau"
+float AStar::heuristicEuclidean(Point const *pointDepart, Point const *pointDistant)
+{
+    float dist  = 0;
+    float distX = 0, distY = 0;
 
-		dist = std::sqrt(std::pow(distX,2)+std::pow(distY,2));
+    distX = fabs(pointDistant->getX() - pointDepart->getX());
+    distY = fabs(pointDistant->getY() - pointDepart->getY());
 
-		return dist;
-	}
+    dist = std::sqrt(distX*distX + distY*distY);
 
-	float AStar::heuristicChebyshev(Point const& pointDepart, Point const& pointDistant)
-	{
-		float dist = 0;
-		float distX = 0, distY = 0;
+    return dist;
+}
 
-		distX = fabs(pointDistant.getX() - pointDepart.getX());
-		distY = fabs(pointDistant.getY() - pointDepart.getY());
+float AStar::heuristicChebyshev(Point const *pointDepart, Point const *pointDistant)
+{
+    float dist = 0;
+    float distX = 0, distY = 0;
 
-		dist = std::max(distX,distY);
+    distX = fabs(pointDistant->getX() - pointDepart->getX());
+    distY = fabs(pointDistant->getY() - pointDepart->getY());
 
-		return dist;
-	}
+    dist = std::max(distX,distY);
 
-	void AStar::setHeuristicFunction(typeHeuristic heuristicFonction)
-	{
-		_heuristicFonction = heuristicFonction;
-	}
+    return dist;
+}
 
-	bool AStar::isFreeAt(signed int li, signed int col)
-	{
-		if(li < nbPointsLignes && li >= 0 && col < nbPointsColonnes && col>=0)
-			return _pointsPassage[li][col]->isFree();
-		else 
-			return false;
-	}
+void AStar::setHeuristicFunction(typeHeuristic heuristicFonction)
+{
+    m_heuristicFonction = heuristicFonction;
+}
+
+bool AStar::isFreeAt(signed int raw, signed int col)
+{
+    if(raw < nbPointsLignes && raw >= 0 && col < nbPointsColonnes && col>=0)
+        return m_pointsPassage[raw][col]->isFree();
+    else 
+        return false;
+}
 
 /*
  *
- * 	simpleOffsets:	diagonalOffsets:
+ *  simpleOffsets:  diagonalOffsets:
  *  +---+---+---+    +---+---+---+
  *  |   | 0 |   |    | 0 |   | 1 |
  *  +---+---+---+    +---+---+---+
@@ -164,283 +166,312 @@
  */
  /**
   * Retourne tous les voisins d'un point en prenant en compte les paramètres : 
-  * _allowDiagonal et _crossCorner
+  * m_allowDiagonal et m_crossCorner
   */
-	signed int AStar::getVoisins(std::vector<Point*> &voisins, Point *oirigin)
-	{
-		voisins.clear();
-		signed int col, li;
-		col = oirigin->getColonne();
-		li  = oirigin->getLigne();
+signed int AStar::getVoisins(std::vector<Point*> &voisins, Point *oirigin)
+{
+    voisins.clear();
+    signed int col, li;
+    col = oirigin->getColumn();
+    li  = oirigin->getRaw();
 
-		bool s0 = false, d0 = false,
-        	 s1 = false, d1 = false,
-        	 s2 = false, d2 = false,
-        	 s3 = false, d3 = false;
-
-
-	    // ↑
-	    if (isFreeAt(li - 1, col))
-	    {
-	        voisins.push_back(_pointsPassage[li - 1][col]);
-	        s0 = true;
-	    }
-	    // →
-	    if (isFreeAt(li, col + 1))
-	    {
-	        voisins.push_back(_pointsPassage[li][col + 1]);
-	        s1 = true;
-	    }
-	    // ↓
-	    if (isFreeAt(li + 1, col))
-	    {
-	        voisins.push_back(_pointsPassage[li + 1][col]);
-	        s2 = true;
-	    }
-	    // ←
-	    if (isFreeAt(li, col - 1))
-	    {
-	        voisins.push_back(_pointsPassage[li][col - 1]);
-	        s3 = true;
-	    }
-
-	    if (!_allowDiagonal)
-	        return 0;
-
-	    // Les simple s0 à s3 remplient precedemment permettent 
-	    // de trouver les diagonals d0 à d3 franchissable ou non
-	    if (!_crossCorner)
-	    {
-	        d0 = s3 && s0;
-	        d1 = s0 && s1;
-	        d2 = s1 && s2;
-	        d3 = s2 && s3;
-	    }
-	    else
-	    {
-	        d0 = s3 || s0;
-	        d1 = s0 || s1;
-	        d2 = s1 || s2;
-	        d3 = s2 || s3;
-	    }
-
-	    // ↖
-	    if (d0 && isFreeAt(li - 1, col - 1))
-	    {
-	        voisins.push_back(_pointsPassage[li - 1][col - 1]);
-	    }
-	    // ↗
-	    if (d1 && isFreeAt(li - 1, col + 1))
-	    {
-	        voisins.push_back(_pointsPassage[li - 1][col + 1]);
-	    }
-	    // ↘
-	    if (d2 && isFreeAt(li + 1, col + 1))
-	    {
-	        voisins.push_back(_pointsPassage[li + 1][col + 1]);
-	    }
-	    // ↙
-	    if (d3 && isFreeAt(li + 1, col - 1))
-	    {
-	        voisins.push_back(_pointsPassage[li + 1][col - 1]);
-	    }
-	    return 0;
-	}
-
-	// Algo AStar a proprement parler
-	signed int AStar::computeAStar(std::vector<Point*> &chemin,
-								 Point *startPoint,
-								 Point *endPoint)
-	{
-		std::cout << "computeAStar : start("
-		<< startPoint->getLigne() << ','
-		<< startPoint->getColonne() << ") | end("
-		<< endPoint->getLigne() << ','
-		<< endPoint->getColonne() << ")" << std::endl;
-
-		// Il faut remettre a zero tout AStar
-		chemin.clear();
-		reset();
-		std::multiset<Point*,CompareF> aEvaluer;	// Tableau associatifs de points tries selon F
-		std::multiset<Point*> dejaEvalue;
-		std::vector<Point*> voisins;
-		unsigned int i;
-
-		aEvaluer.insert(startPoint);				// On commence l'evaluation par le point de depart
-
-		while(!aEvaluer.empty())					// Tant qu'il reste des points a evaluer, on persevere
-		{
-			Point *p;
-
-			p = *(aEvaluer.begin());				// On commence par evaluer le point avec le plus petit F (au tout debut il n'y a que start)
-
-			//ROS_INFO("\nA Evaluer Contains :");
-			//Affichage du tableau de points à évaluer
-
- 			/*for (std::multiset<Point*>::iterator it=aEvaluer.begin();
- 				 it!=aEvaluer.end();
- 				 ++it )
- 			{
- 				std::cout << " ("
- 				<< (*it)->getLigne() << ','
- 				<< (*it)->getColonne() << "):"
- 				<< (*it)->getF();
- 			} 
- 			std::cout << '\n';
- 
- 			//Affichage du point évalué
-
-         	std::cout << "Point evalue: ("
- 				<< p->getLigne() << ','
- 				<< p->getColonne() << "):"
-				<< " f :" << p->getF()
-				<< " g :" << p->getG()
-				<< " h :" << p->getH()
-				<< std::endl;*/
-
-			// Si le point a evaluer est le point d'arrive, on a trouve notre chemin
-			if(p == endPoint)
-			{
-				ROS_INFO("Arrive au point terminal !");
-
-				// Il faut reconstruire le chemin en remontant de parents en parents
-				Point* prec;
-                int count = 0;
-				do
-				{
-					count++;
-		            // ROS_INFO("Count = %d", count);
-
-					chemin.push_back(p);
-					p->getPointPrec(prec);
-					p = prec;
-
-				} while(prec != NULL);
-		        ROS_INFO("Nb Points chemin = %d", count);
-
-				// Le chemin est constuit a l'envers, il faut le retourner
-				std::reverse(chemin.begin(),chemin.end());
-
-                setClean(false);
-				return 0;
-			}
-
-			// Le point que l'on evalue passe dans la liste deja evaluees
-			dejaEvalue.insert(p);
-			aEvaluer.erase(p);
-			getVoisins(voisins,p);
-
-			// On va ajouter tous les voisins a la liste aEvaluer, en construisant leurs infos F, G et H
-			// Ils seront automatiquement tries par F croissant, ainsi au prochain tours on evaluera celui le plus proche de l'arrivee
-			// (celui avec le F le plus petit)
-			//ROS_INFO("Non evalue, evaluation des voisins");
-			for (i = 0; i < voisins.size(); i++)
-			{
-				// Si voisins[i] a déjà été évalué - iteration suivante
-				if(dejaEvalue.count(voisins[i]) > 0 && voisins[i])
-				{
-					continue;
-				}
-
-				// Sinon - calcul g potentiel
-				signed int newG = p->getG() + voisins[i]->distWith(*p);
-
-				// Si le voisins[i] n'et pas deja dans a evalue 
-				// ou que le nouveau g est plus interessant
-				// on modifie et on stocke
-
-				if( aEvaluer.count(voisins[i]) == 0 ||
-					newG < voisins[i]->getG())
-				{
-					voisins[i]->setPointPrec(p);
-					voisins[i]->setG(newG);
-					voisins[i]->setH((voisins[i]->getH())?voisins[i]->getH():heuristic(*voisins[i], *endPoint));
-					voisins[i]->setF(voisins[i]->getG()+_poidsHeuristic*voisins[i]->getH());
-					
-					aEvaluer.insert(voisins[i]);
-				}
-			}
-		}
-
-		setClean(false);
-		return 0;		
-	}
+    bool s0 = false, d0 = false,
+         s1 = false, d1 = false,
+         s2 = false, d2 = false,
+         s3 = false, d3 = false;
 
 
-	signed int AStar::getPointAt(signed int ligne, signed int colonne, Point*& point) const
-	{
-		if( ligne < nbPointsLignes &&
-			ligne >= 0 &&
-			colonne < nbPointsColonnes &&
-			colonne>=0)
-		{
-			point = _pointsPassage[ligne][colonne];
-			return 0;
-		}
-		else 
-		{
-			return -1;
-		}
-	}
+    // ↑
+    if (isFreeAt(li - 1, col))
+    {
+        voisins.push_back(m_pointsPassage[li - 1][col]);
+        s0 = true;
+    }
+    // →
+    if (isFreeAt(li, col + 1))
+    {
+        voisins.push_back(m_pointsPassage[li][col + 1]);
+        s1 = true;
+    }
+    // ↓
+    if (isFreeAt(li + 1, col))
+    {
+        voisins.push_back(m_pointsPassage[li + 1][col]);
+        s2 = true;
+    }
+    // ←
+    if (isFreeAt(li, col - 1))
+    {
+        voisins.push_back(m_pointsPassage[li][col - 1]);
+        s3 = true;
+    }
+
+    if (!m_allowDiagonal)
+        return 0;
+
+    // Les simple s0 à s3 remplient precedemment permettent 
+    // de trouver les diagonals d0 à d3 franchissable ou non
+    if (!m_crossCorner)
+    {
+        d0 = s3 && s0;
+        d1 = s0 && s1;
+        d2 = s1 && s2;
+        d3 = s2 && s3;
+    }
+    else
+    {
+        d0 = s3 || s0;
+        d1 = s0 || s1;
+        d2 = s1 || s2;
+        d3 = s2 || s3;
+    }
+
+    // ↖
+    if (d0 && isFreeAt(li - 1, col - 1))
+    {
+        voisins.push_back(m_pointsPassage[li - 1][col - 1]);
+    }
+    // ↗
+    if (d1 && isFreeAt(li - 1, col + 1))
+    {
+        voisins.push_back(m_pointsPassage[li - 1][col + 1]);
+    }
+    // ↘
+    if (d2 && isFreeAt(li + 1, col + 1))
+    {
+        voisins.push_back(m_pointsPassage[li + 1][col + 1]);
+    }
+    // ↙
+    if (d3 && isFreeAt(li + 1, col - 1))
+    {
+        voisins.push_back(m_pointsPassage[li + 1][col - 1]);
+    }
+    return 0;
+}
+
+// Algo AStar a proprement parler
+signed int AStar::computeAStar(std::vector<Point*> &path,
+                             Point *startPoint,
+                             Point *endPoint)
+{
+// Environement
+    // Il faut remettre a zero tout AStar
+    reset();
+    std::set<Point*,CompareF> openList;    // Tableau associatifs de points tries selon F
+    std::set<Point*> closeList;
 
 
-	signed int AStar::getNearestPoint(float x, float y, Point*& point) const
-	{
-		if(nbPointsLignes == 0 || nbPointsColonnes == 0)
-		{
-			return -1;
-		}
+// Algo 
+    // Le point de depart sera le premier evalue
+    openList.insert(startPoint);      
+    ROS_INFO_STREAM("startPoint : " << startPoint <<" count in list ? " << openList.count(startPoint));      
 
-		int l, c;
-		float dist, dx, dy, minDist = FLT_MAX;
+    // Tant qu'il reste des points a evaluer, on persevere   
+    while(!openList.empty())                   
+    {
+        ROS_INFO_STREAM("OpenList size : " << openList.size());
 
-		for(l=0; l<nbPointsLignes; l++)
-		{
-			for(c=0; c<nbPointsColonnes; c++)
-			{
-				if(_pointsPassage[l][c]->isFree())
-				{
-					dx = x - _pointsPassage[l][c]->getX();
-					dy = y - _pointsPassage[l][c]->getY();
-					dist = dx*dx+dy*dy;
+        // A chaque iteartion, on evalue le point avec le plus petit F 
+        //  (au tout debut il n'y a que startPoint)
+        Point *actualPoint = *(openList.begin());
+        ROS_INFO_STREAM("actualPoint : " << actualPoint <<" count in list ? " << openList.count(actualPoint));
 
-					// ROS_INFO("%d:%d  %f:%f dist %f",l,c,_pointsPassage[l][c]->getX(),_pointsPassage[l][c]->getY(),dist);
+        if(openList.count(actualPoint) == 0)
+        {
+            ROS_WARN("ActualPoint %d;%d (%f;%f) %f|%f|%f"
+                , actualPoint->getRaw()
+                , actualPoint->getColumn()
+                , actualPoint->getX()
+                , actualPoint->getY()
+                , actualPoint->getF()
+                , actualPoint->getG()
+                , actualPoint->getH());
 
-					if(dist < minDist)
-					{
-						minDist = dist;
-						point = _pointsPassage[l][c];
-					}
-				}
-			}
-		}
-
-		return 0;
-	}
+            ROS_INFO("startPoint %d;%d (%f;%f) %f|%f|%f"
+                , startPoint->getRaw()
+                , startPoint->getColumn()
+                , startPoint->getX()
+                , startPoint->getY()
+                , startPoint->getF()
+                , startPoint->getG()
+                , startPoint->getH());
 
 
-	void AStar::reset()
-	{
-		if(!getClean())
-		{
-			for (int i = 0; i < nbPointsLignes; ++i)
-			{
-				for (int j = 0; j < nbPointsColonnes; ++j)
-				{
-					_pointsPassage[i][j]->reset();
-				}
-			}		
+            exit(666);
+        }
 
-			setClean(true);	
-		}
-	}
+        // On passe le point d'open a close list
+        closeList.insert(actualPoint);
+        openList.erase(actualPoint);
 
-	bool AStar::getClean()
-	{
-		return _clean;
-	}
 
-	void AStar::setClean(bool c)
-	{
-		_clean = c;
-	}
+        ROS_INFO("ActualPoint %d;%d (%f;%f) %f|%f|%f"
+            , actualPoint->getRaw()
+            , actualPoint->getColumn()
+            , actualPoint->getX()
+            , actualPoint->getY()
+            , actualPoint->getF()
+            , actualPoint->getG()
+            , actualPoint->getH());
+
+        // Si le point a evaluer n'est pas le point d'arrive, on continue AStar
+        if(actualPoint != endPoint)
+        {
+            // On recupere tous ses voisins
+            std::vector<Point*> neighbours;
+            getVoisins(neighbours,actualPoint);
+            unsigned int newPointCounter = 0;
+            unsigned int updatedPointCounter = 0;
+            static unsigned int s_totalUpdatedPointCounter = 0;
+
+            // On va ajouter tous les voisins a la liste openList, en construisant leurs infos F, G et H
+            // Ils seront automatiquement tries par F croissant, ainsi au prochain tours on evaluera celui le plus proche de l'arrivee
+            // (celui avec le F le plus petit)
+            for (auto &neighbour : neighbours)
+            {
+                // Si neighbour a déjà été évalué - iteration suivante
+                if(closeList.count(neighbour) != 0)
+                {
+                    continue;
+                }
+
+                // Sinon - calcul g potentiel via actualPoint
+                float newG = actualPoint->getG() + neighbour->distWith(actualPoint);
+
+                // Si le neighbour n'et pas deja dans a evalue 
+                // ou que le nouveau g est plus interessant
+                // on modifie et on stocke
+                if( openList.count(neighbour) == 0 ||
+                    newG < neighbour->getG())
+                {
+                    neighbour->setPointPrec(actualPoint);
+                    neighbour->setG(newG);
+                    neighbour->setH((neighbour->getH())?neighbour->getH():heuristic(neighbour, endPoint));
+                    neighbour->setF(neighbour->getG()+m_poidsHeuristic*neighbour->getH());
+                    
+
+                    if(openList.count(neighbour) == 0) 
+                    {
+                        openList.insert(neighbour);
+                        newPointCounter++;
+                    }
+                    else
+                    {
+                        updatedPointCounter++;
+                        s_totalUpdatedPointCounter++;
+                    }
+                }
+            }
+            ROS_INFO("Ajout de %d point(s), MAJ de %d point(s)",newPointCounter,updatedPointCounter);
+
+        }
+        // Sinon si le point a evaluer est le point d'arrive, on a trouve notre chemin
+        else
+        {
+            ROS_INFO("PathFinder termine");
+
+            // Il faut reconstruire le chemin en remontant de parents en parents
+            path.clear();
+            Point* previousPoint = NULL;
+            do
+            {
+                path.push_back(actualPoint);
+                actualPoint->getPointPrec(previousPoint);
+                actualPoint = previousPoint;
+
+            } while(previousPoint != NULL);
+
+            ROS_DEBUG("NB points chemin : %lu", path.size());
+
+            // Le chemin est constuit a l'envers, il faut le retourner
+            std::reverse(path.begin(),path.end());
+
+            setClean(false);            
+            return 0;
+        }
+    }
+
+    ROS_WARN("PathFinder termine sans trouver de chemin");
+
+    setClean(false);
+    return 0;       
+}
+
+
+signed int AStar::getPointAt(signed int ligne, signed int colonne, Point*& point) const
+{
+    if( ligne < nbPointsLignes &&
+        ligne >= 0 &&
+        colonne < nbPointsColonnes &&
+        colonne>=0)
+    {
+        point = m_pointsPassage[ligne][colonne];
+        return 0;
+    }
+    else 
+    {
+        return -1;
+    }
+}
+
+
+signed int AStar::getNearestPoint(float x, float y, Point*& point) const
+{
+    if(nbPointsLignes == 0 || nbPointsColonnes == 0)
+    {
+        return -1;
+    }
+
+    int l, c;
+    float dist, dx, dy, minDist = FLT_MAX;
+
+    for(l=0; l<nbPointsLignes; l++)
+    {
+        for(c=0; c<nbPointsColonnes; c++)
+        {
+            if(m_pointsPassage[l][c]->isFree())
+            {
+                dx = x - m_pointsPassage[l][c]->getX();
+                dy = y - m_pointsPassage[l][c]->getY();
+                dist = dx*dx+dy*dy;
+
+                // ROS_INFO("%d:%d  %f:%f dist %f",l,c,_pointsPassage[l][c]->getX(),_pointsPassage[l][c]->getY(),dist);
+
+                if(dist < minDist)
+                {
+                    minDist = dist;
+                    point = m_pointsPassage[l][c];
+                }
+            }
+        }
+    }
+
+    return 0;
+}
+
+
+void AStar::reset()
+{
+    if(!getClean())
+    {
+        for (int i = 0; i < nbPointsLignes; ++i)
+        {
+            for (int j = 0; j < nbPointsColonnes; ++j)
+            {
+                m_pointsPassage[i][j]->reset();
+            }
+        }       
+
+        setClean(true); 
+    }
+}
+
+bool AStar::getClean()
+{
+    return m_clean;
+}
+
+void AStar::setClean(bool c)
+{
+    m_clean = c;
+}

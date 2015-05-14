@@ -114,15 +114,12 @@ add_executable(pathfinder_node
     src/AStar.cpp 
     src/Point.cpp 
 )
-
-add_dependencies(pathfinder_node
-    pathfinder_gencpp
-)
-
 target_link_libraries(pathfinder_node
     ${catkin_LIBRARIES}
     ${Boost_LIBRARIES}
 )
+add_dependencies(pathfinder_node pathfinder_gencpp)
+set_target_properties(pathfinder_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 #############
 ## Install ##

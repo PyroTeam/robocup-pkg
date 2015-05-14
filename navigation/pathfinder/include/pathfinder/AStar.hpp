@@ -1,8 +1,5 @@
-#ifndef _HEADER_MAP_
-#define _HEADER_MAP_
-
-#include "Point.hpp"
-#include "ros/ros.h"
+#ifndef _PATHFINDER__ASTAR_H_
+#define _PATHFINDER__ASTAR_H_
 
 #include <set>
 #include <vector>
@@ -11,58 +8,61 @@
 #include <algorithm>
 #include <cfloat>
 
-#include "nav_msgs/OccupancyGrid.h"
+#include <ros/ros.h>
+#include <nav_msgs/OccupancyGrid.h>
 
-enum typeHeuristic{MANHATTAN,EUCLIDEAN,Chebyshev};
+#include "Point.hpp"
+
+enum typeHeuristic{MANHATTAN,EUCLIDEAN,CHEBYSHEV};
 
 class AStar
 {
 public:
-	AStar();
-	~AStar();
+    AStar();
+    ~AStar();
 
-	// AStar
-	void setAllowDiagonal(bool allowDiagonal);
-	void setCrossCorner(bool crossCorner);
-	void setPoidsHeuristic(signed int poids);
-	float heuristic(Point const& pointDepart, Point const& pointDistant);
-	float heuristicManhattan(Point const& pointDepart, Point const& pointDistant);
-	float heuristicEuclidean(Point const& pointDepart, Point const& pointDistant);
-	float heuristicChebyshev(Point const& pointDepart, Point const& pointDistant);
-	void setHeuristicFunction(typeHeuristic heuristicFonction);
-	bool isFreeAt(signed int li, signed int col);
-	signed int getVoisins(std::vector<Point*> &voisins, Point *oirigin);
-	signed int computeAStar(std::vector<Point*> &chemin, Point *startPoint, Point *endPoint);
-	signed int getPointAt(signed int ligne, signed int colonne, Point*& point) const;
-	signed int getNearestPoint(float x, float y, Point*& point) const;
-	void reset();
-	bool getClean();
-	void setClean(bool c);
+    // AStar
+    void setAllowDiagonal(bool allowDiagonal);
+    void setCrossCorner(bool crossCorner);
+    void setPoidsHeuristic(signed int poids);
+    float heuristic(Point const *pointDepart, Point const *pointDistant);
+    float heuristicManhattan(Point const *pointDepart, Point const *pointDistant);
+    float heuristicEuclidean(Point const *pointDepart, Point const *pointDistant);
+    float heuristicChebyshev(Point const *pointDepart, Point const *pointDistant);
+    void setHeuristicFunction(typeHeuristic heuristicFonction);
+    bool isFreeAt(signed int li, signed int col);
+    signed int getVoisins(std::vector<Point*> &voisins, Point *oirigin);
+    signed int computeAStar(std::vector<Point*> &chemin, Point *startPoint, Point *endPoint);
+    signed int getPointAt(signed int ligne, signed int colonne, Point*& point) const;
+    signed int getNearestPoint(float x, float y, Point*& point) const;
+    void reset();
+    bool getClean();
+    void setClean(bool c);
 
-	// Grid
-	void gridCallback(nav_msgs::OccupancyGridConstPtr grid);
-	void constructMap(nav_msgs::OccupancyGridConstPtr grid);
-	void constructMap();
+    // Grid
+    void gridCallback(nav_msgs::OccupancyGridConstPtr grid);
+    void constructMap(nav_msgs::OccupancyGridConstPtr grid);
+    void constructMap();
 
 private:
-	// Points
-	const static int nbPointsLignes = 180;
-	const static int nbPointsColonnes = 280;
-	Point *_pointsPassage[nbPointsLignes][nbPointsColonnes];
+    // Points
+    const static int nbPointsLignes = 180;
+    const static int nbPointsColonnes = 280;
+    Point *m_pointsPassage[nbPointsLignes][nbPointsColonnes];
 
-	// AStar	
-	bool _allowDiagonal;
-	bool _crossCorner;
-	signed int _poidsHeuristic;
-	typeHeuristic _heuristicFonction;
-	bool _clean;
+    // AStar    
+    bool m_allowDiagonal;
+    bool m_crossCorner;
+    signed int m_poidsHeuristic;
+    typeHeuristic m_heuristicFonction;
+    bool m_clean;
 
-	// Grid
-	float _resolution;
-	float _height;
-	float _width;
-	float _origin_x;
-	float _origin_y;
+    // Grid
+    float m_resolution;
+    float m_height;
+    float m_width;
+    float m_origin_x;
+    float m_origin_y;
 };
 
 class CompareF
@@ -70,10 +70,10 @@ class CompareF
 public:
     bool operator()(Point* const& a, Point* const& b) const
     {
-    	float valFa = a->getF()*1000000+((a->getLigne()*100)%100)+(a->getColonne()%100);
-    	float valFb = b->getF()*1000000+((b->getLigne()*100)%100)+(b->getColonne()%100);
+        float valFa = a->getF()*1000000+((a->getRaw()*100)%100)+(a->getColumn()%100);
+        float valFb = b->getF()*1000000+((b->getRaw()*100)%100)+(b->getColumn()%100);
         return (valFa < valFb);
     }
 };
 
-#endif	// _HEADER_MAP_
+#endif  // _PATHFINDER__ASTAR_H_
