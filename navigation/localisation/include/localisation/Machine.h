@@ -25,7 +25,6 @@ public:
 private:
 	geometry_msgs::Pose2D 	m_centre;
 	int						m_type;
-	bool					m_state;
 	double 					m_xSum;
 	double 					m_ySum;
 	double 					m_thetaSum;

@@ -51,14 +51,16 @@ int main(int argc, char** argv)
         deplacement_msg::Landmarks machines;
         machines.header.frame_id="laser_link";
         machines.header.stamp = laserData.m_stamp;
-        for (auto &it : listOfMachines){ 
+        for (auto &it : listOfMachines)
+        { 
             machines.landmarks.push_back(it.getCentre());
         }
 
         deplacement_msg::Landmarks segments;
         segments.header.frame_id="laser_link";
         segments.header.stamp = laserData.m_stamp;
-        for (auto &it : listOfSegments){ 
+        for (auto &it : listOfSegments)
+        { 
             segments.landmarks.push_back(pointToPose2D(it.getMin()));
             segments.landmarks.push_back(pointToPose2D(it.getMax()));
         }        
@@ -66,13 +68,10 @@ int main(int argc, char** argv)
         deplacement_msg::Landmarks droites;
         droites.header.frame_id="laser_link";
         droites.header.stamp = laserData.m_stamp;
-        for (auto &it : listOfModeles){ 
-            // Construit les points de la droite
-            Point pointA = it.getPoints().front();
-            Point pointB = it.getPoints().back();
-
-            droites.landmarks.push_back(pointToPose2D(pointA));
-            droites.landmarks.push_back(pointToPose2D(pointB));
+        for (auto &it : listOfModeles)
+        { 
+            droites.landmarks.push_back(pointToPose2D(it.getPoints().front()));
+            droites.landmarks.push_back(pointToPose2D(it.getPoints().back()));
         }
 
         int cpt = 0;

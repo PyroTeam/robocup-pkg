@@ -20,15 +20,17 @@ deplacement_msg::Landmarks scan;
 geometry_msgs::Pose2D      odomRobot;
 std::vector<Machine>       mps(24);
 int                        count;
-tf::TransformListener *g_tf_listener;
+tf::TransformListener      *g_tf_listener;
 
-void odomCallback(const nav_msgs::Odometry& odom){
+void odomCallback(const nav_msgs::Odometry& odom)
+{
     odomRobot.x = odom.pose.pose.position.x;
     odomRobot.y = odom.pose.pose.position.y;
     odomRobot.theta = tf::getYaw(odom.pose.pose.orientation);
 }
 
-void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
+void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
+{
     tf::StampedTransform transform;
     try
     {
@@ -45,9 +47,11 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
     tabMachines.header.frame_id="map";
     tabMachines.header.stamp = machines->header.stamp;
     // -- Nouvelle version
-    for (auto &it : machines->landmarks){
+    for (auto &it : machines->landmarks)
+    {
         // Changement de repère
         geometry_msgs::Pose2D p;
+        //geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it), odomRobot);
 
         double yaw = tf::getYaw(transform.getRotation());
         p.x = it.x*cos(yaw) - it.y*sin(yaw) + transform.getOrigin().x();
@@ -72,29 +76,13 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
 
         tabMachines.landmarks.push_back(p);
     } 
-
-
-    // -- Version moyennee
-    // for (auto &it : machines->landmarks){
-    //   geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it), odomRobot);
-    //   tabMachines.landmarks.push_back(p);
-
-    //   int zone = machineToArea(p);
-    //   if(zone==0)
-    //     continue;
-
-    //   mps[zone-1].addX(p.x);
-    //   mps[zone-1].addY(p.y);
-    //   mps[zone-1].addTheta(p.theta);
-    //   mps[zone-1].incNbActu();
-
-    //   mps[zone-1].maj();
-    // } 
 }
 
-void laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
+void laserCallback(const deplacement_msg::LandmarksConstPtr& laser)
+{
     scan.landmarks.clear();
-    for (auto &it : laser->landmarks){
+    for (auto &it : laser->landmarks)
+    {
         geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it), odomRobot);
         scan.landmarks.push_back(p);
     }
