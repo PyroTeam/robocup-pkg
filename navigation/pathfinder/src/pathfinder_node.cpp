@@ -1,14 +1,31 @@
+/**
+ * \file pathfinder_node.cpp
+ * \brief Fichier principal du noeud pathfinder.
+ * \author Valentin Vergez
+ * \version 1.0.1
+ * \date 16 mai 2015
+ *
+ * Ce noeud propose un service 'generatePath' et retourne les résultats sur les topics
+ *  - pathFound
+ *  - path
+ *  - pathfinderState
+ *  
+ * La recherche de chemin est effectué dans un Thread par une instance de la classe AStar.
+ * La map est renseignée à AStar via le topic /grid souscrit sur une methode de callback de la classe.
+ *
+ */
+
 /*==========  Includes  ==========*/
 #include "pathfinder/pathfinder_node.hpp"
 
 /*==========  Global variables  ==========*/
-PathOrders pathReq = {-1,{0.0,0.0,0.0},{0.0,0},false};
-pathfinder::AstarPath  pathFound;
-pathfinder::AstarState pathfinderState;
-int lastIdReceived = -1;
-float current_x = 0.0;
-float current_y = 0.0;
-bool stop = false;
+PathOrders g_pathReq = {-1,{0.0,0.0,0.0},{0.0,0},false};
+pathfinder::AstarPath  g_pathFound;
+pathfinder::AstarState g_pathfinderState;
+int g_lastIdReceived = -1;
+float g_current_x = 0.0;
+float g_current_y = 0.0;
+bool g_stop = false;
 
 /*==========  Main  ==========*/
 int main(int argc, char **argv)
@@ -16,10 +33,10 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "pathfinder");
     ros::NodeHandle n;
 
-    pathfinderState.state = pathfinderState.LIBRE;
-    pathfinderState.id    = lastIdReceived;
-    pathFound.id          = lastIdReceived;
-    pathFound.path.header.frame_id = "map";
+    g_pathfinderState.state = g_pathfinderState.LIBRE;
+    g_pathfinderState.id    = g_lastIdReceived;
+    g_pathFound.id          = g_lastIdReceived;
+    g_pathFound.path.header.frame_id = "map";
 
     ros::Publisher path_pub    = n.advertise<pathfinder::AstarPath>("pathFound", 1000);
     ros::Publisher path_simple_pub    = n.advertise<nav_msgs::Path>("path", 1000);
@@ -34,12 +51,12 @@ int main(int argc, char **argv)
     boost::thread computeAStar_thread(&computeAStar_thread_function);
 
     ros::Rate loop_rate(10);
-    while (ros::ok() && !stop)
+    while (ros::ok() && !g_stop)
     {
-        pathFound.path.header.stamp = ros::Time::now();
-        path_pub.publish(pathFound);
-        path_simple_pub.publish(pathFound.path);    // Message standardsé lisible avec RVIZ
-        state_pub.publish(pathfinderState);
+        g_pathFound.path.header.stamp = ros::Time::now();
+        path_pub.publish(g_pathFound);
+        path_simple_pub.publish(g_pathFound.path);    // Message standardsé lisible avec RVIZ
+        state_pub.publish(g_pathfinderState);
 
         ros::spinOnce();
 
@@ -67,28 +84,28 @@ bool generatePath_callback( pathfinder::GeneratePath::Request  &req,
         ROS_DEBUG("Pose Depart (Utilisation de l'odometrie): \nX: %f | Y : %f | Theta : %f",0.0,0.0,0.0);
     }
 
-    if(pathReq.processing == true || req.id == lastIdReceived)
+    if(g_pathReq.processing == true || req.id == g_lastIdReceived)
     {
         res.requeteAcceptee = false;
     }
     else
     {
         res.requeteAcceptee = true;
-        lastIdReceived = req.id;
+        g_lastIdReceived = req.id;
 
-        pathReq.id           = req.id;
-        pathReq.goalPose.x   = req.Arrivee.position.x;
-        pathReq.goalPose.y   = req.Arrivee.position.y;
-        pathReq.goalPose.yaw = tf::getYaw(req.Arrivee.orientation);
+        g_pathReq.id           = req.id;
+        g_pathReq.goalPose.x   = req.Arrivee.position.x;
+        g_pathReq.goalPose.y   = req.Arrivee.position.y;
+        g_pathReq.goalPose.yaw = tf::getYaw(req.Arrivee.orientation);
         if(!req.utilisePositionOdometry)
         {
-            pathReq.startPose.x = req.Depart.position.x;
-            pathReq.startPose.y = req.Depart.position.y;
+            g_pathReq.startPose.x = req.Depart.position.x;
+            g_pathReq.startPose.y = req.Depart.position.y;
         }
         else
         {
-            pathReq.startPose.x = current_x;
-            pathReq.startPose.y = current_y;
+            g_pathReq.startPose.x = g_current_x;
+            g_pathReq.startPose.y = g_current_y;
         }
     }
 
@@ -97,8 +114,8 @@ bool generatePath_callback( pathfinder::GeneratePath::Request  &req,
 
 void odomCallback(nav_msgs::Odometry odom)
 {
-    current_x       = (odom).pose.pose.position.x;
-    current_y       = (odom).pose.pose.position.y;
+    g_current_x       = (odom).pose.pose.position.x;
+    g_current_y       = (odom).pose.pose.position.y;
 }
 
 void computeAStar_thread_function()
@@ -114,39 +131,39 @@ void computeAStar_thread_function()
     ros::NodeHandle n;
     ros::Subscriber sub_grid  = n.subscribe("/grid", 1000, &AStar::gridCallback, &mapRobocup);
 
-    while(1 && !stop)
+    while(1 && !g_stop)
     {
-        if(lastId != pathReq.id)
+        if(lastId != g_pathReq.id)
         {
             ROS_DEBUG("~~~~~~~~~~\ncomputeAStar : will start the path request id:%d\
-                \nWith points start %f:%f and end %f:%f",pathReq.id,pathReq.startPose.x,pathReq.startPose.y,pathReq.goalPose.x,pathReq.goalPose.y);
+                \nWith points start %f:%f and end %f:%f",g_pathReq.id,g_pathReq.startPose.x,g_pathReq.startPose.y,g_pathReq.goalPose.x,g_pathReq.goalPose.y);
 
-            pathReq.processing = true;
-            pathfinderState.state = pathfinderState.EN_COURS;
+            g_pathReq.processing = true;
+            g_pathfinderState.state = g_pathfinderState.EN_COURS;
 
-            lastId = pathReq.id;
+            lastId = g_pathReq.id;
 
-            actualOrders = pathReq;
+            actualOrders = g_pathReq;
 
             if(mapRobocup.getNearestPoint(
-                pathReq.startPose.x,
-                pathReq.startPose.y,
+                g_pathReq.startPose.x,
+                g_pathReq.startPose.y,
                 startPoint)){ROS_ERROR("getNearestPoint START Failed");}
             else{
                 ROS_DEBUG("getNearestPoint START Suceeded, will start at %f:%f",startPoint->getX(),startPoint->getY());
             }
             if(mapRobocup.getNearestPoint(
-                pathReq.goalPose.x,
-                pathReq.goalPose.y,
+                g_pathReq.goalPose.x,
+                g_pathReq.goalPose.y,
                 endPoint)){ROS_ERROR("getNearestPoint END Failed");}
             else{
                 ROS_DEBUG("getNearestPoint END Suceeded, will stop at %f:%f",endPoint->getX(),endPoint->getY());
             }
             
-            pathFound.id = actualOrders.id;
-            pathFound.path.poses.erase(
-                pathFound.path.poses.begin(),
-                pathFound.path.poses.end());
+            g_pathFound.id = actualOrders.id;
+            g_pathFound.path.poses.erase(
+                g_pathFound.path.poses.begin(),
+                g_pathFound.path.poses.end());
 
             ros::Time startTime = ros::Time::now();
 
@@ -157,9 +174,9 @@ void computeAStar_thread_function()
 
             long long int timeElapsed = ros::Time::now().toNSec() - startTime.toNSec();
 
-            ROS_INFO("------\ncomputeAStar Ended. Time elapsed = %lld", timeElapsed);
+            ROS_INFO("------\ncomputeAStar Ended. Time elapsed = %lld / %lldms", timeElapsed, timeElapsed/1000000);
 
-            pathfinderState.id = actualOrders.id;
+            g_pathfinderState.id = actualOrders.id;
 
             if( chemin.size() != 0 &&
                 chemin.front() == startPoint &&
@@ -173,7 +190,7 @@ void computeAStar_thread_function()
                     geometry_msgs::PoseStamped point;
                     point.pose.position.x = chemin[i]->getX();
                     point.pose.position.y = chemin[i]->getY();
-                    pathFound.path.poses.push_back(point);
+                    g_pathFound.path.poses.push_back(point);
                 }
                 geometry_msgs::PoseStamped pointFinal;
                 pointFinal.pose.position.x = chemin[i]->getX();
@@ -185,16 +202,16 @@ void computeAStar_thread_function()
                 pointFinal.pose.orientation.y = 0;
                 pointFinal.pose.orientation.z = 0;
                 pointFinal.pose.orientation.w = 0;
-                pathFound.path.poses.push_back(pointFinal);
+                g_pathFound.path.poses.push_back(pointFinal);
 
-                pathfinderState.state = pathfinderState.SUCCES;
+                g_pathfinderState.state = g_pathfinderState.SUCCES;
             }
             else
             {
-                pathfinderState.state = pathfinderState.ECHEC;
+                g_pathfinderState.state = g_pathfinderState.ECHEC;
             }
 
-            pathReq.processing = false;
+            g_pathReq.processing = false;
         }
 
         boost::this_thread::sleep(sleep_time);
