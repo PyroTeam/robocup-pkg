@@ -115,26 +115,14 @@ add_executable(
   src/landmarks_extraction_node.cpp
   src/landmarks_detection_utils.cpp
   src/laserScan.cpp
-  src/Point.cpp
-  src/Droite.cpp
-  src/Modele.cpp
+  src/Line.cpp
+  src/Segment.cpp
+  src/Model.cpp
   src/Machine.cpp)
 set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 add_dependencies(landmarks_extraction_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   landmarks_extraction_node
-  ${catkin_LIBRARIES}
-)
-
-add_executable(
-  fake_scan_node
-  src/fake_scan_node.cpp
-  src/Point.cpp
-  src/laserScan.cpp)
-set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(fake_scan_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
-target_link_libraries(
-  fake_scan_node
   ${catkin_LIBRARIES}
 )
 

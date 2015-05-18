@@ -188,7 +188,8 @@ geometry_msgs::Pose2D EKF::LaserToRobot(geometry_msgs::Pose2D PosLaser)
   m(1,2) = 0.1;
   
   //rotation
-  Matrix2d rot = Rotation2Dd(M_PI_2);
+  Matrix2d rot;
+  rot = Rotation2Dd(M_PI_2);
   m.topLeftCorner(2,2) = rot;
   m(2,2) = 1;
 
@@ -213,7 +214,8 @@ VectorXd EKF::RobotToLaser(VectorXd PosRobot)
   Vector3d before, after;
   
   //rotation
-  Matrix2d rot = Rotation2Dd(M_PI_2);
+  Matrix2d rot;
+  rot = Rotation2Dd(M_PI_2);
   m.topLeftCorner(2,2) = rot.transpose();
 
   //translation
@@ -246,7 +248,8 @@ geometry_msgs::Pose2D EKF::RobotToGlobal(geometry_msgs::Pose2D p)
   m(0,2) = m_xMean(0);
   m(1,2) = m_xMean(1);
   //rotation
-  Matrix2d rot = Rotation2Dd(m_xMean(2) - M_PI_2);
+  Matrix2d rot;
+  rot = Rotation2Dd(m_xMean(2) - M_PI_2);
   m.topLeftCorner(2,2) = rot;
 
   m(2,2) = 1;
@@ -273,7 +276,8 @@ VectorXd EKF::GlobalToRobot(VectorXd p)
   m.setZero();
 
   //rotation
-  Matrix2d rot = Rotation2Dd(m_xMean(2) - M_PI_2);
+  Matrix2d rot;
+  rot = Rotation2Dd(m_xMean(2) - M_PI_2);
   m.topLeftCorner(2,2) = rot.transpose();
 
   //translation

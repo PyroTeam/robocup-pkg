@@ -2,76 +2,76 @@
 #include "Line.h"
 #include "Model.h"
 #include "Segment.h"
-#include "line_detection_utils.h"
+#include "landmarks_detection_utils.h"
 
 #include <ctime>
 #include <cmath>
 #include <limits>
 #include <algorithm>
 
-Modele::Modele()
-{
-	m_correl = 0.0;
-}
-
-Modele::~Modele()
+Model::Model() : m_correl(0.0)
 {
 
 }
 
-Droite Modele::getDroite() const 
+Model::~Model()
+{
+
+}
+
+Line Model::getLine() const 
 {
 	return m_line;
 }
 
-double Modele::getCorrel() const
+double Model::getCorrel() const
 {
 	return m_correl;
 }
 
-const std::list<std::list<geometry_msgs::Point>::iterator> &Modele::getIndex() const
+const std::list<std::list<geometry_msgs::Point>::iterator> &Model::getIndex() const
 {
 	return m_index;
 }
 
-const std::list<geometry_msgs::Point> &Modele::getPoints() const
+const std::list<geometry_msgs::Point> &Model::getPoints() const
 {
 	return m_points;
 }
 
-void Modele::addPoint(geometry_msgs::Point point)
+void Model::addPoint(geometry_msgs::Point point)
 {
 	m_points.push_back(point);
 }
 
-void Modele::setPoints(std::list<geometry_msgs::Point> listOfPoints)
+void Model::setPoints(std::list<geometry_msgs::Point> listOfPoints)
 {
 	m_points = listOfPoints;
 }
 
-void Modele::addIndex(std::list<geometry_msgs::Point>::iterator &it)
+void Model::addIndex(std::list<geometry_msgs::Point>::iterator &it)
 {
 	m_index.push_back(it);
 }
 
-void Modele::setDroite(Droite droite)
+void Model::setLine(Line line)
 {
-	m_line=droite;
+	m_line = line;
 }
 
-void Modele::linReg()
+void Model::linReg()
 {
-	int n = m_index.size();
-	double  sumX = 0.0, sumY = 0.0;
-	double   ecX = 0.0,  ecY = 0.0;						//ecart
+	int          n = m_index.size();
+	double    sumX = 0.0, sumY = 0.0;
+	double     ecX = 0.0,  ecY = 0.0;					//ecart
 	double sumEcXY = 0.0;								//somme des produits des écarts sur x et y
-	double  ec2X = 0.0, ec2Y = 0.0;						//somme des écarts au carré
-	double covXY = 0.0, varX = 0.0, varY = 0.0;
+	double    ec2X = 0.0, ec2Y = 0.0;					//somme des écarts au carré
+	double   covXY = 0.0, varX = 0.0, varY = 0.0;
 
 	for(auto &it : m_index)
 	{
-		sumX  += it->getX();
-		sumY  += it->getY();
+		sumX  += it->x;
+		sumY  += it->y;
 	}
 
 	//calcul des moyennes
@@ -81,8 +81,8 @@ void Modele::linReg()
 	//calcul du coefficient de corrélation
 	for(auto &it : m_index)
 	{
-		ecX   = it->getX() - moyX;
-		ecY   = it->getY() - moyY;
+		ecX   = it->x - moyX;
+		ecY   = it->y - moyY;
 		sumEcXY += ecX*ecY;
 
 		ec2X += ecX*ecX;
@@ -96,22 +96,26 @@ void Modele::linReg()
 	double correl = covXY/sqrt(varX * varY);
 	m_correl = correl*correl;
 
-	double pente     = covXY/varX;
-	double ordOrigin = moyY - pente * moyX;
+	double slope     = covXY/varX;
+	double yIntercept = moyY - slope * moyX;
+
+	geometry_msgs::Pose2D p;
+	p.x = moyX;
+	p.y = moyY;
+	p.theta = atan2(slope,1);
 
 	//mise à jour de la droite
-	m_line.set( geometry_msgs::Point(moyX,moyY),
-				  atan2(pente,1),
-				  pente,
-				  ordOrigin);
+	m_line.set( p,
+				slope,
+				yIntercept);
 }
 
-void Modele::build(geometry_msgs::Point a, geometry_msgs::Point b)
+void Model::build(geometry_msgs::Point a, geometry_msgs::Point b)
 {
-  	m_line.build(a,b);
+  	m_line.build(pointToPose2D(a),pointToPose2D(b));
 }
 
-void Modele::update()
+void Model::update()
 {
 	m_points.clear();
 	//pour tous les itérateurs contenu dans la liste d'index

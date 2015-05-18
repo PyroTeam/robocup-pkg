@@ -21,7 +21,7 @@ public:
 	void addPoint(geometry_msgs::Point point);
 	void setPoints(std::list<geometry_msgs::Point> listOfPoints);
 	void addIndex(std::list<geometry_msgs::Point>::iterator &it);
-	void setLine(Line droite);
+	void setLine(Line line);
  
 	void linReg();
 	void build(geometry_msgs::Point a, geometry_msgs::Point b);
