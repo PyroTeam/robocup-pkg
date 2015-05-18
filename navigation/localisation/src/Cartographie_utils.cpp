@@ -26,7 +26,8 @@ geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser)
   m(1,2) = 0.1;
   
   //rotation
-  Matrix2d rot = Rotation2Dd(M_PI_2);
+  Matrix2d rot;
+  rot = Rotation2Dd(M_PI_2);
   m.topLeftCorner(2,2) = rot;
   m(2,2) = 1;
 
@@ -58,7 +59,8 @@ geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose
   m(0,2) = odomRobot.x;
   m(1,2) = odomRobot.y;
   //rotation
-  Matrix2d rot = Rotation2Dd(odomRobot.theta - M_PI_2);
+  Matrix2d rot;
+  rot = Rotation2Dd(odomRobot.theta - M_PI_2);
   m.topLeftCorner(2,2) = rot;
   m(2,2) = 1;
 

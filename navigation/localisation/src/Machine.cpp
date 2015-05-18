@@ -8,7 +8,7 @@
 #include <limits>
 #include <algorithm>
 
-Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_thetaSum(0.0),m_nbActu(0.0),m_state(false)
+Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_thetaSum(0.0),m_nbActu(0.0)
 {
 
 };
@@ -72,5 +72,12 @@ void Machine::maj()
 
 bool Machine::exist()
 {
-	return m_state;
+	if (m_nbActu >= 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

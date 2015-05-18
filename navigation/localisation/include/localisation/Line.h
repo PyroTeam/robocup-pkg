@@ -19,7 +19,7 @@ public:
 private:
 	geometry_msgs::Pose2D  	m_point;
 	double 					m_YIntercept;
-	double 					m_angle;
+	double 					m_slope;
 };
 
 #endif

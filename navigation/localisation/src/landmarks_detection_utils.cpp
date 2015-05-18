@@ -21,20 +21,30 @@
 
 double dist(geometry_msgs::Point a, Line d)
 {
-    geometry_msgs::Point b = d.getPoint();
-    geometry_msgs::Point u(cos(d.getAngle()), sin(d.getAngle()));
-    geometry_msgs::Point ba(a.getX()-b.getX(), a.getY()-b.getY());
+    geometry_msgs::Point b;
+    b.x = d.getPoint().x;
+    b.y = d.getPoint().y;
+    geometry_msgs::Point u;
+    u.x = cos(d.getAngle());
+    u.y = sin(d.getAngle());
+    geometry_msgs::Point ba;
+    ba.x = a.x-b.x;
+    ba.y = a.y-b.y;
 
-    return std::abs(u.getX()*ba.getY() - ba.getX()*u.getY()) / sqrt(u.getX()*u.getX() + u.getY()*u.getY());
+    return std::abs(u.x*ba.y - ba.x*u.y) / sqrt(u.x*u.x + u.y*u.y);
 }
 
 double dist(geometry_msgs::Point a, Segment s)
 {
     geometry_msgs::Point b = s.getMin();
-        geometry_msgs::Point u(cos(s.getAngle()), sin(s.getAngle()));
-        geometry_msgs::Point ba(a.getX()-b.getX(), a.getY()-b.getY());
+    geometry_msgs::Point u;
+    u.x = cos(s.getAngle());
+    u.y = sin(s.getAngle());
+    geometry_msgs::Point ba;
+    ba.x = a.x-b.x;
+    ba.y = a.y-b.y;
 
-    return std::abs(u.getX()*ba.getY() - ba.getX()*u.getY()) / sqrt(u.getX()*u.getX() + u.getY()*u.getY());
+    return std::abs(u.x*ba.y - ba.x*u.y) / sqrt(u.x*u.x + u.y*u.y);
 }
 
 geometry_msgs::Point ortho(geometry_msgs::Point a, Line d)
@@ -42,7 +52,9 @@ geometry_msgs::Point ortho(geometry_msgs::Point a, Line d)
     double distance = dist(a,d);
     double dx = distance*cos(d.getAngle());
     double dy = distance*sin(d.getAngle());
-    geometry_msgs::Point p(a.getX() - dx, a.getY() + dy);
+    geometry_msgs::Point p;
+    p.x = a.x - dx;
+    p.y = a.y + dy;
 
     return p;
 }
@@ -52,23 +64,25 @@ geometry_msgs::Point ortho(geometry_msgs::Point a, Segment s)
     double distance = dist(a,s);
     double dx = distance*cos(s.getAngle());
     double dy = distance*sin(s.getAngle());
-    geometry_msgs::Point p(a.getX() - dx, a.getY() + dy);
+    geometry_msgs::Point p;
+    p.x = a.x - dx;
+    p.y = a.y + dy;
 
     return p;
 }
 
-Modele ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts)
+Model ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts)
 {
     int size = listOfPoints.size();
     int iter = 0, i = 0, j = 0;
     double w = double(NbPtPertinent)/double(size);
     double k = log10(1-proba)/log10(1-pow(w,n));
 
-    Modele meilleur_modele;
+    Model meilleur_modele;
 
     while (iter < k)
     {
-        Modele modele_possible;
+        Model modele_possible;
         geometry_msgs::Point a, b;
         //on prend deux points au hasard
         i = rand() % listOfPoints.size();
@@ -106,7 +120,7 @@ Modele ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPert
         for (std::list<geometry_msgs::Point>::iterator it = listOfPoints.begin(); it != listOfPoints.end(); ++it)
         {
             //si le point se situe dans le voisinage de la droite du modele_possible
-            if (dist(*it, modele_possible.getDroite()) < seuil)
+            if (dist(*it, modele_possible.getLine()) < seuil)
             {
                 //on ajoute l'indice correspondant à ce point dans la liste d'indices du modele_possible
                 modele_possible.addIndex(it);
@@ -137,7 +151,7 @@ Modele ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPert
     return meilleur_modele;
 }
 
-void maj(std::list<geometry_msgs::Point> &list, Modele m)
+void maj(std::list<geometry_msgs::Point> &list, Model m)
 {
     const std::list<std::list<geometry_msgs::Point>::iterator> &indexes = m.getIndex();
     //pour tous les index contenus dans la liste d'index du modele
@@ -149,12 +163,12 @@ void maj(std::list<geometry_msgs::Point> &list, Modele m)
 }
 
 //rentrer tous les paramètres de RANSAC dans le prototype de findLines
-std::list<Modele> findLines(const std::list<geometry_msgs::Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list<geometry_msgs::Point> &l)
+std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list<geometry_msgs::Point> &l)
 {
-    std::list<Modele> listOfDroites;
+    std::list<Model>                 listOfDroites;
     std::list<geometry_msgs::Point>  listWithoutPrecModelPoints = listOfPoints;
-    Modele            m;
-    bool              stopRansac = false;
+    Model                            m;
+    bool                             stopRansac = false;
 
     while (!stopRansac)
     {
@@ -180,51 +194,46 @@ std::list<Modele> findLines(const std::list<geometry_msgs::Point> &listOfPoints,
 Segment build(const std::list<geometry_msgs::Point> &points)
 {
     Segment s;
-    geometry_msgs::Point a(0,1);
-    geometry_msgs::Point b(0,1);
+    geometry_msgs::Point a;
+    a.x = 0;
+    a.y = 1;
+    geometry_msgs::Point b = a;
 
     //on calcule les coordonnées des projetés orthogonaux des deux points extrêmes
-        double min = std::numeric_limits<double>::max();
+        double min =  std::numeric_limits<double>::max();
         double max = -std::numeric_limits<double>::max();
 
         for (auto &it : points)
         {
-            if (it.getX() < min)
+            if (it.x < min)
             {
-                min = it.getX();
+                min = it.x;
                 a = it;
             }
-            if (it.getX() > max)
+            if (it.x > max)
             {
-                max = it.getX();
+                max = it.x;
                 b = it;
             }
         }
 
     //...puis la taille du segment en mètre
-    double size = sqrt( (a.getX()-b.getX()) * (a.getX()-b.getX()) +
-                        (a.getY()-b.getY()) * (a.getY()-b.getY()));
+    double size = sqrt( (a.x-b.x) * (a.x-b.x) +
+                        (a.y-b.y) * (a.y-b.y));
 
     //...et enfin l'angle
-    double pente =  (b.getY()-a.getY()) / (b.getX()-a.getX());
+    double pente =  (b.y-a.y) / (b.x-a.x);
     double angle = atan2(pente,1);
     
     s.setAngle(angle);
     s.setPoints(a,b);
     s.setSize(size);
 
-    /*std::cout << "\n" << std::endl;
-    std::cout << "Segment " << std::endl;
-    std::cout << " Min(" << s.getMin().getX() << ", " << s.getMin().getY() << ")" << std::endl;
-    std::cout << " Max(" << s.getMax().getX() << ", " << s.getMax().getY() << ")" << std::endl;
-    std::cout << " taille : " << s.getSize() << std::endl;
-    std::cout << " angle  : " << s.getAngle()*(180/M_PI) << std::endl;*/
-
     return s;
 }
 
 
-std::list<Segment> buildSegment(Modele m, double seuil)
+std::list<Segment> buildSegment(Model m, double seuil)
 {
     std::list<Segment> listOfSegments;
     std::list<geometry_msgs::Point> tmp;
@@ -234,8 +243,8 @@ std::list<Segment> buildSegment(Modele m, double seuil)
     for(std::list<geometry_msgs::Point>::const_iterator it = m.getPoints().cbegin(); it != m.getPoints().cend(); ++it)
     {
         //on calcule la distance entre voisins
-        double d = sqrt((it->getY()-previousPoint->getY())*(it->getY()-previousPoint->getY()) +
-                        (it->getX()-previousPoint->getX())*(it->getX()-previousPoint->getX()));
+        double d = sqrt((it->y-previousPoint->y)*(it->y-previousPoint->y) +
+                        (it->x-previousPoint->x)*(it->x-previousPoint->x));
         
         //si les points sont proches
         if (d < seuil)
@@ -270,11 +279,11 @@ std::list<Segment> buildSegment(Modele m, double seuil)
     return listOfSegments;
 }
 
-std::list<Segment> buildSegments(std::list<Modele> &listOfModeles)
+std::list<Segment> buildSegments(std::list<Model> &listOfModels)
 {
     std::list<Segment> listOfSegments;
     //pour tous les modèles de la liste
-    for (auto &it : listOfModeles)
+    for (auto &it : listOfModels)
     {
         std::list<Segment> listTmp = buildSegment(it, 0.3);
         //on concatène les listes de segments trouvés à partir de chaque modèle ensemble
@@ -307,8 +316,8 @@ Machine calculateCoordMachine(Segment s)
     double angle = s.getAngle();
     double size  = s.getSize();
 
-    double absMilieu = (s.getMax().getX() + s.getMin().getX())/2;
-    double ordMilieu = (s.getMax().getY() + s.getMin().getY())/2;
+    double absMilieu = (s.getMax().x + s.getMin().x)/2;
+    double ordMilieu = (s.getMax().y + s.getMin().y)/2;
 
     geometry_msgs::Pose2D c1, c2, point;
 
@@ -414,8 +423,8 @@ std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments)
 geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point)
 {
     geometry_msgs::Pose2D pose2d;
-    pose2d.x = point.getX();
-    pose2d.y = point.getY();
+    pose2d.x = point.x;
+    pose2d.y = point.y;
     pose2d.theta = 0.0;
 
     return pose2d;

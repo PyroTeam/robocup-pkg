@@ -37,10 +37,10 @@ int main(int argc, char** argv)
     while(n.ok())
     {
         // Transforme les points scans de coord polaires en coord carthesiennes
-        const std::list<Point> &listOfPoints    = laserData.getPoints();
+        const std::list<geometry_msgs::Point> &listOfPoints    = laserData.getPoints();
         // Trouve les lignes, stock les points restants
-        std::list<Point> l;
-        std::list<Modele>  listOfModeles        = findLines(listOfPoints, 30, 0.1, 30, l);
+        std::list<geometry_msgs::Point> l;
+        std::list<Model>  listOfModeles        = findLines(listOfPoints, 30, 0.1, 30, l);
         // Construit les segments
         std::list<Segment> listOfSegments       = buildSegments(listOfModeles);
         // Trouve les machines
@@ -96,12 +96,7 @@ int main(int argc, char** argv)
 
             for (auto &pt : it.getPoints())
             {
-                geometry_msgs::Point p;
-                p.x = pt.getX();
-                p.y = pt.getY();
-                p.z = 0;
-
-                marker.points.push_back(p);
+                marker.points.push_back(pt);
             }
 
             // markers_pub.publish(marker);
