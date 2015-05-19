@@ -105,41 +105,25 @@ add_executable(finalApproaching_node
   src/finalApproaching.cpp
   src/bumperlistener.cpp
   src/finalApproaching_server.cpp)
+target_link_libraries(  finalApproaching_node  ${catkin_LIBRARIES})
+add_dependencies(  finalApproaching_node  ${manager_msg_EXPORTED_TARGETS}  manager_msg_gencpp)
+set_target_properties(finalApproaching_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
-add_executable(test_fonctions_laser
-	src/test_fonctions_laser.cpp
+add_executable(test_fonctions_laser_node
+	src/test_fonctions_laser_node.cpp
 	src/laserScan.cpp
 	src/Point.cpp
 	src/Segment.cpp
 	src/fa_utils.cpp)
+target_link_libraries(  test_fonctions_laser_node  ${catkin_LIBRARIES})
+set_target_properties(test_fonctions_laser_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
-add_executable(fake_scan_node_cyril
+add_executable(fake_scan_cyril_node
 	src/fake_scan_node.cpp)
-	
-target_link_libraries(
-  finalApproaching_node
-  ${catkin_LIBRARIES}
-)
+target_link_libraries(  fake_scan_cyril_node  ${catkin_LIBRARIES})
+set_target_properties(fake_scan_cyril_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
-target_link_libraries(
-  test_fonctions_laser
-  ${catkin_LIBRARIES}
-)
 
-target_link_libraries(
-  fake_scan_node_cyril
-  ${catkin_LIBRARIES}
-)
-
-set_target_properties(finalApproaching_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-set_target_properties(fake_scan_node_cyril PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-set_target_properties(test_fonctions_laser PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-
-add_dependencies(
-  finalApproaching_node
-  ${manager_msg_EXPORTED_TARGETS}
-  manager_msg_gencpp
-)
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations

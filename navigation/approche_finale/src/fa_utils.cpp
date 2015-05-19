@@ -11,94 +11,99 @@
 
 
 float distance2points(Point a, Point b){
-	std::cout<<"test dist2pts 1"<<std::endl;
-	float xa = a.getx();
-	std::cout<<"test dist2pts 2"<<std::endl;
-	float xb = b.getx();
-	std::cout<<"test dist2pts 3"<<std::endl;
-	float ya = a.gety();
-	std::cout<<"test dist2pts 4"<<std::endl;
-	float yb = b.gety();
-	std::cout<<"test dist2pts 5"<<std::endl;
+	float xa = a.getX();
+	float xb = b.getX();
+	float ya = a.getY();
+	float yb = b.getY();
 	return sqrt( std::abs(xb-xa)*std::abs(xb-xa) + std::abs(yb-ya)*std::abs(yb-ya) );
 }
 
 float moy(std::list<float> position_y){
 	std::list<float>::iterator it;
 	float moyenne = 0;
-	for(it=position_y.begin();it!=position_y.end();it++){
+	for(it=position_y.begin();it!=position_y.end();it++)
+	{
 		moyenne = moyenne + *it;
 	}
 	moyenne = moyenne / (float)(position_y.size()) ;
 	return moyenne;
 }
 
-int asservissement_angle(ros::Publisher pub_mvt,float angle){
+int asservissementAngle(ros::Publisher pubMvt,float angle){
 	geometry_msgs::Twist msg;
-	
 	angle = fmod(angle,2*M_PI);
-	if(std::abs(angle) < 0.03){
+	if(std::abs(angle) < 0.03)
+	{
 		msg.angular.z = 0;
-		pub_mvt.publish(msg);
+		pubMvt.publish(msg);
 		return 1;
-		}
-	else{
-		
-			msg.angular.z = -0.75*angle;
-		
-	pub_mvt.publish(msg);
-	return 0;
+	}
+	else
+	{
+		msg.angular.z = -0.75*angle;
+		pubMvt.publish(msg);
+		return 0;
 	}
 	
 }
 
-int asservissement_position_y(ros::Publisher pub_mvt, float moy_pos,float objectif, float ortho){
+int asservissementPositionY(ros::Publisher pubMvt, float moyPos,float goal, float ortho){
 	geometry_msgs::Twist msg;
 	msg.angular.z = 0;
-	/*if(ortho < 0){
-		if(ortho == -1){
-				msg.linear.y = 0.25;
-				pub_mvt.publish(msg);
-				return 0;
-			}
-			if(ortho == -2){
-				msg.linear.y = -0.25;
-				pub_mvt.publish(msg);
-				return 0;
-			}
+	/*if(ortho < 0)
+	{
+		if(ortho == -1)
+		{
+			msg.linear.y = 0.25;
+			pubMvt.publish(msg);
+			return 0;
+		}
+		if(ortho == -2)
+		{
+			msg.linear.y = -0.25;
+			pubMvt.publish(msg);
+			return 0;
+		}
 	}
-	else*/ {
-		if(std::abs(moy_pos - objectif) < 0.01){
+	else*/ 
+	{
+		if(std::abs(moyPos - goal) < 0.01)
+		{
 			msg.linear.y = 0;
-			pub_mvt.publish(msg);
+			pubMvt.publish(msg);
 			return 1;
-			}
-		else{
-			msg.linear.y = -0.5*(moy_pos - objectif);
-			pub_mvt.publish(msg);
+		}
+		else
+		{
+			msg.linear.y = -0.5*(moyPos - goal);
+			pubMvt.publish(msg);
 			return 0;
 		}
 	}
 }
 
-int asservissement_position_x(ros::Publisher pub_mvt, float distance, float objectif){
+int asservissementPositionX(ros::Publisher pubMvt, float distance, float goal){
 	geometry_msgs::Twist msg;
 	msg.linear.y = 0;
 	msg.angular.z = 0;
-	if(std::abs(distance-objectif) < 0.01) {
+	if(std::abs(distance-goal) < 0.01) 
+	{
 		msg.linear.x = 0;
-		pub_mvt.publish(msg);
+		pubMvt.publish(msg);
 		return 2;
 	}
-	else{
-		if(std::abs(distance-objectif) < 0.04){
-			msg.linear.x = (distance - objectif)*0.25;
-			pub_mvt.publish(msg);
+	else
+	{
+		if(std::abs(distance-goal) < 0.04)
+		{
+			msg.linear.x = (distance - goal)*0.25;
+			pubMvt.publish(msg);
 			return 1;
 		}
-		else{
-			msg.linear.x = (distance - objectif)*0.25;
-			pub_mvt.publish(msg);
+		else
+		{
+			msg.linear.x = (distance - goal)*0.25;
+			pubMvt.publish(msg);
 			return 0;
 		}
 	}
