@@ -1,5 +1,5 @@
 #ifndef MOVETOPOSE_H
-#define  MOVETOPOSE_H
+#define MOVETOPOSE_H
 
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
@@ -45,6 +45,7 @@ private:
                 const deplacement_msg::TrackPathResultConstPtr& result);
     void activeCb();
     void feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& feedback);
+
 protected:
 
     ros::NodeHandle m_nh;

@@ -51,6 +51,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
         r.sleep();
         ros::spinOnce();
     }
+
     //timeout genePath
     if (ros::Time::now() >= t){
         ROS_INFO("Path generate : Timeout!");
