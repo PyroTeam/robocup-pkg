@@ -4,7 +4,7 @@
 
 #include "Activity.pb.h"
 #include "Beacon.pb.h"
-#include "UdpPeer.h"
+#include "udpPeer.h"
 #include "encryptUtils.h"
 #include "topicToUdpEntry.h"
 #include "udpToTopicEntry.h"

@@ -16,7 +16,7 @@
 #include <string>
 #include <ros/ros.h>
 
-#include "UdpPeer.h"
+#include "udpPeer.h"
 #include "entryPoint.h"
 #include "msgConvertUtils.h"
 

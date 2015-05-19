@@ -121,12 +121,13 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 ## Declare a cpp executable
 add_executable(robot_comm_node
   src/robotCommNode.cpp
-  src/UdpPeer.cpp
-  src/encryptUtils.cpp
-  src/entryPoint.cpp
-  src/topicToUdpEntry.cpp
-  src/udpToTopicEntry.cpp
-  src/msgConvertUtils.cpp
+  src/testUdp.cpp
+  #src/udpPeer.cpp
+  #src/encryptUtils.cpp
+  #src/entryPoint.cpp
+  #src/topicToUdpEntry.cpp
+  #src/udpToTopicEntry.cpp
+  #src/msgConvertUtils.cpp
   ${PROTO_SRCS}
   ${PROTO_HDRS})
 
