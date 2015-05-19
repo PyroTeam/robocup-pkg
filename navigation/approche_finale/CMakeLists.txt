@@ -104,7 +104,7 @@ add_executable(finalApproaching_node
   src/Segment.cpp
   src/finalApproaching.cpp
   src/bumperlistener.cpp
-  src/finalApproaching_server.cpp)
+  src/finalApproaching_node.cpp)
 target_link_libraries(  finalApproaching_node  ${catkin_LIBRARIES})
 add_dependencies(  finalApproaching_node  ${manager_msg_EXPORTED_TARGETS}  manager_msg_gencpp)
 set_target_properties(finalApproaching_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
