@@ -1,3 +1,12 @@
+/**
+ * \file 			finalApproaching.h
+ * \class			finalApproaching
+ * \brief			classe principale de l approche finale
+ * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date			2015-04-20
+ * \copyright		PyroTeam, Polytech-Lille
+ */
+
 #ifndef FINALAPPROACHING_H
 #define FINALAPPROACHING_H
 
@@ -8,36 +17,49 @@
 
 class finalApproaching
 {
-protected:
 
-  ros::NodeHandle nh_;
-  // NodeHandle instance must be created before this line. Otherwise strange error may occur.
-  actionlib::SimpleActionServer<manager_msg::finalApproachingAction> as_; 
-  std::string action_name_;
-  // create messages that are used to published feedback/result
-  manager_msg::finalApproachingFeedback feedback_;
-  manager_msg::finalApproachingResult result_;
-  ros::Publisher m_pub_mvt;
-  ros::Publisher m_marker_pub;
-	int m_type;
-  int m_side;
-  int m_parameter;
+	protected:
+		ros::NodeHandle nh;
+		// NodeHandle instance must be created before this line. Otherwise strange error may occur.
+		actionlib::SimpleActionServer<manager_msg::finalApproachingAction> as;
+		std::string actionName;
+		// create messages that are used to published feedback/result
+		manager_msg::finalApproachingFeedback feedback;
+		manager_msg::finalApproachingResult result;
+		ros::Publisher m_pubMvt;
+		ros::Publisher m_markerPub;
+		int m_type;
+		int m_side;
+		int m_parameter;
 
-public:
+	public:
+		finalApproaching(std::string name) :
+		as(nh, name, boost::bind(&finalApproaching::executeCB, this, _1), false),actionName(name)
+		{
+			as.start();
+		}
 
-  finalApproaching(std::string name) :
-    as_(nh_, name, boost::bind(&finalApproaching::executeCB, this, _1), false),
-    action_name_(name)
-  {
-    as_.start();
-  }
+		~finalApproaching(void);
 
-  ~finalApproaching(void);
-
- void executeCB(const manager_msg::finalApproachingGoalConstPtr &goal);
- int avancement(int a, int b, int c);
- float objectif_x();
- float objectif_y();
+		void executeCB(const manager_msg::finalApproachingGoalConstPtr &goal);
+		
+/**
+ *  \brief		avancement de l action
+ *  \return		un entier representant l evolution de l action
+ */		
+		int avancement(int a, int b, int c);
+		
+/**
+ *  \brief		determine la consigne en x (repere laser)
+ *  \return		consigne en x
+ */
+		float objectifX();
+		
+/**
+ *  \brief		determine la consigne en y (repere laser)
+ *  \return		consigne en y
+ */
+		float objectifY();
 
 };
 
