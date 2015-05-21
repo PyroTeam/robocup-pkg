@@ -20,14 +20,15 @@ Model ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPerti
 
 void maj(std::list<geometry_msgs::Point> &list, Model m);
 
-//rentrer tous les paramètres de RANSAC dans le prototype de findLines
 std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list<geometry_msgs::Point> &l);
+
+double linReg(const std::list<geometry_msgs::Point> &points, geometry_msgs::Pose2D &p);
 
 Segment build(const std::list<geometry_msgs::Point> &points);
 
-std::list<Segment> buildSegment(Model m, double seuil);
+std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil);
 
-std::list<Segment> buildSegments(std::list<Model> &listOfModels);
+std::list<Segment> buildSegmentsFromModels(std::list<Model> &listOfModels);
 
 Machine calculateCoordMachine(Segment s);
 
@@ -36,5 +37,7 @@ void maj(std::list<Segment> &list, Segment s);
 std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments);
 
 geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point);
+
+geometry_msgs::Point pose2DToPoint(geometry_msgs::Pose2D pose2d);
 
 #endif

@@ -12,8 +12,6 @@ public:
 	bool getType();
 
 	void setCentre(geometry_msgs::Pose2D c);
-	void setType(int val);
-	void resetType();
 	void addX(double x);
 	void addY(double y);
 	void addTheta(double theta);
@@ -24,7 +22,6 @@ public:
 
 private:
 	geometry_msgs::Pose2D 	m_centre;
-	int						m_type;
 	double 					m_xSum;
 	double 					m_ySum;
 	double 					m_thetaSum;

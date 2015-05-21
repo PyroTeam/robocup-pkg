@@ -23,24 +23,9 @@ geometry_msgs::Pose2D Machine::getCentre()
 	return m_centre;
 }
 
-bool Machine::getType()
-{
-	return m_type;
-}
-
 void Machine::setCentre(geometry_msgs::Pose2D c)
 {
 	m_centre = c;
-}
-
-void Machine::setType(int val)
-{
-	m_type = val;
-}
-
-void Machine::resetType()
-{
-	m_type = 0;
 }
 
 void Machine::addX(double x)
@@ -60,7 +45,7 @@ void Machine::addTheta(double theta)
 
 void Machine::incNbActu()
 {
-	m_nbActu ++;
+	m_nbActu++;
 }
 
 void Machine::maj()

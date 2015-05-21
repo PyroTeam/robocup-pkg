@@ -2,6 +2,7 @@
 #define SEGMENT_H
 
 #include "geometry_msgs/Point.h"
+#include <list>
 
 #include <vector>
 #include <list>
@@ -20,10 +21,7 @@ public:
 
 	void setAngle(double theta);
 	void setSize(double size);
-
 	void setPoints(geometry_msgs::Point a, geometry_msgs::Point b);
-
-	void update(Segment s);
 	
 protected:
 	double			 		m_angle;

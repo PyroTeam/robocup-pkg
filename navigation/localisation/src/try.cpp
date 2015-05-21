@@ -18,27 +18,66 @@ using namespace Eigen;
 
 int main()
 {
-  geometry_msgs::Pose2D p;
-  Matrix3d m;
-  m.setZero();
-  Vector3d before, after;
+  int          n = 5;
+  double    sumX = 0.0, sumY = 0.0;
+  double     ecX = 0.0,  ecY = 0.0;         //ecart
+  double sumEcXY = 0.0;                     //somme des produits des écarts sur x et y
+  double    ec2X = 0.0, ec2Y = 0.0;         //somme des écarts au carré
+  double   covXY = 0.0, varX = 0.0, varY = 0.0;
 
-  //translation
-  m(1,2) = 0.1;
-  
-  //rotation
-  Matrix2d rot;
-  rot = Rotation2Dd(-M_PI_2);
-  m.topLeftCorner(2,2) = rot;
-  m(2,2) = 1;
-  std::cout << "m : \n" << m << std::endl;
+  std::vector<geometry_msgs::Point> tab;
+  //for (int i = 0; i < 5; i++)
+  //{
+    geometry_msgs::Point p;
+    p.x = -4;
+    p.y = 4;
+    tab.push_back(p);
+    p.x = -3;
+    p.y = 3;
+    tab.push_back(p);
+    p.x = -2;
+    p.y = 2;
+    tab.push_back(p);
+    p.x = -1;
+    p.y = 1;
+    tab.push_back(p);
+    p.x = 0;
+    p.y = 0;
+    tab.push_back(p);
+  //}
 
-  before(0) = 1;
-  before(1) = 1;
-  before(2) = 1;
-  std::cout << "avant :" << before << std::endl;
+  for(auto &it : tab)
+  {
+    sumX  += it.x;
+    sumY  += it.y;
+  }
 
-  after = m*before;
+  //calcul des moyennes
+  double moyX = sumX/double(n);
+  double moyY = sumY/double(n);
+  std::cout << "point moyen de coord (" << moyX << "," << moyY << ")" << std::endl;
 
-  std::cout << "après :" << after << std::endl;
+  //calcul du coefficient de corrélation
+  for(auto &it : tab)
+  {
+    ecX   = it.x - moyX;
+    ecY   = it.y - moyY;
+    sumEcXY += ecX*ecY;
+
+    ec2X += ecX*ecX;
+    ec2Y += ecY*ecY;
+  }
+
+  covXY = sumEcXY/double(n);
+  varX  = ec2X/double(n);
+  varY  = ec2Y/double(n);
+
+  double correl = covXY/sqrt(varX * varY);
+  std::cout << "corrélation de " << correl*correl << std::endl;
+  //correl = correl*correl;
+
+  double slope     = covXY/varX;
+  std::cout << "pente de " << slope << std::endl;
+  double yIntercept = moyY - slope * moyX;
+  std::cout << "ordonnée à l'origine de " << yIntercept << std::endl;
 }

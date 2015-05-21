@@ -175,8 +175,14 @@ std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, 
         //  ransac(listOfPoints,               n, NbPtPertinent,proba, seuil, NbPts)
         m = ransac(listWithoutPrecModelPoints, 2, NbPtPertinent, 0.99, seuil, NbPts);
 
-        if( std::abs(m.getCorrel()) > 0)
+        if(m.getPoints().size() > NbPts) 
         {
+/*
+            std::cout << "j'ai trouvé un modèle de " << m.getIndex().size() << " points" << std::endl;
+            std::cout << "passant par le point (" << m.getLine().getPoint().x << "," << m.getLine().getPoint().y << ")" << std::endl;
+            std::cout << "d'angle " << m.getLine().getAngle()*(180/M_PI) << std::endl;
+            std::cout << "et dont la corrélation est de " << m.getCorrel() << std::endl;
+*/
             maj(listWithoutPrecModelPoints, m);
             listOfDroites.push_back(m);
         }
@@ -191,49 +197,85 @@ std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, 
     return listOfDroites;
 }
 
-Segment build(const std::list<geometry_msgs::Point> &points)
+double linReg(const std::list<geometry_msgs::Point> &points, geometry_msgs::Pose2D &p)
 {
+
+    int          n = points.size();
+    double    sumX = 0.0, sumY = 0.0;
+    double     ecX = 0.0,  ecY = 0.0;                   //ecart
+    double sumEcXY = 0.0;                               //somme des produits des écarts sur x et y
+    double    ec2X = 0.0, ec2Y = 0.0;                   //somme des écarts au carré
+    double   covXY = 0.0, varX = 0.0, varY = 0.0;
+
+    for(auto &it : points)
+    {
+        sumX  += it.x;
+        sumY  += it.y;
+    }
+
+    //calcul des moyennes
+    double moyX = sumX/double(n);
+    double moyY = sumY/double(n);
+
+    //calcul du coefficient de corrélation
+    for(auto &it : points)
+    {
+        ecX   = it.x - moyX;
+        ecY   = it.y - moyY;
+        sumEcXY += ecX*ecY;
+
+        ec2X += ecX*ecX;
+        ec2Y += ecY*ecY;
+    }
+
+    covXY = sumEcXY/double(n);
+    varX  = ec2X/double(n);
+    varY  = ec2Y/double(n);
+
+    double correl = covXY/sqrt(varX * varY);
+
+    double slope     = covXY/varX;
+
+    p.x = moyX;
+    p.y = moyY;
+    p.theta = atan2(slope,1);
+
+    return correl*correl;
+}
+
+Segment build(const std::list<geometry_msgs::Point> &points){
     Segment s;
-    geometry_msgs::Point a;
-    a.x = 0;
-    a.y = 1;
-    geometry_msgs::Point b = a;
+    geometry_msgs::Pose2D pose2d;
 
-    //on calcule les coordonnées des projetés orthogonaux des deux points extrêmes
-        double min =  std::numeric_limits<double>::max();
-        double max = -std::numeric_limits<double>::max();
+    //on fait une régression linéaire sur le segment
+    double correl = linReg(points, pose2d);
 
-        for (auto &it : points)
-        {
-            if (it.x < min)
-            {
-                min = it.x;
-                a = it;
-            }
-            if (it.x > max)
-            {
-                max = it.x;
-                b = it;
-            }
-        }
+    //on commence à remplir le segment
+    s.setAngle(pose2d.theta);
+    s.setPoints(pose2DToPoint(pose2d), pose2DToPoint(pose2d));
+    //on projète alors les points extrèmes sur le segment linéarisé
+    geometry_msgs::Point ptMin = ortho(points.front(),s);
+    geometry_msgs::Point ptMax = ortho(points.back(),s);
 
-    //...puis la taille du segment en mètre
-    double size = sqrt( (a.x-b.x) * (a.x-b.x) +
-                        (a.y-b.y) * (a.y-b.y));
+    //et enfin on calcule la taille et l'angle du segment en mètre
+    double size  = sqrt((ptMax.x-ptMin.x)*(ptMax.x-ptMin.x) + (ptMax.y-ptMin.y)*(ptMax.y-ptMin.y));
+    double angle =  tan((ptMax.y-ptMin.y)/(ptMax.x-ptMin.x));
 
-    //...et enfin l'angle
-    double pente =  (b.y-a.y) / (b.x-a.x);
-    double angle = atan2(pente,1);
-    
     s.setAngle(angle);
-    s.setPoints(a,b);
+    s.setPoints(ptMin,ptMax);
     s.setSize(size);
-
+/*
+    std::cout << "Segment " << std::endl;
+    std::cout << " Min(" << s.getMin().x << ", " << s.getMin().y << ")" << std::endl;
+    std::cout << " Max(" << s.getMax().x << ", " << s.getMax().y << ")" << std::endl;
+    std::cout << " taille : " << s.getSize() << std::endl;
+    std::cout << " angle  : " << s.getAngle()*(180/M_PI) << std::endl;
+    std::cout << " correlation  : " << correl << std::endl;
+*/
     return s;
 }
 
-
-std::list<Segment> buildSegment(Model m, double seuil)
+std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
 {
     std::list<Segment> listOfSegments;
     std::list<geometry_msgs::Point> tmp;
@@ -242,9 +284,9 @@ std::list<Segment> buildSegment(Model m, double seuil)
     //pour chaque points dans la liste de points du modèle
     for(std::list<geometry_msgs::Point>::const_iterator it = m.getPoints().cbegin(); it != m.getPoints().cend(); ++it)
     {
-        //on calcule la distance entre voisins
-        double d = sqrt((it->y-previousPoint->y)*(it->y-previousPoint->y) +
-                        (it->x-previousPoint->x)*(it->x-previousPoint->x));
+        //on calcule la distance de proche en proche
+        double d =  sqrt((it->y-previousPoint->y)*(it->y-previousPoint->y) +
+                         (it->x-previousPoint->x)*(it->x-previousPoint->x));
         
         //si les points sont proches
         if (d < seuil)
@@ -252,109 +294,94 @@ std::list<Segment> buildSegment(Model m, double seuil)
             //on sauvegarde ces points dans une liste
             tmp.push_back(*it);
         }
-        //sinon (on détecte un seuil important)
+        //sinon (si on détecte un seuil important)
         else
         {
-            //on construit un segment à partir de la liste des points qui sont proches
+            //on construit un nouveau segment à partir de la liste enregistrée des points qui sont proches
             Segment s = build(tmp);
 
-            //on enregistre le segment dans la liste de segments
-            listOfSegments.push_back(s);
+            if(s.getSize() > 0.35)
+            {
+                //on enregistre le segment dans la liste de segments
+                listOfSegments.push_back(s);  
+            }
+
+            //on clear la liste et on l'init avec le dernier point vu
             tmp.clear();
             tmp.push_back(*it);
         }
-        //on recommence en partant du point suivant le dernier point
-        //qui était dans la liste précédente
+        //on recommence en partant de ce point
         previousPoint = it;
     }
+
     //pour le dernier point, le seuil ne pouvant plus être dépassé,
-    //on construit le dernier segment
-    if (tmp.size() >= 2)
+    //on construit le dernier segment et on l'ajoute
+    if (tmp.size() >= 20)
     {
         Segment s = build(tmp);
-        listOfSegments.push_back(s);
+        if(s.getSize() > 0.35)
+        {
+            listOfSegments.push_back(s);
+        }
     }
     tmp.clear();
 
     return listOfSegments;
 }
 
-std::list<Segment> buildSegments(std::list<Model> &listOfModels)
+std::list<Segment> buildSegmentsFromModels(std::list<Model> &listOfModels)
 {
     std::list<Segment> listOfSegments;
     //pour tous les modèles de la liste
     for (auto &it : listOfModels)
     {
-        std::list<Segment> listTmp = buildSegment(it, 0.3);
-        //on concatène les listes de segments trouvés à partir de chaque modèle ensemble
+        std::list<Segment> listTmp = buildSegmentsFromOneModel(it, 0.2);
+        //on concatène les listes de segments trouvés à partir de chaque modèle
         listOfSegments.splice(listOfSegments.end(),listTmp);
     }
 
     return listOfSegments;
 }
 
-geometry_msgs::Pose2D& test(geometry_msgs::Pose2D &c1, geometry_msgs::Pose2D &c2)
-{
-    //test distance centre - points trouvés (distance Manhattan)
-    float distC1 = std::abs(c1.x)*std::abs(c1.x) + std::abs(c1.y)*std::abs(c1.y);
-    float distC2 = std::abs(c2.x)*std::abs(c2.x) + std::abs(c2.y)*std::abs(c2.y);
-    if(distC1 < distC2)
-    {
-        return c2;
-    }
-    else
-    {
-        return c1;
-    }
-}
-
 Machine calculateCoordMachine(Segment s)
 {
     Machine m;
 
-    double g = 0.70, p = 0.35, seuil = 0.05;
     double angle = s.getAngle();
-    double size  = s.getSize();
-
     double absMilieu = (s.getMax().x + s.getMin().x)/2;
     double ordMilieu = (s.getMax().y + s.getMin().y)/2;
 
-    geometry_msgs::Pose2D c1, c2, point;
+    geometry_msgs::Pose2D center;
 
-    double tmp = atan2(tan(angle),1);
+    //on met l'angle entre -M_PI_2 et M_PI_2
+    angle = atan(tan(angle));
+    //puis entre 0 et M_PI 
+    //if (angle < 0)
+    //{
+    //    angle += M_PI;
+    //}
+    center.theta = angle;
 
-    if ((size > g-seuil) && (size < g+seuil))
+    //si l'angle est > 0
+    if (angle > 0.0)
     {
-        c1.x = absMilieu - p/2*sin(angle);
-        c1.y = ordMilieu + p/2*cos(angle);
-
-        c2.x = absMilieu + p/2*sin(angle);
-        c2.y = ordMilieu - p/2*cos(angle);
-
-        m.setType(2);
-
-        point = test(c1,c2);
-        if (tmp < 0)
-        {
-            tmp += M_PI;
-        }
-        point.theta = tmp;
+        center.x = absMilieu + 0.35/2*sin(angle);
+        center.y = ordMilieu - 0.35/2*cos(angle);
     }
-    else
+    //si l'angle est <= 0
+    else 
     {
-        point.x     = 0.0;
-        point.y     = 0.0;
-        point.theta = 0.0;
-
-        m.resetType();
+        center.x = absMilieu - 0.35/2*sin(angle);
+        center.y = ordMilieu + 0.35/2*cos(angle);
     }
 
-    m.setCentre(point);
+    m.setCentre(center);
 
     return m;
 }
 
-void maj(std::list<Segment> &list, Segment s){
+void maj(std::list<Segment> &list, Segment s)
+{
     for(std::list<Segment>::iterator it = list.begin(); it != list.end(); ++it)
     {
         //on supprime dans la liste le point correspondant à l'index enregistré dans le meilleur_modele
@@ -368,52 +395,9 @@ std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments)
 
     for (auto &it : listOfSegments)
     {
-        Machine m;
-        m.setCentre(calculateCoordMachine(it).getCentre());
-
-        //si on est en présence d'une machine
-        if (m.getCentre().x != 0.0)
+        if (std::abs(it.getSize() - 0.7) <= 0.1)
         {
-            //si c'est la première détectée
-            if (tmp.size() == 0)
-            {
-                tmp.push_back(m);
-            }
-            else
-            {
-                //sinon, pour chaque machine déjà stockée
-                for (int i = 0; i < tmp.size(); ++i)
-                {
-                    //on calcule la distance entre le centre de la machine trouvée et la machine i
-                    double d = sqrt((m.getCentre().x - tmp[i].getCentre().x)*(m.getCentre().x - tmp[i].getCentre().x) +
-                                    (m.getCentre().y - tmp[i].getCentre().y)*(m.getCentre().y - tmp[i].getCentre().y));
-
-                    //si la distance entre les centres trouvés permet de dire si on peut distinguer 2 machines
-                    //rq : on met un seuil important puisque les zones sont de 1,5 * 2 m
-                    if (d > 1)
-                    {
-                        tmp.push_back(m);
-                    }
-                    //sinon, on fait une moyenne des deux pour affiner la position du centre
-                    else
-                    {
-                        geometry_msgs::Pose2D milieu;
-                        milieu.x     = (m.getCentre().x     + tmp[i].getCentre().x)/2;
-                        milieu.y     = (m.getCentre().y     + tmp[i].getCentre().y)/2;
-                        milieu.theta = (m.getCentre().theta + tmp[i].getCentre().theta)/2;
-
-                        //si la machine venait d'un petit côté
-                        if (tmp[i].getType() == 1)
-                        {
-                            //on dit que la machine a été créée à partir d'un grand côté
-                            tmp[i].setType(2);
-                        }
-
-                        //on met à jour la machine
-                        tmp[i].setCentre(milieu);
-                    }
-                }
-            }
+            tmp.push_back(calculateCoordMachine(it));
         }
     }
 
@@ -428,4 +412,13 @@ geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point)
     pose2d.theta = 0.0;
 
     return pose2d;
+}
+
+geometry_msgs::Point pose2DToPoint(geometry_msgs::Pose2D pose2d)
+{
+    geometry_msgs::Point point;
+    point.x = pose2d.x;
+    point.y = pose2d.y;
+
+    return point;
 }
