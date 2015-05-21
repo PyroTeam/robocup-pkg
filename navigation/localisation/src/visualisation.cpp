@@ -101,7 +101,6 @@ void landmarksCallback(const deplacement_msg::LandmarksConstPtr& landmarks)
   tabLandmarks.clear();
   for (auto &it : landmarks->landmarks)
   {
-
     geometry_msgs::Point pointA;
     pointA.x = it.x + cos(it.theta)*0.35;
     pointA.y = it.y + sin(it.theta)*0.35;
@@ -158,7 +157,7 @@ int main( int argc, char** argv )
   ros::NodeHandle n;
 
   ros::Subscriber sub_machines    = n.subscribe("/machines", 1000, machinesCallback);
-  ros::Subscriber sub_landmarks  = n.subscribe("/landmarks", 1000, landmarksCallback);
+  ros::Subscriber sub_landmarks   = n.subscribe("/landmarks", 1000, landmarksCallback);
   ros::Subscriber sub_segments    = n.subscribe("/segments", 1000, segmentsCallback);
   ros::Subscriber sub_droites     = n.subscribe("/droites", 1000, droitesCallback);
   ros::Subscriber sub_pos_robot   = n.subscribe("/robot", 1000, robotCallback);
@@ -251,7 +250,7 @@ int main( int argc, char** argv )
     machines.points = tabMachines;    
 
     // Landmarks
-    landmarks.header.frame_id = "/map";
+    landmarks.header.frame_id = "/odom";
     landmarks.header.stamp = g_landmarks_stamp;
     landmarks.ns = "visualisation_landmarks";
     landmarks.action = visualization_msgs::Marker::ADD;
@@ -338,11 +337,11 @@ int main( int argc, char** argv )
 
     // Publish markers
     markers_pub.publish(segments);
-    // markers_pub.publish(droites);
-    // markers_pub.publish(points);
-    // markers_pub.publish(robot);
-    // markers_pub.publish(laser);
-    // markers_pub.publish(odom_brut);
+    markers_pub.publish(droites);
+    markers_pub.publish(points);
+    markers_pub.publish(robot);
+    markers_pub.publish(laser);
+    markers_pub.publish(odom_brut);
     markers_pub.publish(machines);
     markers_pub.publish(landmarks);
 

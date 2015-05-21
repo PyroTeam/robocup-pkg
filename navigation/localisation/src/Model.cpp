@@ -61,53 +61,16 @@ void Model::setLine(Line line)
 
 void Model::linReg()
 {
-	int          n = m_index.size();
-	double    sumX = 0.0, sumY = 0.0;
-	double     ecX = 0.0,  ecY = 0.0;					//ecart
-	double sumEcXY = 0.0;								//somme des produits des écarts sur x et y
-	double    ec2X = 0.0, ec2Y = 0.0;					//somme des écarts au carré
-	double   covXY = 0.0, varX = 0.0, varY = 0.0;
-
-	for(auto &it : m_index)
+	std::list<geometry_msgs::Point> pts;
+	geometry_msgs::Point p;
+	for (auto &it : m_index)
 	{
-		sumX  += it->x;
-		sumY  += it->y;
+		p = *it;
+		pts.push_back(p);
 	}
-
-	//calcul des moyennes
-	double moyX = sumX/double(n);
-	double moyY = sumY/double(n);
-
-	//calcul du coefficient de corrélation
-	for(auto &it : m_index)
-	{
-		ecX   = it->x - moyX;
-		ecY   = it->y - moyY;
-		sumEcXY += ecX*ecY;
-
-		ec2X += ecX*ecX;
-		ec2Y += ecY*ecY;
-	}
-
-	covXY = sumEcXY/double(n);
-	varX  = ec2X/double(n);
-	varY  = ec2Y/double(n);
-
-	double correl = covXY/sqrt(varX * varY);
-	m_correl = correl*correl;
-
-	double slope     = covXY/varX;
-	double yIntercept = moyY - slope * moyX;
-
-	geometry_msgs::Pose2D p;
-	p.x = moyX;
-	p.y = moyY;
-	p.theta = atan2(slope,1);
-
-	//mise à jour de la droite
-	m_line.set( p,
-				slope,
-				yIntercept);
+	geometry_msgs::Pose2D pt;
+	m_correl = ::linReg(pts, pt);
+	m_line.set(pt);
 }
 
 void Model::build(geometry_msgs::Point a, geometry_msgs::Point b)

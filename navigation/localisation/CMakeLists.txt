@@ -138,8 +138,8 @@ target_link_libraries(
 
 add_executable(
   visualisation
-  src/visualisation.cpp
-  src/Cartographie_utils.cpp
+  src/visualisationOK.cpp
+#  src/Cartographie_utils.cpp
   src/Machine.cpp)
 set_target_properties(visualisation PROPERTIES COMPILE_FLAGS -std=c++0x)
 add_dependencies(visualisation deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
@@ -183,12 +183,33 @@ add_executable(
   Cartographie
   src/Cartographie.cpp
   src/Cartographie_utils.cpp
-  src/Machine.cpp)
+  src/Machine.cpp
+  src/Segment.cpp)
 set_target_properties(Cartographie PROPERTIES COMPILE_FLAGS -std=c++0x)
 add_dependencies(Cartographie deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   Cartographie
   ${catkin_LIBRARIES}
+)
+
+add_executable(
+  fake_scan_node
+  src/fake_scan_node.cpp)
+set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(fake_scan_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+target_link_libraries(
+  fake_scan_node
+  ${catkin_LIBRARIES}
+)
+
+add_executable(
+	tf_broadcaster_node
+    src/tf_broadcaster_node.cpp
+    src/tf_broadcaster.cpp 
+)
+target_link_libraries(
+	tf_broadcaster_node
+  	${catkin_LIBRARIES}
 )
 
 

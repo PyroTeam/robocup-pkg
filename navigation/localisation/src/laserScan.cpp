@@ -71,23 +71,22 @@ void laserScan::setAngleInc(float inc)
 }
 
 
-void laserScan::PolarToCart (){
-	// La marge permet d'exclure assurement les points venant du RangeMax du laser
-	static float margin = 0.1;
-
+void laserScan::PolarToCart ()
+{
 	for (int i=0; i<m_ranges.size(); i++)
 	{
-	   	if((m_ranges[i]>getRangeMin()) && (m_ranges[i]<getRangeMax()-margin))
+	   	if((m_ranges[i] > getRangeMin()) && (m_ranges[i] < getRangeMax()))
 	   	{
 	   		geometry_msgs::Point p;
-	   		p.x = m_ranges[i]*cos(getAngleMin() + (float)i*getAngleInc());
-	   		p.y = m_ranges[i]*sin(getAngleMin() + (float)i*getAngleInc());
+	   		p.x = m_ranges[i]*cos(double(getAngleMin() + i*getAngleInc()));
+	   		p.y = m_ranges[i]*sin(double(getAngleMin() + i*getAngleInc()));
 			m_points.push_back(p);
 		}
 	}
 }
 
-void laserScan::set(const sensor_msgs::LaserScanConstPtr& scan){
+void laserScan::set(const sensor_msgs::LaserScanConstPtr& scan)
+{
 	m_points.clear();
 	
 	setRangeMin(scan->range_min);
@@ -101,7 +100,8 @@ void laserScan::set(const sensor_msgs::LaserScanConstPtr& scan){
 	PolarToCart();
 }
 
-void laserScan::laserCallback(const sensor_msgs::LaserScanConstPtr& scan){
+void laserScan::laserCallback(const sensor_msgs::LaserScanConstPtr& scan)
+{
 	set(scan);
 	m_stamp = scan->header.stamp;
 }

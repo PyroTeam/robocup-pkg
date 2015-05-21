@@ -24,27 +24,20 @@ double Line::getAngle()
 
 double Line::getSlope()
 {
-	return m_slope;
+	return tan(m_point.theta);
 }
 
-double Line::getYIntercept()
+void Line::set(geometry_msgs::Pose2D p)
 {
-	return m_YIntercept;
-}
-
-void Line::set(geometry_msgs::Pose2D p, double slope, double ord)
-{
-	m_point 	 = p;
-	m_slope 	 = slope;
-	m_YIntercept = ord;
+	m_point = p;
 }
 
 void Line::build(geometry_msgs::Pose2D a, geometry_msgs::Pose2D b)
 {
-	double dX = b.x - a.x;
-	double dY = b.y - a.y;
-	double slope = dY/dX;
-	double yIntercept = dY - slope*dX;
+	geometry_msgs::Pose2D p;
+	p.x = (b.x + a.x)/2;
+	p.y = (b.y + a.y)/2;
+	p.theta = (b.y - a.y)/(b.x - a.x);
 
-  	set(a, slope, yIntercept);
+  	set(p);
 }

@@ -7,8 +7,9 @@
 #include "geometry_msgs/Pose2D.h"
 #include "deplacement_msg/Landmarks.h"
 #include "Machine.h"
-#include <cmath>
-
+#include "Segment.h"
+#include "landmarks_detection_utils.h"
+#include <vector>
 
 #include "EKF_class.h"
 
@@ -40,7 +41,7 @@ geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser)
   geometry_msgs::Pose2D p;
   p.x     = after(0) ;
   p.y     = after(1);
-  p.theta = PosLaser.theta;
+  p.theta = PosLaser.theta + M_PI_2;
 
   return p;
 }
@@ -69,7 +70,7 @@ geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose
   geometry_msgs::Pose2D p2;
   p2.x     = after(0);
   p2.y     = after(1);
-  p2.theta = p.theta;
+  p2.theta = p.theta - M_PI_2;
 
   return p2;
 }
@@ -153,4 +154,31 @@ deplacement_msg::Landmarks convert(std::vector<Machine> mps)
   }
 
   return tmp;
+}
+
+std::vector<Segment> landmarksToSegments(deplacement_msg::Landmarks tabSegments)
+{
+  std::vector<Segment> vect;
+  for (int i = 0; i < tabSegments.landmarks.size(); i = i+2)
+  {
+    Segment s;
+/*
+    geometry_msgs::Point a, b;
+    a.x = tabSegments.landmarks[i].x;
+    a.y = tabSegments.landmarks[i].y;
+
+    b.x = tabSegments.landmarks[i+1].x;
+    b.y = tabSegments.landmarks[i+1].y;
+
+    double size  = sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y));
+    double angle =  tan((b.y-a.y)/(b.x-a.x));
+
+    s.setAngle(angle);
+    s.setPoints(a,b);
+    s.setSize(size);
+*/
+    vect.push_back(s);
+  }
+
+  return vect;
 }

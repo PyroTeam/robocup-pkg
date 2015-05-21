@@ -9,17 +9,14 @@ public:
 	~Line();
 
 	geometry_msgs::Pose2D getPoint();
-	double				  getAngle();
-	double 				  getSlope();
-	double 				  getYIntercept();
+	double getAngle();
+	double getSlope();
 
-	void set(geometry_msgs::Pose2D p, double slope, double ord);
+	void set(geometry_msgs::Pose2D p);
 	void build(geometry_msgs::Pose2D a, geometry_msgs::Pose2D b);
 
 private:
 	geometry_msgs::Pose2D  	m_point;
-	double 					m_YIntercept;
-	double 					m_slope;
 };
 
 #endif
