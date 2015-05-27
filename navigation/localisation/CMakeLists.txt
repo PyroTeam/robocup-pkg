@@ -114,6 +114,7 @@ add_executable(
   landmarks_extraction_node
   src/landmarks_extraction_node.cpp
   src/landmarks_detection_utils.cpp
+  src/Cartographie_utils.cpp
   src/laserScan.cpp
   src/Line.cpp
   src/Segment.cpp
@@ -138,9 +139,7 @@ target_link_libraries(
 
 add_executable(
   visualisation
-  src/visualisationOK.cpp
-#  src/Cartographie_utils.cpp
-  src/Machine.cpp)
+  src/visualisationOK.cpp)
 set_target_properties(visualisation PROPERTIES COMPILE_FLAGS -std=c++0x)
 add_dependencies(visualisation deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
@@ -182,9 +181,12 @@ target_link_libraries(
 add_executable(
   Cartographie
   src/Cartographie.cpp
+  src/landmarks_detection_utils.cpp
   src/Cartographie_utils.cpp
+  src/Segment.cpp
   src/Machine.cpp
-  src/Segment.cpp)
+  src/Line.cpp
+  src/Model.cpp)
 set_target_properties(Cartographie PROPERTIES COMPILE_FLAGS -std=c++0x)
 add_dependencies(Cartographie deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(

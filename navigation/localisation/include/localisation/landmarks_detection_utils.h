@@ -1,12 +1,13 @@
 #ifndef LANDMARKS_DETECTION_UTILS_H
 #define LANDMARKS_DETECTION_UTILS_H
 
-#include "laserScan.h"
-#include "Line.h"
-#include "Model.h"
-#include "Segment.h"
-#include "Machine.h"
+#include "geometry_msgs/Point.h"
 
+class Segment;
+class Line;
+class Model;
+class Machine;
+class laserScan;
 
 double dist(geometry_msgs::Point a, Line d);
 
