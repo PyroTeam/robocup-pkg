@@ -109,6 +109,8 @@ PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS
   proto_msg/Pose2D.proto
   proto_msg/OrderRequest.proto
   proto_msg/OrderResponse.proto
+  proto_msg/Map.proto
+  proto_msg/Obstacle.proto
 )
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -121,16 +123,15 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 ## Declare a cpp executable
 add_executable(robot_comm_node
   src/robotCommNode.cpp
-  src/testUdp.cpp
-  #src/udpPeer.cpp
-  #src/encryptUtils.cpp
-  #src/entryPoint.cpp
-  #src/topicToUdpEntry.cpp
-  #src/udpToTopicEntry.cpp
-  #src/msgConvertUtils.cpp
+  src/messageCatalog.cpp
+  src/udpPeer.cpp
+  src/encryptUtils.cpp
+  src/entryPoint.cpp
+  src/topicToUdpEntry.cpp
+  src/udpToTopicEntry.cpp
+  src/msgConvertUtils.cpp
   ${PROTO_SRCS}
   ${PROTO_HDRS})
-
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -147,6 +148,7 @@ target_link_libraries(robot_comm_node
   ${PROTOBUF_LIBRARIES}
   ${OPENSSL_LIBRARIES}
 )
+
 set_target_properties(robot_comm_node PROPERTIES COMPILE_FLAGS "-std=c++0x -g3")
 
 #############

@@ -1,6 +1,14 @@
-message OrderResponse{
-	required bool accepted = 1;
-	required int32 number_order = 2;
-	required int32 number_robot = 3;
-	required int32 id = 4;
+message OrderResponse
+{
+	enum CODE
+	{
+		ORDER_RESPONSE = 4;
+	}
+	required CODE code = 1;
+
+	required string name = 2;
+	required bool accepted = 3;
+	required int32 number_order = 4;
+	required int32 number_robot = 5;
+	required int32 id = 6;
 }

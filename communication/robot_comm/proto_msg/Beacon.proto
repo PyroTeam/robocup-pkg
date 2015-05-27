@@ -1,8 +1,16 @@
 import "Time.proto";
 import "Pose2D.proto";
 
-message Beacon{
-	required Time timestamp = 1;
-	required int32 nb_robot = 2;
-	optional Pose2D pose = 3;
+message Beacon
+{
+	enum CODE
+	{
+		BEACON = 2;
+	}
+	required CODE code = 1;
+
+	required string name = 2;
+	required Time timestamp = 3;
+	required int32 nb_robot = 4;
+	optional Pose2D pose = 5;
 }

@@ -1,0 +1,10 @@
+message Map
+{
+	enum CODE
+	{
+		MAP = 5;
+	}
+	required CODE code = 1;
+
+	required string name = 2;
+}

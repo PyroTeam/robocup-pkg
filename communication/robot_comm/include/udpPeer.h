@@ -4,7 +4,7 @@
  * \brief
  *
  * \author       Coelen Vincent
- *               Tissot Elise (elise-tissot@polytech-lille.net)
+ *               Tissot Elise (elise.tissot@polytech-lille.net)
  * \date         2015-04-06
  * \copyright    PyroTeam, Polytech-Lille
  * \license
@@ -23,14 +23,15 @@
 #include <vector>
 
 #include "encryptUtils.h"
+#include "messageCatalog.h"
 
-#define CODE 0xff
+//#define CODE 0xff
 
 //using boost::asio::ip::udp;
 
 //class MessageDispatcher;
-//class MessageCatalog;
-//class EncryptUtils;
+class MessageCatalog;
+class EncryptUtils;
 //class EntryPoint;
 
 class UdpPeer
@@ -38,13 +39,16 @@ class UdpPeer
 	private:
 		boost::asio::ip::udp::socket m_socket;
 		boost::asio::ip::udp::endpoint m_broadcastEndpoint;
-		//MessageCatalog m_msgCatalog;
+		boost::asio::ip::udp::endpoint m_remoteEndpoint;
+		MessageCatalog m_msgCatalog;
 		//MessageDispatcher m_msgDispatcher;
 		//bool m_isCrypto;
-		//EncryptUtils m_encryptUtil;
+		EncryptUtils m_encryptUtil;
 		//std::list<EntryPoint *> m_ep;
 		std::vector<unsigned char> m_bufferRecv;
-		int m_port;
+		std::vector<unsigned char> m_buffer;
+		int m_portIn;
+		int m_portOut;
 
 		void handle_receive(const boost::system::error_code &error, std::size_t size);
 		void handle_send(std::vector<unsigned char>*, const boost::system::error_code&, std::size_t);
@@ -54,7 +58,11 @@ class UdpPeer
 		//void setCrypto(std::vector<unsigned char> key, EncryptUtils::CIPHER_TYPE cipher);
 		void registerMessage();
 
-		UdpPeer(boost::asio::io_service& io_service, int port);
+		UdpPeer(boost::asio::io_service& io_service, int portIn, int portOut);
+
+        ~UdpPeer()
+        {
+        }
 };
 
 #endif

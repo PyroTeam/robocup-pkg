@@ -1,6 +1,14 @@
-message Time{
-	required int64 sec = 1;
-	required int64 usec = 2;
+message Time
+{
+	enum CODE
+	{
+		TIME = 8;
+	}
+	required CODE code = 1;
+
+	required string name = 2;
+	required int64 sec = 3;
+	required int64 usec = 4;
 }
 
 

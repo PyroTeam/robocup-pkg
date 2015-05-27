@@ -1,0 +1,10 @@
+message Obstacle
+{
+	enum CODE
+	{
+		OBSTACLE = 6;
+	}
+	required CODE code = 1;
+
+	required string name = 2;
+}

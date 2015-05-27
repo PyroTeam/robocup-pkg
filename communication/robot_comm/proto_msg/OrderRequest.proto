@@ -1,11 +1,20 @@
 import "Time.proto";
 
-message OrderRequest{
-	required Time game_time = 1;
-	required int32 number_order = 2;
-	required int32 number_robot = 3;
+message OrderRequest
+{
+	enum CODE
+	{
+		ORDER_REQUEST = 3;
+	}
+	required CODE code = 1;
 
-	enum ORDER_TYPE{
+	required string name = 2;
+	required Time game_time = 3;
+	required int32 number_order = 4;
+	required int32 number_robot = 5;
+
+	enum ORDER_TYPE
+    {
 		TAKE_BASE = 0;
 		PUT_CAP = 1;
 		TAKE_CAP = 2;
@@ -17,9 +26,10 @@ message OrderRequest{
 		DESTOCK = 8;
 		DISCOVER = 9;
 	}
-	required ORDER_TYPE type = 4;
+	required ORDER_TYPE type = 6;
 	
-	enum PARAMETER_TYPE{
+	enum PARAMETER_TYPE
+    {
 		BLACK = 10;
 		SILVER = 11;
 		RED = 12;
@@ -32,7 +42,7 @@ message OrderRequest{
 		STOCK = 19;
 		NONE = 20;
 	}
-	required PARAMETER_TYPE parameter = 5 [default = NONE];
+	required PARAMETER_TYPE parameter = 7 [default = NONE];
 	
-	required int32 id = 6 [default = -1];
+	required int32 id = 8 [default = -1];
 }

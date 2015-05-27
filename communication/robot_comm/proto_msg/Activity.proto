@@ -1,16 +1,25 @@
-message Activity{
-	required string name = 1;
+message Activity
+{
+	enum CODE
+	{
+		ACTIVITY = 1;
+	}
+	required int32 code = 1 [default = 1];
 
-	required int32 nb_robot = 2;
+	required string name = 2;
 
-	enum STATE_ROBOT{
+	required int32 nb_robot = 3;
+
+	enum STATE_ROBOT
+	{
 		IN_PROGRESS = 10;
 		END = 11;
 		ERROR = 12;
 	}
-	required STATE_ROBOT state = 3;
+	required STATE_ROBOT state = 4;
 
-	enum MACHINE_TYPE{
+	enum MACHINE_TYPE
+	{
 		BS = 0;
 		RS1 = 1;
 		RS2 = 2;
@@ -19,7 +28,7 @@ message Activity{
 		DS = 5;
 		NONE = 6;
 	}
-	required MACHINE_TYPE machine_used = 4;
+	required MACHINE_TYPE machine_used = 5;
 
-	required int32 nb_order = 5;
+	required int32 nb_order = 6;
 }

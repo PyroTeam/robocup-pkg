@@ -1,5 +1,13 @@
-message Pose2D{
-	required double x = 1;
-	required double y = 2;
-	required double theta = 3;
+message Pose2D
+{
+	enum CODE
+	{
+		POSE2D = 7;
+	}
+	required CODE code = 1;
+
+	required string name = 2;
+	required double x = 3;
+	required double y = 4;
+	required double theta = 5;
 }
