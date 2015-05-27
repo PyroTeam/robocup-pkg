@@ -50,11 +50,15 @@ double dist(geometry_msgs::Point a, Segment s)
 geometry_msgs::Point ortho(geometry_msgs::Point a, Line d)
 {
     double distance = dist(a,d);
-    double dx = distance*cos(d.getAngle());
-    double dy = distance*sin(d.getAngle());
+    geometry_msgs::Point v;
+    v.x = cos(d.getAngle());
+    v.y = sin(d.getAngle());
+
+    double K = ((a.x - d.getPoint().x)*v.x + (a.y - d.getPoint().y)*v.y)/(v.x*v.x + v.y*v.y);
+
     geometry_msgs::Point p;
-    p.x = a.x - dx;
-    p.y = a.y + dy;
+    p.x = d.getPoint().x + K*v.x;
+    p.y = d.getPoint().y + K*v.y;
 
     return p;
 }
@@ -62,11 +66,15 @@ geometry_msgs::Point ortho(geometry_msgs::Point a, Line d)
 geometry_msgs::Point ortho(geometry_msgs::Point a, Segment s)
 {
     double distance = dist(a,s);
-    double dx = distance*cos(s.getAngle());
-    double dy = distance*sin(s.getAngle());
+    geometry_msgs::Point v;
+    v.x = cos(s.getAngle());
+    v.y = sin(s.getAngle());
+
+    double K = ((a.x - s.getMin().x)*v.x + (a.y - s.getMin().y)*v.y)/(v.x*v.x + v.y*v.y);
+
     geometry_msgs::Point p;
-    p.x = a.x - dx;
-    p.y = a.y + dy;
+    p.x = s.getMin().x + K*v.x;
+    p.y = s.getMin().y + K*v.y;
 
     return p;
 }
@@ -138,7 +146,6 @@ Model ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPerti
         //si le modele_possible est mieux que le meilleur_modele enregistré
         if (modele_possible.getIndex().size() > meilleur_modele.getIndex().size())
         {
-        /*if (modele_possible.getCorrel() > meilleur_modele.getCorrel()){*/
             //on construit le nouveau meilleur_modele à partir du modele_possible
             meilleur_modele = modele_possible;
         }
@@ -300,7 +307,7 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
             //on construit un nouveau segment à partir de la liste enregistrée des points qui sont proches
             Segment s = build(tmp);
 
-            if(s.getSize() > 0.35)
+            if(s.getSize() > 0.5)
             {
                 //on enregistre le segment dans la liste de segments
                 listOfSegments.push_back(s);  

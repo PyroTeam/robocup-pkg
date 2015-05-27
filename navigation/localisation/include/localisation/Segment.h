@@ -2,7 +2,10 @@
 #define SEGMENT_H
 
 #include "geometry_msgs/Point.h"
-#include <list>
+#include "cartographie_utils.h"
+#include "Line.h"
+#include "Model.h"
+#include "Segment.h"
 
 #include <vector>
 #include <list>
@@ -21,8 +24,11 @@ public:
 
 	void setAngle(double theta);
 	void setSize(double size);
+	void setMin(geometry_msgs::Point a);
+	void setMax(geometry_msgs::Point a);
 	void setPoints(geometry_msgs::Point a, geometry_msgs::Point b);
 	
+	void update();
 protected:
 	double			 		m_angle;
 	double 			 		m_size;

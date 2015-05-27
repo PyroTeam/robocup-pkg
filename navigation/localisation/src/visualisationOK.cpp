@@ -13,6 +13,7 @@
 std::vector<geometry_msgs::Point> tabLandmarks;
 //ros::Time g_landmarks_stamp;
 std::vector<geometry_msgs::Point> tabSegments;
+std::vector<geometry_msgs::Point> tabSegmentsVus;
 //ros::Time g_segments_stamp;
 std::vector<geometry_msgs::Point> trajectoire;
 std::vector<geometry_msgs::Point> odometrie;
@@ -21,7 +22,8 @@ std::vector<geometry_msgs::Point> odometrie;
 void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments){
   tabSegments.clear();
   //g_segments_stamp = segments->header.stamp;
-  for (auto &it : segments->landmarks){
+  for (auto &it : segments->landmarks)
+  {
     geometry_msgs::Point p;
     p.x = it.x;
     p.y = it.y;

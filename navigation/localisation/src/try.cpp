@@ -18,66 +18,32 @@ using namespace Eigen;
 
 int main()
 {
-  int          n = 5;
-  double    sumX = 0.0, sumY = 0.0;
-  double     ecX = 0.0,  ecY = 0.0;         //ecart
-  double sumEcXY = 0.0;                     //somme des produits des écarts sur x et y
-  double    ec2X = 0.0, ec2Y = 0.0;         //somme des écarts au carré
-  double   covXY = 0.0, varX = 0.0, varY = 0.0;
+  Vector3d before, after;
+  Matrix3d m;
+  m.setZero();
 
-  std::vector<geometry_msgs::Point> tab;
-  //for (int i = 0; i < 5; i++)
-  //{
-    geometry_msgs::Point p;
-    p.x = -4;
-    p.y = 4;
-    tab.push_back(p);
-    p.x = -3;
-    p.y = 3;
-    tab.push_back(p);
-    p.x = -2;
-    p.y = 2;
-    tab.push_back(p);
-    p.x = -1;
-    p.y = 1;
-    tab.push_back(p);
-    p.x = 0;
-    p.y = 0;
-    tab.push_back(p);
-  //}
+  before(0) = 2+sqrt(2);
+  before(1) = 2+sqrt(2);
+  before(2) = 1;
 
-  for(auto &it : tab)
-  {
-    sumX  += it.x;
-    sumY  += it.y;
-  }
+  //translation
+  m(0,2) = 0.0;
+  m(1,2) = 0.0;
+  //rotation
+  Matrix2d rot;
+  rot = Rotation2Dd(M_PI/4);
+  m.topLeftCorner(2,2) = rot;
+  m(2,2) = 1;
 
-  //calcul des moyennes
-  double moyX = sumX/double(n);
-  double moyY = sumY/double(n);
-  std::cout << "point moyen de coord (" << moyX << "," << moyY << ")" << std::endl;
+  m.inverse();
 
-  //calcul du coefficient de corrélation
-  for(auto &it : tab)
-  {
-    ecX   = it.x - moyX;
-    ecY   = it.y - moyY;
-    sumEcXY += ecX*ecY;
+  std::cout << m << std::endl;
 
-    ec2X += ecX*ecX;
-    ec2Y += ecY*ecY;
-  }
+  after = m*before;
 
-  covXY = sumEcXY/double(n);
-  varX  = ec2X/double(n);
-  varY  = ec2Y/double(n);
+  geometry_msgs::Point p2;
+  p2.x     = after(0);
+  p2.y     = after(1);
 
-  double correl = covXY/sqrt(varX * varY);
-  std::cout << "corrélation de " << correl*correl << std::endl;
-  //correl = correl*correl;
-
-  double slope     = covXY/varX;
-  std::cout << "pente de " << slope << std::endl;
-  double yIntercept = moyY - slope * moyX;
-  std::cout << "ordonnée à l'origine de " << yIntercept << std::endl;
+  std::cout << p2 << std::endl;
 }
