@@ -13,6 +13,8 @@
 #include <manager_msg/finalApproachingAction.h>
 #include <actionlib/server/simple_action_server.h>
 #include <ros/ros.h>
+#include "Point.h"
+#include "Segment.h"
 #include "geometry_msgs/Twist.h"
 
 class finalApproaching
@@ -31,6 +33,7 @@ class finalApproaching
 		int m_type;
 		int m_side;
 		int m_parameter;
+		
 
 	public:
 		finalApproaching(std::string name) :
@@ -60,6 +63,16 @@ class finalApproaching
  *  \return		consigne en y
  */
 		float objectifY();
+		
+		std::vector<Segment> segmentsConstruction(std::list<std::vector<Point> > tabPoints, std::vector<float> ranges, float angleMin, double angleInc);
+		
+		float objectLength(int i, int j,std::vector<float> ranges, float angleMin, double angleInc);
+		
+		int nearestSegment(std::vector<Segment> tabSegments, std::vector<float> ranges);
+		
+		float distanceOrtho(Segment s,std::vector<float> ranges,float angleMin, double angleInc);
+		
+		float positionYLaser(Segment s,std::vector<float> ranges, float angleMin, double angleInc);
 
 };
 

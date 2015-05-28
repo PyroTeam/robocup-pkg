@@ -35,7 +35,7 @@ int asservissementAngle(ros::Publisher pubMvt,float moyGradient);
  *  \brief		permet d asservir en y (repere laser)
  *  \return		etat d avancement de l asservissement
  */ 
-int asservissementPositionY(ros::Publisher pubMvt, float moyPos,float goal, float ortho);
+int asservissementPositionY(ros::Publisher pubMvt, float goal, float moyPos, float yLeft, float yRight);
 
 /**
  *  \brief		permet d asservir en x (repere laser)

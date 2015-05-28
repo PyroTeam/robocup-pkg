@@ -78,6 +78,7 @@ class laserScan
 		float getAngleMin(){return m_angleMin;}
 		float getAngleMax(){return m_angleMax;}
 		double getAngleInc(){return m_angleInc;}
+		Segment getMainSegment(){return m_mainSegment;}
 		std::vector<float>& getRanges() {return m_ranges;}
 		std::list<std::vector<Point> > getTabPoints() {return m_tabPoints;}
 		std::vector<Segment> getTabSegments() {return m_tabSegments;}
@@ -87,6 +88,7 @@ class laserScan
 		void setAngleMin(float min){m_angleMin=min;}
 		void setAngleMax(float max){m_angleMax=max;}
 		void setAngleInc(double inc){m_angleInc=inc;}
+		void setMainSegment(Segment s){m_mainSegment=s;}
 
 
 	private:
@@ -94,6 +96,7 @@ class laserScan
 		std::vector<float> m_ranges;
 		std::list<std::vector<Point> > m_tabPoints;
 		std::vector<Segment> m_tabSegments;
+		Segment m_mainSegment;
 		float m_rangeMin;
 		float m_rangeMax;
 		float m_angleMin;
