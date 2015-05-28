@@ -39,7 +39,7 @@ private:
     {
         std::shared_ptr<google::protobuf::Message> proto_msg;
         //convert msg to google::protobuf::Message
-        rosToProtobuf(msg, proto_msg);
+        rosToProtobuf(msg, proto_msg, m_name);
         //test à supprimer
         if(std::shared_ptr<Activity> a = std::dynamic_pointer_cast<Activity>(proto_msg))
         {

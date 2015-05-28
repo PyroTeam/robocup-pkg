@@ -10,14 +10,15 @@
  * \license
  * \version
  */
-
+ 
 #include "msgConvertUtils.h"
 
 void rosToProtobuf(const boost::shared_ptr<const comm_msg::activity> &msg,
-                   std::shared_ptr<google::protobuf::Message> &proto_msg)
+                   std::shared_ptr<google::protobuf::Message> &proto_msg, std::string topicName)
 {
     std::shared_ptr<Activity> activity_proto(new Activity);
 
+	activity_proto->set_name(topicName);
     activity_proto->set_nb_robot(msg->nb_robot);
     activity_proto->set_state(Activity::STATE_ROBOT(msg->state));
     activity_proto->set_machine_used(Activity::MACHINE_TYPE(msg->machine_used));

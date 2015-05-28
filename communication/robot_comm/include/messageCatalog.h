@@ -20,9 +20,10 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <map>
-#include <typeindex>
+#include <unordered_map>
+
 #include <typeinfo>
+#include <typeindex>
 
 #include "Activity.pb.h"
 #include "Beacon.pb.h"
@@ -36,10 +37,11 @@
 class MessageCatalog
 {
 	private:
-		typedef std::map<std::type_index, int> TypeIntMap;
+		typedef std::unordered_map<std::type_index, int> TypeIntMap;
 		TypeIntMap m_catalog;
 
-        std::map<int, std::shared_ptr<google::protobuf::Message> (*)()> m_catalogType;
+        typedef std::unordered_map<int, std::shared_ptr<google::protobuf::Message> (*)()> IntProtoMap;
+        IntProtoMap m_catalogType;
 
 	public:
 		template<class T>
@@ -72,7 +74,6 @@ void MessageCatalog::add()
 	const std::type_index key(typeid(T));
 	T t;
 	m_catalog[key] = t.code();
-
     m_catalogType[t.code()] = createMsg<T>;
 }
 

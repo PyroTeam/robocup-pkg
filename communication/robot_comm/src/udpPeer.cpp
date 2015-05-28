@@ -44,7 +44,7 @@ void UdpPeer::send(std::shared_ptr<google::protobuf::Message>& msg)
 	std::vector<unsigned char>::iterator it;
 	std::cout << "Test" << std::endl;
 
-	m_msgCatalog.add<Activity>();
+	/*m_msgCatalog.add<Activity>();
 	std::shared_ptr<Activity> activity(new Activity());
 
 	activity->set_code(1);
@@ -54,9 +54,9 @@ void UdpPeer::send(std::shared_ptr<google::protobuf::Message>& msg)
 	activity->set_machine_used(Activity_MACHINE_TYPE_BS);
 	activity->set_nb_order(3);
 
-	msg = activity;
+	msg = activity;*/
 
-	int code = m_msgCatalog.serialize(m_buffer_tmp, msg);
+	int code = m_msgCatalog->serialize(m_buffer_tmp, msg);
 
 	std::cout << "Message serialise : ";
 	for (auto &i : m_buffer_tmp)
@@ -135,8 +135,8 @@ void UdpPeer::handle_receive(const boost::system::error_code &error, std::size_t
 				m_bufferRecv.erase(it, it_fin);
 				unsigned char code = m_bufferRecv[0];
 				m_bufferRecv.erase(it);
-				std::shared_ptr<google::protobuf::Message> msg = m_msgCatalog.deserialize(code, m_buffer);
-				//m_msgDispatcher.go(msg);
+				std::shared_ptr<google::protobuf::Message> msg = m_msgCatalog->deserialize(code, m_buffer);
+				//m_msgDispatcher->Go(msg);
 			}
 			else /* m_buffer == '1' */
 			{
@@ -175,12 +175,11 @@ void UdpPeer::handle_receive(const boost::system::error_code &error, std::size_t
 				std::cout << "Code : " << std::dec << code << std::endl;
 				it = buffer_s.begin();
 				buffer_s.erase(it);
-				std::shared_ptr<google::protobuf::Message> msg = m_msgCatalog.deserialize(code, buffer_s);
+				std::shared_ptr<google::protobuf::Message> msg = m_msgCatalog->deserialize(code, buffer_s);
 
 				std::shared_ptr<Activity> msgActivity = std::dynamic_pointer_cast<Activity>(msg);
 				std::cout << msgActivity->name() << std::endl;
-
-				//m_msgDispatcher.go(msg);
+				//m_msgDispatcher->Go(msg);
 			}
 		}
 	}
@@ -196,6 +195,12 @@ void UdpPeer::handle_send(std::vector<unsigned char>* /*message*/,
 		std::cout << "Taille : " << std::dec << size << std::endl;
   	}
 
-void UdpPeer::registerMessage()
+void UdpPeer::setDispatcher(std::shared_ptr<MessageDispatcher> dispatcher)
 {
+	m_msgDispatcher = dispatcher;
+}
+
+void UdpPeer::setCatalog(std::shared_ptr<MessageCatalog> catalog)
+{
+	m_msgCatalog = catalog;
 }

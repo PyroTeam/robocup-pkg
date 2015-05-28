@@ -19,25 +19,38 @@ int MessageCatalog::serialize(std::vector<unsigned char>& buffer, std::shared_pt
 {
 	buffer.resize(128, 0);
 	std::cout << std::dec << buffer.size() << std::endl;
-    /*bool result = */msg->SerializeToArray((void*)buffer.data(), buffer.size());
+    msg->SerializeToArray((void*)buffer.data(), buffer.size());
 	buffer.resize(msg->ByteSize());
 	std::cout << std::dec << msg->ByteSize() << std::endl;
 	std::cout << std::dec << buffer.size() << std::endl;
-    /*if (!result)
-    {
-        return 0;
-    }
+  
+	std::type_index key(typeid(*msg));
+
+	typename TypeIntMap::iterator it = m_catalog.find(std::type_index(typeid(*msg)));
+	if(it == m_catalog.end())
+	{
+		std::cout << "Clé non trouvée" << std::endl;;
+		return -1;
+	}
 	else
-	{*/
-		std::type_index key(typeid(*msg));
+	{
 		int code = m_catalog[key];
 		return code;
-	//}
+	}
 }
 
 std::shared_ptr<google::protobuf::Message> MessageCatalog::deserialize(int code, const std::vector<unsigned char>& buffer)
 {
-	std::shared_ptr<google::protobuf::Message> msg = m_catalogType[code]();
-    msg->ParseFromArray((void*)buffer.data(), buffer.size());
-    return msg;
+	typename IntProtoMap::iterator it = m_catalogType.find(code);
+	if(it == m_catalogType.end())
+	{
+		std::cout << "Code non trouvé" << std::endl;;
+		return nullptr;
+	}
+	else
+	{
+		std::shared_ptr<google::protobuf::Message> msg = m_catalogType[code]();
+   		msg->ParseFromArray((void*)buffer.data(), buffer.size());
+    	return msg;
+	}
 }

@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     std::vector<unsigned char> DecryptedMessage;
 
     eu.encrypt(message,  EncryptedMessage, iv);
-
+ 
     std::cout << "IV : ";
     for(auto &i: iv)
     {
@@ -64,9 +64,13 @@ int main(int argc, char **argv)
     //test TopicToUdpEntry
     boost::asio::io_service io_service;
     int port = 5001;
-	UdpPeer udp(io_service, port, port);
-    /*std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, port, port));
-    TopicToUdpEntry<comm_msg::activity> test_inpt(udpPeer, "/activity");*/
+	//UdpPeer udp(io_service, port, port);
+    std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, port, port));
+    std::shared_ptr<MessageDispatcher> msgDispatcher;
+    std::shared_ptr<MessageCatalog> msgCatalog;
+    msgCatalog->add<Activity>();
+    udpPeer->setCatalog(msgCatalog);
+    TopicToUdpEntry<comm_msg::activity> test_inpt(udpPeer, "/activity");
 
     //test udpToTopicEntry
     /*UdpToTopicEntry<Activity, comm_msg::activity> testUdpToTopic(udpPeer, "activity");*/
@@ -109,9 +113,9 @@ int main(int argc, char **argv)
     ros::Rate loop_rate(1);
     while(ros::ok())
     {
-		udp.send(msgTest);
-		std::cout << ".";
-		fflush(stdout);
+		//udp.send(msgTest);
+		//std::cout << ".";
+		//fflush(stdout);
 		io_service.poll();
         ros::spinOnce();
         loop_rate.sleep();

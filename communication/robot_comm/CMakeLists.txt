@@ -149,7 +149,7 @@ target_link_libraries(robot_comm_node
   ${OPENSSL_LIBRARIES}
 )
 
-set_target_properties(robot_comm_node PROPERTIES COMPILE_FLAGS "-std=c++0x -g3")
+set_target_properties(robot_comm_node PROPERTIES COMPILE_FLAGS "-std=c++11 -g3")
 
 #############
 ## Install ##

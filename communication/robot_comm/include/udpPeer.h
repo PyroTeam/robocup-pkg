@@ -24,15 +24,9 @@
 
 #include "encryptUtils.h"
 #include "messageCatalog.h"
+#include "dispatch.h"
 
-//#define CODE 0xff
-
-//using boost::asio::ip::udp;
-
-//class MessageDispatcher;
-class MessageCatalog;
-class EncryptUtils;
-//class EntryPoint;
+typedef StaticDispatch<google::protobuf::Message, void, std::function<void(google::protobuf::Message&)>> MessageDispatcher;
 
 class UdpPeer
 {
@@ -40,11 +34,10 @@ class UdpPeer
 		boost::asio::ip::udp::socket m_socket;
 		boost::asio::ip::udp::endpoint m_broadcastEndpoint;
 		boost::asio::ip::udp::endpoint m_remoteEndpoint;
-		MessageCatalog m_msgCatalog;
-		//MessageDispatcher m_msgDispatcher;
+		std::shared_ptr<MessageCatalog> m_msgCatalog;
+		std::shared_ptr<MessageDispatcher> m_msgDispatcher;
 		//bool m_isCrypto;
 		EncryptUtils m_encryptUtil;
-		//std::list<EntryPoint *> m_ep;
 		std::vector<unsigned char> m_bufferRecv;
 		std::vector<unsigned char> m_buffer;
 		int m_portIn;
@@ -56,7 +49,8 @@ class UdpPeer
 	public:
 		void send(std::shared_ptr<google::protobuf::Message>& msg);
 		//void setCrypto(std::vector<unsigned char> key, EncryptUtils::CIPHER_TYPE cipher);
-		void registerMessage();
+		void setDispatcher(std::shared_ptr<MessageDispatcher> dispatcher);
+		void setCatalog(std::shared_ptr<MessageCatalog> catalog);
 
 		UdpPeer(boost::asio::io_service& io_service, int portIn, int portOut);
 

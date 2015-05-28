@@ -20,7 +20,7 @@
 #include "comm_msg/activity.h"
 
 void rosToProtobuf(const boost::shared_ptr<const comm_msg::activity> &msg,
-                   std::shared_ptr<google::protobuf::Message> &proto_msg);
+                   std::shared_ptr<google::protobuf::Message> &proto_msg, std::string topicName);
 
 void ProtobufToRos(const Activity &proto_msg,
                    std::shared_ptr<comm_msg::activity> &msg);
