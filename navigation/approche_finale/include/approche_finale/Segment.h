@@ -43,6 +43,8 @@ class Segment{
  *  \return		true si pente nulle sinon false
  */
 		bool nilGradient();
+		
+		float distanceLaserSegment(std::vector<float> ranges);
 	  
 	private:
 		Point m_min;

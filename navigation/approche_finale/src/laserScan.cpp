@@ -77,8 +77,8 @@ void laserScan::Objects()
 		j++;
 		//cpt = cpt + it->size();
 	}
-	buildSegments();
-	ROS_INFO("nombre de segment d environ 70 cm : %d",(int)m_tabSegments.size());
+	//buildSegments();
+	//ROS_INFO("nombre de segment d environ 70 cm : %d",(int)m_tabSegments.size());
 }
 
 void laserScan::buildSegments()
@@ -87,32 +87,38 @@ void laserScan::buildSegments()
 	int min=0,i=0;
 	for(it = m_tabPoints.begin();it != m_tabPoints.end(); it++)
 	{
-		std::vector<Point> tab = *it;
-		Point pmin(m_ranges[min],m_ranges[min]*sin(m_angleMin+(double)min*m_angleInc));
-		Point pmax(m_ranges[min+it->size()-1],m_ranges[min+it->size()-1]*sin(m_angleMin+m_angleInc*(double)(min+it->size()-1)));
-		float d = length(i,min+it->size()-1); 
+		float d=0;
+		Point pmin(0,0);
+		Point pmax(0,0);
+		if(it->size()>1)
+		{
+			pmin.setR(m_ranges[min]);
+			pmin.setPhi(m_ranges[min]*sin(m_angleMin+(double)min*m_angleInc));
+			pmax.setR(m_ranges[min+it->size()-1]);
+			pmax.setPhi(m_ranges[min+it->size()-1]*sin(m_angleMin+m_angleInc*(double)(min+it->size()-1)));
+		d = length(i,min+it->size()-1);
+		}
 		ROS_INFO("taille objet: %f",d);
 		if(d>0.65 && d<0.75)
 		{
-			Segment s(pmin,pmax,min,it->size() + min -1);
-			ROS_INFO("distance objet %d du laser = %f",i,distanceObject(s));
-			s.linearRegression(*it);
+			Segment segm(pmin,pmax,min,it->size() + min -1);
+			ROS_INFO("distance objet %d du laser = %f",i,distanceObject(segm));
+			segm.linearRegression(*it);
 			ROS_INFO("taille du segment = %f",d); 
-			s.setDistance(d);
-			m_tabSegments.push_back(s);
+			segm.setDistance(d);
+			m_tabSegments.push_back(segm);
 		}
 		min = min + it->size();
 		i++;
 	}
-	Segment s;
+	//Segment s;
 	if(m_tabSegments.size()>0)
 	{
-		if(nearestSegment()==maxNumberPoints())
-		{
-			s=m_tabSegments[maxNumberPoints()];
-			m_tabSegments.clear();
-			m_tabSegments.push_back(s);
-		}
+		m_mainSegment = m_tabSegments[nearestSegment()];
+		/*s = m_tabSegments[nearestSegment()];
+		m_tabSegments.clear();
+		m_tabSegments.push_back(s);*/
+		
 	}
 }
 
@@ -188,20 +194,42 @@ int laserScan::maxNumberPoints()
 	return tmp;
 }
 
-
+//condition préalable: la machine est a 90° du laser
 float laserScan::distanceOrtho(Segment s)
 {
+	float ortho=0.0;
 	int min = s.getMinRanges();
 	int max = s.getMaxRanges();
-	float tmp = s.getMinRanges();
-	for(int i=min;i<=max;i++)
+	Point gauche(m_ranges[max],m_angleMin+(double)max*m_angleInc);
+	Point droite(m_ranges[min],m_angleMin+(double)min*m_angleInc);
+	//si le laser se trouve entre les deux points extremes du segment
+	//si yg et yd sont de signes différents
+	ROS_INFO("xg=%f xd=%f",gauche.getX(),droite.getX());
+    ROS_INFO("yg=%f yd=%f",gauche.getY(),droite.getY());
+	if(gauche.getY()*droite.getY()<0)
 	{
-		if(m_ranges[tmp] > m_ranges[i])
+		int tmp = min;
+		for(int i=min;i<=max;i++)
 		{
-			tmp = i;
+			if(m_ranges[tmp] > m_ranges[i])
+			{
+				tmp = i;
+			}
 		}
+		ortho = m_ranges[tmp];
+		ROS_INFO("ortho: %f",ortho); 
 	}
-	/*if(std::abs(tmp-min) < 5)
+	else
+	{
+		float orthoMin = m_ranges[min]*cos(m_angleMin+(double)min*m_angleInc);
+		float orthoMax = -m_ranges[max]*cos(m_angleMax+(double)max*m_angleInc);
+		ortho = (orthoMin+orthoMax)/(float)2;
+		ROS_INFO("orthoMin: %f orthoMax: %f ortho: %f",orthoMin,orthoMax,ortho);
+	}
+	return ortho;
+	
+	/*
+	if(std::abs(tmp-min) < 5)
 	{
 		ROS_INFO("erreur aller vers la right ");
 		return -1;
@@ -210,8 +238,8 @@ float laserScan::distanceOrtho(Segment s)
 	{
 		ROS_INFO("erreur aller vers la left ");
 		return -2;
-	}*/
-	return m_ranges[tmp];
+	}
+	return m_ranges[tmp];*/
 }
 
 float laserScan::positionY(Segment s)
@@ -248,6 +276,7 @@ float laserScan::positionY(Segment s)
 	{
 		i++;
 	}
+	ROS_INFO("tmp-i+1: %d m_ranges[tmp-i+1]: %f",tmp-i+1,m_ranges[tmp-i+1]);
 	float left = sqrt(m_ranges[tmp-i+1]*m_ranges[tmp-i+1] - d*d);	
 	//return left;
 	i=0;
@@ -255,6 +284,7 @@ float laserScan::positionY(Segment s)
 	{
 		i++;
 	}
+	ROS_INFO("tmp+i-1: %d m_ranges[tmp+i-1]: %f",tmp+i-1,m_ranges[tmp+i-1]);
 	float right = sqrt(m_ranges[tmp+i-1]*m_ranges[tmp+i-1] -d*d);
 	ROS_INFO("taille: %f ortho: %f",t,d);
 	ROS_INFO("left: %f t-right: %f",left,t-right);

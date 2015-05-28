@@ -1,8 +1,10 @@
 #include "Segment.h"
 #include "Point.h"
 #include "fa_utils.h"
+#include <math.h>
 #include <cmath>
 #include <vector>
+#include <ros/ros.h>
 
 Segment::Segment(){}
 
@@ -10,7 +12,7 @@ Segment::Segment(Point a, Point b,int minR,int maxR)
 {
 	m_min = a;
 	m_max = b;
-	m_gradient = (b.getY()-a.getY()) / (b.getX()-a.getX()); 
+	m_gradient = 0; 
 	m_minRanges = minR;
 	m_maxRanges = maxR;
 }
@@ -61,6 +63,15 @@ void Segment::linearRegression(std::vector<Point> tabPoints)
 	varY = ecartY2 /n;if(varY==0) varY = 1;
 	float correl = covXY/sqrt(varX * varY);
 	setCorrelation(correl*correl);
-	m_angle = atan2(varX,covXY) - M_PI_2;
-	
+	m_gradient = atan2(varY,covXY) ;
+	m_gradient = fmod(m_gradient,2*M_PI);
+	m_gradient= m_gradient - M_PI_2;
+	ROS_INFO("\t\tm_gradient = %f",m_gradient);
 }
+
+float Segment::distanceLaserSegment(std::vector<float> ranges)
+{
+	return (ranges[m_minRanges]+ranges[m_maxRanges])/(float)2;
+}
+
+
