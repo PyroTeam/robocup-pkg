@@ -136,7 +136,7 @@ void UdpPeer::handle_receive(const boost::system::error_code &error, std::size_t
 				unsigned char code = m_bufferRecv[0];
 				m_bufferRecv.erase(it);
 				std::shared_ptr<google::protobuf::Message> msg = m_msgCatalog->deserialize(code, m_buffer);
-				//m_msgDispatcher->Go(msg);
+				m_msgDispatcher->Go(*msg);
 			}
 			else /* m_buffer == '1' */
 			{
@@ -179,7 +179,7 @@ void UdpPeer::handle_receive(const boost::system::error_code &error, std::size_t
 
 				std::shared_ptr<Activity> msgActivity = std::dynamic_pointer_cast<Activity>(msg);
 				std::cout << msgActivity->name() << std::endl;
-				//m_msgDispatcher->Go(msg);
+				m_msgDispatcher->Go(*msg);
 			}
 		}
 	}

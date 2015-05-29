@@ -26,12 +26,10 @@ class UdpToTopicEntry : public EntryPoint
 public:
     UdpToTopicEntry(std::shared_ptr<UdpPeer> &udpPeer, const std::string &name);
     virtual ~UdpToTopicEntry(){}
+    void execute(google::protobuf::Message &msg);
 
 private:
     std::unordered_map<std::string, ros::Publisher> m_pubs;
-
-    bool execute(google::protobuf::Message &msg);
-
 
 };
 
@@ -42,7 +40,7 @@ UdpToTopicEntry<T,P>::UdpToTopicEntry(std::shared_ptr<UdpPeer> &udpPeer, const s
 }
 
 template<class T, class P>
-bool UdpToTopicEntry<T,P>::execute(google::protobuf::Message &msg)
+void UdpToTopicEntry<T,P>::execute(google::protobuf::Message &msg)
 {
     T &m = dynamic_cast<T&>(msg);
     std::shared_ptr<P> rosMsg;
@@ -55,7 +53,9 @@ bool UdpToTopicEntry<T,P>::execute(google::protobuf::Message &msg)
     }
     else
     {
-        ros::Publisher pub = m_nh.advertise<P>(m.name(), 1000);
+        std::string name = "/test/";
+        name.append(m.name());
+        ros::Publisher pub = m_nh.advertise<P>(name, 1000);
         pub.publish(*rosMsg);
         m_pubs[m.name()] = pub;
     }

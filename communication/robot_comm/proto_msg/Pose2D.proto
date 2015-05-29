@@ -1,13 +1,12 @@
 message Pose2D
 {
-	enum CODE
-	{
-		POSE2D = 7;
-	}
-	required CODE code = 1;
+	optional int32 code = 1 [default = 7];
 
 	required string name = 2;
+
 	required double x = 3;
+
 	required double y = 4;
+
 	required double theta = 5;
 }

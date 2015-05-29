@@ -1,4 +1,4 @@
-
+#include <functional>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
@@ -66,15 +66,21 @@ int main(int argc, char **argv)
     int port = 5001;
 	//UdpPeer udp(io_service, port, port);
     std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, port, port));
-    std::shared_ptr<MessageDispatcher> msgDispatcher;
-    std::shared_ptr<MessageCatalog> msgCatalog;
+
+    UdpToTopicEntry<Activity, comm_msg::activity> testUdpToTopic(udpPeer, "activity");
+
+    std::shared_ptr<MessageDispatcher> msgDispatcher(new(MessageDispatcher));
+    msgDispatcher->Add<Activity>(std::function<void(google::protobuf::Message&)>(boost::bind(&UdpToTopicEntry<Activity,           comm_msg::activity>::execute, &testUdpToTopic, _1)));
+    udpPeer->setDispatcher(msgDispatcher);
+
+    std::shared_ptr<MessageCatalog> msgCatalog(new(MessageCatalog));;
     msgCatalog->add<Activity>();
+
     udpPeer->setCatalog(msgCatalog);
+
     TopicToUdpEntry<comm_msg::activity> test_inpt(udpPeer, "/activity");
 
     //test udpToTopicEntry
-    /*UdpToTopicEntry<Activity, comm_msg::activity> testUdpToTopic(udpPeer, "activity");*/
-
 	//test messageCatalog
 	/*MessageCatalog msgCtg;
 	msgCtg.add<Activity>();

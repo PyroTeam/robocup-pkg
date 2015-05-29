@@ -47,7 +47,6 @@ class MessageCatalog
 		template<class T>
 		void add();
 		int serialize(std::vector<unsigned char>& buffer, std::shared_ptr<google::protobuf::Message>& msg);
-		//template<class T>
 		std::shared_ptr<google::protobuf::Message> deserialize(int code, const std::vector<unsigned char>& buffer);
 
 		/* Constructeur */

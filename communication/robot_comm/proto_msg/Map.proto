@@ -1,10 +1,10 @@
+import "Pose2D.proto";
+
 message Map
 {
-	enum CODE
-	{
-		MAP = 5;
-	}
-	required CODE code = 1;
+	optional int32 code = 1 [default = 5];
 
 	required string name = 2;
+
+    required Pose2D map = 3;
 }

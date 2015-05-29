@@ -1,13 +1,11 @@
 message Time
 {
-	enum CODE
-	{
-		TIME = 8;
-	}
-	required CODE code = 1;
+	optional int32 code = 1 [default = 8];
 
 	required string name = 2;
+
 	required int64 sec = 3;
+
 	required int64 usec = 4;
 }
 

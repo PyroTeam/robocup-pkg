@@ -1,14 +1,14 @@
 message OrderResponse
 {
-	enum CODE
-	{
-		ORDER_RESPONSE = 4;
-	}
-	required CODE code = 1;
+	optional int32 code = 1 [default = 4];
 
 	required string name = 2;
+
 	required bool accepted = 3;
+
 	required int32 number_order = 4;
+
 	required int32 number_robot = 5;
+
 	required int32 id = 6;
 }

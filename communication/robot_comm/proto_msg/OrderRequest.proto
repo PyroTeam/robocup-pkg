@@ -2,11 +2,7 @@ import "Time.proto";
 
 message OrderRequest
 {
-	enum CODE
-	{
-		ORDER_REQUEST = 3;
-	}
-	required CODE code = 1;
+	optional int32 code = 1 [default = 3];
 
 	required string name = 2;
 	required Time game_time = 3;

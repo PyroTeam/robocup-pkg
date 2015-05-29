@@ -3,14 +3,13 @@ import "Pose2D.proto";
 
 message Beacon
 {
-	enum CODE
-	{
-		BEACON = 2;
-	}
-	required CODE code = 1;
+	optional int32 code = 1 [default = 2];
 
 	required string name = 2;
+
 	required Time timestamp = 3;
+
 	required int32 nb_robot = 4;
+
 	optional Pose2D pose = 5;
 }

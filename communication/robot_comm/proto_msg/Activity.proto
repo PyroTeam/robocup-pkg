@@ -1,9 +1,5 @@
 message Activity
 {
-	enum CODE
-	{
-		ACTIVITY = 1;
-	}
 	optional int32 code = 1 [default = 1];
 
 	required string name = 2;

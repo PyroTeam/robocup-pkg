@@ -25,7 +25,7 @@ public:
     EntryPoint(std::shared_ptr<UdpPeer> &udpPeer, const std::string &name);
     virtual ~EntryPoint();
 
-    virtual bool execute(google::protobuf::Message &msg){}
+    virtual void execute(google::protobuf::Message &msg){}
 protected:
     ros::NodeHandle m_nh;
     std::string m_name;
