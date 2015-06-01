@@ -14,6 +14,8 @@
 
 #include "encryptUtils.h"
 
+#include <iostream>
+
 #include <openssl/conf.h>
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -22,8 +24,9 @@
 
 EncryptUtils::EncryptUtils()
 {
-    std::string skey = "random_key";
+    std::string skey = "random_k";
     m_key.assign(skey.begin(), skey.end());
+    m_key.push_back(0);
     m_cipher = AES_CBC_128;
 }
 
@@ -87,6 +90,9 @@ int EncryptUtils::encrypt_(const unsigned char *plaintext, int plaintext_len, un
    * In this example we are using 256 bit AES (i.e. a 256 bit key). The
    * IV size for *most* modes is the same as the block size. For AES this
    * is 128 bits */
+
+    std::cout << "Clé : " << key << std::endl;
+
   if(1 != EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv))
     handleErrors();
 

@@ -30,7 +30,7 @@ m_portIn(portIn), m_portOut(portOut), m_socket(io_service)
 	m_socket.open(boost::asio::ip::udp::v4());
 	boost::asio::socket_base::broadcast option(true);
 	m_socket.set_option(option);
-	m_broadcastEndpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string("127.255.255.255"), m_portOut);
+	m_broadcastEndpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string("192.168.10.255"), m_portOut);
 	m_bufferRecv.resize(64, 0);
 	m_remoteEndpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address_v4::any(), m_portIn);
 	m_socket.bind(m_remoteEndpoint);
