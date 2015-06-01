@@ -48,7 +48,7 @@ private:
 
         //send it via UdpPeer
         m_udpPeer->send(proto_msg);
-        std::cout << "Receive msg" <<std::endl;
+        std::cout << "Send udp msg" <<std::endl;
     }
 
 };

@@ -24,10 +24,10 @@
 
 EncryptUtils::EncryptUtils()
 {
-    std::string skey = "random_k";
+    std::string skey = "random_key";
     m_key.assign(skey.begin(), skey.end());
-    m_key.push_back(0);
-    m_cipher = AES_CBC_128;
+    m_key.resize(32, 0);
+    m_cipher = AES_CBC_256;
 }
 
 EncryptUtils::EncryptUtils(Buffer_type &key, CIPHER_TYPE cipher)
@@ -58,6 +58,7 @@ void EncryptUtils::encrypt(const Buffer_type &message, Buffer_type &encryptedMes
 {
     getRandomIV(initialisationVector);
     unsigned char cipherMessage[message.size()+16];
+    //std::cout << m_key.c_str() << std::endl;
     int len = encrypt_(message.data(), message.size(), m_key.data(), initialisationVector.data(), cipherMessage);
 
     encryptedMessage.assign(cipherMessage, cipherMessage+len);
@@ -67,6 +68,11 @@ void EncryptUtils::encrypt(const Buffer_type &message, Buffer_type &encryptedMes
 void EncryptUtils::decrypt(const Buffer_type &encryptedMessage, Buffer_type &decryptedMessage, const Buffer_type &initialisationVector)
 {
     unsigned char decryptedMsg[encryptedMessage.size()+16];
+    //Buffer_type encryptedMessage = .push_back(0);
+    //encryptedMessage.resize(encryptedMessage.size()-1);
+    //Buffer_type initialisationVectorN = initialisationVector;
+    //initialisationVectorN.push_back(0);
+    //initialisationVectorN.resize(initialisationVector.size());
     int len = decrypt_(encryptedMessage.data(), encryptedMessage.size(), m_key.data(), initialisationVector.data(), decryptedMsg);
 
     decryptedMessage.assign(decryptedMsg, decryptedMsg + len);
@@ -85,13 +91,14 @@ int EncryptUtils::encrypt_(const unsigned char *plaintext, int plaintext_len, un
   /* Create and initialise the context */
   if(!(ctx = EVP_CIPHER_CTX_new())) handleErrors();
 
+
+
+
   /* Initialise the encryption operation. IMPORTANT - ensure you use a key
    * and IV size appropriate for your cipher
    * In this example we are using 256 bit AES (i.e. a 256 bit key). The
    * IV size for *most* modes is the same as the block size. For AES this
    * is 128 bits */
-
-    std::cout << "Clé : " << key << std::endl;
 
   if(1 != EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv))
     handleErrors();
@@ -133,6 +140,7 @@ int EncryptUtils::decrypt_(const unsigned char *ciphertext, int ciphertext_len, 
    * In this example we are using 256 bit AES (i.e. a 256 bit key). The
    * IV size for *most* modes is the same as the block size. For AES this
    * is 128 bits */
+   std::cout << key << std::endl;
   if(1 != EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv))
     handleErrors();
 

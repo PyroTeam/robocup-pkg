@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     std::vector<unsigned char> DecryptedMessage;
 
     eu.encrypt(message,  EncryptedMessage, iv);
- 
+
     std::cout << "IV : ";
     for(auto &i: iv)
     {
@@ -63,14 +63,17 @@ int main(int argc, char **argv)
 
     //test TopicToUdpEntry
     boost::asio::io_service io_service;
-    int port = 5001;
+    int portIn = 5001;
+    int portOut = 5001;
+    nh.param<int>("portIn", portIn, 5001);
+    nh.param<int>("portOut", portOut, 5001);
 	//UdpPeer udp(io_service, port, port);
-    std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, port, port));
+    std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, portOut, portIn));
 
     UdpToTopicEntry<Activity, comm_msg::activity> testUdpToTopic(udpPeer, "activity");
 
     std::shared_ptr<MessageDispatcher> msgDispatcher(new(MessageDispatcher));
-    msgDispatcher->Add<Activity>(std::function<void(google::protobuf::Message&)>(boost::bind(&UdpToTopicEntry<Activity,           comm_msg::activity>::execute, &testUdpToTopic, _1)));
+    msgDispatcher->Add<Activity>(std::function<void(google::protobuf::Message&)>(boost::bind(&UdpToTopicEntry<Activity, comm_msg::activity>::execute, &testUdpToTopic, _1)));
     udpPeer->setDispatcher(msgDispatcher);
 
     std::shared_ptr<MessageCatalog> msgCatalog(new(MessageCatalog));;
@@ -108,12 +111,12 @@ int main(int argc, char **argv)
 
 	std::cout << "Debut test deserialize" << std::endl;
 	std::shared_ptr<google::protobuf::Message> googleMsg = msgCtg.deserialize(1, buffer);
-	
+
 	std::shared_ptr<Activity> msgActivity = std::dynamic_pointer_cast<Activity>(googleMsg);
 	std::cout << msgActivity->name() << std::endl;
 
 	std::cout << "Fin test deserialize" << std::endl;*/
-	
+
 	std::shared_ptr<google::protobuf::Message> msgTest;
 
     ros::Rate loop_rate(1);

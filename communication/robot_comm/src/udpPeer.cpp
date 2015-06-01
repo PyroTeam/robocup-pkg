@@ -20,6 +20,10 @@
 #include <boost/asio.hpp>
 #include <initializer_list>
 
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <ifaddrs.h>
+
 #include "udpPeer.h"
 
 //using boost::asio::ip::udp;
@@ -34,7 +38,48 @@ m_portIn(portIn), m_portOut(portOut), m_socket(io_service)
 	m_bufferRecv.resize(64, 0);
 	m_remoteEndpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address_v4::any(), m_portIn);
 	m_socket.bind(m_remoteEndpoint);
-	m_socket.async_receive_from(boost::asio::buffer(m_bufferRecv), m_remoteEndpoint, 
+	startReceive();
+
+
+
+	// get all ip address
+	struct ifaddrs *ifap, *ifa;
+	struct sockaddr_in *sa;
+	char *addr;
+
+	getifaddrs (&ifap);
+	for (ifa = ifap; ifa; ifa = ifa->ifa_next)
+	{
+		if (ifa->ifa_addr->sa_family==AF_INET)
+		{
+			sa = (struct sockaddr_in *) ifa->ifa_addr;
+			addr = inet_ntoa(sa->sin_addr);
+			boost::asio::ip::udp::endpoint ep = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string(addr), m_socket.local_endpoint().port());
+			m_localEndPoints.push_back(ep);
+			printf("Interface: %s\tAddress: %s\n", ifa->ifa_name, addr);
+		}
+	}
+
+	freeifaddrs(ifap);
+}
+
+
+bool UdpPeer::isLocalEndpoint(boost::asio::ip::udp::endpoint ep)
+{
+	for(auto &localEp : m_localEndPoints)
+	{
+		if(ep == localEp)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void UdpPeer::startReceive()
+{
+	m_bufferRecv.resize(64, 0);
+	m_socket.async_receive_from(boost::asio::buffer(m_bufferRecv), m_remoteEndpoint,
 		boost::bind(&UdpPeer::handle_receive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
 
@@ -116,10 +161,25 @@ void UdpPeer::handle_receive(const boost::system::error_code &error, std::size_t
 {
 	std::cout << "Entree receive (message recu)" << std::endl;
 	std::cout << "Octets transférés : " << std::dec << size << std::endl;
+
+	//get remote endpoint
+	boost::asio::ip::address remote_ad = m_remoteEndpoint.address();
+	std::string s = remote_ad.to_string();
+	std::cout << "remote endpoint : " << s << std::endl;
+
+	//discard message if remote endpoint is a local endpoint
+	if (isLocalEndpoint(m_remoteEndpoint))
+	{
+		std::cout << "Receive my own messages !!" << std::endl;
+		startReceive();
+		return;
+	}
+
 	if (!error || error == boost::asio::error::message_size)
 	{
 		if (m_bufferRecv[0] != 'c' /* code */)
 		{
+			startReceive();
 			return;
 		}
 		else
@@ -129,7 +189,7 @@ void UdpPeer::handle_receive(const boost::system::error_code &error, std::size_t
 			it_fin = m_bufferRecv.begin()+18;
 			std::cout << "Crypte ou non ? : " << m_bufferRecv[1] << std::endl;
 			if (m_bufferRecv[1] == '0') /* Le message n'est pas crypté */
-			{ 
+			{
 				std::cout << "Message non crypte recu" << std::endl;
 				it = m_bufferRecv.begin();
 				m_bufferRecv.erase(it, it_fin);
@@ -183,9 +243,8 @@ void UdpPeer::handle_receive(const boost::system::error_code &error, std::size_t
 			}
 		}
 	}
-	m_bufferRecv.resize(64, 0);
-	m_socket.async_receive_from(boost::asio::buffer(m_bufferRecv), m_remoteEndpoint,
-		boost::bind(&UdpPeer::handle_receive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+
+	startReceive();
 }
 
 void UdpPeer::handle_send(std::vector<unsigned char>* /*message*/,

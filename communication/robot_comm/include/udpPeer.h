@@ -43,6 +43,10 @@ class UdpPeer
 		int m_portIn;
 		int m_portOut;
 
+		std::list<boost::asio::ip::udp::endpoint> m_localEndPoints;
+		bool isLocalEndpoint(boost::asio::ip::udp::endpoint ep);
+
+		void startReceive();
 		void handle_receive(const boost::system::error_code &error, std::size_t size);
 		void handle_send(std::vector<unsigned char>*, const boost::system::error_code&, std::size_t);
 

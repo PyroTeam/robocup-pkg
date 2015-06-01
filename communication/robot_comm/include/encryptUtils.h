@@ -37,6 +37,7 @@ public:
     void setConfig(Buffer_type &key, CIPHER_TYPE cipher)
     {
         m_key = key;
+        m_key.resize(32, 0);
         m_cipher = cipher;
     }
 

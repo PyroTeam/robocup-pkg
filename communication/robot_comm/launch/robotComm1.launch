@@ -1,4 +1,6 @@
 <launch>
+    <param name="portIn" value="5001" />
+    <param name="portOut" value="5002" />
 
     <node pkg="robot_comm" name="robot_comm_node" type="robot_comm_node" output="screen"/>
 
