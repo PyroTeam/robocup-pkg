@@ -1,5 +1,8 @@
 <launch>
 
     <node pkg="robot_comm" name="robot_comm_node" type="robot_comm_node" launch-prefix="ddd --args"/>
-
+    <param name="robotNumber" value="1" />
+    <param name="portIn" value="5001" />
+    <param name="portOut" value="5001" />
+    <param name="adresseIP" value="192.168.10.255" />
 </launch>

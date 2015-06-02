@@ -27,7 +27,7 @@
 #include "udpPeer.h"
 
 /* Constantes */
-#define TAILLE_BUFFER 64
+#define TAILLE_BUFFER  1024
 #define CRYPTE         1
 #define NON_CRYPTE     0
 #define CODE          'c'
