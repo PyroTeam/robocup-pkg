@@ -71,7 +71,8 @@ void Segment::linearRegression(std::vector<Point> tabPoints)
 
 float Segment::distanceLaserSegment(std::vector<float> ranges)
 {
-	return (ranges[m_minRanges]+ranges[m_maxRanges])/(float)2;
+	ROS_INFO("m_minRanges: %d m_maxRanges: %d",m_minRanges,m_maxRanges);
+	return (ranges[(m_minRanges+m_maxRanges)/2]);
 }
 
 

@@ -13,9 +13,11 @@
 #include <manager_msg/finalApproachingAction.h>
 #include <actionlib/server/simple_action_server.h>
 #include <ros/ros.h>
+#include <vector>
 #include "Point.h"
 #include "Segment.h"
 #include "geometry_msgs/Twist.h"
+#include "ar_track_alvar_msgs/AlvarMarkers.h"
 
 class finalApproaching
 {
@@ -64,15 +66,23 @@ class finalApproaching
  */
 		float objectifY();
 		
+		std::list<std::vector<Point> > objectsConstruction(std::vector<float> ranges, float angleMin, double angleInc, float rangeMin, float rangeMax);
+		
 		std::vector<Segment> segmentsConstruction(std::list<std::vector<Point> > tabPoints, std::vector<float> ranges, float angleMin, double angleInc);
 		
-		float objectLength(int i, int j,std::vector<float> ranges, float angleMin, double angleInc);
+		float objectLength(int i, int j, std::list<std::vector<Point> > tabPoints, std::vector<float> ranges, float angleMin, double angleInc);
 		
 		int nearestSegment(std::vector<Segment> tabSegments, std::vector<float> ranges);
 		
 		float distanceOrtho(Segment s,std::vector<float> ranges,float angleMin, double angleInc);
 		
 		float positionYLaser(Segment s,std::vector<float> ranges, float angleMin, double angleInc);
+		
+		std::vector<int> idWanted(int team,int phase);
+
+		int correspondingId(std::vector<int> allPossibleId,std::vector<int> arTagId,std::vector<float> arTagDistance);
+
+		int asservissementCamera(std::vector<float> px, std::vector<float> pz, std::vector<float> oz, int k);
 
 };
 

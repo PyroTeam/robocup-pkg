@@ -42,7 +42,7 @@ int asservissementAngle(ros::Publisher pubMvt,float angle){
 	}
 	else
 	{
-		msg.angular.z = 0.5*(angle-0.01);
+		msg.angular.z = 0.4*(angle-0.01);
 		pubMvt.publish(msg);
 		return 0;
 	}
@@ -106,7 +106,7 @@ int asservissementPositionY(ros::Publisher pubMvt, float goal, float moyPos, flo
 		else
 		{
 			ROS_INFO("deplacement normal");
-			if(std::abs(moyPos - goal) < 0.007)
+			if(std::abs(moyPos - goal) < 0.008)
 			{
 				msg.linear.y = 0;
 				pubMvt.publish(msg);
@@ -114,7 +114,7 @@ int asservissementPositionY(ros::Publisher pubMvt, float goal, float moyPos, flo
 			}
 			else
 			{
-				msg.linear.y = 0.3*(moyPos - goal);
+				msg.linear.y = 0.1*(moyPos - goal);
 				pubMvt.publish(msg);
 				return 0;
 			}
@@ -127,7 +127,7 @@ int asservissementPositionX(ros::Publisher pubMvt, float distance, float goal){
 	geometry_msgs::Twist msg;
 	msg.linear.y = 0;
 	msg.angular.z = 0;
-	if(std::abs(distance-goal) < 0.01) 
+	if(std::abs(distance-goal) < 0.007) 
 	{
 		msg.linear.x = 0;
 		pubMvt.publish(msg);
