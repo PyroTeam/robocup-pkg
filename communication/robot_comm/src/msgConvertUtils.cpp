@@ -40,3 +40,18 @@ void ProtobufToRos(const Activity &proto_msg,
 
     msg = activity;
 }
+
+void ProtobufToRos(const Beacon &proto_msg,
+                   std::shared_ptr<nav_msgs::Odometry> &msg)
+{
+    std::shared_ptr<nav_msgs::Odometry> odom(new nav_msgs::Odometry());
+
+    Pose2D pose = proto_msg.pose();
+    odom->pose.pose.position.x = pose.x();
+    odom->pose.pose.position.y = pose.y();
+    odom->pose.pose.position.z = 0;
+    odom->pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0, 0, pose.theta());
+
+    msg = odom;
+}
+

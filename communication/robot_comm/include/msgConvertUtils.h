@@ -19,10 +19,17 @@
 
 #include "comm_msg/activity.h"
 
+#include <nav_msgs/Odometry.h>
+
+#include <tf/transform_datatypes.h>
+
 void rosToProtobuf(const boost::shared_ptr<const comm_msg::activity> &msg,
                    std::shared_ptr<google::protobuf::Message> &proto_msg, std::string topicName);
 
 void ProtobufToRos(const Activity &proto_msg,
                    std::shared_ptr<comm_msg::activity> &msg);
+
+void ProtobufToRos(const Beacon &proto_msg,
+                   std::shared_ptr<nav_msgs::Odometry> &msg);
 
 #endif /* MSGCONVERTUTILS_H_ */

@@ -38,17 +38,13 @@ private:
     void Callback(const boost::shared_ptr<const T> &msg)
     {
         std::shared_ptr<google::protobuf::Message> proto_msg;
+
         //convert msg to google::protobuf::Message
         rosToProtobuf(msg, proto_msg, m_name);
-        //test à supprimer
-        if(std::shared_ptr<Activity> a = std::dynamic_pointer_cast<Activity>(proto_msg))
-        {
-            std::cout << "nb robot = " << a->nb_robot() << std::endl;
-        }
 
         //send it via UdpPeer
         m_udpPeer->send(proto_msg);
-        std::cout << "Send udp msg" <<std::endl;
+        //std::cout << "Send udp msg" <<std::endl;
     }
 
 };

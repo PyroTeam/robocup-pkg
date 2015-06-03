@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  geometry_msgs
+  nav_msgs
   message_generation
 )
 find_package(Protobuf REQUIRED)
@@ -84,7 +86,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 catkin_package(
    INCLUDE_DIRS include
 #  LIBRARIES robot_comm
-   CATKIN_DEPENDS message_runtime roscpp rospy std_msgs
+   CATKIN_DEPENDS message_runtime roscpp rospy std_msgs geometry_msgs nav_msgs
 #  DEPENDS system_lib
 )
 

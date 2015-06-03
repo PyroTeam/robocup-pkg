@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  geometry_msgs
   message_generation
 )
 
@@ -45,9 +46,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
+add_message_files(FILES
   activity.msg
+  active_robot.msg
+  active_robots.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -82,7 +84,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES comm_msg
-   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
+   CATKIN_DEPENDS roscpp rospy std_msgs geometry_msgs message_runtime
 #  DEPENDS system_lib
 )
 

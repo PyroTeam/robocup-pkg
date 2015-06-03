@@ -1,12 +1,8 @@
 message Pose2D
 {
-	optional int32 code = 1 [default = 7];
+	required double x = 1;
 
-	required string name = 2;
+	required double y = 2;
 
-	required double x = 3;
-
-	required double y = 4;
-
-	required double theta = 5;
+	required double theta = 3;
 }

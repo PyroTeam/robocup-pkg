@@ -18,11 +18,8 @@ class MessageCatalog;
 int MessageCatalog::serialize(std::vector<unsigned char>& buffer, std::shared_ptr<google::protobuf::Message>& msg)
 {
 	buffer.resize(128, 0);
-	std::cout << std::dec << buffer.size() << std::endl;
     msg->SerializeToArray((void*)buffer.data(), buffer.size());
 	buffer.resize(msg->ByteSize());
-	std::cout << std::dec << msg->ByteSize() << std::endl;
-	std::cout << std::dec << buffer.size() << std::endl;
   
 	std::type_index key(typeid(*msg));
 

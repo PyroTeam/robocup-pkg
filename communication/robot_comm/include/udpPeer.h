@@ -42,6 +42,7 @@ class UdpPeer
 		std::vector<unsigned char> m_buffer;
 		int m_portIn;
 		int m_portOut;
+        std::string m_adresseIP;
 
 		std::list<boost::asio::ip::udp::endpoint> m_localEndPoints;
 		bool isLocalEndpoint(boost::asio::ip::udp::endpoint ep);
@@ -56,7 +57,7 @@ class UdpPeer
 		void setDispatcher(std::shared_ptr<MessageDispatcher> dispatcher);
 		void setCatalog(std::shared_ptr<MessageCatalog> catalog);
 
-		UdpPeer(boost::asio::io_service& io_service, int portIn, int portOut);
+		UdpPeer(boost::asio::io_service& io_service, int portIn, int portOut, std::string adresseIP);
 
         ~UdpPeer()
         {
