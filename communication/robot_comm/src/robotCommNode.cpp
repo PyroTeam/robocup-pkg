@@ -45,6 +45,7 @@ int main(int argc, char **argv)
 
     std::shared_ptr<MessageCatalog> msgCatalog(new(MessageCatalog));
     msgCatalog->add<Activity>();
+    msgCatalog->add<Beacon>();
     udpPeer->setCatalog(msgCatalog);
 
     UdpToTopicEntry<Activity, comm_msg::activity> testUdpToTopic(udpPeer, "activity");

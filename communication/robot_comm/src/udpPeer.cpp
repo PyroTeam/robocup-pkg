@@ -92,10 +92,12 @@ void UdpPeer::send(std::shared_ptr<google::protobuf::Message>& msg)
 	std::vector<unsigned char>::iterator it;
 
 	int code = m_msgCatalog->serialize(m_buffer_tmp, msg);
+
 	it = m_buffer_tmp.begin();
 	m_buffer_tmp.insert(it, code); /* code sérialisation */
 	std::vector<unsigned char> IV;
 	m_encryptUtil.encrypt(m_buffer_tmp, m_buffer, IV);
+
 	it = m_buffer.begin();
 	m_buffer.insert(it, IV.begin(), IV.end());
 	it = m_buffer.begin();
