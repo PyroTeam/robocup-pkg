@@ -22,12 +22,12 @@ void laserScan::laserCallback(const sensor_msgs::LaserScanConstPtr& scan)
 	setAngleMax(scan->angle_max);
 	setAngleInc(scan->angle_increment);
 	m_ranges = scan->ranges;
-	Objects();
+	//Objects();
 }
 
 
 laserScan::~laserScan(){}
-
+/*
 void laserScan::Objects()
 {
 	Point p0(m_ranges[0],m_angleMin);
@@ -53,14 +53,6 @@ void laserScan::Objects()
 			}
 		}
 	}
-	/*for(it=m_tabPoints.begin();it!=m_tabPoints.end();it++)
-	{
-		if(it->size()<10)
-		{
-			m_tabPoints.erase(it);
-			it--;
-		}
-	}*/
 	ROS_INFO("nombre d elements de tabPoints: %d",(int)m_tabPoints.size());
 	int j=0,cpt=0;
 	for(it=m_tabPoints.begin();it!=m_tabPoints.end();it++)
@@ -114,11 +106,7 @@ void laserScan::buildSegments()
 	//Segment s;
 	if(m_tabSegments.size()>0)
 	{
-		m_mainSegment = m_tabSegments[nearestSegment()];
-		/*s = m_tabSegments[nearestSegment()];
-		m_tabSegments.clear();
-		m_tabSegments.push_back(s);*/
-		
+		m_mainSegment = m_tabSegments[nearestSegment()];		
 	}
 }
 
@@ -149,7 +137,7 @@ float laserScan::length(int i,int j)
 	}
 }
 
-
+*/
 float laserScan::distanceObject(Segment s)
 {
 	int min = s.getMinRanges();
@@ -168,14 +156,6 @@ int laserScan::nearestSegment()
 			tmp = i;
 		}
 	}
-	/*for(int j=0;j<m_tabSegments.size(); j++)
-	{
-		if(j != tmp)
-		{
-			m_tabSegments[j] = m_tabSegments[tmp];
-		
-		}
-	}*/
 	return tmp;
 }
 
@@ -193,7 +173,7 @@ int laserScan::maxNumberPoints()
 	}
 	return tmp;
 }
-
+/*
 //condition préalable: la machine est a 90° du laser
 float laserScan::distanceOrtho(Segment s)
 {
@@ -227,19 +207,6 @@ float laserScan::distanceOrtho(Segment s)
 		ROS_INFO("orthoMin: %f orthoMax: %f ortho: %f",orthoMin,orthoMax,ortho);
 	}
 	return ortho;
-	
-	/*
-	if(std::abs(tmp-min) < 5)
-	{
-		ROS_INFO("erreur aller vers la right ");
-		return -1;
-	}
-	if(std::abs(tmp-max) < 5)
-	{
-		ROS_INFO("erreur aller vers la left ");
-		return -2;
-	}
-	return m_ranges[tmp];*/
 }
 
 float laserScan::positionY(Segment s)
@@ -255,7 +222,7 @@ float laserScan::positionY(Segment s)
 			tmp = i;
 		}
 	}
-	int med=(min+max)/2;
+	int med=(min+max)/2;*/
 	/*if(m_ranges[min]>1.0)
 	{
 		while(std::abs(m_ranges[min+i]-m_ranges[min+i+1]) < 0.03)
@@ -269,7 +236,7 @@ float laserScan::positionY(Segment s)
 		i++;
 	}
 	min = max -i;*/
-	float t = s.getDistance();
+/*	float t = s.getDistance();
 	float d = distanceOrtho(s);
 	float dMiddle = distanceObject(s);
 	while(std::abs(m_ranges[tmp-i]-m_ranges[tmp-1-i])<0.03)
@@ -290,4 +257,4 @@ float laserScan::positionY(Segment s)
 	ROS_INFO("left: %f t-right: %f",left,t-right);
 	//return t-right;
 	return (left+t-right)/(float)2;
-}
+}*/
