@@ -4,6 +4,7 @@
 
 void OdomFA::odomCallback(const nav_msgs::Odometry::ConstPtr& msg)
 {
+	m_turn = true;
 	m_px = msg->pose.pose.position.x;
 	m_py = msg->pose.pose.position.y;
 	m_oz = msg->pose.pose.orientation.z;

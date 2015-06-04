@@ -46,7 +46,8 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 	m_type = goal->type;
 	m_side = goal->side;
 	m_parameter = goal->parameter;
-	float initOrientation = 0;
+	float initOrientation = odom.getOrientationZ();
+	bool initOdom = false;
 	std::vector<int> id;
 	std::vector<float> px = at.getPositionX();
 	std::vector<float> pz = at.getPositionZ();
@@ -76,14 +77,57 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 	std::vector<int> allPossibleId = idWanted(0,0);
 	int reverse = 0;
 	int k=-1;
+	int phase = 0;
 	geometry_msgs::Twist msgTwist;
-	while(ros::ok() && !bp.getState() && k==-1 && reverse!=2)
+	while(ros::ok() && !bp.getState() && !odom.getTurn())
+	{
+	}
+	while(ros::ok() && !bp.getState() && k==-1 && phase!=3)
 	{
 		if(at.getFoundId())
 		{	
-			id=at.getId();
-			arTagDistance = at.getDistance();
-			k=correspondingId(allPossibleId,at.getId(),arTagDistance);
+			k=correspondingId(allPossibleId,at.getId(),at.getDistance());
+		}
+		ROS_INFO("phase: %d",phase);
+		switch(phase)
+		{
+			case 0:
+				initOrientation = odom.getOrientationZ();
+				phase++;
+				break;
+			case 1:
+				msgTwist.angular.z = 0.25; 
+				break;
+			case 2:
+				msgTwist.angular.z = -0.25; 
+				break;
+			case 3: 
+				msgTwist.angular.z = 0; 
+				break;
+		}
+		float newOrientation = odom.getOrientationZ()-initOrientation;
+		if(newOrientation<-1)
+		{
+			newOrientation=newOrientation+2;
+		}
+		if(newOrientation>1)
+		{
+			newOrientation=newOrientation-2;
+		}
+		ROS_INFO("initOrientation: %f odom.getOrientationZ(): %f",initOrientation,odom.getOrientationZ());
+		ROS_INFO("newOrientation: %f",newOrientation);
+		if(newOrientation>0.5 && phase==1)
+		{
+			phase = 2;
+		}
+		if(newOrientation<-0.5 && phase==2)
+		{
+			phase = 3;
+		}
+		/*if(initOdom==false && initOrientation!=0)
+		{
+			initOrientation = odom.getOrientationZ();
+			initOdom = true;
 		}
 		float newOrientation = odom.getOrientationZ();
 		if(initOrientation*newOrientation<0)
@@ -95,28 +139,28 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
                 {
                         initOrientation = newOrientation;
                 }
-		msgTwist.angular.z = 0.25;
+		ROS_INFO("initOrientation: %f",initOrientation);
+		msgTwist.angular.z = 0.25;*/
 		m_pubMvt.publish(msgTwist);
 	}
 	ROS_INFO("k: %d reverse: %d",k,reverse);
 	msgTwist.angular.z = 0;
 	m_pubMvt.publish(msgTwist);
-	while(ros::ok() && !bp.getState() && reverse !=2 && avancementArTag==0)
+	while(ros::ok() && !bp.getState() && phase!=3 && avancementArTag==0)
 	{
 		if(at.getFoundId())
 		{
 			px=at.getPositionX();
 			pz=at.getPositionZ();
 			oz=at.getOrientationZ();
-			arTagDistance = at.getDistance();
-			k=correspondingId(allPossibleId,at.getId(),arTagDistance);
+			k=correspondingId(allPossibleId,at.getId(),at.getDistance());
 			//ROS_INFO("taille de px: %d de pz: %d de oz: %d et valeur de k: %d",(int)px.size(),(int)pz.size(),(int)oz.size(),k);
 			avancementArTag=finalApproaching::asservissementCamera(px,pz,oz,k);
 		}
 	}
 	ROS_INFO("avancementArTag: %d",avancementArTag);
 	ROS_INFO("Waiting a complete laserscan");
-	while(ros::ok() && !bp.getState() && reverse != 2 && avancementArTag==1 && c!=2)
+	while(ros::ok() && !bp.getState() && phase!=3 && avancementArTag==1 && c!=2)
 	{
 		if(ls.getRanges().size() == 513)
 		{
@@ -205,13 +249,13 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 			}
 		}
 	}
-	if(bp.getState() || reverse==2)
+	if(bp.getState() || phase==3)
 	{
 		if(bp.getState())
 		{
 			ROS_WARN("OBSTACLE RENCONTRE\n");
 		}
-		if(reverse == 2)
+		if(phase == 3)
 		{
 			ROS_WARN("UN TOUR COMPLET SANS ARTAG CORRECT\n");
 		}
@@ -224,7 +268,7 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		j=0;
 		avancementArTag=0;
 		reverse=0;
-		initOrientation =  0;
+		phase=0;
 		listPositionY.clear();
 		listOrtho.clear();
 		stop.linear.x = 0;
@@ -243,7 +287,7 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		cpt=0;
 		avancementArTag=0;
 		reverse=0;
-		initOrientation = 0;
+		phase=0;
 		listPositionY.clear();
 		listOrtho.clear();
 		j=0;

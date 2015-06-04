@@ -8,6 +8,7 @@ class OdomFA
 {
 	public:
 		OdomFA();
+		bool getTurn(){return m_turn;}
 		float getPositionX(){return m_px;}
 		float getPositionY(){return m_py;}
 		float getOrientationZ(){return m_oz;}
@@ -16,6 +17,7 @@ class OdomFA
 	private:
 		ros::NodeHandle m_nh;
 		ros::Subscriber m_odomSub;
+		bool m_turn=false;
 		float m_px;
 		float m_py;
 		float m_oz;
