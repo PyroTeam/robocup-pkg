@@ -111,7 +111,7 @@ PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS
   proto_msg/Pose2D.proto
   proto_msg/OrderRequest.proto
   proto_msg/OrderResponse.proto
-  proto_msg/Map.proto
+  proto_msg/Landmarks.proto
   proto_msg/Obstacle.proto
 )
 

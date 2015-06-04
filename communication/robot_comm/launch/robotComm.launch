@@ -4,6 +4,6 @@
     <param name="robotNumber" value="1" />
     <param name="portIn" value="5001" />
     <param name="portOut" value="5001" />
-    <param name="adresseIP" value="192.168.10.255" />
+    <param name="adresseIP" value="127.0.0.255" />
 
 </launch>

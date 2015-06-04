@@ -27,6 +27,19 @@ void rosToProtobuf(const boost::shared_ptr<const comm_msg::activity> &msg,
     proto_msg = activity_proto;
 }
 
+void rosToProtobuf(const boost::shared_ptr<const comm_msg::landmarks> &msg,
+                   std::shared_ptr<google::protobuf::Message> &proto_msg, std::string topicName)
+{
+    std::shared_ptr<Landmarks> landmarks_proto(new Landmarks);
+
+	landmarks_proto->set_name(topicName);
+    geometry_msgs::Pose2D pose2D;
+    Pose2D* pose = landmarks_proto->mutable_landmarks();
+    pose->set_x(pose2D.x);
+    pose->set_y(pose2D.y);
+    pose->set_theta(pose2D.theta);
+    proto_msg = landmarks_proto;
+}
 
 void ProtobufToRos(const Activity &proto_msg,
                    std::shared_ptr<comm_msg::activity> &msg)
@@ -54,4 +67,18 @@ void ProtobufToRos(const Beacon &proto_msg,
 
     msg = odom;
 }
+
+void ProtobufToRos(const Landmarks &proto_msg,
+                   std::shared_ptr<comm_msg::landmarks> &msg)
+{
+    std::shared_ptr<comm_msg::landmarks> landmarks(new comm_msg::landmarks());
+
+    Pose2D pose = proto_msg.landmarks();
+    landmarks->landmarks.x = pose.x();
+    landmarks->landmarks.y = pose.y();
+    landmarks->landmarks.theta = pose.theta();
+
+    msg = landmarks;
+}
+
 

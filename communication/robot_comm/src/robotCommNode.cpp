@@ -15,6 +15,7 @@
 #include "messageCatalog.h"
 
 #include "comm_msg/activity.h"
+#include "comm_msg/landmarks.h"
 
 #include <initializer_list>
 #include <vector>
@@ -30,7 +31,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "InterRobotComm");
     ros::NodeHandle nh;
 
-    //chargement de la configuration
+    /* Chargement de la configuration */
     int robotNumber;
     nh.param<int>("robotNumber", robotNumber, 0);
     int portIn = 5001;
@@ -39,22 +40,31 @@ int main(int argc, char **argv)
     nh.param<int>("portOut", portOut, 5001);
     std::string adresseIP;
     nh.param<std::string>("adresseIP", adresseIP, "127.0.0.255");
-    // Fin du chargement de la configuration
 
+    /* Création UdpPeer (permet l'envoi et la réception des données) */
     boost::asio::io_service io_service;
     std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, portOut, portIn, adresseIP));
 
+    /* Ajouts des protobufs au message catalogue */
     std::shared_ptr<MessageCatalog> msgCatalog(new(MessageCatalog));
     msgCatalog->add<Activity>();
     msgCatalog->add<Beacon>();
+    msgCatalog->add<Landmarks>();
     udpPeer->setCatalog(msgCatalog);
 
+    /* TopicToUdp et UdpToTopic */
     UdpToTopicEntry<Activity, comm_msg::activity> udpToTopicActivity(udpPeer, "activity");
     TopicToUdpEntry<comm_msg::activity> topicToUdpActivity(udpPeer, "/activity");
 
+    UdpToTopicEntry<Landmarks, comm_msg::landmarks> udpToTopicLandmarks(udpPeer, "landmarks");
+    TopicToUdpEntry<comm_msg::landmarks> topicToUdpLandmarks(udpPeer, "/landmarks");
+
+    /* Ajout des protobufs au message dispatcher */
     std::shared_ptr<MessageDispatcher> msgDispatcher(new(MessageDispatcher));
     msgDispatcher->Add<Activity>(std::function<void(google::protobuf::Message&)>(
         boost::bind(&UdpToTopicEntry<Activity, comm_msg::activity>::execute, &udpToTopicActivity, _1)));
+    msgDispatcher->Add<Landmarks>(std::function<void(google::protobuf::Message&)>(
+        boost::bind(&UdpToTopicEntry<Landmarks, comm_msg::landmarks>::execute, &udpToTopicLandmarks, _1)));
 
     /* Traitement message beacon */
     ros::Subscriber pose_sub = nh.subscribe("/odom", 1000, &PoseCallback);

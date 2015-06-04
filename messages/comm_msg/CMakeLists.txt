@@ -50,6 +50,7 @@ add_message_files(FILES
   activity.msg
   active_robot.msg
   active_robots.msg
+  landmarks.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -69,7 +70,8 @@ add_message_files(FILES
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
-  std_msgs  # Or other packages containing msgs
+  std_msgs
+  geometry_msgs  # Or other packages containing msgs
 )
 
 ###################################
