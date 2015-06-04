@@ -34,11 +34,12 @@ int main(int argc, char **argv)
     int robotNumber;
     nh.param<int>("robotNumber", robotNumber, 0);
     int portIn = 5001;
-    int portOut = 5001;
     nh.param<int>("portIn", portIn, 5001);
+    int portOut = 5001;
     nh.param<int>("portOut", portOut, 5001);
     std::string adresseIP;
     nh.param<std::string>("adresseIP", adresseIP, "127.0.0.255");
+    // Fin du chargement de la configuration
 
     boost::asio::io_service io_service;
     std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, portOut, portIn, adresseIP));
@@ -48,16 +49,15 @@ int main(int argc, char **argv)
     msgCatalog->add<Beacon>();
     udpPeer->setCatalog(msgCatalog);
 
-    UdpToTopicEntry<Activity, comm_msg::activity> testUdpToTopic(udpPeer, "activity");
-
-    TopicToUdpEntry<comm_msg::activity> test_inpt(udpPeer, "/activity");
+    UdpToTopicEntry<Activity, comm_msg::activity> udpToTopicActivity(udpPeer, "activity");
+    TopicToUdpEntry<comm_msg::activity> topicToUdpActivity(udpPeer, "/activity");
 
     std::shared_ptr<MessageDispatcher> msgDispatcher(new(MessageDispatcher));
     msgDispatcher->Add<Activity>(std::function<void(google::protobuf::Message&)>(
-        boost::bind(&UdpToTopicEntry<Activity, comm_msg::activity>::execute, &testUdpToTopic, _1)));
+        boost::bind(&UdpToTopicEntry<Activity, comm_msg::activity>::execute, &udpToTopicActivity, _1)));
 
+    /* Traitement message beacon */
     ros::Subscriber pose_sub = nh.subscribe("/odom", 1000, &PoseCallback);
-
     ros::Rate loop_rate(1);
 
     g_pose.x = 0;
@@ -76,6 +76,7 @@ int main(int argc, char **argv)
 
     comm_msg::active_robots rosMsgActiveRobots;
     ros::Publisher activeRobots_pub = nh.advertise<comm_msg::active_robots>("/activeRobots", 1000);
+    /* Fin du traitement du message beacon */
 
     while(ros::ok())
     {

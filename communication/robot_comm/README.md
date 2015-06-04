@@ -22,4 +22,16 @@ Scripts
 Avancement
 ----------
 * [x] Rédiger un README
-* [ ] Réussir à établir une communication
+* [x] Réussir à établir une communication
+  - [x] Topics
+  - [ ] Services
+
+Ajouter un nouveau topic
+------------------------
+* Ecrire le message protobuf correspondant au message ROS (dans le dossier proto_msg), ne pas oublier d'ajouter un code par défaut et un nom
+* Dans le CMakeList.txt : rajouter le message protobuf après PROTOBUF_GENERATE_CPP afin de le compiler automatiquement
+* Dans robotCommNode :
+  - Rajouter le nouveau google protobuf message au msgCatalog
+  - Puis créer les topicToUdp et udpToTopic correspondant
+  - Rajouter également le message au msgDispatcher
+* Dans msgConvertUtils : Rajouter les fonctions rosToProtobuf et ProtobufToRos correspondant
