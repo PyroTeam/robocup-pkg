@@ -15,18 +15,22 @@ void ArTagFA::artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& m
 	{
 		for(int i=0; i<msg->markers.size(); i++)
 		{
-			if(sqrt(msg->markers[i].pose.pose.position.x*msg->markers[i].pose.pose.position.x+msg->markers[i].pose.pose.position.z*msg->markers[i].pose.pose.position.z)<2)
+			float d = sqrt(msg->markers[i].pose.pose.position.x*msg->markers[i].pose.pose.position.x+msg->markers[i].pose.pose.position.z*msg->markers[i].pose.pose.position.z);
+			if(d<2)
 			{
 				m_foundId = true;
-				ROS_INFO("AU MINIMUN UN ARTAG A MOINS DE 2 M");
 				m_id.push_back(msg->markers[i].id);
 				m_positionX.push_back(msg->markers[i].pose.pose.position.x);
 				m_positionZ.push_back(msg->markers[i].pose.pose.position.z);
 				m_orientationZ.push_back(msg->markers[i].pose.pose.orientation.z);
-				m_distance.push_back(sqrt(m_positionX[i]*m_positionX[i] + m_positionZ[i]*m_positionZ[i]));
+				m_distance.push_back(d);
 			}
 		}
 		
+	}
+	if(m_foundId==true)
+	{
+		ROS_INFO("AU MINIMUN UN ARTAG A MOINS DE 2 M");
 	}
 	else
 	{
