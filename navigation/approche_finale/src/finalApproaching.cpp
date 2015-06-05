@@ -5,6 +5,7 @@
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Twist.h>
 #include <ar_track_alvar_msgs/AlvarMarkers.h>
+#include <sensor_msgs/PointCloud.h>
 #include <cmath>
 #include <vector>
 #include <list>
@@ -16,7 +17,7 @@
 #include "Point.h"
 #include "arTagFA.h"
 #include "odomFA.h"
-
+#include "sharps.h"
 
 finalApproaching::~finalApproaching(void){}
 
@@ -30,6 +31,7 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 	BumperListener bp;
 	OdomFA odom;
 	ArTagFA at;
+	Sharps sharps;
 	loopRate.sleep();
 	feedback.percent_complete = 0;
 	// check that preempt has not been requested by the client
@@ -53,6 +55,8 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 	std::vector<float> pz = at.getPositionZ();
 	std::vector<float> oz = at.getOrientationZ();
 	std::vector<float> arTagDistance = at.getDistance();
+	std::vector<bool> allObstacles = sharps.getObstacle();
+	bool obstacle = false;
 	int a=0, b=0, c=0, cpt=0;
 	int avancementArTag = 0;
 	float positionY=0, gradient=0, ortho=0, moyY=0, moyO=0;
@@ -75,7 +79,6 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 	msg_marker.points.push_back(p);
 	msg_marker.points.push_back(p);*/
 	std::vector<int> allPossibleId = idWanted(0,0);
-	int reverse = 0;
 	int k=-1;
 	int phase = 0;
 	geometry_msgs::Twist msgTwist;
@@ -88,7 +91,6 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		{	
 			k=correspondingId(allPossibleId,at.getId(),at.getDistance());
 		}
-		ROS_INFO("phase: %d",phase);
 		switch(phase)
 		{
 			case 0:
@@ -106,47 +108,25 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 				break;
 		}
 		float newOrientation = odom.getOrientationZ()-initOrientation;
-		if(newOrientation<-1)
+		if(newOrientation<-M_PI)
 		{
-			newOrientation=newOrientation+2;
+			newOrientation=newOrientation+2*M_PI;
 		}
-		if(newOrientation>1)
+		if(newOrientation>M_PI)
 		{
-			newOrientation=newOrientation-2;
+			newOrientation=newOrientation-2*M_PI;
 		}
-		ROS_INFO("initOrientation: %f odom.getOrientationZ(): %f",initOrientation,odom.getOrientationZ());
-		ROS_INFO("newOrientation: %f",newOrientation);
-		if(newOrientation>0.5 && phase==1)
+		if(newOrientation>M_PI_2 && phase==1)
 		{
 			phase = 2;
 		}
-		if(newOrientation<-0.5 && phase==2)
+		if(newOrientation<-M_PI_2 && phase==2)
 		{
 			phase = 3;
 		}
-		/*if(initOdom==false && initOrientation!=0)
-		{
-			initOrientation = odom.getOrientationZ();
-			initOdom = true;
-		}
-		float newOrientation = odom.getOrientationZ();
-		if(initOrientation*newOrientation<0)
-                {
-                        initOrientation=newOrientation;
-                        reverse++;
-                }
-		if(initOrientation==0)
-                {
-                        initOrientation = newOrientation;
-                }
-		ROS_INFO("initOrientation: %f",initOrientation);
-		msgTwist.angular.z = 0.25;*/
 		m_pubMvt.publish(msgTwist);
 	}
-	ROS_INFO("k: %d reverse: %d",k,reverse);
-	msgTwist.angular.z = 0;
-	m_pubMvt.publish(msgTwist);
-	while(ros::ok() && !bp.getState() && phase!=3 && avancementArTag==0)
+	while(ros::ok() && !bp.getState() && phase!=3 && avancementArTag==0 && obstacle==false)
 	{
 		if(at.getFoundId())
 		{
@@ -157,10 +137,31 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 			//ROS_INFO("taille de px: %d de pz: %d de oz: %d et valeur de k: %d",(int)px.size(),(int)pz.size(),(int)oz.size(),k);
 			avancementArTag=finalApproaching::asservissementCamera(px,pz,oz,k);
 		}
+		if(k!=-1 && oz.size()>0 && pz.size()>0)
+		{
+			allObstacles = sharps.getObstacle();
+			if(std::abs(oz[k])>0.45)
+			{
+				allObstacles[0] = false;
+				allObstacles[1] = false;
+				allObstacles[8] = false;
+				ROS_INFO("allObstacles[8]: %d",(int)allObstacles[8]);
+			}
+			if(pz[k]<0.55)
+			{
+				allObstacles[0] = false;
+			}
+		}
+		for(int i=0;i<allObstacles.size(); i++)
+		{
+			if(allObstacles[i]==true)
+			{
+				obstacle = true;
+			}
+		}
 	}
-	ROS_INFO("avancementArTag: %d",avancementArTag);
 	ROS_INFO("Waiting a complete laserscan");
-	while(ros::ok() && !bp.getState() && phase!=3 && avancementArTag==1 && c!=2)
+	while(ros::ok() && !bp.getState() && phase!=3 && avancementArTag==1 && c!=2 && obstacle==false)
 	{
 		if(ls.getRanges().size() == 513)
 		{
@@ -249,7 +250,7 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 			}
 		}
 	}
-	if(bp.getState() || phase==3)
+	if(bp.getState() || phase==3 || obstacle==true)
 	{
 		if(bp.getState())
 		{
@@ -257,7 +258,11 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		}
 		if(phase == 3)
 		{
-			ROS_WARN("UN TOUR COMPLET SANS ARTAG CORRECT\n");
+			ROS_WARN("UN BALAYAGE COMPLET SANS ARTAG CORRECT\n");
+		}
+		if(obstacle==true)
+		{
+			ROS_WARN("OBSTACLE TROP PROCHE\n");
 		}
 		success=false;
 		geometry_msgs::Twist stop;
@@ -267,7 +272,6 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		cpt=0;
 		j=0;
 		avancementArTag=0;
-		reverse=0;
 		phase=0;
 		listPositionY.clear();
 		listOrtho.clear();
@@ -286,7 +290,6 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		c=0;
 		cpt=0;
 		avancementArTag=0;
-		reverse=0;
 		phase=0;
 		listPositionY.clear();
 		listOrtho.clear();

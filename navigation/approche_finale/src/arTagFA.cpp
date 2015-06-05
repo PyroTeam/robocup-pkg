@@ -15,14 +15,14 @@ void ArTagFA::artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& m
 	{
 		for(int i=0; i<msg->markers.size(); i++)
 		{
-			float d = sqrt(msg->markers[i].pose.pose.position.x*msg->markers[i].pose.pose.position.x+msg->markers[i].pose.pose.position.z*msg->markers[i].pose.pose.position.z);
+			float d = (float)sqrt(msg->markers[i].pose.pose.position.x*msg->markers[i].pose.pose.position.x+msg->markers[i].pose.pose.position.z*msg->markers[i].pose.pose.position.z);
 			if(d<2)
 			{
 				m_foundId = true;
-				m_id.push_back(msg->markers[i].id);
-				m_positionX.push_back(msg->markers[i].pose.pose.position.x);
-				m_positionZ.push_back(msg->markers[i].pose.pose.position.z);
-				m_orientationZ.push_back(msg->markers[i].pose.pose.orientation.z);
+				m_id.push_back((float)msg->markers[i].id);
+				m_positionX.push_back((float)msg->markers[i].pose.pose.position.x);
+				m_positionZ.push_back((float)msg->markers[i].pose.pose.position.z);
+				m_orientationZ.push_back((float)msg->markers[i].pose.pose.orientation.z);
 				m_distance.push_back(d);
 			}
 		}
