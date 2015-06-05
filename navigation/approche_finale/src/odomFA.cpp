@@ -1,13 +1,14 @@
 #include "odomFA.h"
 #include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
+#include <tf/transform_datatypes.h>
 
 void OdomFA::odomCallback(const nav_msgs::Odometry::ConstPtr& msg)
 {
 	m_turn = true;
 	m_px = msg->pose.pose.position.x;
 	m_py = msg->pose.pose.position.y;
-	m_oz = msg->pose.pose.orientation.z;
+	m_oz = tf::getYaw(msg->pose.pose.orientation);	
 }
 
 OdomFA::OdomFA(){
