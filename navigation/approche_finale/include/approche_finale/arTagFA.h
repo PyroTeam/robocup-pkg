@@ -1,3 +1,13 @@
+/**
+ * \file 			arTagFA.h
+ * \class			ArTagFA
+ * \brief			classe récupérant les données du topic /ar_pose_markers
+ * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date			2015-05-25
+ * \copyright		PyroTeam, Polytech-Lille
+ */
+
+
 #ifndef ARTAG_FA_H
 #define ARTAG_FA_H
 

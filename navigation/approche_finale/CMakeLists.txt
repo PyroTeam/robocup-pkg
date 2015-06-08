@@ -116,15 +116,6 @@ target_link_libraries(  finalApproaching_node  ${catkin_LIBRARIES})
 add_dependencies(  finalApproaching_node  ${manager_msg_EXPORTED_TARGETS}  manager_msg_gencpp)
 set_target_properties(finalApproaching_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
-add_executable(test_fonctions_laser_node
-	src/test_fonctions_laser_node.cpp
-	src/laserScan.cpp
-	src/Point.cpp
-	src/Segment.cpp
-	src/fa_utils.cpp)
-target_link_libraries(  test_fonctions_laser_node  ${catkin_LIBRARIES})
-set_target_properties(test_fonctions_laser_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
-
 add_executable(fake_scan_cyril_node
 	src/fake_scan_node.cpp)
 target_link_libraries(  fake_scan_cyril_node  ${catkin_LIBRARIES})

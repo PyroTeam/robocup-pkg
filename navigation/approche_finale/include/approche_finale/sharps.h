@@ -1,3 +1,12 @@
+/**
+ * \file 			sharps.h
+ * \class			Sharps
+ * \brief			classe récupérant les données du topic /distance_sensors
+ * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date			2015-05-25
+ * \copyright		PyroTeam, Polytech-Lille
+ */
+
 #ifndef SHARPS_H
 #define SHARPS_H
 

@@ -1,3 +1,12 @@
+/**
+ * \file 			odomFA.h
+ * \class			OdomFA
+ * \brief			classe récupérant les données du topic /odom
+ * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date			2015-05-25
+ * \copyright		PyroTeam, Polytech-Lille
+ */
+
 #ifndef ODOM_FA_H
 #define ODOM_FA_H
 
