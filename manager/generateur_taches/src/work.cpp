@@ -151,7 +151,7 @@ void cleanWork(list<list<Task> > &work,list<list<Task> >::iterator &it,double ti
 	if(!it->empty()) 
 	{
 		it->pop_front();
-		it->begin()->setEndCarryingOut(it->begin()->getCreation() + time);
+		//it->begin()->setTaskEnd(it->begin()->getTaskEnd() + time);
 	}
 	if(it->empty()) 
 	{
@@ -182,13 +182,14 @@ void particularTasksInWork(list<list<Task> > ::iterator &it, int &availableCap, 
 }
 
 //verifie les taches terminees
-void finishedTasks(list<list<Task> > &work, int robot, double time){
+void finishedTasks(list<list<Task> > &work, double time){
 	list<list<Task> >::iterator wit;
 	for(wit=work.begin(); wit!=work.end(); wit++)
 	{
-		if(wit->begin()->getEndCarryingOut() > time)
+		if(wit->begin()->getTaskEnd() >= time)
 		{
 			wit->begin()->setInProcess(false);
+			cleanWork(work,wit,time);
 		}
 	}
 }  

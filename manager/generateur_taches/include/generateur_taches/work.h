@@ -59,6 +59,6 @@ void particularTasksInWork(std::list<std::list<Task> > ::iterator &it, int &avai
 /**
  *	\brief		vérifie les tâches terminées
  */
-void finishedTasks(std::list<std::list<Task> > &work, int robot, double time);
+void finishedTasks(std::list<std::list<Task> > &work, double time);
 
 #endif
