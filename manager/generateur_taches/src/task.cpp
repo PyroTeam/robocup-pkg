@@ -9,7 +9,9 @@
 using namespace std;
 
 
-Task::Task(int intitule,int parametre,int prod,int deb,int fin,int crea,float rat,bool en_traitement, int robot, int fin_exec){
+Task::Task(int intitule,int parametre,int prod,int deb,int fin,int crea, int machineTime,
+		   float rat, bool en_traitement, int robot,  int fin_tache)
+{
 	m_title = intitule;
 	m_parameter = parametre;
 	m_product = prod;
@@ -19,7 +21,8 @@ Task::Task(int intitule,int parametre,int prod,int deb,int fin,int crea,float ra
 	m_ratio = rat;
 	m_inProcess = en_traitement;
 	m_robot = robot;
-	m_endCarryingOut = fin_exec;
+	m_machineTime = machineTime;
+	m_taskEnd = fin_tache;
 }
 
 int Task::pointPerProduct(){

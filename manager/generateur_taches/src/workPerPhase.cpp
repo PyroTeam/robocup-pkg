@@ -20,15 +20,15 @@
 using namespace manager_msg;
 using namespace std;
 
-void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &cptOrder, int robot ,int &cptZone, 								CorrespondanceZE &correspondanceZE){
+void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &cptOrder, int robot ,int &cptZone, 
+							CorrespondanceZE &correspondanceZE){
 	//update_zone(tabMachine,tabRobot); //trouver une maniere efficace d'attribuer aux machines un robot
 	int cptMachine=0;
 	vector<int> zone = correspondanceZE.getUsefulZone();
-	std::cout << "Taile zone : " << zone.size() << std::endl;
 	if(zone.size() == 12)
 	{
 		Srvorder srvexplo(ros::Time::now(),cptOrder,robot,orderRequest::DISCOVER,orderRequest::NONE,zone[cptZone]);
-		cout <<"Robot n°"<<robot<<" execute la tache DISCOVER sur la zone n "<<zone[cptZone]<<endl;
+		ROS_INFO("Robot n° %d execute la tache DISCOVER sur la zone n %d",robot,zone[cptZone]);
 		cptZone++;
 		cptOrder++;
 		if(srvexplo.getAccepted())
@@ -47,24 +47,41 @@ void workInProductionPhase(std::list<std::list<Task> > &work, Machine (&tabMachi
 	if(!tabRobot[robot].getBusy())
 	{
 		int id = 0;
-		finishedTasks(work,robot,time);
+		addInWork(work,order,availableCap);
+		//s'il y a au moins un ratio strictement positif
 		if(positiveRatio(work))
 		{
+			list<list<Task> >::iterator wit;
+			//boucle permettant de déterminer s'il faut rajouter du temps de traitement de machine
+			for(wit = work.begin(); wit != work.end(); wit++)
+			{
+				if(wit->begin()->getRobot() == robot)
+				{
+					wit->begin()->setTaskEnd(time + wit->begin()->getMachineTime());
+					wit->begin()->setRobot(0);
+				}
+			}
+			finishedTasks(work,time);
+			//partie permettant de déterminer la tâche la plus prioritaire
 			ratioCalculus(work,time,robot,take);
 			list<list<Task> >::iterator it = maxRatio(work);
 			particularTasksInWork(it,availableCap,storage,time);
+			//partie permettant de retrouver l'id de l'objet qui était stocké
 			if(it->begin()->getTitle() == orderRequest::DESTOCK)
 			{
 				id=findId(tabStock,it->begin()->getBeginningDelivery(), it->begin()->getEndDelivery());
 			}
+			//service envoyé à l'exécuteur de tâches
 			Srvorder srv(ros::Time::now(),cptOrder,robot+1,it->begin()->getTitle(),it->begin()->getParameter(),0);
-			cout <<"Robot n°"<<robot+1<<" tâche: "<<it->begin()->getTitle()<<" parametre: "
-				 <<it->begin()->getParameter() <<" id: " << srv.getId()<<"\n"<<endl;
+			ROS_INFO("Robot: %d tâche: %d parametre: %d id: %d",robot+1,it->begin()->getTitle(),
+			         it->begin()->getParameter(),srv.getId());
 			cptOrder++;
+			//dans le cas où c'est accepté
 			if(srv.getAccepted())
 			{
 				it->begin()->setInProcess(true);
 				it->begin()->setRobot(robot);
+				//s'il faut stocker un produit
 				if((it->begin()->getTitle() == orderRequest::DELIVER) && 
 				   (it->begin()->getParameter() == orderRequest::STOCK))
 				{
@@ -74,9 +91,19 @@ void workInProductionPhase(std::list<std::list<Task> > &work, Machine (&tabMachi
 									  it->begin()->getBeginningDelivery(),it->begin()->getEndDelivery());
 					it->splice(it->end(),ltmp);
 					Storage stock(it->begin()->getProduct(),it->begin()->getBeginningDelivery(),
-								  it->begin()->getEndDelivery(),srv.getId());
+								  it->begin()->getEndDelivery());
+					tabStock[srv.getId()]=stock;
 				}
-				if((it->begin()->getTitle() == 0) || (it->begin()->getTitle() == 2) || (it->begin()->getTitle() == 4))
+				//s'il faut déstocker un produit
+				if(it->begin()->getTitle() == orderRequest::DESTOCK)
+				{
+					tabStock[id].setBeginningDelivery(0);
+					tabStock[id].setEndDelivery(0);
+				}
+				//si le robot doit chercher un produit (fini ou non) auprès d'une machine
+				if((it->begin()->getTitle() == orderRequest::TAKE_BASE) 
+				    || (it->begin()->getTitle() == orderRequest::TAKE_CAP) 
+				    || (it->begin()->getTitle() == orderRequest::TAKE_CAP))
 				{
 					take[robot] = true;
 				}
@@ -84,12 +111,10 @@ void workInProductionPhase(std::list<std::list<Task> > &work, Machine (&tabMachi
 				{
 					take[robot] = false;
 				}
-				cleanWork(work,it,time);
+				//mettre à jour le tableau contenant les infos de l'ensemble des robots
 				tabRobot[robot].setBusy(true);
 			}
 		}
-		//on prend en compte les ordres de la refbox
-		addInWork(work,order,availableCap);
 		order.setQuantity(0);
 		id=0;
 	}
