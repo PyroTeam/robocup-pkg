@@ -4,17 +4,18 @@
 #include "robot.h"
 #include "srvorder.h"
 #include "work.h"
-#include "order.h"
 #include "storage.h"
 #include "storageChart.h"
 #include "product.h"
 #include "tasksList.h"
 #include "correspondanceZE.h"
+#include "orderInfo.h"
 
 #include <ros/ros.h>
 #include <list>
 #include <iostream>
 
+#include "comm_msg/Order.h"
 #include "manager_msg/order.h"
 
 using namespace manager_msg;
@@ -41,13 +42,13 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
 
 
 void workInProductionPhase(std::list<std::list<Task> > &work, Machine (&tabMachine)[6], Robot (&tabRobot)[3], 
-						   Storage (&tabStock)[6], bool (&take)[3], int &cptOrder, int robot, int &availableCap, 
-						   int &storage,Order &order, double time)
+						   Storage (&tabStock)[6], bool (&take)[3], int &cptOrder, int robot, int (&availableCap)[2], 
+						   int &storage,std::vector<comm_msg::Order> &tabOrders, double time, std::vector<bool> &ordersInProcess)
 {
-	if(!tabRobot[robot].getBusy())
+	if(!tabRobot[robot].getBusy()) 
 	{
 		int id = 0;
-		addInWork(work,order,availableCap);
+		addInWork(work,tabOrders,availableCap, ordersInProcess);
 		//s'il y a au moins un ratio strictement positif
 		if(positiveRatio(work))
 		{
@@ -85,12 +86,13 @@ void workInProductionPhase(std::list<std::list<Task> > &work, Machine (&tabMachi
 				if((it->begin()->getTitle() == orderRequest::DELIVER) && 
 				   (it->begin()->getParameter() == orderRequest::STOCK))
 				{
-					vector<int> nothing(1,20);
-					Product prod_tmp(it->begin()->getProduct(),nothing);
+					vector<uint8_t> nothing(1,1);
+					//produit bidon servant juste pour creationListTasksAction
+					Product prod_tmp(it->begin()->getComplexity(),1,nothing,1);
 					list<Task> ltmp = creationListTasksAction(int(orderRequest::DESTOCK),prod_tmp,
 									  it->begin()->getBeginningDelivery(),it->begin()->getEndDelivery());
 					it->splice(it->end(),ltmp);
-					Storage stock(it->begin()->getProduct(),it->begin()->getBeginningDelivery(),
+					Storage stock(it->begin()->getComplexity(),it->begin()->getBeginningDelivery(),
 								  it->begin()->getEndDelivery());
 					tabStock[srv.getId()]=stock;
 				}
@@ -115,7 +117,7 @@ void workInProductionPhase(std::list<std::list<Task> > &work, Machine (&tabMachi
 				tabRobot[robot].setBusy(true);
 			}
 		}
-		order.setQuantity(0);
+		//order.setQuantity(0);
 		id=0;
 	}
 }

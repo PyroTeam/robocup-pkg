@@ -89,6 +89,7 @@ add_library(
     src/refBoxUtils.cpp
 )
 add_dependencies(refBoxTransport comm_msg_gencpp)
+set_target_properties(refBoxTransport PROPERTIES COMPILE_FLAGS "-std=c++11 -g3")
 
 # See below
 if(COMMAND cmake_policy)
@@ -122,18 +123,8 @@ add_executable(
   refBoxComm
 
   src/refBoxComm.cpp
-  src/refBoxCommNode.cpp
+  src/refBoxComm_node.cpp
 )
-
-add_dependencies(refBoxComm ${catkin_EXPORTED_TARGETS} comm_msg_gencpp)
-
-add_executable(
-  eiListener
-  src/explorationInfoListenerNode.cpp
-)
-
-add_dependencies(eiListener ${catkin_EXPORTED_TARGETS} comm_msg_gencpp)
-
 
 target_link_libraries(
   refBoxComm
@@ -152,14 +143,23 @@ target_link_libraries(
   ${roscpp_LIBRARIES}
 )
 
+add_dependencies(refBoxComm ${catkin_EXPORTED_TARGETS} comm_msg_gencpp)
+set_target_properties(refBoxComm PROPERTIES COMPILE_FLAGS "-std=c++11 -g3")
+
+
+add_executable(
+  eiListener
+  src/explorationInfoListenerNode.cpp
+)
+
 target_link_libraries(
   eiListener
   ${catkin_LIBRARIES}
   ${roscpp_LIBRARIES}
 )
 
-set_target_properties(refBoxTransport PROPERTIES COMPILE_FLAGS "-std=c++0x -g3")
-set_target_properties(refBoxComm PROPERTIES COMPILE_FLAGS "-std=c++0x -g3")
+add_dependencies(eiListener ${catkin_EXPORTED_TARGETS} comm_msg_gencpp)
+
 
 #############
 ## Install ##
