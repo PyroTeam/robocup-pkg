@@ -22,7 +22,7 @@ public:
 	
 	void setTitle(int inti){m_title=inti;}
 	void setParameter(int parametre){m_parameter=parametre;}
-	void setProduct(int prod){m_product=prod;}
+	void setComplexity(int prod){m_complexity=prod;}
 	void setBeginningDelivery(int deb){m_beginningDelivery=deb;}
 	void setEndDelivery(int fin){m_endDelivery=fin;}
 	void setCreation(int crea){m_creation=crea;}
@@ -34,7 +34,7 @@ public:
 
 	int getTitle(){return m_title;}
 	int getParameter(){return m_parameter;}
-	int getProduct(){return m_product;}
+	int getComplexity(){return m_complexity;}
 	int getBeginningDelivery(){return m_beginningDelivery;}
 	int getEndDelivery(){return m_endDelivery;}
 	int getCreation(){return m_creation;}
@@ -49,7 +49,7 @@ public:
  *  \brief		Nombre de point par produit
  *  \return		le nombre de point que vaut un produit
  */  
-	int pointPerProduct();
+	int pointPerComplexity();
 /**
  *	\brief		vérifie si c'est le bon moment pour livrer
  *	\return		true s'il faut livrer sinon false
@@ -60,7 +60,7 @@ private:
 
 	int m_title;
 	int m_parameter;
-	int m_product; 
+	int m_complexity; 
 	int m_beginningDelivery;
 	int m_endDelivery;
 	int m_creation; //temps de creation restant

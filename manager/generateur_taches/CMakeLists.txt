@@ -106,15 +106,15 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(work_fonctions_test
-  src/task.cpp
-  src/tasksList.cpp
-  src/work.cpp
-  src/product.cpp
-  src/workFonctionsTest_node.cpp)
-target_link_libraries(work_fonctions_test ${catkin_LIBRARIES})
-add_dependencies(work_fonctions_test manager_msg_gencpp)
-set_target_properties(work_fonctions_test PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+#add_executable(work_fonctions_test
+#  src/task.cpp
+#  src/tasksList.cpp
+#  src/work.cpp
+#  src/product.cpp
+#  src/workFonctionsTest_node.cpp)
+#target_link_libraries(work_fonctions_test ${catkin_LIBRARIES})
+#add_dependencies(work_fonctions_test manager_msg_gencpp)
+#set_target_properties(work_fonctions_test PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 
 add_executable(main_node
