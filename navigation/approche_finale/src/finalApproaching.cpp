@@ -18,6 +18,7 @@
 #include "arTagFA.h"
 #include "odomFA.h"
 #include "sharps.h"
+#include "gameStateFA.h"
 
 finalApproaching::~finalApproaching(void){}
 
@@ -32,6 +33,7 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 	OdomFA odom;
 	ArTagFA at;
 	Sharps sharps;
+	GameStateFA gameState;
 	loopRate.sleep();
 	feedback.percent_complete = 0;
 	// check that preempt has not been requested by the client
@@ -60,8 +62,8 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 	int a=0, b=0, c=0, cpt=0;
 	int avancementArTag = 0;
 	float positionY=0, gradient=0, ortho=0, moyY=0, moyO=0;
-    	int j = 0;
-    	std::list<float> listPositionY, listOrtho;   		  
+    int j = 0;
+    std::list<float> listPositionY, listOrtho;   		  
 	laserScan ls;
 	loopRate.sleep();
 	/*visualization::Marker msg_marker;
@@ -78,13 +80,18 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 	geometry_msgs::Point p;
 	msg_marker.points.push_back(p);
 	msg_marker.points.push_back(p);*/
-	std::vector<int> allPossibleId = idWanted(0,0);
+	int teamColor;
+	nh.param<int>("teamColor",teamColor,0);
 	int k=-1;
 	int phase = 0;
 	geometry_msgs::Twist msgTwist;
 	while(ros::ok() && !bp.getState() && !odom.getTurn())
 	{
 	}
+	while(ros::ok() && !bp.getState()  && !gameState.getAlready())
+        {
+        }
+	std::vector<int> allPossibleId = idWanted(0,gameState.getPhase());
 	while(ros::ok() && !bp.getState() && k==-1 && phase!=3)
 	{
 		if(at.getFoundId())
