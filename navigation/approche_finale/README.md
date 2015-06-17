@@ -13,6 +13,7 @@ Noeuds
 ------
 * `finalApproaching_node` : noeud principal 
 * `fake_scan_node` : noeud de test pour valider le code autour de l action
+* `test_fonctions_laser_node` : noeud de test pour valider certaines fonctions du fichier laserScan.cpp
 
 Launchfiles
 -----------
