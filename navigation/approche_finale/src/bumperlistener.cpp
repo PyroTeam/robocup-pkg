@@ -8,7 +8,7 @@ void BumperListener::blCallback(const std_msgs::Bool &msg)
 	{
     	m_state = msg.data;
 	}
-	ROS_INFO(" bumper state: %d",m_state);
+	//ROS_INFO(" bumper state: %d",m_state);
 }
 
 BumperListener::BumperListener(){

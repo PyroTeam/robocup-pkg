@@ -31,8 +31,10 @@ float moy(std::list<float> position_y){
 
 int asservissementAngle(ros::Publisher pubMvt,float angle){
 	geometry_msgs::Twist msg;
-	angle = fmod(angle,2*M_PI);
-	if(std::abs(angle) < 0.03)
+	//ROS_INFO("angle avant = %f",angle);
+	//angle = fmod(angle,2*M_PI)-M_PI_2;
+	//ROS_INFO("angle apres = %f",angle);
+	if(std::abs(angle-0.01) < 0.015)
 	{
 		msg.angular.z = 0;
 		pubMvt.publish(msg);
@@ -40,16 +42,16 @@ int asservissementAngle(ros::Publisher pubMvt,float angle){
 	}
 	else
 	{
-		msg.angular.z = -0.75*angle;
+		msg.angular.z = 0.4*(angle-0.01);
 		pubMvt.publish(msg);
 		return 0;
 	}
 	
 }
 
-int asservissementPositionY(ros::Publisher pubMvt, float moyPos,float goal, float ortho){
+/*int asservissementPositionY(ros::Publisher pubMvt, float moyPos,float goal, float ortho){
 	geometry_msgs::Twist msg;
-	msg.angular.z = 0;
+	msg.angular.z = 0;*/
 	/*if(ortho < 0)
 	{
 		if(ortho == -1)
@@ -66,8 +68,8 @@ int asservissementPositionY(ros::Publisher pubMvt, float moyPos,float goal, floa
 		}
 	}
 	else*/ 
-	{
-		if(std::abs(moyPos - goal) < 0.01)
+	/*{
+		if(std::abs(moyPos - goal) < 0.007)
 		{
 			msg.linear.y = 0;
 			pubMvt.publish(msg);
@@ -80,13 +82,52 @@ int asservissementPositionY(ros::Publisher pubMvt, float moyPos,float goal, floa
 			return 0;
 		}
 	}
+}*/
+
+int asservissementPositionY(ros::Publisher pubMvt, float goal, float moyPos, float yLeft, float yRight){
+	geometry_msgs::Twist msg;
+	msg.angular.z = 0;
+	if(yLeft >= 0 && yRight >= 0)
+	{
+		ROS_INFO("Il faut tourner aller a droite");
+		msg.linear.y = 0.25;
+                pubMvt.publish(msg);		
+		return 0;
+	}
+	else
+	{
+		if(yLeft <= 0 && yRight <= 0)
+		{
+			ROS_INFO("Il faut aller a gauche");
+			msg.linear.y = -0.25;
+	                pubMvt.publish(msg);
+			return 0;
+		}
+		else
+		{
+			ROS_INFO("deplacement normal");
+			if(std::abs(moyPos - goal) < 0.008)
+			{
+				msg.linear.y = 0;
+				pubMvt.publish(msg);
+				return 1;
+			}
+			else
+			{
+				msg.linear.y = 0.1*(moyPos - goal);
+				pubMvt.publish(msg);
+				return 0;
+			}
+		}
+	}
 }
+
 
 int asservissementPositionX(ros::Publisher pubMvt, float distance, float goal){
 	geometry_msgs::Twist msg;
 	msg.linear.y = 0;
 	msg.angular.z = 0;
-	if(std::abs(distance-goal) < 0.01) 
+	if(std::abs(distance-goal) < 0.007) 
 	{
 		msg.linear.x = 0;
 		pubMvt.publish(msg);
