@@ -1,3 +1,4 @@
+#include "finalApproaching.h"
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
 #include <manager_msg/finalApproachingAction.h>
@@ -10,8 +11,8 @@
 #include <vector>
 #include <list>
 
-#include "finalApproaching.h"
 #include "bumperlistener.h"
+#include "geometry_msgs/Twist.h"
 #include "fa_utils.h"
 #include "laserScan.h"
 #include "Point.h"
@@ -31,6 +32,7 @@ void finalApproaching::preemptCB()
 
 void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr &goal)
 {
+	// helper variables
 	ros::Rate loopRate(100);
 	m_pubMvt = nh.advertise<geometry_msgs::Twist>("/cmd_vel",1000);
 	//general initialisation
@@ -250,6 +252,10 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		result.success = true;
 		result.state = 0;
 		ROS_INFO("%s: Succeeded", actionName.c_str());
+		// set the action state to succeeded
+		a=0;
+		b=0;
+		c=0;
 		as.setSucceeded(result);
 	}
 	else
@@ -392,7 +398,7 @@ std::vector<Segment> finalApproaching::segmentsConstruction(std::list<std::vecto
 			pmax.setPhi(ranges[min+it->size()-1]*sin(angleMin+angleInc*(double)(min+it->size()-1)));
 			d = objectLength(i,min+it->size()-1,tabPoints,ranges,angleMin,angleInc);
 		}
-		//if objec length around 70 cm
+		//if object length around 70 cm
 		if(d>0.65 && d<0.75)
 		{
 			//construction of segment
