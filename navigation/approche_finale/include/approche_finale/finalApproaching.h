@@ -32,6 +32,7 @@ class finalApproaching
 		manager_msg::finalApproachingResult result;
 		ros::Publisher m_pubMvt;
 		ros::Publisher m_markerPub;
+		ros::Publisher m_plot;
 		int m_type;
 		int m_side;
 		int m_parameter;
@@ -41,11 +42,17 @@ class finalApproaching
 		finalApproaching(std::string name) :
 		as(nh, name, boost::bind(&finalApproaching::executeCB, this, _1), false),actionName(name)
 		{
+			as.registerPreemptCallback(boost::bind(&finalApproaching::preemptCB, this));
 			as.start();
 		}
 
 		~finalApproaching(void);
 
+/**
+ *	\brief		Vérifie si l'action a été annulée
+ */
+		void preemptCB();
+		
 		void executeCB(const manager_msg::finalApproachingGoalConstPtr &goal);
 		
 /**
@@ -117,6 +124,24 @@ class finalApproaching
  *  \return		retourne 0 si c'est fini, 0 sinon
  */
 		int asservissementCamera(std::vector<float> px, std::vector<float> pz, std::vector<float> oz, int k);
+
+/**
+ *  \brief		détermine la vitesse angulaire du robot pour effectuer un balayage
+ *  \return		la vitesse angulaire en z (repère robot)
+ */		
+		float cameraScanVelocity(int phase);
+		
+/**
+ *  \brief		détermine si on change de phase de balayage
+ *  \return		la nouvelle phase de balayage
+ */		
+		int phaseDependingOnOrientation(float newOrientation, int phase);
+		
+/**
+ *  \brief		détecte s'il y a un obstacle proche qui ne sont pas les roues des machines
+ *  \return		retourne true si présence d'obstacle, sinon false
+ */		
+		bool obstacleDetection(std::vector<bool> allObstacles,int k,std::vector<float> oz,std::vector<float> pz);
 
 };
 
