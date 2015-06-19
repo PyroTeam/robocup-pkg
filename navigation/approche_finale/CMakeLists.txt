@@ -114,7 +114,7 @@ add_executable(finalApproaching_node
   src/gameStateFA.cpp
   src/finalApproaching_node.cpp)
 target_link_libraries(  finalApproaching_node  ${catkin_LIBRARIES})
-add_dependencies(  finalApproaching_node  ${manager_msg_EXPORTED_TARGETS}  comm_msg_gencpp manager_msg_gencpp)
+add_dependencies(  finalApproaching_node  ${manager_msg_EXPORTED_TARGETS} approche_finale_msg_gencpp comm_msg_gencpp manager_msg_gencpp)
 set_target_properties(finalApproaching_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
 add_executable(fake_scan_cyril_node
