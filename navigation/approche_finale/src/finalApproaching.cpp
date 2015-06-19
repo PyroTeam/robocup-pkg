@@ -1,18 +1,19 @@
-#include "finalApproaching.h"
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
 #include <manager_msg/finalApproachingAction.h>
+#include "approche_finale_msg/plotDataFA.h"
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Twist.h>
+#include <geometry_msgs/Pose2D.h>
 #include <ar_track_alvar_msgs/AlvarMarkers.h>
 #include <sensor_msgs/PointCloud.h>
 #include <cmath>
 #include <vector>
 #include <list>
 
+#include "finalApproaching.h"
 #include "bumperlistener.h"
-#include "geometry_msgs/Twist.h"
 #include "fa_utils.h"
 #include "laserScan.h"
 #include "Point.h"
@@ -32,9 +33,10 @@ void finalApproaching::preemptCB()
 
 void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr &goal)
 {
-	// helper variables
 	ros::Rate loopRate(100);
 	m_pubMvt = nh.advertise<geometry_msgs::Twist>("/cmd_vel",1000);
+	m_plot  = nh.advertise<approche_finale_msg::plotDataFA>("/plotDataFA",1000);
+	approche_finale_msg::plotDataFA plotData;
 	//general initialisation
 	bool success = true;
 	feedback.percent_complete = 0;
@@ -83,14 +85,13 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		{
       		return;
   		}
-  		ROS_DEBUG("TEST");
-		if(odom.getTurn() && gameState.getAlready())
+		if(odom.getTurn() /*&& gameState.getAlready()*/)
 		{
 			usefulInfo = true;
 		}
 	}
 	//loop to find a correct ARTag
-	std::vector<int> allPossibleId = idWanted(teamColor,gameState.getPhase());
+	std::vector<int> allPossibleId = idWanted(teamColor,0/*gameState.getPhase()*/);
 	while(ros::ok() && !bp.getState() && k==-1 && phase!=3)
 	{
 		// make sure that the action hasn't been canceled
@@ -132,7 +133,7 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 			avancementArTag=finalApproaching::asservissementCamera(px,pz,oz,k);
 		}
 		allObstacles = sharps.getObstacle();
-		obstacle = obstacleDetection(allObstacles, k, oz, pz);
+		obstacle = false;//obstacleDetection(allObstacles, k, oz, pz);
 	}
 	ROS_INFO("Waiting a complete laserscan");
 	//lock loop with laserscan
@@ -164,11 +165,12 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 					gradient = seg.getGradient();
 					ROS_DEBUG("gradient du segment le plus proche : %f",gradient);
 					positionY = positionYLaser(seg, ranges, angleMin, angleInc);
-					ROS_DEBUG("l objet se trouve a environ %f m du bord",positionY);
+					ROS_INFO("l objet se trouve a environ %f m du bord",positionY);
 					ortho = distanceOrtho(seg, ranges, angleMin, angleInc);
 					ROS_DEBUG("distance orthogonale laser-machine : %f",ortho);
+					
 					//to do an average 
-					if(j<2)
+					if(j<1)
 					{
 						listPositionY.push_back(positionY);
 						listOrtho.push_back(ortho);
@@ -183,15 +185,21 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 						moyY = moy(listPositionY);
 						moyO = moy(listOrtho);
 						//to be in front of the machine
-						a = asservissementAngle(m_pubMvt,gradient);	
+						a = asservissementAngle(plotData,m_pubMvt,gradient);	
 						int min = seg.getMinRanges();
 						int max = seg.getMaxRanges();
 						Point gauche(ranges[max],angleMin+(double)min*angleInc);
 						Point droite(ranges[min],angleMin+(double)max*angleInc);
+						plotData.XLeft = gauche.getX();
+						plotData.YLeft = gauche.getY();
+						plotData.XRight = droite.getX();
+						plotData.YRight = droite.getY();
 						if((a == 1) && (cpt < 200))
 						{
 							//to move on the Y axis of the robot
-							b = asservissementPositionY(m_pubMvt,moyY,objectifY(),gauche.getY(),droite.getY());
+							b = asservissementPositionY(plotData,m_pubMvt,moyY,objectifY(),gauche.getY(),droite.getY());
+							ROS_INFO("positionY: %f",positionY);
+							//listPositionY.clear();
 							if(b==1)
 							{
 								cpt++;
@@ -199,11 +207,12 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 						}	
 						if(a == 1 && cpt >= 200)
 						{
-							//to move on the Y axis of the robot
-							c = asservissementPositionX(m_pubMvt,ortho,objectifX());	
+							//to move on the X axis of the robot
+							c = asservissementPositionX(plotData,m_pubMvt,ortho,objectifX());	
 						}
 					}	
 				}
+				m_plot.publish(plotData);
 				feedback.percent_complete = avancement(a,b,c);
 				as.publishFeedback(feedback);
 				ros::spinOnce();
@@ -252,10 +261,6 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		result.success = true;
 		result.state = 0;
 		ROS_INFO("%s: Succeeded", actionName.c_str());
-		// set the action state to succeeded
-		a=0;
-		b=0;
-		c=0;
 		as.setSucceeded(result);
 	}
 	else
@@ -317,7 +322,7 @@ float finalApproaching::objectifY()
 				case manager_msg::finalApproachingGoal::IN :
 					tmp = 0.37; break;
 				case manager_msg::finalApproachingGoal::OUT :
-					tmp = 0.32; break;
+					tmp = 0.315; break;
 			}
 		default: break;
 	}
@@ -392,10 +397,10 @@ std::vector<Segment> finalApproaching::segmentsConstruction(std::list<std::vecto
 		{
 			ROS_ERROR_COND(ranges.size() <= min || min < 0, "OOPS, Bad index vector access, after line %d in file %s", __LINE__, __FILE__);
 			pmin.setR(ranges[min]);
-			pmin.setPhi(ranges[min]*sin(angleMin+(double)min*angleInc));
+			pmin.setPhi(angleMin+(double)min*angleInc);
 			ROS_ERROR_COND(ranges.size() <= min+it->size()-1 || min+it->size()-1 < 0, "OOPS, Bad index vector acess, after line %d in file %s", __LINE__, __FILE__);
 			pmax.setR(ranges[min+it->size()-1]);
-			pmax.setPhi(ranges[min+it->size()-1]*sin(angleMin+angleInc*(double)(min+it->size()-1)));
+			pmax.setPhi(angleMin+angleInc*(double)(min+it->size()-1));
 			d = objectLength(i,min+it->size()-1,tabPoints,ranges,angleMin,angleInc);
 		}
 		//if object length around 70 cm
@@ -405,7 +410,13 @@ std::vector<Segment> finalApproaching::segmentsConstruction(std::list<std::vecto
 			Segment segm(pmin,pmax,min,it->size() + min -1);
 			ROS_DEBUG("distance objet %d du laser = %f",i,segm.distanceLaserSegment(ranges));
 			ROS_DEBUG("distance ortho de l objet %d: %f",i,distanceOrtho(segm,ranges,angleMin,angleInc));
-			segm.linearRegression(*it);
+			geometry_msgs::Pose2D p=segm.linearRegression(*it);
+			geometry_msgs::Point orthoMin = orthoProjection(pmin,p);
+			geometry_msgs::Point orthoMax = orthoProjection(pmax,p);
+			ROS_INFO("pmin.x: %f pmin.y: %f pmax.x: %f pmax.y: %f",pmin.getX(),pmin.getY(),pmax.getX(),pmax.getY());
+			ROS_INFO("omin.x: %f omin.y: %f omax.x: %f omax.y: %f",orthoMin.x,orthoMin.y,orthoMax.x,orthoMax.y); 
+			segm.setMinPoint(orthoMin);
+			segm.setMaxPoint(orthoMax);
 			ROS_DEBUG("taille du segment = %f",d); 
 			segm.setDistance(d);
 			tabSegments.push_back(segm);
@@ -504,6 +515,7 @@ float finalApproaching::distanceOrtho(Segment s,std::vector<float> ranges,float 
 
 float finalApproaching::positionYLaser(Segment s,std::vector<float> ranges, float angleMin, double angleInc)
 {
+	/*
 	int tmp = 0;
 	int min = s.getMinRanges();
 	int i = 0;
@@ -536,6 +548,15 @@ float finalApproaching::positionYLaser(Segment s,std::vector<float> ranges, floa
 	ROS_DEBUG("right: %f t-left: %f",left,t-right);
 	//do an average
 	return (right+t-left)/(float)2;
+	*/
+	//float leftr = ranges[tmp+i-1];
+	//float leftphi = (float)(tmp+i-1)*(angleMin+(float)(tmp+i-1)*angleInc);
+	geometry_msgs::Point right = s.getMinPoint();
+	geometry_msgs::Point left = s.getMaxPoint();
+	float segmentSize = sqrt((left.x-right.x)*(left.x-right.x)+(left.y-right.y)*(left.y-right.y));
+	ROS_INFO("left.x: %f left.y: %f right.x: %f right.y: %f segmentSize: %f",left.x,left.y,right.x,right.y,segmentSize);
+	return right.y;
+	//return (left.y-segmentSize+right.y)/(float)2;
 }
 
 std::vector<int> finalApproaching::idWanted(int team,int phase)
@@ -708,9 +729,9 @@ int finalApproaching::asservissementCamera(std::vector<float> px, std::vector<fl
 	return avancementArTag;
 }
 
-int finalApproaching::cameraScanVelocity(int phase)
+float finalApproaching::cameraScanVelocity(int phase)
 {
-	int tmp;
+	float tmp;
 	switch(phase)
 	{
 		case 1:

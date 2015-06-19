@@ -19,7 +19,7 @@ void Sharps::sharpsCallback(const sensor_msgs::PointCloud &msg)
 		if(sqrt(x*x+y*y)<0.30)
 		{
 		m_obstacle[i] = true;
-		ROS_INFO("obstacle near distance sensor n %d",i);
+		ROS_WARN("obstacle near distance sensor n %d",i);
 		}
 	}
 }
