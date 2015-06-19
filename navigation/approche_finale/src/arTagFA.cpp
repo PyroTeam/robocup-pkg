@@ -30,11 +30,11 @@ void ArTagFA::artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& m
 	}
 	if(m_foundId==true)
 	{
-		ROS_INFO("AU MINIMUN UN ARTAG A MOINS DE 2 M");
+		ROS_DEBUG("AU MINIMUN UN ARTAG A MOINS DE 2 M");
 	}
 	else
 	{
-		ROS_INFO("NO ARTAG FOUND");
+		ROS_DEBUG("NO ARTAG FOUND");
 	}
 	
 }

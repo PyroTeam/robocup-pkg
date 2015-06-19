@@ -32,6 +32,7 @@ class finalApproaching
 		manager_msg::finalApproachingResult result;
 		ros::Publisher m_pubMvt;
 		ros::Publisher m_markerPub;
+		ros::Publisher m_plot;
 		int m_type;
 		int m_side;
 		int m_parameter;
@@ -128,7 +129,7 @@ class finalApproaching
  *  \brief		détermine la vitesse angulaire du robot pour effectuer un balayage
  *  \return		la vitesse angulaire en z (repère robot)
  */		
-		int cameraScanVelocity(int phase);
+		float cameraScanVelocity(int phase);
 		
 /**
  *  \brief		détermine si on change de phase de balayage
