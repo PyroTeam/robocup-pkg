@@ -110,17 +110,22 @@ include_directories(
 ## Declare a cpp executable
 add_executable(construct_map_node src/Map.cpp)
 add_executable(construct_map_test src/Test.cpp)
+add_executable(construct_map_test_simulator src/Test_simulator.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 add_dependencies(construct_map_node path_finder_generate_messages_cpp deplacement_msg_gencpp)
 add_dependencies(construct_map_test path_finder_generate_messages_cpp deplacement_msg_gencpp)
+add_dependencies(construct_map_test_simulator path_finder_generate_messages_cpp deplacement_msg_gencpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(construct_map_node
  ${catkin_LIBRARIES}
   )
   target_link_libraries(construct_map_test
+ ${catkin_LIBRARIES}
+  )
+  target_link_libraries(construct_map_test_simulator
  ${catkin_LIBRARIES}
   )
 
