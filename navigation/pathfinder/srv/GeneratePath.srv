@@ -1,0 +1,6 @@
+int16  id
+geometry_msgs/Pose  Arrivee
+geometry_msgs/Pose  Depart
+bool    utilisePositionOdometry
+---
+bool    requeteAcceptee

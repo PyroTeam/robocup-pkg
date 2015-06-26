@@ -1,0 +1,5 @@
+<launch>
+<group ns="approchefinale1">
+<node pkg="approche_finale" name="FA_node" type="finalApproaching_node" launch-prefix="ddd --args"/>
+</group>
+</launch>

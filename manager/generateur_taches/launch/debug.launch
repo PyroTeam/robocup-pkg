@@ -1,0 +1,5 @@
+<launch>
+<group ns="gentache1">
+<node pkg="generateur_taches" name="Tasks_generator_debug" type="main_node" launch-prefix="ddd --args"/>
+</group>
+</launch>
