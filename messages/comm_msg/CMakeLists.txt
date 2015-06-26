@@ -57,10 +57,16 @@ add_message_files(
 	Machine.msg
 	MachineInfo.msg
 	MachineReportInfo.msg
-	RingColor.msg
+	OrderInfo.msg
+	Order.msg
+	PrepareInstructionBS.msg
+	PrepareInstructionDS.msg
+	PrepareInstructionCS.msg
+	PrepareInstructionRS.msg
 	Robot.msg
 	RobotInfo.msg
     activity.msg
+
 
 )
 
@@ -68,6 +74,7 @@ add_message_files(
 add_service_files(
     FILES
     ReportMachine.srv
+	PrepareMachine.srv
 )
 
 ## Generate actions in the 'action' folder
