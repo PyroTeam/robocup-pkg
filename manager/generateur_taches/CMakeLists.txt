@@ -132,6 +132,8 @@ add_executable(main_node
   src/product.cpp
   src/correspondanceZE.cpp
   src/orderInfo.cpp
+  src/robotInfo.cpp
+  src/robot.cpp
   src/main_node.cpp)
 target_link_libraries(main_node ${catkin_LIBRARIES} )
 add_dependencies(main_node manager_msg_gencpp comm_msg_gencpp)
@@ -143,6 +145,13 @@ add_executable(orderInfo_node
 target_link_libraries(orderInfo_node ${catkin_LIBRARIES} )
 add_dependencies(orderInfo_node comm_msg_gencpp)
 set_target_properties(orderInfo_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
+add_executable(robotInfo_node
+    src/robotInfo.cpp
+    src/robotInfo_node.cpp)
+target_link_libraries(robotInfo_node ${catkin_LIBRARIES} )
+add_dependencies(robotInfo_node comm_msg_gencpp)
+set_target_properties(robotInfo_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 add_executable(action_node
     src/action.cpp
