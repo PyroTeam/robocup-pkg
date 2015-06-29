@@ -62,18 +62,18 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
             //m_dataLaser.calculObstacle();
             /*if (m_dataLaser.getObstacle() == true)
             {*/
-                g_mode = 2; // Mode évitement
+                //g_mode = 2; // Mode évitement
                 //m_avoidObstacle.avoidance();
                 //m_dataLaser.calculObstacle();
-                while (/*m_dataLaser.getObstacle() == true &&*/ !m_pathTrack.success() && !m_pathTrack.failure())
+                /*while (m_dataLaser.getObstacle() == true && !m_pathTrack.success() && !m_pathTrack.failure())
                 {
                     //m_avoidObstacle.avoidance();
-                    /*if (m_avoidObstacle.failure())
+                    if (m_avoidObstacle.failure())
                     {
                         break;
                     }
-                    m_dataLaser.calculObstacle();*/
-                }
+                    m_dataLaser.calculObstacle();
+                }*/
             //}
             //else // Pas d'obstacle
             //{

@@ -71,14 +71,13 @@ geometry_msgs::Point TrackPath::closestPoint(geometry_msgs::Point segmentStart, 
 void TrackPath::track(std::vector<geometry_msgs::PoseStamped> points, geometry_msgs::Pose odom)
 {
     geometry_msgs::Point pose;
+    pose.x = odom.position.x;
+    pose.y = odom.position.y;
+    geometry_msgs::Point pointObjectif;
     geometry_msgs::Point closest;
     geometry_msgs::Point start;
     geometry_msgs::Point stop;
-    geometry_msgs::Point nextPoint;
-    geometry_msgs::Point pointObjectif;
     geometry_msgs::Point pointSuiv;
-    pose.x = odom.position.x;
-    pose.y = odom.position.y;
 
     if (points.size() != 0)
     {
@@ -139,7 +138,7 @@ void TrackPath::track(std::vector<geometry_msgs::PoseStamped> points, geometry_m
     float opp = pointAvance.y - odom.position.y;
     float angle = atan2(opp, adj);
 
-    float yaw =tf::getYaw(odom.orientation);
+    float yaw = tf::getYaw(odom.orientation);
 
     float errAngle = (angle - yaw);
     errAngle = ((errAngle + M_PI) / (2 * M_PI)) - M_PI;
