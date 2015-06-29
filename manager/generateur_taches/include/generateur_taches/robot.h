@@ -10,8 +10,9 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
+#include "comm_msg/Robot.h"
 #include "manager_msg/activity.h"
-
+#include <vector>
 class Robot{
  
 public :
@@ -32,5 +33,7 @@ private :
 	int m_nbOrder;
 
 };
+
+bool robotState(std::vector<comm_msg::Robot> tabRobotInfo, int teamColor, int j, Robot tabRobot[3]);
 
 #endif

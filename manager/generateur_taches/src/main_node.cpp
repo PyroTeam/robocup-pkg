@@ -24,8 +24,10 @@
 #include "correspondanceZE.h"
 #include "srvorder.h"
 #include "orderInfo.h"
+#include "robotInfo.h"
 
 #include "comm_msg/Order.h"
+#include "comm_msg/Robot.h"
 #include "comm_msg/GameState.h" 
 
 using namespace std;
@@ -36,6 +38,7 @@ int main(int argc, char **argv)
 
 	/*** INITIALISATION ***/
 	ros::init(argc, argv, "action_node");
+	int teamColor = 0;
 	Action action;
 	GameState gameState;
 	ros::Rate loop_rate(1);
@@ -59,6 +62,9 @@ int main(int argc, char **argv)
 	OrderInfo orderInfo;
 	std::vector<comm_msg::Order> tabOrders;
 	std::vector<bool> ordersInProcess;
+	RobotInfo robotInfo;
+	std::vector<comm_msg::Robot> tabRobotInfo;
+	bool noProblem = true;
 	for(int i=0;i<20;i++)
 	{
 		ordersInProcess.push_back(false);
@@ -73,11 +79,12 @@ int main(int argc, char **argv)
 			time = ros::Time::now().toSec() - t0;
 			ROS_INFO("temps en sec = %d",(int)time);
 			action.updateRobot(tabRobot);
-			ROS_INFO("etat de tabRobot[%d] : %d",j,(int)tabRobot[j].getBusy());
+			tabRobotInfo = robotInfo.getRobots();
+			noProblem = robotState(tabRobotInfo,teamColor,j,tabRobot);
 			//mettre a jour les infos envoyees par la refbox
-			if(!tabRobot[j].getBusy() && cptZone<12) 
+			if(!tabRobot[j].getBusy() && noProblem) 
 			{
-				if(gameState.getPhase() == comm_msg::GameState::EXPLORATION)
+				if(gameState.getPhase() == comm_msg::GameState::EXPLORATION && cptZone<12)
 				{
 					workInExplorationPhase(tabMachine,tabRobot,cptOrder,j,cptZone, correspondanceZE);
 				}
