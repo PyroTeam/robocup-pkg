@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
     deplacement_msg
     geometry_msgs
     nav_msgs
+    sensor_msgs
     robotino_msgs
     roscpp
     rospy
@@ -113,6 +114,7 @@ add_executable(path_tracker_node
         src/path_tracker_node.cpp
         src/trackPathAction.cpp
         src/trackPath.cpp
+        src/dataLaser.cpp
 )
 
 ## Add cmake target dependencies of the executable/library
