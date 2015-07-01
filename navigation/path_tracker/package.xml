@@ -21,6 +21,7 @@
   <build_depend>deplacement_msg</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>nav_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
   <build_depend>robotino_msgs</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
@@ -30,6 +31,7 @@
   <run_depend>deplacement_msg</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>nav_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
   <run_depend>robotino_msgs</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>

@@ -133,6 +133,8 @@ void TrackPath::track(std::vector<geometry_msgs::PoseStamped> points, geometry_m
     pointAvance.x = closest.x + distAvance * cos(ang);
     pointAvance.y = closest.y + distAvance * sin(ang);
 
+    m_pointArrivee = pointAvance;
+
     // Rejoindre le point d'avance
     float adj = pointAvance.x - odom.position.x;
     float opp = pointAvance.y - odom.position.y;
@@ -180,4 +182,9 @@ bool TrackPath::success()
 bool TrackPath::failure()
 {
     return m_failure;
+}
+
+geometry_msgs::Point TrackPath::getPointArrivee()
+{
+    return m_pointArrivee;
 }
