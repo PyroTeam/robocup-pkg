@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package>
+  <name>gazebo_sim_launch</name>
+  <version>0.0.0</version>
+  <description>
+    The gazebo_sim_launch package
+    Regroup launch files and worlds to run Pyro Team simulation on Gazebo
+  </description>
+
+  <maintainer email="valentin.vergez@gmail.com">Valentin Vergez</maintainer>
+
+  <license>GPLv3</license>
+
+  <url type="repository">https://github.com/PyroTeam/robocup-pkg</url>
+  <url type="bugtracker">https://github.com/PyroTeam/robocup-pkg/issues</url>
+  <url type="website">https://github.com/PyroTeam/robocup-pkg/wiki</url>
+
+  <author email="valentin.vergez@gmail.com">Valentin Vergez</author>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>gazebo_to_ros</run_depend>
+  <run_depend>tf_broadcaster</run_depend>
+  <run_depend>gazebo_ros</run_depend> 
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- You can specify that this package is a metapackage here: -->
+    <!-- <metapackage/> -->
+
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>
