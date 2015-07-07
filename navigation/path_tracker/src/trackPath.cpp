@@ -12,6 +12,9 @@
 
 #include "trackPath.h"
 
+/* Constantes */
+#define VIT_ANGLE_MAX  30
+
 bool TrackPath::comparePoints(geometry_msgs::Point point1, geometry_msgs::Point point2)
 {
     if (point1.x != point2.x)
@@ -150,13 +153,13 @@ void TrackPath::track(std::vector<geometry_msgs::PoseStamped> points, geometry_m
 
     float vitAngle = errAnglePointSuiv * 1;
 
-    if (vitAngle > 30)
+    if (vitAngle > VIT_ANGLE_MAX)
     {
-        vitAngle = 30;
+        vitAngle = VIT_ANGLE_MAX;
     }
-    else if (vitAngle < -30)
+    else if (vitAngle < -VIT_ANGLE_MAX)
     {
-        vitAngle = -30;
+        vitAngle = -VIT_ANGLE_MAX;
     }
 
     if (!m_stopRobot)
