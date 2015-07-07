@@ -115,6 +115,7 @@ add_executable(path_tracker_node
         src/trackPathAction.cpp
         src/trackPath.cpp
         src/dataLaser.cpp
+        src/map.cpp
 )
 
 ## Add cmake target dependencies of the executable/library

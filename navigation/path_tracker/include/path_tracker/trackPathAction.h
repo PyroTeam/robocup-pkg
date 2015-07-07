@@ -41,6 +41,7 @@ private:
     ros::Subscriber m_odom_sub;
     ros::Subscriber m_laser_sub;
     bool m_succes;
+    int m_mode;
 
     struct Path
     {
@@ -70,6 +71,7 @@ protected:
 public:
     TrackPathAction(std::string name) : m_as(m_nh, name, boost::bind(&TrackPathAction::executeCB, this, _1), false), m_action_name(name)
     {
+        m_mode = 3;
         m_odom_sub = m_nh.subscribe("/odom", 1000, &TrackPathAction::odomCallback, this);
         m_path_sub = m_nh.subscribe("/pathFound", 1000, &TrackPathAction::pathCallback, this);
         m_laser_sub = m_nh.subscribe("/scan", 1000, &TrackPathAction::scanCallback, this);

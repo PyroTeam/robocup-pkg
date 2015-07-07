@@ -12,9 +12,6 @@
 
 #include "trackPathAction.h"
 
-/* Variables globales */
-int g_mode = 3; // Mode attente initial
-
 void TrackPathAction::pathCallback(const pathfinder::AstarPath &path)
 {
     if (m_path.size() == SIZE_LIST)
@@ -68,7 +65,7 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
             m_dataLaser.calculObstacle(m_odom_pose, pointArrivee);
             if (m_dataLaser.getObstacle() == true)
             {
-                g_mode = 2; // Mode évitement
+                m_mode = 2; // Mode évitement
                 //m_avoidObstacle.avoidance();
                 m_dataLaser.calculObstacle(m_odom_pose, pointArrivee);
                 while (m_dataLaser.getObstacle() == true && !m_pathTrack.success() && !m_pathTrack.failure())
@@ -83,7 +80,7 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
             }
             else // Pas d'obstacle
             {
-                g_mode = 1; // Mode suivi de chemin
+                m_mode = 1; // Mode suivi de chemin
                 m_pathTrack.track(it->m_path_points, m_odom_pose);
                 m_dataLaser.calculObstacle(m_odom_pose, pointArrivee);
                 while (m_dataLaser.getObstacle() == false && !m_pathTrack.success() && !m_pathTrack.failure())
@@ -109,5 +106,6 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
             m_result.result = deplacement_msg::TrackPathResult::FINISHED;
             m_as.setSucceeded(m_result);
         }
+        m_mode = 3;
     }
 }
