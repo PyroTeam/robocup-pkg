@@ -2,7 +2,8 @@
 #define LASERSCAN_H
 
 #include <vector>
-#include "sensor_msgs/LaserScan.h"
+#include <sensor_msgs/LaserScan.h>
+
 #include "Point.h"
 #include "Droite.h"
 #include "Modele.h"
@@ -66,6 +67,8 @@ private:
 	float m_angle_min;
 	float m_angle_max;
 	float m_angle_inc;
+public:
+	ros::Time m_stamp;
 };
 
 #endif
