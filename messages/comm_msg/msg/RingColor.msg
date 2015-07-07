@@ -1,6 +1,0 @@
-uint8 RING_BLUE
-uint8 RING_GREEN
-uint8 RING_ORANGE
-uint8 RING_YELLOW
-
-uint8 color

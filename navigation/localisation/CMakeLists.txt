@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   visualization_msgs
   cmake_modules
   deplacement_msg
+  tf
 )
 
 ## System dependencies are found with CMake's conventions

@@ -33,9 +33,11 @@ RefBoxComm::RefBoxComm(std::string teamName, std::string teamColor, std::string 
     m_gameState_pub = m_nh.advertise<comm_msg::GameState>("/refBoxComm/GameState", 1000);
     m_explorationInfo_pub = m_nh.advertise<comm_msg::ExplorationInfo>("/refBoxComm/ExplorationInfo", 1000);
     m_machineReportInfo_pub = m_nh.advertise<comm_msg::MachineReportInfo>("/refBoxComm/ReportedMachines", 1000);
-
+    m_orderInfo_pub = m_nh.advertise<comm_msg::OrderInfo>("/refBoxComm/OrderInfo", 1000);
+    m_machineInfo_pub = m_nh.advertise<comm_msg::MachineInfo>("/refBoxComm/MachineInfo", 1000);
 
     m_reportMachineService = m_nh.advertiseService("/refBoxComm/ReportMachine", &RefBoxComm::ReportMachineSrv, this);
+    m_prepareMachineService =  m_nh.advertiseService("/refBoxComm/PrepareMachine", &RefBoxComm::PrepareMachineSrv, this);
 
     m_pose_sub = m_nh.subscribe("/odom", 1000, &RefBoxComm::PoseCallback, this);
 
@@ -152,6 +154,52 @@ bool RefBoxComm::ReportMachineSrv(comm_msg::ReportMachine::Request  &req,
     return true;
 }
 
+
+bool RefBoxComm::PrepareMachineSrv(comm_msg::PrepareMachine::Request  &req,
+                                   comm_msg::PrepareMachine::Response &res)
+{
+
+    std::shared_ptr<PrepareMachine> prep(new PrepareMachine());
+    prep->set_team_color(m_status.teamColor);
+    prep->set_machine(req.machine);
+    std::string machineType = req.machine.substr(2,2);
+
+    if (machineType == "BS")
+    {
+        llsf_msgs::PrepareInstructionBS *prepBS = prep->mutable_instruction_bs();
+        prepBS->set_side(llsf_msgs::MachineSide(req.instruction_bs.side));
+    	prepBS->set_color(llsf_msgs::BaseColor(req.instruction_bs.color));
+    }
+    else if (machineType == "DS")
+    {
+        llsf_msgs::PrepareInstructionDS *prepDS = prep->mutable_instruction_ds();
+        prepDS->set_gate(req.instruction_ds.gate);
+    }
+    else if (machineType == "RS")
+    {
+        llsf_msgs::PrepareInstructionRS *prepRS = prep->mutable_instruction_rs();
+        prepRS->set_ring_color(llsf_msgs::RingColor(req.instruction_rs.ring_color));
+    }
+    else if (machineType == "CS")
+    {
+        llsf_msgs::PrepareInstructionCS *prepCS = prep->mutable_instruction_cs();
+        prepCS->set_operation(llsf_msgs::CsOp(req.instruction_cs.operation));
+    }
+    else
+    {
+        ROS_ERROR("Prepare Machine service : Wrong machine type");
+        return false;
+    }
+
+    RefBoxMessage prepareMachineMessage(prep, RefBoxMessage::NON_PERIODIC, 1000.0);
+    prepareMachineMessage.setCallBack(std::function<bool(google::protobuf::Message&)>(boost::bind(&RefBoxComm::sendPrepareMachineCB, this, _1)));
+    m_sendScheduler.push(prepareMachineMessage);
+
+    return true;
+}
+
+
+
 //send CallBack functions
 bool RefBoxComm::sendBeaconSignalCB(protoMsg &m)
 {
@@ -197,18 +245,27 @@ bool RefBoxComm::sendMachineReportCB(protoMsg &m)
 
 }
 
+bool RefBoxComm::sendPrepareMachineCB(protoMsg &m)
+{
+    PrepareMachine &pm = dynamic_cast<PrepareMachine&>(m);
+
+    return true;
+}
+
+
 
 //receive Handlers
 bool RefBoxComm::fireBeaconSignal(protoMsg &m)
 {
 	BeaconSignal &bs = dynamic_cast<BeaconSignal&>(m);
-
+/*
 #if __WORDSIZE == 64
     printf("Detected robot: %u %s:%s (seq %lu)\n",
 #else
     printf("Detected robot: %u %s:%s (seq %llu)\n",
 #endif
          bs.number(), bs.team_name().c_str(), bs.peer_name().c_str(), bs.seq());
+         */
 	return true;
 }
 
@@ -263,6 +320,9 @@ bool RefBoxComm::fireOrderInfo(protoMsg &m)
         llsf_msgs::Order::DeliveryGate_Name(o.delivery_gate()).c_str());
     }
 */
+    comm_msg::OrderInfo rosOrderInfo  = llsf2ros_orderInfo(oi);
+    m_orderInfo_pub.publish(rosOrderInfo);
+
 	return true;
 }
 
@@ -318,7 +378,7 @@ bool RefBoxComm::fireMachineInfo(protoMsg &m)
 {
 	MachineInfo &mi = dynamic_cast<MachineInfo&>(m);
 
-    printf("MachineInfo received:\n");
+    /*printf("MachineInfo received:\n");
     for (int i = 0; i < mi.machines_size(); ++i)
     {
         const Machine &m = mi.machines(i);
@@ -327,9 +387,12 @@ bool RefBoxComm::fireMachineInfo(protoMsg &m)
                 m.name().c_str(), m.type().substr(0, 2).c_str(),
         Team_Name(m.team_color()).substr(0, 2).c_str(),
                 p.x(), p.y(), p.ori());
-    }
+    }*/
 
-	return true;
+    comm_msg::MachineInfo rosMachineInfo = llsf2ros_machineInfo(mi);
+    m_machineInfo_pub.publish(rosMachineInfo);
+
+    return true;
 }
 
 
