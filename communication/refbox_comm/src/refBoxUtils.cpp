@@ -51,15 +51,6 @@ comm_msg::GameState llsf2ros_gameState(const llsf_msgs::GameState &llsfGameState
     case llsf_msgs::GameState::POST_GAME:
         rosGameState.phase = comm_msg::GameState::POST_GAME;
         break;
-    case llsf_msgs::GameState::OPEN_CHALLENGE:
-        rosGameState.phase = comm_msg::GameState::OPEN_CHALLENGE;
-        break;
-    case llsf_msgs::GameState::NAVIGATION_CHALLENGE:
-        rosGameState.phase = comm_msg::GameState::NAVIGATION_CHALLENGE;
-        break;
-    case llsf_msgs::GameState::WHACK_A_MOLE_CHALLENGE:
-        rosGameState.phase = comm_msg::GameState::WHACK_A_MOLE_CHALLENGE;
-        break;
     }
 
     rosGameState.points = ((team_color == llsf_msgs::Team::CYAN) ?
@@ -123,7 +114,6 @@ comm_msg::MachineInfo llsf2ros_machineInfo(const llsf_msgs::MachineInfo &llsfMac
         rosMachine.type = machine.type();
         rosMachine.state = machine.state();
         rosMachine.team_color = machine.team_color();
-        rosMachine.prepared = machine.prepared();
         rosMachine.pose.x = machine.pose().x();
         rosMachine.pose.y = machine.pose().y();
         rosMachine.pose.theta = machine.pose().ori();
