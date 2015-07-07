@@ -1,1 +1,2 @@
-geometry_msgs/Pose2D[] 	landmarks
+std_msgs/Header         header
+geometry_msgs/Pose2D[]  landmarks

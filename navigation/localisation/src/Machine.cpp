@@ -35,16 +35,20 @@ void Machine::resetType(){
 	m_type = 0;
 }
 void Machine::addX(double x){
-	m_xSum += x;
+	m_xSum = x;
+	// m_xSum += x;
 }
 void Machine::addY(double y){
-	m_ySum += y;
+	m_ySum = y;
+	// m_ySum += y;
 }
 void Machine::addTheta(double theta){
-	m_thetaSum += theta;
+	m_thetaSum = theta;
+	// m_thetaSum += theta;
 }
 void Machine::incNbActu(){
-	m_nbActu ++;
+	m_nbActu = 1;
+	// m_nbActu ++;
 }
 
 void Machine::maj(){
