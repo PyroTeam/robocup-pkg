@@ -14,14 +14,33 @@
 
 void TrackPathAction::pathCallback(const pathfinder::AstarPath &path)
 {
+    //ROS_INFO("Chemin genere");
     if (m_path.size() == SIZE_LIST)
     {
         m_path.pop_back();
     }
     Path newPath;
-    newPath.m_path_id = path.id;
-    newPath.m_path_points = path.path.poses;
-    m_path.push_back(newPath);
+
+    bool idFound = false;
+    std::list<Path>::iterator it = m_path.begin();
+    while (it != m_path.end() && !idFound)
+    {
+        if (path.id == it->m_path_id) // on a trouvé un id correspondant
+        {
+            idFound = true;
+        }
+        else
+        {
+            it++;
+        }
+    }
+    if (!idFound)
+    {
+        newPath.m_path_id = path.id;
+        newPath.m_path_points = path.path.poses;
+        m_path.push_back(newPath);
+    }
+    //ROS_INFO("Id = %d", path.id);
 }
 
 void TrackPathAction::odomCallback(const nav_msgs::Odometry &odom)
@@ -29,13 +48,15 @@ void TrackPathAction::odomCallback(const nav_msgs::Odometry &odom)
     m_odom_pose = odom.pose.pose;
 }
 
-void TrackPathAction::scanCallback(const sensor_msgs::LaserScan &scan)
+/*void TrackPathAction::scanCallback(const sensor_msgs::LaserScan &scan)
 {
     m_scan = scan;
-}
+}*/
 
 void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &goal)
 {
+    ros::Rate r(30);
+
     // On regarde si l'id demandé par l'action se situe dans le tableau
     bool idFound = false;
     std::list<Path>::iterator it = m_path.begin();
@@ -59,10 +80,12 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
     }
     else /* id found */
     {
+        ROS_INFO("Id found : %d", it->m_path_id);
+        m_pathTrack.resetState();
         while (!m_pathTrack.success() && !m_pathTrack.failure() /*&& !m_avoidObstacle.failure()*/)
         {
-            geometry_msgs::Point pointArrivee = m_pathTrack.getPointArrivee();
-            m_dataLaser.calculObstacle(m_odom_pose, pointArrivee);
+            //geometry_msgs::Point pointArrivee = m_pathTrack.getPointArrivee();
+            /*m_dataLaser.calculObstacle(m_odom_pose, pointArrivee);
             if (m_dataLaser.getObstacle() == true)
             {
                 m_mode = 2; // Mode évitement
@@ -75,24 +98,29 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
                     {
                         break;
                     }*/
-                    m_dataLaser.calculObstacle(m_odom_pose, pointArrivee);
+                    /*m_dataLaser.calculObstacle(m_odom_pose, pointArrivee);
                 }
-            }
-            else // Pas d'obstacle
+            }*/
+            /*else // Pas d'obstacle
             {
-                m_mode = 1; // Mode suivi de chemin
+                m_mode = 1; // Mode suivi de chemin*/
+                ROS_INFO("Path track");
+                ROS_INFO("Nb points chemin : %d", (int)it->m_path_points.size());
+                ROS_INFO("debut chemin : %f %f", it->m_path_points.front().pose.position.x, it->m_path_points.front().pose.position.y);
+                ROS_INFO("fin chemin : %f %f", it->m_path_points.back().pose.position.x, it->m_path_points.back().pose.position.y);
                 m_pathTrack.track(it->m_path_points, m_odom_pose);
-                m_dataLaser.calculObstacle(m_odom_pose, pointArrivee);
-                while (m_dataLaser.getObstacle() == false && !m_pathTrack.success() && !m_pathTrack.failure())
+                ROS_INFO("Fin path track");
+                //m_dataLaser.calculObstacle(m_odom_pose, pointArrivee);
+                /*while (/*m_dataLaser.getObstacle() == false && *//*!m_pathTrack.success() && !m_pathTrack.failure())
                 {
                     m_pathTrack.track(it->m_path_points,m_odom_pose);
                     if (m_pathTrack.success() || m_pathTrack.failure())
                     {
                         break;
                     }
-                    m_dataLaser.calculObstacle(m_odom_pose, pointArrivee);
-                }      
-            }
+                    //m_dataLaser.calculObstacle(m_odom_pose, pointArrivee);
+                }   //   
+            //}*/
         }
         if (m_pathTrack.failure() /*&& m_avoidObstacle.failure()*/)
         {
@@ -108,4 +136,6 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
         }
         m_mode = 3;
     }
+
+    r.sleep();
 }

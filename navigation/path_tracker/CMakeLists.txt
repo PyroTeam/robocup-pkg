@@ -127,6 +127,7 @@ target_link_libraries(
     path_tracker_node
     ${catkin_LIBRARIES}
 )
+set_target_properties(path_tracker_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
 #############
 ## Install ##

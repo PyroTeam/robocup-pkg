@@ -39,7 +39,7 @@ class TrackPathAction
 private:
     ros::Subscriber m_path_sub;
     ros::Subscriber m_odom_sub;
-    ros::Subscriber m_laser_sub;
+    //ros::Subscriber m_laser_sub;
     bool m_succes;
     int m_mode;
 
@@ -51,17 +51,16 @@ private:
 
     std::list<Path> m_path;
     geometry_msgs::Pose m_odom_pose;
-    sensor_msgs::LaserScan m_scan;
+    //sensor_msgs::LaserScan m_scan;
     
     TrackPath m_pathTrack;
     //AvoidanceObstacle m_avoidObstacle;
-    DataLaser m_dataLaser;
+    //DataLaser m_dataLaser;
 
     void pathCallback(const pathfinder::AstarPath &path);
     void odomCallback(const nav_msgs::Odometry &odom);
-    void scanCallback(const sensor_msgs::LaserScan &scan);
+    //void scanCallback(const sensor_msgs::LaserScan &scan);
 
-protected:
     ros::NodeHandle m_nh;
     actionlib::SimpleActionServer<deplacement_msg::TrackPathAction> m_as;
     std::string m_action_name;
@@ -74,7 +73,7 @@ public:
         m_mode = 3;
         m_odom_sub = m_nh.subscribe("/odom", 1000, &TrackPathAction::odomCallback, this);
         m_path_sub = m_nh.subscribe("/pathFound", 1000, &TrackPathAction::pathCallback, this);
-        m_laser_sub = m_nh.subscribe("/scan", 1000, &TrackPathAction::scanCallback, this);
+        //m_laser_sub = m_nh.subscribe("/scan", 1000, &TrackPathAction::scanCallback, this);
         m_succes = false;
         m_as.start();
     }
