@@ -93,7 +93,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
                 obstacleInRange = true;
             }*/
 
-
+/*
             if (isInZone(m_sharpSensor.points[0].x, m_sharpSensor.points[0].y, xmin, xmax, ymin, ymax))
             {
                 obstacleInRange = true;
@@ -117,7 +117,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
 
 
             std::cout << "Obstacle in range :" << obstacleInRange << std::endl;
-
+*/
             if(obstacleInRange && pathTrackStatus == RUNNING)
             {
                 m_trackPathAction.cancelGoal();
@@ -131,7 +131,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
                 pathTrackStatus = RUNNING;
             }
 
-            std::cout << "PathTrack Status = " << pathTrackStatus << std::endl;
+            //std::cout << "PathTrack Status = " << pathTrackStatus << std::endl;
 
             m_feedback.percent_complete = m_pathTrackPercentComplete;
             m_as.publishFeedback(m_feedback);

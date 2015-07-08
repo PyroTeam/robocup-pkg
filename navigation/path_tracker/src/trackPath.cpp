@@ -14,34 +14,33 @@
 
 /* Constantes */
 #define VIT_ANGLE_MAX  30
+#define EPS            0.0001
 
-bool TrackPath::comparePoints(geometry_msgs::Point point1, geometry_msgs::Point point2)
+bool compareFloat(float x, float y)
 {
-    if (point1.x != point2.x)
+    if (std::abs(x-y) <= EPS)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool TrackPath::comparePoints(const geometry_msgs::Point &point1, const geometry_msgs::Point &point2)
+{
+    if (!compareFloat(point1.x, point2.x) || !compareFloat(point1.y, point2.y) || !compareFloat(point1.z, point2.z))
     {
         return false;
     }
     else
     {
-        if (point1.y != point2.y)
-        {
-            return false;
-        }
-        else
-        {
-            if (point1.z != point2.z)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        return true;
     }
 }
 
-geometry_msgs::Point TrackPath::closestPoint(geometry_msgs::Point segmentStart, geometry_msgs::Point segmentStop, geometry_msgs::Point point)
+geometry_msgs::Point TrackPath::closestPoint(const geometry_msgs::Point &segmentStart, const geometry_msgs::Point &segmentStop, const geometry_msgs::Point &point)
 {
     geometry_msgs::Point closestPoint;
     float xDelta = segmentStop.x - segmentStart.x;
@@ -71,7 +70,7 @@ geometry_msgs::Point TrackPath::closestPoint(geometry_msgs::Point segmentStart, 
     return closestPoint;
 }
 
-void TrackPath::track(std::vector<geometry_msgs::PoseStamped> points, geometry_msgs::Pose odom)
+void TrackPath::track(std::vector<geometry_msgs::PoseStamped> &points, const geometry_msgs::Pose &odom)
 {
     geometry_msgs::Point pose;
     pose.x = odom.position.x;
@@ -139,17 +138,17 @@ void TrackPath::track(std::vector<geometry_msgs::PoseStamped> points, geometry_m
     m_pointArrivee = pointAvance;
 
     // Rejoindre le point d'avance
-    float adj = pointAvance.x - odom.position.x;
-    float opp = pointAvance.y - odom.position.y;
+    float adj = pointAvance.x - pose.x;
+    float opp = pointAvance.y - pose.y;
     float angle = atan2(opp, adj);
 
     float yaw = tf::getYaw(odom.orientation);
 
     float errAngle = (angle - yaw);
-    errAngle = ((errAngle + M_PI) / (2 * M_PI)) - M_PI;
+    errAngle = fmod(errAngle + M_PI, 2 * M_PI) - M_PI;
 
     float errAnglePointSuiv = (ang - yaw);
-    errAnglePointSuiv = ((errAnglePointSuiv + M_PI) / (2 * M_PI)) - M_PI;
+    errAnglePointSuiv = fmod(errAnglePointSuiv + M_PI, 2 * M_PI) - M_PI;
 
     float vitAngle = errAnglePointSuiv * 1;
 
@@ -173,6 +172,8 @@ void TrackPath::track(std::vector<geometry_msgs::PoseStamped> points, geometry_m
         m_cmdVel.linear.x = 0;
         m_cmdVel.linear.y = 0;
         m_cmdVel.angular.z = 0;
+
+	    m_success = true;
     }
     m_cmdVel_pub.publish(m_cmdVel);
 }
@@ -185,6 +186,12 @@ bool TrackPath::success()
 bool TrackPath::failure()
 {
     return m_failure;
+}
+
+void TrackPath::resetState()
+{
+    m_success = false;
+    m_failure = false;
 }
 
 geometry_msgs::Point TrackPath::getPointArrivee()
