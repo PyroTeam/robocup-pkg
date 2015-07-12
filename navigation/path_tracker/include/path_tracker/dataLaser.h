@@ -28,15 +28,12 @@
 class DataLaser
 {
 private:
+    bool m_receiveGrid;    
     ros::Subscriber m_grid_sub;
     ros::Publisher m_grid_pub;
-    bool m_obstacle;
-    float m_lengthObstacle;
     std::vector<geometry_msgs::Point> m_dataLaser;
-    std::vector<geometry_msgs::Point> m_vectorObstacle;
     nav_msgs::OccupancyGrid m_grid;
     Map m_map;
-    bool m_receiveGrid;
 
     void gridCallback(const nav_msgs::OccupancyGrid &grid);
 
@@ -44,18 +41,12 @@ protected:
     ros::NodeHandle m_nh;
 
 public:
-    bool getObstacle();
-    float getLengthObstacle();
     std::vector<geometry_msgs::Point> getDataLaser();
     void recoverDataLaser(sensor_msgs::LaserScan laserScan);
-    float calculDistance(geometry_msgs::Point point1, geometry_msgs::Point point2);
-    void calculObstacle(geometry_msgs::Pose odom, geometry_msgs::Point pointArrivee);
 
     DataLaser()
     {
         m_receiveGrid = false;
-        m_obstacle = false;
-        m_lengthObstacle = 0;
         m_grid_sub = m_nh.subscribe("/grid", 1000, &DataLaser::gridCallback, this);
         m_grid_pub = m_nh.advertise<nav_msgs::OccupancyGrid>("gridObstacles", 1000);
     }

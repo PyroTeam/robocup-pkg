@@ -26,9 +26,6 @@ class Map
 public:
     int getCell(const nav_msgs::OccupancyGrid &grid, float x, float y);
     void drawDisc(nav_msgs::OccupancyGrid &grid, geometry_msgs::Point center);
-    //void drawCircle(nav_msgs::OccupancyGrid &grid, geometry_msgs::Point center);
-    //void fillCircle(nav_msgs::OccupancyGrid &grid, geometry_msgs::Point center);
-    void buildMapObstacles(nav_msgs::OccupancyGrid &grid, std::vector<geometry_msgs::Point> dataLaser);
 
     Map()
     {

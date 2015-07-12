@@ -32,9 +32,7 @@ private:
     bool m_failure;
     bool m_stopRobot;
 
-
     geometry_msgs::Pose m_odom_pose;
-
     geometry_msgs::Point m_pointArrivee;
     geometry_msgs::Twist m_cmdVel;
     ros::Publisher m_cmdVel_pub;
