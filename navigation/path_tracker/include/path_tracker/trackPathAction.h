@@ -21,7 +21,7 @@
 #include <actionlib/server/simple_action_server.h>
 
 #include "trackPath.h"
-#include "dataLaser.h"
+#include "avoidanceObstacle.h"
 
 #include "deplacement_msg/TrackPathAction.h"
 #include "pathfinder/AstarPath.h"
@@ -32,16 +32,18 @@
 /* Constantes */
 #define SIZE_LIST 10
 
-//class AvoidanceObstacle;
-
 class TrackPathAction
 {
 private:
     ros::Subscriber m_path_sub;
     ros::Subscriber m_odom_sub;
-    //ros::Subscriber m_laser_sub;
-    bool m_succes;
+
+    bool m_success;
+    bool m_failure;
     int m_mode;
+    ros::Time m_timePath;
+    ros::Time m_timeAvoidance;
+    int m_pointsPath;
 
     struct Path
     {
@@ -51,15 +53,13 @@ private:
 
     std::list<Path> m_path;
     geometry_msgs::Pose m_odom_pose;
-    //sensor_msgs::LaserScan m_scan;
     
     TrackPath m_pathTrack;
-    //AvoidanceObstacle m_avoidObstacle;
-    //DataLaser m_dataLaser;
+    AvoidanceObstacle m_avoidObstacle;
+    DataMapObstacle m_dataMapObstacle;
 
     void pathCallback(const pathfinder::AstarPath &path);
     void odomCallback(const nav_msgs::Odometry &odom);
-    //void scanCallback(const sensor_msgs::LaserScan &scan);
 
     ros::NodeHandle m_nh;
     actionlib::SimpleActionServer<deplacement_msg::TrackPathAction> m_as;
@@ -67,14 +67,18 @@ private:
     deplacement_msg::TrackPathFeedback m_feedback;
     deplacement_msg::TrackPathResult m_result;
 
+    float calculDistance(geometry_msgs::Point point1, geometry_msgs::Point point2);
+
 public:
     TrackPathAction(std::string name) : m_as(m_nh, name, boost::bind(&TrackPathAction::executeCB, this, _1), false), m_action_name(name)
     {
         m_mode = 3;
+        m_pointsPath = 0;
+
         m_odom_sub = m_nh.subscribe("/odom", 1000, &TrackPathAction::odomCallback, this);
         m_path_sub = m_nh.subscribe("/pathFound", 1000, &TrackPathAction::pathCallback, this);
-        //m_laser_sub = m_nh.subscribe("/scan", 1000, &TrackPathAction::scanCallback, this);
-        m_succes = false;
+        m_success = false;
+        m_failure = false;
         m_as.start();
     }
 

@@ -10,8 +10,8 @@ int16 ERROR=2
 # Define a feedback message
 uint8 percent_complete
 uint16 id
-int16 distance_path
-int16 distance_recoil
+float64 distance_path
+float64 distance_recoil
 time avoidance
 time path
 int16 average_vectors_speed

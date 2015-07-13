@@ -36,6 +36,7 @@ private:
     void gridCallback(const nav_msgs::OccupancyGrid &grid);
 
 public:
+    nav_msgs::OccupancyGrid getGridObstacle();
     bool getObstacle();
     geometry_msgs::Point getObstacleLeft();
     geometry_msgs::Point getObstacleRight();
