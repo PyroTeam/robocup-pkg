@@ -17,15 +17,15 @@ std::vector<geometry_msgs::Point> DataLaser::getDataLaser()
     return m_dataLaser;
 }
 
-void DataLaser::recoverDataLaser(sensor_msgs::LaserScan laserScan)
+void DataLaser::recoverDataLaser()
 {
-    std::vector<float> ranges = laserScan.ranges;
+    std::vector<float> ranges = m_scan.ranges;
     std::vector<geometry_msgs::Point>::iterator it = m_dataLaser.begin();
     if (ranges.size() != 0)
     {       
         for (int i = 0 ; i < ranges.size() ; i++)
         {
-            float angle = laserScan.angle_min + i * laserScan.angle_increment;
+            float angle = m_scan.angle_min + i * m_scan.angle_increment;
             float x = ranges[i] * sin(angle);
             float y = ranges[i] * cos(angle);
             geometry_msgs::Point point;
@@ -63,4 +63,9 @@ void DataLaser::gridCallback(const nav_msgs::OccupancyGrid &grid)
 {
     m_grid = grid;
     m_receiveGrid = true;
+}
+
+void DataLaser::scanCallback(const sensor_msgs::LaserScan &scan)
+{
+    m_scan = scan;
 }

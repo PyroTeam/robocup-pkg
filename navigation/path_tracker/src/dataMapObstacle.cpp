@@ -12,6 +12,11 @@
 
 #include "dataMapObstacle.h"
 
+nav_msgs::OccupancyGrid DataMapObstacle::getGridObstacle()
+{
+    return m_grid;
+}
+
 bool DataMapObstacle::getObstacle()
 {
     return m_obstacle;

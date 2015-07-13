@@ -28,27 +28,31 @@
 class DataLaser
 {
 private:
-    bool m_receiveGrid;    
+    bool m_receiveGrid;
+    ros::Subscriber m_laser_sub;
     ros::Subscriber m_grid_sub;
     ros::Publisher m_grid_pub;
     std::vector<geometry_msgs::Point> m_dataLaser;
     nav_msgs::OccupancyGrid m_grid;
+    sensor_msgs::LaserScan m_scan;
     Map m_map;
 
     void gridCallback(const nav_msgs::OccupancyGrid &grid);
+    void scanCallback(const sensor_msgs::LaserScan &scan);
 
 protected:
     ros::NodeHandle m_nh;
 
 public:
     std::vector<geometry_msgs::Point> getDataLaser();
-    void recoverDataLaser(sensor_msgs::LaserScan laserScan);
+    void recoverDataLaser();
 
     DataLaser()
     {
         m_receiveGrid = false;
         m_grid_sub = m_nh.subscribe("/grid", 1000, &DataLaser::gridCallback, this);
         m_grid_pub = m_nh.advertise<nav_msgs::OccupancyGrid>("gridObstacles", 1000);
+        m_laser_sub = m_nh.subscribe("/scan", 1000, &DataLaser::scanCallback, this);
     }
 
     ~DataLaser()
