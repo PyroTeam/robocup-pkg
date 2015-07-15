@@ -15,6 +15,7 @@
 
 #include <ros/ros.h>
 
+#include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/Pose.h"
 #include "nav_msgs/OccupancyGrid.h"
@@ -32,7 +33,7 @@ private:
     nav_msgs::OccupancyGrid m_grid;
     bool m_receiveGrid;
     std::vector<geometry_msgs::Point> m_pointsGrid;
-    std::vector<geometry_msgs::Point> m_vectorObstacle;
+    std::vector<int> m_vectorObstacle;
 
     ros::NodeHandle m_nh;
 
@@ -46,8 +47,9 @@ public:
     float getLengthObstacle();
     geometry_msgs::Point getPoint(int cell, const nav_msgs::OccupancyGrid &grid);
     void getPointsMap(const nav_msgs::OccupancyGrid &grid);
+    int getCell(const nav_msgs::OccupancyGrid &grid, float x, float y);
     float calculDistance(geometry_msgs::Point point1, geometry_msgs::Point point2);
-    void calculObstacle(geometry_msgs::Pose odom, geometry_msgs::Point pointArrivee, float distObstacle);
+    void calculObstacle(const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path);
 
     DataMapObstacle()
     {

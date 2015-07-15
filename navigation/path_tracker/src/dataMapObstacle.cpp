@@ -12,6 +12,9 @@
 
 #include "dataMapObstacle.h"
 
+/* Constantes */
+#define LIMIT_POINTS_PATH 20
+
 nav_msgs::OccupancyGrid DataMapObstacle::getGridObstacle()
 {
     return m_grid;
@@ -83,7 +86,157 @@ void DataMapObstacle::getPointsMap(const nav_msgs::OccupancyGrid &grid)
     }
 }
 
-void DataMapObstacle::calculObstacle(geometry_msgs::Pose odom, geometry_msgs::Point pointArrivee, float distObstacle)
+int DataMapObstacle::getCell(const nav_msgs::OccupancyGrid &grid, float x, float y)
+{
+	float res = grid.info.resolution;
+	int width = grid.info.width;
+	float xO = grid.info.origin.position.x;
+	float yO = grid.info.origin.position.y;
+	int hCell = 0;
+	int wCell = 0;
+	int cell = 0;
+
+	hCell = round((y - yO) / res);
+	wCell = round((x - xO) / res);
+	cell = hCell * width + wCell;
+
+	return cell;
+}
+
+void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path)
+{
+    m_obstacle = false;
+    int cell = 0;
+    int width = m_grid.info.width;
+    int height = m_grid.info.height;
+    bool high = false;
+    bool low = false;
+    bool left = false;
+    bool right = false;
+    std::vector<int> tmp;
+    if (path.size() >= LIMIT_POINTS_PATH)
+    {
+        int i = 0;
+        while (i < LIMIT_POINTS_PATH && !m_obstacle)
+        {
+            cell = getCell(m_grid, path[i].pose.position.x, path[i].pose.position.y);
+            if (m_grid.data[cell] != 0) // Case noircie
+            {
+                m_obstacle = true;
+                m_vectorObstacle.push_back(cell);
+            }
+        }
+        if (!m_obstacle)
+        {
+            return;
+        }
+        else
+        {
+            if (cell < width)
+            {
+                high = true;
+            }
+            if (cell >= (width*(height-1)))
+            {
+                low = true;
+            }
+            if ((cell%width) == 0)
+            {
+                left = true;
+            }
+            if (((cell+1)%width) == 0)
+            {
+                right = true;
+            }
+            if (!high && !low && !left && !right)
+            {
+                tmp.push_back(cell - width - 1);
+                tmp.push_back(cell - width);
+                tmp.push_back(cell - width + 1);
+                tmp.push_back(cell - 1);
+                tmp.push_back(cell + 1);
+                tmp.push_back(cell + width - 1);
+                tmp.push_back(cell + width);
+                tmp.push_back(cell + width + 1);
+            }
+            else if (high && !left && !right)
+            {
+                tmp.push_back(cell - 1);
+                tmp.push_back(cell + 1);
+                tmp.push_back(cell + width - 1);
+                tmp.push_back(cell + width);
+                tmp.push_back(cell + width + 1);
+            }
+            else if (right && !high && !low)
+            {
+                tmp.push_back(cell - width - 1);
+                tmp.push_back(cell - width);
+                tmp.push_back(cell - 1);
+                tmp.push_back(cell + width - 1);
+                tmp.push_back(cell + width);    
+            }
+            else if (low && !left && !right)
+            {
+                tmp.push_back(cell - width - 1);
+                tmp.push_back(cell - width);
+                tmp.push_back(cell - width + 1);
+                tmp.push_back(cell - 1);
+                tmp.push_back(cell + 1);
+            }
+            else if (left && !high && !low)
+            {
+                tmp.push_back(cell - width);
+                tmp.push_back(cell - width + 1);
+                tmp.push_back(cell + 1);
+                tmp.push_back(cell + width);
+                tmp.push_back(cell + width + 1);
+            }
+            else if (high && right)
+            {
+                tmp.push_back(cell - 1);
+                tmp.push_back(cell + width - 1);
+                tmp.push_back(cell + width);
+            }
+            else if (right && low)
+            {
+                tmp.push_back(cell - width - 1);
+                tmp.push_back(cell - width);
+                tmp.push_back(cell - 1);
+            }
+            else if (low && left)
+            {
+                tmp.push_back(cell - width);
+                tmp.push_back(cell - width + 1);
+                tmp.push_back(cell + 1);
+            }
+            else if (left && high)
+            {
+                tmp.push_back(cell + 1);
+                tmp.push_back(cell + width);
+                tmp.push_back(cell + width + 1);
+            }
+            int j = 0;
+            while (j < tmp.size())
+            {
+                if (m_grid.data[tmp[j]] != 0) // Case noircie
+                {
+                    int k = 0;
+                    while (k < m_vectorObstacle.size() && tmp[j] != m_vectorObstacle[k])
+                    {
+                        j++;
+                    }
+                    if (j == m_vectorObstacle.size())
+                    {
+                        m_vectorObstacle.push_back(tmp[j]);
+                    }
+                }
+                j++;
+            }
+        }
+    }
+}
+
+/*void DataMapObstacle::calculObstacle(geometry_msgs::Pose odom, geometry_msgs::Point pointArrivee, float distObstacle)
 {
     m_obstacle = false;
     m_lengthObstacle = 0;
@@ -146,7 +299,7 @@ void DataMapObstacle::calculObstacle(geometry_msgs::Pose odom, geometry_msgs::Po
             }
         }
     }
-}
+}*/
 
 void DataMapObstacle::gridCallback(const nav_msgs::OccupancyGrid &grid)
 {
