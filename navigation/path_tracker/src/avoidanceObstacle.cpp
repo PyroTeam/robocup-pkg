@@ -102,7 +102,7 @@ void AvoidanceObstacle::track(geometry_msgs::Point point, geometry_msgs::Point p
 
 void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path, actionlib::SimpleActionServer<deplacement_msg::TrackPathAction> &as, deplacement_msg::TrackPathFeedback &feedback)
 {
-    m_dataMapObstacle.calculObstacle(odom, path[0].pose.position, calculDistance(odom.position, path[0].pose.position));
+    m_dataMapObstacle.calculObstacle(odom, path);
     m_rightObstacle = m_dataMapObstacle.getObstacleRight();
     m_leftObstacle = m_dataMapObstacle.getObstacleLeft();
     float distRobot = 0;
@@ -128,10 +128,12 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
     // On construit le chemin jusqu'au point extrême
     geometry_msgs::Point pointD = odom.position;
     geometry_msgs::Point point;
+    geometry_msgs::PoseStamped poseStamped;
     while (nbPoints > 0)
     {
         point = calculPointsPath(pointD, m_pointArrival);
-        m_intermediatePath.push_back(point);
+        poseStamped.pose.position = point;
+        m_intermediatePath.push_back(poseStamped);
         pointD = point;
         nbPoints--;
     }
@@ -140,7 +142,7 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
     int i = 0;
     while (i < m_intermediatePath.size() && !m_failure)
     {
-        m_dataMapObstacle.calculObstacle(odom, m_intermediatePath[i], calculDistance(m_intermediatePath[i], m_pointArrival));
+        m_dataMapObstacle.calculObstacle(odom, m_intermediatePath);
         if (m_dataMapObstacle.getObstacle())
         {
             m_cmdVel.linear.x = 0;
@@ -150,7 +152,7 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
             ros::Time t = ros::Time::now() + ros::Duration(TIME_OBSTACLE);
             while (m_dataMapObstacle.getObstacle() && ros::Time::now() < t)
             {
-                m_dataMapObstacle.calculObstacle(odom, m_intermediatePath[i], calculDistance(m_intermediatePath[i], m_pointArrival));
+                m_dataMapObstacle.calculObstacle(odom, m_intermediatePath);
             }
             if (ros::Time::now() == t)
             {
@@ -162,13 +164,13 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
             geometry_msgs::Point pointSuiv;
             if (m_intermediatePath.size() >= 2)
             {
-                pointSuiv = m_intermediatePath[i+1];
+                pointSuiv = m_intermediatePath[i+1].pose.position;
             }
             else
             {
-                pointSuiv = m_intermediatePath[i];
+                pointSuiv = m_intermediatePath[i].pose.position;
             }
-            track(m_intermediatePath[i], pointSuiv, odom);
+            track(m_intermediatePath[i].pose.position, pointSuiv, odom);
             feedback.distance_path = calculDistance(odom.position, path[0].pose.position);
             as.publishFeedback(feedback);
             i++;
@@ -185,7 +187,7 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
         int j = 0;
         while (j < path.size() && !m_dataMapObstacle.getObstacle())
         {
-            m_dataMapObstacle.calculObstacle(odom, path[j].pose.position, calculDistance(odom.position, path[j].pose.position));
+            m_dataMapObstacle.calculObstacle(odom, path);
             j++;
         }
         if (j == path.size() || calculDistance(odom.position, path[j].pose.position) > DIST_MAX)
@@ -214,7 +216,8 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
         while (nbPoints > 0)
         {
             point = calculPointsPath(pointD, m_pointArrival);
-            m_intermediatePath.push_back(point);
+            poseStamped.pose.position = point;
+            m_intermediatePath.push_back(poseStamped);
             pointD = point;
             nbPoints--;
         }
@@ -223,7 +226,7 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
         i = 0;
         while (i < m_intermediatePath.size() && !m_failure)
         {
-            m_dataMapObstacle.calculObstacle(odom, m_intermediatePath[i], calculDistance(m_intermediatePath[i], m_pointArrival));
+            m_dataMapObstacle.calculObstacle(odom, m_intermediatePath);
             if (m_dataMapObstacle.getObstacle())
             {
                 m_cmdVel.linear.x = 0;
@@ -233,7 +236,7 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
                 ros::Time t = ros::Time::now() + ros::Duration(TIME_OBSTACLE);
                 while (m_dataMapObstacle.getObstacle() && ros::Time::now() < t)
                 {
-                    m_dataMapObstacle.calculObstacle(odom, m_intermediatePath[i], calculDistance(m_intermediatePath[i], m_pointArrival));
+                    m_dataMapObstacle.calculObstacle(odom, m_intermediatePath);
                 }
                 if (ros::Time::now() == t)
                 {
@@ -245,13 +248,13 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
                 geometry_msgs::Point pointSuiv;
                 if (m_intermediatePath.size() >= 2)
                 {
-                    pointSuiv = m_intermediatePath[i+1];
+                    pointSuiv = m_intermediatePath[i+1].pose.position;
                 }
                 else
                 {
-                    pointSuiv = m_intermediatePath[i];
+                    pointSuiv = m_intermediatePath[i].pose.position;
                 }
-                track(m_intermediatePath[i], pointSuiv, odom);
+                track(m_intermediatePath[i].pose.position, pointSuiv, odom);
                 feedback.distance_path = calculDistance(odom.position, path[0].pose.position);
                 as.publishFeedback(feedback);
                 i++;

@@ -93,7 +93,7 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
         while (!m_failure && !m_success)
         {
             geometry_msgs::Point pointArrivee = m_pathTrack.getPointArrivee();
-            m_dataMapObstacle.calculObstacle(m_odom_pose, pointArrivee, calculDistance(m_odom_pose.position, pointArrivee));
+            m_dataMapObstacle.calculObstacle(m_odom_pose, it->m_path_points);
             if (m_dataMapObstacle.getObstacle() == true)
             {
                 ROS_INFO("Evitement");
@@ -123,13 +123,13 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
                 ROS_INFO("fin chemin : %f %f", it->m_path_points.back().pose.position.x, it->m_path_points.back().pose.position.y);
 
                 m_pathTrack.track(it->m_path_points, m_odom_pose);
-                m_dataMapObstacle.calculObstacle(m_odom_pose, pointArrivee, calculDistance(m_odom_pose.position, pointArrivee));
+                m_dataMapObstacle.calculObstacle(m_odom_pose, it->m_path_points);
                 while (!m_dataMapObstacle.getObstacle() && !m_pathTrack.success() && !m_pathTrack.failure())
                 {
                     m_pathTrack.track(it->m_path_points, m_odom_pose);
                     m_feedback.percent_complete = (it->m_path_points.size() / m_pointsPath) * 100;
                     m_as.publishFeedback(m_feedback);
-                    m_dataMapObstacle.calculObstacle(m_odom_pose, pointArrivee, calculDistance(m_odom_pose.position, pointArrivee));
+                    m_dataMapObstacle.calculObstacle(m_odom_pose, it->m_path_points);
                     //ROS_INFO("Obstacle : %d", m_dataMapObstacle.getObstacle());
                 }
                 if (m_pathTrack.success())

@@ -37,7 +37,7 @@ private:
     geometry_msgs::Point m_leftObstacle;
     geometry_msgs::Point m_pointArrival;
     geometry_msgs::Twist m_cmdVel;
-    std::vector<geometry_msgs::Point> m_intermediatePath;
+    std::vector<geometry_msgs::PoseStamped> m_intermediatePath;
 
     ros::Publisher m_cmdVel_pub;
     ros::NodeHandle m_nh;
