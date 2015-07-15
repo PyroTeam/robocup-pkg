@@ -10,6 +10,9 @@
  * \version
  */
 
+#ifndef AVOIDANCEOBSTACLE_H
+#define AVOIDANCEOBSTACLE_H
+
 #include "dataMapObstacle.h"
 
 #include "deplacement_msg/TrackPathAction.h"
@@ -63,3 +66,5 @@ public:
     {
     }
 };
+
+#endif /* AVOIDANCEOBSTACLE_H */
