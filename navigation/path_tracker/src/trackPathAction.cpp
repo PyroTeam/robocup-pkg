@@ -130,6 +130,7 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
                     m_feedback.percent_complete = (it->m_path_points.size() / m_pointsPath) * 100;
                     m_as.publishFeedback(m_feedback);
                     m_dataMapObstacle.calculObstacle(m_odom_pose, pointArrivee, calculDistance(m_odom_pose.position, pointArrivee));
+                    //ROS_INFO("Obstacle : %d", m_dataMapObstacle.getObstacle());
                 }
                 if (m_pathTrack.success())
                 {

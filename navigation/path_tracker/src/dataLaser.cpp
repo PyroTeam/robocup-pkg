@@ -42,7 +42,7 @@ void DataLaser::recoverDataLaser()
     {
         m_dataLaser.clear();
         m_listener.lookupTransform("/odom", m_scan.header.frame_id, ros::Time(0), m_transform);
-        ROS_INFO("Position robot : x = %f, y = %f", m_transform.getOrigin().x(), m_transform.getOrigin().y()); 
+        //ROS_INFO("Position robot : x = %f, y = %f", m_transform.getOrigin().x(), m_transform.getOrigin().y()); 
         for (int i = 0 ; i < ranges.size() ; i++)
         {
             if (ranges[i] < LASER_RANGE_MAX)
@@ -83,19 +83,19 @@ void DataLaser::recoverDataLaser()
     }
 
     m_grid_pub.publish(m_grid);
-    ROS_INFO("Map obstacles publiee");
+    //ROS_INFO("Map obstacles publiee");
 }
 
 void DataLaser::gridCallback(const nav_msgs::OccupancyGrid &grid)
 {
-    ROS_INFO("Reception map");
+    //ROS_INFO("Reception map");
     m_grid = grid;
     m_receiveGrid = true;
 }
 
 void DataLaser::scanCallback(const sensor_msgs::LaserScan &scan)
 {
-    ROS_INFO("Reception donnees laser");
+    //ROS_INFO("Reception donnees laser");
     m_scan = scan;
     m_receiveScan = true;
 }

@@ -54,16 +54,17 @@ geometry_msgs::Point DataMapObstacle::getPoint(int cell, const nav_msgs::Occupan
     float y = 0;
     geometry_msgs::Point point;
 
-    do
+    while (((cell - w) % width) != 0)
     {
-        h = (cell - w) / width;
         w++;
-    }while (((cell - w) % width) != 0);
+    }
+    h = (cell - w) / width;
 
     x = w * res + xO;
     y = h * res + yO;
     point.x = x;
     point.y = y;
+    //ROS_INFO("Point : x = %f, y = %f, h = %d; w = %d", x, y, h, w);
 
     return point;
 }
@@ -75,6 +76,7 @@ void DataMapObstacle::getPointsMap(const nav_msgs::OccupancyGrid &grid)
     {
         if (grid.data[i] != 0)
         {
+            //ROS_INFO("Point %d", i);
             point = getPoint(i, grid);
             m_pointsGrid.push_back(point);
         }
@@ -89,19 +91,28 @@ void DataMapObstacle::calculObstacle(geometry_msgs::Pose odom, geometry_msgs::Po
     if (m_vectorObstacle.size() != 0)
     {
         m_vectorObstacle.clear();
-    }    
+    }
+
+    while (!m_receiveGrid)
+    {
+    }
+    getPointsMap(m_grid);
     if (m_pointsGrid.size() != 0)
     {
-        int i = 0;
+        int i = 1;
         while (i < m_pointsGrid.size() && !m_obstacle)
         {
             if (calculDistance(odom.position, m_pointsGrid[i]) < distObstacle) // Obstacle proche
             {
-                while (calculDistance(odom.position, m_pointsGrid[i]) < distObstacle)
+                //ROS_INFO("i : %d", i);
+                //ROS_INFO("Obstacle proche");
+                while ((i < m_pointsGrid.size()) && (calculDistance(odom.position, m_pointsGrid[i]) < distObstacle))
                 {
                     m_vectorObstacle.push_back(m_pointsGrid[i]);
                     i++;
                 }
+                //int size = m_vectorObstacle.size();
+                //ROS_INFO("Taille vector : %d", size);
                 m_lengthObstacle = calculDistance(m_vectorObstacle[0], m_vectorObstacle[i-1]);
                 pointTmp = m_vectorObstacle[i-1];
             
@@ -110,8 +121,11 @@ void DataMapObstacle::calculObstacle(geometry_msgs::Pose odom, geometry_msgs::Po
                 int j = 0;
                 while (j < m_vectorObstacle.size() && !m_obstacle)
                 {
+                    //ROS_INFO("j : %d", j);
                     if (m_vectorObstacle[j].y == a * m_vectorObstacle[j].x + b)
                     {
+                        //ROS_INFO("Obstacle détecté");
+                        //ROS_INFO("Point obstacle : x = %f, y = %f", m_vectorObstacle[j].x, m_vectorObstacle[j].y);
                         m_obstacle = true;
                         m_obstacleLeft = m_vectorObstacle[0];
                         m_obstacleRight = pointTmp;

@@ -1,6 +1,6 @@
 <launch>
 
     <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" output="screen" launch-prefix="ddd --args" />
-    <node pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen" launch-prefix="ddd --args" />
+    <node pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen" />
 
 </launch>
