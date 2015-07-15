@@ -16,6 +16,7 @@
 #include "map.h"
 
 #include <ros/ros.h>
+#include <tf/transform_listener.h>
 
 #include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Point.h"
@@ -29,9 +30,12 @@ class DataLaser
 {
 private:
     bool m_receiveGrid;
+    bool m_receiveScan;
     ros::Subscriber m_laser_sub;
     ros::Subscriber m_grid_sub;
     ros::Publisher m_grid_pub;
+    tf::TransformListener m_listener;
+    tf::StampedTransform m_transform;
     std::vector<geometry_msgs::Point> m_dataLaser;
     nav_msgs::OccupancyGrid m_grid;
     sensor_msgs::LaserScan m_scan;
@@ -50,6 +54,7 @@ public:
     DataLaser()
     {
         m_receiveGrid = false;
+        m_receiveScan = false;
         m_grid_sub = m_nh.subscribe("/grid", 1000, &DataLaser::gridCallback, this);
         m_grid_pub = m_nh.advertise<nav_msgs::OccupancyGrid>("gridObstacles", 1000);
         m_laser_sub = m_nh.subscribe("/scan", 1000, &DataLaser::scanCallback, this);

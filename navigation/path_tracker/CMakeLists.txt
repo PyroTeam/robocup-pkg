@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
     roscpp
     rospy
     pathfinder
+    tf
 )
 
 ## System dependencies are found with CMake's conventions

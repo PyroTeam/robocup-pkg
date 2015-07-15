@@ -13,7 +13,7 @@
 #include "map.h"
 
 /* Constantes */
-#define RADIUS_CIRCLE    0.75
+#define RADIUS_CIRCLE    0.30
 #define EPSILON          0.000001
 
 int Map::getCell(const nav_msgs::OccupancyGrid &grid, float x, float y)

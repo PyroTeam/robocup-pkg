@@ -54,6 +54,8 @@ void TrackPathAction::odomCallback(const nav_msgs::Odometry &odom)
 
 void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &goal)
 {
+    m_failure = false;
+    m_success = false;
     m_feedback.mode = 3;
     m_as.publishFeedback(m_feedback);
     ros::Rate r(30);
@@ -94,6 +96,7 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
             m_dataMapObstacle.calculObstacle(m_odom_pose, pointArrivee, calculDistance(m_odom_pose.position, pointArrivee));
             if (m_dataMapObstacle.getObstacle() == true)
             {
+                ROS_INFO("Evitement");
                 m_timeAvoidance = ros::Time::now();
                 m_feedback.avoidance = m_timeAvoidance;
                 m_feedback.mode = 2; // Mode évitement

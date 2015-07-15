@@ -10,6 +10,9 @@
  * \version
  */
 
+#ifndef DATAMAPOBSTACLE_H
+#define DATAMAPOBSTACLE_H
+
 #include <ros/ros.h>
 
 #include "geometry_msgs/Point.h"
@@ -57,3 +60,5 @@ public:
     {
     }
 };
+
+#endif /* DATAMAPOBSTACLE_H */
