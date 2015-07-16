@@ -70,6 +70,20 @@ geometry_msgs::Point TrackPath::closestPoint(const geometry_msgs::Point &segment
     return closestPoint;
 }
 
+float normaliseAngle(float angle)
+{
+    float angleNormalise = angle;
+    while (angleNormalise <= -M_PI)
+    {
+        angleNormalise += 2 * M_PI;
+    }
+    while (angleNormalise > M_PI)
+    {
+        angleNormalise -= 2 * M_PI;
+    }
+    return angleNormalise;
+}
+
 void TrackPath::track(std::vector<geometry_msgs::PoseStamped> &points, const geometry_msgs::Pose &odom)
 {
     geometry_msgs::Point pose;
@@ -145,10 +159,10 @@ void TrackPath::track(std::vector<geometry_msgs::PoseStamped> &points, const geo
     float yaw = tf::getYaw(odom.orientation);
 
     float errAngle = (angle - yaw);
-    errAngle = fmod(errAngle + M_PI, 2 * M_PI) - M_PI;
+    errAngle = normaliseAngle(errAngle);
 
     float errAnglePointSuiv = (ang - yaw);
-    errAnglePointSuiv = fmod(errAnglePointSuiv + M_PI, 2 * M_PI) - M_PI;
+    errAnglePointSuiv = normaliseAngle(errAnglePointSuiv);
 
     float vitAngle = errAnglePointSuiv * 1;
 
