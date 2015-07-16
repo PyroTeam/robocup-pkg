@@ -116,15 +116,18 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
     std::vector<int> tmp;
     if (path.size() >= LIMIT_POINTS_PATH)
     {
+        //ROS_INFO("Test");
         int i = 0;
         while (i < LIMIT_POINTS_PATH && !m_obstacle)
         {
             cell = getCell(m_grid, path[i].pose.position.x, path[i].pose.position.y);
             if (m_grid.data[cell] != 0) // Case noircie
             {
+                ROS_INFO("Obstacle");
                 m_obstacle = true;
                 m_vectorObstacle.push_back(cell);
             }
+            i++;
         }
         if (!m_obstacle)
         {
@@ -223,7 +226,7 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
                     int k = 0;
                     while (k < m_vectorObstacle.size() && tmp[j] != m_vectorObstacle[k])
                     {
-                        j++;
+                        k++;
                     }
                     if (j == m_vectorObstacle.size())
                     {

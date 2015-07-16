@@ -92,8 +92,10 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
         m_pathTrack.resetState();
         while (!m_failure && !m_success)
         {
+            ROS_INFO("Test");
             geometry_msgs::Point pointArrivee = m_pathTrack.getPointArrivee();
             m_dataMapObstacle.calculObstacle(m_odom_pose, it->m_path_points);
+            ROS_INFO("Test");
             if (m_dataMapObstacle.getObstacle() == true)
             {
                 ROS_INFO("Evitement");
