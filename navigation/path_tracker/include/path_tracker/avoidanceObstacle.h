@@ -31,7 +31,6 @@ private:
     bool m_failure;
     bool m_successAvoidance;
     float m_distPath;
-    bool m_right;
     bool m_almostDone;
     geometry_msgs::Point m_rightObstacle;
     geometry_msgs::Point m_leftObstacle;
@@ -46,6 +45,7 @@ private:
 
     float calculDistance(geometry_msgs::Point point1, geometry_msgs::Point point2);
     geometry_msgs::Point calculPointsPath(geometry_msgs::Point pointD, geometry_msgs::Point pointA);
+    float normaliseAngle(float angle);
     void track(geometry_msgs::Point point, geometry_msgs::Point pointSuiv, geometry_msgs::Pose odom);
 
 public:
@@ -58,7 +58,6 @@ public:
         m_failure = false;
         m_successAvoidance = false;
         m_distPath = 0;
-        m_right = true;
         m_almostDone = false;
         m_cmdVel_pub = m_nh.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
     }

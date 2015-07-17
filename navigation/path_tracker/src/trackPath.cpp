@@ -70,7 +70,7 @@ geometry_msgs::Point TrackPath::closestPoint(const geometry_msgs::Point &segment
     return closestPoint;
 }
 
-float normaliseAngle(float angle)
+float TrackPath::normaliseAngle(float angle)
 {
     float angleNormalise = angle;
     while (angleNormalise <= -M_PI)

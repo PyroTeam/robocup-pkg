@@ -67,6 +67,20 @@ geometry_msgs::Point AvoidanceObstacle::calculPointsPath(geometry_msgs::Point po
     return point;
 }
 
+float AvoidanceObstacle::normaliseAngle(float angle)
+{
+    float angleNormalise = angle;
+    while (angleNormalise <= -M_PI)
+    {
+        angleNormalise += 2 * M_PI;
+    }
+    while (angleNormalise > M_PI)
+    {
+        angleNormalise -= 2 * M_PI;
+    }
+    return angleNormalise;
+}
+
 void AvoidanceObstacle::track(geometry_msgs::Point point, geometry_msgs::Point pointSuiv, geometry_msgs::Pose odom)
 {
     float dx = pointSuiv.x - point.x;
@@ -79,10 +93,10 @@ void AvoidanceObstacle::track(geometry_msgs::Point point, geometry_msgs::Point p
     float yaw = tf::getYaw(odom.orientation);
 
     float errAngle = (angle - yaw);
-    errAngle = fmod(errAngle + M_PI, 2 * M_PI) - M_PI;
+    errAngle = normaliseAngle(errAngle);
 
     float errAnglePointSuiv = (ang - yaw);
-    errAnglePointSuiv = fmod(errAnglePointSuiv + M_PI, 2 * M_PI) - M_PI;
+    errAnglePointSuiv = normaliseAngle(errAnglePointSuiv);
 
     float vitAngle = errAnglePointSuiv * 1;
 
@@ -103,27 +117,20 @@ void AvoidanceObstacle::track(geometry_msgs::Point point, geometry_msgs::Point p
 void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path, actionlib::SimpleActionServer<deplacement_msg::TrackPathAction> &as, deplacement_msg::TrackPathFeedback &feedback)
 {
     m_dataMapObstacle.calculObstacle(odom, path);
-    m_rightObstacle = m_dataMapObstacle.getObstacleRight();
-    m_leftObstacle = m_dataMapObstacle.getObstacleLeft();
-    float distRobot = 0;
-    float distRobotRight = calculDistance(odom.position, m_rightObstacle);
-    float distRobotLeft = calculDistance(odom.position, m_leftObstacle);
-    int nbPoints = 0;
+    std::vector<geometry_msgs::Point> vectorObstacle = m_dataMapObstacle.getVectorObstacle();
 
-    if (distRobotRight <= distRobotLeft) // Le robot est plus proche de la droite de l'obstacle que de la gauche
+    geometry_msgs::Point pointTarget;
+    pointTarget = vectorObstacle[0];
+    for (int i = 1 ; i < vectorObstacle.size() ; i++)
     {
-        m_right = true;
-        m_pointArrival = m_rightObstacle;
-        distRobot = distRobotRight;
-        nbPoints = distRobot/DIST_POINTS_PATH;
+        if (calculDistance(odom.position, vectorObstacle[i]) > calculDistance(odom.position, pointTarget))
+        {
+            pointTarget = vectorObstacle[i];
+        }
     }
-    else
-    {
-        m_right = false;
-        m_pointArrival = m_leftObstacle;
-        distRobot = distRobotLeft;
-        nbPoints = distRobot/DIST_POINTS_PATH;        
-    }
+
+    float distRobot = calculDistance(odom.position, pointTarget);
+    int nbPoints = distRobot/DIST_POINTS_PATH;
 
     // On construit le chemin jusqu'au point extrême
     geometry_msgs::Point pointD = odom.position;
@@ -192,18 +199,17 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
         }
         if (j == path.size() || calculDistance(odom.position, path[j].pose.position) > DIST_MAX)
         {
-            if (m_right)
+            vectorObstacle = m_dataMapObstacle.getVectorObstacle();
+            m_pointArrival = vectorObstacle[0];
+            for (int i = 1 ; i < vectorObstacle.size() ; i++)
             {
-                m_pointArrival = m_dataMapObstacle.getObstacleRight();
-                distRobot = calculDistance(odom.position, m_rightObstacle);
-                nbPoints = distRobot/DIST_POINTS_PATH;
+                if (calculDistance(odom.position, vectorObstacle[i]) > calculDistance(odom.position, pointTarget))
+                {
+                    m_pointArrival = vectorObstacle[i];
+                }
             }
-            else // !m_right
-            {
-                m_pointArrival = m_dataMapObstacle.getObstacleLeft();
-                distRobot = calculDistance(odom.position, m_leftObstacle);
-                nbPoints = distRobot/DIST_POINTS_PATH;              
-            }
+            distRobot = calculDistance(odom.position, m_pointArrival);
+            nbPoints = distRobot/DIST_POINTS_PATH;
         }
         else // On peut atteindre le chemin généré par le pathfinder
         {
