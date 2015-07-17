@@ -92,10 +92,8 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
         m_pathTrack.resetState();
         while (!m_failure && !m_success)
         {
-            ROS_INFO("Test");
             geometry_msgs::Point pointArrivee = m_pathTrack.getPointArrivee();
             m_dataMapObstacle.calculObstacle(m_odom_pose, it->m_path_points);
-            ROS_INFO("Test");
             if (m_dataMapObstacle.getObstacle() == true)
             {
                 ROS_INFO("Evitement");
@@ -103,9 +101,13 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
                 m_feedback.avoidance = m_timeAvoidance;
                 m_feedback.mode = 2; // Mode évitement
                 m_as.publishFeedback(m_feedback);
-                while (!m_avoidObstacle.failure() && !m_avoidObstacle.successAvoidance())
+                m_avoidObstacle.resetMode();
+                ROS_INFO("Failure : %d, Success : %d", m_avoidObstacle.failure(), m_avoidObstacle.successAvoidance());
+                while (m_dataMapObstacle.getObstacle() && !m_avoidObstacle.failure() && !m_avoidObstacle.successAvoidance())
                 {
+                    ROS_INFO("Debut evitement");
                     m_avoidObstacle.avoid(m_dataMapObstacle.getGridObstacle(), m_odom_pose, it->m_path_points, m_as, m_feedback);
+                    m_dataMapObstacle.calculObstacle(m_odom_pose, it->m_path_points);
                     m_feedback.percent_complete = (it->m_path_points.size() / m_pointsPath) * 100;
                     m_as.publishFeedback(m_feedback);
                 }

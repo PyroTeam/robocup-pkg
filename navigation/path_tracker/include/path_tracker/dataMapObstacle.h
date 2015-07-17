@@ -27,6 +27,7 @@ class DataMapObstacle
 private:
     ros::Subscriber m_grid_sub;
     bool m_obstacle;
+    geometry_msgs::Point m_pointObstacle;
     nav_msgs::OccupancyGrid m_grid;
     bool m_receiveGrid;
     std::vector<geometry_msgs::Point> m_vectorObstaclePoints;
@@ -39,6 +40,7 @@ private:
 public:
     nav_msgs::OccupancyGrid getGridObstacle();
     bool getObstacle();
+    geometry_msgs::Point getPointPathObstacle();
     std::vector<geometry_msgs::Point> getVectorObstacle();
     geometry_msgs::Point getPoint(int cell, const nav_msgs::OccupancyGrid &grid);
     //void getPointsMap(const nav_msgs::OccupancyGrid &grid);

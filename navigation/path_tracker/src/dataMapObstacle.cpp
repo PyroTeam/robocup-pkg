@@ -25,6 +25,11 @@ bool DataMapObstacle::getObstacle()
     return m_obstacle;
 }
 
+geometry_msgs::Point DataMapObstacle::getPointPathObstacle()
+{
+    return m_pointObstacle;
+}
+
 std::vector<geometry_msgs::Point> DataMapObstacle::getVectorObstacle()
 {
     return m_vectorObstaclePoints;
@@ -95,6 +100,8 @@ int DataMapObstacle::getCell(const nav_msgs::OccupancyGrid &grid, float x, float
 
 void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path)
 {
+    m_vectorObstacle.clear();
+    m_vectorObstaclePoints.clear();
     m_obstacle = false;
     int cell = 0;
     int width = m_grid.info.width;
@@ -113,8 +120,9 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
             cell = getCell(m_grid, path[i].pose.position.x, path[i].pose.position.y);
             if (m_grid.data[cell] != 0) // Case noircie
             {
-                ROS_INFO("Obstacle");
+                //ROS_INFO("Obstacle");
                 m_obstacle = true;
+                m_pointObstacle = path[i].pose.position;
                 m_vectorObstacle.push_back(cell);
             }
             i++;
