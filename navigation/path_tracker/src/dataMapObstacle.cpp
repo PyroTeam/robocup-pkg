@@ -25,19 +25,9 @@ bool DataMapObstacle::getObstacle()
     return m_obstacle;
 }
 
-geometry_msgs::Point DataMapObstacle::getObstacleLeft()
+std::vector<geometry_msgs::Point> DataMapObstacle::getVectorObstacle()
 {
-    return m_obstacleLeft;
-}
-
-geometry_msgs::Point DataMapObstacle::getObstacleRight()
-{
-    return m_obstacleRight;
-}
-
-float DataMapObstacle::getLengthObstacle()
-{
-    return m_lengthObstacle;
+    return m_vectorObstaclePoints;
 }
 
 float DataMapObstacle::calculDistance(geometry_msgs::Point point1, geometry_msgs::Point point2)
@@ -72,7 +62,7 @@ geometry_msgs::Point DataMapObstacle::getPoint(int cell, const nav_msgs::Occupan
     return point;
 }
 
-void DataMapObstacle::getPointsMap(const nav_msgs::OccupancyGrid &grid)
+/*void DataMapObstacle::getPointsMap(const nav_msgs::OccupancyGrid &grid)
 {
     geometry_msgs::Point point;
     for (int i = 0 ; i < grid.info.width * grid.info.height ; i++)
@@ -84,7 +74,7 @@ void DataMapObstacle::getPointsMap(const nav_msgs::OccupancyGrid &grid)
             m_pointsGrid.push_back(point);
         }
     }
-}
+}*/
 
 int DataMapObstacle::getCell(const nav_msgs::OccupancyGrid &grid, float x, float y)
 {
@@ -135,105 +125,115 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
         }
         else
         {
-            if (cell < width)
+            i = 0;
+            while (i < m_vectorObstacle.size())
             {
-                high = true;
-            }
-            if (cell >= (width*(height-1)))
-            {
-                low = true;
-            }
-            if ((cell%width) == 0)
-            {
-                left = true;
-            }
-            if (((cell+1)%width) == 0)
-            {
-                right = true;
-            }
-            if (!high && !low && !left && !right)
-            {
-                tmp.push_back(cell - width - 1);
-                tmp.push_back(cell - width);
-                tmp.push_back(cell - width + 1);
-                tmp.push_back(cell - 1);
-                tmp.push_back(cell + 1);
-                tmp.push_back(cell + width - 1);
-                tmp.push_back(cell + width);
-                tmp.push_back(cell + width + 1);
-            }
-            else if (high && !left && !right)
-            {
-                tmp.push_back(cell - 1);
-                tmp.push_back(cell + 1);
-                tmp.push_back(cell + width - 1);
-                tmp.push_back(cell + width);
-                tmp.push_back(cell + width + 1);
-            }
-            else if (right && !high && !low)
-            {
-                tmp.push_back(cell - width - 1);
-                tmp.push_back(cell - width);
-                tmp.push_back(cell - 1);
-                tmp.push_back(cell + width - 1);
-                tmp.push_back(cell + width);    
-            }
-            else if (low && !left && !right)
-            {
-                tmp.push_back(cell - width - 1);
-                tmp.push_back(cell - width);
-                tmp.push_back(cell - width + 1);
-                tmp.push_back(cell - 1);
-                tmp.push_back(cell + 1);
-            }
-            else if (left && !high && !low)
-            {
-                tmp.push_back(cell - width);
-                tmp.push_back(cell - width + 1);
-                tmp.push_back(cell + 1);
-                tmp.push_back(cell + width);
-                tmp.push_back(cell + width + 1);
-            }
-            else if (high && right)
-            {
-                tmp.push_back(cell - 1);
-                tmp.push_back(cell + width - 1);
-                tmp.push_back(cell + width);
-            }
-            else if (right && low)
-            {
-                tmp.push_back(cell - width - 1);
-                tmp.push_back(cell - width);
-                tmp.push_back(cell - 1);
-            }
-            else if (low && left)
-            {
-                tmp.push_back(cell - width);
-                tmp.push_back(cell - width + 1);
-                tmp.push_back(cell + 1);
-            }
-            else if (left && high)
-            {
-                tmp.push_back(cell + 1);
-                tmp.push_back(cell + width);
-                tmp.push_back(cell + width + 1);
-            }
-            int j = 0;
-            while (j < tmp.size())
-            {
-                if (m_grid.data[tmp[j]] != 0) // Case noircie
+                cell = m_vectorObstacle[i];
+                if (cell < width)
                 {
-                    int k = 0;
-                    while (k < m_vectorObstacle.size() && tmp[j] != m_vectorObstacle[k])
-                    {
-                        k++;
-                    }
-                    if (j == m_vectorObstacle.size())
-                    {
-                        m_vectorObstacle.push_back(tmp[j]);
-                    }
+                    high = true;
                 }
-                j++;
+                if (cell >= (width*(height-1)))
+                {
+                    low = true;
+                }
+                if ((cell%width) == 0)
+                {
+                    left = true;
+                }
+                if (((cell+1)%width) == 0)
+                {
+                    right = true;
+                }
+                if (!high && !low && !left && !right)
+                {
+                    tmp.push_back(cell - width - 1);
+                    tmp.push_back(cell - width);
+                    tmp.push_back(cell - width + 1);
+                    tmp.push_back(cell - 1);
+                    tmp.push_back(cell + 1);
+                    tmp.push_back(cell + width - 1);
+                    tmp.push_back(cell + width);
+                    tmp.push_back(cell + width + 1);
+                }
+                else if (high && !left && !right)
+                {
+                    tmp.push_back(cell - 1);
+                    tmp.push_back(cell + 1);
+                    tmp.push_back(cell + width - 1);
+                    tmp.push_back(cell + width);
+                    tmp.push_back(cell + width + 1);
+                }
+                else if (right && !high && !low)
+                {
+                    tmp.push_back(cell - width - 1);
+                    tmp.push_back(cell - width);
+                    tmp.push_back(cell - 1);
+                    tmp.push_back(cell + width - 1);
+                    tmp.push_back(cell + width);    
+                }
+                else if (low && !left && !right)
+                {
+                    tmp.push_back(cell - width - 1);
+                    tmp.push_back(cell - width);
+                    tmp.push_back(cell - width + 1);
+                    tmp.push_back(cell - 1);
+                    tmp.push_back(cell + 1);
+                }
+                else if (left && !high && !low)
+                {
+                    tmp.push_back(cell - width);
+                    tmp.push_back(cell - width + 1);
+                    tmp.push_back(cell + 1);
+                    tmp.push_back(cell + width);
+                    tmp.push_back(cell + width + 1);
+                }
+                else if (high && right)
+                {
+                    tmp.push_back(cell - 1);
+                    tmp.push_back(cell + width - 1);
+                    tmp.push_back(cell + width);
+                }
+                else if (right && low)
+                {
+                    tmp.push_back(cell - width - 1);
+                    tmp.push_back(cell - width);
+                    tmp.push_back(cell - 1);
+                }
+                else if (low && left)
+                {
+                    tmp.push_back(cell - width);
+                    tmp.push_back(cell - width + 1);
+                    tmp.push_back(cell + 1);
+                }
+                else if (left && high)
+                {
+                    tmp.push_back(cell + 1);
+                    tmp.push_back(cell + width);
+                    tmp.push_back(cell + width + 1);
+                }
+                int j = 0;
+                while (j < tmp.size())
+                {
+                    if (m_grid.data[tmp[j]] != 0) // Case noircie
+                    {
+                        int k = 0;
+                        while (k < m_vectorObstacle.size() && tmp[j] != m_vectorObstacle[k])
+                        {
+                            k++;
+                        }
+                        if (j == m_vectorObstacle.size())
+                        {
+                            m_vectorObstacle.push_back(tmp[j]);
+                        }
+                    }
+                    j++;
+                }
+                i++;
+            }
+            for (int i = 0 ; i < m_vectorObstacle.size() ; i++)
+            {
+                m_vectorObstaclePoints.push_back(getPoint(m_vectorObstacle[i], m_grid));
             }
         }
     }
