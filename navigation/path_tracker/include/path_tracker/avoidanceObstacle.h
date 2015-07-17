@@ -50,6 +50,7 @@ private:
 
 public:
     void avoid(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path, actionlib::SimpleActionServer<deplacement_msg::TrackPathAction> &as, deplacement_msg::TrackPathFeedback &feedback);
+    void resetMode();
     bool failure();
     bool successAvoidance();
 
