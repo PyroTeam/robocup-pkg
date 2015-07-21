@@ -19,6 +19,8 @@
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/Pose.h"
 #include "nav_msgs/OccupancyGrid.h"
+#include "sensor_msgs/PointCloud.h"
+#include "geometry_msgs/Point32.h"
 
 #include <vector>
 
@@ -26,12 +28,14 @@ class DataMapObstacle
 {
 private:
     ros::Subscriber m_grid_sub;
+    ros::Publisher m_pointCloud_pub;
     bool m_obstacle;
     geometry_msgs::Point m_pointObstacle;
     nav_msgs::OccupancyGrid m_grid;
     bool m_receiveGrid;
     std::vector<geometry_msgs::Point> m_vectorObstaclePoints;
     std::vector<int> m_vectorObstacle;
+    sensor_msgs::PointCloud m_pointCloud;
 
     ros::NodeHandle m_nh;
 
@@ -50,6 +54,7 @@ public:
 
     DataMapObstacle()
     {
+        m_pointCloud_pub = m_nh.advertise<sensor_msgs::PointCloud>("pointCloudObstacle", 1000);
         m_grid_sub = m_nh.subscribe("/gridObstacles", 1000, &DataMapObstacle::gridCallback, this);
         m_obstacle = false;
         m_receiveGrid = false;
