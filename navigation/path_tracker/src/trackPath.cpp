@@ -13,7 +13,7 @@
 #include "trackPath.h"
 
 /* Constantes */
-#define VIT_ANGLE_MAX  30
+#define VIT_ANGLE_MAX  1
 #define EPS            0.0001
 
 bool TrackPath::compareFloat(float x, float y)
