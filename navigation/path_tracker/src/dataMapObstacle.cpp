@@ -91,8 +91,8 @@ int DataMapObstacle::getCell(const nav_msgs::OccupancyGrid &grid, float x, float
 	int wCell = 0;
 	int cell = 0;
 
-	hCell = round((y - yO) / res);
-	wCell = round((x - xO) / res);
+	hCell = /*round*/((y - yO) / res);
+	wCell = /*round*/((x - xO) / res);
 	cell = hCell * width + wCell;
 
 	return cell;
@@ -249,7 +249,7 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
                 geometry_msgs::Point32 p;
                 p.x = point.x;
                 p.y = point.y;
-                p.z = 0.1;
+                p.z = 0.001;
                 m_pointCloud.points.push_back(p);
                 //ROS_INFO("Point obstacle : x = %f, y = %f", m_vectorObstaclePoints[i].x, m_vectorObstaclePoints[i].y);
             }

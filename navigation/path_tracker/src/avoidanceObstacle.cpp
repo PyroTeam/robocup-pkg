@@ -13,11 +13,12 @@
 #include "avoidanceObstacle.h"
 
 /* Constantes */
-#define DIST_POINTS_PATH  0.05
-#define VIT_ANGLE_MAX     30
-#define TIME_OBSTACLE     5
-#define DIST_MAX          3
-#define EPS               0.0001
+#define DIST_POINTS_PATH        0.1
+#define VIT_ANGLE_MAX           30
+#define TIME_OBSTACLE           5
+#define DIST_MAX                3
+#define EPS                     0.0001
+#define OFFSET_ANGLE_AVOIDANCE  0.05
 
 float AvoidanceObstacle::calculDistance(const geometry_msgs::Point &point1, const geometry_msgs::Point &point2)
 {
@@ -75,18 +76,21 @@ geometry_msgs::Point AvoidanceObstacle::calculPointsPath(const geometry_msgs::Po
 
 std::vector<geometry_msgs::PoseStamped> calculPointsPath2(const geometry_msgs::Point &pointD, const geometry_msgs::Point &pointA)
 {
-    float a = (pointA.y - pointD.y)/(pointA.x - pointD.x);
-    float b = pointA.y - a * pointA.x;
+
     float xO = pointD.x;
     float yO = pointD.y;
+    float angle = atan2(pointA.y - pointD.y, pointA.x - pointD.x);
     std::vector<geometry_msgs::PoseStamped> path;
 
     geometry_msgs::PoseStamped tmp;
     tmp.pose.position.x = xO;
     tmp.pose.position.y = yO;
     path.push_back(tmp);
-    if (xO < pointA.x)
-    {
+
+    if (angle > -M_PI/4 && angle < M_PI/4)
+    { 
+        float a = (pointA.y - pointD.y)/(pointA.x - pointD.x);
+        float b = pointA.y - a * pointA.x;
         while (xO < pointA.x)
         {
             xO += DIST_POINTS_PATH;
@@ -96,8 +100,36 @@ std::vector<geometry_msgs::PoseStamped> calculPointsPath2(const geometry_msgs::P
             path.push_back(tmp);   
         }
     }
-    else // xO >= pointA.x
+    else if (angle > M_PI/4 && angle < 3*M_PI/4)
     {
+        float a = (pointA.x - pointD.x)/(pointA.y - pointD.y);
+        float b = pointA.x - a * pointA.y;        
+        while (yO < pointA.y)
+        {
+            yO += DIST_POINTS_PATH;
+            xO = a * yO + b;
+            tmp.pose.position.x = xO;
+            tmp.pose.position.y = yO;
+            path.push_back(tmp);   
+        }
+    }
+    else if (angle < -M_PI/4 && angle > -3*M_PI/4)
+    { 
+        float a = (pointA.x - pointD.x)/(pointA.y - pointD.y);
+        float b = pointA.x - a * pointA.y;        
+        while (yO > pointA.y)
+        {
+            yO -= DIST_POINTS_PATH;
+            xO = a * yO + b;
+            tmp.pose.position.x = xO;
+            tmp.pose.position.y = yO;
+            path.push_back(tmp);   
+        }
+    }
+    else // angle > 3*M_PI/4 || angle < -3*M_PI/4 
+    {
+        float a = (pointA.y - pointD.y)/(pointA.x - pointD.x);
+        float b = pointA.y - a * pointA.x;
         while (xO > pointA.x)
         {
             xO -= DIST_POINTS_PATH;
@@ -219,66 +251,54 @@ bool comparePoints(const geometry_msgs::Point &point1, const geometry_msgs::Poin
     }
 }
 
-geometry_msgs::Point closestPoint(const geometry_msgs::Point &segmentStart, const geometry_msgs::Point &segmentStop, const geometry_msgs::Point &point)
+void cleanPath(std::vector<geometry_msgs::PoseStamped> &points, const geometry_msgs::Point &pointObstacle)
 {
-    geometry_msgs::Point closestPoint;
-    float xDelta = segmentStop.x - segmentStart.x;
-    float yDelta = segmentStop.y - segmentStart.y;
-
-    if (xDelta == 0 && yDelta == 0)
+    std::vector<geometry_msgs::PoseStamped>::iterator it = points.begin();
+    while (it != points.end() && !comparePoints(it->pose.position, pointObstacle))
     {
-        closestPoint = segmentStart;
-        return closestPoint;
+        it++;
     }
-
-    float u = ((point.x - segmentStart.x) * xDelta + (point.y - segmentStart.y) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
-
-    if (u < 0)
+    if (it != points.end())
     {
-        closestPoint = segmentStart;
+        points.erase(points.begin(), it);
     }
-    else if (u > 1)
-    {
-        closestPoint = segmentStop;
-    }
-    else
-    {
-        closestPoint.x = segmentStart.x + u * xDelta;
-        closestPoint.y = segmentStart.y + u * yDelta;
-    }
-    return closestPoint;
 }
 
-void cleanPath(std::vector<geometry_msgs::PoseStamped> &points, const geometry_msgs::Pose &odom)
+geometry_msgs::Point searchPoint(const std::vector<geometry_msgs::Point> &vectorObstacle, const std::vector<geometry_msgs::PoseStamped> &path)
 {
-    geometry_msgs::Point pose;
-    pose.x = odom.position.x;
-    pose.y = odom.position.y;
-    geometry_msgs::Point closest;
-    geometry_msgs::Point start;
-    geometry_msgs::Point stop;
-
-    for (int i = 0 ; i < points.size() ; i++)
+    int i = 0;
+    bool end = false;
+    bool alreadySeen = false;
+    while (i < path.size() && !end)
     {
-        if (points.size() >= 1)
+        int j = 0;
+        bool obstacleFound = false;
+        while (j < vectorObstacle.size() && !obstacleFound)
         {
-            start = points[0].pose.position;
-            if (points.size() >= 2)
+            if (!comparePoints(path[i].pose.position, vectorObstacle[j]))
             {
-                stop = points[1].pose.position;
-                closest = closestPoint(start, stop, pose);
-                if (comparePoints(closest, stop))
-                {
-                    points.erase(points.begin());
-                    continue;
-                }
-                else
-                {
-                    break;
-                }
+                j++;
+            }
+            else
+            {
+                obstacleFound = true;
+                alreadySeen = true;
             }
         }
+        if (j == vectorObstacle.size() && alreadySeen) // Pas trouvé d'obstacle sur le point du chemin
+        {
+            end = true;
+        }
+        else
+        {
+            i++;
+        }
     }
+    if (!end)
+    {
+        ROS_INFO("Erreur point obstacle");
+    }
+    return path[i].pose.position;
 }
 
 void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path, actionlib::SimpleActionServer<deplacement_msg::TrackPathAction> &as, deplacement_msg::TrackPathFeedback &feedback)
@@ -307,24 +327,34 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
 
     float cosAlpha = (vectorObstacle[0].x - odom.position.x)/calculDistance(vectorObstacle[0], odom.position);
     float sinAlpha = (vectorObstacle[0].y - odom.position.y)/calculDistance(vectorObstacle[0], odom.position);
-    geometry_msgs::Point pointTargetRobot = transformFrameRobot(pointTarget, odom.position, cosAlpha, sinAlpha);
+    geometry_msgs::Point pointTargetRobot = transformFrameGlobal(pointTarget, odom.position, cosAlpha, sinAlpha);
+    ROS_INFO("Point target robot : x = %f, y = %f", pointTargetRobot.x, pointTargetRobot.y);
 
     float theta = atan2(pointTargetRobot.y, pointTargetRobot.x);
     if (theta > 0)
     {
-        theta += 0.1;
+        theta += OFFSET_ANGLE_AVOIDANCE;
     }
     else // theta <= 0
     {
-        theta -= 0.1;
+        theta -= OFFSET_ANGLE_AVOIDANCE;
     }
     ROS_INFO("Theta : %f", theta);
 
-    geometry_msgs::Point newPointTarget;
-    newPointTarget.x = cos(theta)*calculNorme(pointTargetRobot);
-    newPointTarget.y = sin(theta)*calculNorme(pointTargetRobot);
+    float alpha = atan2(sinAlpha, cosAlpha);
+    ROS_INFO("Alpha : %f", alpha);
 
-    pointTarget = transformFrameGlobal(newPointTarget, odom.position, cosAlpha, sinAlpha);
+    geometry_msgs::Point newPointTarget;
+    newPointTarget.x = cos(theta)*(calculNorme(pointTargetRobot)+0.5);
+    newPointTarget.y = sin(theta)*(calculNorme(pointTargetRobot)+0.5);
+    ROS_INFO("New point target : x = %f, y = %f", newPointTarget.x, newPointTarget.y);
+
+    geometry_msgs::Point pointTargetBis;
+    pointTargetBis.x = cos(theta)*(calculNorme(pointTargetRobot)+0.5);
+    pointTargetBis.y = sin(theta)*(calculNorme(pointTargetRobot)+0.5);
+    ROS_INFO("Point target bis : x = %f, y = %f", pointTargetBis.x, pointTargetBis.y);
+
+    pointTarget = transformFrameRobot(newPointTarget, odom.position, cosAlpha, sinAlpha);
 
     ROS_INFO("Point à atteindre : x = %f, y = %f", pointTarget.x, pointTarget.y);
 
@@ -337,15 +367,8 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
     geometry_msgs::PoseStamped poseStamped;
 
     m_intermediatePath.clear();
+    m_intermediatePath = calculPointsPath2(pointD, pointTarget);
     ROS_INFO("Debut chemin : x = %f, y = %f", pointD.x, pointD.y);
-    while (nbPoints > 0)
-    {
-        point = calculPointsPath(pointD, pointTarget);
-        poseStamped.pose.position = point;
-        m_intermediatePath.push_back(poseStamped);
-        pointD = point;
-        nbPoints--;
-    }
     ROS_INFO("Fin chemin : x = %f, y = %f", pointD.x, pointD.y);
     ROS_INFO("Points intermediatePath : debut x = %f, y = %f, fin x = %f, y = %f", m_intermediatePath[0].pose.position.x, m_intermediatePath[0].pose.position.y, m_intermediatePath.back().pose.position.x, m_intermediatePath.back().pose.position.y);
     static int seq = 0;       
@@ -399,7 +422,12 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
     while (!m_successAvoidance && !m_failure)
     {
         bool pathFound = false;
-        cleanPath(path, odom);
+        ROS_INFO("Taille chemin : %d", (int)path.size());
+        cleanPath(path, m_dataMapObstacle.getPointPathObstacle());
+        geometry_msgs::Point pointEndObstacle = searchPoint(m_dataMapObstacle.getVectorObstacle(), path);
+        ROS_INFO("Taille chemin : %d", (int)path.size());
+        cleanPath(path, pointEndObstacle);
+        ROS_INFO("Taille chemin : %d", (int)path.size());
         std::vector<geometry_msgs::PoseStamped> pathGenerating = path;
         while (pathGenerating.size() > 0 && !pathFound)
         {
@@ -456,7 +484,7 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
         else // On peut atteindre le chemin généré par le pathfinder
         {
             ROS_INFO("On rejoint le chemin");
-                ROS_INFO("Points intermediatePath : debut x = %f, y = %f, fin x = %f, y = %f", m_intermediatePath[0].pose.position.x, m_intermediatePath[0].pose.position.y, m_intermediatePath.back().pose.position.x, m_intermediatePath.back().pose.position.y);
+            ROS_INFO("Points intermediatePath : debut x = %f, y = %f, fin x = %f, y = %f", m_intermediatePath[0].pose.position.x, m_intermediatePath[0].pose.position.y, m_intermediatePath.back().pose.position.x, m_intermediatePath.back().pose.position.y);
             m_almostDone = true;
             /*m_pointArrival = pathGenerating[0].pose.position;
             distRobot = calculDistance(odom.position, pathGenerating[0].pose.position);
