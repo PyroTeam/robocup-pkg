@@ -323,10 +323,10 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
 
     //pour le dernier point, le seuil ne pouvant plus être dépassé,
     //on construit le dernier segment et on l'ajoute
-    if (tmp.size() >= 20)
+    if (tmp.size() >= 2)
     {
         Segment s = build(tmp);
-        if(s.getSize() > 0.35)
+        if(s.getSize() > 0.5)
         {
             listOfSegments.push_back(s);
         }

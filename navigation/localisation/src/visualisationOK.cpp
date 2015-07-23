@@ -11,17 +11,17 @@
 #include <cmath>
 
 std::vector<geometry_msgs::Point> tabLandmarks;
-//ros::Time g_landmarks_stamp;
+ros::Time g_landmarks_stamp;
 std::vector<geometry_msgs::Point> tabSegments;
 std::vector<geometry_msgs::Point> tabSegmentsVus;
-//ros::Time g_segments_stamp;
+ros::Time g_segments_stamp;
 std::vector<geometry_msgs::Point> trajectoire;
 std::vector<geometry_msgs::Point> odometrie;
-//geometry_msgs::Pose2D r;
+geometry_msgs::Pose2D r;
 
 void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments){
   tabSegments.clear();
-  //g_segments_stamp = segments->header.stamp;
+  g_segments_stamp = segments->header.stamp;
   for (auto &it : segments->landmarks)
   {
     geometry_msgs::Point p;
@@ -34,18 +34,18 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments){
 
 void landmarksCallback(const deplacement_msg::LandmarksConstPtr& landmarks){
   tabLandmarks.clear();
-  //g_landmarks_stamp = landmarks->header.stamp;
-  for (auto &it : landmarks->landmarks){
+  g_landmarks_stamp = landmarks->header.stamp;
+  for (auto &it : landmarks->landmarks)
+  {
     geometry_msgs::Point pointA;
-    pointA.x = it.x /*+ cos(it.theta)*0.35*/;
-    pointA.y = it.y /*+ sin(it.theta)*0.35*/;
+    pointA.x = it.x + cos(it.theta)*0.35;
+    pointA.y = it.y - sin(it.theta)*0.35;
     tabLandmarks.push_back(pointA);
-/*
+
     geometry_msgs::Point pointB;
     pointB.x = it.x - cos(it.theta)*0.35;
-    pointB.y = it.y - sin(it.theta)*0.35;
+    pointB.y = it.y + sin(it.theta)*0.35;
     tabLandmarks.push_back(pointB);
-*/
   }
 }
 
@@ -87,7 +87,7 @@ int main( int argc, char** argv )
   while (ros::ok())
   {
     segments.header.frame_id = "map";
-    segments.header.stamp = ros::Time::now();/*g_segments_stamp;*/
+    segments.header.stamp = g_segments_stamp;
     segments.ns = "visualisation_segments";
     segments.action = visualization_msgs::Marker::ADD;
     segments.pose.orientation.w = 1.0;
@@ -100,18 +100,17 @@ int main( int argc, char** argv )
     segments.color.a = 1.0;
     segments.points = tabSegments;
     
-    landmarks.header.frame_id = "map";
-    landmarks.header.stamp = ros::Time::now();/*g_landmarks_stamp;*/
+    landmarks.header.frame_id = "/odom";
+    landmarks.header.stamp = g_landmarks_stamp;
     landmarks.ns = "visualisation_machines";
     landmarks.action = visualization_msgs::Marker::ADD;
     landmarks.pose.orientation.w = 1.0;
     landmarks.id = 0;
-    //landmarks.type = visualization_msgs::Marker::LINE_LIST;
-    landmarks.type = visualization_msgs::Marker::POINTS;
+    landmarks.type = visualization_msgs::Marker::LINE_LIST;
+    //landmarks.type = visualization_msgs::Marker::POINTS;
 
     //largeur du landmark
     landmarks.scale.x = 0.35;
-    landmarks.scale.y = 0.35;
 
     //les landmarks sont verts
     landmarks.color.g = 1.0f;

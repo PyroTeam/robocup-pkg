@@ -248,16 +248,21 @@ bool isAlmostTheSame(Segment a, Segment b)
   {
     angleB += M_PI;
   }
-  //si l'angle entre les deux est inférieur à 10°
+  
+  printf("\n");
+
+  //si l'angle entre les deux est inférieur à 20°
   //et la distance entre les centres est telle qu'il y a chevauchement
-  if ((std::abs(angleA - angleB) <= 0.36) &&
-      (std::abs(angleA - angleB) <= M_PI - 0.36) &&
+  if ((std::abs(angleA - angleB) <=  (20/180)*M_PI) &&
+      (std::abs(angleA - angleB) <= (160/180)*M_PI) &&
        dist(a,b) <= (b.getSize()+a.getSize())/2)
   {
+    printf("almost the same\n");
     return true;
   }
   else
   {
+    printf("not the same\n");
     return false;
   }
 }
@@ -284,8 +289,8 @@ void modify(Segment a, Segment &b)
     {
       tmp.setMin(A);
       tmp.setMax(B);
-      //std::cout << "1" << std::endl;
-    }
+      std::cout << "1" << std::endl;
+    }/*
     //si le min du segment vu est avant le min du segment enregistré
     else if (minLocalS.x < minLocalR.x && maxLocalS.x < maxLocalR.x)
     {
@@ -309,11 +314,11 @@ void modify(Segment a, Segment &b)
       tmp.setMin(A);
       tmp.setMax(b.getMax());
       //std::cout << "5" << std::endl;
-    }
+    }*/
 
-    if (tmp.getSize() > b.getSize() &&
-       ((std::abs(tmp.getAngle() - b.getAngle()) <= 0.18) ||
-        (std::abs(tmp.getAngle() - b.getAngle()) <= 0.18 + M_PI)))
+    if (tmp.getSize() > b.getSize() /*&&
+       ((std::abs(tmp.getAngle() - b.getAngle()) <= 0.36) ||
+        (std::abs(tmp.getAngle() - b.getAngle()) <= 0.36 + M_PI))*/)
     {
       tmp.update();
       b = tmp;
