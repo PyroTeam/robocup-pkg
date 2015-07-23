@@ -4,7 +4,6 @@
 #include <visualization_msgs/Marker.h>
 #include <cmath>
 #include "deplacement_msg/Landmarks.h"
-#include "deplacement_msg/Alarm.h"
 #include "geometry_msgs/Pose2D.h"
 #include "nav_msgs/Odometry.h"
 #include "laserScan.h"
@@ -20,7 +19,7 @@ deplacement_msg::Landmarks g_tabSegments;
 geometry_msgs::Pose2D      g_odomRobot;
 std::vector<Machine>       g_mps(24);
 std::vector<Segment>       g_sgtArray;
-//tf::TransformListener      *g_tf_listener;
+tf::TransformListener     *g_tf_listener;
 double                     g_angular_speed;
 double                     g_linear_speed;
 
@@ -36,7 +35,7 @@ void odomCallback(const nav_msgs::Odometry& odom)
 
 void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
 {
-/*
+
     tf::StampedTransform transform;
     try
     {
@@ -47,7 +46,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
         ROS_WARN("%s",ex.what());
         return;
     }
-*/
+
     g_tabMachines.landmarks.clear();
     g_tabMachines.header.frame_id="/laser_link";
     g_tabMachines.header.stamp = machines->header.stamp;
@@ -111,8 +110,8 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
 int main( int argc, char** argv )
 {
     ros::init(argc, argv, "Cartographie");
-    //tf::TransformListener tf_listener;
-    //g_tf_listener = &tf_listener;
+    tf::TransformListener tf_listener;
+    g_tf_listener = &tf_listener;
 
     ros::NodeHandle n;
 
