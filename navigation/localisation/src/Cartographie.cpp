@@ -54,15 +54,14 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     for (auto &it : machines->landmarks)
     {
         // Changement de repère
-        //geometry_msgs::Pose2D p;
-        geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it), g_odomRobot);
-/*
-        double yaw = tf::getYaw(transform.getRotation());
-        p.x = it.x*cos(yaw) - it.y*sin(yaw) + transform.getOrigin().x();
-        p.y = it.x*sin(yaw) + it.y*cos(yaw) + transform.getOrigin().y();
+        geometry_msgs::Pose2D p;
+        //geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it), g_odomRobot);
 
+        double yaw = tf::getYaw(transform.getRotation());
+        p.x     = it.x*cos(yaw) - it.y*sin(yaw) + transform.getOrigin().x();
+        p.y     = it.x*sin(yaw) + it.y*cos(yaw) + transform.getOrigin().y();
         p.theta = it.theta + yaw;
-*/
+
         // Vérification de la zone
         int zone = machineToArea(p);
         if(zone==0)
@@ -88,7 +87,7 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
     g_tabSegments.header.frame_id="/laser_link";
     g_tabSegments.header.stamp = segments->header.stamp;
 
-    if (true/*std::abs(g_angular_speed) <= 0.2 && std::abs(g_linear_speed) <= 0.35*/)
+    if (std::abs(g_angular_speed) <= 0.2 && std::abs(g_linear_speed) <= 0.35)
     {
         for (int i = 0; i < segments->landmarks.size(); i = i+2)
         {
@@ -122,7 +121,7 @@ int main( int argc, char** argv )
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("/landmarks", 1000);
     ros::Publisher pub_segments_global = n.advertise< deplacement_msg::Landmarks >("/segments_global", 1000);
 
-    ros::Rate loop_rate(20);
+    ros::Rate loop_rate(10);
     while (n.ok())
     { 
         pub_machines.publish(convert(g_mps));
@@ -130,7 +129,7 @@ int main( int argc, char** argv )
         std::vector<Segment> tmp = landmarksToSegments(g_tabSegments);
         maj(g_sgtArray,tmp);
         pub_segments_global.publish(backToLandmarks(g_sgtArray));
-        tmp.clear();
+        //tmp.clear();
         //g_sgtArray.clear();
 
         // Spin

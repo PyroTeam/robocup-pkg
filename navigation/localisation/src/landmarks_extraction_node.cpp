@@ -31,14 +31,14 @@ int main(int argc, char** argv)
     srand(time(NULL));
 
     // Le noeud tourne à 10Hz
-    ros::Rate loop_rate (20);
+    ros::Rate loop_rate (10);
     while(n.ok())
     {
         // Enregistre une copie du scan en coord cartesiennes
         const std::list<geometry_msgs::Point> &listOfPoints    = laserData.getPoints();
         // Trouve les lignes, stocke les points restants dans l
         std::list<geometry_msgs::Point> l;
-        std::list<Model>  listOfModels      = findLines(listOfPoints, 30, 0.05, 30, l);
+        std::list<Model>  listOfModels      = findLines(listOfPoints, 20, 0.05, 20, l);
         // Construit les segments
         std::list<Segment> listOfSegments   = buildSegmentsFromModels(listOfModels);
         // Trouve les machines

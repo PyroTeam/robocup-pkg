@@ -114,8 +114,10 @@ add_executable(
   landmarks_extraction_node
   src/landmarks_extraction_node.cpp
   src/landmarks_detection_utils.cpp
-  src/Cartographie_utils.cpp
-  src/laserScan.cpp
+  src/math_functions.cpp
+  src/conversion_functions.cpp
+  src/cartographie_utils.cpp
+  src/LaserScan.cpp
   src/Line.cpp
   src/Segment.cpp
   src/Model.cpp
@@ -149,7 +151,16 @@ target_link_libraries(
 
 add_executable(
   try
-  src/try.cpp)
+  src/try.cpp
+  src/cartographie_utils.cpp
+  src/landmarks_detection_utils.cpp
+  src/math_functions.cpp
+  src/conversion_functions.cpp
+  src/LaserScan.cpp
+  src/Line.cpp
+  src/Segment.cpp
+  src/Model.cpp
+  src/Machine.cpp)
 set_target_properties(try PROPERTIES COMPILE_FLAGS -std=c++0x)
 add_dependencies(try deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
@@ -158,13 +169,13 @@ target_link_libraries(
 )
 
 add_executable(
-  EKF_node
-  src/EKF.cpp
+  ekf_node
+  src/ekf_node.cpp
   src/EKF_class.cpp)
-set_target_properties(EKF_node PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(EKF_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+set_target_properties(ekf_node PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(ekf_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
-  EKF_node
+  ekf_node
   ${catkin_LIBRARIES}
 )
 
@@ -182,7 +193,9 @@ add_executable(
   Cartographie
   src/Cartographie.cpp
   src/landmarks_detection_utils.cpp
-  src/Cartographie_utils.cpp
+  src/math_functions.cpp
+  src/conversion_functions.cpp
+  src/cartographie_utils.cpp
   src/Segment.cpp
   src/Machine.cpp
   src/Line.cpp
