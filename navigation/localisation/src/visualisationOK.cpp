@@ -131,7 +131,7 @@ int main( int argc, char** argv )
     odom_brute.scale.y = 0.1;
 
     // o_brutdom is blue
-    odom_brute.color.r = 1.0f;
+    odom_brute.color.b = 1.0f;
     odom_brute.color.a = 1.0;
 
     odom_brute.points = odometrie;

@@ -21,6 +21,7 @@ public:
 
 	geometry_msgs::Point getMin();
 	geometry_msgs::Point getMax();
+	geometry_msgs::Point getCenter();
 
 	void setAngle(double theta);
 	void setSize(double size);

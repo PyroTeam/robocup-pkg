@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "Segment.h"
 #include "landmarks_detection_utils.h"
+#include "math_functions.h"
 
 #include <ctime>
 #include <cmath>

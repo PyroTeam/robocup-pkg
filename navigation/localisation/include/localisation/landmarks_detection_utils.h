@@ -9,21 +9,13 @@ class Model;
 class Machine;
 class laserScan;
 
-double dist(geometry_msgs::Point a, Line d);
 
-double dist(geometry_msgs::Point a, Segment s);
-
-geometry_msgs::Point ortho(geometry_msgs::Point a, Line d);
-
-geometry_msgs::Point ortho(geometry_msgs::Point a, Segment s);
 
 Model ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts);
 
 void maj(std::list<geometry_msgs::Point> &list, Model m);
 
 std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list<geometry_msgs::Point> &l);
-
-double linReg(const std::list<geometry_msgs::Point> &points, geometry_msgs::Pose2D &p);
 
 Segment build(const std::list<geometry_msgs::Point> &points);
 
