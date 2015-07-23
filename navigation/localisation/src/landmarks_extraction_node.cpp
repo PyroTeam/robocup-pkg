@@ -1,12 +1,10 @@
 #include <ros/ros.h>
 #include <sensor_msgs/LaserScan.h>
-#include <geometry_msgs/Pose2D.h>
-#include <geometry_msgs/Point.h>
-#include <visualization_msgs/Marker.h>
-
 #include "deplacement_msg/Landmarks.h"
-#include "laserScan.h"
 #include "landmarks_detection_utils.h"
+#include "conversion_functions.h"
+#include "Segment.h"
+#include "LaserScan.h"
 
 int main(int argc, char** argv)
 {

@@ -1,4 +1,4 @@
-#include "laserScan.h"
+#include "LaserScan.h"
 #include <cmath>
 
 laserScan::laserScan():m_range_min(0.0),m_range_max(0.0),m_angle_min(0.0),m_angle_max(0.0),m_angle_inc(0.0)

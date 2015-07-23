@@ -6,7 +6,7 @@
 #include "deplacement_msg/Landmarks.h"
 #include "geometry_msgs/Pose2D.h"
 #include "nav_msgs/Odometry.h"
-#include "laserScan.h"
+#include "LaserScan.h"
 #include "landmarks_detection_utils.h"
 #include "cartographie_utils.h"
 

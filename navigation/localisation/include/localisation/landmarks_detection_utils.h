@@ -2,35 +2,22 @@
 #define LANDMARKS_DETECTION_UTILS_H
 
 #include "geometry_msgs/Point.h"
+#include "geometry_msgs/Pose2D.h"
 
-class Segment;
-class Line;
-class Model;
-class Machine;
-class laserScan;
-
-
-
-Model ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts);
+#include "Segment.h"
+#include "Line.h"
+#include "Model.h"
+#include "Machine.h"
+#include "LaserScan.h"
 
 void maj(std::list<geometry_msgs::Point> &list, Model m);
 
 std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list<geometry_msgs::Point> &l);
 
-Segment build(const std::list<geometry_msgs::Point> &points);
-
 std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil);
 
 std::list<Segment> buildSegmentsFromModels(std::list<Model> &listOfModels);
 
-Machine calculateCoordMachine(Segment s);
-
-void maj(std::list<Segment> &list, Segment s);
-
 std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments);
-
-geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point);
-
-geometry_msgs::Point pose2DToPoint(geometry_msgs::Pose2D pose2d);
 
 #endif

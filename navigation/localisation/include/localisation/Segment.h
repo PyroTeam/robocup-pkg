@@ -2,14 +2,6 @@
 #define SEGMENT_H
 
 #include "geometry_msgs/Point.h"
-#include "cartographie_utils.h"
-#include "Line.h"
-#include "Model.h"
-#include "Segment.h"
-
-#include <vector>
-#include <list>
-#include <cmath>
 
 class Segment{
 public:
@@ -30,6 +22,7 @@ public:
 	void setPoints(geometry_msgs::Point a, geometry_msgs::Point b);
 	
 	void update();
+	void build(const std::list<geometry_msgs::Point> &points);
 protected:
 	double			 		m_angle;
 	double 			 		m_size;

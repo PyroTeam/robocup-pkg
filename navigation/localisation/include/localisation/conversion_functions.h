@@ -3,7 +3,9 @@
 
 #include "geometry_msgs/Pose2D.h"
 #include "geometry_msgs/Point.h"
+#include "deplacement_msg/Landmarks.h"
 #include "Segment.h"
+#include "Machine.h"
 
 geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser);
 
@@ -16,5 +18,9 @@ deplacement_msg::Landmarks convert(std::vector<Machine> mps);
 std::vector<Segment> landmarksToSegments(deplacement_msg::Landmarks tabSegments);
 
 deplacement_msg::Landmarks backToLandmarks(std::vector<Segment> vect);
+
+geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point);
+
+geometry_msgs::Point pose2DToPoint(geometry_msgs::Pose2D pose2d);
 
 #endif
