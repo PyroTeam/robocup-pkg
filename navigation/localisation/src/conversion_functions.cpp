@@ -152,3 +152,22 @@ deplacement_msg::Landmarks backToLandmarks(std::vector<Segment> vect)
 
   return segments;
 }
+
+geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point)
+{
+    geometry_msgs::Pose2D pose2d;
+    pose2d.x = point.x;
+    pose2d.y = point.y;
+    pose2d.theta = 0.0;
+
+    return pose2d;
+}
+
+geometry_msgs::Point pose2DToPoint(geometry_msgs::Pose2D pose2d)
+{
+    geometry_msgs::Point point;
+    point.x = pose2d.x;
+    point.y = pose2d.y;
+
+    return point;
+}

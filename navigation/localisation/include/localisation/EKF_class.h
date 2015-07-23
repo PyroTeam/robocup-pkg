@@ -9,7 +9,7 @@
 #include <string>
 
 #include "deplacement_msg/Landmarks.h"
-#include "laserScan.h"
+#include "LaserScan.h"
 #include "landmarks_detection_utils.h"
 
 using namespace Eigen;

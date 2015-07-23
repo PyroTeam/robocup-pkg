@@ -2,6 +2,7 @@
 #define MACHINE_H
 
 #include "geometry_msgs/Pose2D.h"
+#include "Segment.h"
 
 class Machine{
 public:
@@ -19,7 +20,7 @@ public:
 
 	void maj();
 	bool exist();
-
+	void calculateCoordMachine(Segment s);
 private:
 	geometry_msgs::Pose2D 	m_centre;
 	double 					m_xSum;

@@ -2,9 +2,8 @@
 #define MODEL_H
 
 #include "geometry_msgs/Point.h"
+#include "conversion_functions.h"
 #include "Line.h"
-#include "Model.h"
-#include "Segment.h"
 
 #include <list>
 
@@ -26,6 +25,9 @@ public:
 	void linReg();
 	void build(geometry_msgs::Point a, geometry_msgs::Point b);
 	void update();
+	void copy(Model m);
+	void ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts);
+
 
 private:
 	Line             					  					m_line;

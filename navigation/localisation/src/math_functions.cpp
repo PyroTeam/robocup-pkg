@@ -33,6 +33,11 @@ double dist(geometry_msgs::Point a, geometry_msgs::Point b)
   return sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y));
 }
 
+double dist(geometry_msgs::Point a, geometry_msgs::Pose2D b)
+{
+  return sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y));
+}
+
 double dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m)
 {
   return (m.x - c.x)*(m.x - c.x) + (m.y - c.y)*(m.y - c.y);
@@ -79,6 +84,22 @@ geometry_msgs::Point ortho(geometry_msgs::Point a, Segment s)
     p.y = s.getMin().y + K*v.y;
 
     return p;
+}
+
+geometry_msgs::Point ortho(geometry_msgs::Point a, geometry_msgs::Pose2D p)
+{
+    double distance = dist(a,p);
+    geometry_msgs::Point v;
+    v.x = cos(p.theta);
+    v.y = sin(p.theta);
+
+    double K = ((a.x - p.x)*v.x + (a.y - p.y)*v.y)/(v.x*v.x + v.y*v.y);
+
+    geometry_msgs::Point pt;
+    pt.x = p.x + K*v.x;
+    pt.y = p.y + K*v.y;
+
+    return pt;
 }
 
 double linReg(const std::list<geometry_msgs::Point> &points, geometry_msgs::Pose2D &p)

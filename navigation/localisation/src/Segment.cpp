@@ -74,3 +74,25 @@ void Segment::update()
 	m_max.z = m_angle;
 	m_min.z = m_angle;
 }
+
+void Segment::build(const std::list<geometry_msgs::Point> &points){
+    geometry_msgs::Pose2D pose2d;
+
+    //on fait une régression linéaire sur le segment
+    float correl = linReg(points, pose2d);
+
+    //on projète alors les points extrèmes sur le segment linéarisé
+    geometry_msgs::Point ptMin = ortho(points.front(),pose2d);
+    geometry_msgs::Point ptMax = ortho(points.back(),pose2d);
+
+    setPoints(ptMin,ptMax);
+    update();
+/*
+    std::cout << "Segment " << std::endl;
+    std::cout << " Min(" << s.getMin().x << ", " << s.getMin().y << ")" << std::endl;
+    std::cout << " Max(" << s.getMax().x << ", " << s.getMax().y << ")" << std::endl;
+    std::cout << " taille : " << s.getSize() << std::endl;
+    std::cout << " angle  : " << s.getAngle()*(180/M_PI) << std::endl;
+    std::cout << " correlation  : " << correl << std::endl;
+*/
+}

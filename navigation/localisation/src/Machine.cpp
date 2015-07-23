@@ -66,3 +66,36 @@ bool Machine::exist()
 		return false;
 	}
 }
+
+void Machine::calculateCoordMachine(Segment s)
+{
+    double angle = s.getAngle();
+    double absMilieu = (s.getMax().x + s.getMin().x)/2;
+    double ordMilieu = (s.getMax().y + s.getMin().y)/2;
+
+    geometry_msgs::Pose2D center;
+
+    //on met l'angle entre -M_PI_2 et M_PI_2
+    angle = atan(tan(angle));
+    //puis entre 0 et M_PI 
+    //if (angle < 0)
+    //{
+    //    angle += M_PI;
+    //}
+    center.theta = angle;
+
+    //si l'angle est > 0
+    if (angle > 0.0)
+    {
+        center.x = absMilieu + 0.35/2*sin(angle);
+        center.y = ordMilieu - 0.35/2*cos(angle);
+    }
+    //si l'angle est <= 0
+    else 
+    {
+        center.x = absMilieu - 0.35/2*sin(angle);
+        center.y = ordMilieu + 0.35/2*cos(angle);
+    }
+
+    setCentre(center);
+}

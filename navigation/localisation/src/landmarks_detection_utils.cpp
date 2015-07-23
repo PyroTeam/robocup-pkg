@@ -1,104 +1,8 @@
-#include "ros/ros.h"
-#include "laserScan.h"
-#include "Line.h"
-#include "Model.h"
-#include "Segment.h"
-#include "Machine.h"
-#include "sensor_msgs/LaserScan.h"
-#include "geometry_msgs/Pose2D.h"
-
-#include <cmath>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <vector>
-#include <list>
-#include <algorithm>
-#include <iterator>
-#include <limits>
-
 #include "landmarks_detection_utils.h"
 #include "math_functions.h"
-
-
-Model ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts)
-{
-    int size = listOfPoints.size();
-    int iter = 0, i = 0, j = 0;
-    double w = double(NbPtPertinent)/double(size);
-    double k = log10(1-proba)/log10(1-pow(w,n));
-
-    Model meilleur_modele;
-
-    while (iter < k)
-    {
-        Model modele_possible;
-        geometry_msgs::Point a, b;
-        //on prend deux points au hasard
-        i = rand() % listOfPoints.size();
-        do
-        {
-            j = rand() % listOfPoints.size();
-        } while(j==i);
-
-        //on stocke les indices de ces points dans la liste d'indices du modele possible
-        //ainsi que les points correspondants
-        int cpt = 0, NbPtFound = 0;
-        for (std::list<geometry_msgs::Point>::iterator it = listOfPoints.begin(); it != listOfPoints.end(); ++it)
-        {
-            if (cpt == i)
-            {
-                a = *it;
-                NbPtFound++;
-            }
-            if (cpt == j)
-            {
-                b = *it;
-                NbPtFound++;
-            }
-            if (NbPtFound == 2)
-            {
-                break;
-            }
-            cpt++;
-        }
-
-        //on fabrique alors une droite à partir de ces points
-        modele_possible.build(a,b);
-        
-        //pour tous les autres points
-        for (std::list<geometry_msgs::Point>::iterator it = listOfPoints.begin(); it != listOfPoints.end(); ++it)
-        {
-            //si le point se situe dans le voisinage de la droite du modele_possible
-            if (dist(*it, modele_possible.getLine()) < seuil)
-            {
-                //on ajoute l'indice correspondant à ce point dans la liste d'indices du modele_possible
-                modele_possible.addIndex(it);
-            }
-        }
-
-        //si le modele_possible contient assez de points
-        if(modele_possible.getIndex().size() > NbPts)
-        {
-            //on fait une régression linéaire à partir des points appartenant au modèle
-            //pour ajuster les paramètres de la droite et calculer le coeff de corrélation
-            modele_possible.linReg();
-        }
-
-        //si le modele_possible est mieux que le meilleur_modele enregistré
-        if (modele_possible.getIndex().size() > meilleur_modele.getIndex().size())
-        {
-            //on construit le nouveau meilleur_modele à partir du modele_possible
-            meilleur_modele = modele_possible;
-        }
-
-        iter++;
-    }
-    meilleur_modele.linReg();
-    meilleur_modele.update();
-
-    return meilleur_modele;
-}
+#include "conversion_functions.h"
+#include "Model.h"
+#include "Machine.h"
 
 void maj(std::list<geometry_msgs::Point> &list, Model m)
 {
@@ -111,17 +15,12 @@ void maj(std::list<geometry_msgs::Point> &list, Model m)
     }
 }
 
-void maj(std::list<Segment> &list, Segment s)
-{
-    for(std::list<Segment>::iterator it = list.begin(); it != list.end(); ++it)
-    {
-        //on supprime dans la liste le point correspondant à l'index enregistré dans le meilleur_modele
-        list.erase(it);
-    }
-}
-
 //rentrer tous les paramètres de RANSAC dans le prototype de findLines
-std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list<geometry_msgs::Point> &l)
+std::list<Model> findLines( const std::list<geometry_msgs::Point> &listOfPoints,
+                            int NbPtPertinent,
+                            double seuil,
+                            int NbPts,
+                            std::list<geometry_msgs::Point> &l)
 {
     std::list<Model>                 listOfDroites;
     std::list<geometry_msgs::Point>  listWithoutPrecModelPoints = listOfPoints;
@@ -130,8 +29,8 @@ std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, 
 
     while (!stopRansac)
     {
-        //  ransac(listOfPoints,               n, NbPtPertinent,proba, seuil, NbPts)
-        m = ransac(listWithoutPrecModelPoints, 2, NbPtPertinent, 0.99, seuil, NbPts);
+        //ransac(listOfPoints,               n, NbPtPertinent,proba, seuil, NbPts)
+        m.ransac(listWithoutPrecModelPoints, 2, NbPtPertinent, 0.99, seuil, NbPts);
 
         if(m.getPoints().size() > NbPts) 
         {
@@ -153,40 +52,6 @@ std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, 
     l = listWithoutPrecModelPoints;
 
     return listOfDroites;
-}
-
-
-
-Segment build(const std::list<geometry_msgs::Point> &points){
-    Segment s;
-    geometry_msgs::Pose2D pose2d;
-
-    //on fait une régression linéaire sur le segment
-    double correl = linReg(points, pose2d);
-
-    //on commence à remplir le segment
-    s.setAngle(pose2d.theta);
-    s.setPoints(pose2DToPoint(pose2d), pose2DToPoint(pose2d));
-    //on projète alors les points extrèmes sur le segment linéarisé
-    geometry_msgs::Point ptMin = ortho(points.front(),s);
-    geometry_msgs::Point ptMax = ortho(points.back(),s);
-
-    //et enfin on calcule la taille et l'angle du segment en mètre
-    double size  = sqrt((ptMax.x-ptMin.x)*(ptMax.x-ptMin.x) + (ptMax.y-ptMin.y)*(ptMax.y-ptMin.y));
-    double angle =  tan((ptMax.y-ptMin.y)/(ptMax.x-ptMin.x));
-
-    s.setAngle(angle);
-    s.setPoints(ptMin,ptMax);
-    s.setSize(size);
-/*
-    std::cout << "Segment " << std::endl;
-    std::cout << " Min(" << s.getMin().x << ", " << s.getMin().y << ")" << std::endl;
-    std::cout << " Max(" << s.getMax().x << ", " << s.getMax().y << ")" << std::endl;
-    std::cout << " taille : " << s.getSize() << std::endl;
-    std::cout << " angle  : " << s.getAngle()*(180/M_PI) << std::endl;
-    std::cout << " correlation  : " << correl << std::endl;
-*/
-    return s;
 }
 
 std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
@@ -212,7 +77,8 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
         else
         {
             //on construit un nouveau segment à partir de la liste enregistrée des points qui sont proches
-            Segment s = build(tmp);
+            Segment s;
+            s.build(tmp);
 
             if(s.getSize() > 0.5)
             {
@@ -232,7 +98,8 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
     //on construit le dernier segment et on l'ajoute
     if (tmp.size() >= 2)
     {
-        Segment s = build(tmp);
+        Segment s;
+        s.build(tmp);
         if(s.getSize() > 0.5)
         {
             listOfSegments.push_back(s);
@@ -257,43 +124,6 @@ std::list<Segment> buildSegmentsFromModels(std::list<Model> &listOfModels)
     return listOfSegments;
 }
 
-Machine calculateCoordMachine(Segment s)
-{
-    Machine m;
-
-    double angle = s.getAngle();
-    double absMilieu = (s.getMax().x + s.getMin().x)/2;
-    double ordMilieu = (s.getMax().y + s.getMin().y)/2;
-
-    geometry_msgs::Pose2D center;
-
-    //on met l'angle entre -M_PI_2 et M_PI_2
-    angle = atan(tan(angle));
-    //puis entre 0 et M_PI 
-    //if (angle < 0)
-    //{
-    //    angle += M_PI;
-    //}
-    center.theta = angle;
-
-    //si l'angle est > 0
-    if (angle > 0.0)
-    {
-        center.x = absMilieu + 0.35/2*sin(angle);
-        center.y = ordMilieu - 0.35/2*cos(angle);
-    }
-    //si l'angle est <= 0
-    else 
-    {
-        center.x = absMilieu - 0.35/2*sin(angle);
-        center.y = ordMilieu + 0.35/2*cos(angle);
-    }
-
-    m.setCentre(center);
-
-    return m;
-}
-
 std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments)
 {
     std::vector<Machine> tmp;
@@ -302,28 +132,11 @@ std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments)
     {
         if (std::abs(it.getSize() - 0.7) <= 0.1)
         {
-            tmp.push_back(calculateCoordMachine(it));
+            Machine m;
+            m.calculateCoordMachine(it);
+            tmp.push_back(m);
         }
     }
 
     return tmp;
-}
-
-geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point)
-{
-    geometry_msgs::Pose2D pose2d;
-    pose2d.x = point.x;
-    pose2d.y = point.y;
-    pose2d.theta = 0.0;
-
-    return pose2d;
-}
-
-geometry_msgs::Point pose2DToPoint(geometry_msgs::Pose2D pose2d)
-{
-    geometry_msgs::Point point;
-    point.x = pose2d.x;
-    point.y = pose2d.y;
-
-    return point;
 }

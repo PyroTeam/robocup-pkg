@@ -23,6 +23,8 @@ geometry_msgs::Point ortho(geometry_msgs::Point a, Line d);
 
 geometry_msgs::Point ortho(geometry_msgs::Point a, Segment s);
 
+geometry_msgs::Point ortho(geometry_msgs::Point a, geometry_msgs::Pose2D p);
+
 double linReg(const std::list<geometry_msgs::Point> &points, geometry_msgs::Pose2D &p);
 
 #endif
