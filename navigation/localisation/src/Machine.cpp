@@ -23,6 +23,16 @@ geometry_msgs::Pose2D Machine::getCentre()
 	return m_centre;
 }
 
+int Machine::getNbActu()
+{
+    return m_nbActu;
+}
+
+double Machine::getReliability()
+{
+    return m_reliability;
+}
+
 void Machine::setCentre(geometry_msgs::Pose2D c)
 {
 	m_centre = c;
@@ -48,6 +58,11 @@ void Machine::incNbActu()
 	m_nbActu++;
 }
 
+void Machine::setReliability(double rel)
+{
+    m_reliability = rel;
+}
+
 void Machine::maj()
 {
 	m_centre.x     = m_xSum/m_nbActu;
@@ -55,47 +70,30 @@ void Machine::maj()
 	m_centre.theta = m_thetaSum/m_nbActu;
 }
 
-bool Machine::exist()
-{
-	if (m_nbActu >= 1)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
 void Machine::calculateCoordMachine(Segment s)
 {
-    double angle = s.getAngle();
+    double angle     = s.getAngle();
     double absMilieu = (s.getMax().x + s.getMin().x)/2;
     double ordMilieu = (s.getMax().y + s.getMin().y)/2;
+    double sinus     = 0.35/2*sin(angle);
+    double cosinus   = 0.35/2*cos(angle);
 
     geometry_msgs::Pose2D center;
 
-    //on met l'angle entre -M_PI_2 et M_PI_2
-    angle = atan(tan(angle));
-    //puis entre 0 et M_PI 
-    //if (angle < 0)
-    //{
-    //    angle += M_PI;
-    //}
-    center.theta = angle;
+    double d1 = (absMilieu - sinus)*(absMilieu - sinus) + (ordMilieu + cosinus)*(ordMilieu + cosinus);
+    double d2 = (absMilieu + sinus)*(absMilieu + sinus) + (ordMilieu - cosinus)*(ordMilieu - cosinus);
 
-    //si l'angle est > 0
-    if (angle > 0.0)
+    if (d1 > d2)
     {
-        center.x = absMilieu + 0.35/2*sin(angle);
-        center.y = ordMilieu - 0.35/2*cos(angle);
+        center.x = absMilieu - sinus;
+        center.y = ordMilieu + cosinus;
+        center.theta = angle;
     }
-    //si l'angle est <= 0
-    else 
+    else
     {
-        center.x = absMilieu - 0.35/2*sin(angle);
-        center.y = ordMilieu + 0.35/2*cos(angle);
+        center.x = absMilieu + sinus;
+        center.y = ordMilieu - cosinus;
+        center.theta = angle;
     }
-
     setCentre(center);
 }

@@ -25,10 +25,7 @@ public:
 	void linReg();
 	void build(geometry_msgs::Point a, geometry_msgs::Point b);
 	void update();
-	void copy(Model m);
-	void ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts);
-
-
+	
 private:
 	Line             					  					m_line;
 	std::list<geometry_msgs::Point>   				      	m_points; 

@@ -1,10 +1,10 @@
 <launch>
 
     <group ns="localisation">
-        <node pkg="localisation" name="landmarks_extraction_node" type="landmarks_extraction_node"/>
+        <node pkg="localisation" name="landmarks_extraction_node" type="landmarks_extraction_node" output="screen"/>
         <node pkg="localisation" name="visualisation" type="visualisation"/>
         <node pkg="localisation" name="odometry_correction_node" type="odometry_correction_node"/>
-        <node pkg="localisation" name="Cartographie" type="Cartographie" output="screen"/>
+        <node pkg="localisation" name="Cartographie" type="Cartographie"/>
         <node pkg="localisation" name="tf_broadcaster_node" type="tf_broadcaster_node"/>
     </group>
 

@@ -39,12 +39,12 @@ void landmarksCallback(const deplacement_msg::LandmarksConstPtr& landmarks){
   {
     geometry_msgs::Point pointA;
     pointA.x = it.x + cos(it.theta)*0.35;
-    pointA.y = it.y - sin(it.theta)*0.35;
+    pointA.y = it.y + sin(it.theta)*0.35;
     tabLandmarks.push_back(pointA);
 
     geometry_msgs::Point pointB;
     pointB.x = it.x - cos(it.theta)*0.35;
-    pointB.y = it.y + sin(it.theta)*0.35;
+    pointB.y = it.y - sin(it.theta)*0.35;
     tabLandmarks.push_back(pointB);
   }
 }
