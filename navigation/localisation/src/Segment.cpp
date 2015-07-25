@@ -44,7 +44,11 @@ geometry_msgs::Point Segment::getCenter()
 
 void Segment::setAngle(double theta)
 {
-	m_angle = atan2(tan(theta),1);
+	m_angle = atan(tan(theta));
+	if (m_angle < 0)
+	{
+		m_angle += M_PI;
+	}
 }
 
 void Segment::setSize(double size)
@@ -69,7 +73,7 @@ void Segment::setPoints(geometry_msgs::Point a, geometry_msgs::Point b)
 
 void Segment::update()
 {
-	m_angle = atan((m_max.y-m_min.y)/(m_max.x-m_min.x));
+	setAngle((m_max.y-m_min.y)/(m_max.x-m_min.x));
 	m_size  = dist(m_min,m_max);
 	m_max.z = m_angle;
 	m_min.z = m_angle;
@@ -89,10 +93,10 @@ void Segment::build(const std::list<geometry_msgs::Point> &points){
     update();
 /*
     std::cout << "Segment " << std::endl;
-    std::cout << " Min(" << s.getMin().x << ", " << s.getMin().y << ")" << std::endl;
-    std::cout << " Max(" << s.getMax().x << ", " << s.getMax().y << ")" << std::endl;
-    std::cout << " taille : " << s.getSize() << std::endl;
-    std::cout << " angle  : " << s.getAngle()*(180/M_PI) << std::endl;
+    std::cout << " Min(" << getMin().x << ", " << getMin().y << ")" << std::endl;
+    std::cout << " Max(" << getMax().x << ", " << getMax().y << ")" << std::endl;
+    std::cout << " taille : " << getSize() << std::endl;
+    std::cout << " angle  : " << getAngle()*(180/M_PI) << std::endl;
     std::cout << " correlation  : " << correl << std::endl;
 */
 }

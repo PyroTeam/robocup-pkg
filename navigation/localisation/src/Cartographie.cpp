@@ -50,7 +50,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     g_tabMachines.landmarks.clear();
     g_tabMachines.header.frame_id="/laser_link";
     g_tabMachines.header.stamp = machines->header.stamp;
-    // -- Nouvelle version
+
     for (auto &it : machines->landmarks)
     {
         // Changement de repère
@@ -69,13 +69,19 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
             continue;           
         }
 
-        // Moyennage
-        g_mps[zone-1].addX(p.x);
-        g_mps[zone-1].addY(p.y);
-        g_mps[zone-1].addTheta(p.theta);
-        g_mps[zone-1].incNbActu();
+        // Moyennage si pas de résultat aberrant ou si 1ère fois
+        if (g_mps[zone-1].getNbActu() == 0 ||
+           (std::abs(g_mps[zone-1].getCentre().x - p.x) <= 0.2 &&
+            std::abs(g_mps[zone-1].getCentre().y - p.y) <= 0.2 &&
+            std::abs(g_mps[zone-1].getCentre().theta - p.theta) <= 0.34))
+        {
+            g_mps[zone-1].addX(p.x);
+            g_mps[zone-1].addY(p.y);
+            g_mps[zone-1].addTheta(p.theta);
+            g_mps[zone-1].incNbActu();
 
-        g_mps[zone-1].maj();
+            g_mps[zone-1].maj();
+        }
 
         g_tabMachines.landmarks.push_back(p);
     } 
@@ -87,20 +93,17 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
     g_tabSegments.header.frame_id="/laser_link";
     g_tabSegments.header.stamp = segments->header.stamp;
 
-    if (std::abs(g_angular_speed) <= 0.2 && std::abs(g_linear_speed) <= 0.35)
+    for (int i = 0; i < segments->landmarks.size(); i = i+2)
     {
-        for (int i = 0; i < segments->landmarks.size(); i = i+2)
-        {
-            // Changement de repère
-            geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(segments->landmarks[i]), g_odomRobot);
-            geometry_msgs::Pose2D q = RobotToGlobal(LaserToRobot(segments->landmarks[i+1]), g_odomRobot);
+        // Changement de repère
+        geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(segments->landmarks[i]), g_odomRobot);
+        geometry_msgs::Pose2D q = RobotToGlobal(LaserToRobot(segments->landmarks[i+1]), g_odomRobot);
 
-            if (std::abs(p.x) <= 6.5 && std::abs(p.y - 2.0) <= 4.0 &&
-                std::abs(q.x) <= 6.5 && std::abs(q.y - 2.0) <= 4.0)
-            {
-                g_tabSegments.landmarks.push_back(p);
-                g_tabSegments.landmarks.push_back(q);
-            }
+        if (std::abs(p.x) <= 6.5 && std::abs(p.y - 2.0) <= 4.0 &&
+            std::abs(q.x) <= 6.5 && std::abs(q.y - 2.0) <= 4.0)
+        {
+            g_tabSegments.landmarks.push_back(p);
+            g_tabSegments.landmarks.push_back(q);
         }
     }
 }
@@ -130,7 +133,7 @@ int main( int argc, char** argv )
         maj(g_sgtArray,tmp);
         pub_segments_global.publish(backToLandmarks(g_sgtArray));
         //tmp.clear();
-        //g_sgtArray.clear();
+        g_sgtArray.clear();
 
         // Spin
         ros::spinOnce();

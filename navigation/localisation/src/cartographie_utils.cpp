@@ -164,7 +164,7 @@ void maj(std::vector<Segment> &segmentsRecorded, std::vector<Segment> segmentsSe
     {
       if (isAlmostTheSame(sgtS,sgtR))
       {
-        modify(sgtS,sgtR);
+        //modify(sgtS,sgtR);
         modified = true;
       }
     }

@@ -10,7 +10,9 @@
 #include "Machine.h"
 #include "LaserScan.h"
 
-void maj(std::list<geometry_msgs::Point> &list, Model m);
+Model ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts);
+
+void reduceList(std::list<geometry_msgs::Point> &list, Model m);
 
 std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list<geometry_msgs::Point> &l);
 

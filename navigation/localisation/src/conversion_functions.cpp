@@ -101,7 +101,7 @@ deplacement_msg::Landmarks convert(std::vector<Machine> mps)
 
   for (auto &it : mps)
   {
-    if (it.exist())
+    if (it.getNbActu() > 0)
     {
       tmp.landmarks.push_back(it.getCentre());
     }
