@@ -17,8 +17,14 @@ int machineToArea(geometry_msgs::Pose2D m);
 
 bool isAlmostTheSame(Segment a, Segment b);
 
-bool checkAndChangeIfItsNecessary(Segment s, std::vector<Segment> &vect);
+void projection(Segment &worst, Segment &best);
 
-void maj(std::vector<Segment> &segmentsRecorded, std::vector<Segment> segmentsSeen);
+void modify(Segment a, Segment &b);
+
+void adjust(std::list<Segment> &segmentsRecorded, std::list<Segment> segmentsSeen);
+
+std::list<Segment> gather(std::list<Segment> sgts);
+
+std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments);
 
 #endif

@@ -23,7 +23,6 @@ int main(int argc, char** argv)
     // Publish found segments and machines
     ros::Publisher pub_droites  = n.advertise< deplacement_msg::Landmarks >("/droites", 1000);
     ros::Publisher pub_segments = n.advertise< deplacement_msg::Landmarks >("/segments", 1000);
-    ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("/machines", 1000);
 
     // Initialisation du random
     srand(time(NULL));
@@ -39,12 +38,9 @@ int main(int argc, char** argv)
         std::list<Model>  listOfModels      = findLines(listOfPoints, 20, 0.05, 20, l);
         // Construit les segments
         std::list<Segment> listOfSegments   = buildSegmentsFromModels(listOfModels);
-        // Trouve les machines
-        std::vector<Machine> listOfMachines = recognizeMachinesFrom(listOfSegments);
 
         deplacement_msg::Landmarks droites;
         deplacement_msg::Landmarks segments;
-        deplacement_msg::Landmarks machines;
 
         for (auto &it : listOfModels)
         { 
@@ -55,13 +51,7 @@ int main(int argc, char** argv)
             segments.landmarks.push_back(pointToPose2D(it.getMin()));
             segments.landmarks.push_back(pointToPose2D(it.getMax()));
         }
-        for (auto &it : listOfMachines)
-        { 
-            machines.landmarks.push_back(it.getCentre());
-        }
-
         // Publish
-        pub_machines.publish(machines);
         pub_segments.publish(segments);
         pub_droites.publish(droites);
 

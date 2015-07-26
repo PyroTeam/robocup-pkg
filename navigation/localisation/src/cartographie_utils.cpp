@@ -63,11 +63,8 @@ geometry_msgs::Pose2D getCenter(int zone)
 int machineToArea(geometry_msgs::Pose2D m)
 {
   int zone = getZone(m);
-  if ((zone != 0) && (dist(m,getCenter(zone)) <= 0.36))
+  if ((zone != 0) && (dist(m,getCenter(zone)) <= 0.6))
   {
-    //si on est dans le cercle de centre le centre de zone et de rayon 0.6 m
-    //pour éviter un sqrt() on met le seuil au carré
-    //std::cout << "machine (" << m.x << "," << m.y << ") en zone " << zone << std::endl;
     return zone;
   }
   else
@@ -81,12 +78,9 @@ bool isAlmostTheSame(Segment a, Segment b)
   double angleA = a.getAngle();
   double angleB = b.getAngle();
 
-  //si l'angle entre les deux est inférieur à 10°
-  //et la distance entre les centres est telle qu'il y a chevauchement
-  if (((std::abs(angleA - angleB) <= 0.35) ||
-       (std::abs(angleA - angleB) <= 0.35+M_PI))&&
-       dist(a.getMin(),b) <= 0.2 &&
-       dist(a.getMax(),b) <= 0.2)
+  if (((std::abs(angleA - angleB) <= M_PI/4) ||
+       (std::abs(angleA - angleB) >= 3*M_PI/4)) &&
+        dist(a,b) <= (a.getSize() + b.getSize())/2)
   {
     return true;
   }
@@ -96,63 +90,91 @@ bool isAlmostTheSame(Segment a, Segment b)
   }
 }
 
+void projection(Segment &worst, Segment &best)
+{
+  geometry_msgs::Point P1, P2;
+
+  if ((std::abs(best.getAngle())  > M_PI/4 &&
+       std::abs(best.getAngle())  < 3*M_PI/4 &&
+       std::abs(worst.getAngle()) > M_PI/4 &&
+       std::abs(worst.getAngle()) < 3*M_PI/4 &&
+       std::abs(best.getAngle() - M_PI_2) <= std::abs(worst.getAngle() - M_PI_2)) ||
+
+      (std::abs(best.getAngle())  < M_PI/4 &&
+       std::abs(worst.getAngle()) < M_PI/4 &&
+       std::abs(best.getAngle()) <= std::abs(worst.getAngle())) ||
+
+      (std::abs(best.getAngle())  > 3*M_PI/4 &&
+       std::abs(worst.getAngle()) > 3*M_PI/4 &&
+       std::abs(best.getAngle() - M_PI) <= std::abs(worst.getAngle() - M_PI)) ||
+
+      (std::abs(best.getAngle())  < M_PI/4 &&
+       std::abs(worst.getAngle()) > 3*M_PI/4 &&
+       std::abs(best.getAngle()) <= std::abs(worst.getAngle() - M_PI)) ||
+
+      (std::abs(best.getAngle())  > 3*M_PI/4 &&
+       std::abs(worst.getAngle()) < M_PI/4 &&
+       std::abs(best.getAngle() - M_PI) <= std::abs(worst.getAngle())) &&
+
+       best.getSize() >= worst.getSize())
+  {
+    P1 = ortho(worst.getMin(), best);
+    P2 = ortho(worst.getMax(), best);
+
+    worst.setPoints(P1,P2);
+    worst.update();
+  }
+  else 
+  {
+    P1 = ortho(best.getMin(), worst);
+    P2 = ortho(best.getMax(), worst);
+
+    best.setPoints(P1,P2);
+    best.update();
+  }
+}
+
 void modify(Segment a, Segment &b)
 {
-  geometry_msgs::Point A, B;
-
-  A = ortho(a.getMin(), b);
-  B = ortho(a.getMax(), b);
+  projection(a,b);
 
   //on passe alors dans le repère local du segment pour déterminer s'il y a chevauchement
   geometry_msgs::Point minLocalR = globalToLocal(b.getMin(), b);
   geometry_msgs::Point maxLocalR = globalToLocal(b.getMax(), b);
-  geometry_msgs::Point minLocalS = globalToLocal(A, b);
-  geometry_msgs::Point maxLocalS = globalToLocal(B, b);
+  geometry_msgs::Point minLocalS = globalToLocal(a.getMin(), b);
+  geometry_msgs::Point maxLocalS = globalToLocal(a.getMax(), b);
 
   Segment tmp = b;
 
-  //si le segment enregistré est inclu dans le segment vu
-  if (minLocalS.x < minLocalR.x && maxLocalS.x > maxLocalR.x)
+  if(dist(minLocalS,maxLocalS) >= 0.5 &&
+     dist(minLocalR,maxLocalR) >= 0.5)
   {
-    tmp.setMin(a.getMin());
-    tmp.setMax(a.getMax());
-    //std::cout << "1" << std::endl;
+    //si le min du segment vu est avant le min du segment enregistré
+    if (minLocalS.x < minLocalR.x/* &&
+        maxLocalS.x < maxLocalR.x &&
+        std::abs(minLocalS.x - minLocalR.x) <= 0.5*/)
+    {
+      tmp.setMin(a.getMin());
+    }
+    //si le max du segment vu est après le max du segment enregistré
+    if (maxLocalS.x > maxLocalR.x /*&&
+        minLocalS.x > minLocalR.x &&
+        std::abs(maxLocalS.x - maxLocalR.x) <= 0.5*/)
+    {
+      tmp.setMax(a.getMax());
+    }
   }
-  //si le min du segment vu est avant le min du segment enregistré
-  else if (minLocalS.x < minLocalR.x && maxLocalS.x < maxLocalR.x)
-  {
-    tmp.setMin(A);
-    //std::cout << "2" << std::endl;
-  }
-  //si le max du segment vu est après le max du segment enregistré
-  else if (minLocalS.x > minLocalR.x && maxLocalS.x > maxLocalR.x)
-  {
-    tmp.setMax(B);
-    //std::cout << "3" << std::endl;
-  }
-  else if (std::abs(minLocalS.x - maxLocalR.x) < 0.2)
-  {
-    tmp.setMin(b.getMin());
-    tmp.setMax(B);
-    //std::cout << "4" << std::endl;
-  }
-  else if (std::abs(maxLocalS.x - minLocalR.x) < 0.2)
-  {
-    tmp.setMin(A);
-    tmp.setMax(b.getMax());
-    //std::cout << "5" << std::endl;
-  }
-  
+
   tmp.update();
 
   if (tmp.getSize() > b.getSize() &&
-      std::abs(tmp.getAngle() - b.getAngle()) <= 0.17)
+      tmp.getSize() > 0.5)
   {
     b = tmp;
   }
 }
 
-void maj(std::vector<Segment> &segmentsRecorded, std::vector<Segment> segmentsSeen)
+void adjust(std::list<Segment> &segmentsRecorded, std::list<Segment> segmentsSeen)
 {
   bool modified;
 
@@ -164,7 +186,7 @@ void maj(std::vector<Segment> &segmentsRecorded, std::vector<Segment> segmentsSe
     {
       if (isAlmostTheSame(sgtS,sgtR))
       {
-        //modify(sgtS,sgtR);
+        modify(sgtS,sgtR);
         modified = true;
       }
     }
@@ -174,4 +196,54 @@ void maj(std::vector<Segment> &segmentsRecorded, std::vector<Segment> segmentsSe
       segmentsRecorded.push_back(sgtS);
     }
   }
+}
+
+std::list<Segment> gather(std::list<Segment> sgts)
+{
+  std::list<Segment> tmp;
+
+  for (std::list<Segment>::iterator it_1 = sgts.begin(); it_1 != std::prev(sgts.end()); ++it_1)
+  {
+    segment = *it_1;
+
+    for (std::list<Segment>::iterator it_2 = std::next(it_1,1); it_2 != sgts.end(); ++it_2)
+    {
+      if (dist(it_1->getMin(), it_2->getMin()) > 0.0 &&
+          dist(it_1->getMax(), it_2->getMax()) > 0.0 &&
+          isAlmostTheSame(*it_1, *it_2))
+      {
+        if (dist(it_1->getMax(), it_2->getMin()) < 0.1)
+        {
+          segment.setMax(it_2->getMax());
+          segment.update();
+        }
+        else if (dist(it_1->getMin(), it_2->getMax()) < 0.1)
+        {
+          segment.setMin(it_2->getMin());
+          segment.update();
+        }
+      }
+    }
+
+    tmp.push_back(segment);
+  }
+
+  return tmp;
+}
+
+std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments)
+{
+    std::vector<Machine> tmp;
+
+    for (auto &it : listOfSegments)
+    {
+        if (std::abs(it.getSize() - 0.7) <= 0.05)
+        {
+            Machine m;
+            m.calculateCoordMachine(it);
+            tmp.push_back(m);
+        }
+    }
+
+    return tmp;
 }
