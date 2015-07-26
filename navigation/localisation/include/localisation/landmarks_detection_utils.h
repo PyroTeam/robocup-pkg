@@ -20,6 +20,4 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil);
 
 std::list<Segment> buildSegmentsFromModels(std::list<Model> &listOfModels);
 
-std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments);
-
 #endif

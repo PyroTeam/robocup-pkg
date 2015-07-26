@@ -159,7 +159,7 @@ int main( int argc, char** argv )
 */
 
     markers_pub.publish(segments);
-    markers_pub.publish(landmarks);
+    //markers_pub.publish(landmarks);
     markers_pub.publish(odom_brute);
     //markers_pub.publish(robot);
 

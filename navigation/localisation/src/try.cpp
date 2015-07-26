@@ -27,15 +27,15 @@ int main()
   // a segment vu
   geometry_msgs::Point minA, maxA, minB, maxB;
 
-  maxB.x = -6.04102832559;
-  maxB.y = 1.00406327055;
-  minB.x = -6.05092146873;
-  minB.y = 0.298387377851;
+  maxB.x = -5.9;
+  maxB.y = 6.1;
+  minB.x = -3.1;
+  minB.y = 5.9;
 
-  maxA.x = -6.04333610333;
-  maxA.y = 1.02160698346;
-  minA.x = -6.03395528922;
-  minA.y = 0.022179961326;
+  maxA.x = -6.1;
+  maxA.y = 5.9;
+  minA.x = -2.9;
+  minA.y = 6.1;
 
   a.setPoints(minA, maxA);
   a.update();
@@ -47,11 +47,12 @@ int main()
 
   double angleA = a.getAngle();
   double angleB = b.getAngle();
+  std::cout << std::abs(angleA - angleB) << std::endl;
 
   //si l'angle entre les deux est inférieur à 20°
   //et la distance entre les centres est telle qu'il y a chevauchement
-  if (((std::abs(angleA - angleB) <= 0.35) ||
-       (std::abs(angleA - angleB) <= 0.35+M_PI))&&
+  if (((std::abs(angleA - angleB) <= M_PI/4) ||
+       (std::abs(angleA - angleB) >= 3*M_PI/4))&&
        dist(a,b) <= (b.getSize()+a.getSize())/2)
   {
     printf("almost the same\n");
@@ -84,7 +85,7 @@ int main()
   std::cout << "(" << minLocalS.x << "," << minLocalS.y << ")" << std::endl;
   std::cout << "(" << maxLocalS.x << "," << maxLocalS.y << ")" << std::endl;
 
-  Segment tmp;
+  Segment tmp = b;
 
   //si le segment enregistré est inclu dans le segment vu
   if (minLocalS.x < minLocalR.x && maxLocalS.x > maxLocalR.x)

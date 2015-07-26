@@ -15,9 +15,9 @@ geometry_msgs::Point globalToLocal(geometry_msgs::Point p, Segment s);
 
 deplacement_msg::Landmarks convert(std::vector<Machine> mps);
 
-std::vector<Segment> landmarksToSegments(deplacement_msg::Landmarks tabSegments);
+std::list<Segment> landmarksToSegments(deplacement_msg::Landmarks tabSegments);
 
-deplacement_msg::Landmarks backToLandmarks(std::vector<Segment> vect);
+deplacement_msg::Landmarks backToLandmarks(std::list<Segment> vect);
 
 geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point);
 

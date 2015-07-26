@@ -40,7 +40,7 @@ double dist(geometry_msgs::Point a, geometry_msgs::Pose2D b)
 
 double dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m)
 {
-  return (m.x - c.x)*(m.x - c.x) + (m.y - c.y)*(m.y - c.y);
+  return sqrt((m.x - c.x)*(m.x - c.x) + (m.y - c.y)*(m.y - c.y));
 }
 
 double dist(Segment seg1, Segment seg2)

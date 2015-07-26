@@ -44,7 +44,7 @@ geometry_msgs::Point Segment::getCenter()
 
 void Segment::setAngle(double theta)
 {
-	m_angle = atan(tan(theta));
+	m_angle = theta;
 	if (m_angle < 0)
 	{
 		m_angle += M_PI;
@@ -73,7 +73,7 @@ void Segment::setPoints(geometry_msgs::Point a, geometry_msgs::Point b)
 
 void Segment::update()
 {
-	setAngle((m_max.y-m_min.y)/(m_max.x-m_min.x));
+	setAngle(atan((m_max.y-m_min.y)/(m_max.x-m_min.x)));
 	m_size  = dist(m_min,m_max);
 	m_max.z = m_angle;
 	m_min.z = m_angle;

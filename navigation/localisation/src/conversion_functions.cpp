@@ -110,9 +110,9 @@ deplacement_msg::Landmarks convert(std::vector<Machine> mps)
   return tmp;
 }
 
-std::vector<Segment> landmarksToSegments(deplacement_msg::Landmarks tabSegments)
+std::list<Segment> landmarksToSegments(deplacement_msg::Landmarks tabSegments)
 {
-  std::vector<Segment> vect;
+  std::list<Segment> vect;
   for (int i = 0; i < tabSegments.landmarks.size(); i = i+2)
   {
     Segment s;
@@ -133,7 +133,7 @@ std::vector<Segment> landmarksToSegments(deplacement_msg::Landmarks tabSegments)
   return vect;
 }
 
-deplacement_msg::Landmarks backToLandmarks(std::vector<Segment> vect)
+deplacement_msg::Landmarks backToLandmarks(std::list<Segment> vect)
 {
   deplacement_msg::Landmarks segments;
 
@@ -142,7 +142,7 @@ deplacement_msg::Landmarks backToLandmarks(std::vector<Segment> vect)
     geometry_msgs::Pose2D p;
     p.x = it.getMin().x;
     p.y = it.getMin().y;
-    p.theta = 0.0;
+    p.theta = it.getAngle();
     segments.landmarks.push_back(p);
 
     p.x = it.getMax().x;
