@@ -73,6 +73,19 @@ int machineToArea(geometry_msgs::Pose2D m)
   }
 }
 
+bool isTheSame(Segment a, Segment b)
+{
+  if (dist(a.getMin(), b.getMin()) == 0 &&
+      dist(a.getMax(), b.getMax()) == 0)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
 bool isAlmostTheSame(Segment a, Segment b)
 {
   double angleA = a.getAngle();
@@ -80,7 +93,7 @@ bool isAlmostTheSame(Segment a, Segment b)
 
   if (((std::abs(angleA - angleB) <= M_PI/4) ||
        (std::abs(angleA - angleB) >= 3*M_PI/4)) &&
-        dist(a,b) <= (a.getSize() + b.getSize())/2)
+        dist(a,b) <= 4.0)
   {
     return true;
   }
@@ -134,34 +147,48 @@ void projection(Segment &worst, Segment &best)
   }
 }
 
-void modify(Segment a, Segment &b)
+bool modify(Segment a, Segment &b)
 {
   projection(a,b);
 
   //on passe alors dans le repère local du segment pour déterminer s'il y a chevauchement
-  geometry_msgs::Point minLocalR = globalToLocal(b.getMin(), b);
-  geometry_msgs::Point maxLocalR = globalToLocal(b.getMax(), b);
-  geometry_msgs::Point minLocalS = globalToLocal(a.getMin(), b);
-  geometry_msgs::Point maxLocalS = globalToLocal(a.getMax(), b);
+  geometry_msgs::Point bMin = globalToLocal(b.getMin(), b);
+  geometry_msgs::Point bMax = globalToLocal(b.getMax(), b);
+  geometry_msgs::Point aMin = globalToLocal(a.getMin(), b);
+  geometry_msgs::Point aMax = globalToLocal(a.getMax(), b);
 
-  Segment tmp = b;
+  Segment tmp;
 
-  if(dist(minLocalS,maxLocalS) >= 0.5 &&
-     dist(minLocalR,maxLocalR) >= 0.5)
+  if(dist(aMin,aMax) >= 0.5 &&
+     dist(bMin,bMax) >= 0.5 &&
+     (dist(aMin, bMin) <= 0.4 || dist(aMin, bMax) <= 0.4) &&
+     (dist(aMax, bMax) <= 0.4 || dist(aMax, bMin) <= 0.4))
   {
-    //si le min du segment vu est avant le min du segment enregistré
-    if (minLocalS.x < minLocalR.x/* &&
-        maxLocalS.x < maxLocalR.x &&
-        std::abs(minLocalS.x - minLocalR.x) <= 0.5*/)
+    if (aMin.x <= bMin.x)
     {
       tmp.setMin(a.getMin());
-    }
-    //si le max du segment vu est après le max du segment enregistré
-    if (maxLocalS.x > maxLocalR.x /*&&
-        minLocalS.x > minLocalR.x &&
-        std::abs(maxLocalS.x - maxLocalR.x) <= 0.5*/)
+
+      if (aMax.x <= bMax.x)
+      {
+        tmp.setMax(b.getMax());
+      }
+      else
+      {
+        tmp.setMax(a.getMax());
+      }
+    } 
+    else    
     {
-      tmp.setMax(a.getMax());
+      tmp.setMin(b.getMin());
+
+      if (aMax.x <= bMax.x)
+      {
+        tmp.setMax(b.getMax());
+      }
+      else
+      {
+        tmp.setMax(a.getMax());
+      }
     }
   }
 
@@ -171,64 +198,82 @@ void modify(Segment a, Segment &b)
       tmp.getSize() > 0.5)
   {
     b = tmp;
+    return true;
+  }
+  else
+  {
+    return false;
   }
 }
 
 void adjust(std::list<Segment> &segmentsRecorded, std::list<Segment> segmentsSeen)
 {
-  bool modified;
+  int nb;
 
   for (auto &sgtS : segmentsSeen)
   {
-    modified = false;
+    nb = 0;
 
     for (auto &sgtR : segmentsRecorded)
     {
-      if (isAlmostTheSame(sgtS,sgtR))
+      if (isAlmostTheSame(sgtS,sgtR) && modify(sgtS,sgtR))
       {
-        modify(sgtS,sgtR);
-        modified = true;
+        nb++;
       }
     }
     
-    if (!modified)
+    if (nb == 0)
     {
       segmentsRecorded.push_back(sgtS);
     }
   }
 }
 
-std::list<Segment> gather(std::list<Segment> sgts)
+void gatherTwoSegments(Segment &segment_1, Segment segment_2)
 {
-  std::list<Segment> tmp;
-
-  for (std::list<Segment>::iterator it_1 = sgts.begin(); it_1 != std::prev(sgts.end()); ++it_1)
+  if (dist(segment_2.getMax(), segment_1.getMin()) < 1.0)
   {
-    Segment segment = *it_1;
-
-    for (std::list<Segment>::iterator it_2 = std::next(it_1,1); it_2 != sgts.end(); ++it_2)
-    {
-      if (dist(it_1->getMin(), it_2->getMin()) > 0.0 &&
-          dist(it_1->getMax(), it_2->getMax()) > 0.0 &&
-          isAlmostTheSame(*it_1, *it_2))
-      {
-        if (dist(it_1->getMax(), it_2->getMin()) < 0.1)
-        {
-          segment.setMax(it_2->getMax());
-          segment.update();
-        }
-        else if (dist(it_1->getMin(), it_2->getMax()) < 0.1)
-        {
-          segment.setMin(it_2->getMin());
-          segment.update();
-        }
-      }
-    }
-
-    tmp.push_back(segment);
+    segment_1.setMin(segment_2.getMin());
+    segment_1.update();
   }
+  else if(dist(segment_1.getMax(), segment_2.getMin()) < 1.0)
+  {
+    segment_1.setMax(segment_2.getMax());
+    segment_1.update();
+  }
+}
 
-  return tmp;
+void gatherOneSegmentWithAList(Segment &segment, std::list<Segment> &sgts)
+{
+  std::list<Segment>::iterator it = sgts.begin();
+
+  while (it != sgts.end())
+  {
+    if(((std::abs(segment.getAngle() - it->getAngle()) <= M_PI/4) ||
+        (std::abs(segment.getAngle() - it->getAngle()) >= 3*M_PI/4)) &&
+        ((dist(segment.getMax(), it->getMin()) < 0.3) ||
+         (dist(it->getMax(), segment.getMin()) < 0.3)) && 
+          !isTheSame(segment, *it))
+    {
+      gatherTwoSegments(segment, *it);
+      it = sgts.erase(it);
+    }
+    else
+    {
+      ++it;
+    }
+  }
+}
+
+void gather(std::list<Segment> &sgts)
+{
+  std::list<Segment>::iterator it = sgts.begin();
+  
+  while(it != sgts.end())
+  {
+    gatherOneSegmentWithAList(*it, sgts);
+    ++it;
+  }
 }
 
 std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments)

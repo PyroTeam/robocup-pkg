@@ -22,32 +22,44 @@ using namespace Eigen;
 
 int main()
 {
-  Segment a,b;
+  Segment a,b,c;
   // b segment enregistré
   // a segment vu
-  geometry_msgs::Point minA, maxA, minB, maxB;
+  geometry_msgs::Point minA, maxA, minB, maxB, minC, maxC;
 
-  maxB.x = -5.9;
-  maxB.y = 6.1;
-  minB.x = -3.1;
-  minB.y = 5.9;
+  maxB.x = -6.04151042294;
+  maxB.y = 1.00403603796;
+  minB.x = -6.04181035681;
+  minB.y = 0.363713415368;
 
-  maxA.x = -6.1;
-  maxA.y = 5.9;
-  minA.x = -2.9;
-  minA.y = 6.1;
+  maxA.x = -6.02548636569;
+  maxA.y = 1.92676432868;
+  minA.x = -6.01460378164;
+  minA.y = 1.33942095234;
+
+  maxC.x = -6.04219148014;
+  maxC.y = 3.17046973173;
+  minC.x = -6.04231373239;
+  minC.y = 2.66954357105;
 
   a.setPoints(minA, maxA);
   a.update();
   b.setPoints(minB, maxB);
   b.update();
+  c.setPoints(minC, maxC);
+  c.update();
 
-  std::cout << a.getAngle() << std::endl;
-  std::cout << b.getAngle() << std::endl;
+  std::list<Segment> list;
+  list.push_back(a);
+  list.push_back(b);
+  list.push_back(c);
+/*
+  //std::cout << a.getAngle() << std::endl;
+  //std::cout << b.getAngle() << std::endl;
 
   double angleA = a.getAngle();
   double angleB = b.getAngle();
-  std::cout << std::abs(angleA - angleB) << std::endl;
+  //std::cout << std::abs(angleA - angleB) << std::endl;
 
   //si l'angle entre les deux est inférieur à 20°
   //et la distance entre les centres est telle qu'il y a chevauchement
@@ -61,12 +73,12 @@ int main()
   {
     printf("not the same\n");
   }
-/*
+
   std::cout << "Segment a" << std::endl;
   std::cout << "(" << a.getMin() << "," << a.getMax() << ")" << std::endl;
   std::cout << "Segment b" << std::endl;
   std::cout << "(" << b.getMin() << "," << b.getMax() << ")" << std::endl;
-*/
+
   geometry_msgs::Point A, B;
 
   std::cout << "OK" << std::endl;
@@ -133,5 +145,13 @@ int main()
   std::cout << tmp.getAngle() << std::endl;
 
   std::cout << "Segment tmp after" << std::endl;
-  std::cout << "(" << tmp.getMin() << "," << tmp.getMax() << ")" << std::endl;
+  std::cout << "(" << tmp.getMin() << "," << tmp.getMax() << ")" << std::endl;*/
+
+  gather(list);
+  //std::cout << "wouhou" << std::endl;
+
+  for (auto &it : list)
+  {
+    std::cout << "(" << it.getMin() << "," << it.getMax() << ")" << std::endl;
+  }
 }
