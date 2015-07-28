@@ -204,7 +204,7 @@ std::list<Segment> gather(std::list<Segment> sgts)
 
   for (std::list<Segment>::iterator it_1 = sgts.begin(); it_1 != std::prev(sgts.end()); ++it_1)
   {
-    segment = *it_1;
+    Segment segment = *it_1;
 
     for (std::list<Segment>::iterator it_2 = std::next(it_1,1); it_2 != sgts.end(); ++it_2)
     {

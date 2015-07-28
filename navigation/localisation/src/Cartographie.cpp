@@ -159,7 +159,7 @@ int main( int argc, char** argv )
 
         std::list<Segment> tmp = landmarksToSegments(g_walls);
         adjust(g_sgtArray,tmp);
-        g_sgtAarray = gather(g_sgtArray);
+        g_sgtArray = gather(g_sgtArray);
         //std::cout << g_sgtArray.size() << std::endl;
         pub_segments_global.publish(backToLandmarks(g_sgtArray));
         //tmp.clear();
