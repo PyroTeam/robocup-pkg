@@ -156,7 +156,6 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
         {
             if (dist(tmp.front(), tmp.back()) >= 0.5)
             {
-                std::cout << dist(tmp.front(), tmp.back()) << std::endl;
                 //on construit un nouveau segment à partir de la liste enregistrée des points qui sont proches
                 s.build(tmp);
     
