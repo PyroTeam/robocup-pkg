@@ -25,6 +25,11 @@ bool DataMapObstacle::getObstacle()
     return m_obstacle;
 }
 
+geometry_msgs::Point DataMapObstacle::getPointPathObstacle()
+{
+    return m_pointObstacle;
+}
+
 std::vector<geometry_msgs::Point> DataMapObstacle::getVectorObstacle()
 {
     return m_vectorObstaclePoints;
@@ -86,8 +91,8 @@ int DataMapObstacle::getCell(const nav_msgs::OccupancyGrid &grid, float x, float
 	int wCell = 0;
 	int cell = 0;
 
-	hCell = round((y - yO) / res);
-	wCell = round((x - xO) / res);
+	hCell = /*round*/((y - yO) / res);
+	wCell = /*round*/((x - xO) / res);
 	cell = hCell * width + wCell;
 
 	return cell;
@@ -95,6 +100,8 @@ int DataMapObstacle::getCell(const nav_msgs::OccupancyGrid &grid, float x, float
 
 void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path)
 {
+    m_vectorObstacle.clear();
+    m_vectorObstaclePoints.clear();
     m_obstacle = false;
     int cell = 0;
     int width = m_grid.info.width;
@@ -113,8 +120,9 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
             cell = getCell(m_grid, path[i].pose.position.x, path[i].pose.position.y);
             if (m_grid.data[cell] != 0) // Case noircie
             {
-                ROS_INFO("Obstacle");
+                //ROS_INFO("Obstacle");
                 m_obstacle = true;
+                m_pointObstacle = path[i].pose.position;
                 m_vectorObstacle.push_back(cell);
             }
             i++;
@@ -128,8 +136,9 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
             i = 0;
             while (i < m_vectorObstacle.size())
             {
+                //ROS_INFO("i = %d", i);
                 cell = m_vectorObstacle[i];
-                if (cell < width)
+                /*if (cell < width)
                 {
                     high = true;
                 }
@@ -146,7 +155,7 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
                     right = true;
                 }
                 if (!high && !low && !left && !right)
-                {
+                {*/
                     tmp.push_back(cell - width - 1);
                     tmp.push_back(cell - width);
                     tmp.push_back(cell - width + 1);
@@ -155,7 +164,7 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
                     tmp.push_back(cell + width - 1);
                     tmp.push_back(cell + width);
                     tmp.push_back(cell + width + 1);
-                }
+                /*}
                 else if (high && !left && !right)
                 {
                     tmp.push_back(cell - 1);
@@ -211,7 +220,7 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
                     tmp.push_back(cell + 1);
                     tmp.push_back(cell + width);
                     tmp.push_back(cell + width + 1);
-                }
+                }*/
                 int j = 0;
                 while (j < tmp.size())
                 {
@@ -222,19 +231,33 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
                         {
                             k++;
                         }
-                        if (j == m_vectorObstacle.size())
+                        if (k == m_vectorObstacle.size())
                         {
                             m_vectorObstacle.push_back(tmp[j]);
                         }
                     }
                     j++;
                 }
+                tmp.clear();
                 i++;
             }
+            m_pointCloud.points.clear();
             for (int i = 0 ; i < m_vectorObstacle.size() ; i++)
             {
-                m_vectorObstaclePoints.push_back(getPoint(m_vectorObstacle[i], m_grid));
+                geometry_msgs::Point point = getPoint(m_vectorObstacle[i], m_grid);
+                m_vectorObstaclePoints.push_back(point);
+                geometry_msgs::Point32 p;
+                p.x = point.x;
+                p.y = point.y;
+                p.z = 0.001;
+                m_pointCloud.points.push_back(p);
+                //ROS_INFO("Point obstacle : x = %f, y = %f", m_vectorObstaclePoints[i].x, m_vectorObstaclePoints[i].y);
             }
+            static int seq = 0;
+            m_pointCloud.header.seq = seq++;
+            m_pointCloud.header.stamp = ros::Time::now();
+            m_pointCloud.header.frame_id = "odom";
+            m_pointCloud_pub.publish(m_pointCloud);
         }
     }
 }
