@@ -149,6 +149,9 @@ target_link_libraries(
   	${Boost_LIBRARIES}
 )
 
+set_target_properties(server PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
+set_target_properties(server_static PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
+
 #############
 ## Install ##
 #############
