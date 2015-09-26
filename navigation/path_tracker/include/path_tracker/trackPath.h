@@ -43,6 +43,7 @@ public:
     geometry_msgs::Point getPointArrivee();
     float normaliseAngle(float angle);
     void track(std::vector<geometry_msgs::PoseStamped> &points, const geometry_msgs::Pose &odom);
+    bool compareFloat(float x, float y);
     bool comparePoints(const geometry_msgs::Point &point1, const geometry_msgs::Point &point2);
     geometry_msgs::Point closestPoint(const geometry_msgs::Point &segmentStart, const geometry_msgs::Point &segmentStop, const geometry_msgs::Point &point);
     bool posePath();
