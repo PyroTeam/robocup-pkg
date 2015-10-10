@@ -3,7 +3,8 @@
 #include "RingStation.h"
 
 /* Constructeur */
-RingStation::RingStation(){
+RingStation::RingStation()
+{
   m_type = "RingStation";
   m_greenRing = 0;
   m_yellowRing = 0;
@@ -18,33 +19,41 @@ RingStation::~RingStation(){}
 void RingStation::FonctionVirtuelle(){}
 
 /* Méthodes */
-int RingStation::getGreenRing(){
+int RingStation::getGreenRing()
+{
   return m_greenRing;
 }
-int RingStation::getYellowRing(){
+int RingStation::getYellowRing()
+{
   return m_yellowRing;
 }
-int RingStation::getBlueRing(){
+int RingStation::getBlueRing()
+{
   return m_blueRing;
 }
-int RingStation::getOrangeRing(){
+int RingStation::getOrangeRing()
+{
   return m_orangeRing;
 }
-void RingStation::majGreen(int nbVert){
+void RingStation::majGreen(int nbVert)
+{
   m_greenRing = nbVert;
 }
-void RingStation::majYellow(int nbJaune){
+void RingStation::majYellow(int nbJaune)
+{
   m_yellowRing = nbJaune;
 }
-void RingStation::majBlue(int nbBleu){
+void RingStation::majBlue(int nbBleu)
+{
   m_blueRing = nbBleu;
 }
-void RingStation::majOrange(int nbOrange){
+void RingStation::majOrange(int nbOrange)
+{
   m_orangeRing = nbOrange;
 }
 
-void RingStation::put_ring(int color,int n_robot,int n_order,int machine){
-
+void RingStation::put_ring(int color,int n_robot,int n_order,int machine)
+{
     // A verifier si la rs est dispo
     // si OK : (sinon erreur )
 
@@ -63,8 +72,8 @@ void RingStation::put_ring(int color,int n_robot,int n_order,int machine){
     msg = msgToGT(n_robot,activity::END,machine,n_order); 
 }
 
-void RingStation::take_ring(int color,int n_robot,int n_order,int machine){
-
+void RingStation::take_ring(int color,int n_robot,int n_order,int machine)
+{
     // A verifier si la rs est dispo (pas en panne uniquement => cz elle sera entrain de faire un ring "noramlement")
     // si OK : (sinon erreur )
 

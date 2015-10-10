@@ -5,7 +5,8 @@
 
 typedef actionlib::SimpleActionServer<trait_im_msg::processLightSignalAction> Server;
 
-void execute(const trait_im_msg::processLightSignalGoalConstPtr &goal, Server* as){
+void execute(const trait_im_msg::processLightSignalGoalConstPtr &goal, Server* as)
+{
 	trait_im_msg::processLightSignalResult result;
 	comm_msg::LightSpec light;
 	// yellow
@@ -23,7 +24,8 @@ void execute(const trait_im_msg::processLightSignalGoalConstPtr &goal, Server* a
 	as->setSucceeded(result);
 }
 
-int main(int argc, char** argv){
+int main(int argc, char** argv)
+{
 	ros::init(argc,argv,"process_light_signal_server");
 	ros::NodeHandle n;
 	Server server(n,"lecture_feu",boost::bind(&execute, _1, &server), false);

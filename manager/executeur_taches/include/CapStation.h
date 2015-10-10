@@ -1,3 +1,12 @@
+/**
+ * \file        CapStation.h
+ * \class       CapStation
+ * \brief       classe qui stocke les données de la capstation
+ * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
+ * \date        2015-10-10
+ * \copyright   PyroTeam, Polytech-Lille
+ */
+
 #ifndef CAPSTATION_H
 #define CAPSTATION_H
 
@@ -5,7 +14,8 @@
 
 using namespace manager_msg;
 
-class CapStation : public Machine{
+class CapStation : public Machine
+{
   private:
     
       /* Variables d'instance*/
@@ -16,8 +26,10 @@ class CapStation : public Machine{
       
   public:
     
+      /* Constructeur */
       CapStation();
       
+      /* Déstructeur */
       virtual ~CapStation();
       
       virtual void FonctionVirtuelle();

@@ -3,7 +3,8 @@
 #include "CapStation.h"
 
 /* Constructeur */
-CapStation::CapStation(){
+CapStation::CapStation()
+{
   m_type = "CapStation";
   m_blackCap = 0;
   m_greyCap = 0;
@@ -18,28 +19,35 @@ CapStation::~CapStation(){}
 void CapStation::FonctionVirtuelle(){}
 
 /* Méthodes */
-int CapStation::getGreyCap(){
+int CapStation::getGreyCap()
+{
   return m_greyCap;
 }
-int CapStation::getBlackCap(){
+int CapStation::getBlackCap()
+{
   return m_blackCap;
 }
-int CapStation::getStockage(int i){
+int CapStation::getStockage(int i)
+{
   return  m_stockID[i];
 }
 
-void CapStation::majStockID(int i, int val){
+void CapStation::majStockID(int i, int val)
+{
   m_stockID[i] = val;
 }
 
-void CapStation::majBlack(int nbNoir){
+void CapStation::majBlack(int nbNoir)
+{
   m_blackCap = nbNoir;
 }
-void CapStation::majGrey(int nbGris){
+void CapStation::majGrey(int nbGris)
+{
   m_greyCap = nbGris;
 }
 
-void CapStation::put_cap(int color, int n_robot, int n_order, int machine){
+void CapStation::put_cap(int color, int n_robot, int n_order, int machine)
+{
   // A verifier si la cs est dispo
   // si OK : (sinon erreur )
 
@@ -56,11 +64,10 @@ void CapStation::put_cap(int color, int n_robot, int n_order, int machine){
   //Communication_RefBox(je veux un cap de couleur "couleur" )
 
   msg = msgToGT(n_robot,activity::END,machine,n_order); 
-
 }
 
-void CapStation::take_cap(int color, int n_robot, int n_order, int machine){
-
+void CapStation::take_cap(int color, int n_robot, int n_order, int machine)
+{
   // A verifier si la cs est dispo (pas en panne uniquement => cz elle sera entrain de faire un cap "noramlement")
   // si OK : (sinon erreur )
  
@@ -80,10 +87,8 @@ void CapStation::take_cap(int color, int n_robot, int n_order, int machine){
   msg = msgToGT(n_robot,activity::END,machine,n_order);
 }
 
-
-
-void CapStation::stock(int id, int n_robot, int n_order,int machine){
-
+void CapStation::stock(int id, int n_robot, int n_order,int machine)
+{
     manager_msg::activity msg;
     int8_t place;
 
@@ -100,10 +105,10 @@ void CapStation::stock(int id, int n_robot, int n_order,int machine){
     this->startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::IN,place);
     this->take();
     msg = msgToGT(n_robot,activity::END,machine,n_order);
-
 }
 
-void CapStation::destock(int id, int n_robot, int n_order,int machine){
+void CapStation::destock(int id, int n_robot, int n_order,int machine)
+{
      manager_msg::activity msg;
     int8_t place;
 
@@ -122,7 +127,8 @@ void CapStation::destock(int id, int n_robot, int n_order,int machine){
     msg = msgToGT(n_robot,activity::END,machine,n_order);
 }
 
-void CapStation::uncap(int color, int n_robot, int n_order,int machine){
+void CapStation::uncap(int color, int n_robot, int n_order,int machine)
+{
  	// A verifier si la cs est dispo
   	// si OK : (sinon erreur )
  
@@ -134,17 +140,20 @@ void CapStation::uncap(int color, int n_robot, int n_order,int machine){
 
     goTo(this->m_entryMachine);
 
-    if(m_capID[0] == 1){ 
+    if(m_capID[0] == 1)
+    { 
     	place = finalApproachingGoal::S1;
     	m_capID[0] == 0;
     	m_stockID[0] = 0;
     }
-    else if(m_capID[1] == 1) {
+    else if(m_capID[1] == 1) 
+    {
     	place = finalApproachingGoal::S2;
     	m_capID[1] == 0;
     	m_stockID[1] = 0;
     } 
-    else if(m_capID[2] == 1){ 
+    else if(m_capID[2] == 1)
+    { 
     	place = finalApproachingGoal::S3;
     	m_capID[2] == 0;
     	m_stockID[2] = 0;

@@ -2,7 +2,8 @@
 #include "BaseStation.h"
 
 /* Constructeur */
-BaseStation::BaseStation(){
+BaseStation::BaseStation()
+{
   m_type = "BaseStation";   
   m_redBase = 0;
   m_blackBase = 0;
@@ -16,26 +17,33 @@ BaseStation::~BaseStation(){}
 void BaseStation::FonctionVirtuelle(){}
 
 /* Méthodes */
-int BaseStation::getRedBase(){
+int BaseStation::getRedBase()
+{
   return m_redBase;
 }
-int BaseStation::getBlackBase(){
+int BaseStation::getBlackBase()
+{
   return m_blackBase;
 }
-int BaseStation::getSilverBase(){
+int BaseStation::getSilverBase()
+{
   return m_silverBase;
 }
-void BaseStation::majRed(int nbRouge){
+void BaseStation::majRed(int nbRouge)
+{
   m_redBase = nbRouge;
 }
-void BaseStation::majBlack(int nbNoir){
+void BaseStation::majBlack(int nbNoir)
+{
   m_blackBase = nbNoir;
 }
-void BaseStation::majSilver(int nbArgent){
+void BaseStation::majSilver(int nbArgent)
+{
   m_silverBase = nbArgent;
 }
 
-void BaseStation::take_base(int color,int n_robot,int n_order){
+void BaseStation::take_base(int color,int n_robot,int n_order)
+{
   // A verifier si la bs est dispo
   // si OK : (sinon erreur )
 
@@ -55,8 +63,8 @@ void BaseStation::take_base(int color,int n_robot,int n_order){
   msg = msgToGT(n_robot,activity::END,activity::BS,n_order); 
 }
 
-void BaseStation::bring_base_rs(int color,int n_robot,int n_order,int machine){
-
+void BaseStation::bring_base_rs(int color,int n_robot,int n_order,int machine)
+{
   manager_msg::activity msg;
   /* 1ere partie : prendre la base */
 
@@ -72,5 +80,4 @@ void BaseStation::bring_base_rs(int color,int n_robot,int n_order,int machine){
   this->startFinalAp(finalApproachingGoal::RS, finalApproachingGoal::IN, finalApproachingGoal::LANE_RS);
   this->let();
   msg = msgToGT(n_robot,activity::END,activity::BS,n_order);
-
 }

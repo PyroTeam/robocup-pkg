@@ -32,8 +32,8 @@ int main (int argc, char **argv)
     ROS_INFO("Action finished: %s",state.toString().c_str());
   }
   else
+  {
     ROS_INFO("Action did not finish before the time out.");
-
-  //exit
+  }
   return 0;
 }

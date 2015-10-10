@@ -3,8 +3,8 @@
   GripperClientSrv::GripperClientSrv() {}
   GripperClientSrv::~GripperClientSrv(){}
 
-bool GripperClientSrv::gripper_uppdate(bool new_state){
-
+bool GripperClientSrv::gripper_uppdate(bool new_state)
+{
   ros::NodeHandle n;
   ros::ServiceClient client = n.serviceClient<manager_msg::SetGripper>("/fakeRobotino/setGripper");
   manager_msg::SetGripper srv;
@@ -18,7 +18,6 @@ bool GripperClientSrv::gripper_uppdate(bool new_state){
     ROS_ERROR("Failed to call service gripper_uppdate");
     return true;
   }
-
   return false;
 
 }
