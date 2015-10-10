@@ -41,7 +41,7 @@ private:
 
 public:
     geometry_msgs::Point getPointArrivee();
-    float normaliseAngle(float angle);
+    static float normaliseAngle(float angle);
     void track(std::vector<geometry_msgs::PoseStamped> &points, const geometry_msgs::Pose &odom);
     bool compareFloat(float x, float y);
     bool comparePoints(const geometry_msgs::Point &point1, const geometry_msgs::Point &point2);

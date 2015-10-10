@@ -194,19 +194,35 @@ geometry_msgs::Point AvoidanceObstacle::getPointAwayFromObstacle(const std::vect
     geometry_msgs::Point pointTarget = vectorObstacle[0];
     geometry_msgs::Point pointStart = vectorObstacle[0];
     float minCosTheta = 1.1;
+    float thetaPath = atan2(pointStart.y - odom.y, pointStart.x - odom.x);
+    float thetaMin = 2*M_PI;
+    float thetaMax = -2*M_PI;
+    int indexMin = 0;
+    int indexMax = 0;
     for (int i = 0 ; i < vectorObstacle.size() ; i++)
     {
-        float scalaire = (pointStart.x - odom.x) * (vectorObstacle[i].x - odom.x)  + (pointStart.y - odom.y) * (vectorObstacle[i].y - odom.y);
-        float u = calculDistance(pointStart, odom);
-        float v = calculDistance(vectorObstacle[i], odom);
-        float cosTheta = scalaire / (u * v);
-        //ROS_INFO("Cos theta : %f", cosTheta);
+        float theta = atan2(vectorObstacle[i].y - odom.y, vectorObstacle[i].x - odom.x);
+	float thetaFin = theta - thetaPath;
+	thetaFin = TrackPath::normaliseAngle(thetaFin);
 
-        if (cosTheta < minCosTheta)
-        {
-            pointTarget = vectorObstacle[i];
-            minCosTheta = cosTheta;
-        }
+	if (thetaFin < thetaMin)
+	{
+		thetaMin = thetaFin;
+		indexMin = i;
+	}
+	if (thetaFin > thetaMax)
+	{
+		thetaMax = thetaFin;
+		indexMax = i;
+	}
+    }
+    if (std::abs(thetaMin) < std::abs(thetaMax))
+    {
+	pointTarget = vectorObstacle[indexMin];
+    }
+    else /* std:abs(thetaMin) > std::abs(thetaMax) */
+    {
+	pointTarget = vectorObstacle[indexMax];
     }
     return pointTarget;
 }

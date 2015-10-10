@@ -121,6 +121,7 @@ void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines)
 
 void Create_Empty_Map(nav_msgs::OccupancyGrid &Map)
 {
+	Map.header.frame_id = "/odom";
 	Map.info.origin.position.x=-7.000;
 	Map.info.origin.position.y=-2.000;
 	Map.info.origin.position.z=0;
@@ -137,7 +138,7 @@ void Create_Empty_Map(nav_msgs::OccupancyGrid &Map)
 
 void Set_Wall(nav_msgs::OccupancyGrid &Map)
 {
-        drawRect(Map, -3, 2.5, 0, 1, 0.05, MARGIN);
+        /*drawRect(Map, -3, 2.5, 0, 1, 0.05, MARGIN);
         drawRect(Map, -3, 0.5, 0, 1, 0.05, MARGIN);
 
         drawRect(Map, -2.5, 0, 0, 0.05, 1, MARGIN);
@@ -145,7 +146,7 @@ void Set_Wall(nav_msgs::OccupancyGrid &Map)
         drawRect(Map, 2.5, 0, 0, 0.05, 1, MARGIN);
 
         drawRect(Map, 3, 1.5, 0, 3, 0.05, MARGIN);
-        drawRect(Map, 0, 3, 0, 0.05, 6, MARGIN);
+        drawRect(Map, 0, 3, 0, 0.05, 6, MARGIN);*/
 }
 
 void Set_Forbidden_Zone(nav_msgs::OccupancyGrid &Map)
