@@ -1,3 +1,12 @@
+/**
+ * \file        RingStation.h
+ * \class       RingStation
+ * \brief       classe qui stocke les données de la ringstation
+ * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
+ * \date        2015-10-10
+ * \copyright   PyroTeam, Polytech-Lille
+ */
+
 #ifndef RINGSTATION_H
 #define RINGSTATION_H
 
@@ -5,7 +14,8 @@
 
 using namespace manager_msg;
 
-class RingStation : public Machine{
+class RingStation : public Machine
+{
   private:
     
       /* Variables d'instance */
@@ -15,8 +25,11 @@ class RingStation : public Machine{
       int m_orangeRing;
 
   public:
+
+      /* Constructeur */
       RingStation();
       
+      /* Déstructeur */
       virtual ~RingStation();
       
       virtual void FonctionVirtuelle();

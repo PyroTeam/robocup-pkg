@@ -1,12 +1,11 @@
 #include "ArTagClientSrv.h"
 
-ArTagClienSrv::ArTagClienSrv(){
-}
+ArTagClienSrv::ArTagClienSrv() {}
 
-ArTagClienSrv::~ArTagClienSrv(){
-}
+ArTagClienSrv::~ArTagClienSrv() {}
 
-int16_t ArTagClienSrv::askForId(){
+int16_t ArTagClienSrv::askForId()
+{
   ros::NodeHandle n;
   ros::ServiceClient client = n.serviceClient<trait_im_msg::artag>("/artag");
   trait_im_msg::artag srv;

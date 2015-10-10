@@ -3,8 +3,8 @@
   ReportingMachineSrvClient::ReportingMachineSrvClient() {}
   ReportingMachineSrvClient::~ReportingMachineSrvClient(){}
 
-bool ReportingMachineSrvClient::reporting(std::string r_name, std::string r_type, uint8_t r_zone){
-
+bool ReportingMachineSrvClient::reporting(std::string r_name, std::string r_type, uint8_t r_zone)
+{
   ros::NodeHandle n;
   ros::ServiceClient client = n.serviceClient<comm_msg::ReportMachine>("/refBoxComm/ReportMachine");
   comm_msg::ReportMachine srv;
@@ -20,8 +20,6 @@ bool ReportingMachineSrvClient::reporting(std::string r_name, std::string r_type
     ROS_ERROR("Failed to call service ReportMachine");
     return true;
   }
-
   return false;
-
 }
 

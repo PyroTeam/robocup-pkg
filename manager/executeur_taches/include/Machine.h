@@ -1,3 +1,12 @@
+/**
+ * \file        Machine.h
+ * \class       Machine
+ * \brief       classe pour les différentes actions d'un robot concernant une machine
+ * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
+ * \date        2015-10-10
+ * \copyright   PyroTeam, Polytech-Lille
+ */
+
 #ifndef MACHINE_H
 #define MACHINE_H
 
@@ -15,7 +24,8 @@
 
 using namespace manager_msg;
 
-class Machine{
+class Machine
+{
   protected:
 
     /* Variables d'instance */
@@ -27,7 +37,10 @@ class Machine{
     bool isHere;
 
   public:
+    /* Constructeur */
     Machine();
+
+    /* Déstructeur */
     virtual ~Machine();
 
     virtual void FonctionVirtuelle() = 0;

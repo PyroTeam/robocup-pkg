@@ -7,7 +7,8 @@
 #include "geometry_msgs/Pose2D.h"
 
 /* Constructeur */
-Machine::Machine(){
+Machine::Machine()
+{
   m_centerMachine.x = 0.0;
   m_centerMachine.y = 0.0;
   m_centerMachine.theta = 0.0;
@@ -23,27 +24,33 @@ Machine::Machine(){
 Machine::~Machine(){}
 
 /* Méthodes */
-std::string Machine::getType(){
+std::string Machine::getType()
+{
   return m_type;
 }
 
-geometry_msgs::Pose2D Machine::getCenterMachine(){
+geometry_msgs::Pose2D Machine::getCenterMachine()
+{
   return m_centerMachine;
 }
 
-geometry_msgs::Pose2D Machine::getEntryMachine(){
+geometry_msgs::Pose2D Machine::getEntryMachine()
+{
   return m_entryMachine;
 }
 
-geometry_msgs::Pose2D Machine::getExitMachine(){
+geometry_msgs::Pose2D Machine::getExitMachine()
+{
   return m_exitMachine;
 }
 
-void Machine::majEntry(geometry_msgs::Pose2D point){
+void Machine::majEntry(geometry_msgs::Pose2D point)
+{
   m_entryMachine = point;
 }
 
-void Machine::majExit(geometry_msgs::Pose2D point){
+void Machine::majExit(geometry_msgs::Pose2D point)
+{
   m_exitMachine = point;
 }
 
@@ -60,7 +67,8 @@ manager_msg::activity Machine::msgToGT(int n_robot, int stateOfOrder, int machin
 
 /* Fonction abstraite qui permet d'aller vers une machine (Point centre/entree/sortie d'une machine) */
 
-void Machine::goTo(geometry_msgs::Pose2D pt_dest){
+void Machine::goTo(geometry_msgs::Pose2D pt_dest)
+{
   ROS_INFO("going to the point : x %f - y %f - theta %f",pt_dest.x,pt_dest.y,pt_dest.theta);
   NavigationClientAction n_c;
   int stateOfNavigation = n_c.goToAPoint(pt_dest);
@@ -69,25 +77,29 @@ void Machine::goTo(geometry_msgs::Pose2D pt_dest){
 }
 
 /* Fonction qui permet de prendre un produit */
-void Machine::take( ){
+void Machine::take( )
+{
   GripperClientSrv gsrv;
   gsrv.gripper_uppdate(true);
 }
 
 /* Fonction qui permet de deposer un produit */
-void Machine::let( ){
+void Machine::let( )
+{
   GripperClientSrv gsrv;
   gsrv.gripper_uppdate(false);
 }
 
-void Machine::readlights(std::vector<comm_msg::LightSpec> lSpec){
+void Machine::readlights(std::vector<comm_msg::LightSpec> lSpec)
+{
   ROS_INFO(" Starting exploring the lights ");
   FeuClientAction f_c;
   f_c.lightsStates(lSpec);
   ROS_INFO("end of exploring the lights");
 }
 
-void Machine::startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter){
+void Machine::startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter)
+{
   FinalApproachingClient fa_c;
   fa_c.starting(machineType,machineSide,machineParameter);
 }

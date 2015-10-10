@@ -3,7 +3,8 @@
 #include "DeliveryStation.h"
 
 /* Constructeur */
-DeliveryStation::DeliveryStation(){
+DeliveryStation::DeliveryStation()
+{
   m_type = "DeliveryStation";
 }
 
@@ -14,8 +15,8 @@ DeliveryStation::~DeliveryStation(){}
 void DeliveryStation::FonctionVirtuelle(){}
 
 /* Méthodes */
-void DeliveryStation::deliverToDS(int n_robot, int n_order){ 
-
+void DeliveryStation::deliverToDS(int n_robot, int n_order)
+{ 
 	// A verifier si la ds est dispo
  	// si OK : (sinon erreur )
 

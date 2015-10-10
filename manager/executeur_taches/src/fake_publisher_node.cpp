@@ -26,7 +26,8 @@ int main(int argc, char **argv)
     ROS_INFO("testing");
     std::vector<geometry_msgs::Pose2D> msg;
 
-    while(count < 100000){
+    while(count < 100000)
+    {
       geometry_msgs::Pose2D pose;
 
       pose.x = count;
@@ -47,7 +48,5 @@ int main(int argc, char **argv)
 
     loop_rate.sleep();
   }
-
-
   return 0;
 }
