@@ -18,7 +18,8 @@ git rm -rf .
 cd -
 
 # Generate the HTML documentation.
-doxygen Doxyfile
+echo " DOXYGEN robocup-pkg"
+doxygen ci-travis/Doxyfile
 
 # Create and commit the documentation repo.
 cd ${HTML_PATH}
