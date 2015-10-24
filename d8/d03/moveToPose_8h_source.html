@@ -82,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_a09cfe6cda6433cf6c398412b4477e19.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_e861682d3297467d48020f9e619c2cd6.html">navigation_manager</a></li><li class="navelem"><a class="el" href="../../dir_ffe324b96f4f636863151cf158166f21.html">include</a></li><li class="navelem"><a class="el" href="../../dir_0ba111d2b315fd44cd1256b517066cdc.html">navigation_manager</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_2c76401b760942dffa40076b5a1268e2.html">navigation_manager</a></li><li class="navelem"><a class="el" href="../../dir_ea227ac73c22de74d29f7c8069b7fa43.html">include</a></li><li class="navelem"><a class="el" href="../../dir_1408c5cd8dcf859310146d726206cb5c.html">navigation_manager</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -118,7 +118,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    ros::Subscriber m_odom_sub;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    ros::Subscriber m_sharpSensor_sub;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="../../d8/d84/KinectROS_8h.html#a6c737bbce051bc4690e4c608adc2deec">sensor_msgs::PointCloud</a> m_sharpSensor;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    sensor_msgs::PointCloud m_sharpSensor;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">int</span> m_last_id;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    geometry_msgs::Pose m_pose_odom;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">int</span> m_path_id;</div>
@@ -132,7 +132,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> PoseCallback(<span class="keyword">const</span> nav_msgs::Odometry &amp;odom);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> PathCallback(<span class="keyword">const</span> pathfinder::AstarPath &amp;path);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> DistSensorCallback(<span class="keyword">const</span> <a class="code" href="../../d8/d84/KinectROS_8h.html#a6c737bbce051bc4690e4c608adc2deec">sensor_msgs::PointCloud</a> &amp;sensor);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> DistSensorCallback(<span class="keyword">const</span> sensor_msgs::PointCloud &amp;sensor);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> doneCb(<span class="keyword">const</span> actionlib::SimpleClientGoalState&amp; state,</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keyword">const</span> deplacement_msg::TrackPathResultConstPtr&amp; result);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> activeCb();</div>
@@ -180,12 +180,11 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classMoveToPose_html_a2f74b76d871a13404f4320f9574429c6"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html#a2f74b76d871a13404f4320f9574429c6">MoveToPose::~MoveToPose</a></div><div class="ttdeci">~MoveToPose(void)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d03/moveToPose_8h_source.html#l00075">moveToPose.h:75</a></div></div>
 <div class="ttc" id="classMoveToPose_html"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html">MoveToPose</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d03/moveToPose_8h_source.html#l00018">moveToPose.h:18</a></div></div>
 <div class="ttc" id="classMoveToPose_html_aea4650121a75dd3aae1217d5d1c881d5"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5">MoveToPose::m_nh</a></div><div class="ttdeci">ros::NodeHandle m_nh</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d03/moveToPose_8h_source.html#l00050">moveToPose.h:50</a></div></div>
-<div class="ttc" id="KinectROS_8h_html_a6c737bbce051bc4690e4c608adc2deec"><div class="ttname"><a href="../../d8/d84/KinectROS_8h.html#a6c737bbce051bc4690e4c608adc2deec">PointCloud</a></div><div class="ttdeci">pcl::PointCloud&lt; pcl::PointXYZ &gt; PointCloud</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d84/KinectROS_8h_source.html#l00021">KinectROS.h:21</a></div></div>
 <div class="ttc" id="classMoveToPose_html_a7802d160b9c297eb852427ca19e4441c"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c">MoveToPose::m_feedback</a></div><div class="ttdeci">deplacement_msg::MoveToPoseFeedback m_feedback</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d03/moveToPose_8h_source.html#l00055">moveToPose.h:55</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 24 2015 01:52:15 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 24 2015 00:04:22 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

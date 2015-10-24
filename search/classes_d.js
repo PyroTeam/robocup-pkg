@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['navgoalros',['NavGoalROS',['../df/d26/classNavGoalROS.html',1,'']]],
-  ['navigationclientaction',['NavigationClientAction',['../df/df6/classNavigationClientAction.html',1,'']]],
-  ['northstarros',['NorthStarROS',['../d6/df4/classNorthStarROS.html',1,'']]]
+  ['pathorders',['PathOrders',['../d3/d91/structPathOrders.html',1,'']]],
+  ['point',['Point',['../dc/d4f/classPoint.html',1,'']]],
+  ['product',['Product',['../db/d79/classProduct.html',1,'']]]
 ];

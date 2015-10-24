@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['x',['x',['../d8/d75/classMPS.html#ab507eee0fd911ff33858edea2fd0f97c',1,'MPS::x()'],['../dc/dda/classMachine.html#a388762e1f4457239796a75388d00be51',1,'Machine::x()'],['../d3/d91/structPathOrders.html#ae862c376ce749e7448c6b8976973750d',1,'PathOrders::x()'],['../de/d07/structGridPoint.html#a13a08327f19c9ed38f06b73fad7aef9b',1,'GridPoint::x()']]],
-  ['xsum',['xSum',['../dc/dda/classMachine.html#a4e9444ea68546604e11ceaaec8531487',1,'Machine']]]
+  ['y',['y',['../d8/d75/classMPS.html#a80e13ec80830c0fa0ce3f0f4e2772364',1,'MPS::y()'],['../dc/dda/classMachine.html#aeadb08dacff9e2d79349df70485750f3',1,'Machine::y()'],['../d3/d91/structPathOrders.html#aad7dd6d4d269f2f3c72a8362678933c9',1,'PathOrders::y()'],['../de/d07/structGridPoint.html#ae53e9c6615cea39faadc470ef45274d7',1,'GridPoint::y()']]],
+  ['yaw',['yaw',['../d3/d91/structPathOrders.html#aea15835dd4a133b7a76d6e2e6e46c5f8',1,'PathOrders']]],
+  ['ysum',['ySum',['../dc/dda/classMachine.html#a3e6510ef32723538b69f88e573bd8dc4',1,'Machine']]]
 ];

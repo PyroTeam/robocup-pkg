@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['offset_5fgrid',['OFFSET_GRID',['../df/db0/server__static__utils_8h.html#af12da52f79afff686b345f93350b3e3d',1,'server_static_utils.h']]]
+  ['r',['R',['../d0/d5c/cv__utils_8cpp.html#a5c71a5e59a53413cd6c270266d63b031',1,'cv_utils.cpp']]]
 ];

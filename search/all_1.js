@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['b',['b',['../df/d80/structrgb.html#aa3e45a2c26ad435fe29dfea49f16831e',1,'rgb::b()'],['../d0/da7/finalApproaching_8cpp.html#a148e3876077787926724625411d6e7a9',1,'b():&#160;finalApproaching.cpp'],['../d0/d5c/cv__utils_8cpp.html#a111da81ae5883147168bbb8366377b10',1,'B():&#160;cv_utils.cpp']]],
+  ['b',['b',['../df/d80/structrgb.html#aa3e45a2c26ad435fe29dfea49f16831e',1,'rgb::b()'],['../d0/d5c/cv__utils_8cpp.html#a111da81ae5883147168bbb8366377b10',1,'B():&#160;cv_utils.cpp'],['../d0/da7/finalApproaching_8cpp.html#a148e3876077787926724625411d6e7a9',1,'b():&#160;finalApproaching.cpp']]],
   ['basestation',['BaseStation',['../d2/d4b/classBaseStation.html',1,'BaseStation'],['../d2/d4b/classBaseStation.html#a90bfd6fa7e927d53e43e99c35c5bfef5',1,'BaseStation::BaseStation()']]],
   ['basestation_2ecpp',['BaseStation.cpp',['../d6/de4/BaseStation_8cpp.html',1,'']]],
   ['basestation_2eh',['BaseStation.h',['../df/de3/BaseStation_8h.html',1,'']]],
@@ -17,8 +17,5 @@ var searchData=
   ['buildsegments',['buildSegments',['../d0/d57/landmarks__detection__utils_8h.html#acac477df4331c7d0e4e416f6afa9541c',1,'buildSegments(std::list&lt; Modele &gt; &amp;listOfModeles):&#160;landmarks_detection_utils.cpp'],['../dc/db7/machine__detection__utils_8h.html#acac477df4331c7d0e4e416f6afa9541c',1,'buildSegments(std::list&lt; Modele &gt; &amp;listOfModeles):&#160;landmarks_detection_utils.cpp'],['../d4/df9/landmarks__detection__utils_8cpp.html#acac477df4331c7d0e4e416f6afa9541c',1,'buildSegments(std::list&lt; Modele &gt; &amp;listOfModeles):&#160;landmarks_detection_utils.cpp'],['../dc/d0a/machine__detection__utils_8cpp.html#acac477df4331c7d0e4e416f6afa9541c',1,'buildSegments(std::list&lt; Modele &gt; &amp;listOfModeles):&#160;machine_detection_utils.cpp']]],
   ['bumperlistener',['BumperListener',['../de/d27/classBumperListener.html',1,'BumperListener'],['../de/d27/classBumperListener.html#ab85f4a3707248a84a37c298c2a9bb833',1,'BumperListener::BumperListener()']]],
   ['bumperlistener_2ecpp',['bumperlistener.cpp',['../d3/dd1/bumperlistener_8cpp.html',1,'']]],
-  ['bumperlistener_2eh',['bumperlistener.h',['../d9/dc1/bumperlistener_8h.html',1,'']]],
-  ['bumperros',['BumperROS',['../db/dd2/classBumperROS.html',1,'BumperROS'],['../db/dd2/classBumperROS.html#afa0ac516920794f987ff884795a53329',1,'BumperROS::BumperROS()']]],
-  ['bumperros_2ecpp',['BumperROS.cpp',['../d3/dd3/BumperROS_8cpp.html',1,'']]],
-  ['bumperros_2eh',['BumperROS.h',['../d2/d8c/BumperROS_8h.html',1,'']]]
+  ['bumperlistener_2eh',['bumperlistener.h',['../d9/dc1/bumperlistener_8h.html',1,'']]]
 ];

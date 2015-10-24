@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['function_5fis_5fnot_5fused',['FUNCTION_IS_NOT_USED',['../d2/d80/transform_8h.html#a60bae6b2eed2a6163fbfab1a7804ed3f',1,'transform.h']]]
+  ['g',['G',['../d0/d5c/cv__utils_8cpp.html#aed9ea78689ecce0b7264c02c7f8a9a54',1,'cv_utils.cpp']]]
 ];
