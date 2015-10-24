@@ -1,9 +1,10 @@
+sudo: required
+dist: trusty
 branches:
   only:
     - devel
     - doxygen
-    - tavis
-brefore_install:
+before_install:
 - openssl aes-256-cbc
   -K $encrypted_5a8f759d85bc_key
   -iv $encrypted_5a8f759d85bc_iv
