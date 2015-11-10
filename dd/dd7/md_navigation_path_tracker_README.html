@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: README</title>
+<title>robocup-pkg: Path_tracker</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -77,13 +77,33 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">README </div>  </div>
+<div class="title">Path_tracker </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"></div></div><!-- contents -->
+<div class="textblock"><p>Package de suivi de trajectoire et d'évitement d'obstacles</p>
+<h2>Description </h2>
+<p>Permet d'insérer les obstacles rencontrés par le robotino sur un grid map obstacle, de suivre le chemin généré par le pathfinder et d'éviter les éventuels obstacles intervenant sur la trajectoire suivie.</p>
+<h2>Noeuds </h2>
+<ul>
+<li><code>path_tracker_node</code> : lance le suivi de chemin/évitement d'obstacles</li>
+<li><code>grid_obstacles_node</code> : récupère les données laser puis les insère dans la grid map obstacle</li>
+</ul>
+<h2>Launchfiles </h2>
+<ul>
+<li>path_tracker.launch : lance les noeuds path_tracker_node et grid_obstacles_node</li>
+<li>robotCommddd.launch : lance les noeuds path_tracker_node et grid_obstacles_node en mode debug</li>
+</ul>
+<p>-&gt; Il faut au préalable que les launchfiles lançant les noeuds correspondant au pathfinder, à la navigation manager et au grid maker soient exécutés.</p>
+<h2>Scripts </h2>
+<h2>Avancement </h2>
+<ul>
+<li>[x] Rédiger un README</li>
+<li>[x] Suivi et évitement fonctionnels </li>
+</ul>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 24 2015 00:04:22 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 10 2015 20:43:06 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

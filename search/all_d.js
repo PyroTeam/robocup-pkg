@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['path_5ftracker',['Path_tracker',['../dd/dd7/md_navigation_path_tracker_README.html',1,'']]],
   ['particulartasksinwork',['particularTasksInWork',['../d5/d62/work_8h.html#a536bbd38cdf17a38aa0541fda6808e25',1,'particularTasksInWork(std::list&lt; std::list&lt; Task &gt; &gt;::iterator &amp;it, int &amp;availableCap, int &amp;storage, double time):&#160;work.h'],['../d5/d1b/work_8cpp.html#a36bae45c5a6158b9e4aca2e39c1c9da1',1,'particularTasksInWork(list&lt; list&lt; Task &gt; &gt;::iterator &amp;it, int &amp;availableCap, int &amp;storage, double time):&#160;work.cpp']]],
   ['pathfinderstate',['pathfinderState',['../df/db0/server__static__utils_8h.html#aaa2e92b14c2b475008e4d18aea58e06d',1,'pathfinderState():&#160;server.cpp'],['../df/dd7/server_8cpp.html#aaa2e92b14c2b475008e4d18aea58e06d',1,'pathfinderState():&#160;server.cpp'],['../d1/da4/server__static_8cpp.html#aaa2e92b14c2b475008e4d18aea58e06d',1,'pathfinderState():&#160;server_static.cpp']]],
   ['pathfound',['pathFound',['../df/db0/server__static__utils_8h.html#af453ae760c60800502b451c193666375',1,'pathFound():&#160;server.cpp'],['../df/dd7/server_8cpp.html#af453ae760c60800502b451c193666375',1,'pathFound():&#160;server.cpp'],['../d1/da4/server__static_8cpp.html#af453ae760c60800502b451c193666375',1,'pathFound():&#160;server_static.cpp']]],

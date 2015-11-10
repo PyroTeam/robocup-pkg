@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['readme',['README',['../dd/dd7/md_navigation_path_tracker_README.html',1,'']]],
   ['robocup_2dpkg',['robocup-pkg',['../d0/d30/md_README.html',1,'']]],
   ['readme',['README',['../d7/de7/md_simulation_gazebo_sim_launch_README.html',1,'']]],
   ['r',['r',['../df/d80/structrgb.html#ad5a38e43f70fb57d6da052745ea5ff90',1,'rgb::r()'],['../d0/d5c/cv__utils_8cpp.html#a5c71a5e59a53413cd6c270266d63b031',1,'R():&#160;cv_utils.cpp'],['../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f',1,'r():&#160;visualisation.cpp']]],
