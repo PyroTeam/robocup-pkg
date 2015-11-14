@@ -7,7 +7,7 @@
 			<real_time_factor>1</real_time_factor>
 			<real_time_update_rate>1000</real_time_update_rate>
 		</physics>
-		
+
 		<!-- A global light source -->
 		<include>
 		  <uri>model://sun</uri>

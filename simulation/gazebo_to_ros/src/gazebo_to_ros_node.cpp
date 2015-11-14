@@ -28,7 +28,8 @@ int main(int argc, char **argv)
 
     // Publish to a Gazebo topic
     gazebo::transport::PublisherPtr pub =
-        node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/robotino_pyro/RobotinoSim/MotorMove/");
+        // node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/robotino_pyro/RobotinoSim/MotorMove/");
+        node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/robotino3/RobotinoSim/MotorMove/");
 
     // Wait for a subscriber to connect
     pub->WaitForConnection();
@@ -37,7 +38,7 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
     ros::Subscriber subCmdVel = nh.subscribe("/cmd_vel", 1, &cmdVelCallback);
     g_pubOdom = nh.advertise<nav_msgs::Odometry>("/odom", 1000);
-    gazebo::transport::SubscriberPtr subGps = node->Subscribe("/gazebo/pyro_2015/robotino_pyro/gazsim/gps/", &gpsCallback);
+    gazebo::transport::SubscriberPtr subGps = node->Subscribe("/gazebo/pyro_2015/robotino3/gazsim/gps/", &gpsCallback);
 
     // Publisher loop...replace with your own code.
     g_x=0; g_y=0; g_z=0; 
