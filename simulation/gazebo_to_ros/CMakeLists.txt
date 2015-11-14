@@ -33,7 +33,7 @@ include_directories(
 )
 
 ## Declare a cpp executable
-add_executable(gazebo_to_ros_node 
+add_executable(gazebo_to_ros_node
     src/gazebo_to_ros_node.cpp
 )
 target_link_libraries(gazebo_to_ros_node
