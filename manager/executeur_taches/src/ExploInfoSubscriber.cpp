@@ -34,22 +34,22 @@ void ExploInfoSubscriber::interpretationFeu()
 		i=0;
 		while(i<m_signals[j].lights.size())
 		{
-				if(m_signals[j].lights[i].color == light.RED)
-				{
-						if(r_state == m_signals[j].lights[i].state) i++;
-						else break;					
-				}
+			if(m_signals[j].lights[i].color == light.RED)
+			{
+				if(r_state == m_signals[j].lights[i].state) i++;
+				else break;					
+			}
 
-				else if(m_signals[j].lights[i].color == light.GREEN)
-				{		
-						if(g_state == m_signals[j].lights[i].state) i++;
-						else break;
-				}
-				else if(m_signals[j].lights[i].color == light.YELLOW)
-				{
-						if(y_state == m_signals[j].lights[i].state) i++;
-						else break;
-				}
+			else if(m_signals[j].lights[i].color == light.GREEN)
+			{		
+				if(g_state == m_signals[j].lights[i].state) i++;
+				else break;
+			}
+			else if(m_signals[j].lights[i].color == light.YELLOW)
+			{
+				if(y_state == m_signals[j].lights[i].state) i++;
+				else break;
+			}
 		}
 		if(i=3) break;
 		j++;
@@ -57,7 +57,7 @@ void ExploInfoSubscriber::interpretationFeu()
     this->type = m_signals[j].type;
     for(i = 0 ; i < lSpec.size() ; i++)
     {
-		 	ROS_INFO("color : %d , state : %d",lSpec[i].color,lSpec[i].state);
+	 	ROS_INFO("color : %d , state : %d",lSpec[i].color,lSpec[i].state);
 	}
 	ROS_INFO("type : %s", this->type.c_str());
 }

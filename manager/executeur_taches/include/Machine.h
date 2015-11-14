@@ -26,38 +26,38 @@ using namespace manager_msg;
 
 class Machine
 {
-  protected:
+	protected:
 
-    /* Variables d'instance */
-    std::string m_type;
-    geometry_msgs::Pose2D m_centerMachine;
-    geometry_msgs::Pose2D m_entryMachine;
-    geometry_msgs::Pose2D m_exitMachine;
-    int zone;
-    bool isHere;
+		/* Variables d'instance */
+		std::string m_type;
+		geometry_msgs::Pose2D m_centerMachine;
+		geometry_msgs::Pose2D m_entryMachine;
+		geometry_msgs::Pose2D m_exitMachine;
+		int zone;
+		bool isHere;
 
-  public:
-    /* Constructeur */
-    Machine();
+	public:
+		/* Constructeur */
+		Machine();
 
-    /* Déstructeur */
-    virtual ~Machine();
+		/* Déstructeur */
+		virtual ~Machine();
 
-    virtual void FonctionVirtuelle() = 0;
+		virtual void FonctionVirtuelle() = 0;
 
-    /* méthodes */
-    std::string getType();
-    geometry_msgs::Pose2D getCenterMachine();
-    geometry_msgs::Pose2D getEntryMachine();
-    geometry_msgs::Pose2D getExitMachine();
-    void majEntry(geometry_msgs::Pose2D point);
-    void majExit(geometry_msgs::Pose2D point);
-    manager_msg::activity msgToGT(int n_robot, int stateOfOrder, int machine, int n_order);
-    void goTo(geometry_msgs::Pose2D pt_dest);
-    void take();
-    void let();
-    void readlights(std::vector<comm_msg::LightSpec> lSpec);
-    void startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter);
+		/* méthodes */
+		std::string getType();
+		geometry_msgs::Pose2D getCenterMachine();
+		geometry_msgs::Pose2D getEntryMachine();
+		geometry_msgs::Pose2D getExitMachine();
+		void majEntry(geometry_msgs::Pose2D point);
+		void majExit(geometry_msgs::Pose2D point);
+		manager_msg::activity msgToGT(int n_robot, int stateOfOrder, int machine, int n_order);
+		void goTo(geometry_msgs::Pose2D pt_dest);
+		void take();
+		void let();
+		void readlights(std::vector<comm_msg::LightSpec> lSpec);
+		void startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter);
 
 };
 

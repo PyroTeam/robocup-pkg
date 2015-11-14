@@ -6,7 +6,6 @@ FeuClientAction::~FeuClientAction(){}
 
 void FeuClientAction::lightsStates(std::vector<comm_msg::LightSpec> &m_lightSpec)
 {
-
 	int i=0;
 
 	actionlib::SimpleActionClient<trait_im_msg::processLightSignalAction> client("lecture_feu",true);
@@ -37,5 +36,4 @@ void FeuClientAction::lightsStates(std::vector<comm_msg::LightSpec> &m_lightSpec
 	{
 		ROS_INFO("Action didn't finish before the time out");
 	}
-
 }

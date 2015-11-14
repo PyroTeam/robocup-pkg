@@ -16,20 +16,20 @@ using namespace manager_msg;
 
 class DeliveryStation : public Machine
 {
-  private:
-      
-  public:
-    
-    /* Constructeur */
-    DeliveryStation();
-      
-    /* Déstructeur */  
-    virtual ~DeliveryStation();
-    
-    /* Méthodes */
-    virtual void FonctionVirtuelle();
+	private:
 
-    void deliverToDS(int n_robot, int n_order); 
+	public:
+
+		/* Constructeur */
+		DeliveryStation();
+
+		/* Déstructeur */  
+		virtual ~DeliveryStation();
+
+		/* Méthodes */
+		virtual void FonctionVirtuelle();
+
+		void deliverToDS(int n_robot, int n_order); 
   
 };
 

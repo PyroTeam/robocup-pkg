@@ -33,5 +33,4 @@ void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, in
 	{
 		ROS_INFO("Action didn't finish before the time out");
 	}
-
 }
