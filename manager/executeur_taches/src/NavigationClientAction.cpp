@@ -28,7 +28,6 @@ int NavigationClientAction::goToAPoint(geometry_msgs::Pose2D dest_point)
 		actionlib::SimpleClientGoalState state = client.getState();
 		ROS_INFO("Action finished : %s ",state.toString().c_str());
 	}
-
 	else
 	{
 		actionlib::SimpleClientGoalState state = client.getState();
@@ -36,5 +35,4 @@ int NavigationClientAction::goToAPoint(geometry_msgs::Pose2D dest_point)
 	}
 	
 	return client.getResult()->result;
-
 }

@@ -18,31 +18,31 @@
 
 class MyElements
 {
-  private:
-    
-      /* Variables d'instance*/
-      BaseStation m_bs;
-      RingStation m_rs1; 
-      RingStation m_rs2;
-      CapStation m_cs1; 
-      CapStation m_cs2;
-      DeliveryStation m_ds; 
-      
-  public:
-    
-      /* Constructeur */    
-      MyElements();
-      
-      /* Déstructeur */
-      virtual ~MyElements();
+	private:
 
-      /* Méthodes */ 
-      BaseStation getBS();
-      RingStation getRS1();
-      RingStation getRS2();
-      CapStation  getCS1();
-      CapStation  getCS2();
-      DeliveryStation getDS();
+		/* Variables d'instance*/
+		BaseStation m_bs;
+		RingStation m_rs1; 
+		RingStation m_rs2;
+		CapStation m_cs1; 
+		CapStation m_cs2;
+		DeliveryStation m_ds; 
+
+	public:
+
+		/* Constructeur */    
+		MyElements();
+
+		/* Déstructeur */
+		virtual ~MyElements();
+
+		/* Méthodes */ 
+		BaseStation getBS();
+		RingStation getRS1();
+		RingStation getRS2();
+		CapStation  getCS1();
+		CapStation  getCS2();
+		DeliveryStation getDS();
 
 };
 
