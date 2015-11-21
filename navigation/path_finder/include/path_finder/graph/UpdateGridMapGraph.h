@@ -15,14 +15,17 @@
 
 #include <memory>
 #include <ros/ros.h>
+#include <nav_msgs/OccupancyGrid.h>
 #include "UpdateGraph.h"
+#include "graph/GridMapGraph.h"
 
 class UpdateGridMapGraph : public UpdateGraph
 {
 public:
-    UpdateGridMapGraph();
+    UpdateGridMapGraph(const std::string &topicName, const std::shared_ptr<Graph> &graph);
     virtual ~UpdateGridMapGraph();
-
+protected:
+    void mapCallback(const nav_msgs::OccupancyGrid &grid);
 };
 
 #endif /* PATH_FINDER_UPDATEGRIDMAPGRAPH_H_ */

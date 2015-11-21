@@ -38,7 +38,8 @@ public:
         return m_point;
     }
 
-    virtual std::ostream& toStream(std::ostream& os) override
+
+    virtual std::ostream& toStream(std::ostream& os) const override
     {
         os << m_point;
         return os;
@@ -46,5 +47,6 @@ public:
 protected:
     geometry_msgs::Point m_point;
 };
+
 
 #endif /* PATH_FINDER_POINTSTATE_H_ */

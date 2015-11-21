@@ -12,12 +12,21 @@
 
 #include "graph/UpdateGridMapGraph.h"
 
-UpdateGridMapGraph::UpdateGridMapGraph():UpdateGraph()
+UpdateGridMapGraph::UpdateGridMapGraph(const std::string &topicName, const std::shared_ptr<Graph> &graph):UpdateGraph(topicName, graph)
 {
+    m_graph_sub = m_nh.subscribe(topicName, 1000, &UpdateGridMapGraph::mapCallback, this);
 
 }
 
 UpdateGridMapGraph::~UpdateGridMapGraph()
 {
+
+}
+
+void UpdateGridMapGraph::mapCallback(const nav_msgs::OccupancyGrid &grid)
+{
+    //TODO ajout protection
+    std::shared_ptr<GridMapGraph> gridMapGraph = std::static_pointer_cast<GridMapGraph>(m_graph);
+    gridMapGraph->setGridMap(grid);
 
 }

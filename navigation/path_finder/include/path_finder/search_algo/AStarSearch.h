@@ -14,6 +14,8 @@
 #define PATH_FINDER_ASTARSEARCH_H_
 
 #include <memory>
+#include <queue>
+#include <deque>
 #include "SearchAlgo.h"
 
 class AStarSearch : public SearchAlgo
@@ -24,8 +26,10 @@ public:
 
     virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState) override;
 protected:
-    //TODO m_openList
-    //TODO m_closeList
+    std::priority_queue<std::shared_ptr<State>,
+                        std::deque<std::shared_ptr<State>>,
+                        StateComparison> m_openList;
+    //std::set<> m_closeList;
 };
 
 #endif /* PATH_FINDER_ASTARSEARCH_H_ */

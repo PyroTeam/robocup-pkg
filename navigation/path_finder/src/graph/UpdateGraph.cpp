@@ -12,7 +12,7 @@
 
 #include "graph/UpdateGraph.h"
 
-UpdateGraph::UpdateGraph()
+UpdateGraph::UpdateGraph(const std::string &topicName, const std::shared_ptr<Graph> &graph):m_graph(graph)
 {
 
 }

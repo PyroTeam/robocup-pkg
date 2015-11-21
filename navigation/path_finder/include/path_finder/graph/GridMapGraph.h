@@ -25,9 +25,12 @@ public:
     GridMapGraph();
     virtual ~GridMapGraph();
 
+    void setGridMap(const nav_msgs::OccupancyGrid &grid);
     virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState) override;
     virtual void getSuccessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &succ) override;
     virtual void getPredecessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &pred) override;
+protected:
+    nav_msgs::OccupancyGrid m_grid;
 };
 
 #endif /* PATH_FINDER_GRIDMAPGRAPH_H_ */
