@@ -1,5 +1,5 @@
 /**
- * \file 		gridMapGraph.h
+ * \file 		GridMapGraph.h
  *
  * \brief
  *
@@ -13,8 +13,8 @@
 #ifndef PATH_FINDER_GRIDMAPGRAPH_H_
 #define PATH_FINDER_GRIDMAPGRAPH_H_
 
-#include "heuristic.h"
-#include "graph.h"
+#include "Heuristic.h"
+#include "Graph.h"
 #include <nav_msgs/OccupancyGrid.h>
 
 class GridMapGraph : public Graph

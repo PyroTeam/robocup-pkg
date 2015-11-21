@@ -1,5 +1,5 @@
 /**
- * \file 		gridMapGraph.cpp
+ * \file 		GridMapGraph.cpp
  *
  * \brief
  *
@@ -10,7 +10,7 @@
  * \version
  */
 
-#include "graph/gridMapGraph.h"
+#include "graph/GridMapGraph.h"
 
 GridMapGraph::GridMapGraph() : Graph()
 {

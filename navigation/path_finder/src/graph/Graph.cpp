@@ -1,5 +1,5 @@
 /**
- * \file 		graph.cpp
+ * \file 		Graph.cpp
  *
  * \brief
  *
@@ -10,7 +10,7 @@
  * \version
  */
 
-#include "graph/graph.h"
+#include "graph/Graph.h"
 
 Graph::Graph():m_isInit(false), m_heuristic(nullptr), m_searchAlgo(nullptr)
 {

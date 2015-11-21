@@ -14,9 +14,9 @@
 #include <memory>
 
 #include "ros/ros.h"
-#include "graph/gridMapGraph.h"
-#include "graph/updateGridMapGraph.h"
-#include "search_algo/aStarSearch.h"
+#include "graph/GridMapGraph.h"
+#include "graph/UpdateGridMapGraph.h"
+#include "search_algo/AStarSearch.h"
 
 int main(int argc, char **argv)
 {

@@ -1,5 +1,5 @@
 /**
- * \file 		heuristic.h
+ * \file 		Heuristic.h
  *
  * \brief
  *

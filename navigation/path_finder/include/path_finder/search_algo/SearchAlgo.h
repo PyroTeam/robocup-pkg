@@ -1,5 +1,5 @@
 /**
- * \file 		searchAlgo.h
+ * \file 		SearchAlgo.h
  *
  * \brief
  *
@@ -14,6 +14,7 @@
 #define PATH_FINDER_SEARCHALGO_H_
 
 #include <memory>
+#include "State.h"
 
 class Graph;
 
@@ -25,7 +26,7 @@ public:
 
 protected:
     std::shared_ptr<Graph> m_graph;
-    //TODO State m_currentState;
+    std::shared_ptr<State> m_currentState;
 };
 
 #endif /* PATH_FINDER_SEARCHALGO_H_ */

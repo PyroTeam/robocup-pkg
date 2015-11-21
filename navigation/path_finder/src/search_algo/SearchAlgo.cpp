@@ -1,5 +1,5 @@
 /**
- * \file 		searchAlgo.cpp
+ * \file 		SearchAlgo.cpp
  *
  * \brief
  *
@@ -10,8 +10,8 @@
  * \version
  */
 
-#include "search_algo/searchAlgo.h"
-#include "graph/graph.h"
+#include "search_algo/SearchAlgo.h"
+#include "graph/Graph.h"
 
 SearchAlgo::SearchAlgo(const std::shared_ptr<Graph> &graph):m_graph(graph)
 {

@@ -1,5 +1,5 @@
 /**
- * \file 		graph.h
+ * \file 		Graph.h
  *
  * \brief
  *
@@ -15,8 +15,8 @@
 
 #include <memory>
 
-#include "heuristic.h"
-#include "../search_algo/searchAlgo.h"
+#include "Heuristic.h"
+#include "../search_algo/SearchAlgo.h"
 
 class Graph
 {

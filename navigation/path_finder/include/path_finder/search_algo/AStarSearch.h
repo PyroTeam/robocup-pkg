@@ -1,5 +1,5 @@
 /**
- * \file 		aStarSearch.h
+ * \file 		AStarSearch.h
  *
  * \brief
  *
@@ -14,7 +14,7 @@
 #define PATH_FINDER_ASTARSEARCH_H_
 
 #include <memory>
-#include "searchAlgo.h"
+#include "SearchAlgo.h"
 
 class AStarSearch : public SearchAlgo
 {

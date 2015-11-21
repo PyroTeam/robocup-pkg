@@ -134,12 +134,13 @@ include_directories(
 ## Declare a C++ executable
 add_executable(path_finder_node
 
-    src/graph/graph.cpp
-    src/graph/gridMapGraph.cpp
-    src/graph/updateGraph.cpp
-    src/graph/updateGridMapGraph.cpp
-    src/search_algo/searchAlgo.cpp
-    src/search_algo/aStarSearch.cpp
+    src/graph/Graph.cpp
+    src/graph/GridMapGraph.cpp
+    src/graph/UpdateGraph.cpp
+    src/graph/UpdateGridMapGraph.cpp
+    src/search_algo/SearchAlgo.cpp
+    src/search_algo/AStarSearch.cpp
+    src/search_algo/Path.cpp
 
     src/path_finder_node.cpp
 )

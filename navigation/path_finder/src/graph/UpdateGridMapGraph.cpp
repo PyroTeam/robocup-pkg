@@ -1,5 +1,5 @@
 /**
- * \file 		aStarSearch.cpp
+ * \file 		UpdateGridMapGraph.cpp
  *
  * \brief
  *
@@ -10,14 +10,14 @@
  * \version
  */
 
-#include "search_algo/aStarSearch.h"
+#include "graph/UpdateGridMapGraph.h"
 
-AStarSearch::AStarSearch(const std::shared_ptr<Graph> &graph) : SearchAlgo(graph)
+UpdateGridMapGraph::UpdateGridMapGraph():UpdateGraph()
 {
 
 }
 
-AStarSearch::~AStarSearch()
+UpdateGridMapGraph::~UpdateGridMapGraph()
 {
 
 }

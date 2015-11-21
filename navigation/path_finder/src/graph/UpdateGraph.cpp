@@ -1,5 +1,5 @@
 /**
- * \file 		updateGridMapGraph.cpp
+ * \file 		UpdateGraph.cpp
  *
  * \brief
  *
@@ -10,14 +10,14 @@
  * \version
  */
 
-#include "graph/updateGridMapGraph.h"
+#include "graph/UpdateGraph.h"
 
-UpdateGridMapGraph::UpdateGridMapGraph():UpdateGraph()
+UpdateGraph::UpdateGraph()
 {
 
 }
 
-UpdateGridMapGraph::~UpdateGridMapGraph()
+UpdateGraph::~UpdateGraph()
 {
 
 }

@@ -1,5 +1,5 @@
 /**
- * \file 		updateGraph.h
+ * \file 		UpdateGraph.h
  *
  * \brief
  *
@@ -15,7 +15,7 @@
 
 #include <memory>
 #include <ros/ros.h>
-#include "graph.h"
+#include "Graph.h"
 
 class UpdateGraph
 {

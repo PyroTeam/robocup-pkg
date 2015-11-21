@@ -1,5 +1,5 @@
 /**
- * \file 		updateGraph.cpp
+ * \file 		AStarSearch.cpp
  *
  * \brief
  *
@@ -10,14 +10,14 @@
  * \version
  */
 
-#include "graph/updateGraph.h"
+#include "search_algo/AStarSearch.h"
 
-UpdateGraph::UpdateGraph()
+AStarSearch::AStarSearch(const std::shared_ptr<Graph> &graph) : SearchAlgo(graph)
 {
 
 }
 
-UpdateGraph::~UpdateGraph()
+AStarSearch::~AStarSearch()
 {
-    
+
 }

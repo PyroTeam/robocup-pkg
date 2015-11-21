@@ -1,5 +1,5 @@
 /**
- * \file 		updateGridMapGraph.h
+ * \file 		UpdateGridMapGraph.h
  *
  * \brief
  *
@@ -15,7 +15,7 @@
 
 #include <memory>
 #include <ros/ros.h>
-#include "updateGraph.h"
+#include "UpdateGraph.h"
 
 class UpdateGridMapGraph : public UpdateGraph
 {
