@@ -17,6 +17,7 @@
 #include "Heuristic.h"
 #include "Graph.h"
 #include <nav_msgs/OccupancyGrid.h>
+#include "occupancy_grid_utils/occupancy_grid_utils.h"
 
 class GridMapGraph : public Graph
 {

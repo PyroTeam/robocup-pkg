@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(path_finder)
+project(occupancy_grid_utils)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -10,7 +10,6 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  occupancy_grid_utils
 )
 
 ## System dependencies are found with CMake's conventions
@@ -103,9 +102,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include include/path_finder
-#  LIBRARIES path_finder
-  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs actionlib_msgs actionlib
+  INCLUDE_DIRS include include/occupancy_grid_utils
+#  LIBRARIES occupancy_grid_utils
+  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -118,45 +117,31 @@ catkin_package(
 # include_directories(include)
 include_directories(
     include
-    include/path_finder
+    include/occupancy_grid_utils
     ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-# add_library(path_finder
-#   src/${PROJECT_NAME}/path_finder.cpp
-# )
+add_library(occupancy_grid_utils
+   src/occupancy_grid_utils.cpp
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(path_finder ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(occupancy_grid_utils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(path_finder_node
-
-    src/graph/Graph.cpp
-    src/graph/GridMapGraph.cpp
-    src/graph/UpdateGraph.cpp
-    src/graph/UpdateGridMapGraph.cpp
-    src/search_algo/SearchAlgo.cpp
-    src/search_algo/AStarSearch.cpp
-    src/search_algo/Path.cpp
-
-    src/path_finder_node.cpp
-)
-
-set_target_properties(path_finder_node PROPERTIES COMPILE_FLAGS "-std=c++11 -g3")
+# add_executable(occupancy_grid_utils_node src/occupancy_grid_utils_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
- add_dependencies(path_finder_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(occupancy_grid_utils_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(path_finder_node
-    occupancy_grid_utils
-    ${catkin_LIBRARIES}
-)
+# target_link_libraries(occupancy_grid_utils_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -173,7 +158,7 @@ target_link_libraries(path_finder_node
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS path_finder path_finder_node
+# install(TARGETS occupancy_grid_utils occupancy_grid_utils_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -198,7 +183,7 @@ target_link_libraries(path_finder_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_path_finder.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_occupancy_grid_utils.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
