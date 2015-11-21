@@ -13,6 +13,8 @@
 #ifndef PATH_FINDER_HEURISTIC_H_
 #define PATH_FINDER_HEURISTIC_H_
 
+#include "search_algo/State.h"
+
 class Heuristic
 {
 public:
@@ -25,8 +27,8 @@ public:
 
     }
 
-    virtual double evaluate() = 0;
-    virtual double operator()() = 0;
+    virtual double evaluate(State &startState, State &endState) = 0;
+    virtual double operator()(State &startState, State &endState) = 0;
 };
 
 class EuclidianHeuristic : public Heuristic
@@ -41,13 +43,13 @@ public:
 
     }
 
-    virtual double evaluate() override
+    virtual double evaluate(State &startState, State &endState) override
     {
 
     }
-    virtual double operator()() override
+    virtual double operator()(State &startState, State &endState) override
     {
-        return evaluate();
+        return evaluate(startState, endState);
     }
 };
 
@@ -63,13 +65,13 @@ public:
 
     }
 
-    virtual double evaluate() override
+    virtual double evaluate(State &startState, State &endState) override
     {
 
     }
-    virtual double operator()() override
+    virtual double operator()(State &startState, State &endState) override
     {
-        return evaluate();
+        return evaluate(startState, endState);
     }
 };
 

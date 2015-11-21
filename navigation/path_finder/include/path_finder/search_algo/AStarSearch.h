@@ -21,6 +21,8 @@ class AStarSearch : public SearchAlgo
 public:
     AStarSearch(const std::shared_ptr<Graph> &graph);
     virtual ~AStarSearch();
+
+    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState) override;
 protected:
     //TODO m_openList
     //TODO m_closeList

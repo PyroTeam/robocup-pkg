@@ -13,6 +13,7 @@
 #ifndef PATH_FINDER_GRIDMAPGRAPH_H_
 #define PATH_FINDER_GRIDMAPGRAPH_H_
 
+#include <memory>
 #include "Heuristic.h"
 #include "Graph.h"
 #include <nav_msgs/OccupancyGrid.h>
@@ -23,9 +24,9 @@ public:
     GridMapGraph();
     virtual ~GridMapGraph();
 
-    virtual void search() override; //TODO
-    virtual void getSuccessors() override;//TODO
-    virtual void getPredecessors() override;//TODO
+    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState) override;
+    virtual void getSuccessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &succ) override;
+    virtual void getPredecessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &pred) override;
 };
 
 #endif /* PATH_FINDER_GRIDMAPGRAPH_H_ */

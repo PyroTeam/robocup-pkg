@@ -145,7 +145,7 @@ add_executable(path_finder_node
     src/path_finder_node.cpp
 )
 
-set_target_properties(path_finder_node PROPERTIES COMPILE_FLAGS "-std=c++11")
+set_target_properties(path_finder_node PROPERTIES COMPILE_FLAGS "-std=c++11 -g3")
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above

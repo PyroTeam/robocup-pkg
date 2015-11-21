@@ -24,6 +24,7 @@ public:
     SearchAlgo(const std::shared_ptr<Graph> &graph);
     virtual ~SearchAlgo();
 
+    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState) = 0;
 protected:
     std::shared_ptr<Graph> m_graph;
     std::shared_ptr<State> m_currentState;

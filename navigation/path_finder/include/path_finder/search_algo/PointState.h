@@ -26,7 +26,22 @@ public:
     }
     virtual ~PointState()
     {
-        
+
+    }
+    void set(double x, double y)
+    {
+        m_point.x = x;
+        m_point.y = y;
+    }
+    const geometry_msgs::Point &get() const
+    {
+        return m_point;
+    }
+
+    virtual std::ostream& toStream(std::ostream& os) override
+    {
+        os << m_point;
+        return os;
     }
 protected:
     geometry_msgs::Point m_point;

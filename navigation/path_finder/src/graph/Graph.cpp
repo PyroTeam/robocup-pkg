@@ -32,7 +32,7 @@ void Graph::setSearchAlgo(const std::shared_ptr<SearchAlgo> &searchAlgo)
     m_searchAlgo = searchAlgo;
 }
 
-double Graph::evaluateHeuristic()
+double Graph::evaluateHeuristic(State &startState, State &endState)
 {
-    return m_heuristic->evaluate();
+    return m_heuristic->evaluate(startState, endState);
 }

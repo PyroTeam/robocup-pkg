@@ -28,6 +28,11 @@ public:
     {
 
     }
+    virtual std::ostream& toStream(std::ostream& os) override
+    {
+        os << m_point;
+        return os;
+    }
 protected:
     geometry_msgs::Pose2D m_pose;
 };

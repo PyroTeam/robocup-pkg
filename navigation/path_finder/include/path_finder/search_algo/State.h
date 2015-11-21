@@ -17,13 +17,20 @@
 class State
 {
 public:
-    State()
+    State():m_cost(0)
     {
 
     }
     virtual ~State()
     {
-        
+
+    }
+
+    virtual std::ostream& toStream(std::ostream& os) = 0;
+    friend std::ostream& operator<<(std::ostream& os, State &state)
+    {
+        state.toStream(os);
+        return os;
     }
 protected:
     double m_cost;

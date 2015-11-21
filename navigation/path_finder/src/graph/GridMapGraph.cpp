@@ -22,17 +22,17 @@ GridMapGraph::~GridMapGraph()
 
 }
 
-void GridMapGraph::search()
+void GridMapGraph::search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState)
+{
+    m_searchAlgo->search(startState, endState);
+}
+
+void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &succ)
 {
 
 }
 
-void GridMapGraph::getSuccessors()
-{
-
-}
-
-void GridMapGraph::getPredecessors()
+void GridMapGraph::getPredecessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &pred)
 {
 
 }

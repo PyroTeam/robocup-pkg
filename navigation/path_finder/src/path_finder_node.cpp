@@ -17,6 +17,7 @@
 #include "graph/GridMapGraph.h"
 #include "graph/UpdateGridMapGraph.h"
 #include "search_algo/AStarSearch.h"
+#include "search_algo/PointState.h"
 
 int main(int argc, char **argv)
 {
@@ -28,7 +29,15 @@ int main(int argc, char **argv)
     //test instantiation
     std::shared_ptr<Graph> graph(new GridMapGraph());
     std::shared_ptr<SearchAlgo> searchAlgo(new AStarSearch(graph));
-    graph->search();
+    std::shared_ptr<State> startState(new PointState());
+    std::shared_ptr<State> endState(new PointState());
+    graph->setSearchAlgo(searchAlgo);
+
+    std::shared_ptr<PointState> pStart = std::dynamic_pointer_cast<PointState>(startState);
+    pStart->set(0, 0);
+    std::shared_ptr<PointState> pEnd = std::dynamic_pointer_cast<PointState>(endState);
+    pEnd->set(3, 3);
+    graph->search(startState, endState);
 
     ROS_INFO_STREAM("Path finder : launched...");
 
