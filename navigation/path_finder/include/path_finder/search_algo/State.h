@@ -19,7 +19,7 @@
 class State
 {
 public:
-    State():m_cost(0), m_prevState(nullptr)
+    State():m_cost(0), m_stepCost(0), m_prevState(nullptr)
     {
 
     }
@@ -41,6 +41,18 @@ public:
     {
         return m_cost;
     }
+    void setStepCost(double cost)
+    {
+        m_stepCost = cost;
+    }
+    double getStepCost() const
+    {
+        return m_stepCost;
+    }
+
+    virtual bool compare(const State &s) const = 0;
+    virtual std::size_t hash() const = 0;
+
 
     virtual std::ostream& toStream(std::ostream& os) const = 0;
     friend std::ostream& operator<<(std::ostream& os, State &state)
@@ -49,7 +61,7 @@ public:
         return os;
     }
 protected:
-    double m_cost;
+    double m_cost, m_stepCost;
     std::shared_ptr<State> m_prevState;
 };
 
@@ -62,6 +74,19 @@ inline bool operator> (const State& lhs, const State& rhs)
 {
     return rhs < lhs;
 }
+
+inline bool operator== (const State& lhs, const State& rhs)
+{
+    return lhs.compare(rhs);
+}
+
+inline bool operator!= (const State& lhs, const State& rhs)
+{
+    return !(lhs == rhs);
+}
+
+std::size_t hash(const std::shared_ptr<State> &s);
+
 
 class StateComparison
 {
@@ -84,5 +109,21 @@ public:
 protected:
     bool m_reverse;
 };
+
+namespace std
+{
+    template<>
+    struct hash<std::shared_ptr<State>>
+    {
+        typedef std::shared_ptr<State> argument_type;
+        typedef std::size_t result_type;
+
+        result_type operator()(argument_type const& s) const
+        {
+            result_type const h (s->hash());
+            return h;
+        }
+    };
+}
 
 #endif /* PATH_FINDER_STATE_H_ */

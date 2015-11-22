@@ -139,9 +139,11 @@ add_executable(path_finder_node
     src/graph/GridMapGraph.cpp
     src/graph/UpdateGraph.cpp
     src/graph/UpdateGridMapGraph.cpp
-    src/search_algo/SearchAlgo.cpp
+
     src/search_algo/AStarSearch.cpp
     src/search_algo/Path.cpp
+    src/search_algo/SearchAlgo.cpp
+    src/search_algo/State.cpp
 
     src/path_finder_node.cpp
 )

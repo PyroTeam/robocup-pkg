@@ -28,9 +28,28 @@ public:
     {
 
     }
+    void set(double x, double y, double theta)
+    {
+        m_pose.x = x;
+        m_pose.y = y;
+        m_pose.theta = theta;
+    }
+    const geometry_msgs::Pose2D &get() const
+    {
+        return m_pose;
+    }
+
+    virtual bool compare(const State &s) const
+    {
+        static double const epsilon = 0.001;
+        return (std::abs(m_pose.x - s.get().x) < epsilon &&
+                std::abs(m_pose.y - s.get().y) < epsilon &&
+                std::abs(m_pose.theta - s.get().theta) < epsilon);
+    }
+
     virtual std::ostream& toStream(std::ostream& os) override
     {
-        os << m_point;
+        os << m_pose;
         return os;
     }
 protected:

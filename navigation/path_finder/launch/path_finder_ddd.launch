@@ -1,0 +1,5 @@
+<launch>
+
+    <node pkg="path_finder" name="path_finder_node" type="path_finder_node" launch-prefix="ddd --args"/>
+
+</launch>

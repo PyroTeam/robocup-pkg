@@ -14,13 +14,15 @@
 #ifndef PATH_FINDER_POINTSTATE_H_
 #define PATH_FINDER_POINTSTATE_H_
 
-#include <geometry_msgs/Point.h>
-#include "State.h"
+#include <functional>
 
-class PointState : public State
+#include <geometry_msgs/Point.h>
+#include "AStarState.h"
+
+class PointState : public AStarState
 {
 public:
-    PointState() : State()
+    PointState() : AStarState()
     {
 
     }
@@ -38,10 +40,26 @@ public:
         return m_point;
     }
 
+    virtual bool compare(const State &s) const override
+    {
+        const PointState &ps = dynamic_cast<const PointState&>(s);
+        static double const epsilon = 0.001;
+        return (std::abs(m_point.x - ps.get().x) < epsilon &&
+                std::abs(m_point.y - ps.get().y) < epsilon);
+    }
+
+    virtual std::size_t hash() const override
+    {
+        std::size_t const h1 (std::hash<double>()(m_point.x));
+        std::size_t const h2 (std::hash<double>()(m_point.y));
+        return h1 ^ (h2 << h1);
+    }
 
     virtual std::ostream& toStream(std::ostream& os) const override
     {
-        os << m_point;
+        os << m_point << "\nfCost = " << m_cost
+                      << "\nstepCost = "<< m_stepCost
+                      << "\ngCost = " << m_gCost;
         return os;
     }
 protected:
