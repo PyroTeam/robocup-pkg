@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     gazebo::transport::SubscriberPtr subLightSignal = node->Subscribe("/gazebo/pyro_2015/" ROBOTINO_NAME "/gazsim/light-signal/", &lightSignalCallback);
 
 	// Publisher
-	g_pubLightSignal = nh.advertise<trait_im_msg::LightSignal>("lightSignalStates", 1000);
+	g_pubLightSignal = nh.advertise<trait_im_msg::LightSignal>("closest_light_signal", 1000);
 
     // Publisher loop...replace with your own code.
     g_x=0; g_y=0; g_z=0;
