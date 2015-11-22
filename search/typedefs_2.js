@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['messagedispatcher',['MessageDispatcher',['../d0/d22/refBoxComm_8h.html#a473e5ff7d49b8b06e35764a96dca7c3d',1,'MessageDispatcher():&#160;refBoxComm.h'],['../d1/d85/refBoxTransport_8h.html#aae7c2a6bb395e50f863bc97e22e9f03d',1,'MessageDispatcher():&#160;refBoxTransport.h']]]
+  ['gridpath',['GridPath',['../df/db0/server__static__utils_8h.html#a0b3069ed75831181016b390541b2d13e',1,'server_static_utils.h']]],
+  ['gridpoint',['GridPoint',['../df/db0/server__static__utils_8h.html#ac00be06c5de01ae34c31427a9f301208',1,'server_static_utils.h']]]
 ];
