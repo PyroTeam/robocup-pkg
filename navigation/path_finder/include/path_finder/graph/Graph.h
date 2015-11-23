@@ -26,7 +26,7 @@ public:
     Graph();
     virtual ~Graph();
 
-    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState) = 0;
+    void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, std::list<std::shared_ptr<State>> &path);
     void setHeuristic(const std::shared_ptr<Heuristic> &heuristic);
     void setSearchAlgo(const std::shared_ptr<SearchAlgo> &searchAlgo);
     virtual void getSuccessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &succ) = 0;

@@ -52,6 +52,7 @@ public:
     {
         std::size_t const h1 (std::hash<double>()(m_point.x));
         std::size_t const h2 (std::hash<double>()(m_point.y));
+        //std::cout << "h1 : " << h1 << ",  h2 : " << h2 << std::endl;
         return h1 ^ (h2 << h1);
     }
 

@@ -10,6 +10,7 @@
  * \version
  */
 
+#include "ros/ros.h"
 #include "graph/Graph.h"
 
 Graph::Graph():m_isInit(false), m_heuristic(nullptr), m_searchAlgo(nullptr)
@@ -35,4 +36,16 @@ void Graph::setSearchAlgo(const std::shared_ptr<SearchAlgo> &searchAlgo)
 double Graph::evaluateHeuristic(State &startState, State &endState)
 {
     return m_heuristic->evaluate(startState, endState);
+}
+
+void Graph::search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, std::list<std::shared_ptr<State>> &path)
+{
+    if (m_isInit)
+    {
+        m_searchAlgo->search(startState, endState, path);
+    }
+    else
+    {
+        ROS_ERROR("Tentative de recherche de trajectoire, alors qu'aucune map n'a été reçue.");
+    }
 }

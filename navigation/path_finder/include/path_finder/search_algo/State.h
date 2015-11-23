@@ -15,6 +15,7 @@
 #define PATH_FINDER_STATE_H_
 
 #include <memory>
+#include <iostream>
 
 class State
 {
@@ -32,7 +33,10 @@ public:
     {
         m_prevState = prevState;
     }
-
+    const std::shared_ptr<State> &getPrevState() const
+    {
+        return m_prevState;
+    }
     void setCost(double cost)
     {
         m_cost = cost;
@@ -85,7 +89,7 @@ inline bool operator!= (const State& lhs, const State& rhs)
     return !(lhs == rhs);
 }
 
-std::size_t hash(const std::shared_ptr<State> &s);
+//std::size_t hash(const std::shared_ptr<State> &s);
 
 
 class StateComparison
@@ -120,8 +124,21 @@ namespace std
 
         result_type operator()(argument_type const& s) const
         {
+
             result_type const h (s->hash());
+            //std::cout << "hash class : " << h << std::endl;
             return h;
+        }
+    };
+
+    template<>
+    struct equal_to<std::shared_ptr<State>>
+    {
+        typedef std::shared_ptr<State> argument_type;
+
+        bool operator() (argument_type const& x, argument_type const& y) const
+        {
+            return *x==*y;
         }
     };
 }

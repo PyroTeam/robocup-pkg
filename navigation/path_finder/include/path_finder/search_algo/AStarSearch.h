@@ -27,6 +27,11 @@ template<
 > class AStarQueue : public std::priority_queue<T, Container, Compare>
 {
 public:
+    explicit AStarQueue(const Compare& comp = Compare(),
+                        Container&& ctnr = Container()) : std::priority_queue<T, Container, Compare>(comp, ctnr)
+    {
+
+    }
     typedef typename
         std::priority_queue<
         T,
@@ -37,8 +42,12 @@ public:
     {
         auto first = this->c.cbegin();
         auto last = this->c.cend();
-        while (first!=last) {
-            if (**first==*val) return first;
+        while (first!=last)
+        {
+            if (**first==*val)
+            {
+                return first;
+            }
             ++first;
         }
         return last;
@@ -59,13 +68,14 @@ public:
     AStarSearch(const std::shared_ptr<Graph> &graph);
     virtual ~AStarSearch();
 
-    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState) override;
+    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, std::list<std::shared_ptr<State>> &path) override;
 protected:
     AStarQueue<std::shared_ptr<State>,
                std::deque<std::shared_ptr<State>>,
                StateComparison> m_openList;
     std::unordered_set<std::shared_ptr<State>,
-                       std::hash<std::shared_ptr<State>>> m_closedSet;
+                       std::hash<std::shared_ptr<State>>,
+                       std::equal_to<std::shared_ptr<State>>> m_closedSet;
 };
 
 #endif /* PATH_FINDER_ASTARSEARCH_H_ */

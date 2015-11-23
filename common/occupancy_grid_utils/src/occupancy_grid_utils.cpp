@@ -38,14 +38,19 @@ int getCell(const nav_msgs::OccupancyGrid &grid, float x, float y)
 	return cell;
 }
 
-int getCell(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p)
+int getCellValue(const nav_msgs::OccupancyGrid &grid, float x, float y)
 {
-    getCell(grid, p.x, p.y);
+	return grid.data[getCell(grid, x, y)];
 }
 
-int getCell(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &p)
+int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p)
 {
-    getCell(grid, p.x, p.y);
+    getCellValue(grid, p.x, p.y);
+}
+
+int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &p)
+{
+    getCellValue(grid, p.x, p.y);
 }
 
 } // namespace occupancy_grid_utils

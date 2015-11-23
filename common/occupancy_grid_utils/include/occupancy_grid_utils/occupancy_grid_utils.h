@@ -21,8 +21,10 @@ namespace occupancy_grid_utils {
 
 //int getCell(const nav_msgs::OccupancyGrid &grid, int x, int y);
 int getCell(const nav_msgs::OccupancyGrid &grid, float x, float y);
-inline int getCell(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p);
-inline int getCell(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &p);
+
+int getCellValue(const nav_msgs::OccupancyGrid &grid, float x, float y);
+inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p);
+inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &p);
 
 } // namespace occupancy_grid_utils
 

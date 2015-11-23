@@ -14,6 +14,7 @@
 #define PATH_FINDER_SEARCHALGO_H_
 
 #include <memory>
+#include <list>
 #include "State.h"
 
 class Graph;
@@ -24,7 +25,7 @@ public:
     SearchAlgo(const std::shared_ptr<Graph> &graph);
     virtual ~SearchAlgo();
 
-    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState) = 0;
+    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, std::list<std::shared_ptr<State>> &path) = 0;
 protected:
     std::shared_ptr<Graph> m_graph;
     std::shared_ptr<State> m_currentState;
