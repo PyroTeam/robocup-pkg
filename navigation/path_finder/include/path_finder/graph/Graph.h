@@ -20,6 +20,16 @@
 #include "search_algo/SearchAlgo.h"
 #include "search_algo/State.h"
 
+/**
+ * \class Graph
+ * \brief Classe abstraite représentant un graph orienté
+ *
+ * La classe offre les interfaces de bases de manipulation du graph,
+ * ces fonctionnalités sont configurables.
+ * Par exemple, elle possède une méthode de recherche de chemin. L'algorithme de
+ * recherche est attribué à la classe et est modifiable (Dijkstra, Astar...)
+ *
+ */
 class Graph
 {
 public:

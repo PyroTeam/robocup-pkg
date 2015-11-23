@@ -19,6 +19,13 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include "occupancy_grid_utils/occupancy_grid_utils.h"
 
+/**
+ * \class GridMapGraph
+ * \brief Classe concrète dérivée de Graph pour les nav_msgs::OccupancyGrid
+ *
+ * La classe contient une gridMap de type nav_msgs::OccupancyGrid
+ *
+ */
 class GridMapGraph : public Graph
 {
 public:

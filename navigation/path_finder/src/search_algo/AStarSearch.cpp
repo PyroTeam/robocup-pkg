@@ -70,7 +70,9 @@ void AStarSearch::search(std::shared_ptr<State> &startState, std::shared_ptr<Sta
             {
                 std::shared_ptr<AStarState> sStar = std::static_pointer_cast<AStarState>(s);
                 double gCost = currAStarState->getGCost()+s->getStepCost();
-                double hCost = m_graph->evaluateHeuristic(*s, *endState);
+                //test technique tie breaking h = h*(1.0+p) (avec p un poucentage faible)
+                //voir http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+                double hCost = m_graph->evaluateHeuristic(*s, *endState) * (1.0 + 1.0/10000.0);
                 double fCost = gCost + hCost;
                 sStar->setGCost(gCost);
                 sStar->setCost(fCost);

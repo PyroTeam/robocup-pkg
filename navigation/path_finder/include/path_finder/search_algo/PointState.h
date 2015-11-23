@@ -19,6 +19,12 @@
 #include <geometry_msgs/Point.h>
 #include "AStarState.h"
 
+/**
+ * \class PointState
+ * \brief Classe concrète représentant un état sous forme d'un geometry_msgs::Point
+ *
+ *
+ */
 class PointState : public AStarState
 {
 public:

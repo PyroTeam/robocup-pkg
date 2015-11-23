@@ -14,6 +14,12 @@
 #ifndef PATH_FINDER_PATH_H_
 #define PATH_FINDER_PATH_H_
 
+/**
+ * \class Path
+ * \brief Classe représentant un chemin calculé à partir d'un algorithme de recherche
+ *
+ *
+ */
 class Path
 {
 public:

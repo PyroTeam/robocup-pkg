@@ -19,6 +19,14 @@
 #include "UpdateGraph.h"
 #include "graph/GridMapGraph.h"
 
+/**
+ * \class UpdateGridMapGraph
+ * \brief Classe concrète dérivée de UpdateGraph pour la mise à jour d'un GridMapGraph
+ *
+ * Elle se lie à un topic de type nav_msgs::OccupancyGrid et copie la map générée
+ * dans un objet de type GridMapGraph associé
+ *
+ */
 class UpdateGridMapGraph : public UpdateGraph
 {
 public:

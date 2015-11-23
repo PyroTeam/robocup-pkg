@@ -20,6 +20,14 @@
 #include "SearchAlgo.h"
 #include "graph/Graph.h"
 
+/**
+ * \class AStarQueue
+ * \brief Classe concrète dérivée de priority_queue
+ *
+ * Classe permettant l'ajout de fonctionnalités à la classe priority_queue
+ * (par exemple : clear() pour le vidage de la priority_queue)
+ *
+ */
 template<
     class T,
     class Container = std::vector<T>,
@@ -62,6 +70,12 @@ public:
     }
 };
 
+/**
+ * \class AStarSearch
+ * \brief Classe concrète dérivée de SearchAlgo implémentant l'algorithme Astar
+ *
+ *
+ */
 class AStarSearch : public SearchAlgo
 {
 public:

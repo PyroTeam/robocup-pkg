@@ -17,6 +17,12 @@
 #include <memory>
 #include "State.h"
 
+/**
+ * \class AStarState
+ * \brief Classe dérivée de State ajoutant les paramêtres spécifique à l'algorithme Astar
+ *
+ *
+ */
 class AStarState : public State
 {
 public:
@@ -38,17 +44,16 @@ public:
         return m_gCost;
     }
 
-    virtual bool compare(const State &s) const
+    virtual bool compare(const State &s) const override
     {
         return false;
     }
-    virtual std::size_t hash() const
+    virtual std::size_t hash() const override
     {
         return 0;
     }
 
-
-    virtual std::ostream& toStream(std::ostream& os) const
+    virtual std::ostream& toStream(std::ostream& os) const override
     {
         os << "AstarState, gCost : " << m_gCost;
     }

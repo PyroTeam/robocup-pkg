@@ -18,6 +18,14 @@
 #include <ros/ros.h>
 #include "Graph.h"
 
+/**
+ * \class UpdateGraph
+ * \brief Classe abstraite pour la mise à jour des Graph
+ *
+ * La classe propose les fonctionnalités de communication avec ROS pour mettre
+ * à jour les objets de type Graph, à partir d'un topic
+ *
+ */
 class UpdateGraph
 {
 public:

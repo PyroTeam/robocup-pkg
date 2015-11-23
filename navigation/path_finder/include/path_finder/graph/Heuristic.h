@@ -17,6 +17,14 @@
 #include "search_algo/State.h"
 #include "search_algo/PointState.h"
 
+/**
+ * \class Heuristic
+ * \brief Classe abstraite pour le calcul d'une heuristique
+ *
+ * La classe offre les interfaces génériques de calcul d'une heuristique
+ * pour les algorithme de recherche utilisant ce principe (tel que Astar).
+ *
+ */
 class Heuristic
 {
 public:
@@ -33,6 +41,14 @@ public:
     virtual double operator()(const State &startState, const State &endState) = 0;
 };
 
+/**
+ * \class EuclidianHeuristic
+ * \brief Classe concrète dérivée de Heuristic pour l'heuristique euclidienne
+ *
+ * L'heuristique euclidienne représente le calcul de la distance entre un point
+ * du graphe et le point de d'arrivée de la recherche
+ *
+ */
 class EuclidianHeuristic : public Heuristic
 {
 public:
@@ -62,6 +78,14 @@ public:
     }
 };
 
+/**
+ * \class DiagonalHeuristic
+ * \brief Classe concrète dérivée de Heuristic pour l'heuristique diagonale
+ *
+ * L'heuristique diagonal s'appelle distance de Chebyshev si m_d = 1 et m_2 = 1
+ * et distance octile si m_d = 1 et m_2 = sqrt(2)
+ *
+ */
 class DiagonalHeuristic : public Heuristic
 {
 public:
@@ -93,6 +117,12 @@ protected:
     double m_d, m_d2;
 };
 
+/**
+ * \class ManhattanHeuristic
+ * \brief Classe concrète dérivée de Heuristic pour l'heuristique manhattan
+ *
+ *
+ */
 class ManhattanHeuristic : public Heuristic
 {
 public:

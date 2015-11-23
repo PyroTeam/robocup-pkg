@@ -17,6 +17,14 @@
 #include <memory>
 #include <iostream>
 
+
+/**
+ * \class State
+ * \brief Classe abstraite contenant un état pour les algorithmes de recherche
+ *
+ * La classe contient un pointeur sur l'état précedent, ainsi que les coùts calculés
+ *
+ */
 class State
 {
 public:
@@ -92,6 +100,12 @@ inline bool operator!= (const State& lhs, const State& rhs)
 //std::size_t hash(const std::shared_ptr<State> &s);
 
 
+/**
+ * \class StateComparison
+ * \brief Classe fournissant un moyen de comparer deux State, elle est utilisée dans les conteneurs priority_queue
+ *
+ *
+ */
 class StateComparison
 {
 public:
@@ -116,6 +130,12 @@ protected:
 
 namespace std
 {
+    /**
+     * \struct hash<std::shared_ptr<State>>
+     * \brief Spécialisation de la structure hash, pour le type std::shared_ptr<State>, utilisée dans les unordered_set
+     *
+     *
+     */
     template<>
     struct hash<std::shared_ptr<State>>
     {
@@ -131,6 +151,12 @@ namespace std
         }
     };
 
+    /**
+     * \struct equal_to<std::shared_ptr<State>>
+     * \brief Spécialisation de la structure equal_to, pour le type std::shared_ptr<State>, utilisée dans les unordered_set
+     *
+     *
+     */
     template<>
     struct equal_to<std::shared_ptr<State>>
     {

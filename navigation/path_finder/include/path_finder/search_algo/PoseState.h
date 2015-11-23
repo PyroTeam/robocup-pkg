@@ -15,9 +15,15 @@
 #define PATH_FINDER_POSESTATE_H_
 
 #include <geometry_msgs/Pose2D.h>
-#include "State.h"
+#include "AStarState.h"
 
-class PoseState : public State
+/**
+ * \class PoseState
+ * \brief Classe concrète représentant un état sous forme d'un geometry_msgs::Pose2D
+ *
+ *
+ */
+class PoseState : public AStarState
 {
 public:
     PoseState() : State()
@@ -39,7 +45,7 @@ public:
         return m_pose;
     }
 
-    virtual bool compare(const State &s) const
+    virtual bool compare(const State &s) const override
     {
         static double const epsilon = 0.001;
         return (std::abs(m_pose.x - s.get().x) < epsilon &&

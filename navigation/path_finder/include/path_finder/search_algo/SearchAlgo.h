@@ -19,6 +19,14 @@
 
 class Graph;
 
+/**
+ * \class SearchAlgo
+ * \brief Classe abstraite pour les algo de recherche sur des Graph
+ *
+ * La classe propose les interfaces génériques des algortihmes de recherche
+ * sur les Graph
+ *
+ */
 class SearchAlgo
 {
 public:
@@ -28,7 +36,7 @@ public:
     virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, std::list<std::shared_ptr<State>> &path) = 0;
 protected:
     std::shared_ptr<Graph> m_graph;
-    std::shared_ptr<State> m_currentState;
+    //std::shared_ptr<State> m_currentState;
 };
 
 #endif /* PATH_FINDER_SEARCHALGO_H_ */
