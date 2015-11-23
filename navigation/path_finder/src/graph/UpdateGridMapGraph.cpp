@@ -23,6 +23,11 @@ UpdateGridMapGraph::~UpdateGridMapGraph()
 
 }
 
+/**
+ * Méthode de callback ROS sur un topic fournissant une gridMap
+ *
+ * \param grid la gridMap reçue
+ */
 void UpdateGridMapGraph::mapCallback(const nav_msgs::OccupancyGrid &grid)
 {
     //TODO ajout protection

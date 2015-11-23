@@ -26,12 +26,27 @@ GridMapGraph::~GridMapGraph()
 
 }
 
+/**
+ * Accesseur d'affectation de m_grid
+ *
+ * \param grid la gridMap à copier
+ */
 void GridMapGraph::setGridMap(const nav_msgs::OccupancyGrid &grid)
 {
     m_isInit = true;
     m_grid = grid;
 }
 
+/**
+ * Méthode founissant les noeuds libres accessibles à partir d'un noeud donné.
+ * S'agissant d'une nav_msgs::OccupancyGrid, la fonction retourne toutes les cases
+ * adjacente à la case fournie en paramètre, en connectivité 8, dont la valeur
+ * est inférieure à 100. Le coût de déplacement pour passer d'une case à l'autre
+ * est évalué en tenant compte de la valeur de la case.
+ *
+ * \param state noeud de départ
+ * \param succ la liste des noeuds atteignables
+ */
 void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &succ)
 {
     succ.clear();
@@ -43,6 +58,8 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
     double resolution = m_grid.info.resolution;
     int cellCost = 0;
     //ROS_INFO_STREAM("Valeur de la case courante (" << p.x << "," << p.y << ") = " << grid_utils::getCellValue(m_grid, p.x, p.y));
+
+    //TODO tenir compte de la valeur de la case pour l'évaluation du cout de déplacement (stepCost)
     if ((cellCost = grid_utils::getCellValue(m_grid, p.x - resolution, p.y)) < 100)
     {
         std::shared_ptr<PointState> nextState(new PointState());
@@ -110,6 +127,13 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
     }
 }
 
+/**
+ * Méthode founissant les noeuds à partir desquels on peut accéder à un noeud donné
+ * Cette méthode est identique à getSuccessors() dans le cas d'une gridMap (graph non orienté)
+ *
+ * \param state noeud d'arrivée
+ * \param pred la liste des noeuds précedents
+ */
 void GridMapGraph::getPredecessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &pred)
 {
     getSuccessors(state, pred);
