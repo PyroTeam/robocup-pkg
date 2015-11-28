@@ -35,6 +35,7 @@ public:
     void setGridMap(const nav_msgs::OccupancyGrid &grid);
     virtual void getSuccessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &succ) override;
     virtual void getPredecessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &pred) override;
+    virtual void getClosestNode(const std::shared_ptr<State> &state, std::shared_ptr<State> &closestState) const override;
 protected:
     nav_msgs::OccupancyGrid m_grid;
 };

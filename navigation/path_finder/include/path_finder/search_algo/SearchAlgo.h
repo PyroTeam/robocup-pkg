@@ -16,6 +16,7 @@
 #include <memory>
 #include <list>
 #include "State.h"
+#include "Path.h"
 
 class Graph;
 
@@ -30,13 +31,13 @@ class Graph;
 class SearchAlgo
 {
 public:
-    SearchAlgo(const std::shared_ptr<Graph> &graph);
+    SearchAlgo(const std::shared_ptr<Graph> &graph, bool reverse = false);
     virtual ~SearchAlgo();
 
-    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, std::list<std::shared_ptr<State>> &path) = 0;
+    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, Path &path) = 0;
 protected:
     std::shared_ptr<Graph> m_graph;
-    //std::shared_ptr<State> m_currentState;
+    bool m_reverse;
 };
 
 #endif /* PATH_FINDER_SEARCHALGO_H_ */

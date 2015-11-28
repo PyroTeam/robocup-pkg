@@ -64,9 +64,10 @@ public:
 
     virtual std::ostream& toStream(std::ostream& os) const override
     {
-        os << m_point << "\nfCost = " << m_cost
-                      << "\nstepCost = "<< m_stepCost
-                      << "\ngCost = " << m_gCost;
+        os << m_point;
+        //os << "\nfCost = " << m_cost
+        //   << "\nstepCost = "<< m_stepCost
+        //   << "\ngCost = " << m_gCost;
         return os;
     }
 protected:

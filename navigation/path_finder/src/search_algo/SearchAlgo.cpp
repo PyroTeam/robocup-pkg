@@ -13,7 +13,7 @@
 #include "search_algo/SearchAlgo.h"
 #include "graph/Graph.h"
 
-SearchAlgo::SearchAlgo(const std::shared_ptr<Graph> &graph):m_graph(graph)
+SearchAlgo::SearchAlgo(const std::shared_ptr<Graph> &graph, bool reverse):m_graph(graph), m_reverse(reverse)
 {
 
 }

@@ -1,11 +1,11 @@
 /**
- * \file 		occupancy_grid_utils.h
+ * \file        occupancy_grid_utils.h
  *
- * \brief
+ * \brief       bibliothèque de fonctions de manipulation des nav_msgs::OccupancyGrid
  *
- * \author		Coelen Vincent (vincent.coelen@polytech-lille.net)
- * \date		2015-11-21
- * \copyright	PyroTeam, Polytech-Lille
+ * \author      Coelen Vincent (vincent.coelen@polytech-lille.net)
+ * \date        2015-11-21
+ * \copyright   PyroTeam, Polytech-Lille
  * \license
  * \version
  */
@@ -19,7 +19,6 @@
 
 namespace occupancy_grid_utils {
 
-//int getCell(const nav_msgs::OccupancyGrid &grid, int x, int y);
 int getCell(const nav_msgs::OccupancyGrid &grid, float x, float y);
 
 int getCellValue(const nav_msgs::OccupancyGrid &grid, float x, float y);

@@ -65,14 +65,27 @@ double Graph::evaluateHeuristic(State &startState, State &endState)
  * \param endState noeud d'arrivée
  * \param path le chemin généré
  */
-void Graph::search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, std::list<std::shared_ptr<State>> &path)
+void Graph::search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, Path &path)
 {
     if (m_isInit)
     {
+        getClosestNode(startState, startState);
+        getClosestNode(endState, endState);
         m_searchAlgo->search(startState, endState, path);
     }
     else
     {
         ROS_ERROR("Tentative de recherche de trajectoire, alors qu'aucune map n'a été reçue.");
     }
+}
+
+/**
+ * Méthode qui retourne le noeud le plus proche dans le graph pour un point fourni
+ *
+ * \param state noeud fourni
+ * \param closestState noeud le plus proche
+ */
+void Graph::getClosestNode(const std::shared_ptr<State> &state, std::shared_ptr<State> &closestState) const
+{
+    closestState = state;
 }

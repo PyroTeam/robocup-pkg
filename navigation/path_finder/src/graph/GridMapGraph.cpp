@@ -65,7 +65,7 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
         std::shared_ptr<PointState> nextState(new PointState());
         nextState->set(p.x - resolution, p.y);
         nextState->setPrevState(state);
-        nextState->setStepCost(resolution);//cellCost
+        nextState->setStepCost(resolution * (1.0 + double(cellCost)/100.0));
         succ.push_back(nextState);
     }
     if ((cellCost = grid_utils::getCellValue(m_grid, p.x, p.y + resolution)) < 100)
@@ -73,7 +73,7 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
         std::shared_ptr<PointState> nextState(new PointState());
         nextState->set(p.x, p.y + resolution);
         nextState->setPrevState(state);
-        nextState->setStepCost(resolution);
+        nextState->setStepCost(resolution * (1.0 + double(cellCost)/100.0));
         succ.push_back(nextState);
     }
     if ((cellCost = grid_utils::getCellValue(m_grid, p.x + resolution, p.y)) < 100)
@@ -81,7 +81,7 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
         std::shared_ptr<PointState> nextState(new PointState());
         nextState->set(p.x + resolution, p.y);
         nextState->setPrevState(state);
-        nextState->setStepCost(resolution);
+        nextState->setStepCost(resolution * (1.0 + double(cellCost)/100.0));
         succ.push_back(nextState);
     }
     if ((cellCost = grid_utils::getCellValue(m_grid, p.x, p.y - resolution)) < 100)
@@ -89,7 +89,7 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
         std::shared_ptr<PointState> nextState(new PointState());
         nextState->set(p.x, p.y - resolution);
         nextState->setPrevState(state);
-        nextState->setStepCost(resolution);
+        nextState->setStepCost(resolution * (1.0 + double(cellCost)/100.0));
         succ.push_back(nextState);
     }
     static double sqrt_2 = sqrt(2.0);
@@ -98,7 +98,7 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
         std::shared_ptr<PointState> nextState(new PointState());
         nextState->set(p.x - resolution, p.y - resolution);
         nextState->setPrevState(state);
-        nextState->setStepCost(resolution*sqrt_2);
+        nextState->setStepCost(resolution*sqrt_2 * (1.0 + double(cellCost)/100.0));
         succ.push_back(nextState);
     }
     if ((cellCost = grid_utils::getCellValue(m_grid, p.x - resolution, p.y + resolution)) < 100)
@@ -106,7 +106,7 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
         std::shared_ptr<PointState> nextState(new PointState());
         nextState->set(p.x - resolution, p.y + resolution);
         nextState->setPrevState(state);
-        nextState->setStepCost(resolution*sqrt_2);
+        nextState->setStepCost(resolution*sqrt_2 * (1.0 + double(cellCost)/100.0));
         succ.push_back(nextState);
     }
     if ((cellCost = grid_utils::getCellValue(m_grid, p.x + resolution, p.y + resolution)) < 100)
@@ -114,7 +114,7 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
         std::shared_ptr<PointState> nextState(new PointState());
         nextState->set(p.x + resolution, p.y + resolution);
         nextState->setPrevState(state);
-        nextState->setStepCost(resolution*sqrt_2);
+        nextState->setStepCost(resolution*sqrt_2 * (1.0 + double(cellCost)/100.0));
         succ.push_back(nextState);
     }
     if ((cellCost = grid_utils::getCellValue(m_grid, p.x + resolution, p.y - resolution)) < 100)
@@ -122,7 +122,7 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
         std::shared_ptr<PointState> nextState(new PointState());
         nextState->set(p.x + resolution, p.y - resolution);
         nextState->setPrevState(state);
-        nextState->setStepCost(resolution*sqrt_2);
+        nextState->setStepCost(resolution*sqrt_2 * (1.0 + double(cellCost)/100.0));
         succ.push_back(nextState);
     }
 }
@@ -137,4 +137,22 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
 void GridMapGraph::getPredecessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &pred)
 {
     getSuccessors(state, pred);
+}
+
+/**
+ * Méthode qui retourne le noeud le plus proche dans le graph pour un point fourni
+ *
+ * \param state noeud fourni
+ * \param closestState noeud le plus proche
+ */
+void GridMapGraph::getClosestNode(const std::shared_ptr<State> &state, std::shared_ptr<State> &closestState) const
+{
+    std::shared_ptr<PointState> newState(new PointState());
+    const std::shared_ptr<PointState> &pState = std::dynamic_pointer_cast<PointState>(state);
+
+    double resolution = m_grid.info.resolution;
+    double x = round(pState->get().x / resolution) * resolution;
+    double y = round(pState->get().y / resolution) * resolution;
+    newState->set(x, y);
+    closestState = newState;
 }

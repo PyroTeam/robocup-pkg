@@ -19,7 +19,7 @@
 #include <unordered_set>
 #include "SearchAlgo.h"
 #include "graph/Graph.h"
-
+#include "Path.h"
 /**
  * \class AStarQueue
  * \brief Classe concrète dérivée de priority_queue
@@ -79,10 +79,12 @@ public:
 class AStarSearch : public SearchAlgo
 {
 public:
-    AStarSearch(const std::shared_ptr<Graph> &graph);
+    AStarSearch(const std::shared_ptr<Graph> &graph, bool reverse);
     virtual ~AStarSearch();
 
-    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, std::list<std::shared_ptr<State>> &path) override;
+    virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, Path &path) override;
+
+    void setTieBreaking(bool tieBreaking);
 protected:
     AStarQueue<std::shared_ptr<State>,
                std::deque<std::shared_ptr<State>>,
@@ -90,6 +92,7 @@ protected:
     std::unordered_set<std::shared_ptr<State>,
                        std::hash<std::shared_ptr<State>>,
                        std::equal_to<std::shared_ptr<State>>> m_closedSet;
+    bool m_tieBreaking;
 };
 
 #endif /* PATH_FINDER_ASTARSEARCH_H_ */
