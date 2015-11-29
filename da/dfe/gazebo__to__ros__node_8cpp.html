@@ -87,8 +87,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -103,33 +101,15 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <code>#include &lt;ros/ros.h&gt;</code><br/>
 <code>#include &lt;geometry_msgs/TwistStamped.h&gt;</code><br/>
 <code>#include &lt;nav_msgs/Odometry.h&gt;</code><br/>
-<code>#include &lt;gazsim_msgs/LightSignalDetection.pb.h&gt;</code><br/>
-<code>#include &lt;trait_im_msg/LightSignal.h&gt;</code><br/>
-<code>#include &lt;boost/bind.hpp&gt;</code><br/>
 </div>
 <p><a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a7699d07fc01da0ae5320b3e6172900dc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a7699d07fc01da0ae5320b3e6172900dc">ROBOTINO_NAME</a>&#160;&#160;&#160;&quot;robotino_pyro&quot;</td></tr>
-<tr class="separator:a7699d07fc01da0ae5320b3e6172900dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:aad78fc6994d21846d3ed929e75b1cdea"><td class="memItemLeft" align="right" valign="top">typedef const <br class="typebreak"/>
-boost::shared_ptr<br class="typebreak"/>
-&lt; gazsim_msgs::LightSignalDetection <br class="typebreak"/>
-const  &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aad78fc6994d21846d3ed929e75b1cdea">ConstLightSignalDetectionPtr</a></td></tr>
-<tr class="separator:aad78fc6994d21846d3ed929e75b1cdea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a8289f0a4dcbbeb57d9c7c72936bcf3cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a8289f0a4dcbbeb57d9c7c72936bcf3cb">cmdVelCallback</a> (const geometry_msgs::TwistConstPtr &amp;msg)</td></tr>
 <tr class="separator:a8289f0a4dcbbeb57d9c7c72936bcf3cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adab905660aee01c2a08d96c22842e146"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#adab905660aee01c2a08d96c22842e146">gpsCallback</a> (ConstPosePtr &amp;msg)</td></tr>
 <tr class="separator:adab905660aee01c2a08d96c22842e146"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab446b8e38ea828eea366c4daac79a5c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab446b8e38ea828eea366c4daac79a5c9">lightSignalCallback</a> (<a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aad78fc6994d21846d3ed929e75b1cdea">ConstLightSignalDetectionPtr</a> &amp;msg)</td></tr>
-<tr class="separator:ab446b8e38ea828eea366c4daac79a5c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -143,39 +123,7 @@ Variables</h2></td></tr>
 <tr class="separator:affdb1fb815ae5b38963945e24a6a487d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2faf74c12d663f7b011c6e8307de620b"><td class="memItemLeft" align="right" valign="top">ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a2faf74c12d663f7b011c6e8307de620b">g_pubOdom</a></td></tr>
 <tr class="separator:a2faf74c12d663f7b011c6e8307de620b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab43f823d3af12332806f36d8bc076dd8"><td class="memItemLeft" align="right" valign="top">ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab43f823d3af12332806f36d8bc076dd8">g_pubLightSignal</a></td></tr>
-<tr class="separator:ab43f823d3af12332806f36d8bc076dd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a7699d07fc01da0ae5320b3e6172900dc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ROBOTINO_NAME&#160;&#160;&#160;&quot;robotino_pyro&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00024">24</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="aad78fc6994d21846d3ed929e75b1cdea"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef const boost::shared_ptr&lt;gazsim_msgs::LightSignalDetection const&gt; <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aad78fc6994d21846d3ed929e75b1cdea">ConstLightSignalDetectionPtr</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00019">19</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a8289f0a4dcbbeb57d9c7c72936bcf3cb"></a>
 <div class="memitem">
@@ -191,7 +139,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00078">78</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00065">65</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -209,25 +157,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00085">85</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab446b8e38ea828eea366c4daac79a5c9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lightSignalCallback </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aad78fc6994d21846d3ed929e75b1cdea">ConstLightSignalDetectionPtr</a> &amp;&#160;</td>
-          <td class="paramname"><em>msg</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00112">112</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00072">72</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -255,25 +185,11 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00027">27</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00019">19</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="ab43f823d3af12332806f36d8bc076dd8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ros::Publisher g_pubLightSignal</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a2faf74c12d663f7b011c6e8307de620b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -284,7 +200,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00015">15</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00013">13</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -298,7 +214,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00014">14</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00012">12</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -312,7 +228,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00014">14</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00012">12</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -326,14 +242,14 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00014">14</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00012">12</a> of file <a class="el" href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html">gazebo_to_ros_node.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 20:31:48 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 20:32:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

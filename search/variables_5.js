@@ -11,7 +11,6 @@ var searchData=
   ['g_5fpathfinderstate',['g_pathfinderState',['../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148',1,'pathfinder_node.cpp']]],
   ['g_5fpathfound',['g_pathFound',['../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa',1,'pathfinder_node.cpp']]],
   ['g_5fpathreq',['g_pathReq',['../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1',1,'pathfinder_node.cpp']]],
-  ['g_5fpublightsignal',['g_pubLightSignal',['../da/dfe/gazebo__to__ros__node_8cpp.html#ab43f823d3af12332806f36d8bc076dd8',1,'gazebo_to_ros_node.cpp']]],
   ['g_5fpubodom',['g_pubOdom',['../da/dfe/gazebo__to__ros__node_8cpp.html#a2faf74c12d663f7b011c6e8307de620b',1,'gazebo_to_ros_node.cpp']]],
   ['g_5fsegments_5fstamp',['g_segments_stamp',['../d7/dfc/visualisation_8cpp.html#addbfe8db8a936e82bf978a230c346bc5',1,'g_segments_stamp():&#160;visualisation.cpp'],['../d7/d6f/visualisationOK_8cpp.html#addbfe8db8a936e82bf978a230c346bc5',1,'g_segments_stamp():&#160;visualisationOK.cpp']]],
   ['g_5fsgtarray',['g_sgtArray',['../de/de7/Cartographie_8cpp.html#a7d82192e63da99fe12c5fde7e9611c62',1,'Cartographie.cpp']]],

@@ -70,7 +70,6 @@ var searchData=
   ['showhistogram',['showHistogram',['../df/d2e/display-histogram_8h.html#a6a99df52dec6a1b0664c82a65024beba',1,'showHistogram(Mat &amp;img):&#160;display-histogram.cpp'],['../d0/d60/display-histogram_8cpp.html#a6a99df52dec6a1b0664c82a65024beba',1,'showHistogram(Mat &amp;img):&#160;display-histogram.cpp']]],
   ['shutdownplugin',['shutdownPlugin',['../d6/d5b/classrqt__ft__gui_1_1FtGui.html#a21c3d6e75298fae767c16ae518f180c5',1,'rqt_ft_gui::FtGui']]],
   ['signal_5fhandler',['signal_handler',['../d8/d10/classRefBoxTransport.html#a1ef4812a5daa013694c9ed493009af9a',1,'RefBoxTransport']]],
-  ['simlightdetection',['SimLightDetection',['../d5/d77/classSimLightDetection.html#ad60b188e8942a4f6ceca9cd463b650b2',1,'SimLightDetection']]],
   ['spawn',['spawn',['../dc/d79/classSendScheduler.html#acb2563b9d995813486f594897514e323',1,'SendScheduler']]],
   ['srvorder',['Srvorder',['../d5/d38/classSrvorder.html#a5609db380254571cafa4f2f919c1b077',1,'Srvorder']]],
   ['startfinalap',['startFinalAp',['../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f',1,'Machine']]],

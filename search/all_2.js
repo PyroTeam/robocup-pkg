@@ -46,7 +46,6 @@ var searchData=
   ['comparefloat',['compareFloat',['../d6/da1/classTrackPath.html#a0d7d7cc061b1efdac04df14acdaeb8fe',1,'TrackPath::compareFloat()'],['../df/d7a/avoidanceObstacle_8cpp.html#a7a094d542498ad0b4242846e8d881612',1,'compareFloat():&#160;avoidanceObstacle.cpp']]],
   ['comparepoints',['comparePoints',['../d6/da1/classTrackPath.html#ae7da835cb0fa687f427040e23df8f2a9',1,'TrackPath::comparePoints()'],['../df/d7a/avoidanceObstacle_8cpp.html#aa8a547a327f959d317332e8077dc13ac',1,'comparePoints():&#160;avoidanceObstacle.cpp']]],
   ['computeastar_5fthread_5ffunction',['computeAStar_thread_function',['../de/dd1/pathfinder__node_8cpp.html#a767c4fcf94e79e34e25ae7b1ec5b54b9',1,'pathfinder_node.cpp']]],
-  ['constlightsignaldetectionptr',['ConstLightSignalDetectionPtr',['../da/dfe/gazebo__to__ros__node_8cpp.html#aad78fc6994d21846d3ed929e75b1cdea',1,'gazebo_to_ros_node.cpp']]],
   ['conversion_5ffunctions_2ecpp',['conversion_functions.cpp',['../de/d73/conversion__functions_8cpp.html',1,'']]],
   ['conversion_5ffunctions_2eh',['conversion_functions.h',['../d2/db7/conversion__functions_8h.html',1,'']]],
   ['conversion_5fmat_5f',['conversion_mat_',['../d6/d5b/classrqt__ft__gui_1_1FtGui.html#ab0f8ad1c9200712241dcb94971eec6c2',1,'rqt_ft_gui::FtGui']]],
