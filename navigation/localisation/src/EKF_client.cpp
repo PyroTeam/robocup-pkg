@@ -22,9 +22,12 @@ int main(int argc, char **argv)
   if (client.call(srv))
   {
     if(atoi(argv[1]) == 1)
+    {
       std::cout << "Je vais me réveiller" << std::endl;
-    else if (atoi(argv[1]) == 2)
+    }
+    else if (atoi(argv[1]) == 2){
       std::cout << "Je vais me coucher" << std::endl;
+    }
   }
   else
   {

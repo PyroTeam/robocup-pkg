@@ -1,4 +1,4 @@
-#include "EKF_class.h"
+#include "EKF_class_with_lines.h"
 #include "ros/ros.h"
 
 using namespace Eigen;
@@ -516,4 +516,9 @@ std::vector<geometry_msgs::Pose2D> EKF::getScan()
 std::vector<geometry_msgs::Pose2D> EKF::getTabMachines()
 {
   return m_landmarksArray;
+}
+
+std::vector<geometry_msgs::Pose2D> EKF::getTabLines()
+{
+  return m_linesArray;
 }
