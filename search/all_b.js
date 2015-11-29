@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['navigation_5fmanager',['navigation_manager',['../d7/d64/md_navigation_navigation_manager_README.html',1,'']]],
   ['navigation_5fmanager_5fnode_2ecpp',['navigation_manager_node.cpp',['../df/ddb/navigation__manager__node_8cpp.html',1,'']]],
   ['navigationclientaction',['NavigationClientAction',['../df/df6/classNavigationClientAction.html',1,'NavigationClientAction'],['../df/df6/classNavigationClientAction.html#ae9e763d2ad80fbed071028dec84c96b8',1,'NavigationClientAction::NavigationClientAction()']]],
   ['navigationclientaction_2ecpp',['NavigationClientAction.cpp',['../d6/d5a/NavigationClientAction_8cpp.html',1,'']]],
