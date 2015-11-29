@@ -3,8 +3,8 @@
   <name>gazebo_to_ros</name>
   <version>0.0.0</version>
   <description>
-  	The gazebo_to_ros package
-  	Convert gazebo topics to ros topics et vice versa
+	The gazebo_to_ros package
+	Convert gazebo topics to ros topics et vice versa
   </description>
 
   <maintainer email="valentin.vergez@gmail.com">Valentin Vergez</maintainer>
@@ -17,14 +17,18 @@
 
   <author email="valentin.vergez@gmail.com">Valentin Vergez</author>
 
-  
+
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>gazebo_ros</build_depend>
   <build_depend>nav_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>trait_im_msg</build_depend>
 
   <run_depend>gazebo_ros</run_depend>
   <run_depend>nav_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>trait_im_msg</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

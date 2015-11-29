@@ -8,12 +8,20 @@
 #include <ros/ros.h>
 #include <geometry_msgs/TwistStamped.h>
 #include <nav_msgs/Odometry.h>
+#include <gazsim_msgs/LightSignalDetection.pb.h>
+#include <trait_im_msg/LightSignal.h>
 
 double g_x, g_y, g_z;
 ros::Publisher g_pubOdom;
+ros::Publisher g_pubLightSignal;
 
+#include <boost/bind.hpp>
+typedef const boost::shared_ptr<gazsim_msgs::LightSignalDetection const> ConstLightSignalDetectionPtr;
 void cmdVelCallback(const geometry_msgs::TwistConstPtr& msg);
 void gpsCallback(ConstPosePtr &msg);
+void lightSignalCallback(ConstLightSignalDetectionPtr &msg);
+
+#define ROBOTINO_NAME "robotino_pyro"
 
 /////////////////////////////////////////////////
 int main(int argc, char **argv)
@@ -25,22 +33,27 @@ int main(int argc, char **argv)
     gazebo::transport::NodePtr node(new gazebo::transport::Node());
     node->Init();
     ros::init(argc, argv, "publisher");
+    ros::NodeHandle nh;
 
     // Publish to a Gazebo topic
     gazebo::transport::PublisherPtr pub =
-        node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/robotino_pyro/RobotinoSim/MotorMove/");
+        // node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/robotino_pyro/RobotinoSim/MotorMove/");
+        node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/" ROBOTINO_NAME "/RobotinoSim/MotorMove/");
 
     // Wait for a subscriber to connect
     pub->WaitForConnection();
 
     // Subscriber
-    ros::NodeHandle nh;
     ros::Subscriber subCmdVel = nh.subscribe("/cmd_vel", 1, &cmdVelCallback);
     g_pubOdom = nh.advertise<nav_msgs::Odometry>("/odom", 1000);
-    gazebo::transport::SubscriberPtr subGps = node->Subscribe("/gazebo/pyro_2015/robotino_pyro/gazsim/gps/", &gpsCallback);
+    gazebo::transport::SubscriberPtr subGps = node->Subscribe("/gazebo/pyro_2015/" ROBOTINO_NAME "/gazsim/gps/", &gpsCallback);
+    gazebo::transport::SubscriberPtr subLightSignal = node->Subscribe("/gazebo/pyro_2015/" ROBOTINO_NAME "/gazsim/light-signal/", &lightSignalCallback);
+
+	// Publisher
+	g_pubLightSignal = nh.advertise<trait_im_msg::LightSignal>("closest_light_signal", 1000);
 
     // Publisher loop...replace with your own code.
-    g_x=0; g_y=0; g_z=0; 
+    g_x=0; g_y=0; g_z=0;
     gazebo::math::Vector3 vect(g_x,g_y,g_z);
     while (ros::ok())
     {
@@ -64,8 +77,8 @@ int main(int argc, char **argv)
 
 void cmdVelCallback(const geometry_msgs::TwistConstPtr& msg)
 {
-    g_x=msg->linear.x; 
-    g_y=msg->linear.y; 
+    g_x=msg->linear.x;
+    g_y=msg->linear.y;
     g_z=msg->angular.z;
 }
 
@@ -93,4 +106,20 @@ void gpsCallback(ConstPosePtr &msg)
     odom_msg.twist.twist.angular.z=g_z;
 
     g_pubOdom.publish(odom_msg);
+}
+
+
+void lightSignalCallback(ConstLightSignalDetectionPtr &msg)
+{
+	trait_im_msg::LightSignal lightSignals_msg;
+	comm_msg::LightSpec lightSpec_msg;
+
+	for(int i = 0; i < msg->lights_size(); ++i)
+	{
+		lightSpec_msg.color = msg->lights(i).color();
+		lightSpec_msg.state = msg->lights(i).state();
+		lightSignals_msg.lights.push_back(lightSpec_msg);
+	}
+
+	g_pubLightSignal.publish(lightSignals_msg);
 }
