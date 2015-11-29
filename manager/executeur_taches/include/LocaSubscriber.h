@@ -1,3 +1,12 @@
+/**
+ * \file        LocaSubscriber.h
+ * \class       LocaSubscriber
+ * \brief       classe pour s'abonner au Topic de la localisation
+ * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
+ * \date        2015-10-10
+ * \copyright   PyroTeam, Polytech-Lille
+ */
+
 #ifndef LOCASUBSCRIBER_H
 #define LOCASUBSCRIBER_H
 
@@ -7,14 +16,20 @@
 #include "MPS.h"
 #include <vector>
 
-class LocaSubscriber {
-public :
-  LocaSubscriber();
-  virtual  ~LocaSubscriber();
-  void tesCallback(const manager_msg::LandmarksConstPtr &msg);
-  int getZone(float x, float y);
-  std::vector<geometry_msgs::Pose2D> tab_machine;
-  std::vector<MPS> machine;
+class LocaSubscriber 
+{
+	public:
+		/* Constructeur */	
+	 	LocaSubscriber();
+
+	 	/* Déstructeur */
+	    virtual  ~LocaSubscriber();
+
+	    /* Méthodes */
+	    void tesCallback(const manager_msg::LandmarksConstPtr &msg);
+	    int getZone(float x, float y);
+	    std::vector<geometry_msgs::Pose2D> tab_machine;
+	    std::vector<MPS> machine;
 };
 #endif 
 
