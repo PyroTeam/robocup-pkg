@@ -1,3 +1,12 @@
+/**
+ * \file        FinalApproachingClient.h
+ * \class       FinalApproachingClient
+ * \brief       classe client pour l'approche finale
+ * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
+ * \date        2015-10-10
+ * \copyright   PyroTeam, Polytech-Lille
+ */
+
 #ifndef FINALAPPROACHINGCLIENT_H
 #define FINALAPPROACHINGCLIENT_H
 
@@ -9,10 +18,16 @@
 #include <manager_msg/finalApproachingAction.h>
 
 
-class FinalApproachingClient{
-public :
-	FinalApproachingClient();
-	virtual  ~FinalApproachingClient();
-	void starting(int8_t machineType, int8_t machineSide, int8_t machineParameter);
+class FinalApproachingClient
+{
+	public:
+		/* Constructeur */
+		FinalApproachingClient();
+
+		/* Déstructeur */
+		virtual  ~FinalApproachingClient();
+
+		/* Méthodes */
+		void starting(int8_t machineType, int8_t machineSide, int8_t machineParameter);
 };
 #endif

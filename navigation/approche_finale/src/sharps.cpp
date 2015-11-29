@@ -15,11 +15,11 @@ void Sharps::sharpsCallback(const sensor_msgs::PointCloud &msg)
 	{
 		float x = (float)m_sensorsDistance.points[i].x;
 		float y = (float)m_sensorsDistance.points[i].y;
-		ROS_INFO("distance sensor n %d: x=%f, y=%f,sqrt(x*x+y*y)=%f",i,x,y,sqrt(x*x+y*y)); 
+		ROS_DEBUG("distance sensor n %d: x=%f, y=%f,sqrt(x*x+y*y)=%f",i,x,y,sqrt(x*x+y*y)); 
 		if(sqrt(x*x+y*y)<0.30)
 		{
 		m_obstacle[i] = true;
-		ROS_INFO("obstacle near distance sensor n %d",i);
+		ROS_WARN("obstacle near distance sensor n %d",i);
 		}
 	}
 }

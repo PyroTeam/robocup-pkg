@@ -12,7 +12,12 @@
 #include <ros/ros.h>
 #include <vector>
 #include "Point.h"
+#include "approche_finale_msg/plotDataFA.h"
+#include "geometry_msgs/Point.h"
+#include "geometry_msgs/Pose2D.h"
 
+
+geometry_msgs::Point orthoProjection(Point p, geometry_msgs::Pose2D p2d);
 /**
  *  \brief		Calcule la distance en m entre deux points
  *  \return		distance en m entre deux points
@@ -29,19 +34,19 @@ float moy(std::list<float> positionY);
  *  \brief		permet d asservir en angle
  *  \return		etat d avancement de l asservissement
  */ 
-int asservissementAngle(ros::Publisher pubMvt,float moyGradient);
+int asservissementAngle(approche_finale_msg::plotDataFA &plotData,ros::Publisher pubMvt,float moyGradient);
 
 /**
  *  \brief		permet d asservir en y (repere laser)
  *  \return		etat d avancement de l asservissement
  */ 
-int asservissementPositionY(ros::Publisher pubMvt, float goal, float moyPos, float yLeft, float yRight);
+int asservissementPositionY(approche_finale_msg::plotDataFA &plotData,ros::Publisher pubMvt, float goal, float moyPos, float yLeft, float yRight);
 
 /**
  *  \brief		permet d asservir en x (repere laser)
  *  \return		etat d avancement de l asservissement
  */ 
-int asservissementPositionX(ros::Publisher pubMvt, float distance, float goal);
+int asservissementPositionX(approche_finale_msg::plotDataFA &plotData,ros::Publisher pubMvt, float distance, float goal);
 
 
 #endif

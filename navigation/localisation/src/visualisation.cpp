@@ -22,10 +22,12 @@ std::vector<geometry_msgs::Point> scan_global;
 std::vector<geometry_msgs::Point> odometrie;
 geometry_msgs::Pose2D r;
 
-void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments){
+void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
+{
   g_segments_stamp = segments->header.stamp;
   tabSegments.clear();
-  for (auto &it : segments->landmarks){
+  for (auto &it : segments->landmarks)
+  {
     geometry_msgs::Point p;
     p.x = it.x;
     p.y = it.y;
@@ -34,9 +36,11 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments){
   }
 }
 
-void droitesCallback(const deplacement_msg::LandmarksConstPtr& droites){
+void droitesCallback(const deplacement_msg::LandmarksConstPtr& droites)
+{
   tabDroites.clear();
-  for (auto &it : droites->landmarks){
+  for (auto &it : droites->landmarks)
+  {
     geometry_msgs::Point p;
     p.x = it.x;
     p.y = it.y;
@@ -45,10 +49,12 @@ void droitesCallback(const deplacement_msg::LandmarksConstPtr& droites){
   }
 }
 
-void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
+void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
+{
   g_machines_stamp = machines->header.stamp;
   tabMachines.clear();
-  for (auto &it : machines->landmarks){
+  for (auto &it : machines->landmarks)
+  {
 
     //std::cout << "machine (" << it.x << "," << it.y << "," << it.theta << ")" << std::endl;
     //visualization_msgs::Marker m;
@@ -89,12 +95,12 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
   //std::cout << "MarkerArray : " << tabMachines << std::endl;
 }
 
-void landmarksCallback(const deplacement_msg::LandmarksConstPtr& landmarks){
+void landmarksCallback(const deplacement_msg::LandmarksConstPtr& landmarks)
+{
   g_landmarks_stamp = landmarks->header.stamp;
   tabLandmarks.clear();
   for (auto &it : landmarks->landmarks)
   {
-
     geometry_msgs::Point pointA;
     pointA.x = it.x + cos(it.theta)*0.35;
     pointA.y = it.y + sin(it.theta)*0.35;
@@ -107,15 +113,18 @@ void landmarksCallback(const deplacement_msg::LandmarksConstPtr& landmarks){
   }
 }
 
-void robotCallback(const geometry_msgs::Point& pos){
+void robotCallback(const geometry_msgs::Point& pos)
+{
   r.x = pos.x;
   r.y = pos.y;
   trajectoire.push_back(pos);
 }
 
-void laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
+void laserCallback(const deplacement_msg::LandmarksConstPtr& laser)
+{
   scan_global.clear();
-  for (auto &it : laser->landmarks){
+  for (auto &it : laser->landmarks)
+  {
     geometry_msgs::Point p;
     p.x = it.x;
     p.y = it.y;
@@ -123,7 +132,8 @@ void laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
   }
 } 
 
-void odomCallback(const nav_msgs::Odometry& odom){
+void odomCallback(const nav_msgs::Odometry& odom)
+{
   geometry_msgs::Point p;
   p.x = odom.pose.pose.position.x;
   p.y = odom.pose.pose.position.y;
@@ -147,7 +157,7 @@ int main( int argc, char** argv )
   ros::NodeHandle n;
 
   ros::Subscriber sub_machines    = n.subscribe("/machines", 1000, machinesCallback);
-  ros::Subscriber sub_landmarks  = n.subscribe("/landmarks", 1000, landmarksCallback);
+  ros::Subscriber sub_landmarks   = n.subscribe("/landmarks", 1000, landmarksCallback);
   ros::Subscriber sub_segments    = n.subscribe("/segments", 1000, segmentsCallback);
   ros::Subscriber sub_droites     = n.subscribe("/droites", 1000, droitesCallback);
   ros::Subscriber sub_pos_robot   = n.subscribe("/robot", 1000, robotCallback);
@@ -240,7 +250,7 @@ int main( int argc, char** argv )
     machines.points = tabMachines;    
 
     // Landmarks
-    landmarks.header.frame_id = "/map";
+    landmarks.header.frame_id = "/odom";
     landmarks.header.stamp = g_landmarks_stamp;
     landmarks.ns = "visualisation_landmarks";
     landmarks.action = visualization_msgs::Marker::ADD;
@@ -327,11 +337,11 @@ int main( int argc, char** argv )
 
     // Publish markers
     markers_pub.publish(segments);
-    // markers_pub.publish(droites);
-    // markers_pub.publish(points);
-    // markers_pub.publish(robot);
-    // markers_pub.publish(laser);
-    // markers_pub.publish(odom_brut);
+    markers_pub.publish(droites);
+    markers_pub.publish(points);
+    markers_pub.publish(robot);
+    markers_pub.publish(laser);
+    markers_pub.publish(odom_brut);
     markers_pub.publish(machines);
     markers_pub.publish(landmarks);
 

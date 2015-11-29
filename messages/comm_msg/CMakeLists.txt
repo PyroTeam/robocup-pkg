@@ -67,7 +67,6 @@ add_message_files(
 	RobotInfo.msg
     activity.msg
 
-
 )
 
 ## Generate services in the 'srv' folder

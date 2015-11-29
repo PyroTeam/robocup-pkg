@@ -24,7 +24,14 @@ int8 parameter
 ---
 
 #result definition
+
 bool success
+
+int8 OBSTACLE_HIT  = 1
+int8 OBSTACLE_NEAR = 2
+int8 COMPLETE_SCAN = 3
+
+int8 state
 
 ---
 

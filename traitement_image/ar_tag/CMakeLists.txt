@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   ar_track_alvar
   ar_track_alvar_msgs
   trait_im_msg
+  cmake_modules	
 )
 
 ## System dependencies are found with CMake's conventions
