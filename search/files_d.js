@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['segment_2ecpp',['Segment.cpp',['../d7/d17/Segment_8cpp.html',1,'']]],
+  ['segment_2ecpp',['Segment.cpp',['../d9/d91/approche__finale_2src_2Segment_8cpp.html',1,'']]],
+  ['segment_2ecpp',['Segment.cpp',['../de/d70/localisation_2src_2Segment_8cpp.html',1,'']]],
   ['segment_2eh',['Segment.h',['../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h.html',1,'']]],
   ['segment_2eh',['Segment.h',['../d3/df9/localisation_2include_2localisation_2Segment_8h.html',1,'']]],
   ['sendorder_5fnode_2ecpp',['sendOrder_node.cpp',['../da/d8c/sendOrder__node_8cpp.html',1,'']]],

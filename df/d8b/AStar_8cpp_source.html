@@ -211,7 +211,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="keywordtype">float</span> AStar::heuristicManhattan(<a class="code" href="../../dc/d4f/classPoint.html">Point</a> <span class="keyword">const</span> *pointDepart, <a class="code" href="../../dc/d4f/classPoint.html">Point</a> <span class="keyword">const</span> *pointDistant)</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;{</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a80710f2229b138cd3664c21ba2bb9c43">dist</a>  = 0;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a>  = 0;</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordtype">float</span> distX = 0, distY = 0;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    distX = fabs(pointDistant-&gt;<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>() - pointDepart-&gt;<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>());</div>
@@ -219,7 +219,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    dist  = distX + distY;</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a80710f2229b138cd3664c21ba2bb9c43">dist</a>;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a>;</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="keywordtype">float</span> AStar::heuristicEuclidean(<a class="code" href="../../dc/d4f/classPoint.html">Point</a> <span class="keyword">const</span> *pointDepart, <a class="code" href="../../dc/d4f/classPoint.html">Point</a> <span class="keyword">const</span> *pointDistant)</div>
@@ -232,7 +232,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    dist = std::sqrt(distX*distX + distY*distY);</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a80710f2229b138cd3664c21ba2bb9c43">dist</a>;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a>;</div>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;}</div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="keywordtype">float</span> AStar::heuristicChebyshev(<a class="code" href="../../dc/d4f/classPoint.html">Point</a> <span class="keyword">const</span> *pointDepart, <a class="code" href="../../dc/d4f/classPoint.html">Point</a> <span class="keyword">const</span> *pointDistant)</div>
@@ -245,7 +245,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    dist = std::max(distX,distY);</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a80710f2229b138cd3664c21ba2bb9c43">dist</a>;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a>;</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;}</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="keywordtype">bool</span> AStar::isFreeAt(<span class="keywordtype">signed</span> <span class="keywordtype">int</span> raw, <span class="keywordtype">signed</span> <span class="keywordtype">int</span> col)</div>
@@ -514,7 +514,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;    }</div>
 <div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;</div>
 <div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;    <span class="keywordtype">int</span> l, c;</div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a80710f2229b138cd3664c21ba2bb9c43">dist</a>, dx, dy, minDist = FLT_MAX;</div>
+<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a>, dx, dy, minDist = FLT_MAX;</div>
 <div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;</div>
 <div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;    <span class="keywordflow">for</span>(l=0; l&lt;nbPointsLignes; l++)</div>
 <div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;    {</div>
@@ -530,7 +530,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;</div>
 <div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;                <span class="keywordflow">if</span>(dist &lt; minDist)</div>
 <div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;                {</div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;                    minDist = <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a80710f2229b138cd3664c21ba2bb9c43">dist</a>;</div>
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;                    minDist = <a class="code" href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a>;</div>
 <div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;                    point = m_pointsPassage[l][c];</div>
 <div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;                }</div>
 <div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;            }</div>
@@ -565,14 +565,14 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;{</div>
 <div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;    <span class="keywordflow">return</span> m_clean;</div>
 <div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;}</div>
-<div class="ttc" id="classPoint_html"><div class="ttname"><a href="../../dc/d4f/classPoint.html">Point</a></div><div class="ttdoc">classe représentant un point du laser </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d3f/approche__finale_2include_2approche__finale_2Point_8h_source.html#l00015">Point.h:15</a></div></div>
-<div class="ttc" id="classPoint_html_acc27466778cc87a662bba40268c4c0c8"><div class="ttname"><a href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">Point::getX</a></div><div class="ttdeci">float getX()</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d3f/approche__finale_2include_2approche__finale_2Point_8h_source.html#l00024">Point.h:24</a></div></div>
-<div class="ttc" id="classPoint_html_a3cccbca94719ddde353cce86ce0e2f64"><div class="ttname"><a href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">Point::getY</a></div><div class="ttdeci">float getY()</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d3f/approche__finale_2include_2approche__finale_2Point_8h_source.html#l00025">Point.h:25</a></div></div>
-<div class="ttc" id="cartographie__utils_8h_html_a80710f2229b138cd3664c21ba2bb9c43"><div class="ttname"><a href="../../d3/d5c/cartographie__utils_8h.html#a80710f2229b138cd3664c21ba2bb9c43">dist</a></div><div class="ttdeci">double dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6f/Cartographie__utils_8cpp_source.html#l00116">Cartographie_utils.cpp:116</a></div></div>
+<div class="ttc" id="classPoint_html"><div class="ttname"><a href="../../dc/d4f/classPoint.html">Point</a></div><div class="ttdoc">classe représentant un point du laser </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/Point_8h_source.html#l00015">Point.h:15</a></div></div>
+<div class="ttc" id="math__functions_8h_html_ae4264d4880bb948b54372cf921c51140"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a></div><div class="ttdeci">double dist(geometry_msgs::Point a, Line d)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d90/math__functions_8cpp_source.html#l00003">math_functions.cpp:3</a></div></div>
+<div class="ttc" id="classPoint_html_acc27466778cc87a662bba40268c4c0c8"><div class="ttname"><a href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">Point::getX</a></div><div class="ttdeci">float getX()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/Point_8h_source.html#l00024">Point.h:24</a></div></div>
+<div class="ttc" id="classPoint_html_a3cccbca94719ddde353cce86ce0e2f64"><div class="ttname"><a href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">Point::getY</a></div><div class="ttdeci">float getY()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/Point_8h_source.html#l00025">Point.h:25</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:41:46 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:48:10 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

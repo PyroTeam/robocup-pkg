@@ -104,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="comment">//on publie un scan laser sur le topic /fake_scan</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    ros::Publisher pub_scan = n.advertise&lt;sensor_msgs::LaserScan&gt;(<span class="stringliteral">&quot;/fake_scan&quot;</span>, 1000);</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="comment">//construction du faux scan</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    sensor_msgs::LaserScanPtr <a class="code" href="../../de/de7/Cartographie_8cpp.html#a8f877b9c8c6ae5fe5c26f19542eff5da">scan</a>(<span class="keyword">new</span> sensor_msgs::LaserScan());</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    sensor_msgs::LaserScanPtr scan(<span class="keyword">new</span> sensor_msgs::LaserScan());</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    scan-&gt;angle_min = -M_PI_2;</div>
@@ -129,11 +129,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
 <div class="ttc" id="approche__finale_2src_2fake__scan__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../da/d26/approche__finale_2src_2fake__scan__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d26/approche__finale_2src_2fake__scan__node_8cpp_source.html#l00006">fake_scan_node.cpp:6</a></div></div>
-<div class="ttc" id="Cartographie_8cpp_html_a8f877b9c8c6ae5fe5c26f19542eff5da"><div class="ttname"><a href="../../de/de7/Cartographie_8cpp.html#a8f877b9c8c6ae5fe5c26f19542eff5da">scan</a></div><div class="ttdeci">deplacement_msg::Landmarks scan</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de7/Cartographie_8cpp_source.html#l00019">Cartographie.cpp:19</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:41:46 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:48:10 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

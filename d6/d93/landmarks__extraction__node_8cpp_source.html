@@ -92,142 +92,82 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="contents">
 <a href="../../d6/d93/landmarks__extraction__node_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;sensor_msgs/LaserScan.h&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;geometry_msgs/Pose2D.h&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;geometry_msgs/Point.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;visualization_msgs/Marker.h&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;deplacement_msg/Landmarks.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;laserScan.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html">landmarks_detection_utils.h</a>&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="../../d6/d93/landmarks__extraction__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">   11</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d6/d93/landmarks__extraction__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="comment">// Objet laser (convertit et contient les points laser en coord carthesiennes)</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="../../d9/d37/classlaserScan.html">laserScan</a> laserData;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">//Initialisation du noeud ROS</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;landmarks_extraction_node&quot;</span>);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Starting node landmarks_extraction_node&quot;</span>);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    ros::NodeHandle n;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="comment">// Subscribe to laserScan</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    ros::Subscriber sub_laser  = n.subscribe(<span class="stringliteral">&quot;/scan&quot;</span>, 1, &amp;<a class="code" href="../../d9/d37/classlaserScan.html#a2f5c366b7254b2f441621a65434e8c01">laserScan::laserCallback</a>, &amp;laserData);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="comment">// Publish found segments and machines</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    ros::Publisher pub_machines = n.advertise&lt; deplacement_msg::Landmarks &gt;(<span class="stringliteral">&quot;/machines&quot;</span>, 1000);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    ros::Publisher pub_segments = n.advertise&lt; deplacement_msg::Landmarks &gt;(<span class="stringliteral">&quot;/segments&quot;</span>, 1000);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    ros::Publisher pub_droites = n.advertise&lt; deplacement_msg::Landmarks &gt;(<span class="stringliteral">&quot;/droites&quot;</span>, 1000);</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;deplacement_msg/Landmarks.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html">landmarks_detection_utils.h</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d2/db7/conversion__functions_8h.html">conversion_functions.h</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;Segment.h&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/de9/LaserScan_8h.html">LaserScan.h</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../d6/d93/landmarks__extraction__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">    9</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d6/d93/landmarks__extraction__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="comment">// Objet laser (convertit et contient les points laser en coord cartesiennes)</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="../../d9/d37/classlaserScan.html">laserScan</a> laserData;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="comment">//Initialisation du noeud ROS</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;landmarks_extraction_node&quot;</span>);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Starting node landmarks_extraction_node&quot;</span>);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    ros::NodeHandle n;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="comment">// Subscribe to laserScan</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    ros::Subscriber sub_laser  = n.subscribe(<span class="stringliteral">&quot;/scan&quot;</span>, 1, &amp;<a class="code" href="../../d9/d37/classlaserScan.html#a2f5c366b7254b2f441621a65434e8c01">laserScan::laserCallback</a>, &amp;laserData);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="comment">// Publish found segments and machines</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    ros::Publisher pub_droites  = n.advertise&lt; deplacement_msg::Landmarks &gt;(<span class="stringliteral">&quot;/droites&quot;</span>, 1000);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    ros::Publisher pub_segments = n.advertise&lt; deplacement_msg::Landmarks &gt;(<span class="stringliteral">&quot;/segments&quot;</span>, 1000);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="comment">// Initialisation du random</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    srand(time(NULL));</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ros::Publisher markers_pub = n.advertise&lt;visualization_msgs::Marker&gt;(<span class="stringliteral">&quot;/visualization_markers&quot;</span>, 10000);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">// Initialisation du random</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    srand(time(NULL));</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">// Le noeud tourne  25Hz</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ros::Rate loop_rate (25);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">while</span>(n.ok())</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="comment">// Transforme les points scans de coord polaires en coord carthesiennes</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">const</span> std::list&lt;Point&gt; &amp;listOfPoints    = laserData.<a class="code" href="../../d9/d37/classlaserScan.html#a38b14cbe0db95a0f4c0fc047210d15e4">getPoints</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment">// Trouve les lignes, stock les points restants</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        std::list&lt;Point&gt; l;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        std::list&lt;Modele&gt;  listOfModeles        = <a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html#a17eecd4dc8c9a51e39f489c947bf1030">findLines</a>(listOfPoints, 30, 0.1, 30, l);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="comment">// Construit les segments</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        std::list&lt;Segment&gt; listOfSegments       = <a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html#acac477df4331c7d0e4e416f6afa9541c">buildSegments</a>(listOfModeles);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="comment">// Trouve les machines</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        std::vector&lt;Machine&gt; listOfMachines     = <a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html#a3317be5c04ac5adf67a5ac9b78fc68b3">recognizeMachinesFrom</a>(listOfSegments);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="comment">// Construction des messages</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        deplacement_msg::Landmarks machines;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        machines.header.frame_id=<span class="stringliteral">&quot;laser_link&quot;</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        machines.header.stamp = laserData.<a class="code" href="../../d9/d37/classlaserScan.html#ae124c2c7ca72e344cb972d5a1f0ffb11">m_stamp</a>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;it : listOfMachines){ </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            machines.landmarks.push_back(it.getCentre());</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="comment">// Le noeud tourne à 10Hz</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    ros::Rate loop_rate (10);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">while</span>(n.ok())</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="comment">// Enregistre une copie du scan en coord cartesiennes</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">const</span> std::list&lt;geometry_msgs::Point&gt; &amp;listOfPoints    = laserData.<a class="code" href="../../d9/d37/classlaserScan.html#a7964d97ef44c02de109b498187bff39e">getPoints</a>();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="comment">// Trouve les lignes, stocke les points restants dans l</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        std::list&lt;geometry_msgs::Point&gt; l;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        std::list&lt;Model&gt;  listOfModels      = <a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html#aa5ce15aac32476187bd5a9b153b38eb9">findLines</a>(listOfPoints, 20, 0.05, 20, l);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="comment">// Construit les segments</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        std::list&lt;Segment&gt; listOfSegments   = <a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html#a752b62a0ebcb46e5a1610cbd6ad86580">buildSegmentsFromModels</a>(listOfModels);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        deplacement_msg::Landmarks droites;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        deplacement_msg::Landmarks segments;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;it : listOfModels)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        { </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            droites.landmarks.push_back(it.getLine().getPoint());</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;it : listOfSegments)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        { </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            segments.landmarks.push_back(<a class="code" href="../../d2/db7/conversion__functions_8h.html#a73c79aff3c96e1f19e0a8cc2bfd492e6">pointToPose2D</a>(it.getMin()));</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            segments.landmarks.push_back(<a class="code" href="../../d2/db7/conversion__functions_8h.html#a73c79aff3c96e1f19e0a8cc2bfd492e6">pointToPose2D</a>(it.getMax()));</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">// Publish</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        pub_segments.publish(segments);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        pub_droites.publish(droites);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        deplacement_msg::Landmarks segments;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        segments.header.frame_id=<span class="stringliteral">&quot;laser_link&quot;</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        segments.header.stamp = laserData.<a class="code" href="../../d9/d37/classlaserScan.html#ae124c2c7ca72e344cb972d5a1f0ffb11">m_stamp</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;it : listOfSegments){ </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            segments.landmarks.push_back(<a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html#abdda0c6c21b5a6058597b026def487d7">pointToPose2D</a>(it.getMin()));</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            segments.landmarks.push_back(<a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html#abdda0c6c21b5a6058597b026def487d7">pointToPose2D</a>(it.getMax()));</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }        </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        deplacement_msg::Landmarks droites;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        droites.header.frame_id=<span class="stringliteral">&quot;laser_link&quot;</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        droites.header.stamp = laserData.<a class="code" href="../../d9/d37/classlaserScan.html#ae124c2c7ca72e344cb972d5a1f0ffb11">m_stamp</a>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;it : listOfModeles){ </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="comment">// Construit les points de la droite</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <a class="code" href="../../dc/d4f/classPoint.html">Point</a> pointA = it.getPoints().front();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <a class="code" href="../../dc/d4f/classPoint.html">Point</a> pointB = it.getPoints().back();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            droites.landmarks.push_back(<a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html#abdda0c6c21b5a6058597b026def487d7">pointToPose2D</a>(pointA));</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            droites.landmarks.push_back(<a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html#abdda0c6c21b5a6058597b026def487d7">pointToPose2D</a>(pointB));</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordtype">int</span> cpt = 0;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;it : listOfModeles)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            visualization_msgs::Marker marker;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            marker.header.frame_id=<span class="stringliteral">&quot;laser_link&quot;</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            marker.header.stamp = laserData.<a class="code" href="../../d9/d37/classlaserScan.html#ae124c2c7ca72e344cb972d5a1f0ffb11">m_stamp</a>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="comment">// Segments</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            marker.header.frame_id = <span class="stringliteral">&quot;/laser_link&quot;</span>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            marker.header.stamp = ros::Time::now();</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            marker.ns = <span class="stringliteral">&quot;visualisation_modeles&quot;</span>;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            marker.action = visualization_msgs::Marker::ADD;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            marker.pose.orientation.w = 1.0;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            marker.id = 10+cpt++;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            marker.type = visualization_msgs::Marker::LINE_STRIP;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            marker.scale.x = 0.1;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            marker.color.g = 1.0;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            marker.color.a = 0.3;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;pt : it.getPoints())</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                geometry_msgs::Point p;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                p.x = pt.getX();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                p.y = pt.getY();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                p.z = 0;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                marker.points.push_back(p);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="comment">// markers_pub.publish(marker);</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="comment">// Publish</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        pub_machines.publish(machines);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        pub_segments.publish(segments);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        pub_droites.publish(droites);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="comment">// Spin</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        ros::spinOnce();</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        loop_rate.sleep();</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    }</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
-<div class="ttc" id="classlaserScan_html_a2f5c366b7254b2f441621a65434e8c01"><div class="ttname"><a href="../../d9/d37/classlaserScan.html#a2f5c366b7254b2f441621a65434e8c01">laserScan::laserCallback</a></div><div class="ttdeci">void laserCallback(const sensor_msgs::LaserScanConstPtr &amp;scan)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d29/approche__finale_2src_2laserScan_8cpp_source.html#l00011">laserScan.cpp:11</a></div></div>
-<div class="ttc" id="landmarks__detection__utils_8h_html_a3317be5c04ac5adf67a5ac9b78fc68b3"><div class="ttname"><a href="../../d0/d57/landmarks__detection__utils_8h.html#a3317be5c04ac5adf67a5ac9b78fc68b3">recognizeMachinesFrom</a></div><div class="ttdeci">std::vector&lt; Machine &gt; recognizeMachinesFrom(std::list&lt; Segment &gt; &amp;listOfSegments)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00336">landmarks_detection_utils.cpp:336</a></div></div>
-<div class="ttc" id="classlaserScan_html_a38b14cbe0db95a0f4c0fc047210d15e4"><div class="ttname"><a href="../../d9/d37/classlaserScan.html#a38b14cbe0db95a0f4c0fc047210d15e4">laserScan::getPoints</a></div><div class="ttdeci">const std::list&lt; Point &gt; &amp; getPoints() const </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00038">laserScan.h:38</a></div></div>
-<div class="ttc" id="landmarks__extraction__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d6/d93/landmarks__extraction__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d93/landmarks__extraction__node_8cpp_source.html#l00011">landmarks_extraction_node.cpp:11</a></div></div>
-<div class="ttc" id="classPoint_html"><div class="ttname"><a href="../../dc/d4f/classPoint.html">Point</a></div><div class="ttdoc">classe représentant un point du laser </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d3f/approche__finale_2include_2approche__finale_2Point_8h_source.html#l00015">Point.h:15</a></div></div>
-<div class="ttc" id="landmarks__detection__utils_8h_html_abdda0c6c21b5a6058597b026def487d7"><div class="ttname"><a href="../../d0/d57/landmarks__detection__utils_8h.html#abdda0c6c21b5a6058597b026def487d7">pointToPose2D</a></div><div class="ttdeci">geometry_msgs::Pose2D pointToPose2D(Point point)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00386">landmarks_detection_utils.cpp:386</a></div></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="comment">// Spin</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        ros::spinOnce();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        loop_rate.sleep();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<div class="ttc" id="classlaserScan_html_a2f5c366b7254b2f441621a65434e8c01"><div class="ttname"><a href="../../d9/d37/classlaserScan.html#a2f5c366b7254b2f441621a65434e8c01">laserScan::laserCallback</a></div><div class="ttdeci">void laserCallback(const sensor_msgs::LaserScanConstPtr &amp;scan)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d6c/laserScan_8cpp_source.html#l00011">laserScan.cpp:11</a></div></div>
+<div class="ttc" id="landmarks__extraction__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d6/d93/landmarks__extraction__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d93/landmarks__extraction__node_8cpp_source.html#l00009">landmarks_extraction_node.cpp:9</a></div></div>
+<div class="ttc" id="classlaserScan_html_a7964d97ef44c02de109b498187bff39e"><div class="ttname"><a href="../../d9/d37/classlaserScan.html#a7964d97ef44c02de109b498187bff39e">laserScan::getPoints</a></div><div class="ttdeci">const std::list&lt; geometry_msgs::Point &gt; &amp; getPoints() const </div><div class="ttdef"><b>Definition:</b> <a href="../../de/da7/LaserScan_8cpp_source.html#l00044">LaserScan.cpp:44</a></div></div>
+<div class="ttc" id="landmarks__detection__utils_8h_html_a752b62a0ebcb46e5a1610cbd6ad86580"><div class="ttname"><a href="../../d0/d57/landmarks__detection__utils_8h.html#a752b62a0ebcb46e5a1610cbd6ad86580">buildSegmentsFromModels</a></div><div class="ttdeci">std::list&lt; Segment &gt; buildSegmentsFromModels(std::list&lt; Model &gt; &amp;listOfModels)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00187">landmarks_detection_utils.cpp:187</a></div></div>
+<div class="ttc" id="landmarks__detection__utils_8h_html_aa5ce15aac32476187bd5a9b153b38eb9"><div class="ttname"><a href="../../d0/d57/landmarks__detection__utils_8h.html#aa5ce15aac32476187bd5a9b153b38eb9">findLines</a></div><div class="ttdeci">std::list&lt; Model &gt; findLines(const std::list&lt; geometry_msgs::Point &gt; &amp;listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list&lt; geometry_msgs::Point &gt; &amp;l)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00100">landmarks_detection_utils.cpp:100</a></div></div>
 <div class="ttc" id="landmarks__detection__utils_8h_html"><div class="ttname"><a href="../../d0/d57/landmarks__detection__utils_8h.html">landmarks_detection_utils.h</a></div></div>
-<div class="ttc" id="classlaserScan_html_ae124c2c7ca72e344cb972d5a1f0ffb11"><div class="ttname"><a href="../../d9/d37/classlaserScan.html#ae124c2c7ca72e344cb972d5a1f0ffb11">laserScan::m_stamp</a></div><div class="ttdeci">ros::Time m_stamp</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00071">laserScan.h:71</a></div></div>
-<div class="ttc" id="landmarks__detection__utils_8h_html_acac477df4331c7d0e4e416f6afa9541c"><div class="ttname"><a href="../../d0/d57/landmarks__detection__utils_8h.html#acac477df4331c7d0e4e416f6afa9541c">buildSegments</a></div><div class="ttdeci">std::list&lt; Segment &gt; buildSegments(std::list&lt; Modele &gt; &amp;listOfModeles)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00245">landmarks_detection_utils.cpp:245</a></div></div>
-<div class="ttc" id="landmarks__detection__utils_8h_html_a17eecd4dc8c9a51e39f489c947bf1030"><div class="ttname"><a href="../../d0/d57/landmarks__detection__utils_8h.html#a17eecd4dc8c9a51e39f489c947bf1030">findLines</a></div><div class="ttdeci">std::list&lt; Modele &gt; findLines(const std::list&lt; Point &gt; &amp;listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list&lt; Point &gt; &amp;l)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00137">landmarks_detection_utils.cpp:137</a></div></div>
-<div class="ttc" id="classlaserScan_html"><div class="ttname"><a href="../../d9/d37/classlaserScan.html">laserScan</a></div><div class="ttdoc">classe traitnt les infos du laser </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00018">laserScan.h:18</a></div></div>
+<div class="ttc" id="LaserScan_8h_html"><div class="ttname"><a href="../../d1/de9/LaserScan_8h.html">LaserScan.h</a></div></div>
+<div class="ttc" id="conversion__functions_8h_html_a73c79aff3c96e1f19e0a8cc2bfd492e6"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html#a73c79aff3c96e1f19e0a8cc2bfd492e6">pointToPose2D</a></div><div class="ttdeci">geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00156">conversion_functions.cpp:156</a></div></div>
+<div class="ttc" id="conversion__functions_8h_html"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html">conversion_functions.h</a></div></div>
+<div class="ttc" id="classlaserScan_html"><div class="ttname"><a href="../../d9/d37/classlaserScan.html">laserScan</a></div><div class="ttdoc">classe traitnt les infos du laser </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d4e/laserScan_8h_source.html#l00018">laserScan.h:18</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:41:46 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:48:10 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

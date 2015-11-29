@@ -14,6 +14,8 @@ var searchData=
   ['m_5ffeedback',['m_feedback',['../d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c',1,'MoveToPose']]],
   ['m_5fio_5fservice',['m_io_service',['../d8/d10/classRefBoxTransport.html#aeb40c0eca387ade30d25be883cc83f32',1,'RefBoxTransport']]],
   ['m_5fmarkerpub',['m_markerPub',['../de/da4/classfinalApproaching.html#a323fb05ac26cdec1a5ce8d15714b9775',1,'finalApproaching']]],
+  ['m_5fmax',['m_max',['../d8/ddc/classSegment.html#a66ccf8bacebe2bd1443f931bd0bb0a2b',1,'Segment']]],
+  ['m_5fmin',['m_min',['../d8/ddc/classSegment.html#afc42b6eec77bc54936db6606859b9eb8',1,'Segment']]],
   ['m_5fmsg',['m_msg',['../d6/d6f/classEntryPoint.html#ab521508b905ec115e6b594bc1cc6a9ac',1,'EntryPoint']]],
   ['m_5fname',['m_name',['../d6/d6f/classEntryPoint.html#af0bb30eaed0c6279c7cea721e9b40434',1,'EntryPoint']]],
   ['m_5fnh',['m_nh',['../d6/d6f/classEntryPoint.html#ac88a1a83b62e741b7a33defc231ac82b',1,'EntryPoint::m_nh()'],['../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5',1,'MoveToPose::m_nh()']]],

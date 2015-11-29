@@ -96,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <p>classe traitnt les infos du laser  
  <a href="../../d9/d37/classlaserScan.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -104,7 +104,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0d2136587ad4078234c7686ef617151e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a994977c2fc86f0aaff6589614108383e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a994977c2fc86f0aaff6589614108383e">~laserScan</a> ()</td></tr>
 <tr class="separator:a994977c2fc86f0aaff6589614108383e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f5c366b7254b2f441621a65434e8c01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a2f5c366b7254b2f441621a65434e8c01">laserCallback</a> (const sensor_msgs::LaserScanConstPtr &amp;<a class="el" href="../../de/de7/Cartographie_8cpp.html#a8f877b9c8c6ae5fe5c26f19542eff5da">scan</a>)</td></tr>
+<tr class="memitem:a2f5c366b7254b2f441621a65434e8c01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a2f5c366b7254b2f441621a65434e8c01">laserCallback</a> (const sensor_msgs::LaserScanConstPtr &amp;scan)</td></tr>
 <tr class="separator:a2f5c366b7254b2f441621a65434e8c01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c8b49a0aeb2c13d03c96bd3383000aa"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a0c8b49a0aeb2c13d03c96bd3383000aa">getRangeMin</a> ()</td></tr>
 <tr class="separator:a0c8b49a0aeb2c13d03c96bd3383000aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,8 +114,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac106f11ba2b3cd9dd038a0f7e66ea0ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae183cc1afc0b4bb520a17642eadeefe3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#ae183cc1afc0b4bb520a17642eadeefe3">getAngleMax</a> ()</td></tr>
 <tr class="separator:ae183cc1afc0b4bb520a17642eadeefe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0ea38e3062627465d08c215816a2436"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#ac0ea38e3062627465d08c215816a2436">getAngleInc</a> ()</td></tr>
-<tr class="separator:ac0ea38e3062627465d08c215816a2436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2984dab03c5211dda4ac1651f9369f46"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a2984dab03c5211dda4ac1651f9369f46">getAngleInc</a> ()</td></tr>
+<tr class="separator:a2984dab03c5211dda4ac1651f9369f46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa051d5217091168bcd9ffffe17cc2f44"><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#aa051d5217091168bcd9ffffe17cc2f44">getRanges</a> ()</td></tr>
 <tr class="separator:aa051d5217091168bcd9ffffe17cc2f44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a793c47b64d545efc6d4060c4a76c87c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a793c47b64d545efc6d4060c4a76c87c1">setRangeMin</a> (float min)</td></tr>
@@ -144,10 +144,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae183cc1afc0b4bb520a17642eadeefe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2984dab03c5211dda4ac1651f9369f46"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a2984dab03c5211dda4ac1651f9369f46">getAngleInc</a> ()</td></tr>
 <tr class="separator:a2984dab03c5211dda4ac1651f9369f46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac667a77b6bf437134013f6af88d0244d"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; float &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#ac667a77b6bf437134013f6af88d0244d">getRanges</a> () const </td></tr>
-<tr class="separator:ac667a77b6bf437134013f6af88d0244d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38b14cbe0db95a0f4c0fc047210d15e4"><td class="memItemLeft" align="right" valign="top">const std::list&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a38b14cbe0db95a0f4c0fc047210d15e4">getPoints</a> () const </td></tr>
-<tr class="separator:a38b14cbe0db95a0f4c0fc047210d15e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34174bbc1773daa3d1ca52c8307a86d6"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; float &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a34174bbc1773daa3d1ca52c8307a86d6">getRanges</a> () const </td></tr>
+<tr class="separator:a34174bbc1773daa3d1ca52c8307a86d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7964d97ef44c02de109b498187bff39e"><td class="memItemLeft" align="right" valign="top">const std::list<br class="typebreak"/>
+&lt; geometry_msgs::Point &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a7964d97ef44c02de109b498187bff39e">getPoints</a> () const </td></tr>
+<tr class="separator:a7964d97ef44c02de109b498187bff39e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a793c47b64d545efc6d4060c4a76c87c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a793c47b64d545efc6d4060c4a76c87c1">setRangeMin</a> (float min)</td></tr>
 <tr class="separator:a793c47b64d545efc6d4060c4a76c87c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d2cab2c270c32d3fc5ffbb831ed01e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a0d2cab2c270c32d3fc5ffbb831ed01e6">setRangeMax</a> (float max)</td></tr>
@@ -158,9 +159,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ada235ababa2b5bdcd9a41681ec26b171"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa07a67e35080256b4c1d2be09e6a825b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#aa07a67e35080256b4c1d2be09e6a825b">setAngleInc</a> (float inc)</td></tr>
 <tr class="separator:aa07a67e35080256b4c1d2be09e6a825b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac03de17a73eb536934a0989eed591778"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#ac03de17a73eb536934a0989eed591778">set</a> (const sensor_msgs::LaserScanConstPtr &amp;<a class="el" href="../../de/de7/Cartographie_8cpp.html#a8f877b9c8c6ae5fe5c26f19542eff5da">scan</a>)</td></tr>
+<tr class="memitem:ac03de17a73eb536934a0989eed591778"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#ac03de17a73eb536934a0989eed591778">set</a> (const sensor_msgs::LaserScanConstPtr &amp;scan)</td></tr>
 <tr class="separator:ac03de17a73eb536934a0989eed591778"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f5c366b7254b2f441621a65434e8c01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a2f5c366b7254b2f441621a65434e8c01">laserCallback</a> (const sensor_msgs::LaserScanConstPtr &amp;<a class="el" href="../../de/de7/Cartographie_8cpp.html#a8f877b9c8c6ae5fe5c26f19542eff5da">scan</a>)</td></tr>
+<tr class="memitem:a2f5c366b7254b2f441621a65434e8c01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a2f5c366b7254b2f441621a65434e8c01">laserCallback</a> (const sensor_msgs::LaserScanConstPtr &amp;scan)</td></tr>
 <tr class="separator:a2f5c366b7254b2f441621a65434e8c01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -174,7 +175,7 @@ Public Attributes</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>2015-04-20 </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>PyroTeam, Polytech-Lille </dd></dl>
 
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00018">18</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00018">18</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a0d2136587ad4078234c7686ef617151e"></a>
 <div class="memitem">
@@ -189,7 +190,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d29/approche__finale_2src_2laserScan_8cpp_source.html#l00006">6</a> of file <a class="el" href="../../da/d29/approche__finale_2src_2laserScan_8cpp_source.html">laserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d1/d6c/laserScan_8cpp_source.html#l00006">6</a> of file <a class="el" href="../../d1/d6c/laserScan_8cpp_source.html">laserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -206,7 +207,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d29/approche__finale_2src_2laserScan_8cpp_source.html#l00023">23</a> of file <a class="el" href="../../da/d29/approche__finale_2src_2laserScan_8cpp_source.html">laserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d1/d6c/laserScan_8cpp_source.html#l00023">23</a> of file <a class="el" href="../../d1/d6c/laserScan_8cpp_source.html">laserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -241,28 +242,18 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ac0ea38e3062627465d08c215816a2436"></a>
+<a class="anchor" id="a2984dab03c5211dda4ac1651f9369f46"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double laserScan::getAngleInc </td>
+          <td class="memname">float laserScan::getAngleInc </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00031">31</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
@@ -287,7 +278,22 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00032">32</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00031">31</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae183cc1afc0b4bb520a17642eadeefe3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float laserScan::getAngleMax </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -312,32 +318,22 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00029">29</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00030">30</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ae183cc1afc0b4bb520a17642eadeefe3"></a>
+<a class="anchor" id="ac106f11ba2b3cd9dd038a0f7e66ea0ae"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float laserScan::getAngleMax </td>
+          <td class="memname">float laserScan::getAngleMin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00030">30</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
@@ -362,57 +358,39 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00026">26</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00029">29</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac106f11ba2b3cd9dd038a0f7e66ea0ae"></a>
+<a class="anchor" id="a7964d97ef44c02de109b498187bff39e"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float laserScan::getAngleMin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00029">29</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a38b14cbe0db95a0f4c0fc047210d15e4"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::list&lt;<a class="el" href="../../dc/d4f/classPoint.html">Point</a>&gt;&amp; laserScan::getPoints </td>
+          <td class="memname">const std::list&lt; geometry_msgs::Point &gt; &amp; laserScan::getPoints </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00038">38</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da7/LaserScan_8cpp_source.html#l00044">44</a> of file <a class="el" href="../../de/da7/LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adc4817a99034c5cb8de3b6673144be71"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float laserScan::getRangeMax </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -437,32 +415,22 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00023">23</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00028">28</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="adc4817a99034c5cb8de3b6673144be71"></a>
+<a class="anchor" id="a0c8b49a0aeb2c13d03c96bd3383000aa"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float laserScan::getRangeMax </td>
+          <td class="memname">float laserScan::getRangeMin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00028">28</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
@@ -487,32 +455,24 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00020">20</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00027">27</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0c8b49a0aeb2c13d03c96bd3383000aa"></a>
+<a class="anchor" id="a34174bbc1773daa3d1ca52c8307a86d6"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float laserScan::getRangeMin </td>
+          <td class="memname">const std::vector&lt; float &gt; &amp; laserScan::getRanges </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00027">27</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da7/LaserScan_8cpp_source.html#l00039">39</a> of file <a class="el" href="../../de/da7/LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -537,32 +497,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00032">32</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac667a77b6bf437134013f6af88d0244d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt;float&gt;&amp; laserScan::getRanges </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00035">35</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00032">32</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
@@ -580,7 +515,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d29/approche__finale_2src_2laserScan_8cpp_source.html#l00011">11</a> of file <a class="el" href="../../da/d29/approche__finale_2src_2laserScan_8cpp_source.html">laserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d1/d6c/laserScan_8cpp_source.html#l00011">11</a> of file <a class="el" href="../../d1/d6c/laserScan_8cpp_source.html">laserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -613,7 +548,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/d1c/localisation_2src_2laserScan_8cpp_source.html#l00013">13</a> of file <a class="el" href="../../de/d1c/localisation_2src_2laserScan_8cpp_source.html">laserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da7/LaserScan_8cpp_source.html#l00074">74</a> of file <a class="el" href="../../de/da7/LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -631,7 +566,25 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/d1c/localisation_2src_2laserScan_8cpp_source.html#l00026">26</a> of file <a class="el" href="../../de/d1c/localisation_2src_2laserScan_8cpp_source.html">laserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da7/LaserScan_8cpp_source.html#l00088">88</a> of file <a class="el" href="../../de/da7/LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa07a67e35080256b4c1d2be09e6a825b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void laserScan::setAngleInc </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>inc</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../de/da7/LaserScan_8cpp_source.html#l00068">68</a> of file <a class="el" href="../../de/da7/LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -657,33 +610,23 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00038">38</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00038">38</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa07a67e35080256b4c1d2be09e6a825b"></a>
+<a class="anchor" id="ada235ababa2b5bdcd9a41681ec26b171"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void laserScan::setAngleInc </td>
+          <td class="memname">void laserScan::setAngleMax </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>inc</em></td><td>)</td>
+          <td class="paramname"><em>max</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00054">54</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
@@ -709,33 +652,23 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00037">37</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00037">37</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ada235ababa2b5bdcd9a41681ec26b171"></a>
+<a class="anchor" id="af8b88b753559e880a613b85f5e01c642"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void laserScan::setAngleMax </td>
+          <td class="memname">void laserScan::setAngleMin </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>max</em></td><td>)</td>
+          <td class="paramname"><em>min</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00051">51</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
@@ -761,33 +694,23 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00036">36</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00036">36</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af8b88b753559e880a613b85f5e01c642"></a>
+<a class="anchor" id="a0d2cab2c270c32d3fc5ffbb831ed01e6"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void laserScan::setAngleMin </td>
+          <td class="memname">void laserScan::setRangeMax </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>min</em></td><td>)</td>
+          <td class="paramname"><em>max</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00048">48</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
@@ -813,33 +736,23 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00035">35</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00035">35</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0d2cab2c270c32d3fc5ffbb831ed01e6"></a>
+<a class="anchor" id="a793c47b64d545efc6d4060c4a76c87c1"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void laserScan::setRangeMax </td>
+          <td class="memname">void laserScan::setRangeMin </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>max</em></td><td>)</td>
+          <td class="paramname"><em>min</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00045">45</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
@@ -865,33 +778,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html#l00034">34</a> of file <a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a793c47b64d545efc6d4060c4a76c87c1"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void laserScan::setRangeMin </td>
-          <td>(</td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>min</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00042">42</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d4e/laserScan_8h_source.html#l00034">34</a> of file <a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a>.</p>
 
 </div>
 </div>
@@ -906,18 +793,18 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html#l00071">71</a> of file <a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d1/de9/LaserScan_8h_source.html#l00050">50</a> of file <a class="el" href="../../d1/de9/LaserScan_8h_source.html">LaserScan.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>navigation/approche_finale/include/approche_finale/<a class="el" href="../../d8/d39/approche__finale_2include_2approche__finale_2laserScan_8h_source.html">laserScan.h</a></li>
-<li>navigation/approche_finale/src/<a class="el" href="../../da/d29/approche__finale_2src_2laserScan_8cpp_source.html">laserScan.cpp</a></li>
+<li>navigation/approche_finale/include/approche_finale/<a class="el" href="../../d3/d4e/laserScan_8h_source.html">laserScan.h</a></li>
+<li>navigation/approche_finale/src/<a class="el" href="../../d1/d6c/laserScan_8cpp_source.html">laserScan.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:41:47 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:48:10 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

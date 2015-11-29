@@ -111,7 +111,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;}</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
 <div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../d1/d35/classGtServerSrv.html#ad3b880be86968d1c33a36420bdf5b42e">   21</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d1/d35/classGtServerSrv.html#ad3b880be86968d1c33a36420bdf5b42e">GtServerSrv::going</a>(geometry_msgs::Pose2D point){</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;       <span class="keywordtype">int</span> <a class="code" href="../../de/de7/Cartographie_8cpp.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> = 0, stateOfNavigation;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;       <span class="keywordtype">int</span> count = 0, stateOfNavigation;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;       <span class="keywordflow">do</span>{</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                   ROS_INFO(<span class="stringliteral">&quot;going to the point : x : %f - y : %f - theta %f&quot;</span>,point.x,point.y,point.theta);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                   <a class="code" href="../../df/df6/classNavigationClientAction.html">NavigationClientAction</a> n_c;</div>
@@ -135,7 +135,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">return</span> pt_dest;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
 <div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d1/d35/classGtServerSrv.html#a49661c36a297f5b3e8ba3ee398aff367">   45</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d1/d35/classGtServerSrv.html#a49661c36a297f5b3e8ba3ee398aff367">GtServerSrv::asking</a>(geometry_msgs::Pose2D point){</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordtype">int</span> <a class="code" href="../../de/de7/Cartographie_8cpp.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> = 0;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordtype">int</span> count = 0;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      int16_t mid;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <a class="code" href="../../d9/dd5/classArTagClienSrv.html">ArTagClienSrv</a> atg;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <a class="code" href="../../d9/de6/classFinalApproachingClient.html">FinalApproachingClient</a> fa_c;</div>
@@ -660,7 +660,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classCapStation_html_a42c0fdb14c4764a93ab5ad265eefaf26"><div class="ttname"><a href="../../d6/ddd/classCapStation.html#a42c0fdb14c4764a93ab5ad265eefaf26">CapStation::take_cap</a></div><div class="ttdeci">void take_cap(int color, int n_robot, int n_order, int machine)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dae/CapStation_8cpp_source.html#l00062">CapStation.cpp:62</a></div></div>
 <div class="ttc" id="GtServerSrv_8h_html"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html">GtServerSrv.h</a></div></div>
 <div class="ttc" id="GtServerSrv_8h_html_ac29b7145a717d9a258dae7efdc9e7347"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html#ac29b7145a717d9a258dae7efdc9e7347">C_RS1_IN</a></div><div class="ttdeci">#define C_RS1_IN</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d64/GtServerSrv_8h_source.html#l00027">GtServerSrv.h:27</a></div></div>
-<div class="ttc" id="Cartographie_8cpp_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="../../de/de7/Cartographie_8cpp.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a></div><div class="ttdeci">int count</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de7/Cartographie_8cpp_source.html#l00022">Cartographie.cpp:22</a></div></div>
 <div class="ttc" id="classReportingMachineSrvClient_html_a54e2ccb8e87dfdbecfd0aa0fc4f7bafe"><div class="ttname"><a href="../../d7/de4/classReportingMachineSrvClient.html#a54e2ccb8e87dfdbecfd0aa0fc4f7bafe">ReportingMachineSrvClient::reporting</a></div><div class="ttdeci">bool reporting(std::string r_name, std::string r_type, uint8_t r_zone)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d86/ReportingMachineSrvClient_8cpp_source.html#l00006">ReportingMachineSrvClient.cpp:6</a></div></div>
 <div class="ttc" id="GtServerSrv_8h_html_a71b7730af37a1d86f63770340e064726"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html#a71b7730af37a1d86f63770340e064726">M_RS1_OUT</a></div><div class="ttdeci">#define M_RS1_OUT</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d64/GtServerSrv_8h_source.html#l00041">GtServerSrv.h:41</a></div></div>
 <div class="ttc" id="GtServerSrv_8h_html_a02fd63cd9c99f90dd197751ceb9c467f"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html#a02fd63cd9c99f90dd197751ceb9c467f">C_BS_IN</a></div><div class="ttdeci">#define C_BS_IN</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d64/GtServerSrv_8h_source.html#l00031">GtServerSrv.h:31</a></div></div>
@@ -720,7 +719,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:41:46 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:48:10 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -92,73 +92,56 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="title">landmarks_detection_utils.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h_source.html">laserScan.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="../../db/dae/localisation_2include_2localisation_2Point_8h_source.html">Point.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="../../d2/d61/Droite_8h_source.html">Droite.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="../../d0/d56/Modele_8h_source.html">Modele.h</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;geometry_msgs/Point.h&quot;</code><br/>
+<code>#include &quot;geometry_msgs/Pose2D.h&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d3/df9/localisation_2include_2localisation_2Segment_8h_source.html">Segment.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../db/df0/Line_8h_source.html">Line.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d7/d2e/navigation_2localisation_2include_2localisation_2Machine_8h_source.html">Machine.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d1/de9/LaserScan_8h_source.html">LaserScan.h</a>&quot;</code><br/>
 </div>
 <p><a href="../../d0/d57/landmarks__detection__utils_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac86df1b971c971771da06c1904fa1ef7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#ac86df1b971c971771da06c1904fa1ef7">dist</a> (<a class="el" href="../../dc/d4f/classPoint.html">Point</a> a, <a class="el" href="../../d8/db1/classDroite.html">Droite</a> d)</td></tr>
-<tr class="separator:ac86df1b971c971771da06c1904fa1ef7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3be585e46fb508bbabb263bbf1790a03"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#a3be585e46fb508bbabb263bbf1790a03">dist</a> (<a class="el" href="../../dc/d4f/classPoint.html">Point</a> a, <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> <a class="el" href="../../d0/d5c/cv__utils_8cpp.html#a339d22b3e442946380f98ed19e320db2">s</a>)</td></tr>
-<tr class="separator:a3be585e46fb508bbabb263bbf1790a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a428fd4216aab12855e22974569cf7d8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d4f/classPoint.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#a428fd4216aab12855e22974569cf7d8e">ortho</a> (<a class="el" href="../../dc/d4f/classPoint.html">Point</a> a, <a class="el" href="../../d8/db1/classDroite.html">Droite</a> d)</td></tr>
-<tr class="separator:a428fd4216aab12855e22974569cf7d8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11fb4451422781f36c557343a79b1c1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d4f/classPoint.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#a11fb4451422781f36c557343a79b1c1a">ortho</a> (<a class="el" href="../../dc/d4f/classPoint.html">Point</a> a, <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> <a class="el" href="../../d0/d5c/cv__utils_8cpp.html#a339d22b3e442946380f98ed19e320db2">s</a>)</td></tr>
-<tr class="separator:a11fb4451422781f36c557343a79b1c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0651c7c908b62508dcb0918aff449cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d6d/classModele.html">Modele</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#af0651c7c908b62508dcb0918aff449cc">ransac</a> (std::list&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; &amp;listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts)</td></tr>
-<tr class="separator:af0651c7c908b62508dcb0918aff449cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af21803d7208e4528e6cb03edc416323a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#af21803d7208e4528e6cb03edc416323a">maj</a> (std::list&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; &amp;list, <a class="el" href="../../de/d6d/classModele.html">Modele</a> m)</td></tr>
-<tr class="separator:af21803d7208e4528e6cb03edc416323a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17eecd4dc8c9a51e39f489c947bf1030"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="../../de/d6d/classModele.html">Modele</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#a17eecd4dc8c9a51e39f489c947bf1030">findLines</a> (const std::list&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; &amp;listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; &amp;l)</td></tr>
-<tr class="separator:a17eecd4dc8c9a51e39f489c947bf1030"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5513bb16929bc3e134804b2af3731dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/ddc/classSegment.html">Segment</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#ad5513bb16929bc3e134804b2af3731dd">build</a> (const std::list&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; &amp;points)</td></tr>
-<tr class="separator:ad5513bb16929bc3e134804b2af3731dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74c6c42f35402680a94602a745d42916"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#a74c6c42f35402680a94602a745d42916">buildSegment</a> (<a class="el" href="../../de/d6d/classModele.html">Modele</a> m, double seuil)</td></tr>
-<tr class="separator:a74c6c42f35402680a94602a745d42916"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acac477df4331c7d0e4e416f6afa9541c"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#acac477df4331c7d0e4e416f6afa9541c">buildSegments</a> (std::list&lt; <a class="el" href="../../de/d6d/classModele.html">Modele</a> &gt; &amp;listOfModeles)</td></tr>
-<tr class="separator:acac477df4331c7d0e4e416f6afa9541c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afefb68618d6110ea3d4aa0610612de1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/dda/classMachine.html">Machine</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#afefb68618d6110ea3d4aa0610612de1a">calculateCoordMachine</a> (<a class="el" href="../../d8/ddc/classSegment.html">Segment</a> <a class="el" href="../../d0/d5c/cv__utils_8cpp.html#a339d22b3e442946380f98ed19e320db2">s</a>)</td></tr>
-<tr class="separator:afefb68618d6110ea3d4aa0610612de1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae1901b31290969b2e864b05f5cde179"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#aae1901b31290969b2e864b05f5cde179">maj</a> (std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt; &amp;list, <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> <a class="el" href="../../d0/d5c/cv__utils_8cpp.html#a339d22b3e442946380f98ed19e320db2">s</a>)</td></tr>
-<tr class="separator:aae1901b31290969b2e864b05f5cde179"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3317be5c04ac5adf67a5ac9b78fc68b3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dc/dda/classMachine.html">Machine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#a3317be5c04ac5adf67a5ac9b78fc68b3">recognizeMachinesFrom</a> (std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt; &amp;listOfSegments)</td></tr>
-<tr class="separator:a3317be5c04ac5adf67a5ac9b78fc68b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdda0c6c21b5a6058597b026def487d7"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#abdda0c6c21b5a6058597b026def487d7">pointToPose2D</a> (<a class="el" href="../../dc/d4f/classPoint.html">Point</a> point)</td></tr>
-<tr class="separator:abdda0c6c21b5a6058597b026def487d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7da4e9c7452184f0adf0cabe80876382"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d18/classModel.html">Model</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#a7da4e9c7452184f0adf0cabe80876382">ransac</a> (std::list&lt; geometry_msgs::Point &gt; &amp;listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts)</td></tr>
+<tr class="separator:a7da4e9c7452184f0adf0cabe80876382"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52e1efb420bc8906f9b3da26eba7704c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#a52e1efb420bc8906f9b3da26eba7704c">reduceList</a> (std::list&lt; geometry_msgs::Point &gt; &amp;list, <a class="el" href="../../d6/d18/classModel.html">Model</a> m)</td></tr>
+<tr class="separator:a52e1efb420bc8906f9b3da26eba7704c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5ce15aac32476187bd5a9b153b38eb9"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="../../d6/d18/classModel.html">Model</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#aa5ce15aac32476187bd5a9b153b38eb9">findLines</a> (const std::list&lt; geometry_msgs::Point &gt; &amp;listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list&lt; geometry_msgs::Point &gt; &amp;l)</td></tr>
+<tr class="separator:aa5ce15aac32476187bd5a9b153b38eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97b9f3e03bc6f2cbc2e859af9cdc7dfa"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#a97b9f3e03bc6f2cbc2e859af9cdc7dfa">buildSegmentsFromOneModel</a> (<a class="el" href="../../d6/d18/classModel.html">Model</a> m, double seuil)</td></tr>
+<tr class="separator:a97b9f3e03bc6f2cbc2e859af9cdc7dfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a752b62a0ebcb46e5a1610cbd6ad86580"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d57/landmarks__detection__utils_8h.html#a752b62a0ebcb46e5a1610cbd6ad86580">buildSegmentsFromModels</a> (std::list&lt; <a class="el" href="../../d6/d18/classModel.html">Model</a> &gt; &amp;listOfModels)</td></tr>
+<tr class="separator:a752b62a0ebcb46e5a1610cbd6ad86580"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ad5513bb16929bc3e134804b2af3731dd"></a>
+<a class="anchor" id="a752b62a0ebcb46e5a1610cbd6ad86580"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d8/ddc/classSegment.html">Segment</a> build </td>
+          <td class="memname">std::list&lt;<a class="el" href="../../d8/ddc/classSegment.html">Segment</a>&gt; buildSegmentsFromModels </td>
           <td>(</td>
-          <td class="paramtype">const std::list&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>points</em></td><td>)</td>
+          <td class="paramtype">std::list&lt; <a class="el" href="../../d6/d18/classModel.html">Model</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>listOfModels</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00161">161</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00187">187</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a74c6c42f35402680a94602a745d42916"></a>
+<a class="anchor" id="a97b9f3e03bc6f2cbc2e859af9cdc7dfa"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="../../d8/ddc/classSegment.html">Segment</a>&gt; buildSegment </td>
+          <td class="memname">std::list&lt;<a class="el" href="../../d8/ddc/classSegment.html">Segment</a>&gt; buildSegmentsFromOneModel </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../de/d6d/classModele.html">Modele</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d6/d18/classModel.html">Model</a>&#160;</td>
           <td class="paramname"><em>m</em>, </td>
         </tr>
         <tr>
@@ -175,110 +158,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00204">204</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00138">138</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="acac477df4331c7d0e4e416f6afa9541c"></a>
+<a class="anchor" id="aa5ce15aac32476187bd5a9b153b38eb9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="../../d8/ddc/classSegment.html">Segment</a>&gt; buildSegments </td>
+          <td class="memname">std::list&lt;<a class="el" href="../../d6/d18/classModel.html">Model</a>&gt; findLines </td>
           <td>(</td>
-          <td class="paramtype">std::list&lt; <a class="el" href="../../de/d6d/classModele.html">Modele</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>listOfModeles</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00245">245</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="afefb68618d6110ea3d4aa0610612de1a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dc/dda/classMachine.html">Machine</a> calculateCoordMachine </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d8/ddc/classSegment.html">Segment</a>&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00269">269</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac86df1b971c971771da06c1904fa1ef7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double dist </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dc/d4f/classPoint.html">Point</a>&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d8/db1/classDroite.html">Droite</a>&#160;</td>
-          <td class="paramname"><em>d</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00023">23</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3be585e46fb508bbabb263bbf1790a03"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double dist </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dc/d4f/classPoint.html">Point</a>&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d8/ddc/classSegment.html">Segment</a>&#160;</td>
-          <td class="paramname"><em>s</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00031">31</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a17eecd4dc8c9a51e39f489c947bf1030"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::list&lt;<a class="el" href="../../de/d6d/classModele.html">Modele</a>&gt; findLines </td>
-          <td>(</td>
-          <td class="paramtype">const std::list&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::list&lt; geometry_msgs::Point &gt; &amp;&#160;</td>
           <td class="paramname"><em>listOfPoints</em>, </td>
         </tr>
         <tr>
@@ -302,7 +193,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::list&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">std::list&lt; geometry_msgs::Point &gt; &amp;&#160;</td>
           <td class="paramname"><em>l</em>&#160;</td>
         </tr>
         <tr>
@@ -313,148 +204,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00137">137</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00100">100</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af21803d7208e4528e6cb03edc416323a"></a>
+<a class="anchor" id="a7da4e9c7452184f0adf0cabe80876382"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void maj </td>
+          <td class="memname"><a class="el" href="../../d6/d18/classModel.html">Model</a> ransac </td>
           <td>(</td>
-          <td class="paramtype">std::list&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>list</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../de/d6d/classModele.html">Modele</a>&#160;</td>
-          <td class="paramname"><em>m</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00127">127</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aae1901b31290969b2e864b05f5cde179"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void maj </td>
-          <td>(</td>
-          <td class="paramtype">std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>list</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d8/ddc/classSegment.html">Segment</a>&#160;</td>
-          <td class="paramname"><em>s</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00329">329</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a428fd4216aab12855e22974569cf7d8e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dc/d4f/classPoint.html">Point</a> ortho </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dc/d4f/classPoint.html">Point</a>&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d8/db1/classDroite.html">Droite</a>&#160;</td>
-          <td class="paramname"><em>d</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00039">39</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a11fb4451422781f36c557343a79b1c1a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dc/d4f/classPoint.html">Point</a> ortho </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dc/d4f/classPoint.html">Point</a>&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d8/ddc/classSegment.html">Segment</a>&#160;</td>
-          <td class="paramname"><em>s</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00048">48</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abdda0c6c21b5a6058597b026def487d7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">geometry_msgs::Pose2D pointToPose2D </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dc/d4f/classPoint.html">Point</a>&#160;</td>
-          <td class="paramname"><em>point</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00386">386</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af0651c7c908b62508dcb0918aff449cc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../de/d6d/classModele.html">Modele</a> ransac </td>
-          <td>(</td>
-          <td class="paramtype">std::list&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">std::list&lt; geometry_msgs::Point &gt; &amp;&#160;</td>
           <td class="paramname"><em>listOfPoints</em>, </td>
         </tr>
         <tr>
@@ -495,32 +256,42 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00057">57</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00008">8</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a3317be5c04ac5adf67a5ac9b78fc68b3"></a>
+<a class="anchor" id="a52e1efb420bc8906f9b3da26eba7704c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="../../dc/dda/classMachine.html">Machine</a>&gt; recognizeMachinesFrom </td>
+          <td class="memname">void reduceList </td>
           <td>(</td>
-          <td class="paramtype">std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>listOfSegments</em></td><td>)</td>
+          <td class="paramtype">std::list&lt; geometry_msgs::Point &gt; &amp;&#160;</td>
+          <td class="paramname"><em>list</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="../../d6/d18/classModel.html">Model</a>&#160;</td>
+          <td class="paramname"><em>m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00336">336</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00088">88</a> of file <a class="el" href="../../d4/df9/landmarks__detection__utils_8cpp_source.html">landmarks_detection_utils.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:41:47 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:48:10 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

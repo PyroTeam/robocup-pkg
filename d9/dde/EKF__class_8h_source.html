@@ -93,106 +93,104 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <a href="../../d9/dde/EKF__class_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef EKF_CLASS_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define EKF_CLASS_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose2D.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose2D.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;nav_msgs/Odometry.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose2D.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;tf/transform_datatypes.h&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;Eigen/Dense&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;deplacement_msg/Landmarks.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h.html">laserScan.h</a>&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html">landmarks_detection_utils.h</a>&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">using namespace </span>Eigen;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="../../de/d39/classEKF.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/d39/classEKF.html">EKF</a>{</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="../../de/d39/classEKF.html">EKF</a>();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> set();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> printAreas();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="comment">//callbacks</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/de7/Cartographie_8cpp.html#ac23f42e23b70b13ce3255b21f487a507">odomCallback</a>(<span class="keyword">const</span> nav_msgs::Odometry&amp; odom);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/de7/Cartographie_8cpp.html#ae7ad521b46615c8d2a6273398bfd6577">machinesCallback</a>(<span class="keyword">const</span> deplacement_msg::LandmarksConstPtr&amp; machines);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">void</span> machinesSeenCallback(<span class="keyword">const</span> deplacement_msg::LandmarksConstPtr&amp; machines);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/de7/Cartographie_8cpp.html#a90fa1a3ae9458679c50a209bade246d9">laserCallback</a>(<span class="keyword">const</span> deplacement_msg::LandmarksConstPtr&amp; laser);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    VectorXd RobotToLaser(VectorXd PosRobot);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    VectorXd GlobalToRobot(VectorXd p);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    geometry_msgs::Pose2D <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a1e6cf3c8e49c5b24d25ebb270ca33054">LaserToRobot</a>(geometry_msgs::Pose2D PosLaser);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    geometry_msgs::Pose2D <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a30a8304b1d8c3d4281b3d7dfb0c3d6f4">RobotToGlobal</a>(geometry_msgs::Pose2D p);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    geometry_msgs::Pose2D <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a764294d358810bb4cddea674b068e0be">getCenter</a>(<span class="keywordtype">int</span> zone);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> addMachine(geometry_msgs::Pose2D machine);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">int</span> checkStateVector(geometry_msgs::Pose2D machine);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">int</span> getArea(geometry_msgs::Pose2D m);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a3f0301afaec9aec968a5ca47789f0160">machineToArea</a>(geometry_msgs::Pose2D m);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d4/df9/landmarks__detection__utils_8cpp.html#a0011e6495d21b7aa5be7d7fc7cf54ac0">test</a>(<span class="keywordtype">int</span> area);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">bool</span> initOdom();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">bool</span> isFarFromEverything(geometry_msgs::Pose2D p);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a80710f2229b138cd3664c21ba2bb9c43">dist</a>(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> updateP(<span class="keyword">const</span> MatrixXd &amp;Pm, <span class="keywordtype">int</span> i);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> updatePprev(<span class="keyword">const</span> MatrixXd &amp;Pm, <span class="keywordtype">int</span> i);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> updateXmean(<span class="keyword">const</span> VectorXd &amp;tmp, <span class="keywordtype">int</span> i);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    MatrixXd buildPm(<span class="keywordtype">int</span> i);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    MatrixXd buildH(<span class="keywordtype">int</span> i);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    MatrixXd buildH2(geometry_msgs::Pose2D p, <span class="keywordtype">int</span> size, <span class="keywordtype">int</span> i);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> prediction();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> correction(geometry_msgs::Pose2D p, <span class="keywordtype">int</span> posMachineInTabMachines);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    VectorXd getXmean();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    VectorXd getXpredicted();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    std::vector&lt;int&gt; getAreas();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::vector&lt;geometry_msgs::Pose2D&gt; getScan();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    std::vector&lt;geometry_msgs::Pose2D&gt; getTabMachines();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    </div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../de/d39/classEKF.html#a5e4b2836cef6322cda375aaf59dd1b12">   66</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/d39/classEKF.html#a5e4b2836cef6322cda375aaf59dd1b12">setArea</a>(<span class="keywordtype">int</span> i){m_areas.push_back(i);}</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    geometry_msgs::Pose2D m_odomRobot;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    VectorXd m_xMean;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    MatrixXd m_P;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    MatrixXd m_P_prev;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    VectorXd m_xPredicted;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    VectorXd m_cmdVel;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::vector&lt;geometry_msgs::Pose2D&gt;  m_landmarksArray;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    std::vector&lt;geometry_msgs::Pose2D&gt;  m_scan;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    std::vector&lt;int&gt;                    m_areas;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    ros::Time m_temps;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">bool</span>    m_begin;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;};</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classEKF_html"><div class="ttname"><a href="../../de/d39/classEKF.html">EKF</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dde/EKF__class_8h_source.html#l00018">EKF_class.h:18</a></div></div>
-<div class="ttc" id="localisation_2include_2localisation_2laserScan_8h_html"><div class="ttname"><a href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h.html">laserScan.h</a></div></div>
-<div class="ttc" id="landmarks__detection__utils_8cpp_html_a0011e6495d21b7aa5be7d7fc7cf54ac0"><div class="ttname"><a href="../../d4/df9/landmarks__detection__utils_8cpp.html#a0011e6495d21b7aa5be7d7fc7cf54ac0">test</a></div><div class="ttdeci">geometry_msgs::Pose2D &amp; test(geometry_msgs::Pose2D &amp;c1, geometry_msgs::Pose2D &amp;c2)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00257">landmarks_detection_utils.cpp:257</a></div></div>
-<div class="ttc" id="Cartographie_8cpp_html_ae7ad521b46615c8d2a6273398bfd6577"><div class="ttname"><a href="../../de/de7/Cartographie_8cpp.html#ae7ad521b46615c8d2a6273398bfd6577">machinesCallback</a></div><div class="ttdeci">void machinesCallback(const deplacement_msg::LandmarksConstPtr &amp;machines)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de7/Cartographie_8cpp_source.html#l00031">Cartographie.cpp:31</a></div></div>
-<div class="ttc" id="Cartographie_8cpp_html_a90fa1a3ae9458679c50a209bade246d9"><div class="ttname"><a href="../../de/de7/Cartographie_8cpp.html#a90fa1a3ae9458679c50a209bade246d9">laserCallback</a></div><div class="ttdeci">void laserCallback(const deplacement_msg::LandmarksConstPtr &amp;laser)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de7/Cartographie_8cpp_source.html#l00095">Cartographie.cpp:95</a></div></div>
-<div class="ttc" id="cartographie__utils_8h_html_a3f0301afaec9aec968a5ca47789f0160"><div class="ttname"><a href="../../d3/d5c/cartographie__utils_8h.html#a3f0301afaec9aec968a5ca47789f0160">machineToArea</a></div><div class="ttdeci">int machineToArea(geometry_msgs::Pose2D m)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6f/Cartographie__utils_8cpp_source.html#l00122">Cartographie_utils.cpp:122</a></div></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;tf/transform_datatypes.h&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;Eigen/Dense&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;deplacement_msg/Landmarks.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/de9/LaserScan_8h.html">LaserScan.h</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d0/d57/landmarks__detection__utils_8h.html">landmarks_detection_utils.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">using namespace </span>Eigen;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../de/d39/classEKF.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/d39/classEKF.html">EKF</a>{</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="../../de/d39/classEKF.html">EKF</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> set();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> printAreas();</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="comment">//callbacks</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/de7/Cartographie_8cpp.html#ac23f42e23b70b13ce3255b21f487a507">odomCallback</a>(<span class="keyword">const</span> nav_msgs::Odometry&amp; odom);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dfc/visualisation_8cpp.html#ae7ad521b46615c8d2a6273398bfd6577">machinesCallback</a>(<span class="keyword">const</span> deplacement_msg::LandmarksConstPtr&amp; machines);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> machinesSeenCallback(<span class="keyword">const</span> deplacement_msg::LandmarksConstPtr&amp; machines);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dfc/visualisation_8cpp.html#a90fa1a3ae9458679c50a209bade246d9">laserCallback</a>(<span class="keyword">const</span> deplacement_msg::LandmarksConstPtr&amp; laser);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    VectorXd RobotToLaser(VectorXd PosRobot);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    VectorXd GlobalToRobot(VectorXd p);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    geometry_msgs::Pose2D <a class="code" href="../../d2/db7/conversion__functions_8h.html#a1e6cf3c8e49c5b24d25ebb270ca33054">LaserToRobot</a>(geometry_msgs::Pose2D PosLaser);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    geometry_msgs::Pose2D <a class="code" href="../../d2/db7/conversion__functions_8h.html#a30a8304b1d8c3d4281b3d7dfb0c3d6f4">RobotToGlobal</a>(geometry_msgs::Pose2D p);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    geometry_msgs::Pose2D <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a764294d358810bb4cddea674b068e0be">getCenter</a>(<span class="keywordtype">int</span> zone);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> addMachine(geometry_msgs::Pose2D machine);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">int</span> checkStateVector(geometry_msgs::Pose2D machine);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">int</span> getArea(geometry_msgs::Pose2D m);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a3f0301afaec9aec968a5ca47789f0160">machineToArea</a>(geometry_msgs::Pose2D m);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">bool</span> test(<span class="keywordtype">int</span> area);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">bool</span> initOdom();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">bool</span> isFarFromEverything(geometry_msgs::Pose2D p);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a>(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> updateP(<span class="keyword">const</span> MatrixXd &amp;Pm, <span class="keywordtype">int</span> i);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> updatePprev(<span class="keyword">const</span> MatrixXd &amp;Pm, <span class="keywordtype">int</span> i);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> updateXmean(<span class="keyword">const</span> VectorXd &amp;tmp, <span class="keywordtype">int</span> i);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    MatrixXd buildPm(<span class="keywordtype">int</span> i);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    MatrixXd buildH(<span class="keywordtype">int</span> i);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    MatrixXd buildH2(geometry_msgs::Pose2D p, <span class="keywordtype">int</span> size, <span class="keywordtype">int</span> i);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> prediction();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> correction(geometry_msgs::Pose2D p, <span class="keywordtype">int</span> posMachineInTabMachines);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    VectorXd getXmean();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    VectorXd getXpredicted();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    std::vector&lt;int&gt; getAreas();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    std::vector&lt;geometry_msgs::Pose2D&gt; getScan();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::vector&lt;geometry_msgs::Pose2D&gt; getTabMachines();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    </div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../de/d39/classEKF.html#a5e4b2836cef6322cda375aaf59dd1b12">   65</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/d39/classEKF.html#a5e4b2836cef6322cda375aaf59dd1b12">setArea</a>(<span class="keywordtype">int</span> i){m_areas.push_back(i);}</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    geometry_msgs::Pose2D m_odomRobot;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    VectorXd m_xMean;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    MatrixXd m_P;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    MatrixXd m_P_prev;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    VectorXd m_xPredicted;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    VectorXd m_cmdVel;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    std::vector&lt;geometry_msgs::Pose2D&gt;  m_landmarksArray;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::vector&lt;geometry_msgs::Pose2D&gt;  m_scan;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    std::vector&lt;int&gt;                    m_areas;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    ros::Time m_temps;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">bool</span>    m_begin;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;};</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="visualisation_8cpp_html_a90fa1a3ae9458679c50a209bade246d9"><div class="ttname"><a href="../../d7/dfc/visualisation_8cpp.html#a90fa1a3ae9458679c50a209bade246d9">laserCallback</a></div><div class="ttdeci">void laserCallback(const deplacement_msg::LandmarksConstPtr &amp;laser)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfc/visualisation_8cpp_source.html#l00123">visualisation.cpp:123</a></div></div>
+<div class="ttc" id="classEKF_html"><div class="ttname"><a href="../../de/d39/classEKF.html">EKF</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dde/EKF__class_8h_source.html#l00017">EKF_class.h:17</a></div></div>
+<div class="ttc" id="conversion__functions_8h_html_a30a8304b1d8c3d4281b3d7dfb0c3d6f4"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html#a30a8304b1d8c3d4281b3d7dfb0c3d6f4">RobotToGlobal</a></div><div class="ttdeci">geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose2D odomRobot)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00040">conversion_functions.cpp:40</a></div></div>
+<div class="ttc" id="cartographie__utils_8h_html_a3f0301afaec9aec968a5ca47789f0160"><div class="ttname"><a href="../../d3/d5c/cartographie__utils_8h.html#a3f0301afaec9aec968a5ca47789f0160">machineToArea</a></div><div class="ttdeci">int machineToArea(geometry_msgs::Pose2D m)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d1e/cartographie__utils_8cpp_source.html#l00063">cartographie_utils.cpp:63</a></div></div>
+<div class="ttc" id="visualisation_8cpp_html_ae7ad521b46615c8d2a6273398bfd6577"><div class="ttname"><a href="../../d7/dfc/visualisation_8cpp.html#ae7ad521b46615c8d2a6273398bfd6577">machinesCallback</a></div><div class="ttdeci">void machinesCallback(const deplacement_msg::LandmarksConstPtr &amp;machines)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfc/visualisation_8cpp_source.html#l00052">visualisation.cpp:52</a></div></div>
 <div class="ttc" id="landmarks__detection__utils_8h_html"><div class="ttname"><a href="../../d0/d57/landmarks__detection__utils_8h.html">landmarks_detection_utils.h</a></div></div>
-<div class="ttc" id="cartographie__utils_8h_html_a30a8304b1d8c3d4281b3d7dfb0c3d6f4"><div class="ttname"><a href="../../d3/d5c/cartographie__utils_8h.html#a30a8304b1d8c3d4281b3d7dfb0c3d6f4">RobotToGlobal</a></div><div class="ttdeci">geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose2D odomRobot)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6f/Cartographie__utils_8cpp_source.html#l00046">Cartographie_utils.cpp:46</a></div></div>
-<div class="ttc" id="classEKF_html_a5e4b2836cef6322cda375aaf59dd1b12"><div class="ttname"><a href="../../de/d39/classEKF.html#a5e4b2836cef6322cda375aaf59dd1b12">EKF::setArea</a></div><div class="ttdeci">void setArea(int i)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dde/EKF__class_8h_source.html#l00066">EKF_class.h:66</a></div></div>
-<div class="ttc" id="Cartographie_8cpp_html_ac23f42e23b70b13ce3255b21f487a507"><div class="ttname"><a href="../../de/de7/Cartographie_8cpp.html#ac23f42e23b70b13ce3255b21f487a507">odomCallback</a></div><div class="ttdeci">void odomCallback(const nav_msgs::Odometry &amp;odom)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de7/Cartographie_8cpp_source.html#l00025">Cartographie.cpp:25</a></div></div>
-<div class="ttc" id="cartographie__utils_8h_html_a764294d358810bb4cddea674b068e0be"><div class="ttname"><a href="../../d3/d5c/cartographie__utils_8h.html#a764294d358810bb4cddea674b068e0be">getCenter</a></div><div class="ttdeci">geometry_msgs::Pose2D getCenter(int zone)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6f/Cartographie__utils_8cpp_source.html#l00098">Cartographie_utils.cpp:98</a></div></div>
-<div class="ttc" id="cartographie__utils_8h_html_a80710f2229b138cd3664c21ba2bb9c43"><div class="ttname"><a href="../../d3/d5c/cartographie__utils_8h.html#a80710f2229b138cd3664c21ba2bb9c43">dist</a></div><div class="ttdeci">double dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6f/Cartographie__utils_8cpp_source.html#l00116">Cartographie_utils.cpp:116</a></div></div>
-<div class="ttc" id="cartographie__utils_8h_html_a1e6cf3c8e49c5b24d25ebb270ca33054"><div class="ttname"><a href="../../d3/d5c/cartographie__utils_8h.html#a1e6cf3c8e49c5b24d25ebb270ca33054">LaserToRobot</a></div><div class="ttdeci">geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6f/Cartographie__utils_8cpp_source.html#l00017">Cartographie_utils.cpp:17</a></div></div>
+<div class="ttc" id="LaserScan_8h_html"><div class="ttname"><a href="../../d1/de9/LaserScan_8h.html">LaserScan.h</a></div></div>
+<div class="ttc" id="math__functions_8h_html_ae4264d4880bb948b54372cf921c51140"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a></div><div class="ttdeci">double dist(geometry_msgs::Point a, Line d)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d90/math__functions_8cpp_source.html#l00003">math_functions.cpp:3</a></div></div>
+<div class="ttc" id="classEKF_html_a5e4b2836cef6322cda375aaf59dd1b12"><div class="ttname"><a href="../../de/d39/classEKF.html#a5e4b2836cef6322cda375aaf59dd1b12">EKF::setArea</a></div><div class="ttdeci">void setArea(int i)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dde/EKF__class_8h_source.html#l00065">EKF_class.h:65</a></div></div>
+<div class="ttc" id="Cartographie_8cpp_html_ac23f42e23b70b13ce3255b21f487a507"><div class="ttname"><a href="../../de/de7/Cartographie_8cpp.html#ac23f42e23b70b13ce3255b21f487a507">odomCallback</a></div><div class="ttdeci">void odomCallback(const nav_msgs::Odometry &amp;odom)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de7/Cartographie_8cpp_source.html#l00026">Cartographie.cpp:26</a></div></div>
+<div class="ttc" id="cartographie__utils_8h_html_a764294d358810bb4cddea674b068e0be"><div class="ttname"><a href="../../d3/d5c/cartographie__utils_8h.html#a764294d358810bb4cddea674b068e0be">getCenter</a></div><div class="ttdeci">geometry_msgs::Pose2D getCenter(int zone)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d1e/cartographie__utils_8cpp_source.html#l00042">cartographie_utils.cpp:42</a></div></div>
+<div class="ttc" id="conversion__functions_8h_html_a1e6cf3c8e49c5b24d25ebb270ca33054"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html#a1e6cf3c8e49c5b24d25ebb270ca33054">LaserToRobot</a></div><div class="ttdeci">geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00009">conversion_functions.cpp:9</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:41:46 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:48:10 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

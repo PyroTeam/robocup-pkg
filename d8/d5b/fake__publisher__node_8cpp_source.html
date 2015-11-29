@@ -111,7 +111,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  ros::Rate loop_rate(1);</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keywordtype">int</span> <a class="code" href="../../de/de7/Cartographie_8cpp.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> = 0;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keywordtype">int</span> count = 0;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keywordflow">while</span> (ros::ok())</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  {</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    </div>
@@ -121,11 +121,11 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">while</span>(count &lt; 100000){</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      geometry_msgs::Pose2D pose;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;      pose.x = <a class="code" href="../../de/de7/Cartographie_8cpp.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;      pose.y = <a class="code" href="../../de/de7/Cartographie_8cpp.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      pose.theta = <a class="code" href="../../de/de7/Cartographie_8cpp.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;      pose.x = count;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;      pose.y = count;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      pose.theta = count;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      msg.push_back(pose);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      ++<a class="code" href="../../de/de7/Cartographie_8cpp.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      ++count;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      ROS_INFO(<span class="stringliteral">&quot;count : %d&quot;</span>, count);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      sleep(1);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div>
@@ -144,11 +144,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
 <div class="ttc" id="fake__publisher__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d8/d5b/fake__publisher__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d5b/fake__publisher__node_8cpp_source.html#l00009">fake_publisher_node.cpp:9</a></div></div>
-<div class="ttc" id="Cartographie_8cpp_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="../../de/de7/Cartographie_8cpp.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a></div><div class="ttdeci">int count</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de7/Cartographie_8cpp_source.html#l00022">Cartographie.cpp:22</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:41:46 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:48:10 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
