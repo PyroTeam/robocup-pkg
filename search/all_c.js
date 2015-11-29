@@ -12,7 +12,7 @@ var searchData=
   ['odomfa_2ecpp',['odomFA.cpp',['../d1/d55/odomFA_8cpp.html',1,'']]],
   ['odomfa_2eh',['odomFA.h',['../da/d40/odomFA_8h.html',1,'']]],
   ['offset_5fangle_5favoidance',['OFFSET_ANGLE_AVOIDANCE',['../df/d7a/avoidanceObstacle_8cpp.html#a3c374f5ff05174b04ac6a4ef4762dddb',1,'avoidanceObstacle.cpp']]],
-  ['ok',['ok',['../da/d89/classLectureFeu.html#a049524991feae657978cbf2f332ea305',1,'LectureFeu']]],
+  ['ok',['ok',['../da/d89/classLectureFeu.html#a049524991feae657978cbf2f332ea305',1,'LectureFeu::ok()'],['../d5/d77/classSimLightDetection.html#ae3b8f4fa80c3da2c8cb10a17187f38ef',1,'SimLightDetection::ok()']]],
   ['onclosingenabling',['onClosingEnabling',['../d6/d5b/classrqt__ft__gui_1_1FtGui.html#aea043284fd3cb09505cc02447a3179b6',1,'rqt_ft_gui::FtGui']]],
   ['onclosingiterationchange',['onClosingIterationChange',['../d6/d5b/classrqt__ft__gui_1_1FtGui.html#a28f80675a058a009df5c4a08445a72d3',1,'rqt_ft_gui::FtGui']]],
   ['onclosingsizechange',['onClosingSizeChange',['../d6/d5b/classrqt__ft__gui_1_1FtGui.html#a5ff2ef856a7a076316ad472ee4fb4c81',1,'rqt_ft_gui::FtGui']]],
