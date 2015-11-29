@@ -6,8 +6,7 @@
     #include <iostream>
 
     // Perso
-    #include "pathfinder/Map.hpp"
-    #include "pathfinder/Objet.hpp"
+    #include "pathfinder/AStar.hpp"
     #include "pathfinder/Point.hpp"
 
     #include "pathfinder/GeneratePath.h"
