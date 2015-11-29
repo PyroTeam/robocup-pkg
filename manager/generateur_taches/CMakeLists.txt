@@ -106,15 +106,15 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(work_fonctions_test
-  src/task.cpp
-  src/tasksList.cpp
-  src/work.cpp
-  src/product.cpp
-  src/workFonctionsTest_node.cpp)
-target_link_libraries(work_fonctions_test ${catkin_LIBRARIES})
-add_dependencies(work_fonctions_test manager_msg_gencpp)
-set_target_properties(work_fonctions_test PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+#add_executable(work_fonctions_test
+#  src/task.cpp
+#  src/tasksList.cpp
+#  src/work.cpp
+#  src/product.cpp
+#  src/workFonctionsTest_node.cpp)
+#target_link_libraries(work_fonctions_test ${catkin_LIBRARIES})
+#add_dependencies(work_fonctions_test manager_msg_gencpp)
+#set_target_properties(work_fonctions_test PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 
 add_executable(main_node
@@ -131,11 +131,27 @@ add_executable(main_node
   src/work.cpp
   src/product.cpp
   src/correspondanceZE.cpp
+  src/orderInfo.cpp
+  src/robotInfo.cpp
+  src/robot.cpp
   src/main_node.cpp)
 target_link_libraries(main_node ${catkin_LIBRARIES} )
-add_dependencies(main_node manager_msg_gencpp)
+add_dependencies(main_node manager_msg_gencpp comm_msg_gencpp)
 set_target_properties(main_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
+add_executable(orderInfo_node
+    src/orderInfo.cpp
+    src/orderInfo_node.cpp)
+target_link_libraries(orderInfo_node ${catkin_LIBRARIES} )
+add_dependencies(orderInfo_node comm_msg_gencpp)
+set_target_properties(orderInfo_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
+
+add_executable(robotInfo_node
+    src/robotInfo.cpp
+    src/robotInfo_node.cpp)
+target_link_libraries(robotInfo_node ${catkin_LIBRARIES} )
+add_dependencies(robotInfo_node comm_msg_gencpp)
+set_target_properties(robotInfo_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 add_executable(action_node
     src/action.cpp

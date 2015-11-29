@@ -16,21 +16,28 @@ class Product{
 
 public:
 
-	Product(int nbrRing,std::vector<int> parameters):m_parameters(parameters){
-		m_nbrRing=nbrRing;
+	Product(int complexity,int baseColor, std::vector<uint8_t> ringColors, int capColor):m_ringColors(ringColors)
+	{
+		m_complexity=complexity;
+		m_baseColor=baseColor;
+		m_capColor=capColor;
 	}
   
-	void setNbrRing(int nbrRing){m_nbrRing=nbrRing;}
-	int getNbrRing(){return m_nbrRing;}
-	void setParameters(std::vector<int> parameters){m_parameters=parameters;}
-	std::vector<int> getParameters(){return m_parameters;}
-	 
-	int getParam(int i);
+	void setComplexity(int complexity){m_complexity=complexity;}
+	void setBaseColor(int baseColor){m_baseColor = baseColor;}
+	void setRingColors(std::vector<uint8_t> ringColors){m_ringColors=ringColors;}
+	void setCapColor(int capColor){m_capColor = capColor;}
+	
+	int getComplexity(){return m_complexity;} 
+	int getBaseColor(){return m_baseColor;}
+	int getRingColors(int i);
+	int getCapColor(){return m_capColor;}
         	  
 private:
 
-	int m_nbrRing;
-	std::vector<int> m_parameters;
-  
+	int m_complexity;
+	int m_baseColor;
+	std::vector<uint8_t> m_ringColors;
+	int m_capColor;  
 };
 #endif

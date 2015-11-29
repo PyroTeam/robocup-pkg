@@ -1,16 +1,15 @@
 #ifndef EKF_CLASS_H
 #define EKF_CLASS_H
 
-#include "geometry_msgs/Pose2D.h"
 #include "ros/ros.h"
-#include "nav_msgs/Odometry.h"
 #include "geometry_msgs/Pose2D.h"
+#include "nav_msgs/Odometry.h"
 #include <tf/transform_datatypes.h>
 #include <Eigen/Dense>
 #include <string>
 
 #include "deplacement_msg/Landmarks.h"
-#include "laserScan.h"
+#include "LaserScan.h"
 #include "landmarks_detection_utils.h"
 
 using namespace Eigen;
