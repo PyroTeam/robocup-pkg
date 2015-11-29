@@ -5,14 +5,14 @@
 
 int main(int argc, char** argv)
 {
-ROS_INFO("Starting node fake_scan_node");
-//Initialisation du noeud ROS
-ros::init(argc, argv, "fake_scan_node");
-ros::NodeHandle n;
-//on publie un scan laser sur le topic /fake_scan
-ros::Publisher pub_scan = n.advertise<sensor_msgs::LaserScan>("/fake_scan", 1000);
-//construction du faux scan
-sensor_msgs::LaserScanPtr scan(new sensor_msgs::LaserScan());
+	ROS_INFO("Starting node fake_scan_node");
+	//Initialisation du noeud ROS
+	ros::init(argc, argv, "fake_scan_node");
+	ros::NodeHandle n;
+	//on publie un scan laser sur le topic /fake_scan
+	ros::Publisher pub_scan = n.advertise<sensor_msgs::LaserScan>("/fake_scan", 1000);
+	//construction du faux scan
+	sensor_msgs::LaserScanPtr scan(new sensor_msgs::LaserScan());
 
 
     scan->angle_min = -M_PI_2;
@@ -25,15 +25,14 @@ sensor_msgs::LaserScanPtr scan(new sensor_msgs::LaserScan());
     
     scan->ranges = ranges;
 
-
-ros::Rate loop_rate (10);
-while(n.ok())
-{
-// Publish
-pub_scan.publish(scan);
-// Spin
-ros::spinOnce();
-loop_rate.sleep();
-}
-return 0;
+	ros::Rate loop_rate (10);
+	while(n.ok())
+	{
+		// Publish
+		pub_scan.publish(scan);
+		// Spin
+		ros::spinOnce();
+		loop_rate.sleep();
+	}
+	return 0;
 }
