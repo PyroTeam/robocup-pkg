@@ -95,14 +95,14 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//std::vector&lt;MPS&gt; machine(24);</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d8/d86/classLocaSubscriber.html#ad7fb2aab1f07bd0df9063f907b5fbc13">    6</a></span>&#160;<a class="code" href="../../d8/d86/classLocaSubscriber.html#ad7fb2aab1f07bd0df9063f907b5fbc13">LocaSubscriber::LocaSubscriber</a>():machine(24){</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    ros::NodeHandle n;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    ros::Subscriber sub = n.subscribe(<span class="stringliteral">&quot;/landmarks&quot;</span>,1000,&amp;<a class="code" href="../../d8/d86/classLocaSubscriber.html#a3f8628a7ff973edd040a9c8d31f077bf">LocaSubscriber::tesCallback</a>, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="../../d8/d86/classLocaSubscriber.html#ad136957367ceecd82cad71932fdc484d">   12</a></span>&#160;<a class="code" href="../../d8/d86/classLocaSubscriber.html#ad136957367ceecd82cad71932fdc484d">LocaSubscriber::~LocaSubscriber</a>(){</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d8/d86/classLocaSubscriber.html#ad7fb2aab1f07bd0df9063f907b5fbc13">    6</a></span>&#160;<a class="code" href="../../d8/d86/classLocaSubscriber.html#ad7fb2aab1f07bd0df9063f907b5fbc13">LocaSubscriber::LocaSubscriber</a>():machine(24)</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    ros::NodeHandle n;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    ros::Subscriber sub = n.subscribe(<span class="stringliteral">&quot;/landmarks&quot;</span>,1000,&amp;<a class="code" href="../../d8/d86/classLocaSubscriber.html#a3f8628a7ff973edd040a9c8d31f077bf">LocaSubscriber::tesCallback</a>, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../d8/d86/classLocaSubscriber.html#ad136957367ceecd82cad71932fdc484d">   13</a></span>&#160;<a class="code" href="../../d8/d86/classLocaSubscriber.html#ad136957367ceecd82cad71932fdc484d">LocaSubscriber::~LocaSubscriber</a>(){}</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
 <div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../d8/d86/classLocaSubscriber.html#a3f8628a7ff973edd040a9c8d31f077bf">   15</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d86/classLocaSubscriber.html#a3f8628a7ff973edd040a9c8d31f077bf">LocaSubscriber::tesCallback</a>(<span class="keyword">const</span> manager_msg::LandmarksConstPtr &amp;msg)</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
@@ -128,46 +128,50 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">int</span> zone = 0;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// Right side</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span>(x &gt;= 0 &amp;&amp; y &gt;= 0) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="comment">// Anti-division par 0</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">if</span>(x==0) x=1;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">int</span> w = (int)(x/2);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="comment">// Anti-division par 0</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">if</span>(y==0) y=1;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a> = (int)(y/1.5)+1;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        zone = w*4 + <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">// Left side</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (x &lt; 0 &amp;&amp; y &gt;= 0) {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">int</span> w = (int)(-x/2);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">// Anti-division par 0</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span>(y==0) y=1;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a> = (int)(y/1.5)+1;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        zone = w*4 + h + 12;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">int</span> zone = 0;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> zone;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span>(x &gt;= 0 &amp;&amp; y &gt;= 0) </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment">// Anti-division par 0</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">if</span>(x==0) x=1;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">int</span> w = (int)(x/2);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="comment">// Anti-division par 0</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">if</span>(y==0) y=1;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a> = (int)(y/1.5)+1;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        zone = w*4 + <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// Left side</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (x &lt; 0 &amp;&amp; y &gt;= 0) </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">int</span> w = (int)(-x/2);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment">// Anti-division par 0</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">if</span>(y==0) y=1;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a> = (int)(y/1.5)+1;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        zone = w*4 + h + 12;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">else</span> </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordtype">int</span> zone = 0;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> zone;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
 <div class="ttc" id="classLocaSubscriber_html_ad7fb2aab1f07bd0df9063f907b5fbc13"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#ad7fb2aab1f07bd0df9063f907b5fbc13">LocaSubscriber::LocaSubscriber</a></div><div class="ttdeci">LocaSubscriber()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00006">LocaSubscriber.cpp:6</a></div></div>
-<div class="ttc" id="classLocaSubscriber_html_af65482750da6bb767408f8953791469b"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#af65482750da6bb767408f8953791469b">LocaSubscriber::tab_machine</a></div><div class="ttdeci">std::vector&lt; geometry_msgs::Pose2D &gt; tab_machine</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d05/LocaSubscriber_8h_source.html#l00016">LocaSubscriber.h:16</a></div></div>
+<div class="ttc" id="classLocaSubscriber_html_af65482750da6bb767408f8953791469b"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#af65482750da6bb767408f8953791469b">LocaSubscriber::tab_machine</a></div><div class="ttdeci">std::vector&lt; geometry_msgs::Pose2D &gt; tab_machine</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d05/LocaSubscriber_8h_source.html#l00031">LocaSubscriber.h:31</a></div></div>
 <div class="ttc" id="classLocaSubscriber_html_aa2e52fc511fe33edb0163cfd5080a3c0"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#aa2e52fc511fe33edb0163cfd5080a3c0">LocaSubscriber::getZone</a></div><div class="ttdeci">int getZone(float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00034">LocaSubscriber.cpp:34</a></div></div>
 <div class="ttc" id="LocaSubscriber_8h_html"><div class="ttname"><a href="../../d1/d05/LocaSubscriber_8h.html">LocaSubscriber.h</a></div></div>
 <div class="ttc" id="cv__utils_8h_html_a16611451551e3d15916bae723c3f59f7"><div class="ttname"><a href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a></div><div class="ttdeci">int h</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d5c/cv__utils_8cpp_source.html#l00016">cv_utils.cpp:16</a></div></div>
 <div class="ttc" id="MPS_8h_html"><div class="ttname"><a href="../../d0/d4e/MPS_8h.html">MPS.h</a></div></div>
-<div class="ttc" id="classLocaSubscriber_html_add10b3c03596f41fe2cd66ea96e590ed"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#add10b3c03596f41fe2cd66ea96e590ed">LocaSubscriber::machine</a></div><div class="ttdeci">std::vector&lt; MPS &gt; machine</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d05/LocaSubscriber_8h_source.html#l00017">LocaSubscriber.h:17</a></div></div>
-<div class="ttc" id="classLocaSubscriber_html_ad136957367ceecd82cad71932fdc484d"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#ad136957367ceecd82cad71932fdc484d">LocaSubscriber::~LocaSubscriber</a></div><div class="ttdeci">virtual ~LocaSubscriber()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00012">LocaSubscriber.cpp:12</a></div></div>
+<div class="ttc" id="classLocaSubscriber_html_add10b3c03596f41fe2cd66ea96e590ed"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#add10b3c03596f41fe2cd66ea96e590ed">LocaSubscriber::machine</a></div><div class="ttdeci">std::vector&lt; MPS &gt; machine</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d05/LocaSubscriber_8h_source.html#l00032">LocaSubscriber.h:32</a></div></div>
+<div class="ttc" id="classLocaSubscriber_html_ad136957367ceecd82cad71932fdc484d"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#ad136957367ceecd82cad71932fdc484d">LocaSubscriber::~LocaSubscriber</a></div><div class="ttdeci">virtual ~LocaSubscriber()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00013">LocaSubscriber.cpp:13</a></div></div>
 <div class="ttc" id="classLocaSubscriber_html_a3f8628a7ff973edd040a9c8d31f077bf"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#a3f8628a7ff973edd040a9c8d31f077bf">LocaSubscriber::tesCallback</a></div><div class="ttdeci">void tesCallback(const manager_msg::LandmarksConstPtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00015">LocaSubscriber.cpp:15</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:49:59 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:51:09 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

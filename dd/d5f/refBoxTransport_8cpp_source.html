@@ -195,13 +195,13 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    MessageRegister &amp; message_register = m_peer_public-&gt;message_register();</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    message_register.add_message_type&lt;BeaconSignal&gt;();</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    message_register.add_message_type&lt;OrderInfo&gt;();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    message_register.add_message_type&lt;<a class="code" href="../../d0/d67/classOrderInfo.html">OrderInfo</a>&gt;();</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    message_register.add_message_type&lt;<a class="code" href="../../d3/df3/classGameState.html">GameState</a>&gt;();</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    message_register.add_message_type&lt;VersionInfo&gt;();</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    message_register.add_message_type&lt;ExplorationInfo&gt;();</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    message_register.add_message_type&lt;MachineInfo&gt;();</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    message_register.add_message_type&lt;MachineReportInfo&gt;();</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    message_register.add_message_type&lt;RobotInfo&gt;();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    message_register.add_message_type&lt;<a class="code" href="../../d4/db2/classRobotInfo.html">RobotInfo</a>&gt;();</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    std::string cfg_prefix = std::string(<span class="stringliteral">&quot;/llsfrb/comm/&quot;</span>)</div>
@@ -345,11 +345,13 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    m_dataMutex.unlock();</div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;}</div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
-<div class="ttc" id="GtServerSrv_8h_html_ad243f93c16bc4c1d3e0a13b84421d760"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html#ad243f93c16bc4c1d3e0a13b84421d760">CYAN</a></div><div class="ttdeci">#define CYAN</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d64/GtServerSrv_8h_source.html#l00049">GtServerSrv.h:49</a></div></div>
+<div class="ttc" id="GtServerSrv_8h_html_ad243f93c16bc4c1d3e0a13b84421d760"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html#ad243f93c16bc4c1d3e0a13b84421d760">CYAN</a></div><div class="ttdeci">#define CYAN</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d64/GtServerSrv_8h_source.html#l00058">GtServerSrv.h:58</a></div></div>
 <div class="ttc" id="refBoxComm_8h_html"><div class="ttname"><a href="../../d0/d22/refBoxComm_8h.html">refBoxComm.h</a></div></div>
 <div class="ttc" id="refBoxTransport_8h_html"><div class="ttname"><a href="../../d1/d85/refBoxTransport_8h.html">refBoxTransport.h</a></div><div class="ttdoc">bibliothèque de gestion de la communication avec la referee Box pour la competition robocup (Logistic...</div></div>
+<div class="ttc" id="classRobotInfo_html"><div class="ttname"><a href="../../d4/db2/classRobotInfo.html">RobotInfo</a></div><div class="ttdef"><b>Definition:</b> <a href="../../db/da6/robotInfo_8h_source.html#l00019">robotInfo.h:19</a></div></div>
 <div class="ttc" id="classRefBoxTransport_html_a1ef4812a5daa013694c9ed493009af9a"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a1ef4812a5daa013694c9ed493009af9a">RefBoxTransport::signal_handler</a></div><div class="ttdeci">void signal_handler(const boost::system::error_code &amp;error, int signum)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00193">refBoxTransport.cpp:193</a></div></div>
-<div class="ttc" id="GtServerSrv_8h_html_a6f699060902f800f12aaae150f3a708e"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html#a6f699060902f800f12aaae150f3a708e">MAGENTA</a></div><div class="ttdeci">#define MAGENTA</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d64/GtServerSrv_8h_source.html#l00050">GtServerSrv.h:50</a></div></div>
+<div class="ttc" id="GtServerSrv_8h_html_a6f699060902f800f12aaae150f3a708e"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html#a6f699060902f800f12aaae150f3a708e">MAGENTA</a></div><div class="ttdeci">#define MAGENTA</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d64/GtServerSrv_8h_source.html#l00059">GtServerSrv.h:59</a></div></div>
+<div class="ttc" id="classOrderInfo_html"><div class="ttname"><a href="../../d0/d67/classOrderInfo.html">OrderInfo</a></div><div class="ttdoc">classe récupérant les ordres de la RefBox </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dfd/orderInfo_8h_source.html#l00019">orderInfo.h:19</a></div></div>
 <div class="ttc" id="classRefBoxTransport_html_aac7325c0d4fa29093f664a9f9580f3df"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#aac7325c0d4fa29093f664a9f9580f3df">RefBoxTransport::RefBoxTransport</a></div><div class="ttdeci">RefBoxTransport()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00050">refBoxTransport.cpp:50</a></div></div>
 <div class="ttc" id="classRefBoxTransport_html_a6136c564317f1f258ee39565b96b5fdc"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a6136c564317f1f258ee39565b96b5fdc">RefBoxTransport::startTimer</a></div><div class="ttdeci">void startTimer()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00170">refBoxTransport.cpp:170</a></div></div>
 <div class="ttc" id="classRefBoxTransport_html_abd5e059c53db03d2a7066e49e85a9278"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#abd5e059c53db03d2a7066e49e85a9278">RefBoxTransport::isExit</a></div><div class="ttdeci">bool isExit()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00188">refBoxTransport.cpp:188</a></div></div>
@@ -364,7 +366,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:49:59 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:51:09 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

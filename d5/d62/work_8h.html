@@ -96,15 +96,15 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <p>fonctions utiles concernant la production totale des produits  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="../../db/da4/task_8h_source.html">task.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="../../d1/d58/order_8h_source.html">order.h</a>&quot;</code><br/>
+<code>#include &quot;comm_msg/Order.h&quot;</code><br/>
 </div>
 <p><a href="../../d5/d62/work_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6ac0731725e87d712597567895d2b76f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#a6ac0731725e87d712597567895d2b76f">alreadyInWork</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; work, <a class="el" href="../../d5/d6b/classOrder.html">Order</a> order)</td></tr>
-<tr class="memdesc:a6ac0731725e87d712597567895d2b76f"><td class="mdescLeft">&#160;</td><td class="mdescRight">vérifie si un ordre passé en paramètre est déjà pris en compte par la structure de travail  <a href="#a6ac0731725e87d712597567895d2b76f">More...</a><br/></td></tr>
-<tr class="separator:a6ac0731725e87d712597567895d2b76f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e26439b310fda8b86872b3dc144117a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#a0e26439b310fda8b86872b3dc144117a">alreadyInWork</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; work, comm_msg::Order order)</td></tr>
+<tr class="memdesc:a0e26439b310fda8b86872b3dc144117a"><td class="mdescLeft">&#160;</td><td class="mdescRight">vérifie si un ordre passé en paramètre est déjà pris en compte par la structure de travail  <a href="#a0e26439b310fda8b86872b3dc144117a">More...</a><br/></td></tr>
+<tr class="separator:a0e26439b310fda8b86872b3dc144117a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad103141eaac790888edf50376490c32d"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt;<br class="typebreak"/>
  &gt;::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#ad103141eaac790888edf50376490c32d">maxRatio</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;work)</td></tr>
 <tr class="memdesc:ad103141eaac790888edf50376490c32d"><td class="mdescLeft">&#160;</td><td class="mdescRight">détermine la liste de tâches ayant le plus grand ratio  <a href="#ad103141eaac790888edf50376490c32d">More...</a><br/></td></tr>
@@ -112,9 +112,9 @@ Functions</h2></td></tr>
 <tr class="memitem:acab8d78807fdd18d2b099b0953942cfc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#acab8d78807fdd18d2b099b0953942cfc">positiveRatio</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; work)</td></tr>
 <tr class="memdesc:acab8d78807fdd18d2b099b0953942cfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">vérifie qu'il y ait au moins une taĉhe avec un ratio strictement positif  <a href="#acab8d78807fdd18d2b099b0953942cfc">More...</a><br/></td></tr>
 <tr class="separator:acab8d78807fdd18d2b099b0953942cfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a9b3e807e6676547ca79f8d8ffa9e7e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#a7a9b3e807e6676547ca79f8d8ffa9e7e">addInWork</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;work, <a class="el" href="../../d5/d6b/classOrder.html">Order</a> &amp;order, int &amp;availableCap)</td></tr>
-<tr class="memdesc:a7a9b3e807e6676547ca79f8d8ffa9e7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">rajoute un ordre de la RefBox dans la structure de travail  <a href="#a7a9b3e807e6676547ca79f8d8ffa9e7e">More...</a><br/></td></tr>
-<tr class="separator:a7a9b3e807e6676547ca79f8d8ffa9e7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a274230c441938facf1fe3a038590f2b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#a274230c441938facf1fe3a038590f2b1">addInWork</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;work, std::vector&lt; comm_msg::Order &gt; tabOrders, int(&amp;availableCap)[2], std::vector&lt; bool &gt; &amp;ordersInProcess)</td></tr>
+<tr class="memdesc:a274230c441938facf1fe3a038590f2b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">rajoute un ordre de la RefBox dans la structure de travail  <a href="#a274230c441938facf1fe3a038590f2b1">More...</a><br/></td></tr>
+<tr class="separator:a274230c441938facf1fe3a038590f2b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9639c515be2af22cf902f4b8aa0edadb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#a9639c515be2af22cf902f4b8aa0edadb">ratioCalculus</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;work, double time, int robot, bool take[3])</td></tr>
 <tr class="memdesc:a9639c515be2af22cf902f4b8aa0edadb"><td class="mdescLeft">&#160;</td><td class="mdescRight">calcule le ratio de chaque premier élément de chaque liste de tâches  <a href="#a9639c515be2af22cf902f4b8aa0edadb">More...</a><br/></td></tr>
 <tr class="separator:a9639c515be2af22cf902f4b8aa0edadb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,12 +124,16 @@ Functions</h2></td></tr>
 <tr class="memitem:adf094fe81c70a95e43c4965f78ed1f0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#adf094fe81c70a95e43c4965f78ed1f0e">cleanWork</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;work, std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt;::iterator &amp;it, double time)</td></tr>
 <tr class="memdesc:adf094fe81c70a95e43c4965f78ed1f0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">supprime les tâches réalisées  <a href="#adf094fe81c70a95e43c4965f78ed1f0e">More...</a><br/></td></tr>
 <tr class="separator:adf094fe81c70a95e43c4965f78ed1f0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a536bbd38cdf17a38aa0541fda6808e25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#a536bbd38cdf17a38aa0541fda6808e25">particularTasksInWork</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt;::iterator &amp;it, int &amp;availableCap, int &amp;storage, double time)</td></tr>
-<tr class="memdesc:a536bbd38cdf17a38aa0541fda6808e25"><td class="mdescLeft">&#160;</td><td class="mdescRight">effectue des traitements distincts pour certaines tâches  <a href="#a536bbd38cdf17a38aa0541fda6808e25">More...</a><br/></td></tr>
-<tr class="separator:a536bbd38cdf17a38aa0541fda6808e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b70c8692907cbf3a701ee7a95b293ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#a4b70c8692907cbf3a701ee7a95b293ad">finishedTasks</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;work, int robot, double time)</td></tr>
-<tr class="memdesc:a4b70c8692907cbf3a701ee7a95b293ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">vérifie les tâches terminées  <a href="#a4b70c8692907cbf3a701ee7a95b293ad">More...</a><br/></td></tr>
-<tr class="separator:a4b70c8692907cbf3a701ee7a95b293ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af33a4f3e6d58334182620c0b2a0f510b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#af33a4f3e6d58334182620c0b2a0f510b">particularTasksInWork</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt;::iterator &amp;it, int(&amp;availableCap)[2], int &amp;storage, double time)</td></tr>
+<tr class="memdesc:af33a4f3e6d58334182620c0b2a0f510b"><td class="mdescLeft">&#160;</td><td class="mdescRight">effectue des traitements distincts pour certaines tâches  <a href="#af33a4f3e6d58334182620c0b2a0f510b">More...</a><br/></td></tr>
+<tr class="separator:af33a4f3e6d58334182620c0b2a0f510b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af483a263eb82c75b7bd094dda40e62e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#af483a263eb82c75b7bd094dda40e62e2">finishedTasks</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;work, double time)</td></tr>
+<tr class="memdesc:af483a263eb82c75b7bd094dda40e62e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">vérifie les tâches terminées  <a href="#af483a263eb82c75b7bd094dda40e62e2">More...</a><br/></td></tr>
+<tr class="separator:af483a263eb82c75b7bd094dda40e62e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4533eb4771b706e42e22b7e5fe3aac78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#a4533eb4771b706e42e22b7e5fe3aac78">addNewTasksList</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;work, comm_msg::Order order, int availableCap)</td></tr>
+<tr class="separator:a4533eb4771b706e42e22b7e5fe3aac78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ada4b22ee037e75998c82ef156dfbd3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/work_8h.html#a4ada4b22ee037e75998c82ef156dfbd3">addAccordingToCap</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;work, comm_msg::Order order, int(&amp;availableCap)[2])</td></tr>
+<tr class="separator:a4ada4b22ee037e75998c82ef156dfbd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>fonctions utiles concernant la production totale des produits </p>
@@ -139,7 +143,41 @@ Functions</h2></td></tr>
 
 <p>Definition in file <a class="el" href="../../d5/d62/work_8h_source.html">work.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a7a9b3e807e6676547ca79f8d8ffa9e7e"></a>
+<a class="anchor" id="a4ada4b22ee037e75998c82ef156dfbd3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void addAccordingToCap </td>
+          <td>(</td>
+          <td class="paramtype">std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>work</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">comm_msg::Order&#160;</td>
+          <td class="paramname"><em>order</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int(&amp;)&#160;</td>
+          <td class="paramname"><em>availableCap</em>[2]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d5/d1b/work_8cpp_source.html#l00212">212</a> of file <a class="el" href="../../d5/d1b/work_8cpp_source.html">work.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a274230c441938facf1fe3a038590f2b1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -152,14 +190,20 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d5/d6b/classOrder.html">Order</a> &amp;&#160;</td>
-          <td class="paramname"><em>order</em>, </td>
+          <td class="paramtype">std::vector&lt; comm_msg::Order &gt;&#160;</td>
+          <td class="paramname"><em>tabOrders</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int &amp;&#160;</td>
-          <td class="paramname"><em>availableCap</em>&#160;</td>
+          <td class="paramtype">int(&amp;)&#160;</td>
+          <td class="paramname"><em>availableCap</em>[2], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; bool &gt; &amp;&#160;</td>
+          <td class="paramname"><em>ordersInProcess</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -173,7 +217,41 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a6ac0731725e87d712597567895d2b76f"></a>
+<a class="anchor" id="a4533eb4771b706e42e22b7e5fe3aac78"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void addNewTasksList </td>
+          <td>(</td>
+          <td class="paramtype">std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>work</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">comm_msg::Order&#160;</td>
+          <td class="paramname"><em>order</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>availableCap</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d5/d1b/work_8cpp_source.html#l00192">192</a> of file <a class="el" href="../../d5/d1b/work_8cpp_source.html">work.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0e26439b310fda8b86872b3dc144117a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -186,7 +264,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d5/d6b/classOrder.html">Order</a>&#160;</td>
+          <td class="paramtype">comm_msg::Order&#160;</td>
           <td class="paramname"><em>order</em>&#160;</td>
         </tr>
         <tr>
@@ -236,7 +314,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4b70c8692907cbf3a701ee7a95b293ad"></a>
+<a class="anchor" id="af483a263eb82c75b7bd094dda40e62e2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -245,12 +323,6 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;&#160;</td>
           <td class="paramname"><em>work</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>robot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -307,7 +379,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a536bbd38cdf17a38aa0541fda6808e25"></a>
+<a class="anchor" id="af33a4f3e6d58334182620c0b2a0f510b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -320,8 +392,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int &amp;&#160;</td>
-          <td class="paramname"><em>availableCap</em>, </td>
+          <td class="paramtype">int(&amp;)&#160;</td>
+          <td class="paramname"><em>availableCap</em>[2], </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -409,7 +481,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:50:00 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:51:10 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

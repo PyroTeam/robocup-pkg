@@ -97,43 +97,43 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
 <div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d1/d68/finalApproaching__client_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">    6</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d1/d68/finalApproaching__client_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  ros::init(argc, argv, <span class="stringliteral">&quot;test_finalApproaching&quot;</span>);</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;test_finalApproaching&quot;</span>);</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  <span class="comment">// create the action client</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  <span class="comment">// true causes the client to spin its own thread</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  actionlib::SimpleActionClient&lt;manager_msg::finalApproachingAction&gt; ac(<span class="stringliteral">&quot;finalApproaching&quot;</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="comment">// create the action client</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="comment">// true causes the client to spin its own thread</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    actionlib::SimpleActionClient&lt;manager_msg::finalApproachingAction&gt; ac(<span class="stringliteral">&quot;finalApproaching&quot;</span>, <span class="keyword">true</span>);</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  ROS_INFO(<span class="stringliteral">&quot;Waiting for action server to start.&quot;</span>);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="comment">// wait for the action server to start</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  ac.waitForServer(); <span class="comment">//will wait for infinite time</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Waiting for action server to start.&quot;</span>);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">// wait for the action server to start</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    ac.waitForServer(); <span class="comment">//will wait for infinite time</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  ROS_INFO(<span class="stringliteral">&quot;Action server started, sending goal.&quot;</span>);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="comment">// send a goal to the action</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  manager_msg::finalApproachingGoal goal;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  goal.type = 3;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  goal.side = 100;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  goal.parameter = 40;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  ac.sendGoal(goal);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Action server started, sending goal.&quot;</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="comment">// send a goal to the action</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    manager_msg::finalApproachingGoal goal;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    goal.type = 3;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    goal.side = 100;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    goal.parameter = 40;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    ac.sendGoal(goal);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="comment">//wait for the action to return</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keywordtype">bool</span> finished_before_timeout = ac.waitForResult(ros::Duration(300.0));</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment">//wait for the action to return</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">bool</span> finished_before_timeout = ac.waitForResult(ros::Duration(300.0));</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordflow">if</span> (finished_before_timeout)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    actionlib::SimpleClientGoalState state = ac.getState();</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Action finished: %s&quot;</span>,state.toString().c_str());</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  }</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Action did not finish before the time out.&quot;</span>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="comment">//exit</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">if</span> (finished_before_timeout)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        actionlib::SimpleClientGoalState state = ac.getState();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Action finished: %s&quot;</span>,state.toString().c_str());</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    }</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Action did not finish before the time out.&quot;</span>);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
 <div class="ttc" id="finalApproaching__client_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d1/d68/finalApproaching__client_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d68/finalApproaching__client_8cpp_source.html#l00006">finalApproaching_client.cpp:6</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:49:59 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:51:09 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

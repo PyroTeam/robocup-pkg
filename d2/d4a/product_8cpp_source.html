@@ -93,34 +93,36 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <a href="../../d2/d4a/product_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/daa/product_8h.html">product.h</a>&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../db/d79/classProduct.html#a555c556268079d4162abf41976d57955">    9</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../db/d79/classProduct.html#a555c556268079d4162abf41976d57955">Product::getParam</a>(<span class="keywordtype">int</span> i){</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keywordtype">int</span> compteur = 0; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        vector&lt;int&gt;::iterator it = m_parameters.begin();</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keywordflow">if</span>(compteur==i)</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            <span class="keywordflow">return</span> *it;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        }</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">else</span> </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <span class="keywordflow">while</span>(compteur!=i)</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                it++;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                compteur++;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            }</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">return</span> *it; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../db/d79/classProduct.html#ace7b1e4a2468ecb1d8ed33ad1af8dbf0">    9</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../db/d79/classProduct.html#ace7b1e4a2468ecb1d8ed33ad1af8dbf0">Product::getRingColors</a>(<span class="keywordtype">int</span> i)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordtype">int</span> compteur = 0; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">if</span>(!m_ringColors.empty() &amp;&amp; i&gt;=0 &amp;&amp; i&lt;m_ringColors.size())</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        vector&lt;uint8_t&gt;::iterator it = m_ringColors.begin();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keywordflow">while</span>(compteur!=i)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            it++;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            compteur++;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)*it;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        ROS_ERROR(<span class="stringliteral">&quot;Bad index vector access after line %d in line %s&quot;</span>,__LINE__,__FILE__);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    } </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
 <div class="ttc" id="product_8h_html"><div class="ttname"><a href="../../dc/daa/product_8h.html">product.h</a></div></div>
-<div class="ttc" id="classProduct_html_a555c556268079d4162abf41976d57955"><div class="ttname"><a href="../../db/d79/classProduct.html#a555c556268079d4162abf41976d57955">Product::getParam</a></div><div class="ttdeci">int getParam(int i)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d4a/product_8cpp_source.html#l00009">product.cpp:9</a></div></div>
+<div class="ttc" id="classProduct_html_ace7b1e4a2468ecb1d8ed33ad1af8dbf0"><div class="ttname"><a href="../../db/d79/classProduct.html#ace7b1e4a2468ecb1d8ed33ad1af8dbf0">Product::getRingColors</a></div><div class="ttdeci">int getRingColors(int i)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d4a/product_8cpp_source.html#l00009">product.cpp:9</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:50:00 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:51:09 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

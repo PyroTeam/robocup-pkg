@@ -92,29 +92,27 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="contents">
 <a href="../../d5/d92/GripperClientSrv_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../da/db4/GripperClientSrv_8h.html">GripperClientSrv.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../d2/d9c/classGripperClientSrv.html#a55eb37c6fefde695b0f8e4d037e20e5a">    3</a></span>&#160;  <a class="code" href="../../d2/d9c/classGripperClientSrv.html#a55eb37c6fefde695b0f8e4d037e20e5a">GripperClientSrv::GripperClientSrv</a>() {}</div>
-<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="../../d2/d9c/classGripperClientSrv.html#a3c0bca79c3660128ce42c6f8ead5f893">    4</a></span>&#160;  <a class="code" href="../../d2/d9c/classGripperClientSrv.html#a3c0bca79c3660128ce42c6f8ead5f893">GripperClientSrv::~GripperClientSrv</a>(){}</div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../d2/d9c/classGripperClientSrv.html#a55eb37c6fefde695b0f8e4d037e20e5a">    3</a></span>&#160;    <a class="code" href="../../d2/d9c/classGripperClientSrv.html#a55eb37c6fefde695b0f8e4d037e20e5a">GripperClientSrv::GripperClientSrv</a>() {}</div>
+<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="../../d2/d9c/classGripperClientSrv.html#a3c0bca79c3660128ce42c6f8ead5f893">    4</a></span>&#160;    <a class="code" href="../../d2/d9c/classGripperClientSrv.html#a3c0bca79c3660128ce42c6f8ead5f893">GripperClientSrv::~GripperClientSrv</a>(){}</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d2/d9c/classGripperClientSrv.html#a3aa330ff9e0e88e8101e9fc811307af9">    6</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d2/d9c/classGripperClientSrv.html#a3aa330ff9e0e88e8101e9fc811307af9">GripperClientSrv::gripper_uppdate</a>(<span class="keywordtype">bool</span> new_state){</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  ros::NodeHandle n;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;  ros::ServiceClient client = n.serviceClient&lt;manager_msg::SetGripper&gt;(<span class="stringliteral">&quot;/fakeRobotino/setGripper&quot;</span>);</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  manager_msg::SetGripper srv;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  srv.request.state = new_state;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  <span class="keywordflow">if</span> (client.call(srv))</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;State: No problem&quot;</span>);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  }</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    ROS_ERROR(<span class="stringliteral">&quot;Failed to call service gripper_uppdate&quot;</span>);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  }</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d2/d9c/classGripperClientSrv.html#a3aa330ff9e0e88e8101e9fc811307af9">    6</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d2/d9c/classGripperClientSrv.html#a3aa330ff9e0e88e8101e9fc811307af9">GripperClientSrv::gripper_uppdate</a>(<span class="keywordtype">bool</span> new_state)</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    ros::NodeHandle n;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    ros::ServiceClient client = n.serviceClient&lt;manager_msg::SetGripper&gt;(<span class="stringliteral">&quot;/fakeRobotino/setGripper&quot;</span>);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    manager_msg::SetGripper srv;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    srv.request.state = new_state;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">if</span> (client.call(srv))</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;State: No problem&quot;</span>);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        ROS_ERROR(<span class="stringliteral">&quot;Failed to call service gripper_uppdate&quot;</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="ttc" id="classGripperClientSrv_html_a3aa330ff9e0e88e8101e9fc811307af9"><div class="ttname"><a href="../../d2/d9c/classGripperClientSrv.html#a3aa330ff9e0e88e8101e9fc811307af9">GripperClientSrv::gripper_uppdate</a></div><div class="ttdeci">bool gripper_uppdate(bool new_state)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d92/GripperClientSrv_8cpp_source.html#l00006">GripperClientSrv.cpp:6</a></div></div>
 <div class="ttc" id="classGripperClientSrv_html_a55eb37c6fefde695b0f8e4d037e20e5a"><div class="ttname"><a href="../../d2/d9c/classGripperClientSrv.html#a55eb37c6fefde695b0f8e4d037e20e5a">GripperClientSrv::GripperClientSrv</a></div><div class="ttdeci">GripperClientSrv()</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d92/GripperClientSrv_8cpp_source.html#l00003">GripperClientSrv.cpp:3</a></div></div>
 <div class="ttc" id="GripperClientSrv_8h_html"><div class="ttname"><a href="../../da/db4/GripperClientSrv_8h.html">GripperClientSrv.h</a></div></div>
@@ -122,7 +120,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:49:59 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:51:09 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

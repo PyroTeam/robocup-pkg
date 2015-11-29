@@ -99,7 +99,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keywordtype">bool</span> tmp = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0;i&lt;<a class="code" href="../../d1/dd0/storageChart_8h.html#a70ed59adcb4159ac551058053e649640">SIZE</a>;i++)</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keywordflow">if</span>((tabStock[i].getProduct() != 0) &amp;&amp; (tabStock[i].getProduct() != 10))</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keywordflow">if</span>((tabStock[i].getBeginningDelivery() != 0) || (tabStock[i].getEndDelivery() != 0))</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        {</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            tmp = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        }</div>
@@ -109,26 +109,27 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
 <div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="../../d0/d60/storageChart_8cpp.html#a3c00c42b7b216f2e3ae2752ba2b749ab">   19</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d0/d60/storageChart_8cpp.html#a3c00c42b7b216f2e3ae2752ba2b749ab">findId</a>(<a class="code" href="../../dd/d5e/classStorage.html">Storage</a> tabStock[],<span class="keywordtype">int</span> debut, <span class="keywordtype">int</span> fin){</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0; i&lt;<a class="code" href="../../d1/dd0/storageChart_8h.html#a70ed59adcb4159ac551058053e649640">SIZE</a>; i++)</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordflow">if</span>((tabStock[i].getBeginningDelivery() == debut) &amp;&amp; (tabStock[i].getEndDelivery() == fin))</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="keywordflow">return</span> tabStock[i].<a class="code" href="../../dd/d5e/classStorage.html#aa8e727fa20aa2d301bc6021e4823d113">getId</a>();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        }</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">return</span> -3;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">int</span> <span class="keywordtype">id</span> = -1;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0; i&lt;<a class="code" href="../../d1/dd0/storageChart_8h.html#a70ed59adcb4159ac551058053e649640">SIZE</a>; i++)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordflow">if</span>((tabStock[i].getBeginningDelivery() == debut) &amp;&amp; (tabStock[i].getEndDelivery() == fin))</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keywordtype">id</span> = i;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../dd/d39/artag__srv__node_8cpp.html#a051d7468dd23c780411441b008577756">id</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
 <div class="ttc" id="storageChart_8h_html_a70ed59adcb4159ac551058053e649640"><div class="ttname"><a href="../../d1/dd0/storageChart_8h.html#a70ed59adcb4159ac551058053e649640">SIZE</a></div><div class="ttdeci">#define SIZE</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/dd0/storageChart_8h_source.html#l00012">storageChart.h:12</a></div></div>
 <div class="ttc" id="classStorage_html"><div class="ttname"><a href="../../dd/d5e/classStorage.html">Storage</a></div><div class="ttdoc">classe représentant un produit stocké </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d6b/storage_8h_source.html#l00013">storage.h:13</a></div></div>
-<div class="ttc" id="classStorage_html_aa8e727fa20aa2d301bc6021e4823d113"><div class="ttname"><a href="../../dd/d5e/classStorage.html#aa8e727fa20aa2d301bc6021e4823d113">Storage::getId</a></div><div class="ttdeci">int getId()</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d6b/storage_8h_source.html#l00026">storage.h:26</a></div></div>
 <div class="ttc" id="storageChart_8cpp_html_af457ab04a4966425ac1ccf22e51a6496"><div class="ttname"><a href="../../d0/d60/storageChart_8cpp.html#af457ab04a4966425ac1ccf22e51a6496">productInStock</a></div><div class="ttdeci">bool productInStock(Storage tabStock[])</div><div class="ttdoc">vérifie si au moins un produit est en stock </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d60/storageChart_8cpp_source.html#l00006">storageChart.cpp:6</a></div></div>
 <div class="ttc" id="storageChart_8cpp_html_a3c00c42b7b216f2e3ae2752ba2b749ab"><div class="ttname"><a href="../../d0/d60/storageChart_8cpp.html#a3c00c42b7b216f2e3ae2752ba2b749ab">findId</a></div><div class="ttdeci">int findId(Storage tabStock[], int debut, int fin)</div><div class="ttdoc">détermine l&#39;id d&#39;un produit grâce au date de début et de fin de livraison </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d60/storageChart_8cpp_source.html#l00019">storageChart.cpp:19</a></div></div>
 <div class="ttc" id="storage_8h_html"><div class="ttname"><a href="../../d8/d6b/storage_8h.html">storage.h</a></div></div>
+<div class="ttc" id="artag__srv__node_8cpp_html_a051d7468dd23c780411441b008577756"><div class="ttname"><a href="../../dd/d39/artag__srv__node_8cpp.html#a051d7468dd23c780411441b008577756">id</a></div><div class="ttdeci">std_msgs::Int16 id</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d39/artag__srv__node_8cpp_source.html#l00006">artag_srv_node.cpp:6</a></div></div>
 <div class="ttc" id="storageChart_8h_html"><div class="ttname"><a href="../../d1/dd0/storageChart_8h.html">storageChart.h</a></div><div class="ttdoc">fonctions concernant les 6 espaces de stockage disponibles </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:50:00 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:51:09 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
