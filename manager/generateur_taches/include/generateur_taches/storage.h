@@ -14,7 +14,7 @@ class Storage{
 
 public:
 
-	Storage(int product=0,int debut=0,int fin=0,int id=0);
+	Storage(int product=0,int debut=0,int fin=0);
 
 	void setProduct(int prod){m_product=prod;}
 	int getProduct(){return m_product;}
@@ -22,15 +22,12 @@ public:
 	int getBeginningDelivery(){return m_beginningDelivery;}
 	void setEndDelivery(int fin){m_endDelivery=fin;}
 	int getEndDelivery(){return m_endDelivery;}
-	void setId(int id){m_id=id;}
-	int getId(){return m_id;}
   
 private:
 
-	int m_product; //si product = 10 alors il n'y aucun produit en stock
+	int m_product; 
 	int m_beginningDelivery;
 	int m_endDelivery;
-	int m_id;
 
 };
 
