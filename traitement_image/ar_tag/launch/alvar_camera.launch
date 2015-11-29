@@ -5,12 +5,12 @@
         <arg name="cam_image_topic" default="/usb_cam_node/image_raw" />
         <arg name="cam_info_topic" default="/usb_cam_node/camera_info" />
         <arg name="output_frame" default="/head_camera" />
-	<arg name="camera" default="camera" />
-	<arg name="camera_transformation" value="0 0 0 0 0 0" />
-	<node pkg="tf" type="static_transform_publisher" name="$(arg camera)_base_link3"
-	args="$(arg camera_transformation) /world /head_camera 100" />
+        <arg name="camera" default="camera" />
+        <arg name="camera_transformation" value="0 0 0 0 0 0" />
+        <node pkg="tf" type="static_transform_publisher" name="$(arg camera)_base_link3"
+        args="$(arg camera_transformation) /world /head_camera 100" />
+
         <param name="/usb_cam_node/video_device" value="/dev/video1" />
- 
 
         <node name="usb_cam_node" pkg="usb_cam" type="usb_cam_node" output="screen" />
 
