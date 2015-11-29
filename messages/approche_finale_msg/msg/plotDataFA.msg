@@ -1,0 +1,10 @@
+float64 XLeft
+float64 YLeft
+float64 XRight
+float64 YRight
+float64 angleErr
+float64 angleCmd
+float64 XErr
+float64 XCmd
+float64 YErr
+float64 YCmd

@@ -1,3 +1,12 @@
+/**
+ * \file        GtServerSrv.h
+ * \class       GtServerSrv
+ * \brief       classe serveur pour le générateur de tâches
+ * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
+ * \date        2015-10-10
+ * \copyright   PyroTeam, Polytech-Lille
+ */
+
 #ifndef GTSERVERSRV_H
 #define GTSERVERSRV_H
 
@@ -49,30 +58,37 @@
 #define CYAN 0
 #define MAGENTA 1
 
-class GtServerSrv {
-public :
-	GtServerSrv();
-	virtual  ~GtServerSrv();
-	bool responseToGT(manager_msg::order::Request  &req,manager_msg::order::Response &res);
-	void setId(int id);
-	int teamColorOfId(int arTag);
-	manager_msg::activity getActivityMsg();
-	manager_msg::finalApproachingAction getFinalAppAction();
-	void interpretationZone();
-	void going(geometry_msgs::Pose2D point);
-	geometry_msgs::Pose2D calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone);
-	void asking(geometry_msgs::Pose2D point);
-private :
-	int nb_robot;
-	int t_color;
-	int m_id;
-	float x;
-	float y;
-	manager_msg::activity m_msg;
-	std::string name;
-	manager_msg::finalApproachingAction m_act;
-	ExploInfoSubscriber *m_ei;
-	LocaSubscriber *m_ls;
+class GtServerSrv 
+{
+	public:
+		/* Constructeur */
+		GtServerSrv();
+
+		/* Déstructeur */
+		virtual  ~GtServerSrv();
+
+		/* Méthodes */
+		bool responseToGT(manager_msg::order::Request  &req,manager_msg::order::Response &res);
+		void setId(int id);
+		int teamColorOfId(int arTag);
+		manager_msg::activity getActivityMsg();
+		manager_msg::finalApproachingAction getFinalAppAction();
+		void interpretationZone();
+		void going(geometry_msgs::Pose2D point);
+		geometry_msgs::Pose2D calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone);
+		void asking(geometry_msgs::Pose2D point);
+	private:
+		/* Variables d'instance */
+		int m_nbrobot;
+		int m_color;
+		int m_id;
+		float m_x;
+		float m_y;
+		manager_msg::activity m_msg;
+		std::string m_name;
+		manager_msg::finalApproachingAction m_act;
+		ExploInfoSubscriber *m_ei;
+		LocaSubscriber *m_ls;
 };
 
 #endif

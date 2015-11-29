@@ -5,7 +5,7 @@
 #include "work.h"
 #include "task.h"
 #include "tasksList.h"
-#include "order.h"
+
 
 #include "manager_msg/order.h"
 
@@ -13,13 +13,14 @@ using namespace std;
 using namespace manager_msg;
 
 // verifie si la demande de la RefBox a déjà prise en compte
-bool alreadyInWork(list<list<Task> > work, Order order){
+bool alreadyInWork(list<list<Task> > work, comm_msg::Order order)
+{
 	bool tmp = false;
 	list<list<Task> >::iterator workIterator;
 	for(workIterator = work.begin(); workIterator != work.end(); workIterator++)
 	{
-		if( (order.getProduct().getNbrRing() == workIterator->begin()->getProduct()) 
-		&& (order.getBeginningDelivery() == workIterator->begin()->getBeginningDelivery()) )
+		if((order.delivery_period_end == workIterator->begin()->getEndDelivery()) 
+		  && (order.delivery_period_begin == workIterator->begin()->getBeginningDelivery()))
 		{
 			tmp =true;
 		}
@@ -28,41 +29,27 @@ bool alreadyInWork(list<list<Task> > work, Order order){
 }
 
 // rajoute les nouvelles listes de tâches à faire éxecuter 
-void addInWork(list<list<Task> > &work, Order &order,int &availableCap){
-	if(!alreadyInWork(work,order) && !order.getProcessed())
+void addInWork(list<list<Task> > &work, std::vector<comm_msg::Order> tabOrders,int (&availableCap)[2], std::vector<bool> &ordersInProcess)
+{
+	if(!tabOrders.empty() )
 	{
-		order.setProcessed(true);
-		for(int i=0; i< order.getQuantity(); i++)
+		for(int j=0; j<tabOrders.size(); j++)
 		{
-			if(availableCap > 0)
+			if(!ordersInProcess[j] && !alreadyInWork(work,tabOrders[j]))
 			{
-				work.push_back(creationListTasksProduct(order.getProduct(),order.getBeginningDelivery(), 
-														order.getEndDelivery()));
-				availableCap --;
-			}
-		else
-		{
-			list<list<Task> >::iterator workIterator;
-			workIterator = work.begin();
-			while(workIterator != work.end() && !uncapInWork(*workIterator))
-			{
-				workIterator++;
-			}
-			if(workIterator != work.end())
-			{
-				list<Task> ltmp = creationListTasksProduct(order.getProduct(),order.getBeginningDelivery(), 
-														   order.getEndDelivery());
-				int tmpCreation = ltmp.begin()->getCreation();
-				workIterator->splice(workIterator->end(), ltmp);
-				workIterator->begin()->setCreation(tmpCreation + 30);
+				ordersInProcess[j]=true;
+				for(int i=0; i< tabOrders[j].quantity_requested; i++)
+				{
+					addAccordingToCap(work, tabOrders[j], availableCap);
+				}
 			}
 		}
 	}
 }
-}
 
 //verifie s'il y a des taches qui ont un ratio superieur a zero
-bool positiveRatio(list<list<Task> > work){
+bool positiveRatio(list<list<Task> > work)
+{
 	bool tmp = false;
 	list<list<Task> >::iterator it;
 	for(it = work.begin(); it != work.end(); it++)
@@ -76,21 +63,23 @@ bool positiveRatio(list<list<Task> > work){
 }
 
 //renvoie la tâche qui le plus grand ratio 
-list<list<Task> >::iterator maxRatio(list<list<Task> > &work){
+list<list<Task> >::iterator maxRatio(list<list<Task> > &work)
+{
 	list<list<Task> >::iterator workIterator;
 	list<list<Task> >::iterator tmp = work.begin();
 	for(workIterator = work.begin(); workIterator != work.end(); workIterator++)
 	{
 		if(workIterator->begin()->getRatio() > tmp->begin()->getRatio())
 		{
-		tmp = workIterator;
+			tmp = workIterator;
 		}
 	}
 	return tmp;
 }
 
 //calcule le ratio de chaque première tâche de chaque liste de tâche
-void ratioCalculus(list<list<Task> > &work,double time,int robot,bool take[]){
+void ratioCalculus(list<list<Task> > &work,double time,int robot,bool take[])
+{
 	list<list<Task> >::iterator t_it;
 	for(t_it = work.begin(); t_it != work.end(); t_it++)
 	{
@@ -110,14 +99,14 @@ void ratioCalculus(list<list<Task> > &work,double time,int robot,bool take[]){
 			}
 			else
 			{
-				t_it->begin()->setRatio(t_it->begin()->pointPerProduct());
+				t_it->begin()->setRatio(t_it->begin()->pointPerComplexity());
 			}
 		}
 		if(take[robot]==true)
 		{
 			if(t_it->begin()->getTitle() == int(orderRequest::PUT_CAP) || 
 			   t_it->begin()->getTitle() == int(orderRequest::PUT_RING) || 
-			   t_it->begin()->getTitle() == int(orderRequest::DELIVER))
+			   t_it->begin()->getTitle() == int(orderRequest::DESTOCK))
 			{
 				t_it->begin()->setRatio(300);
 			}
@@ -131,17 +120,15 @@ void ratioCalculus(list<list<Task> > &work,double time,int robot,bool take[]){
 }			
 
 //affiche des infos sur la structure contenant les tâches à réaliser
-void getInfoWork(list<list<Task> > work){
+void getInfoWork(list<list<Task> > work)
+{
 	list<list<Task> >::iterator wit;
 	int compteur = 1; 
 	for(wit = work.begin(); wit != work.end(); wit++)
 	{
-		cout << "taille de la liste " << compteur << " = " << wit->size() <<
-			    " | ratio = "<< wit->begin()->getRatio() <<
-    			" | intitule première tâche = " << wit->begin()->getTitle()  << 
-      			" " << wit->begin()->getParameter() <<  
-      			" debut_livr : " << wit->begin()->getBeginningDelivery() <<
-      			" fin_livr : " << wit->begin()->getEndDelivery() << endl;
+		ROS_INFO("taille de la liste %d : %d ratio: %f intitule première tâche: %d parametre: %d debut_livr: %d fin_livr: %d",
+		         compteur,(int)wit->size(),(float)wit->begin()->getRatio(),wit->begin()->getTitle(),
+		         wit->begin()->getParameter(),wit->begin()->getBeginningDelivery(),wit->begin()->getEndDelivery());
 		compteur++;
 	}
 }			
@@ -151,7 +138,7 @@ void cleanWork(list<list<Task> > &work,list<list<Task> >::iterator &it,double ti
 	if(!it->empty()) 
 	{
 		it->pop_front();
-		it->begin()->setEndCarryingOut(it->begin()->getCreation() + time);
+		//it->begin()->setTaskEnd(it->begin()->getTaskEnd() + time);
 	}
 	if(it->empty()) 
 	{
@@ -160,11 +147,19 @@ void cleanWork(list<list<Task> > &work,list<list<Task> >::iterator &it,double ti
 }
 
 //quelques traitements à faire en plus en cas de tâche particulière
-void particularTasksInWork(list<list<Task> > ::iterator &it, int &availableCap, int &storage,double time){
+void particularTasksInWork(list<list<Task> > ::iterator &it, int (&availableCap)[2], int &storage,double time){
 	//si la seule tâche est de décapsuler dans la liste
 	if((it->begin()->getTitle() == int(orderRequest::UNCAP)) && (it->size() == 1))
 	{ 
-		availableCap ++;
+		switch(it->begin()->getParameter())
+		{
+			case int(orderRequest::BLACK) :
+				availableCap[0] ++;
+				break;
+			case int(orderRequest::GREY) :
+				availableCap[1] ++;
+				break;
+		}
 		storage ++;
 	}
 	//si on a un product fini
@@ -182,14 +177,46 @@ void particularTasksInWork(list<list<Task> > ::iterator &it, int &availableCap, 
 }
 
 //verifie les taches terminees
-void finishedTasks(list<list<Task> > &work, int robot, double time){
+void finishedTasks(list<list<Task> > &work, double time){
 	list<list<Task> >::iterator wit;
 	for(wit=work.begin(); wit!=work.end(); wit++)
 	{
-		if(wit->begin()->getEndCarryingOut() > time)
+		if(wit->begin()->getTaskEnd() >= time)
 		{
 			wit->begin()->setInProcess(false);
+			cleanWork(work,wit,time);
 		}
 	}
 }  
-  
+
+void addNewTasksList(std::list<std::list<Task> > &work, comm_msg::Order order, int availableCap)
+{
+	if(availableCap > 0)
+	{
+		Product product(order.complexity,order.base_color,order.ring_colors,order.cap_color);
+		work.push_back(creationListTasksProduct(product,order.delivery_period_begin, order.delivery_period_end));
+		availableCap --;
+	}
+	else
+	{
+		Product product(order.complexity,order.base_color,order.ring_colors,order.cap_color);
+		list<Task> latmp = creationListTasksAction(orderRequest::UNCAP,product,order.delivery_period_begin, order.delivery_period_end);
+		list<Task> lptmp = creationListTasksProduct(product,order.delivery_period_begin, order.delivery_period_end);
+		int tmpCreation = lptmp.begin()->getCreation();
+		latmp.splice(latmp.end(), lptmp);
+		latmp.begin()->setCreation(tmpCreation + 30);
+		work.push_back(latmp);
+	}
+}
+
+void addAccordingToCap(std::list<std::list<Task> > &work, comm_msg::Order order,int (&availableCap)[2])
+{
+	if(order.cap_color == comm_msg::Order::CAP_BLACK)
+	{
+		addNewTasksList(work, order, availableCap[0]);
+	}
+	if(order.cap_color == comm_msg::Order::CAP_GREY)
+	{
+		addNewTasksList(work, order, availableCap[1]);
+	}
+}  
