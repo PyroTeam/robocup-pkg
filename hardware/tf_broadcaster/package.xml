@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<package>
+  <name>tf_broadcaster</name>
+  <version>0.0.1</version>
+  <description>The tf_broadcaster package</description>
+
+  <maintainer email="valentin.vergez@gmail.com">Valentin Vergez</maintainer>
+
+  <license>GPLv3</license>
+
+  <url type="repository">https://github.com/PyroTeam/robocup-pkg</url>
+  <url type="bugtracker">https://github.com/PyroTeam/robocup-pkg/issues</url>
+  <url type="website">https://github.com/PyroTeam/robocup-pkg/wiki</url>
+
+  <author email="vianney.payelle@polytech-lille.net">Vianney Payelle</author>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>nav_msgs</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>nav_msgs</run_depend>
+
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- You can specify that this package is a metapackage here: -->
+    <!-- <metapackage/> -->
+
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

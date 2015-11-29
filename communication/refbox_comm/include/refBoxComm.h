@@ -22,6 +22,7 @@
 #include "comm_msg/GameState.h"
 #include "comm_msg/ExplorationInfo.h"
 #include "comm_msg/ReportMachine.h"
+#include "comm_msg/PrepareMachine.h"
 
 #include <msgs/BeaconSignal.pb.h>
 #include <msgs/OrderInfo.pb.h>
@@ -56,8 +57,11 @@ private:
     ros::Publisher m_gameState_pub;
     ros::Publisher m_explorationInfo_pub;
     ros::Publisher m_machineReportInfo_pub;
+    ros::Publisher m_orderInfo_pub;
+    ros::Publisher m_machineInfo_pub;
 
     ros::ServiceServer m_reportMachineService;
+    ros::ServiceServer m_prepareMachineService;
 
     ros::Subscriber m_pose_sub;
 
@@ -89,6 +93,8 @@ private:
     bool ReportMachineSrv(comm_msg::ReportMachine::Request  &req,
                           comm_msg::ReportMachine::Response &res);
 
+    bool PrepareMachineSrv(comm_msg::PrepareMachine::Request  &req,
+                           comm_msg::PrepareMachine::Response &res);
 
     //dispatcher receive handler
     bool fireBeaconSignal(protoMsg &m);
@@ -104,7 +110,7 @@ private:
     //send callBack
     bool sendBeaconSignalCB(protoMsg &m);
     bool sendMachineReportCB(protoMsg &m);
-
+    bool sendPrepareMachineCB(protoMsg &m);
 };
 
 #endif /* REFBOXCOMM_H_ */

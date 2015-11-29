@@ -12,7 +12,7 @@
 
 #include "refBoxUtils.h"
 
-comm_msg::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, llsf_msgs::Team team_color)
+comm_msg::GameState llsf2ros_gameState(const llsf_msgs::GameState &llsfGameState, llsf_msgs::Team team_color)
 {
     comm_msg::GameState rosGameState;
 
@@ -51,15 +51,6 @@ comm_msg::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, llsf_
     case llsf_msgs::GameState::POST_GAME:
         rosGameState.phase = comm_msg::GameState::POST_GAME;
         break;
-    case llsf_msgs::GameState::OPEN_CHALLENGE:
-        rosGameState.phase = comm_msg::GameState::OPEN_CHALLENGE;
-        break;
-    case llsf_msgs::GameState::NAVIGATION_CHALLENGE:
-        rosGameState.phase = comm_msg::GameState::NAVIGATION_CHALLENGE;
-        break;
-    case llsf_msgs::GameState::WHACK_A_MOLE_CHALLENGE:
-        rosGameState.phase = comm_msg::GameState::WHACK_A_MOLE_CHALLENGE;
-        break;
     }
 
     rosGameState.points = ((team_color == llsf_msgs::Team::CYAN) ?
@@ -72,7 +63,7 @@ comm_msg::GameState llsf2ros_gameState(llsf_msgs::GameState llsfGameState, llsf_
 }
 
 
-comm_msg::ExplorationInfo llsf2ros_explorationInfo(const llsf_msgs::ExplorationInfo llsfExplorationInfo, llsf_msgs::Team team_color)
+comm_msg::ExplorationInfo llsf2ros_explorationInfo(const llsf_msgs::ExplorationInfo &llsfExplorationInfo, llsf_msgs::Team team_color)
 {
     comm_msg::ExplorationInfo rosExplorationInfo;
 
@@ -123,10 +114,45 @@ comm_msg::MachineInfo llsf2ros_machineInfo(const llsf_msgs::MachineInfo &llsfMac
         rosMachine.type = machine.type();
         rosMachine.state = machine.state();
         rosMachine.team_color = machine.team_color();
-        //TODO voir messages refBox
+        rosMachine.pose.x = machine.pose().x();
+        rosMachine.pose.y = machine.pose().y();
+        rosMachine.pose.theta = machine.pose().ori();
+        rosMachine.zone = uint8_t(machine.zone());
+        //TODO loadedWith et lights si necessaire
 
         rosMachineInfo.machines.push_back(rosMachine);
     }
 
     return rosMachineInfo;
+}
+
+comm_msg::OrderInfo llsf2ros_orderInfo(const llsf_msgs::OrderInfo &llsfOrderInfo)
+{
+    comm_msg::OrderInfo rosOrderInfo;
+
+    for(int i=0; i<llsfOrderInfo.orders_size(); ++i)
+    {
+        const llsf_msgs::Order &llsfOrder = llsfOrderInfo.orders(i);
+        comm_msg::Order rosOrder;
+        rosOrder.id = llsfOrder.id();
+        rosOrder.complexity = llsfOrder.complexity();
+        rosOrder.base_color = llsfOrder.base_color();
+        for (int j=0; j < llsfOrder.ring_colors_size(); ++j)
+        {
+            rosOrder.ring_colors.push_back(uint8_t(llsfOrder.ring_colors(j)));
+        }
+        rosOrder.cap_color = llsfOrder.cap_color();
+        rosOrder.quantity_requested = llsfOrder.quantity_requested();
+        rosOrder.quantity_delivered_cyan = llsfOrder.quantity_delivered_cyan();
+        rosOrder.quantity_delivered_magenta = llsfOrder.quantity_delivered_magenta();
+
+        rosOrder.delivery_period_begin = llsfOrder.delivery_period_begin();
+        rosOrder.delivery_period_end = llsfOrder.delivery_period_end();
+
+        rosOrder.delivery_gate = llsfOrder.delivery_gate();
+
+        rosOrderInfo.orders.push_back(rosOrder);
+    }
+    return rosOrderInfo;
+
 }

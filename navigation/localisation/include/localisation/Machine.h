@@ -2,6 +2,7 @@
 #define MACHINE_H
 
 #include "geometry_msgs/Pose2D.h"
+#include "Segment.h"
 
 class Machine{
 public:
@@ -9,27 +10,25 @@ public:
 	~Machine();
 
 	geometry_msgs::Pose2D getCentre();
-	bool getType();
+	int getNbActu();
+	double getReliability();
 
 	void setCentre(geometry_msgs::Pose2D c);
-	void setType(int val);
-	void resetType();
 	void addX(double x);
 	void addY(double y);
 	void addTheta(double theta);
 	void incNbActu();
+	void setReliability(double rel);
 
 	void maj();
-	bool exist();
-
+	void calculateCoordMachine(Segment s);
 private:
 	geometry_msgs::Pose2D 	m_centre;
-	int						m_type;
-	bool					m_state;
 	double 					m_xSum;
 	double 					m_ySum;
 	double 					m_thetaSum;
 	int 					m_nbActu;
+	double					m_reliability;
 };
 
 #endif

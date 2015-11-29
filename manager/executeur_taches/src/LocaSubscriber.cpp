@@ -3,14 +3,14 @@
 
 //std::vector<MPS> machine(24);
 
-LocaSubscriber::LocaSubscriber():machine(24){
+LocaSubscriber::LocaSubscriber():machine(24)
+{
 	ros::NodeHandle n;
 	ros::Subscriber sub = n.subscribe("/landmarks",1000,&LocaSubscriber::tesCallback, this);
 
 }
 
-LocaSubscriber::~LocaSubscriber(){
-}
+LocaSubscriber::~LocaSubscriber(){}
 
 void LocaSubscriber::tesCallback(const manager_msg::LandmarksConstPtr &msg)
 {
@@ -36,7 +36,8 @@ int LocaSubscriber::getZone(float x, float y)
 	int zone = 0;
 
 	// Right side
-	if(x >= 0 && y >= 0) {
+	if(x >= 0 && y >= 0) 
+	{
 		// Anti-division par 0
 		if(x==0) x=1;
 		int w = (int)(x/2);
@@ -48,7 +49,8 @@ int LocaSubscriber::getZone(float x, float y)
 		zone = w*4 + h;
 	}
 	// Left side
-	else if (x < 0 && y >= 0) {
+	else if (x < 0 && y >= 0) 
+	{
 		int w = (int)(-x/2);
 
 		// Anti-division par 0
@@ -57,7 +59,9 @@ int LocaSubscriber::getZone(float x, float y)
 
 		zone = w*4 + h + 12;
 	}
-	else {
+
+	else 
+	{
 		int zone = 0;
 	}
 

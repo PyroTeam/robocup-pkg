@@ -2,7 +2,8 @@
 #include "geometry_msgs/Pose2D.h"
 
 /* Constructeur */
-MPS::MPS(){
+MPS::MPS()
+{
 	x = 0;
     y = 0;
 	theta  = 0;
