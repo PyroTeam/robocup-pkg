@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: navigation/pathfinder/src/server.cpp File Reference</title>
+<title>robocup-pkg: navigation/pathfinder/src/pathfinder_node.cpp File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -90,42 +90,59 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">server.cpp File Reference</div>  </div>
+<div class="title">pathfinder_node.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;pathfinder/server.hpp&quot;</code><br/>
+
+<p>Fichier principal du noeud pathfinder.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;pathfinder/pathfinder_node.hpp&quot;</code><br/>
 </div>
-<p><a href="../../df/dd7/server_8cpp_source.html">Go to the source code of this file.</a></p>
+<p><a href="../../de/dd1/pathfinder__node_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd7/server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
+<tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd1/pathfinder__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a385b3782f71da46f8ab4d2788de8271f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd7/server_8cpp.html#a385b3782f71da46f8ab4d2788de8271f">generatePath_callback</a> (pathfinder::GeneratePath::Request &amp;req, pathfinder::GeneratePath::Response &amp;res)</td></tr>
+<tr class="memitem:a385b3782f71da46f8ab4d2788de8271f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd1/pathfinder__node_8cpp.html#a385b3782f71da46f8ab4d2788de8271f">generatePath_callback</a> (pathfinder::GeneratePath::Request &amp;req, pathfinder::GeneratePath::Response &amp;res)</td></tr>
 <tr class="separator:a385b3782f71da46f8ab4d2788de8271f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07ed34ab588d5d5cc3b7b0757819a7f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd7/server_8cpp.html#a07ed34ab588d5d5cc3b7b0757819a7f4">odomCallback</a> (nav_msgs::Odometry odom)</td></tr>
+<tr class="memitem:a07ed34ab588d5d5cc3b7b0757819a7f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd1/pathfinder__node_8cpp.html#a07ed34ab588d5d5cc3b7b0757819a7f4">odomCallback</a> (nav_msgs::Odometry odom)</td></tr>
 <tr class="separator:a07ed34ab588d5d5cc3b7b0757819a7f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a767c4fcf94e79e34e25ae7b1ec5b54b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd7/server_8cpp.html#a767c4fcf94e79e34e25ae7b1ec5b54b9">computeAStar_thread_function</a> ()</td></tr>
+<tr class="memitem:a767c4fcf94e79e34e25ae7b1ec5b54b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd1/pathfinder__node_8cpp.html#a767c4fcf94e79e34e25ae7b1ec5b54b9">computeAStar_thread_function</a> ()</td></tr>
 <tr class="separator:a767c4fcf94e79e34e25ae7b1ec5b54b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ab81d5f9276e7b4590a8bfa96fa4f7895"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d91/structPathOrders.html">PathOrders</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd7/server_8cpp.html#ab81d5f9276e7b4590a8bfa96fa4f7895">pathReq</a> = {-1,{0.0,0.0,0.0},{0.0,0},false}</td></tr>
-<tr class="separator:ab81d5f9276e7b4590a8bfa96fa4f7895"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af453ae760c60800502b451c193666375"><td class="memItemLeft" align="right" valign="top">pathfinder::AstarPath&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd7/server_8cpp.html#af453ae760c60800502b451c193666375">pathFound</a></td></tr>
-<tr class="separator:af453ae760c60800502b451c193666375"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa2e92b14c2b475008e4d18aea58e06d"><td class="memItemLeft" align="right" valign="top">pathfinder::AstarState&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd7/server_8cpp.html#aaa2e92b14c2b475008e4d18aea58e06d">pathfinderState</a></td></tr>
-<tr class="separator:aaa2e92b14c2b475008e4d18aea58e06d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a523eeeaa38b6f49353fe51d01cd1df2f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd7/server_8cpp.html#a523eeeaa38b6f49353fe51d01cd1df2f">lastIdReceived</a> = -1</td></tr>
-<tr class="separator:a523eeeaa38b6f49353fe51d01cd1df2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61352d6c2c961f328d43807f0010bd99"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd7/server_8cpp.html#a61352d6c2c961f328d43807f0010bd99">current_x</a> = 0.0</td></tr>
-<tr class="separator:a61352d6c2c961f328d43807f0010bd99"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94b15a394d7a3c430bd7b78954e60eb9"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd7/server_8cpp.html#a94b15a394d7a3c430bd7b78954e60eb9">current_y</a> = 0.0</td></tr>
-<tr class="separator:a94b15a394d7a3c430bd7b78954e60eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53a2d16dac430353052f49aaa0cce34a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd7/server_8cpp.html#a53a2d16dac430353052f49aaa0cce34a">stop</a> = false</td></tr>
-<tr class="separator:a53a2d16dac430353052f49aaa0cce34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c5f4bd097c80d146c8163a2afebdfe1"><td class="memItemLeft" align="right" valign="top">PathOrders&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a> = {-1,{0.0,0.0,0.0},{0.0,0},false}</td></tr>
+<tr class="separator:a4c5f4bd097c80d146c8163a2afebdfe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7beda142dda7eac5c782a3828fd7baa"><td class="memItemLeft" align="right" valign="top">pathfinder::AstarPath&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a></td></tr>
+<tr class="separator:ab7beda142dda7eac5c782a3828fd7baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cb92596a795a2d681ed041ffa3a5148"><td class="memItemLeft" align="right" valign="top">pathfinder::AstarState&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a></td></tr>
+<tr class="separator:a8cb92596a795a2d681ed041ffa3a5148"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7157d85f15920752018e09565864816c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd1/pathfinder__node_8cpp.html#a7157d85f15920752018e09565864816c">g_lastIdReceived</a> = -1</td></tr>
+<tr class="separator:a7157d85f15920752018e09565864816c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2b314bbb49f15819cfcf85e1be48a49"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd1/pathfinder__node_8cpp.html#ad2b314bbb49f15819cfcf85e1be48a49">g_current_x</a> = 0.0</td></tr>
+<tr class="separator:ad2b314bbb49f15819cfcf85e1be48a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a8204c99bc37787a83686b7f2b954b1"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd1/pathfinder__node_8cpp.html#a1a8204c99bc37787a83686b7f2b954b1">g_current_y</a> = 0.0</td></tr>
+<tr class="separator:a1a8204c99bc37787a83686b7f2b954b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbf0f0248cb9b0742fc3668c6ddf4b3d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd1/pathfinder__node_8cpp.html#afbf0f0248cb9b0742fc3668c6ddf4b3d">g_stop</a> = false</td></tr>
+<tr class="separator:afbf0f0248cb9b0742fc3668c6ddf4b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Fichier principal du noeud pathfinder. </p>
+<dl class="section author"><dt>Author</dt><dd>Valentin Vergez </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.0.1 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>16 mai 2015</dd></dl>
+<p>Ce noeud propose un service 'generatePath' et retourne les résultats sur les topics</p>
+<ul>
+<li>pathFound</li>
+<li>path</li>
+<li>pathfinderState</li>
+</ul>
+<p>La recherche de chemin est effectué dans un Thread par une instance de la classe AStar. La map est renseignée à AStar via le topic /grid souscrit sur une methode de callback de la classe. </p>
+
+<p>Definition in file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a767c4fcf94e79e34e25ae7b1ec5b54b9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -139,7 +156,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/dd7/server_8cpp_source.html#l00113">113</a> of file <a class="el" href="../../df/dd7/server_8cpp_source.html">server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html#l00121">121</a> of file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -167,7 +184,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/dd7/server_8cpp_source.html#l00053">53</a> of file <a class="el" href="../../df/dd7/server_8cpp_source.html">server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html#l00070">70</a> of file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -195,7 +212,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/dd7/server_8cpp_source.html#l00014">14</a> of file <a class="el" href="../../df/dd7/server_8cpp_source.html">server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html#l00031">31</a> of file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -213,113 +230,113 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/dd7/server_8cpp_source.html#l00107">107</a> of file <a class="el" href="../../df/dd7/server_8cpp_source.html">server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html#l00115">115</a> of file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="a61352d6c2c961f328d43807f0010bd99"></a>
+<a class="anchor" id="ad2b314bbb49f15819cfcf85e1be48a49"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">float current_x = 0.0</td>
+          <td class="memname">float g_current_x = 0.0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/dd7/server_8cpp_source.html#l00009">9</a> of file <a class="el" href="../../df/dd7/server_8cpp_source.html">server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html#l00026">26</a> of file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a94b15a394d7a3c430bd7b78954e60eb9"></a>
+<a class="anchor" id="a1a8204c99bc37787a83686b7f2b954b1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">float current_y = 0.0</td>
+          <td class="memname">float g_current_y = 0.0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/dd7/server_8cpp_source.html#l00010">10</a> of file <a class="el" href="../../df/dd7/server_8cpp_source.html">server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html#l00027">27</a> of file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a523eeeaa38b6f49353fe51d01cd1df2f"></a>
+<a class="anchor" id="a7157d85f15920752018e09565864816c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int lastIdReceived = -1</td>
+          <td class="memname">int g_lastIdReceived = -1</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/dd7/server_8cpp_source.html#l00008">8</a> of file <a class="el" href="../../df/dd7/server_8cpp_source.html">server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html#l00025">25</a> of file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aaa2e92b14c2b475008e4d18aea58e06d"></a>
+<a class="anchor" id="a8cb92596a795a2d681ed041ffa3a5148"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">pathfinder::AstarState pathfinderState</td>
+          <td class="memname">pathfinder::AstarState g_pathfinderState</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/dd7/server_8cpp_source.html#l00007">7</a> of file <a class="el" href="../../df/dd7/server_8cpp_source.html">server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html#l00024">24</a> of file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af453ae760c60800502b451c193666375"></a>
+<a class="anchor" id="ab7beda142dda7eac5c782a3828fd7baa"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">pathfinder::AstarPath pathFound</td>
+          <td class="memname">pathfinder::AstarPath g_pathFound</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/dd7/server_8cpp_source.html#l00006">6</a> of file <a class="el" href="../../df/dd7/server_8cpp_source.html">server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html#l00023">23</a> of file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab81d5f9276e7b4590a8bfa96fa4f7895"></a>
+<a class="anchor" id="a4c5f4bd097c80d146c8163a2afebdfe1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d3/d91/structPathOrders.html">PathOrders</a> pathReq = {-1,{0.0,0.0,0.0},{0.0,0},false}</td>
+          <td class="memname">PathOrders g_pathReq = {-1,{0.0,0.0,0.0},{0.0,0},false}</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/dd7/server_8cpp_source.html#l00005">5</a> of file <a class="el" href="../../df/dd7/server_8cpp_source.html">server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html#l00022">22</a> of file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a53a2d16dac430353052f49aaa0cce34a"></a>
+<a class="anchor" id="afbf0f0248cb9b0742fc3668c6ddf4b3d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool stop = false</td>
+          <td class="memname">bool g_stop = false</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/dd7/server_8cpp_source.html#l00011">11</a> of file <a class="el" href="../../df/dd7/server_8cpp_source.html">server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html#l00028">28</a> of file <a class="el" href="../../de/dd1/pathfinder__node_8cpp_source.html">pathfinder_node.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 28 2015 18:05:52 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:34:38 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

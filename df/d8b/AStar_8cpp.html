@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: traitement_image/feu_tricolore/src/simLightDetection_node.cpp Source File</title>
+<title>robocup-pkg: navigation/pathfinder/src/AStar.cpp File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -82,39 +82,34 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_e12b2f30e5ee004db3603f73d84d0197.html">traitement_image</a></li><li class="navelem"><a class="el" href="../../dir_338bc1d0b9462300fdd2612c0b2bc6ac.html">feu_tricolore</a></li><li class="navelem"><a class="el" href="../../dir_22cddf4288fa96082464f43a4ca0155d.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_15002fc52f515edffb6e3e945f4e32a5.html">pathfinder</a></li><li class="navelem"><a class="el" href="../../dir_82b609e9bfb62e90c50bde74c161b538.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">simLightDetection_node.cpp</div>  </div>
+<div class="title">AStar.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d1/d33/simLightDetection__node_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/d58/SimLightDetection_8h.html">feu_tricolore/SimLightDetection.h</a>&gt;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="../../d1/d33/simLightDetection__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">    4</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d1/d33/simLightDetection__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;sim_light_detection&quot;</span>);</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <a class="code" href="../../d5/d77/classSimLightDetection.html">SimLightDetection</a> lightDetection;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    ros::Rate loop_rate(50);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">while</span> (lightDetection.<a class="code" href="../../d5/d77/classSimLightDetection.html#ae3b8f4fa80c3da2c8cb10a17187f38ef">ok</a>()) </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    {   </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        ros::spinOnce();</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        loop_rate.sleep();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
-<div class="ttc" id="simLightDetection__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d1/d33/simLightDetection__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d33/simLightDetection__node_8cpp_source.html#l00004">simLightDetection_node.cpp:4</a></div></div>
-<div class="ttc" id="SimLightDetection_8h_html"><div class="ttname"><a href="../../de/d58/SimLightDetection_8h.html">SimLightDetection.h</a></div></div>
-<div class="ttc" id="classSimLightDetection_html"><div class="ttname"><a href="../../d5/d77/classSimLightDetection.html">SimLightDetection</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d58/SimLightDetection_8h_source.html#l00016">SimLightDetection.h:16</a></div></div>
-<div class="ttc" id="classSimLightDetection_html_ae3b8f4fa80c3da2c8cb10a17187f38ef"><div class="ttname"><a href="../../d5/d77/classSimLightDetection.html#ae3b8f4fa80c3da2c8cb10a17187f38ef">SimLightDetection::ok</a></div><div class="ttdeci">bool ok()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d58/SimLightDetection_8cpp_source.html#l00050">SimLightDetection.cpp:50</a></div></div>
-</div><!-- fragment --></div><!-- contents -->
+
+<p>Implémentation de l'algorithme AStar.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;pathfinder/AStar.hpp&quot;</code><br/>
+</div>
+<p><a href="../../df/d8b/AStar_8cpp_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Implémentation de l'algorithme AStar. </p>
+<dl class="section author"><dt>Author</dt><dd>Valentin Vergez </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.0.1 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>16 mai 2015</dd></dl>
+<p>Implémentation complète de l'algorithme AStar pour les robotinos de PYRO Team, dans le cadre de la RoboCup Logistic League.</p>
+<p>La classe AStar est en charge de récupérer la map (une OccupancyGrid), grâce à sa fonction de CallBack et de trouver un chemin optimal entre deux points. Fonction : computeAStar.</p>
+<p>L'implémentation de l'openList est en grande partie codée dans Point.cpp </p>
+
+<p>Definition in file <a class="el" href="../../df/d8b/AStar_8cpp_source.html">AStar.cpp</a>.</p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 28 2015 18:05:52 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:34:38 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
