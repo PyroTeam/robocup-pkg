@@ -135,7 +135,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d4/df9/landmarks__detection__utils_8cpp.html#a0011e6495d21b7aa5be7d7fc7cf54ac0">test</a>(<span class="keywordtype">int</span> area);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">bool</span> initOdom();</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">bool</span> isFarFromEverything(geometry_msgs::Pose2D p);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a80710f2229b138cd3664c21ba2bb9c43">dist</a>(geometry_msgs::Pose2D <a class="code" href="../../d0/da7/finalApproaching_8cpp.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a>, geometry_msgs::Pose2D m);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a80710f2229b138cd3664c21ba2bb9c43">dist</a>(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> updateP(<span class="keyword">const</span> MatrixXd &amp;Pm, <span class="keywordtype">int</span> i);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> updatePprev(<span class="keyword">const</span> MatrixXd &amp;Pm, <span class="keywordtype">int</span> i);</div>
@@ -178,7 +178,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classEKF_html"><div class="ttname"><a href="../../de/d39/classEKF.html">EKF</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dde/EKF__class_8h_source.html#l00018">EKF_class.h:18</a></div></div>
 <div class="ttc" id="localisation_2include_2localisation_2laserScan_8h_html"><div class="ttname"><a href="../../d6/dbe/localisation_2include_2localisation_2laserScan_8h.html">laserScan.h</a></div></div>
-<div class="ttc" id="finalApproaching_8cpp_html_a4e1e0e72dd773439e333c84dd762a9c3"><div class="ttname"><a href="../../d0/da7/finalApproaching_8cpp.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a></div><div class="ttdeci">int c</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da7/finalApproaching_8cpp_source.html#l00016">finalApproaching.cpp:16</a></div></div>
 <div class="ttc" id="landmarks__detection__utils_8cpp_html_a0011e6495d21b7aa5be7d7fc7cf54ac0"><div class="ttname"><a href="../../d4/df9/landmarks__detection__utils_8cpp.html#a0011e6495d21b7aa5be7d7fc7cf54ac0">test</a></div><div class="ttdeci">geometry_msgs::Pose2D &amp; test(geometry_msgs::Pose2D &amp;c1, geometry_msgs::Pose2D &amp;c2)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00257">landmarks_detection_utils.cpp:257</a></div></div>
 <div class="ttc" id="Cartographie_8cpp_html_ae7ad521b46615c8d2a6273398bfd6577"><div class="ttname"><a href="../../de/de7/Cartographie_8cpp.html#ae7ad521b46615c8d2a6273398bfd6577">machinesCallback</a></div><div class="ttdeci">void machinesCallback(const deplacement_msg::LandmarksConstPtr &amp;machines)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de7/Cartographie_8cpp_source.html#l00031">Cartographie.cpp:31</a></div></div>
 <div class="ttc" id="Cartographie_8cpp_html_a90fa1a3ae9458679c50a209bade246d9"><div class="ttname"><a href="../../de/de7/Cartographie_8cpp.html#a90fa1a3ae9458679c50a209bade246d9">laserCallback</a></div><div class="ttdeci">void laserCallback(const deplacement_msg::LandmarksConstPtr &amp;laser)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de7/Cartographie_8cpp_source.html#l00095">Cartographie.cpp:95</a></div></div>
@@ -193,7 +192,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:37:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:38:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -9,7 +9,6 @@ var searchData=
   ['refboxmessage',['RefBoxMessage',['../d0/d25/classRefBoxMessage.html#acd7af53a0fb350a64602cc884a25e3e9',1,'RefBoxMessage']]],
   ['refboxtransport',['RefBoxTransport',['../d8/d10/classRefBoxTransport.html#aac7325c0d4fa29093f664a9f9580f3df',1,'RefBoxTransport']]],
   ['registermessage',['registerMessage',['../df/d33/classUdpPeer.html#a452f184361c17c7bc6a6b7e27b5329e7',1,'UdpPeer']]],
-  ['regression_5flineaire',['regression_lineaire',['../d8/ddc/classSegment.html#aa7cc897577c45b8b88a7fcf1d64e6b7a',1,'Segment']]],
   ['reporting',['reporting',['../d7/de4/classReportingMachineSrvClient.html#a54e2ccb8e87dfdbecfd0aa0fc4f7bafe',1,'ReportingMachineSrvClient']]],
   ['reportingmachinesrvclient',['ReportingMachineSrvClient',['../d7/de4/classReportingMachineSrvClient.html#a4b4ec2554212a85cec46763f7fdc9445',1,'ReportingMachineSrvClient']]],
   ['resettype',['resetType',['../dc/dda/classMachine.html#ab51807670020ee3c4b10b3519c5bad13',1,'Machine']]],

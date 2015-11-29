@@ -17,7 +17,7 @@ var indexSectionsWithContent =
   7: "cgps",
   8: "anps",
   9: "bcghmnrs",
-  10: "cgprt"
+  10: "acgprt"
 };
 
 var indexSectionNames =

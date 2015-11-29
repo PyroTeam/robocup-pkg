@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: navigation/approche_finale/src/finalApproaching_server.cpp Source File</title>
+<title>robocup-pkg: navigation/approche_finale/src/sharps.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -87,30 +87,46 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">finalApproaching_server.cpp</div>  </div>
+<div class="title">sharps.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="../../dc/dbe/finalApproaching__server_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;actionlib/server/simple_action_server.h&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;manager_msg/finalApproachingAction.h&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d7/df9/finalApproaching_8h.html">finalApproaching.h</a>&quot;</span></div>
+<a href="../../d9/db7/sharps_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d7/d8d/sharps_8h.html">sharps.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;sensor_msgs/PointCloud.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../dc/dbe/finalApproaching__server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">    6</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../dc/dbe/finalApproaching__server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d1/d75/classSharps.html#a5c6c3f4165b5efb123d75bddcd69b4f3">    6</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d1/d75/classSharps.html#a5c6c3f4165b5efb123d75bddcd69b4f3">Sharps::sharpsCallback</a>(<span class="keyword">const</span> sensor_msgs::PointCloud &amp;msg)</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  ros::init(argc, argv, <span class="stringliteral">&quot;finalApproaching_node&quot;</span>);</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    ros::NodeHandle n;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    ros::Time::init();</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;En attente d une demande d action&quot;</span>);</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  <a class="code" href="../../de/da4/classfinalApproaching.html">finalApproaching</a> <a class="code" href="../../de/da4/classfinalApproaching.html">finalApproaching</a>(ros::this_node::getName());</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  ros::spin();</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
-<div class="ttc" id="finalApproaching_8h_html"><div class="ttname"><a href="../../d7/df9/finalApproaching_8h.html">finalApproaching.h</a></div></div>
-<div class="ttc" id="classfinalApproaching_html"><div class="ttname"><a href="../../de/da4/classfinalApproaching.html">finalApproaching</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df9/finalApproaching_8h_source.html#l00009">finalApproaching.h:9</a></div></div>
-<div class="ttc" id="finalApproaching__server_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../dc/dbe/finalApproaching__server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/dbe/finalApproaching__server_8cpp_source.html#l00006">finalApproaching_server.cpp:6</a></div></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    m_obstacle.clear();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0; i&lt;9; i++)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        m_obstacle.push_back(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    }</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    m_sensorsDistance = msg;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0; i&lt;9; i++)</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordtype">float</span> x = (float)m_sensorsDistance.points[i].x;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordtype">float</span> y = (<span class="keywordtype">float</span>)m_sensorsDistance.points[i].y;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        ROS_DEBUG(<span class="stringliteral">&quot;distance sensor n %d: x=%f, y=%f,sqrt(x*x+y*y)=%f&quot;</span>,i,x,y,sqrt(x*x+y*y)); </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordflow">if</span>(sqrt(x*x+y*y)&lt;0.30)</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        m_obstacle[i] = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        ROS_WARN(<span class="stringliteral">&quot;obstacle near distance sensor n %d&quot;</span>,i);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../d1/d75/classSharps.html#a1e1dbe3d19ce37b6075615170863b9c3">   27</a></span>&#160;<a class="code" href="../../d1/d75/classSharps.html#a1e1dbe3d19ce37b6075615170863b9c3">Sharps::Sharps</a>(){</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    m_sharpsSub = m_nh.subscribe(<span class="stringliteral">&quot;/distance_sensors&quot;</span>,1000,&amp;<a class="code" href="../../d1/d75/classSharps.html#a5c6c3f4165b5efb123d75bddcd69b4f3">Sharps::sharpsCallback</a>,<span class="keyword">this</span>);        </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="ttc" id="sharps_8h_html"><div class="ttname"><a href="../../d7/d8d/sharps_8h.html">sharps.h</a></div></div>
+<div class="ttc" id="classSharps_html_a5c6c3f4165b5efb123d75bddcd69b4f3"><div class="ttname"><a href="../../d1/d75/classSharps.html#a5c6c3f4165b5efb123d75bddcd69b4f3">Sharps::sharpsCallback</a></div><div class="ttdeci">void sharpsCallback(const sensor_msgs::PointCloud &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/db7/sharps_8cpp_source.html#l00006">sharps.cpp:6</a></div></div>
+<div class="ttc" id="classSharps_html_a1e1dbe3d19ce37b6075615170863b9c3"><div class="ttname"><a href="../../d1/d75/classSharps.html#a1e1dbe3d19ce37b6075615170863b9c3">Sharps::Sharps</a></div><div class="ttdeci">Sharps()</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/db7/sharps_8cpp_source.html#l00027">sharps.cpp:27</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:37:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:38:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

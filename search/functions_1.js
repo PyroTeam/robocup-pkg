@@ -5,7 +5,6 @@ var searchData=
   ['blcallback',['blCallback',['../de/d27/classBumperListener.html#a749609b7213e5ecefb1fd9aad29eff50',1,'BumperListener']]],
   ['bring_5fbase_5frs',['bring_base_rs',['../d2/d4b/classBaseStation.html#a360a97d58112752c444ae3a57d6c02cf',1,'BaseStation']]],
   ['build',['build',['../d8/db1/classDroite.html#ab1f4a2591f0240151c1758d97cb86050',1,'Droite::build()'],['../de/d6d/classModele.html#af25652576340e573c30810f695759793',1,'Modele::build()'],['../d0/d57/landmarks__detection__utils_8h.html#ad5513bb16929bc3e134804b2af3731dd',1,'build(const std::list&lt; Point &gt; &amp;points):&#160;landmarks_detection_utils.cpp'],['../dc/db7/machine__detection__utils_8h.html#ad5513bb16929bc3e134804b2af3731dd',1,'build(const std::list&lt; Point &gt; &amp;points):&#160;landmarks_detection_utils.cpp'],['../d4/df9/landmarks__detection__utils_8cpp.html#ad5513bb16929bc3e134804b2af3731dd',1,'build(const std::list&lt; Point &gt; &amp;points):&#160;landmarks_detection_utils.cpp'],['../dc/d0a/machine__detection__utils_8cpp.html#ad5513bb16929bc3e134804b2af3731dd',1,'build(const std::list&lt; Point &gt; &amp;points):&#160;machine_detection_utils.cpp']]],
-  ['build_5fsegments',['build_segments',['../d9/d37/classlaserScan.html#a9bfb34b8feec26daa3d2f8d67f9031fd',1,'laserScan']]],
   ['buildh',['buildH',['../de/d39/classEKF.html#a78b810bfabcf7868bc79cec52f8a2927',1,'EKF']]],
   ['buildh2',['buildH2',['../de/d39/classEKF.html#a4eef08f86d2966eb9cbd91386ff2c832',1,'EKF']]],
   ['buildpm',['buildPm',['../de/d39/classEKF.html#a52ecb11b5848d363d083c4f8ce849aa1',1,'EKF']]],

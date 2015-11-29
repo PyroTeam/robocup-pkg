@@ -143,7 +143,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
 <div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../de/d39/classEKF.html#ac8a981291baa006d1116b1bc256541a8">   53</a></span>&#160;geometry_msgs::Pose2D <a class="code" href="../../de/d39/classEKF.html#ac8a981291baa006d1116b1bc256541a8">EKF::getCenter</a>(<span class="keywordtype">int</span> area){</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  geometry_msgs::Pose2D <a class="code" href="../../d0/da7/finalApproaching_8cpp.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  geometry_msgs::Pose2D c;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="comment">// Right side</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">if</span>(area&lt;=12) {</div>
@@ -157,10 +157,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    c.y = ((area-1)%4)*1.5 + 0.75;</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  }</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="../../d0/da7/finalApproaching_8cpp.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">return</span> c;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../de/d39/classEKF.html#ad2eddaf9313ba2b0735b5505839eeede">   71</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="../../de/d39/classEKF.html#ad2eddaf9313ba2b0735b5505839eeede">EKF::dist</a>(geometry_msgs::Pose2D <a class="code" href="../../d0/da7/finalApproaching_8cpp.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a>, geometry_msgs::Pose2D m){</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../de/d39/classEKF.html#ad2eddaf9313ba2b0735b5505839eeede">   71</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="../../de/d39/classEKF.html#ad2eddaf9313ba2b0735b5505839eeede">EKF::dist</a>(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m){</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="keywordflow">return</span> (m.x - c.x)*(m.x - c.x) + (m.y - c.y)*(m.y - c.y);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
@@ -572,7 +572,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classEKF_html_a441dcf9bdbb474ac1f9c68101b7b6bf0"><div class="ttname"><a href="../../de/d39/classEKF.html#a441dcf9bdbb474ac1f9c68101b7b6bf0">EKF::getTabMachines</a></div><div class="ttdeci">std::vector&lt; geometry_msgs::Pose2D &gt; getTabMachines()</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d86/EKF__class_8cpp_source.html#l00477">EKF_class.cpp:477</a></div></div>
 <div class="ttc" id="classEKF_html_ac5b5c7c4f680a7b28895fc3d2a7ef3f5"><div class="ttname"><a href="../../de/d39/classEKF.html#ac5b5c7c4f680a7b28895fc3d2a7ef3f5">EKF::odomCallback</a></div><div class="ttdeci">void odomCallback(const nav_msgs::Odometry &amp;odom)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d86/EKF__class_8cpp_source.html#l00096">EKF_class.cpp:96</a></div></div>
 <div class="ttc" id="classEKF_html_a92d35a0b0fc63c97727a4956eb940df1"><div class="ttname"><a href="../../de/d39/classEKF.html#a92d35a0b0fc63c97727a4956eb940df1">EKF::updateP</a></div><div class="ttdeci">void updateP(const MatrixXd &amp;Pm, int i)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d86/EKF__class_8cpp_source.html#l00347">EKF_class.cpp:347</a></div></div>
-<div class="ttc" id="finalApproaching_8cpp_html_a4e1e0e72dd773439e333c84dd762a9c3"><div class="ttname"><a href="../../d0/da7/finalApproaching_8cpp.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a></div><div class="ttdeci">int c</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da7/finalApproaching_8cpp_source.html#l00016">finalApproaching.cpp:16</a></div></div>
 <div class="ttc" id="classEKF_html_a5440e061a78ae587340e2d563c25abb8"><div class="ttname"><a href="../../de/d39/classEKF.html#a5440e061a78ae587340e2d563c25abb8">EKF::checkStateVector</a></div><div class="ttdeci">int checkStateVector(geometry_msgs::Pose2D machine)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d86/EKF__class_8cpp_source.html#l00316">EKF_class.cpp:316</a></div></div>
 <div class="ttc" id="classEKF_html_ab48b75de3b276773f474e347ebc5b2a0"><div class="ttname"><a href="../../de/d39/classEKF.html#ab48b75de3b276773f474e347ebc5b2a0">EKF::EKF</a></div><div class="ttdeci">EKF()</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d86/EKF__class_8cpp_source.html#l00006">EKF_class.cpp:6</a></div></div>
 <div class="ttc" id="classEKF_html_a045e8275a75ac062862dcb0d5f50449d"><div class="ttname"><a href="../../de/d39/classEKF.html#a045e8275a75ac062862dcb0d5f50449d">EKF::initOdom</a></div><div class="ttdeci">bool initOdom()</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d86/EKF__class_8cpp_source.html#l00111">EKF_class.cpp:111</a></div></div>
@@ -611,7 +610,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:37:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:38:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

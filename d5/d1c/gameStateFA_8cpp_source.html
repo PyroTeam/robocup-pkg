@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: navigation/approche_finale/src/finalApproaching_server.cpp File Reference</title>
+<title>robocup-pkg: navigation/approche_finale/src/gameStateFA.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,57 +86,37 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">finalApproaching_server.cpp File Reference</div>  </div>
+<div class="title">gameStateFA.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;ros/ros.h&gt;</code><br/>
-<code>#include &lt;actionlib/server/simple_action_server.h&gt;</code><br/>
-<code>#include &lt;manager_msg/finalApproachingAction.h&gt;</code><br/>
-<code>#include &quot;<a class="el" href="../../d7/df9/finalApproaching_8h_source.html">finalApproaching.h</a>&quot;</code><br/>
-</div>
-<p><a href="../../dc/dbe/finalApproaching__server_8cpp_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dbe/finalApproaching__server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
-<tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>argc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>argv</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../dc/dbe/finalApproaching__server_8cpp_source.html#l00006">6</a> of file <a class="el" href="../../dc/dbe/finalApproaching__server_8cpp_source.html">finalApproaching_server.cpp</a>.</p>
-
-</div>
-</div>
-</div><!-- contents -->
+<a href="../../d5/d1c/gameStateFA_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d6/d16/gameStateFA_8h.html">gameStateFA.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;comm_msg/GameState.h&quot;</span> </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d0/ddd/classGameStateFA.html#a5bc1a5d1271e85ddb7889d1c6ca5c0a8">    6</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d0/ddd/classGameStateFA.html#a5bc1a5d1271e85ddb7889d1c6ca5c0a8">GameStateFA::gameStateFACallback</a>(<span class="keyword">const</span> comm_msg::GameState &amp;msg) </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    m_already = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    m_state=msg.state;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    m_phase=msg.phase;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    m_time=msg.game_time;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../d0/ddd/classGameStateFA.html#ac10af603d5db47f3f108ad7491177722">   14</a></span>&#160;<a class="code" href="../../d0/ddd/classGameStateFA.html#ac10af603d5db47f3f108ad7491177722">GameStateFA::GameStateFA</a>()</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    m_state = -1;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    m_phase = -1;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    m_already = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    m_gamestateSubFA = m_nh.subscribe(<span class="stringliteral">&quot;/refBoxComm/GameState&quot;</span>,1000,&amp;<a class="code" href="../../d0/ddd/classGameStateFA.html#a5bc1a5d1271e85ddb7889d1c6ca5c0a8">GameStateFA::gameStateFACallback</a>,<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
+<div class="ttc" id="gameStateFA_8h_html"><div class="ttname"><a href="../../d6/d16/gameStateFA_8h.html">gameStateFA.h</a></div></div>
+<div class="ttc" id="classGameStateFA_html_a5bc1a5d1271e85ddb7889d1c6ca5c0a8"><div class="ttname"><a href="../../d0/ddd/classGameStateFA.html#a5bc1a5d1271e85ddb7889d1c6ca5c0a8">GameStateFA::gameStateFACallback</a></div><div class="ttdeci">void gameStateFACallback(const comm_msg::GameState &amp;msg)</div><div class="ttdoc">Callback permettant de mettre à jour les infos du topic comm_msg::GameState. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d1c/gameStateFA_8cpp_source.html#l00006">gameStateFA.cpp:6</a></div></div>
+<div class="ttc" id="classGameStateFA_html_ac10af603d5db47f3f108ad7491177722"><div class="ttname"><a href="../../d0/ddd/classGameStateFA.html#ac10af603d5db47f3f108ad7491177722">GameStateFA::GameStateFA</a></div><div class="ttdeci">GameStateFA()</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d1c/gameStateFA_8cpp_source.html#l00014">gameStateFA.cpp:14</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:37:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:38:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

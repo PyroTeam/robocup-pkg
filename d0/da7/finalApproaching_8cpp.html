@@ -86,101 +86,38 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">finalApproaching.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="../../d7/df9/finalApproaching_8h_source.html">finalApproaching.h</a>&quot;</code><br/>
-<code>#include &lt;ros/ros.h&gt;</code><br/>
+<div class="textblock"><code>#include &lt;ros/ros.h&gt;</code><br/>
 <code>#include &lt;actionlib/server/simple_action_server.h&gt;</code><br/>
 <code>#include &lt;manager_msg/finalApproachingAction.h&gt;</code><br/>
+<code>#include &quot;approche_finale_msg/plotDataFA.h&quot;</code><br/>
+<code>#include &lt;visualization_msgs/Marker.h&gt;</code><br/>
+<code>#include &lt;geometry_msgs/Point.h&gt;</code><br/>
+<code>#include &lt;geometry_msgs/Twist.h&gt;</code><br/>
+<code>#include &lt;geometry_msgs/Pose2D.h&gt;</code><br/>
+<code>#include &lt;ar_track_alvar_msgs/AlvarMarkers.h&gt;</code><br/>
+<code>#include &lt;sensor_msgs/PointCloud.h&gt;</code><br/>
 <code>#include &lt;cmath&gt;</code><br/>
 <code>#include &lt;vector&gt;</code><br/>
 <code>#include &lt;list&gt;</code><br/>
+<code>#include &quot;<a class="el" href="../../d7/df9/finalApproaching_8h_source.html">finalApproaching.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d9/dc1/bumperlistener_8h_source.html">bumperlistener.h</a>&quot;</code><br/>
-<code>#include &quot;geometry_msgs/Twist.h&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../df/d24/fa__utils_8h_source.html">fa_utils.h</a>&quot;</code><br/>
 <code>#include &quot;laserScan.h&quot;</code><br/>
 <code>#include &quot;Point.h&quot;</code><br/>
-<code>#include &lt;visualization_msgs/Marker.h&gt;</code><br/>
-<code>#include &lt;geometry_msgs/Point.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="../../de/db5/arTagFA_8h_source.html">arTagFA.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../da/d40/odomFA_8h_source.html">odomFA.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d7/d8d/sharps_8h_source.html">sharps.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d6/d16/gameStateFA_8h_source.html">gameStateFA.h</a>&quot;</code><br/>
 </div>
 <p><a href="../../d0/da7/finalApproaching_8cpp_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:aa4c2a5552e9bc49b1816ff532f558c74"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/da7/finalApproaching_8cpp.html#aa4c2a5552e9bc49b1816ff532f558c74">a</a> =0</td></tr>
-<tr class="separator:aa4c2a5552e9bc49b1816ff532f558c74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a148e3876077787926724625411d6e7a9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/da7/finalApproaching_8cpp.html#a148e3876077787926724625411d6e7a9">b</a> =0</td></tr>
-<tr class="separator:a148e3876077787926724625411d6e7a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e1e0e72dd773439e333c84dd762a9c3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/da7/finalApproaching_8cpp.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a> =0</td></tr>
-<tr class="separator:a4e1e0e72dd773439e333c84dd762a9c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f364afbe132c4ecfea48bde1b0618ba"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/da7/finalApproaching_8cpp.html#a6f364afbe132c4ecfea48bde1b0618ba">d</a> =0</td></tr>
-<tr class="separator:a6f364afbe132c4ecfea48bde1b0618ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="aa4c2a5552e9bc49b1816ff532f558c74"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int a =0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d0/da7/finalApproaching_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../d0/da7/finalApproaching_8cpp_source.html">finalApproaching.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a148e3876077787926724625411d6e7a9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int b =0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d0/da7/finalApproaching_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../d0/da7/finalApproaching_8cpp_source.html">finalApproaching.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4e1e0e72dd773439e333c84dd762a9c3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int c =0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d0/da7/finalApproaching_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../d0/da7/finalApproaching_8cpp_source.html">finalApproaching.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6f364afbe132c4ecfea48bde1b0618ba"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int d =0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d0/da7/finalApproaching_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../d0/da7/finalApproaching_8cpp_source.html">finalApproaching.cpp</a>.</p>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 19:37:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 19:38:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
