@@ -11,5 +11,6 @@ var searchData=
   ['nearestsegment',['nearestSegment',['../de/da4/classfinalApproaching.html#a1fd375a64f12c6b668c308e11a86e538',1,'finalApproaching']]],
   ['nh',['nh',['../de/da4/classfinalApproaching.html#a8a6db704e2b5fa39a0be61ec876241fa',1,'finalApproaching']]],
   ['nilgradient',['nilGradient',['../d8/ddc/classSegment.html#afcb8f239e72a622df0bf4fe1948c1c15',1,'Segment']]],
-  ['non_5fperiodic',['NON_PERIODIC',['../d0/d25/classRefBoxMessage.html#a68da493d0ec33895bb8f04c58d784afda4139a64414c0c1425e97bf4147f470c7',1,'RefBoxMessage']]]
+  ['non_5fperiodic',['NON_PERIODIC',['../d0/d25/classRefBoxMessage.html#a68da493d0ec33895bb8f04c58d784afda4139a64414c0c1425e97bf4147f470c7',1,'RefBoxMessage']]],
+  ['normaliseangle',['normaliseAngle',['../d6/da1/classTrackPath.html#a90ff30234569fd084f9b07323da36021',1,'TrackPath']]]
 ];

@@ -10,5 +10,7 @@ var searchData=
   ['artagclientsrv_2eh',['ArTagClientSrv.h',['../d7/d93/ArTagClientSrv_8h.html',1,'']]],
   ['artagfa_2ecpp',['arTagFA.cpp',['../db/d95/arTagFA_8cpp.html',1,'']]],
   ['artagfa_2eh',['arTagFA.h',['../de/db5/arTagFA_8h.html',1,'']]],
-  ['astar_2ecpp',['AStar.cpp',['../df/d8b/AStar_8cpp.html',1,'']]]
+  ['astar_2ecpp',['AStar.cpp',['../df/d8b/AStar_8cpp.html',1,'']]],
+  ['avoidanceobstacle_2ecpp',['avoidanceObstacle.cpp',['../df/d7a/avoidanceObstacle_8cpp.html',1,'']]],
+  ['avoidanceobstacle_2eh',['avoidanceObstacle.h',['../d1/d8a/avoidanceObstacle_8h.html',1,'']]]
 ];

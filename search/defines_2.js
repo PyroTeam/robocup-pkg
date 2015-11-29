@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['g',['G',['../d0/d5c/cv__utils_8cpp.html#aed9ea78689ecce0b7264c02c7f8a9a54',1,'cv_utils.cpp']]]
+  ['dist_5fmax',['DIST_MAX',['../df/d7a/avoidanceObstacle_8cpp.html#ad1f7f78b7e7843ca8a2f94fcc8482ceb',1,'avoidanceObstacle.cpp']]],
+  ['dist_5fpoints_5fpath',['DIST_POINTS_PATH',['../df/d7a/avoidanceObstacle_8cpp.html#af258f06fba01476a9504c4d658be27c8',1,'avoidanceObstacle.cpp']]]
 ];

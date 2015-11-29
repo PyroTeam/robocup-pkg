@@ -191,31 +191,31 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">            }*/</span></div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516">isInZone</a>(m_sharpSensor.points[0].x, m_sharpSensor.points[0].y, xmin, xmax, ymin, ymax))</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            {</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                obstacleInRange = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516">isInZone</a>(m_sharpSensor.points[1].x, m_sharpSensor.points[1].y, xmin, xmax, ymin, ymax))</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                obstacleInRange = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            }</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516">isInZone</a>(m_sharpSensor.points[2].x, m_sharpSensor.points[2].y, xmin, xmax, ymin, ymax))</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                obstacleInRange = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            }</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516">isInZone</a>(m_sharpSensor.points[7].x, m_sharpSensor.points[7].y, xmin, xmax, ymin, ymax))</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                obstacleInRange = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516">isInZone</a>(m_sharpSensor.points[8].x, m_sharpSensor.points[8].y, xmin, xmax, ymin, ymax))</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            {</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                obstacleInRange = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            }</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;Obstacle in range :&quot;</span> &lt;&lt; obstacleInRange &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">            if (isInZone(m_sharpSensor.points[0].x, m_sharpSensor.points[0].y, xmin, xmax, ymin, ymax))</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">            {</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment">            if (isInZone(m_sharpSensor.points[1].x, m_sharpSensor.points[1].y, xmin, xmax, ymin, ymax))</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">            {</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">            if (isInZone(m_sharpSensor.points[2].x, m_sharpSensor.points[2].y, xmin, xmax, ymin, ymax))</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">            {</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">            if (isInZone(m_sharpSensor.points[7].x, m_sharpSensor.points[7].y, xmin, xmax, ymin, ymax))</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment">            {</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment">            if (isInZone(m_sharpSensor.points[8].x, m_sharpSensor.points[8].y, xmin, xmax, ymin, ymax))</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment">            {</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment">            std::cout &lt;&lt; &quot;Obstacle in range :&quot; &lt;&lt; obstacleInRange &lt;&lt; std::endl;</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            <span class="keywordflow">if</span>(obstacleInRange &amp;&amp; pathTrackStatus == RUNNING)</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            {</div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                m_trackPathAction.cancelGoal();</div>
@@ -229,7 +229,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                pathTrackStatus = RUNNING;</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            }</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;PathTrack Status = &quot;</span> &lt;&lt; pathTrackStatus &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <span class="comment">//std::cout &lt;&lt; &quot;PathTrack Status = &quot; &lt;&lt; pathTrackStatus &lt;&lt; std::endl;</span></div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <a class="code" href="../../d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c">m_feedback</a>.percent_complete = m_pathTrackPercentComplete;</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.publishFeedback(<a class="code" href="../../d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c">m_feedback</a>);</div>
@@ -318,7 +318,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 20:23:29 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 20:28:56 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

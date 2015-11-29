@@ -16,7 +16,7 @@ var indexSectionsWithContent =
   6: "bmprs",
   7: "cgps",
   8: "anps",
-  9: "bcghmnrs",
+  9: "bcdeghlmnorstv",
   10: "acgnprt"
 };
 

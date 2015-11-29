@@ -1,6 +1,7 @@
 var searchData=
 [
   ['machine',['Machine',['../dc/dda/classMachine.html',1,'']]],
+  ['map',['Map',['../d7/db0/classMap.html',1,'']]],
   ['model',['Model',['../d6/d18/classModel.html',1,'']]],
   ['movetopose',['MoveToPose',['../d6/d07/classMoveToPose.html',1,'']]],
   ['mps',['MPS',['../d8/d75/classMPS.html',1,'']]],

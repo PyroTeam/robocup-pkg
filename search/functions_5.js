@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['failure',['failure',['../d4/d7b/classAvoidanceObstacle.html#a7390c390b6af808844074c686aa977bd',1,'AvoidanceObstacle::failure()'],['../d6/da1/classTrackPath.html#a190a7d15659a4c31b617187366c5a494',1,'TrackPath::failure()']]],
   ['fakerobotino',['FakeRobotino',['../dc/d8b/classFakeRobotino.html#a57f4df4ef944026389d25322a20653b7',1,'FakeRobotino']]],
   ['feuclientaction',['FeuClientAction',['../de/d04/classFeuClientAction.html#a213e6c43286a597e60ba5896eccdb7ae',1,'FeuClientAction']]],
   ['finalapproaching',['finalApproaching',['../de/da4/classfinalApproaching.html#a9c462b272d8e25684d167f83540029d5',1,'finalApproaching']]],
