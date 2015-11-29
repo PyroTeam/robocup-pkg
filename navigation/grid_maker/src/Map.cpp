@@ -38,6 +38,7 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "map_gen");
     ros::NodeHandle n;
+    // ros::Subscriber sub_poses_machine    = n.subscribe("/machines", 1000, Poses_Machine_Callback);
     ros::Subscriber sub_poses_machine    = n.subscribe("/landmarks", 1000, Poses_Machine_Callback);
     ros::Publisher Map_Pub = n.advertise<nav_msgs::OccupancyGrid>("/grid", 1000);
     ROS_INFO("Ready to Generate the Map");
@@ -66,11 +67,12 @@ int main(int argc, char **argv)
     	// Redraw all map
     	Create_Empty_Map(Map);
    		Set_Wall(Map);
-   		Set_Forbidden_Zone(Map);
+   		// Set_Forbidden_Zone(Map);
    		for(int i=0; i < mps.size(); ++i) {
 			// DRAW
 			if(mps[i].draw) {
-	    		drawRect(Map, mps[i].x, mps[i].y, mps[i].theta,0.35,0.7,0.25);
+	    		drawRect(Map, mps[i].x, mps[i].y, mps[i].theta,0.35,0.7,0);
+	    		mps[i].draw = false;
 	    	}
    		}
 
@@ -100,9 +102,17 @@ void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines)
     	mps[zone-1].thetaSum += machines->landmarks[i].theta;
     	mps[zone-1].nbActu += 1;
 
-    	mps[zone-1].x = mps[zone-1].xSum/mps[zone-1].nbActu;
-    	mps[zone-1].y = mps[zone-1].ySum/mps[zone-1].nbActu;
-    	mps[zone-1].theta = mps[zone-1].thetaSum/mps[zone-1].nbActu;
+    	// Version moyenee
+    	// mps[zone-1].x = mps[zone-1].xSum/mps[zone-1].nbActu;
+    	// mps[zone-1].y = mps[zone-1].ySum/mps[zone-1].nbActu;
+    	// mps[zone-1].theta = mps[zone-1].thetaSum/mps[zone-1].nbActu;
+    	// mps[zone-1].draw = true;
+    	// mps[zone-1].zone = zone;
+
+    	// Version standard
+    	mps[zone-1].x = machines->landmarks[i].x;
+    	mps[zone-1].y = machines->landmarks[i].y;
+    	mps[zone-1].theta = machines->landmarks[i].theta;
     	mps[zone-1].draw = true;
     	mps[zone-1].zone = zone;
 	}   
@@ -128,28 +138,31 @@ void Set_Wall(nav_msgs::OccupancyGrid &Map)
 {
 	// Left Side
 		// IN RIGHT
-    	drawRect(Map, -2, 0, 0, 0.1, 0.55*2, 0);   
+    	drawRect(Map, -2, 0, 0, 0.05, 2, 0);   
     	// IN WALL RIGHT
-    	drawRect(Map, -2.55, -0.5, 0, 1, 0.1, 0);
+    	drawRect(Map, -3, -0.5, 0, 1, 0.05, 0);
     	// IN WALL BOTTOM
-    	drawRect(Map, -4, -1, 0, 0.1, 5, 0);
+    	drawRect(Map, -4, -1, 0, 0.05, 2, 0);
     	// IN LEFT
-    	drawRect(Map, -5, 0, 0, 0.1, 2.5, 0);
-		drawRect(Map, -6, 1.5, 0, 3, 0.1, 0);
-		drawRect(Map, -6, 5.5, 0, 1, 0.1, 0);
-		drawRect(Map, -5, 6, 0, 0.1, 2, 0);			
-		drawRect(Map, -1, 6, 0, 0.1, 2, 0);
+    	drawRect(Map, -5, 0, 0, 0.05, 2, 0);
+		drawRect(Map, -6, 1, 0, 2, 0.05, 0);
+		drawRect(Map, -6, 5.5, 0, 1, 0.05, 0);
+		drawRect(Map, -5, 6, 0, 0.05, 2, 0);			
+		drawRect(Map, -1, 6, 0, 0.05, 2, 0);
 
 	// Right side
-    	drawRect(Map, 2, 0, 0, 0.1, 0.55*2, 0);   
-    	drawRect(Map, 2.55, -0.5, 0, 1, 0.1, 0);
-    	drawRect(Map, 4, -1, 0, 0.1, 5, 0);
-    	drawRect(Map, 5, 0, 0, 0.1, 2.5, 0);
-		drawRect(Map, 6, 1.5, 0, 3, 0.1, 0);
-		drawRect(Map, 6, 5.5, 0, 1, 0.1, 0);
-		drawRect(Map, 5, 6, 0, 0.1, 2, 0);			
-		drawRect(Map, 1, 6, 0, 0.1, 2, 0);
-
+		// IN RIGHT
+    	drawRect(Map, 2, 0, 0, 0.05, 2, 0);   
+    	// IN WALL RIGHT
+    	drawRect(Map, 3, -0.5, 0, 1, 0.05, 0);
+    	// IN WALL BOTTOM
+    	drawRect(Map, 4, -1, 0, 0.05, 2, 0);
+    	// IN LEFT
+    	drawRect(Map, 5, 0, 0, 0.05, 2, 0);
+		drawRect(Map, 6, 1, 0, 2, 0.05, 0);
+		drawRect(Map, 6, 5.5, 0, 1, 0.05, 0);
+		drawRect(Map, 5, 6, 0, 0.05, 2, 0);			
+		drawRect(Map, 1, 6, 0, 0.05, 2, 0);
 }
 
 void Set_Forbidden_Zone(nav_msgs::OccupancyGrid &Map)
@@ -274,9 +287,9 @@ int drawRect(nav_msgs::OccupancyGrid &Map, float x, float y, float theta, float 
 			// ROS_INFO("dXc %f dYs %f",deltaX*cos(theta),deltaY*sin(theta));
 			// ROS_INFO("dYc %f dXs %f",deltaY*cos(theta),deltaX*sin(theta));
 			// float xP = x + deltaX*cos(theta) - deltaY*sin(theta);
-			// float yP = y + deltaY*cos(theta) - deltaX*sin(theta);
-			float xP = x + deltaX*cos(theta) - deltaY*sin(theta);
-			float yP = y - deltaY*cos(theta) - deltaX*sin(theta);
+			// float yP = y - deltaY*cos(theta) - deltaX*sin(theta);
+			float xP = x + deltaX*cos(theta) + deltaY*sin(theta);
+			float yP = y - deltaY*cos(theta) + deltaX*sin(theta);
 
 			// ROS_INFO("xP : %f",xP);
 			// ROS_INFO("yP : %f",yP);

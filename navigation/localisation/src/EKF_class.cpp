@@ -3,7 +3,8 @@
 
 using namespace Eigen;
 
-EKF::EKF(){
+EKF::EKF()
+{
   m_xMean.conservativeResize(3);
   m_xMean.setZero();
 
@@ -24,42 +25,50 @@ EKF::EKF(){
   m_begin = false;
 }
 
-void EKF::set(){
+void EKF::set()
+{
   m_xMean(0) = m_odomRobot.x;
   m_xMean(1) = m_odomRobot.y;
   m_xMean(2) = m_odomRobot.theta;
 }
 
-int EKF::getArea(geometry_msgs::Pose2D m){
+int EKF::getArea(geometry_msgs::Pose2D m)
+{
   //côté droit
-  if(m.x >= 0 && m.x <= 6 && m.y >= 0 && m.y < 6) {
+  if(m.x >= 0 && m.x <= 6 && m.y >= 0 && m.y < 6)
+  {
     int w = int(m.x/2);
     int h = int(m.y/1.5)+1;
 
     return w*4 + h;
   }
   //côté gauche
-  else if (m.x >= -6 && m.x < 0 && m.y >= 0 && m.y < 6) {
+  else if (m.x >= -6 && m.x < 0 && m.y >= 0 && m.y < 6)
+  {
     int w = int(-m.x/2);
     int h = int(m.y/1.5)+1;
 
     return w*4 + h + 12;
   }
-  else {
+  else
+  {
     return 0;
   }
 }
 
-geometry_msgs::Pose2D EKF::getCenter(int area){
+geometry_msgs::Pose2D EKF::getCenter(int area)
+{
   geometry_msgs::Pose2D c;
 
   // Right side
-  if(area<=12) {
+  if(area<=12)
+  {
     c.x = ((area-1)/4)*2 + 1;
     c.y = ((area-1)%4)*1.5 + 0.75;
   }
   // Left side
-  else if (area<=24) {
+  else if (area<=24) 
+  {
     area -=12;
     c.x = -((area-1)/4)*2 - 1;
     c.y = ((area-1)%4)*1.5 + 0.75;
@@ -68,32 +77,41 @@ geometry_msgs::Pose2D EKF::getCenter(int area){
   return c;
 }
 
-double EKF::dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m){
+double EKF::dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m)
+{
   return (m.x - c.x)*(m.x - c.x) + (m.y - c.y)*(m.y - c.y);
 }
 
-int EKF::machineToArea(geometry_msgs::Pose2D m){
+int EKF::machineToArea(geometry_msgs::Pose2D m)
+{
   int area = getArea(m);
   //std::cout << "machine (" << m.x << "," << m.y << ") en area " << area << std::endl;
-  if ((area != 0) && (dist(m,getCenter(area)) <= 0.36)){
+  if ((area != 0) && (dist(m,getCenter(area)) <= 0.36))
+  {
   //si on est dans le cercle de centre le centre de area et de rayon 0.6 m
   //pour éviter un sqrt() on met le seuil au carré
     return area;
   }
-  else {
+  else
+  {
     return 0;
   }
 }
 
-bool EKF::test(int area){
-  for (int i = 0; i < m_areas.size(); i++){
+bool EKF::test(int area)
+{
+  for (int i = 0; i < m_areas.size(); i++)
+  {
     if (m_areas[i] == area)
+    {
       return true;
+    }
   }
   return false;
 }
 
-void EKF::odomCallback(const nav_msgs::Odometry& odom){
+void EKF::odomCallback(const nav_msgs::Odometry& odom)
+{
   m_odomRobot.x = odom.pose.pose.position.x;
   m_odomRobot.y = odom.pose.pose.position.y;
   m_odomRobot.theta = tf::getYaw(odom.pose.pose.orientation);
@@ -102,27 +120,33 @@ void EKF::odomCallback(const nav_msgs::Odometry& odom){
   m_cmdVel(1) = odom.twist.twist.linear.y;
   m_cmdVel(2) = odom.twist.twist.angular.z;
 
-  if (m_begin == false){
+  if (m_begin == false)
+  {
     set();
     m_begin = true;
   }
 }
 
-bool EKF::initOdom(){
+bool EKF::initOdom()
+{
   return m_begin;
 }
 
-bool EKF::isFarFromEverything(geometry_msgs::Pose2D p){
-  for (int i = 3; i < m_xMean.rows(); i=i+3){
+bool EKF::isFarFromEverything(geometry_msgs::Pose2D p)
+{
+  for (int i = 3; i < m_xMean.rows(); i=i+3)
+  {
     geometry_msgs::Pose2D m;
     m.x     = m_xMean(i);
     m.y     = m_xMean(i+1);
     m.theta = m_xMean(i+2);
 
-    if (dist(m, p) < 1.0){
+    if (dist(m, p) < 1.0)
+    {
       return false;
     }
-    else {
+    else
+    {
       continue;
     }
   }
@@ -130,16 +154,20 @@ bool EKF::isFarFromEverything(geometry_msgs::Pose2D p){
   return true;
 }
 
-void EKF::machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
+void EKF::machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
+{
   m_landmarksArray.clear();
-  for (auto &it : machines->landmarks){
+  for (auto &it : machines->landmarks)
+  {
     m_landmarksArray.push_back(RobotToGlobal(LaserToRobot(it)));
   }
 }
 
-void EKF::laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
+void EKF::laserCallback(const deplacement_msg::LandmarksConstPtr& laser)
+{
   m_scan.clear();
-  for (auto &it : laser->landmarks){
+  for (auto &it : laser->landmarks)
+  {
     geometry_msgs::Pose2D posLaser;
     posLaser.x     = it.x;
     posLaser.y     = it.y;
@@ -150,12 +178,11 @@ void EKF::laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
   }
 }
 
-geometry_msgs::Pose2D EKF::LaserToRobot(geometry_msgs::Pose2D PosLaser){
-  geometry_msgs::Pose2D p;
+geometry_msgs::Pose2D EKF::LaserToRobot(geometry_msgs::Pose2D PosLaser)
+{
   Matrix3d m;
   m.setZero();
-  Vector3d before;
-  Vector3d after;
+  Vector3d before, after;
 
   //translation
   m(1,2) = 0.1;
@@ -172,6 +199,7 @@ geometry_msgs::Pose2D EKF::LaserToRobot(geometry_msgs::Pose2D PosLaser){
 
   after = m*before;
 
+  geometry_msgs::Pose2D p;
   p.x = after(0) ;
   p.y = after(1);
   p.theta = PosLaser.theta;
@@ -179,11 +207,11 @@ geometry_msgs::Pose2D EKF::LaserToRobot(geometry_msgs::Pose2D PosLaser){
   return p;
 }
 
-VectorXd EKF::RobotToLaser(VectorXd PosRobot){
+VectorXd EKF::RobotToLaser(VectorXd PosRobot)
+{
   Matrix3d m;
   m.setZero();
-  Vector3d before;
-  Vector3d after;
+  Vector3d before, after;
   
   //rotation
   Matrix2d rot;
@@ -210,15 +238,10 @@ VectorXd EKF::RobotToLaser(VectorXd PosRobot){
   return after;
 }
 
-geometry_msgs::Pose2D EKF::RobotToGlobal(geometry_msgs::Pose2D p){
+geometry_msgs::Pose2D EKF::RobotToGlobal(geometry_msgs::Pose2D p)
+{
   Vector3d before, after;
   Matrix3d m;
-  geometry_msgs::Pose2D p2;
-  double angle = m_xMean(2);
-
-  before(0) = p.x;
-  before(1) = p.y;
-  before(2) = 1; //toujours 1 ici !
 
   m.setZero();
   //translation
@@ -226,13 +249,18 @@ geometry_msgs::Pose2D EKF::RobotToGlobal(geometry_msgs::Pose2D p){
   m(1,2) = m_xMean(1);
   //rotation
   Matrix2d rot;
-  rot = Rotation2Dd(angle - M_PI_2);
+  rot = Rotation2Dd(m_xMean(2) - M_PI_2);
   m.topLeftCorner(2,2) = rot;
 
   m(2,2) = 1;
 
+  before(0) = p.x;
+  before(1) = p.y;
+  before(2) = 1;
+
   after = m*before;
 
+  geometry_msgs::Pose2D p2;
   p2.x   = after(0);
   p2.y   = after(1);
   p2.theta = p.theta;
@@ -240,20 +268,16 @@ geometry_msgs::Pose2D EKF::RobotToGlobal(geometry_msgs::Pose2D p){
   return p2;
 }
 
-VectorXd EKF::GlobalToRobot(VectorXd p){
+VectorXd EKF::GlobalToRobot(VectorXd p)
+{
   Vector3d before, after;
   Matrix3d m;
-  double angle = m_xMean(2);
-
-  before(0) = p(0);
-  before(1) = p(1);
-  before(2) = 1; //toujours 1 ici !
 
   m.setZero();
 
   //rotation
   Matrix2d rot;
-  rot = Rotation2Dd(angle - M_PI_2);
+  rot = Rotation2Dd(m_xMean(2) - M_PI_2);
   m.topLeftCorner(2,2) = rot.transpose();
 
   //translation
@@ -265,6 +289,10 @@ VectorXd EKF::GlobalToRobot(VectorXd p){
 
   m(2,2) = 1;
 
+  before(0) = p(0);
+  before(1) = p(1);
+  before(2) = 1;
+
   after = m*before;
 
   after(2) = p(2);
@@ -272,7 +300,8 @@ VectorXd EKF::GlobalToRobot(VectorXd p){
   return after;
 }
 
-void EKF::addMachine(geometry_msgs::Pose2D m){
+void EKF::addMachine(geometry_msgs::Pose2D m)
+{
   //on redimensionne m_xMean et m_P pour accueillir la nouvelle machines
   m_xMean.conservativeResize(m_xMean.rows() + 3);
   m_xPredicted.conservativeResize(m_xMean.rows());
@@ -290,7 +319,8 @@ void EKF::addMachine(geometry_msgs::Pose2D m){
   m_P.block(m_P.rows()-3, 0,3, m_P.cols()).setZero();
   m_P.block(0, m_P.cols()-3, m_P.rows(),3).setZero();
 
-  for (int j = 0; j < m_xMean.rows(); j = j + 3){
+  for (int j = 0; j < m_xMean.rows(); j = j + 3)
+  {
     //position de la nouvelle machines par rapport au robot
     //et à toutes les autres
     double x     = m_xMean(m_xMean.rows()-3) - m_xMean(j  );
@@ -313,16 +343,19 @@ void EKF::addMachine(geometry_msgs::Pose2D m){
   m_areas.push_back(machineToArea(m));
 }
 
-int EKF::checkStateVector(geometry_msgs::Pose2D machine){
+int EKF::checkStateVector(geometry_msgs::Pose2D machine)
+{
   int areaMachine = machineToArea(machine);
   //std::cout << "size de m_xMean :" << m_xMean.rows() << "\n" << std::endl;
-  for (int i = 3; i < m_xMean.rows(); i=i+3){
+  for (int i = 3; i < m_xMean.rows(); i=i+3)
+  {
     geometry_msgs::Pose2D m;
     m.x     = m_xMean(i);
     m.y     = m_xMean(i+1);
     m.theta = m_xMean(i+2);
 
-    if (areaMachine == machineToArea(m)){
+    if (areaMachine == machineToArea(m))
+    {
       return i;
     }
   }
@@ -330,7 +363,8 @@ int EKF::checkStateVector(geometry_msgs::Pose2D machine){
   return 0;
 }
 
-MatrixXd EKF::buildPm(int i){
+MatrixXd EKF::buildPm(int i)
+{
   MatrixXd Pm(m_P.rows(),m_P.cols());
   Pm.setZero();
 
@@ -344,21 +378,24 @@ MatrixXd EKF::buildPm(int i){
   return Pm;
 }
 
-void EKF::updateP(const MatrixXd &Pm, int i){
+void EKF::updateP(const MatrixXd &Pm, int i)
+{
   m_P.block(0,0,3,3) = Pm.block(0,0,3,3);
   m_P.block(i,i,3,3) = Pm.block(i,i,3,3);
   m_P.block(0,i,3,3) = Pm.block(0,i,3,3);
   m_P.block(i,0,3,3) = Pm.block(i,0,3,3);   
 }
 
-void EKF::updatePprev(const MatrixXd &Pm, int i){
+void EKF::updatePprev(const MatrixXd &Pm, int i)
+{
   m_P_prev.block(0,0,3,3) = Pm.block(0,0,3,3);
   m_P_prev.block(i,i,3,3) = Pm.block(i,i,3,3);
   m_P_prev.block(0,i,3,3) = Pm.block(0,i,3,3);
   m_P_prev.block(i,0,3,3) = Pm.block(i,0,3,3);   
 }
 
-MatrixXd EKF::buildH2(geometry_msgs::Pose2D p, int size, int i){
+MatrixXd EKF::buildH2(geometry_msgs::Pose2D p, int size, int i)
+{
   MatrixXd H(3,size);
   H.setZero();
   H.block(0,0,3,3) = MatrixXd::Identity(3,3);
@@ -367,7 +404,8 @@ MatrixXd EKF::buildH2(geometry_msgs::Pose2D p, int size, int i){
   return H;
 }
 
-void EKF::prediction(){
+void EKF::prediction()
+{
   std::cout << "prediction" << std::endl;
 
   //calcul de la période pour la prédiction
@@ -391,26 +429,22 @@ void EKF::prediction(){
   m_temps = ros::Time::now();
 }
 
-void EKF::correction(geometry_msgs::Pose2D p, int i){
+void EKF::correction(geometry_msgs::Pose2D p, int i)
+{
   std::cout << "correction\n" << std::endl;
 
   int size = m_P.rows();
 
   //calcul de z
-  Vector3d z;
   VectorXd mVect(3);
   mVect(0) = p.x;
   mVect(1) = p.y;
   mVect(2) = p.theta;
-  //VectorXd positionMachine = GlobalToRobot(RobotToLaser(mVect));
-  z = mVect - m_xMean.block(i,0,3,1);
-  //std::cout << "mesure = \n" << mVect << std::endl;
-  //std::cout << "machine = \n" << m_xMean.block(i,0,3,1) << std::endl;
-  //std::cout << "z = \n" << z << std::endl;
+
+  Vector3d z = mVect - m_xMean.block(i,0,3,1);
 
   //calcul de H
-  MatrixXd H;
-  H = buildH2(p,size,i);
+  MatrixXd H = buildH2(p,size,i);
   //std::cout << "H = \n" << H << "\n" <<  std::endl;
 
   //calcul de R
@@ -439,15 +473,10 @@ void EKF::correction(geometry_msgs::Pose2D p, int i){
 
 
   //mise à jour du vecteur m_xMean
-  //m_xMean.block(0,0,3,1) += (K*z).block(0,0,3,1);
-  //m_xMean.block(i,0,3,1) += (K*z).block(i,0,3,1);
-  if((std::abs(z(0)) < 0.5) && (std::abs(z(1)) < 0.5) && (std::abs(z(2)) < 0.34)){
+  if((std::abs(z(0)) < 0.5) && (std::abs(z(1)) < 0.5) && (std::abs(z(2)) < 0.34))
+  {
     m_xMean = m_xMean + K*z;
   }
-
-  //std::cout << "je corrige la machine (" << m.x << "," << m.y << ")" << std::endl;
-  //std::cout << "la nouvelle position :(" << m_xMean(i) << "," << m_xMean(i+1) << ")" << std::endl;
-  //std::cout << "xMean après : \n" << m_xMean << std::endl;
 
   //mise à jour de la matrice m_P
   MatrixXd tmp = MatrixXd::Identity(Pm.rows(),Pm.cols()) - K*H; 
@@ -456,24 +485,35 @@ void EKF::correction(geometry_msgs::Pose2D p, int i){
   updateP(Pm, i);
 }
 
-void EKF::printAreas(){
-  for (int i = 0; i < m_areas.size(); ++i){
+void EKF::printAreas()
+{
+  for (int i = 0; i < m_areas.size(); ++i)
+  {
     std::cout << "machine in area " << m_areas[i] << std::endl;
   }
 }
 
-VectorXd EKF::getXmean() {
+VectorXd EKF::getXmean()
+{
   return m_xMean;
 }
-VectorXd EKF::getXpredicted() {
+
+VectorXd EKF::getXpredicted()
+{
   return m_xPredicted;
 }
-std::vector<int> EKF::getAreas() {
+
+std::vector<int> EKF::getAreas()
+{
   return m_areas;
 }
-std::vector<geometry_msgs::Pose2D> EKF::getScan(){
+
+std::vector<geometry_msgs::Pose2D> EKF::getScan()
+{
   return m_scan;
 }
-std::vector<geometry_msgs::Pose2D> EKF::getTabMachines() {
+
+std::vector<geometry_msgs::Pose2D> EKF::getTabMachines()
+{
   return m_landmarksArray;
 }
