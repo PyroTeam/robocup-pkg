@@ -1,5 +1,5 @@
 <launch>
 
-    <node pkg="navigation_manager" name="navigation_manager_node" type="navigation_manager_node" />
+    <node pkg="navigation_manager" name="navigation_manager_node" type="navigation_manager_node" output="screen" />
 
 </launch>
