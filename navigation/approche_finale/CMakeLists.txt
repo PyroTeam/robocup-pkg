@@ -15,6 +15,10 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   geometry_msgs
   manager_msg
+  ar_track_alvar
+  ar_track_alvar_msgs
+  trait_im_msg
+  nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -89,7 +93,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES approche_finale
-  CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib sensor_msgs geometry_msgs message_runtime std_msgs message_generation
+  CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib sensor_msgs geometry_msgs message_runtime std_msgs message_generation ar_track_alvar nav_msgs
 #  DEPENDS system_lib
 )
 
@@ -104,42 +108,23 @@ add_executable(finalApproaching_node
   src/Segment.cpp
   src/finalApproaching.cpp
   src/bumperlistener.cpp
-  src/finalApproaching_server.cpp)
+  src/arTagFA.cpp
+  src/odomFA.cpp
+  src/sharps.cpp
+  src/gameStateFA.cpp
+  src/finalApproaching_node.cpp)
+target_link_libraries(  finalApproaching_node  ${catkin_LIBRARIES})
+add_dependencies(  finalApproaching_node  ${manager_msg_EXPORTED_TARGETS} approche_finale_msg_gencpp comm_msg_gencpp manager_msg_gencpp)
+set_target_properties(finalApproaching_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
-add_executable(test_fonctions_laser
-	src/test_fonctions_laser.cpp
-	src/laserScan.cpp
-	src/Point.cpp
-	src/Segment.cpp
-	src/fa_utils.cpp)
-
-add_executable(fake_scan_node_cyril
+add_executable(fake_scan_cyril_node
 	src/fake_scan_node.cpp)
-	
-target_link_libraries(
-  finalApproaching_node
-  ${catkin_LIBRARIES}
-)
+target_link_libraries(  fake_scan_cyril_node  ${catkin_LIBRARIES})
+set_target_properties(fake_scan_cyril_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
-target_link_libraries(
-  test_fonctions_laser
-  ${catkin_LIBRARIES}
-)
-
-target_link_libraries(
-  fake_scan_node_cyril
-  ${catkin_LIBRARIES}
-)
-
-set_target_properties(finalApproaching_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-set_target_properties(fake_scan_node_cyril PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-set_target_properties(test_fonctions_laser PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
-
-add_dependencies(
-  finalApproaching_node
-  ${manager_msg_EXPORTED_TARGETS}
-  manager_msg_gencpp
-)
+add_executable(ar_tag_reader_node
+	src/ar_tag_reader_node.cpp)
+target_link_libraries( ar_tag_reader_node ${catkin_LIBRARIES})
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
