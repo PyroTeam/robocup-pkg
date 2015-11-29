@@ -4,36 +4,39 @@
 #include <visualization_msgs/Marker.h>
 #include <cmath>
 #include "deplacement_msg/Landmarks.h"
-#include "deplacement_msg/Alarm.h"
 #include "geometry_msgs/Pose2D.h"
 #include "nav_msgs/Odometry.h"
-#include "laserScan.h"
+#include "LaserScan.h"
 #include "landmarks_detection_utils.h"
 #include "cartographie_utils.h"
+#include "math_functions.h"
 
 #include "EKF_class.h"
 
 using namespace Eigen;
 
-deplacement_msg::Landmarks tabMachines;
-deplacement_msg::Landmarks scan;
-geometry_msgs::Pose2D      odomRobot;
-std::vector<Machine>       mps(24);
-int                        count;
-tf::TransformListener *g_tf_listener;
+deplacement_msg::Landmarks g_walls;
+deplacement_msg::Landmarks g_machines;
 
-void odomCallback(const nav_msgs::Odometry& odom){
-    odomRobot.x = odom.pose.pose.position.x;
-    odomRobot.y = odom.pose.pose.position.y;
-    odomRobot.theta = tf::getYaw(odom.pose.pose.orientation);
+geometry_msgs::Pose2D      g_odomRobot;
+std::vector<Machine>       g_mps(24);
+std::list<Segment>         g_sgtArray;
+tf::TransformListener     *g_tf_listener;
+
+void odomCallback(const nav_msgs::Odometry& odom)
+{
+    g_odomRobot.x = odom.pose.pose.position.x;
+    g_odomRobot.y = odom.pose.pose.position.y;
+    g_odomRobot.theta = tf::getYaw(odom.pose.pose.orientation);
 }
+/*
+void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
+{
 
-void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
     tf::StampedTransform transform;
     try
     {
-        g_tf_listener->lookupTransform("/map", "/laser_link",  
-            machines->header.stamp, transform);
+        g_tf_listener->lookupTransform("/map", "/laser_link", machines->header.stamp, transform);
     }
     catch (tf::TransformException ex)
     {
@@ -41,18 +44,19 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
         return;
     }
 
-    tabMachines.landmarks.clear();
-    tabMachines.header.frame_id="map";
-    tabMachines.header.stamp = machines->header.stamp;
-    // -- Nouvelle version
-    for (auto &it : machines->landmarks){
+    g_tabMachines.landmarks.clear();
+    g_tabMachines.header.frame_id="/laser_link";
+    g_tabMachines.header.stamp = machines->header.stamp;
+
+    for (auto &it : machines->landmarks)
+    {
         // Changement de repère
         geometry_msgs::Pose2D p;
+        //geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it), g_odomRobot);
 
         double yaw = tf::getYaw(transform.getRotation());
-        p.x = it.x*cos(yaw) - it.y*sin(yaw) + transform.getOrigin().x();
-        p.y = it.x*sin(yaw) + it.y*cos(yaw) + transform.getOrigin().y();
-
+        p.x     = it.x*cos(yaw) - it.y*sin(yaw) + transform.getOrigin().x();
+        p.y     = it.x*sin(yaw) + it.y*cos(yaw) + transform.getOrigin().y();
         p.theta = it.theta + yaw;
 
         // Vérification de la zone
@@ -62,92 +66,104 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines){
             continue;           
         }
 
-        // Moyennage
-        mps[zone-1].addX(p.x);
-        mps[zone-1].addY(p.y);
-        mps[zone-1].addTheta(p.theta);
-        mps[zone-1].incNbActu();
+        // Moyennage si pas de résultat aberrant ou si 1ère fois
+        if (g_mps[zone-1].getNbActu() == 0 ||
+           (std::abs(g_mps[zone-1].getCentre().x - p.x) <= 0.2 &&
+            std::abs(g_mps[zone-1].getCentre().y - p.y) <= 0.2 &&
+            std::abs(g_mps[zone-1].getCentre().theta - p.theta) <= 0.34))
+        {
+            g_mps[zone-1].addX(p.x);
+            g_mps[zone-1].addY(p.y);
+            g_mps[zone-1].addTheta(p.theta);
+            g_mps[zone-1].incNbActu();
 
-        mps[zone-1].maj();
+            g_mps[zone-1].maj();
+        }
 
-        tabMachines.landmarks.push_back(p);
+        g_tabMachines.landmarks.push_back(p);
     } 
+}
+*/
+void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
+{
+    tf::StampedTransform transform;
+    try
+    {
+        g_tf_listener->lookupTransform("/odom", "/laser_link", segments->header.stamp, transform);
+    }
+    catch (tf::TransformException ex)
+    {
+        ROS_WARN("%s",ex.what());
+        return;
+    }
+    
+    g_walls.landmarks.clear();
+    g_walls.header.frame_id="/laser_link";
+    g_walls.header.stamp = segments->header.stamp;
 
+    for (int i = 0; i < segments->landmarks.size(); i = i+2)
+    {   
+        // Changement de repère
+        geometry_msgs::Pose2D p, q;
 
-    // -- Version moyennee
-    // for (auto &it : machines->landmarks){
-    //   geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it), odomRobot);
-    //   tabMachines.landmarks.push_back(p);
+        double yaw = tf::getYaw(transform.getRotation());
 
-    //   int zone = machineToArea(p);
-    //   if(zone==0)
-    //     continue;
+        p.x     = segments->landmarks[i].x*cos(yaw) - segments->landmarks[i].y*sin(yaw) + transform.getOrigin().x();
+        p.y     = segments->landmarks[i].x*sin(yaw) + segments->landmarks[i].y*cos(yaw) + transform.getOrigin().y();
+        p.theta = segments->landmarks[i].theta + yaw;
 
-    //   mps[zone-1].addX(p.x);
-    //   mps[zone-1].addY(p.y);
-    //   mps[zone-1].addTheta(p.theta);
-    //   mps[zone-1].incNbActu();
-
-    //   mps[zone-1].maj();
-    // } 
+        q.x     = segments->landmarks[i+1].x*cos(yaw) - segments->landmarks[i+1].y*sin(yaw) + transform.getOrigin().x();
+        q.y     = segments->landmarks[i+1].x*sin(yaw) + segments->landmarks[i+1].y*cos(yaw) + transform.getOrigin().y();
+        q.theta = segments->landmarks[i+1].theta + yaw;
+        
+        //g_walls.landmarks.push_back(p);
+        //g_walls.landmarks.push_back(q);
+        
+        // si le segment est un mur
+        if ((((std::abs(p.x + 6.0) <= 0.3 && std::abs(q.x + 6.0) <= 0.3) ||
+              (std::abs(p.x - 6.0) <= 0.3 && std::abs(q.x - 6.0) <= 0.3)) &&
+               std::abs(p.y - 3.0) <= 3.3 && std::abs(q.y - 3.0) <= 3.3) ||
+            (((std::abs(p.y - 6.0) <= 0.3 && std::abs(q.y - 6.0) <= 0.3) ||
+              (std::abs(p.y) <= 0.3 && std::abs(q.y) <= 0.3)) &&
+               std::abs(p.x) <= 6.3 && std::abs(q.x) <= 6.3))
+        {
+            g_walls.landmarks.push_back(p);
+            g_walls.landmarks.push_back(q);
+        }
+    }
 }
 
-void laserCallback(const deplacement_msg::LandmarksConstPtr& laser){
-    scan.landmarks.clear();
-    for (auto &it : laser->landmarks){
-        geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it), odomRobot);
-        scan.landmarks.push_back(p);
-    }
-}    
 
 int main( int argc, char** argv )
 {
-    ros::init(argc, argv, "EKF_node");
+    ros::init(argc, argv, "Cartographie");
     tf::TransformListener tf_listener;
     g_tf_listener = &tf_listener;
 
     ros::NodeHandle n;
 
     ros::Subscriber sub_odom     = n.subscribe("/new_odom", 1000, odomCallback);
-    ros::Subscriber sub_machines = n.subscribe("/machines", 1000, machinesCallback);
-    ros::Subscriber sub_laser    = n.subscribe("/laser", 1000, laserCallback);
+    ros::Subscriber sub_segments = n.subscribe("/segments", 1000, segmentsCallback);
 
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("/landmarks", 1000);
-    ros::Publisher pub_laser    = n.advertise< deplacement_msg::Landmarks >("/scan_global", 1000);
+    ros::Publisher pub_segments_global = n.advertise< deplacement_msg::Landmarks >("/segments_global", 1000);
 
-    ros::ServiceClient client = n.serviceClient<deplacement_msg::Alarm>("wake_up");
-    deplacement_msg::Alarm srv;
-
-    count = 0;
-
-    ros::Rate loop_rate(25);
+    ros::Rate loop_rate(10);
     while (n.ok())
     { 
-        deplacement_msg::Landmarks tabMPS = convert(mps);
+        ///////////////////////////////////////// TO DO ////////////////////////////////
+        // Trouve les machines
+        //std::vector<Machine> listOfMachines = recognizeMachinesFrom(listOfSegments);
 
-        // count = tabMPS.landmarks.size();
+        //pub_machines.publish(convert(g_mps));
 
-        // if (count == 6/*12*/){
-        //   srv.request.wake_up = 2;
-        //   client.call(srv);
-        // }
-/*
-        for (int i = 0; i < tabMPS.landmarks.size(); i++){
-            std::cout << "machine (" << tabMPS.landmarks[i].x << "," << tabMPS.landmarks[i].y << ")" << std::endl;
-        }
-*/
-        pub_machines.publish(tabMPS);
-        //pub_machines.publish(tabMachines);
-        // pub_laser.publish(scan);
-
-        //tabMachines.landmarks.clear();
-        // if (count >= 6){
-        //   for (auto &it : mps){
-        //     if (it.getCentre().x != 0 && it.getCentre().y != 0){
-        //       std::cout << "machine (" << it.getCentre().x << "," << it.getCentre().y << "," << it.getCentre().theta << ")" << std::endl;
-        //     }
-        //   }
-        // }
+        std::list<Segment> tmp = landmarksToSegments(g_walls);
+        adjust(g_sgtArray,tmp);
+        gather(g_sgtArray);
+        //std::cout << g_sgtArray.size() << std::endl;
+        pub_segments_global.publish(backToLandmarks(g_sgtArray));
+        //tmp.clear();
+        //g_sgtArray.clear();
 
         // Spin
         ros::spinOnce();

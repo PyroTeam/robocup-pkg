@@ -1,5 +1,3 @@
 <launch>
-
     <node pkg="pathfinder" name="server" type="server"/>
-
 </launch>

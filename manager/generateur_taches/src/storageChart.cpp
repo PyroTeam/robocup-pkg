@@ -7,7 +7,7 @@ bool productInStock(Storage tabStock[]){
 	bool tmp = false;
 	for(int i=0;i<SIZE;i++)
 	{
-		if((tabStock[i].getProduct() != 0) && (tabStock[i].getProduct() != 10))
+		if((tabStock[i].getBeginningDelivery() != 0) || (tabStock[i].getEndDelivery() != 0))
 		{
 			tmp = true;
 		}
@@ -17,12 +17,13 @@ bool productInStock(Storage tabStock[]){
 
 
 int findId(Storage tabStock[],int debut, int fin){
+	int id = -1;
 	for(int i=0; i<SIZE; i++)
 	{
 		if((tabStock[i].getBeginningDelivery() == debut) && (tabStock[i].getEndDelivery() == fin))
 		{
-			return tabStock[i].getId();
+			id = i;
 		}
 	}
-	return -3;
+	return id;
 }

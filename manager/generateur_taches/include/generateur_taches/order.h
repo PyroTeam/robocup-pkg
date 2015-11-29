@@ -1,14 +1,14 @@
 /**
- * \file 		order.h
- * \class		Order
- * \brief		classe représentant un ordre spécifié par la RefBox
- * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
- * \date		2015-04-01
- * \copyright	PyroTeam, Polytech-Lille
+ * \file 			order.h
+ * \class			Order
+ * \brief			classe représentant un ordre spécifié par la RefBox
+ * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date			2015-04-01
+ * \copyright		PyroTeam, Polytech-Lille
  */
 
-#ifndef ORDRE_H
-#define ORDRE_H
+#ifndef ORDER_H
+#define ORDER_H
 
 #include <vector>
 #include "product.h"

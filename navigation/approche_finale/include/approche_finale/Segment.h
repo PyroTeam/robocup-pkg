@@ -12,14 +12,18 @@
 
 #include "Point.h"
 #include <vector>
+#include <geometry_msgs/Pose2D.h>
+#include <geometry_msgs/Point.h>
 
 class Segment{
 
 	public:
 		Segment();  
+		Segment(geometry_msgs::Point min,geometry_msgs::Point max,float gradient);
 		Segment(Point a,Point b, int minR,int maxR);
 		~Segment();
- 
+		geometry_msgs::Point getMinPoint(){return m_minPoint;}
+		geometry_msgs::Point getMaxPoint(){return m_maxPoint;} 
 		Point getMin(){return m_min;}
 		Point getMax(){return m_max;}
 		float getGradient(){return m_gradient;}
@@ -29,6 +33,8 @@ class Segment{
 		int getMinRanges(){return m_minRanges;}
 		int getMaxRanges(){return m_maxRanges;}
 		
+		void setMinPoint(geometry_msgs::Point p){m_minPoint=p;}
+		void setMaxPoint(geometry_msgs::Point p){m_maxPoint=p;}	
 		void setGradient(float gradient){m_gradient=gradient;}
 		void setCorrelation(float corr){m_correlation = corr;}
 		void setDistance(float d){m_distance = d;}
@@ -36,7 +42,7 @@ class Segment{
 /**
  *  \brief		effectue un regression lineaire sur le segment
  */	 
-		void linearRegression(std::vector<Point>);
+		geometry_msgs::Pose2D linearRegression(std::vector<Point>);
 		
 /**
  *  \brief		determine si la pente est quasi nulle ou non
@@ -51,6 +57,8 @@ class Segment{
 		float distanceLaserSegment(std::vector<float> ranges);
 	  
 	private:
+		geometry_msgs::Point m_minPoint;
+		geometry_msgs::Point m_maxPoint;
 		Point m_min;
 		Point m_max;
 		float m_gradient;

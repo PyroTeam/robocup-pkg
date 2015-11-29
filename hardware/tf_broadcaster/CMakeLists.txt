@@ -1,42 +1,42 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(tf_broadcaster)
+#cmake_minimum_required(VERSION 2.8.3)
+#project(tf_broadcaster)
 
 ## Find catkin macros and libraries
-find_package(catkin REQUIRED
-    roscpp
-    tf
-    nav_msgs
-)
+#find_package(catkin REQUIRED
+#    roscpp
+#    tf
+#    nav_msgs
+#)
 
 ###################################
 ## catkin specific configuration ##
 ###################################
 
-catkin_package(
+#catkin_package(
     #INCLUDE_DIRS include/tf_broadcaster_pkg
     #LIBRARIES tf_broadcaster-pkg
     #CATKIN_DEPENDS other_catkin_pkg
     #DEPENDS system_lib
-)
+#)
 
 ###########
 ## Build ##
 ###########
 
 ## Specify additional locations of header files
-include_directories(include
-    ${catkin_INCLUDE_DIRS}
-)
+#include_directories(include
+#    ${catkin_INCLUDE_DIRS}
+#)
 
 ## Declare a cpp executable
 
-add_executable(tf_broadcaster_node
-    src/tf_broadcaster_node.cpp
-    src/tf_broadcaster.cpp 
-)
-target_link_libraries(tf_broadcaster_node
-  ${catkin_LIBRARIES}
-)
+#add_executable(tf_broadcaster_node
+#    src/tf_broadcaster_node.cpp
+#    src/tf_broadcaster.cpp 
+#)
+#target_link_libraries(tf_broadcaster_node
+#  ${catkin_LIBRARIES}
+#)
 
 
 #############
