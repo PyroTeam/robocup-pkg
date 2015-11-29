@@ -69,13 +69,13 @@ int main(int argc, char **argv)
     	Create_Empty_Map(Map);
    		Set_Wall(Map);
    		// Set_Forbidden_Zone(Map);
-   		for(int i=0; i < mps.size(); ++i) {
+   		/*for(int i=0; i < mps.size(); ++i) {
 			// DRAW
 			if(mps[i].draw) {
 	    		drawRect(Map, mps[i].x, mps[i].y, mps[i].theta,0.35,0.7,MARGIN);
 	    		mps[i].draw = false;
 	    	}
-   		}
+   		}*/
 
 	 	Map_Pub.publish(Map);
 	 	ros::spinOnce();
@@ -121,6 +121,7 @@ void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines)
 
 void Create_Empty_Map(nav_msgs::OccupancyGrid &Map)
 {
+	Map.header.frame_id = "/odom";
 	Map.info.origin.position.x=-7.000;
 	Map.info.origin.position.y=-2.000;
 	Map.info.origin.position.z=0;
@@ -137,33 +138,15 @@ void Create_Empty_Map(nav_msgs::OccupancyGrid &Map)
 
 void Set_Wall(nav_msgs::OccupancyGrid &Map)
 {
-	// Left Side
-		// IN RIGHT
-    	drawRect(Map, -2, 0, 0, 0.05, 2, MARGIN);   
-    	// IN WALL RIGHT
-    	drawRect(Map, -3, -0.5, 0, 1, 0.05, MARGIN);
-    	// IN WALL BOTTOM
-    	drawRect(Map, -4, -1, 0, 0.05, 2, MARGIN);
-    	// IN LEFT
-    	drawRect(Map, -5, 0, 0, 0.05, 2, MARGIN);
-		drawRect(Map, -6, 1, 0, 2, 0.05, MARGIN);
-		drawRect(Map, -6, 5.5, 0, 1, 0.05, MARGIN);
-		drawRect(Map, -5, 6, 0, 0.05, 2, MARGIN);			
-		drawRect(Map, -1, 6, 0, 0.05, 2, MARGIN);
+        /*drawRect(Map, -3, 2.5, 0, 1, 0.05, MARGIN);
+        drawRect(Map, -3, 0.5, 0, 1, 0.05, MARGIN);
 
-	// Right side
-		// IN RIGHT
-    	drawRect(Map, 2, 0, 0, 0.05, 2, MARGIN);   
-    	// IN WALL RIGHT
-    	drawRect(Map, 3, -0.5, 0, 1, 0.05, MARGIN);
-    	// IN WALL BOTTOM
-    	drawRect(Map, 4, -1, 0, 0.05, 2, MARGIN);
-    	// IN LEFT
-    	drawRect(Map, 5, 0, 0, 0.05, 2, MARGIN);
-		drawRect(Map, 6, 1, 0, 2, 0.05, MARGIN);
-		drawRect(Map, 6, 5.5, 0, 1, 0.05, MARGIN);
-		drawRect(Map, 5, 6, 0, 0.05, 2, MARGIN);			
-		drawRect(Map, 1, 6, 0, 0.05, 2, MARGIN);
+        drawRect(Map, -2.5, 0, 0, 0.05, 1, MARGIN);
+        drawRect(Map, 0, 0, 0, 0.05, 2, MARGIN);
+        drawRect(Map, 2.5, 0, 0, 0.05, 1, MARGIN);
+
+        drawRect(Map, 3, 1.5, 0, 3, 0.05, MARGIN);
+        drawRect(Map, 0, 3, 0, 0.05, 6, MARGIN);*/
 }
 
 void Set_Forbidden_Zone(nav_msgs::OccupancyGrid &Map)
