@@ -4,13 +4,15 @@
 
 typedef actionlib::SimpleActionServer<deplacement_msg::MoveToPoseAction> Server;
 
-void execute(const deplacement_msg::MoveToPoseGoalConstPtr &goal, Server* as){
+void execute(const deplacement_msg::MoveToPoseGoalConstPtr &goal, Server* as)
+{
 	deplacement_msg::MoveToPoseResult m_result;
 	m_result.result = deplacement_msg::MoveToPoseResult::FINISHED;
 	as->setSucceeded(m_result);
 }
 
-int main(int argc, char** argv){
+int main(int argc, char** argv)
+{
 	ros::init(argc,argv,"move_to_pose_server");
 	ros::NodeHandle n;
 	Server server(n,"moveToPose",boost::bind(&execute, _1, &server), false);

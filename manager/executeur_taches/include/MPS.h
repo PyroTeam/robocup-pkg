@@ -1,15 +1,29 @@
+/**
+ * \file        MPS.h
+ * \class       MPS
+ * \brief       classe pour stocker la position et l'orientation d'une machine
+ * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
+ * \date        2015-10-10
+ * \copyright   PyroTeam, Polytech-Lille
+ */
+
 #ifndef MPS_H
 #define MPS_H
-class MPS{
-public:
-	MPS();
-	~MPS();
+class MPS
+{
+	public:
+		/* Constructeur */
+		MPS();
 
-	float  x;
-	float  y;
-	float  theta;
-	int    zone;
-	bool   isHere;
+		/* Déstructeur */
+		~MPS();
+
+		/* Variables d'instance */
+		float  x;
+		float  y;
+		float  theta;
+		int    zone;
+		bool   isHere;
 	
 };
 
