@@ -114,12 +114,19 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <h2>Remarques utiles </h2>
 <ul>
 <li>Pour l'instant, il est primordial de laisser les ROS_INFO dans le fichier <code>arTagFA.h</code> . Sans cela, il y a des erreurs de segmentation lors des appels aux fonctions qui y sont contenues.</li>
-<li>Bien mettre en paramètre la couleur de l'équipe (par défaut équipe cyan) </li>
+<li>Bien mettre en paramètre la couleur de l'équipe (par défaut équipe cyan)</li>
+</ul>
+<h2>Travail restant </h2>
+<ul>
+<li>[x] Collecter les infos équipe et phase du topic dans le package refBox_comm</li>
+<li>[x] Faire le test ROS_UNLIKELY(true) pour chercher à résoudre l'erreur de segmentation</li>
+<li>[ ] Gestion des murs qui sont à proximité des machines</li>
+<li>[ ] Déterminer au préalable si un objet existe dans la zone à explorer </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 29 2015 20:17:53 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 29 2015 20:21:32 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
