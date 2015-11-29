@@ -38,6 +38,7 @@ var searchData=
   ['_7eringstation',['~RingStation',['../d0/dd3/classRingStation.html#a679187627457f9abb756841025b343a6',1,'RingStation']]],
   ['_7esegment',['~Segment',['../d8/ddc/classSegment.html#a76b45a453304f1f485e3bc2fcad58b59',1,'Segment::~Segment()'],['../d8/ddc/classSegment.html#a76b45a453304f1f485e3bc2fcad58b59',1,'Segment::~Segment()']]],
   ['_7esendscheduler',['~SendScheduler',['../dc/d79/classSendScheduler.html#a5dcb55acd57f2f8642c961c1f15ea94e',1,'SendScheduler']]],
+  ['_7esimlightdetection',['~SimLightDetection',['../d5/d77/classSimLightDetection.html#a0fda9aa5ef027d3296c2cc6256f7d6c3',1,'SimLightDetection']]],
   ['_7esrvorder',['~Srvorder',['../d5/d38/classSrvorder.html#a5eda43af340e9a847714ead2f6b78594',1,'Srvorder']]],
   ['_7etopictoudpentry',['~TopicToUdpEntry',['../d4/d37/classTopicToUdpEntry.html#ac33bdd1d1631adab8511ff739b2d08b0',1,'TopicToUdpEntry']]],
   ['_7etrackpath',['~TrackPath',['../d6/da1/classTrackPath.html#a6ac3e6ffb8b4b3fc3ab820fcb402ab0c',1,'TrackPath']]],
