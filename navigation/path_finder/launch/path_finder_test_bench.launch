@@ -1,7 +1,7 @@
 <launch>
     <include file="$(find grid_maker)/launch/grid_maker.launch"/>
 
-    <param name="AstarTieBreaking" value="false" />
+    <param name="AstarTieBreaking" value="true" />
     <param name="weightData" value="0.45" />
     <param name="weightSmooth" value="0.45" />
     <node pkg="path_finder" name="path_finder_node" type="path_finder_node" output="screen">

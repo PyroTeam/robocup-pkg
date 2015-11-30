@@ -20,8 +20,8 @@ namespace occupancy_grid_utils {
  * d'un point fourni en coordonnées métrique
  *
  * \param grid la grille
- * \x float abscisse du point en m
- * \y float ordonnée du point en m
+ * \param x abscisse du point en m
+ * \param y ordonnée du point en m
  *
  * \return index du tableau data de l'occupancyGrid
  *         -1 si le point n'est pas sur la gridMap
@@ -61,8 +61,8 @@ int getCell(const nav_msgs::OccupancyGrid &grid, float x, float y)
  * dans une OccupancyGrid
  *
  * \param grid la grille
- * \x float abscisse du point en m
- * \y float ordonnée du point en m
+ * \param x abscisse du point en m
+ * \param y ordonnée du point en m
  *
  * \return valeur du point, 255 si le point n'est pas sur la map
  */
@@ -85,7 +85,7 @@ int getCellValue(const nav_msgs::OccupancyGrid &grid, float x, float y)
  * dans une OccupancyGrid
  *
  * \param grid la grille
- * \p point en coordonnées métrique
+ * \param p point en coordonnées métrique
  *
  * \return valeur du point, 255 si le point n'est pas sur la map
  */
@@ -99,7 +99,7 @@ int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point
  * dans une OccupancyGrid
  *
  * \param grid la grille
- * \p pose en coordonnées métrique
+ * \param p pose en coordonnées métrique
  *
  * \return valeur du point, 255 si le point n'est pas sur la map
  */

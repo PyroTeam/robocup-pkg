@@ -1,6 +1,7 @@
 #include "Map.hpp"
 
 #include <cv.h>
+#include <highgui.h>
 
 std::vector<geometry_msgs::Pose2D> tab;
 
@@ -102,8 +103,33 @@ int main(int argc, char **argv)
 				i=100;
 			}
 		}
+/*
+    	nav_msgs::OccupancyGrid MapT = Map;
+		cv::Mat imgMapThresh(MapT.info.height, MapT.info.width, CV_8UC1, MapT.data.data(), cv::Mat::AUTO_STEP);
 
-	 	Map_Pub.publish(Map);
+		cv::threshold(imgMapThresh, imgMapThresh, 10, 255, cv::THRESH_BINARY_INV);
+		cv::Mat skel(imgMap.size(), CV_8UC1, cv::Scalar(0));
+		cv::Mat temp(imgMap.size(), CV_8UC1);
+		cv::Mat elementSkel = cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(3, 3));
+		bool done;
+		do
+		{
+			cv::morphologyEx(imgMapThresh, temp, cv::MORPH_OPEN, elementSkel);
+			cv::bitwise_not(temp, temp);
+			cv::bitwise_and(imgMapThresh, temp, temp);
+			cv::bitwise_or(skel, temp, skel);
+			cv::erode(imgMapThresh, imgMapThresh, elementSkel);
+
+			double max;
+			cv::minMaxLoc(imgMapThresh, 0, &max);
+			done = (max == 0);
+		} while (!done);
+		cv::imshow("Map", imgMap);
+		cv::imshow("Map thresh", imgMapThresh);
+		cv::imshow("Skeleton", skel);
+		cv::waitKey(10);
+*/
+		Map_Pub.publish(Map);
 	 	ros::spinOnce();
 		loop_rate.sleep();
  	}

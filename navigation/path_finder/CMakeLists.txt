@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   occupancy_grid_utils
+  common_utils
 )
 
 ## System dependencies are found with CMake's conventions
@@ -145,6 +146,8 @@ add_executable(path_finder_node
     src/search_algo/Path.cpp
     src/search_algo/SearchAlgo.cpp
     src/search_algo/State.cpp
+
+    src/PathPlanner.cpp
 
     src/path_finder_node.cpp
 )

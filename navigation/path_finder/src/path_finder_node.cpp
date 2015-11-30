@@ -23,6 +23,7 @@
 #include "search_algo/Path.h"
 #include "path_finder/GeneratePath.h"
 
+#include "common_utils/Chrono.h"
 
 std::shared_ptr<Graph> graph(new GridMapGraph());
 
@@ -100,7 +101,13 @@ bool generatePath_callback( path_finder::GeneratePath::Request  &req,
     //pEnd->set(-2, 3);
 
     Path path, pathS;
+
+    common_utils::HighResChrono chrono;
+    chrono.start();
     graph->search(startState, endState, path);
+    chrono.stop();
+    ROS_INFO_STREAM("Time to generate the path : " << chrono);
+
     if (path.empty())
     {
         ROS_INFO("Chemin vide");
@@ -116,7 +123,10 @@ bool generatePath_callback( path_finder::GeneratePath::Request  &req,
 
         pathS = path;
         pathS.setSmoothParam(g_weightData, g_weightSmooth);
+        chrono.start();
         pathS.smooth();
+        chrono.stop();
+        ROS_INFO_STREAM("Time to smooth the path : " << chrono);
         g_pathSmoothed.header.stamp = ros::Time::now();
         g_pathSmoothed.header.frame_id = "map";
         g_pathSmoothed.poses.clear();
