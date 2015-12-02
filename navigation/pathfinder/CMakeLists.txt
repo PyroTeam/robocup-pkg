@@ -121,8 +121,7 @@ target_link_libraries(pathfinder_node
 add_dependencies(pathfinder_node pathfinder_gencpp)
 set_target_properties(pathfinder_node PROPERTIES COMPILE_FLAGS -std=c++0x)
 
-set_target_properties(server PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
-set_target_properties(server_static PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
+set_target_properties(pathfinder_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
 #############
 ## Install ##

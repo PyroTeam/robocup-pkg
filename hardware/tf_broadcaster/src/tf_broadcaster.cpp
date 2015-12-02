@@ -6,26 +6,28 @@ void poseCallback(const nav_msgs::Odometry &odom)
     static tf::TransformBroadcaster odomToBaseLink;
     static tf::TransformBroadcaster baseLinkToLaserLink;
 
+    static const std::string ns = ros::this_node::getNamespace();
+
     // Map to odom
     tf::Transform transform;
     transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
     tf::Quaternion q;
     q.setRPY(0.0, 0.0, 0.0);
     transform.setRotation(q);
-    mapToOdom.sendTransform(tf::StampedTransform(transform, odom.header.stamp, "map", "odom"));
+    mapToOdom.sendTransform(tf::StampedTransform(transform, odom.header.stamp, "map", ns+"_"+"odom"));
 
     // Odom to Base Link
     transform.setOrigin(tf::Vector3(odom.pose.pose.position.x, odom.pose.pose.position.y, 0.0));
     tf::quaternionMsgToTF(odom.pose.pose.orientation, q);
     transform.setRotation(q);
-    odomToBaseLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, "odom", "base_link"));
+    odomToBaseLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, ns+"_"+"odom", ns+"_"+"base_link"));
 
     // Base Link to Laser Link
     static double laser_link_x = 0;
     ros::NodeHandle nh;
-    nh.param<double>("hardware/robotDescription:baseLink_to_laserLink/x", laser_link_x, 0.10);
+    nh.param<double>("hardware/robotDescription/baseLink_to_laserLink/x", laser_link_x, 0.10);
     transform.setOrigin(tf::Vector3(laser_link_x, 0.0, 0.232));
     q.setRPY(0.0, 0.0, 0.0);
     transform.setRotation(q);
-    baseLinkToLaserLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, "base_link", "laser_link"));
+    baseLinkToLaserLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, ns+"_"+"base_link", ns+"_"+"laser_link"));
 }
