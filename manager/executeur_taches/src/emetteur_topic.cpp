@@ -15,8 +15,8 @@ int main(int argc, char **argv)
 
 	ros::NodeHandle n;
 
-	ros::Publisher activite = n.advertise<activity>("/task_exec_state", 1000);
-	ros::Publisher etatdujeu = n.advertise<GameState>("/game_state", 1000);
+	ros::Publisher activite = n.advertise<activity>("manager/task_exec_state", 1000);
+	ros::Publisher etatdujeu = n.advertise<GameState>("manager/game_state", 1000);
 
 	ros::Rate loop_rate(1);
 

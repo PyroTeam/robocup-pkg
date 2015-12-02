@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 	ROS_INFO("Starting node emetteur_topic");
 	ros::init(argc, argv, "emetteur_topic");
 	ros::NodeHandle n;
-	ros::Publisher activite = n.advertise<activity>("/task_exec_state", 1000);
+	ros::Publisher activite = n.advertise<activity>("manager/task_exec_state", 1000);
 	ros::Rate loop_rate(50);
 	int count = 0;
 	while (ros::ok())

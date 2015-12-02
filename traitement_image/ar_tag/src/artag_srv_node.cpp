@@ -30,10 +30,10 @@ int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "artag_reader");
 	ros::NodeHandle n;
- 	ros::ServiceServer service = n.advertiseService("/artag", giveId);
+ 	ros::ServiceServer service = n.advertiseService("computerVision/artag", giveId);
  	ros::Rate r(10);
  	ROS_INFO("Subscribe");
-	ros::Subscriber artag_topic = n.subscribe<ar_track_alvar_msgs::AlvarMarkers>("/ar_pose_marker", 1000, artagCallback);
+	ros::Subscriber artag_topic = n.subscribe<ar_track_alvar_msgs::AlvarMarkers>("computerVision/ar_pose_marker", 1000, artagCallback);
 	ROS_INFO("Test");
 	while(ros::ok())
 	{

@@ -15,6 +15,6 @@ OdomFA::OdomFA(){
 	m_px = 0;
 	m_py = 0;
 	m_oz = 0;
-	m_odomSub = m_nh.subscribe("/odom",1000,&OdomFA::odomCallback,this);        
+	m_odomSub = m_nh.subscribe("hardware/odom",1000,&OdomFA::odomCallback,this);        
 }
 

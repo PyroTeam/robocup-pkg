@@ -23,10 +23,10 @@ int main(int argc, char **argv)
     /* service reponse au générateur de taches */
     GtServerSrv gtsrv;
     gtsrv.setId(1);
-    ros::ServiceServer service = n.advertiseService("order", &GtServerSrv::responseToGT, &gtsrv);
+    ros::ServiceServer service = n.advertiseService("manager/order", &GtServerSrv::responseToGT, &gtsrv);
 
     /* Publisher topic générateur de taches */
-    ros::Publisher activite_pub = n.advertise<manager_msg::activity>("/task_exec_state", 1000);
+    ros::Publisher activite_pub = n.advertise<manager_msg::activity>("manager/task_exec_state", 1000);
 
     while(ros::ok)
     {

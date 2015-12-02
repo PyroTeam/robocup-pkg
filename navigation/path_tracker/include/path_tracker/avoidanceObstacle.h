@@ -66,8 +66,8 @@ public:
         m_successAvoidance = false;
         m_distPath = 0;
         m_almostDone = false;
-        m_cmdVel_pub = m_nh.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
-        m_path_pub = m_nh.advertise<nav_msgs::Path>("intermediatePath", 1000, true);
+        m_cmdVel_pub = m_nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1000);
+        m_path_pub = m_nh.advertise<nav_msgs::Path>("navigation/intermediatePath", 1000, true);
     }
     ~AvoidanceObstacle()
     {

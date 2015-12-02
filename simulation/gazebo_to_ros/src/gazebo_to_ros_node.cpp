@@ -44,13 +44,13 @@ int main(int argc, char **argv)
     pub->WaitForConnection();
 
     // Subscriber
-    ros::Subscriber subCmdVel = nh.subscribe("/cmd_vel", 1, &cmdVelCallback);
-    g_pubOdom = nh.advertise<nav_msgs::Odometry>("/odom", 1000);
+    ros::Subscriber subCmdVel = nh.subscribe("hardware/cmd_vel", 1, &cmdVelCallback);
+    g_pubOdom = nh.advertise<nav_msgs::Odometry>("hardware/odom", 1000);
     gazebo::transport::SubscriberPtr subGps = node->Subscribe("/gazebo/pyro_2015/" ROBOTINO_NAME "/gazsim/gps/", &gpsCallback);
     gazebo::transport::SubscriberPtr subLightSignal = node->Subscribe("/gazebo/pyro_2015/" ROBOTINO_NAME "/gazsim/light-signal/", &lightSignalCallback);
 
 	// Publisher
-	g_pubLightSignal = nh.advertise<trait_im_msg::LightSignal>("closest_light_signal", 1000);
+	g_pubLightSignal = nh.advertise<trait_im_msg::LightSignal>("hardware/closest_light_signal", 1000);
 
     // Publisher loop...replace with your own code.
     g_x=0; g_y=0; g_z=0;

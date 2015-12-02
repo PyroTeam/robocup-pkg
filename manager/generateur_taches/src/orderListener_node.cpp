@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "orderListener");
 	ros::NodeHandle n;
 
-	ros::ServiceServer service = n.advertiseService("order", add);
+	ros::ServiceServer service = n.advertiseService("manager/order", add);
 	ROS_INFO("Ready to accept an order");
 	ros::spin();
 

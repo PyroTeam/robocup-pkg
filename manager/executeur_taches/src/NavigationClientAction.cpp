@@ -8,7 +8,7 @@ NavigationClientAction::~NavigationClientAction(){}
 
 int NavigationClientAction::goToAPoint(geometry_msgs::Pose2D dest_point)
 {
-	actionlib::SimpleActionClient<deplacement_msg::MoveToPoseAction> client("moveToPose",true);
+	actionlib::SimpleActionClient<deplacement_msg::MoveToPoseAction> client("navigation/moveToPose",true);
 
 	ROS_INFO("Waiting for action Navigation Server to start");
 

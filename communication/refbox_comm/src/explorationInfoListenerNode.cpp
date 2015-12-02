@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 
     ros::NodeHandle n;
 
-    ros::Subscriber sub = n.subscribe("/refBoxComm/ExplorationInfo", 1000, eiCallback);
+    ros::Subscriber sub = n.subscribe("refBoxComm/ExplorationInfo", 1000, eiCallback);
 
     ros::Rate loop_rate(50);
 

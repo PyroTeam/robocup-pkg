@@ -8,7 +8,7 @@ int main(int argc, char** argv)
     ros::Rate r(50);
 
     // Subscribe to odom 
-    ros::Subscriber sub_odom = n.subscribe("/odom", 1000, &poseCallback);
+    ros::Subscriber sub_odom = n.subscribe("hardware/odom", 1000, &poseCallback);
 
     while(n.ok())
     {

@@ -53,7 +53,7 @@ public:
 
     TrackPath()
     {
-        m_cmdVel_pub = m_nh.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
+        m_cmdVel_pub = m_nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1000);
         m_success = false;
         m_failure = false;
     }

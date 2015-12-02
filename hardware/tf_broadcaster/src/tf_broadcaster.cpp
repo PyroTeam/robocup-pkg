@@ -23,7 +23,7 @@ void poseCallback(const nav_msgs::Odometry &odom)
     // Base Link to Laser Link
     static double laser_link_x = 0;
     ros::NodeHandle nh;
-    nh.param<double>("/laser_link_x", laser_link_x, 0.10);
+    nh.param<double>("hardware/robotDescription:baseLink_to_laserLink/x", laser_link_x, 0.10);
     transform.setOrigin(tf::Vector3(laser_link_x, 0.0, 0.232));
     q.setRPY(0.0, 0.0, 0.0);
     transform.setRotation(q);

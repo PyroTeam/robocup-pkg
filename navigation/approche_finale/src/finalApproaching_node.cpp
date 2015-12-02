@@ -11,6 +11,6 @@ int main(int argc, char** argv)
 	ros::Time::init();
 	ROS_INFO("Waiting a request");
 	//Sharps sharps;
-	finalApproaching finalApproaching(ros::this_node::getName());
+	finalApproaching finalApproaching("navigation/" + ros::this_node::getName());
 	ros::spin();
 }
