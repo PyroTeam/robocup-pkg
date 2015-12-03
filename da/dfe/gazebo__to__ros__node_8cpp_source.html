@@ -125,118 +125,110 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    node-&gt;Init();</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;publisher&quot;</span>);</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ros::NodeHandle nh;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    std::string robotName;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    nh.param&lt;std::string&gt;(<span class="stringliteral">&quot;simuRobotNamespace&quot;</span>, robotName, <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a7699d07fc01da0ae5320b3e6172900dc">ROBOTINO_NAME</a>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">// Publish to a Gazebo topic</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    gazebo::transport::PublisherPtr pub =</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="comment">// node-&gt;Advertise&lt;gazebo::msgs::Vector3d&gt;(&quot;/gazebo/pyro_2015/robotino_pyro/RobotinoSim/MotorMove/&quot;);</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        node-&gt;Advertise&lt;gazebo::msgs::Vector3d&gt;(<span class="stringliteral">&quot;/gazebo/pyro_2015/&quot;</span> +robotName+ <span class="stringliteral">&quot;/RobotinoSim/MotorMove/&quot;</span>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">// Wait for a subscriber to connect</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    pub-&gt;WaitForConnection();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">// Subscriber</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    ros::Subscriber subCmdVel = nh.subscribe(<span class="stringliteral">&quot;hardware/cmd_vel&quot;</span>, 1, &amp;<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a8289f0a4dcbbeb57d9c7c72936bcf3cb">cmdVelCallback</a>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a2faf74c12d663f7b011c6e8307de620b">g_pubOdom</a> = nh.advertise&lt;nav_msgs::Odometry&gt;(<span class="stringliteral">&quot;hardware/odom&quot;</span>, 1000);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    gazebo::transport::SubscriberPtr subGps = node-&gt;Subscribe(<span class="stringliteral">&quot;/gazebo/pyro_2015/&quot;</span> +robotName+ <span class="stringliteral">&quot;/gazsim/gps/&quot;</span>, &amp;<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#adab905660aee01c2a08d96c22842e146">gpsCallback</a>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    gazebo::transport::SubscriberPtr subLightSignal = node-&gt;Subscribe(<span class="stringliteral">&quot;/gazebo/pyro_2015/&quot;</span> +robotName+ <span class="stringliteral">&quot;/gazsim/light-signal/&quot;</span>, &amp;<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab446b8e38ea828eea366c4daac79a5c9">lightSignalCallback</a>);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// Publisher</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab43f823d3af12332806f36d8bc076dd8">g_pubLightSignal</a> = nh.advertise&lt;trait_im_msg::LightSignal&gt;(<span class="stringliteral">&quot;hardware/closest_light_signal&quot;</span>, 1000);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// Publisher loop...replace with your own code.</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a4b528247d00267f53e2843ad01d84060">g_x</a>=0; <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aecb9558f61fa4c50c6349aa6906ec56d">g_y</a>=0; <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#affdb1fb815ae5b38963945e24a6a487d">g_z</a>=0;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    gazebo::math::Vector3 vect(g_x,<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aecb9558f61fa4c50c6349aa6906ec56d">g_y</a>,<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#affdb1fb815ae5b38963945e24a6a487d">g_z</a>);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">while</span> (ros::ok())</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment">// Throttle Publication</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        gazebo::common::Time::MSleep(100);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="comment">// Generate a pose</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        vect.Set(g_x, <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aecb9558f61fa4c50c6349aa6906ec56d">g_y</a>, <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#affdb1fb815ae5b38963945e24a6a487d">g_z</a>);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="comment">// Convert to a pose message</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        gazebo::msgs::Vector3d msg;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        gazebo::msgs::Set(&amp;msg, vect);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        pub-&gt;Publish(msg);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        ros::spinOnce();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">// Make sure to shut everything down.</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    gazebo::shutdown();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a8289f0a4dcbbeb57d9c7c72936bcf3cb">   80</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a8289f0a4dcbbeb57d9c7c72936bcf3cb">cmdVelCallback</a>(<span class="keyword">const</span> geometry_msgs::TwistConstPtr&amp; msg)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;{</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a4b528247d00267f53e2843ad01d84060">g_x</a>=msg-&gt;linear.x;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aecb9558f61fa4c50c6349aa6906ec56d">g_y</a>=msg-&gt;linear.y;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#affdb1fb815ae5b38963945e24a6a487d">g_z</a>=msg-&gt;angular.z;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#adab905660aee01c2a08d96c22842e146">   87</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#adab905660aee01c2a08d96c22842e146">gpsCallback</a>(ConstPosePtr &amp;msg)</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;{</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    ros::NodeHandle nh;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    std::string tf_prefix;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    nh.param&lt;std::string&gt;(<span class="stringliteral">&quot;simuRobotNamespace&quot;</span>, tf_prefix, <span class="stringliteral">&quot;&quot;</span>);;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">if</span> (tf_prefix.size() != 0)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        tf_prefix += <span class="stringliteral">&quot;/&quot;</span>;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    nav_msgs::Odometry odom_msg;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    odom_msg.child_frame_id=tf_prefix+<span class="stringliteral">&quot;base_link&quot;</span>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    odom_msg.header.frame_id=tf_prefix+<span class="stringliteral">&quot;odom&quot;</span>;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    odom_msg.header.stamp=ros::Time::now();</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    odom_msg.pose.pose.position.x=msg-&gt;position().x();</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    odom_msg.pose.pose.position.y=msg-&gt;position().y();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    odom_msg.pose.pose.position.z=0;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    odom_msg.pose.pose.orientation.x=msg-&gt;orientation().x();</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    odom_msg.pose.pose.orientation.y=msg-&gt;orientation().y();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    odom_msg.pose.pose.orientation.z=msg-&gt;orientation().z();</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    odom_msg.pose.pose.orientation.w=msg-&gt;orientation().w();</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    odom_msg.twist.twist.linear.x=<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a4b528247d00267f53e2843ad01d84060">g_x</a>;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    odom_msg.twist.twist.linear.y=<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aecb9558f61fa4c50c6349aa6906ec56d">g_y</a>;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    odom_msg.twist.twist.linear.z=0;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    odom_msg.twist.twist.angular.x=0;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    odom_msg.twist.twist.angular.y=0;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    odom_msg.twist.twist.angular.z=<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#affdb1fb815ae5b38963945e24a6a487d">g_z</a>;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a2faf74c12d663f7b011c6e8307de620b">g_pubOdom</a>.publish(odom_msg);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;}</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab446b8e38ea828eea366c4daac79a5c9">  120</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab446b8e38ea828eea366c4daac79a5c9">lightSignalCallback</a>(<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aad78fc6994d21846d3ed929e75b1cdea">ConstLightSignalDetectionPtr</a> &amp;msg)</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;{</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    trait_im_msg::LightSignal lightSignals_msg;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    comm_msg::LightSpec lightSpec_msg;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; msg-&gt;lights_size(); ++i)</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        lightSpec_msg.color = msg-&gt;lights(i).color();</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        lightSpec_msg.state = msg-&gt;lights(i).state();</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        lightSignals_msg.lights.push_back(lightSpec_msg);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    }</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab43f823d3af12332806f36d8bc076dd8">g_pubLightSignal</a>.publish(lightSignals_msg);</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div>
-<div class="ttc" id="gazebo__to__ros__node_8cpp_html_a8289f0a4dcbbeb57d9c7c72936bcf3cb"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a8289f0a4dcbbeb57d9c7c72936bcf3cb">cmdVelCallback</a></div><div class="ttdeci">void cmdVelCallback(const geometry_msgs::TwistConstPtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00080">gazebo_to_ros_node.cpp:80</a></div></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// Publish to a Gazebo topic</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    gazebo::transport::PublisherPtr pub =</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="comment">// node-&gt;Advertise&lt;gazebo::msgs::Vector3d&gt;(&quot;/gazebo/pyro_2015/robotino_pyro/RobotinoSim/MotorMove/&quot;);</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        node-&gt;Advertise&lt;gazebo::msgs::Vector3d&gt;(<span class="stringliteral">&quot;/gazebo/pyro_2015/&quot;</span> <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a7699d07fc01da0ae5320b3e6172900dc">ROBOTINO_NAME</a> <span class="stringliteral">&quot;/RobotinoSim/MotorMove/&quot;</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">// Wait for a subscriber to connect</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    pub-&gt;WaitForConnection();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">// Subscriber</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    ros::Subscriber subCmdVel = nh.subscribe(<span class="stringliteral">&quot;/cmd_vel&quot;</span>, 1, &amp;<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a8289f0a4dcbbeb57d9c7c72936bcf3cb">cmdVelCallback</a>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a2faf74c12d663f7b011c6e8307de620b">g_pubOdom</a> = nh.advertise&lt;nav_msgs::Odometry&gt;(<span class="stringliteral">&quot;/odom&quot;</span>, 1000);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    gazebo::transport::SubscriberPtr subGps = node-&gt;Subscribe(<span class="stringliteral">&quot;/gazebo/pyro_2015/&quot;</span> <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a7699d07fc01da0ae5320b3e6172900dc">ROBOTINO_NAME</a> <span class="stringliteral">&quot;/gazsim/gps/&quot;</span>, &amp;<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#adab905660aee01c2a08d96c22842e146">gpsCallback</a>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    gazebo::transport::SubscriberPtr subLightSignal = node-&gt;Subscribe(<span class="stringliteral">&quot;/gazebo/pyro_2015/&quot;</span> <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a7699d07fc01da0ae5320b3e6172900dc">ROBOTINO_NAME</a> <span class="stringliteral">&quot;/gazsim/light-signal/&quot;</span>, &amp;<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab446b8e38ea828eea366c4daac79a5c9">lightSignalCallback</a>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// Publisher</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab43f823d3af12332806f36d8bc076dd8">g_pubLightSignal</a> = nh.advertise&lt;trait_im_msg::LightSignal&gt;(<span class="stringliteral">&quot;closest_light_signal&quot;</span>, 1000);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">// Publisher loop...replace with your own code.</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a4b528247d00267f53e2843ad01d84060">g_x</a>=0; <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aecb9558f61fa4c50c6349aa6906ec56d">g_y</a>=0; <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#affdb1fb815ae5b38963945e24a6a487d">g_z</a>=0;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    gazebo::math::Vector3 vect(g_x,<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aecb9558f61fa4c50c6349aa6906ec56d">g_y</a>,<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#affdb1fb815ae5b38963945e24a6a487d">g_z</a>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">while</span> (ros::ok())</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment">// Throttle Publication</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        gazebo::common::Time::MSleep(100);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">// Generate a pose</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        vect.Set(g_x, <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aecb9558f61fa4c50c6349aa6906ec56d">g_y</a>, <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#affdb1fb815ae5b38963945e24a6a487d">g_z</a>);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">// Convert to a pose message</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        gazebo::msgs::Vector3d msg;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        gazebo::msgs::Set(&amp;msg, vect);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        pub-&gt;Publish(msg);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        ros::spinOnce();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="comment">// Make sure to shut everything down.</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    gazebo::shutdown();</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a8289f0a4dcbbeb57d9c7c72936bcf3cb">   78</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a8289f0a4dcbbeb57d9c7c72936bcf3cb">cmdVelCallback</a>(<span class="keyword">const</span> geometry_msgs::TwistConstPtr&amp; msg)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;{</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a4b528247d00267f53e2843ad01d84060">g_x</a>=msg-&gt;linear.x;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aecb9558f61fa4c50c6349aa6906ec56d">g_y</a>=msg-&gt;linear.y;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#affdb1fb815ae5b38963945e24a6a487d">g_z</a>=msg-&gt;angular.z;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#adab905660aee01c2a08d96c22842e146">   85</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#adab905660aee01c2a08d96c22842e146">gpsCallback</a>(ConstPosePtr &amp;msg)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;{</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    nav_msgs::Odometry odom_msg;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    odom_msg.child_frame_id=<span class="stringliteral">&quot;/base_link&quot;</span>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    odom_msg.header.frame_id=<span class="stringliteral">&quot;/odom&quot;</span>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    odom_msg.header.stamp=ros::Time::now();</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    odom_msg.pose.pose.position.x=msg-&gt;position().x();</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    odom_msg.pose.pose.position.y=msg-&gt;position().y();</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    odom_msg.pose.pose.position.z=0;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    odom_msg.pose.pose.orientation.x=msg-&gt;orientation().x();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    odom_msg.pose.pose.orientation.y=msg-&gt;orientation().y();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    odom_msg.pose.pose.orientation.z=msg-&gt;orientation().z();</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    odom_msg.pose.pose.orientation.w=msg-&gt;orientation().w();</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    odom_msg.twist.twist.linear.x=<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a4b528247d00267f53e2843ad01d84060">g_x</a>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    odom_msg.twist.twist.linear.y=<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aecb9558f61fa4c50c6349aa6906ec56d">g_y</a>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    odom_msg.twist.twist.linear.z=0;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    odom_msg.twist.twist.angular.x=0;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    odom_msg.twist.twist.angular.y=0;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    odom_msg.twist.twist.angular.z=<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#affdb1fb815ae5b38963945e24a6a487d">g_z</a>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a2faf74c12d663f7b011c6e8307de620b">g_pubOdom</a>.publish(odom_msg);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab446b8e38ea828eea366c4daac79a5c9">  112</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab446b8e38ea828eea366c4daac79a5c9">lightSignalCallback</a>(<a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aad78fc6994d21846d3ed929e75b1cdea">ConstLightSignalDetectionPtr</a> &amp;msg)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;{</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    trait_im_msg::LightSignal lightSignals_msg;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    comm_msg::LightSpec lightSpec_msg;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; msg-&gt;lights_size(); ++i)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        lightSpec_msg.color = msg-&gt;lights(i).color();</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        lightSpec_msg.state = msg-&gt;lights(i).state();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        lightSignals_msg.lights.push_back(lightSpec_msg);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <a class="code" href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab43f823d3af12332806f36d8bc076dd8">g_pubLightSignal</a>.publish(lightSignals_msg);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;}</div>
+<div class="ttc" id="gazebo__to__ros__node_8cpp_html_a8289f0a4dcbbeb57d9c7c72936bcf3cb"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a8289f0a4dcbbeb57d9c7c72936bcf3cb">cmdVelCallback</a></div><div class="ttdeci">void cmdVelCallback(const geometry_msgs::TwistConstPtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00078">gazebo_to_ros_node.cpp:78</a></div></div>
 <div class="ttc" id="gazebo__to__ros__node_8cpp_html_affdb1fb815ae5b38963945e24a6a487d"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#affdb1fb815ae5b38963945e24a6a487d">g_z</a></div><div class="ttdeci">double g_z</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00014">gazebo_to_ros_node.cpp:14</a></div></div>
 <div class="ttc" id="gazebo__to__ros__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00027">gazebo_to_ros_node.cpp:27</a></div></div>
-<div class="ttc" id="gazebo__to__ros__node_8cpp_html_adab905660aee01c2a08d96c22842e146"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#adab905660aee01c2a08d96c22842e146">gpsCallback</a></div><div class="ttdeci">void gpsCallback(ConstPosePtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00087">gazebo_to_ros_node.cpp:87</a></div></div>
+<div class="ttc" id="gazebo__to__ros__node_8cpp_html_adab905660aee01c2a08d96c22842e146"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#adab905660aee01c2a08d96c22842e146">gpsCallback</a></div><div class="ttdeci">void gpsCallback(ConstPosePtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00085">gazebo_to_ros_node.cpp:85</a></div></div>
 <div class="ttc" id="gazebo__to__ros__node_8cpp_html_ab43f823d3af12332806f36d8bc076dd8"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab43f823d3af12332806f36d8bc076dd8">g_pubLightSignal</a></div><div class="ttdeci">ros::Publisher g_pubLightSignal</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00016">gazebo_to_ros_node.cpp:16</a></div></div>
 <div class="ttc" id="gazebo__to__ros__node_8cpp_html_aad78fc6994d21846d3ed929e75b1cdea"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aad78fc6994d21846d3ed929e75b1cdea">ConstLightSignalDetectionPtr</a></div><div class="ttdeci">const boost::shared_ptr&lt; gazsim_msgs::LightSignalDetection const  &gt; ConstLightSignalDetectionPtr</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00019">gazebo_to_ros_node.cpp:19</a></div></div>
 <div class="ttc" id="gazebo__to__ros__node_8cpp_html_a2faf74c12d663f7b011c6e8307de620b"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a2faf74c12d663f7b011c6e8307de620b">g_pubOdom</a></div><div class="ttdeci">ros::Publisher g_pubOdom</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00015">gazebo_to_ros_node.cpp:15</a></div></div>
 <div class="ttc" id="gazebo__to__ros__node_8cpp_html_aecb9558f61fa4c50c6349aa6906ec56d"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#aecb9558f61fa4c50c6349aa6906ec56d">g_y</a></div><div class="ttdeci">double g_y</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00014">gazebo_to_ros_node.cpp:14</a></div></div>
 <div class="ttc" id="gazebo__to__ros__node_8cpp_html_a7699d07fc01da0ae5320b3e6172900dc"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a7699d07fc01da0ae5320b3e6172900dc">ROBOTINO_NAME</a></div><div class="ttdeci">#define ROBOTINO_NAME</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00024">gazebo_to_ros_node.cpp:24</a></div></div>
 <div class="ttc" id="gazebo__to__ros__node_8cpp_html_a4b528247d00267f53e2843ad01d84060"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#a4b528247d00267f53e2843ad01d84060">g_x</a></div><div class="ttdeci">double g_x</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00014">gazebo_to_ros_node.cpp:14</a></div></div>
-<div class="ttc" id="gazebo__to__ros__node_8cpp_html_ab446b8e38ea828eea366c4daac79a5c9"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab446b8e38ea828eea366c4daac79a5c9">lightSignalCallback</a></div><div class="ttdeci">void lightSignalCallback(ConstLightSignalDetectionPtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00120">gazebo_to_ros_node.cpp:120</a></div></div>
+<div class="ttc" id="gazebo__to__ros__node_8cpp_html_ab446b8e38ea828eea366c4daac79a5c9"><div class="ttname"><a href="../../da/dfe/gazebo__to__ros__node_8cpp.html#ab446b8e38ea828eea366c4daac79a5c9">lightSignalCallback</a></div><div class="ttdeci">void lightSignalCallback(ConstLightSignalDetectionPtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dfe/gazebo__to__ros__node_8cpp_source.html#l00112">gazebo_to_ros_node.cpp:112</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:53:15 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -167,12 +167,12 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  ros::NodeHandle n;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  ros::Subscriber sub_machines    = n.subscribe(<span class="stringliteral">&quot;objectDetection/landmarks&quot;</span>, 1000, <a class="code" href="../../d7/d6f/visualisationOK_8cpp.html#a30d8978d4fea7115ebc997f58835ad10">landmarksCallback</a>);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  ros::Subscriber sub_segments    = n.subscribe(<span class="stringliteral">&quot;objectDetection/segments_global&quot;</span>, 100000, <a class="code" href="../../d7/d6f/visualisationOK_8cpp.html#a29ee9bb765e8a8bfb8cb92df2ae968db">segmentsCallback</a>);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  ros::Subscriber sub_odom        = n.subscribe(<span class="stringliteral">&quot;objectDetection/new_odom&quot;</span>, 1000, <a class="code" href="../../d7/d6f/visualisationOK_8cpp.html#a0a6e1e989c36870436b8b35a4f60f5aa">odomCallback</a>);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  ros::Subscriber sub_machines    = n.subscribe(<span class="stringliteral">&quot;/landmarks&quot;</span>, 1000, <a class="code" href="../../d7/d6f/visualisationOK_8cpp.html#a30d8978d4fea7115ebc997f58835ad10">landmarksCallback</a>);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  ros::Subscriber sub_segments    = n.subscribe(<span class="stringliteral">&quot;/segments_global&quot;</span>, 100000, <a class="code" href="../../d7/d6f/visualisationOK_8cpp.html#a29ee9bb765e8a8bfb8cb92df2ae968db">segmentsCallback</a>);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  ros::Subscriber sub_odom        = n.subscribe(<span class="stringliteral">&quot;/new_odom&quot;</span>, 1000, <a class="code" href="../../d7/d6f/visualisationOK_8cpp.html#a0a6e1e989c36870436b8b35a4f60f5aa">odomCallback</a>);</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="comment">//ros::Subscriber sub_pos_robot   = n.subscribe(&quot;/robot&quot;, 1000, robotCallback);</span></div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  ros::Publisher markers_pub = n.advertise&lt;visualization_msgs::Marker&gt;(<span class="stringliteral">&quot;rviz/visualization_markers&quot;</span>, 1000000);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  ros::Publisher markers_pub = n.advertise&lt;visualization_msgs::Marker&gt;(<span class="stringliteral">&quot;/visualization_markers&quot;</span>, 1000000);</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  ros::Rate rate(20);</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
@@ -276,7 +276,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:53:15 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

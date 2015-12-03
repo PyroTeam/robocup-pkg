@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d2/d9c/classGripperClientSrv.html#a3aa330ff9e0e88e8101e9fc811307af9">    6</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d2/d9c/classGripperClientSrv.html#a3aa330ff9e0e88e8101e9fc811307af9">GripperClientSrv::gripper_uppdate</a>(<span class="keywordtype">bool</span> new_state)</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    ros::NodeHandle n;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    ros::ServiceClient client = n.serviceClient&lt;manager_msg::SetGripper&gt;(<span class="stringliteral">&quot;fakeRobotino/setGripper&quot;</span>);</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    ros::ServiceClient client = n.serviceClient&lt;manager_msg::SetGripper&gt;(<span class="stringliteral">&quot;/fakeRobotino/setGripper&quot;</span>);</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    manager_msg::SetGripper srv;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    srv.request.state = new_state;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">if</span> (client.call(srv))</div>
@@ -120,7 +120,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:53:15 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

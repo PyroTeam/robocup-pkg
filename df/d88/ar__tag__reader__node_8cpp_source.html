@@ -154,8 +154,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    ros::NodeHandle n;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    ros::Rate <a class="code" href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a>(100);</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Subscribe&quot;</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    ros::Subscriber artag_topic = n.subscribe&lt;ar_track_alvar_msgs::AlvarMarkers&gt;(<span class="stringliteral">&quot;computerVision/ar_pose_marker&quot;</span>, 1000, <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#aa4125bc4f704d3677589f957c1463e45">artagCallback</a>);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a> = n.advertise&lt;geometry_msgs::Twist&gt;(<span class="stringliteral">&quot;hardware/cmd_vel&quot;</span>,1000);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    ros::Subscriber artag_topic = n.subscribe&lt;ar_track_alvar_msgs::AlvarMarkers&gt;(<span class="stringliteral">&quot;/ar_pose_marker&quot;</span>, 1000, <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#aa4125bc4f704d3677589f957c1463e45">artagCallback</a>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a> = n.advertise&lt;geometry_msgs::Twist&gt;(<span class="stringliteral">&quot;/cmd_vel&quot;</span>,1000);</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">while</span>(ros::ok())</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    {</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            </div>
@@ -174,7 +174,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:53:15 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
