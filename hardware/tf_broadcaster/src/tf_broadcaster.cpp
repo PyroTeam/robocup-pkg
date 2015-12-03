@@ -5,6 +5,8 @@ void poseCallback(const nav_msgs::Odometry &odom)
     static tf::TransformBroadcaster mapToOdom;
     static tf::TransformBroadcaster odomToBaseLink;
     static tf::TransformBroadcaster baseLinkToLaserLink;
+    static tf::TransformBroadcaster baseLinkToTowerCameraLink;
+    static tf::TransformBroadcaster baseLinkToPlatformCameraLink;
     static ros::NodeHandle nh;
 
     std::string tf_prefix;
@@ -33,4 +35,20 @@ void poseCallback(const nav_msgs::Odometry &odom)
     q.setRPY(0.0, 0.0, 0.0);
     transform.setRotation(q);
     baseLinkToLaserLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, tf_prefix+"base_link", tf_prefix+"laser_link"));
+
+    // Base Link to Tower Camera Link
+    static double tower_camera_link_z = 0;
+    nh.param<double>("hardware/robotDescription/baseLink_to_towerCameraLink/z", tower_camera_link_z, 0.60);
+    transform.setOrigin(tf::Vector3(0.2, 0.0, tower_camera_link_z));
+    q.setRPY(0.0, 0.0, 0.0);
+    transform.setRotation(q);
+    baseLinkToTowerCameraLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, tf_prefix+"base_link", tf_prefix+"tower_camera__link"));
+
+    // Base Link to Platform Camera Link
+    static double platform_camera_link_z = 0;
+    nh.param<double>("hardware/robotDescription/baseLink_to_platformCameraLink/z", platform_camera_link_z, 0.90);
+    transform.setOrigin(tf::Vector3(0.0, 0.0, platform_camera_link_z));
+    q.setRPY(0.0, 0.0, 0.0);
+    transform.setRotation(q);
+    baseLinkToPlatformCameraLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, tf_prefix+"base_link", tf_prefix+"platform_camera_link"));
 }
