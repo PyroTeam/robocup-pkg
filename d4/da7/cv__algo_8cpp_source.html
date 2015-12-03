@@ -116,21 +116,21 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  action_name_(ros::this_node::getName())</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="comment">// Ros topics</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    image_sub_ = it_.subscribe(<span class="stringliteral">&quot;image_raw&quot;</span>, 1, &amp;LectureFeu::imageCb, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;feu_tricolore/image_result/list/0_Flux_origine&quot;</span>, <span class="stringliteral">&quot;/image_raw&quot;</span>);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    image_sub_ = it_.subscribe(<span class="stringliteral">&quot;hardware/camera/platform_camera/image_raw&quot;</span>, 1, &amp;LectureFeu::imageCb, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;computerVision/lightSignalDetection/image_result/list/0_Flux_origine&quot;</span>, <span class="stringliteral">&quot;/image_raw&quot;</span>);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    output_1_pub_ = it_.advertise(<span class="stringliteral">&quot;feu_tricolore/img_ouput_1&quot;</span>, 1);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;feu_tricolore/image_result/list/1_Ouput&quot;</span>, <span class="stringliteral">&quot;/feu_tricolore/img_ouput_1&quot;</span>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    output_2_pub_ = it_.advertise(<span class="stringliteral">&quot;feu_tricolore/img_ouput_2&quot;</span>, 1);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;feu_tricolore/image_result/list/2_Output&quot;</span>, <span class="stringliteral">&quot;/feu_tricolore/img_ouput_2&quot;</span>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    output_3_pub_ = it_.advertise(<span class="stringliteral">&quot;feu_tricolore/img_ouput_3&quot;</span>, 1);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;feu_tricolore/image_result/list/3_Output&quot;</span>, <span class="stringliteral">&quot;/feu_tricolore/img_ouput_3&quot;</span>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    output_4_pub_ = it_.advertise(<span class="stringliteral">&quot;feu_tricolore/img_ouput_4&quot;</span>, 1);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;feu_tricolore/image_result/list/4_Output&quot;</span>, <span class="stringliteral">&quot;/feu_tricolore/img_ouput_4&quot;</span>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    output_5_pub_ = it_.advertise(<span class="stringliteral">&quot;feu_tricolore/img_ouput_5&quot;</span>, 1);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;feu_tricolore/image_result/list/5_Output&quot;</span>, <span class="stringliteral">&quot;/feu_tricolore/img_ouput_5&quot;</span>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    result_pub_ = it_.advertise(<span class="stringliteral">&quot;feu_tricolore/img_result&quot;</span>, 1);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;feu_tricolore/image_result/list/6_Image_resultat&quot;</span>, <span class="stringliteral">&quot;/feu_tricolore/img_result&quot;</span>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    output_1_pub_ = it_.advertise(<span class="stringliteral">&quot;computerVision/lightSignalDetection/img_ouput_1&quot;</span>, 1);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;computerVision/lightSignalDetection/image_result/list/1_Ouput&quot;</span>, <span class="stringliteral">&quot;computerVision/lightSignalDetection/img_ouput_1&quot;</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    output_2_pub_ = it_.advertise(<span class="stringliteral">&quot;computerVision/lightSignalDetection/img_ouput_2&quot;</span>, 1);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;computerVision/lightSignalDetection/image_result/list/2_Output&quot;</span>, <span class="stringliteral">&quot;computerVision/lightSignalDetection/img_ouput_2&quot;</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    output_3_pub_ = it_.advertise(<span class="stringliteral">&quot;computerVision/lightSignalDetection/img_ouput_3&quot;</span>, 1);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;computerVision/lightSignalDetection/image_result/list/3_Output&quot;</span>, <span class="stringliteral">&quot;computerVision/lightSignalDetection/img_ouput_3&quot;</span>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    output_4_pub_ = it_.advertise(<span class="stringliteral">&quot;computerVision/lightSignalDetection/img_ouput_4&quot;</span>, 1);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;computerVision/lightSignalDetection/image_result/list/4_Output&quot;</span>, <span class="stringliteral">&quot;computerVision/lightSignalDetection/img_ouput_4&quot;</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    output_5_pub_ = it_.advertise(<span class="stringliteral">&quot;computerVision/lightSignalDetection/img_ouput_5&quot;</span>, 1);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;computerVision/lightSignalDetection/image_result/list/5_Output&quot;</span>, <span class="stringliteral">&quot;computerVision/lightSignalDetection/img_ouput_5&quot;</span>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    result_pub_ = it_.advertise(<span class="stringliteral">&quot;computerVision/lightSignalDetection/img_result&quot;</span>, 1);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    nh_.setParam(<span class="stringliteral">&quot;computerVision/lightSignalDetection/image_result/list/6_Image_resultat&quot;</span>, <span class="stringliteral">&quot;computerVision/lightSignalDetection/img_result&quot;</span>);</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">// Images - init _origin, _origin_rbg, _result, etc </span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    initMembersImgs();</div>
@@ -833,7 +833,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;        templ = *it;</div>
 <div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;</div>
 <div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;        <span class="keywordtype">int</span> match_method = 0;</div>
-<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;        nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;feu_tricolore/opening/size&quot;</span>, match_method, 0);</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;        nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;computerVision/lightSignalDetection/opening/size&quot;</span>, match_method, 0);</div>
 <div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;</div>
 <div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;        <span class="keywordtype">int</span> result_cols =  _origin.cols - templ.cols + 1;</div>
 <div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;        <span class="keywordtype">int</span> result_rows = _origin.rows - templ.rows + 1;</div>
@@ -1157,63 +1157,63 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l01120"></a><span class="lineno"> 1120</span>&#160;<span class="keywordtype">int</span> LectureFeu::getHSV_max_value()</div>
 <div class="line"><a name="l01121"></a><span class="lineno"> 1121</span>&#160;{</div>
 <div class="line"><a name="l01122"></a><span class="lineno"> 1122</span>&#160;    <span class="keywordtype">int</span> tmp;</div>
-<div class="line"><a name="l01123"></a><span class="lineno"> 1123</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;feu_tricolore/HSV_threshold/value/max&quot;</span>, tmp, 255);</div>
+<div class="line"><a name="l01123"></a><span class="lineno"> 1123</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;computerVision/lightSignalDetection/HSV_threshold/value/max&quot;</span>, tmp, 255);</div>
 <div class="line"><a name="l01124"></a><span class="lineno"> 1124</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
 <div class="line"><a name="l01125"></a><span class="lineno"> 1125</span>&#160;}</div>
 <div class="line"><a name="l01126"></a><span class="lineno"> 1126</span>&#160;</div>
 <div class="line"><a name="l01127"></a><span class="lineno"> 1127</span>&#160;<span class="keywordtype">int</span> LectureFeu::getHSV_min_value()</div>
 <div class="line"><a name="l01128"></a><span class="lineno"> 1128</span>&#160;{</div>
 <div class="line"><a name="l01129"></a><span class="lineno"> 1129</span>&#160;    <span class="keywordtype">int</span> tmp;</div>
-<div class="line"><a name="l01130"></a><span class="lineno"> 1130</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;feu_tricolore/HSV_threshold/value/min&quot;</span>, tmp, 0);</div>
+<div class="line"><a name="l01130"></a><span class="lineno"> 1130</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;computerVision/lightSignalDetection/HSV_threshold/value/min&quot;</span>, tmp, 0);</div>
 <div class="line"><a name="l01131"></a><span class="lineno"> 1131</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
 <div class="line"><a name="l01132"></a><span class="lineno"> 1132</span>&#160;}</div>
 <div class="line"><a name="l01133"></a><span class="lineno"> 1133</span>&#160;</div>
 <div class="line"><a name="l01134"></a><span class="lineno"> 1134</span>&#160;<span class="keywordtype">bool</span> LectureFeu::getEnableHSV()</div>
 <div class="line"><a name="l01135"></a><span class="lineno"> 1135</span>&#160;{</div>
 <div class="line"><a name="l01136"></a><span class="lineno"> 1136</span>&#160;    <span class="keywordtype">bool</span> tmp;</div>
-<div class="line"><a name="l01137"></a><span class="lineno"> 1137</span>&#160;    nh_.param&lt;<span class="keywordtype">bool</span>&gt;(<span class="stringliteral">&quot;feu_tricolore/HSV_threshold/enabled&quot;</span>, tmp, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l01137"></a><span class="lineno"> 1137</span>&#160;    nh_.param&lt;<span class="keywordtype">bool</span>&gt;(<span class="stringliteral">&quot;computerVision/lightSignalDetection/HSV_threshold/enabled&quot;</span>, tmp, <span class="keyword">true</span>);</div>
 <div class="line"><a name="l01138"></a><span class="lineno"> 1138</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
 <div class="line"><a name="l01139"></a><span class="lineno"> 1139</span>&#160;}</div>
 <div class="line"><a name="l01140"></a><span class="lineno"> 1140</span>&#160;</div>
 <div class="line"><a name="l01141"></a><span class="lineno"> 1141</span>&#160;<span class="keywordtype">int</span> LectureFeu::getOpeningSize()</div>
 <div class="line"><a name="l01142"></a><span class="lineno"> 1142</span>&#160;{</div>
 <div class="line"><a name="l01143"></a><span class="lineno"> 1143</span>&#160;    <span class="keywordtype">int</span> tmp;</div>
-<div class="line"><a name="l01144"></a><span class="lineno"> 1144</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;feu_tricolore/opening/size&quot;</span>, tmp, 0);</div>
+<div class="line"><a name="l01144"></a><span class="lineno"> 1144</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;computerVision/lightSignalDetection/opening/size&quot;</span>, tmp, 0);</div>
 <div class="line"><a name="l01145"></a><span class="lineno"> 1145</span>&#160;    <span class="keywordflow">return</span> ((tmp&lt;1)?1:tmp*2+1);</div>
 <div class="line"><a name="l01146"></a><span class="lineno"> 1146</span>&#160;}</div>
 <div class="line"><a name="l01147"></a><span class="lineno"> 1147</span>&#160;</div>
 <div class="line"><a name="l01148"></a><span class="lineno"> 1148</span>&#160;<span class="keywordtype">int</span> LectureFeu::getOpeningIterations()</div>
 <div class="line"><a name="l01149"></a><span class="lineno"> 1149</span>&#160;{</div>
 <div class="line"><a name="l01150"></a><span class="lineno"> 1150</span>&#160;    <span class="keywordtype">int</span> tmp;</div>
-<div class="line"><a name="l01151"></a><span class="lineno"> 1151</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;feu_tricolore/opening/iteration&quot;</span>, tmp, 0);</div>
+<div class="line"><a name="l01151"></a><span class="lineno"> 1151</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;computerVision/lightSignalDetection/opening/iteration&quot;</span>, tmp, 0);</div>
 <div class="line"><a name="l01152"></a><span class="lineno"> 1152</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
 <div class="line"><a name="l01153"></a><span class="lineno"> 1153</span>&#160;}</div>
 <div class="line"><a name="l01154"></a><span class="lineno"> 1154</span>&#160;</div>
 <div class="line"><a name="l01155"></a><span class="lineno"> 1155</span>&#160;<span class="keywordtype">bool</span> LectureFeu::getEnableOpening()</div>
 <div class="line"><a name="l01156"></a><span class="lineno"> 1156</span>&#160;{</div>
 <div class="line"><a name="l01157"></a><span class="lineno"> 1157</span>&#160;    <span class="keywordtype">bool</span> tmp;</div>
-<div class="line"><a name="l01158"></a><span class="lineno"> 1158</span>&#160;    nh_.param&lt;<span class="keywordtype">bool</span>&gt;(<span class="stringliteral">&quot;feu_tricolore/opening/enabled&quot;</span>, tmp, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l01158"></a><span class="lineno"> 1158</span>&#160;    nh_.param&lt;<span class="keywordtype">bool</span>&gt;(<span class="stringliteral">&quot;computerVision/lightSignalDetection/opening/enabled&quot;</span>, tmp, <span class="keyword">true</span>);</div>
 <div class="line"><a name="l01159"></a><span class="lineno"> 1159</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
 <div class="line"><a name="l01160"></a><span class="lineno"> 1160</span>&#160;}</div>
 <div class="line"><a name="l01161"></a><span class="lineno"> 1161</span>&#160;</div>
 <div class="line"><a name="l01162"></a><span class="lineno"> 1162</span>&#160;<span class="keywordtype">int</span> LectureFeu::getClosingSize()</div>
 <div class="line"><a name="l01163"></a><span class="lineno"> 1163</span>&#160;{</div>
 <div class="line"><a name="l01164"></a><span class="lineno"> 1164</span>&#160;    <span class="keywordtype">int</span> tmp;</div>
-<div class="line"><a name="l01165"></a><span class="lineno"> 1165</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;feu_tricolore/closing/size&quot;</span>, tmp, 0);</div>
+<div class="line"><a name="l01165"></a><span class="lineno"> 1165</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;computerVision/lightSignalDetection/closing/size&quot;</span>, tmp, 0);</div>
 <div class="line"><a name="l01166"></a><span class="lineno"> 1166</span>&#160;    <span class="keywordflow">return</span> ((tmp&lt;1)?1:tmp*2+1);</div>
 <div class="line"><a name="l01167"></a><span class="lineno"> 1167</span>&#160;}</div>
 <div class="line"><a name="l01168"></a><span class="lineno"> 1168</span>&#160;</div>
 <div class="line"><a name="l01169"></a><span class="lineno"> 1169</span>&#160;<span class="keywordtype">int</span> LectureFeu::getClosingIterations()</div>
 <div class="line"><a name="l01170"></a><span class="lineno"> 1170</span>&#160;{</div>
 <div class="line"><a name="l01171"></a><span class="lineno"> 1171</span>&#160;    <span class="keywordtype">int</span> tmp;</div>
-<div class="line"><a name="l01172"></a><span class="lineno"> 1172</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;feu_tricolore/closing/iteration&quot;</span>, tmp, 0);</div>
+<div class="line"><a name="l01172"></a><span class="lineno"> 1172</span>&#160;    nh_.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;computerVision/lightSignalDetection/closing/iteration&quot;</span>, tmp, 0);</div>
 <div class="line"><a name="l01173"></a><span class="lineno"> 1173</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
 <div class="line"><a name="l01174"></a><span class="lineno"> 1174</span>&#160;}</div>
 <div class="line"><a name="l01175"></a><span class="lineno"> 1175</span>&#160;</div>
 <div class="line"><a name="l01176"></a><span class="lineno"> 1176</span>&#160;<span class="keywordtype">bool</span> LectureFeu::getEnableClosing()</div>
 <div class="line"><a name="l01177"></a><span class="lineno"> 1177</span>&#160;{</div>
 <div class="line"><a name="l01178"></a><span class="lineno"> 1178</span>&#160;    <span class="keywordtype">bool</span> tmp;</div>
-<div class="line"><a name="l01179"></a><span class="lineno"> 1179</span>&#160;    nh_.param&lt;<span class="keywordtype">bool</span>&gt;(<span class="stringliteral">&quot;feu_tricolore/closing/enabled&quot;</span>, tmp, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l01179"></a><span class="lineno"> 1179</span>&#160;    nh_.param&lt;<span class="keywordtype">bool</span>&gt;(<span class="stringliteral">&quot;computerVision/lightSignalDetection/closing/enabled&quot;</span>, tmp, <span class="keyword">true</span>);</div>
 <div class="line"><a name="l01180"></a><span class="lineno"> 1180</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
 <div class="line"><a name="l01181"></a><span class="lineno"> 1181</span>&#160;}</div>
 <div class="line"><a name="l01182"></a><span class="lineno"> 1182</span>&#160;</div>
@@ -1576,7 +1576,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 3 2015 01:53:15 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:57:16 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
