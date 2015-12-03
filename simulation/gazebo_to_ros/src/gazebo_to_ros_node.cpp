@@ -34,11 +34,13 @@ int main(int argc, char **argv)
     node->Init();
     ros::init(argc, argv, "publisher");
     ros::NodeHandle nh;
+    std::string robotName;
+    nh.param<std::string>("simuRobotNamespace", robotName, ROBOTINO_NAME);
 
     // Publish to a Gazebo topic
     gazebo::transport::PublisherPtr pub =
         // node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/robotino_pyro/RobotinoSim/MotorMove/");
-        node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/" ROBOTINO_NAME "/RobotinoSim/MotorMove/");
+        node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/" +robotName+ "/RobotinoSim/MotorMove/");
 
     // Wait for a subscriber to connect
     pub->WaitForConnection();
@@ -46,8 +48,8 @@ int main(int argc, char **argv)
     // Subscriber
     ros::Subscriber subCmdVel = nh.subscribe("hardware/cmd_vel", 1, &cmdVelCallback);
     g_pubOdom = nh.advertise<nav_msgs::Odometry>("hardware/odom", 1000);
-    gazebo::transport::SubscriberPtr subGps = node->Subscribe("/gazebo/pyro_2015/" ROBOTINO_NAME "/gazsim/gps/", &gpsCallback);
-    gazebo::transport::SubscriberPtr subLightSignal = node->Subscribe("/gazebo/pyro_2015/" ROBOTINO_NAME "/gazsim/light-signal/", &lightSignalCallback);
+    gazebo::transport::SubscriberPtr subGps = node->Subscribe("/gazebo/pyro_2015/" +robotName+ "/gazsim/gps/", &gpsCallback);
+    gazebo::transport::SubscriberPtr subLightSignal = node->Subscribe("/gazebo/pyro_2015/" +robotName+ "/gazsim/light-signal/", &lightSignalCallback);
 
 	// Publisher
 	g_pubLightSignal = nh.advertise<trait_im_msg::LightSignal>("hardware/closest_light_signal", 1000);
@@ -84,9 +86,15 @@ void cmdVelCallback(const geometry_msgs::TwistConstPtr& msg)
 
 void gpsCallback(ConstPosePtr &msg)
 {
+    ros::NodeHandle nh;
+    std::string tf_prefix;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    if (tf_prefix.size() != 0)
+        tf_prefix += "/";
+
     nav_msgs::Odometry odom_msg;
-    odom_msg.child_frame_id="/base_link";
-    odom_msg.header.frame_id="/odom";
+    odom_msg.child_frame_id=tf_prefix+"base_link";
+    odom_msg.header.frame_id=tf_prefix+"odom";
     odom_msg.header.stamp=ros::Time::now();
 
     odom_msg.pose.pose.position.x=msg->position().x();
