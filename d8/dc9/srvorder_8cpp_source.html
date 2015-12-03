@@ -96,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../d5/d38/classSrvorder.html#a5609db380254571cafa4f2f919c1b077">    5</a></span>&#160;<a class="code" href="../../d5/d38/classSrvorder.html#a5609db380254571cafa4f2f919c1b077">Srvorder::Srvorder</a>(ros::Time game_time,<span class="keywordtype">int</span> nb_order,<span class="keywordtype">int</span> nb_robot,<span class="keywordtype">int</span> type,<span class="keywordtype">int</span> parametre,<span class="keywordtype">int</span> <span class="keywordtype">id</span>){</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;J ai envoye un ordre&quot;</span>);</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        m_client = m_nh.serviceClient&lt;manager_msg::order&gt;(<span class="stringliteral">&quot;order&quot;</span>);</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        m_client = m_nh.serviceClient&lt;manager_msg::order&gt;(<span class="stringliteral">&quot;manager/order&quot;</span>);</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        m_srv.request.game_time = game_time;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        m_srv.request.number_order = nb_order;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        m_srv.request.number_robot = nb_robot;</div>
@@ -118,7 +118,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 30 2015 00:14:07 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

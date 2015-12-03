@@ -126,8 +126,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../de/da4/classfinalApproaching.html#a9914f24e4071f841dcd56c9d490d21fd">   34</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/da4/classfinalApproaching.html#a9914f24e4071f841dcd56c9d490d21fd">finalApproaching::executeCB</a>(<span class="keyword">const</span> manager_msg::finalApproachingGoalConstPtr &amp;goal)</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ros::Rate loopRate(100);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../de/da4/classfinalApproaching.html#a820e4791ece9211ed6938c713d4dca08">m_pubMvt</a> = <a class="code" href="../../de/da4/classfinalApproaching.html#a8a6db704e2b5fa39a0be61ec876241fa">nh</a>.advertise&lt;geometry_msgs::Twist&gt;(<span class="stringliteral">&quot;/cmd_vel&quot;</span>,1000);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="../../de/da4/classfinalApproaching.html#a909594702c2b3174c06efcdd54e43b49">m_plot</a>  = <a class="code" href="../../de/da4/classfinalApproaching.html#a8a6db704e2b5fa39a0be61ec876241fa">nh</a>.advertise&lt;approche_finale_msg::plotDataFA&gt;(<span class="stringliteral">&quot;/plotDataFA&quot;</span>,1000);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../de/da4/classfinalApproaching.html#a820e4791ece9211ed6938c713d4dca08">m_pubMvt</a> = <a class="code" href="../../de/da4/classfinalApproaching.html#a8a6db704e2b5fa39a0be61ec876241fa">nh</a>.advertise&lt;geometry_msgs::Twist&gt;(<span class="stringliteral">&quot;hardware/cmd_vel&quot;</span>,1000);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="../../de/da4/classfinalApproaching.html#a909594702c2b3174c06efcdd54e43b49">m_plot</a>  = <a class="code" href="../../de/da4/classfinalApproaching.html#a8a6db704e2b5fa39a0be61ec876241fa">nh</a>.advertise&lt;approche_finale_msg::plotDataFA&gt;(<span class="stringliteral">&quot;rosplot/plotDataFA&quot;</span>,1000);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    approche_finale_msg::plotDataFA plotData;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">//general initialisation</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">bool</span> success = <span class="keyword">true</span>;</div>
@@ -969,7 +969,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 30 2015 00:14:07 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

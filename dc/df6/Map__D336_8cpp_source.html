@@ -132,8 +132,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;map_gen&quot;</span>);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ros::NodeHandle n;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">// ros::Subscriber sub_poses_machine    = n.subscribe(&quot;/machines&quot;, 1000, Poses_Machine_Callback);</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ros::Subscriber sub_poses_machine    = n.subscribe(<span class="stringliteral">&quot;/landmarks&quot;</span>, 1000, <a class="code" href="../../dc/df6/Map__D336_8cpp.html#a497adf6f15557bdf0ab1aef776b6f1a8">Poses_Machine_Callback</a>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ros::Publisher Map_Pub = n.advertise&lt;nav_msgs::OccupancyGrid&gt;(<span class="stringliteral">&quot;/grid&quot;</span>, 1000);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ros::Subscriber sub_poses_machine    = n.subscribe(<span class="stringliteral">&quot;objectDetection/landmarks&quot;</span>, 1000, <a class="code" href="../../dc/df6/Map__D336_8cpp.html#a497adf6f15557bdf0ab1aef776b6f1a8">Poses_Machine_Callback</a>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ros::Publisher Map_Pub = n.advertise&lt;nav_msgs::OccupancyGrid&gt;(<span class="stringliteral">&quot;objectDetection/grid&quot;</span>, 1000);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Ready to Generate the Map&quot;</span>);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">float</span> xA,yA;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    ros::Rate loop_rate(1);</div>
@@ -490,7 +490,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 30 2015 00:14:07 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

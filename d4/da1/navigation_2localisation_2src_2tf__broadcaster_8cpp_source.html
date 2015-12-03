@@ -115,7 +115,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="comment">// Base Link to Laser Link</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span> laser_link_x = 0;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    ros::NodeHandle nh;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    nh.param&lt;<span class="keywordtype">double</span>&gt;(<span class="stringliteral">&quot;/laser_link_x&quot;</span>, laser_link_x, 0.10);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    nh.param&lt;<span class="keywordtype">double</span>&gt;(<span class="stringliteral">&quot;hardware/robotDescription/baseLink_to_laserLink/x&quot;</span>, laser_link_x, 0.10);</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    transform.setOrigin(tf::Vector3(laser_link_x, 0.0, 0.232));</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    q.setRPY(0.0, 0.0, 0.0);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    transform.setRotation(q);</div>
@@ -125,7 +125,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 30 2015 00:14:07 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

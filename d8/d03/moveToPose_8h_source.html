@@ -148,14 +148,14 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../d6/d07/classMoveToPose.html#ab739660b3ea941937e8dfdc769c91f5e">   69</a></span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#ab739660b3ea941937e8dfdc769c91f5e">MoveToPose</a>(std::string name) : <a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>(<a class="code" href="../../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5">m_nh</a>, name, boost::bind(&amp;<a class="code" href="../../d6/d07/classMoveToPose.html">MoveToPose</a>::<a class="code" href="../../d6/d07/classMoveToPose.html#aebed066348b89a76a1628a96518e16d7">executeCB</a>, this, _1), false),</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                       <a class="code" href="../../d6/d07/classMoveToPose.html#a8213f035a2877b57f0ab6111c3c3c7f6">m_actionName</a>(name), m_trackPathAction(<span class="stringliteral">&quot;/trackPath&quot;</span>, true)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                       <a class="code" href="../../d6/d07/classMoveToPose.html#a8213f035a2877b57f0ab6111c3c3c7f6">m_actionName</a>(name), m_trackPathAction(<span class="stringliteral">&quot;navigation/trackPath&quot;</span>, true)</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        {</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            m_lastId = 0;</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            m_pathId = 0;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            m_odomSub = <a class="code" href="../../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5">m_nh</a>.subscribe(<span class="stringliteral">&quot;/odom&quot;</span>, 1000, &amp;MoveToPose::PoseCallback, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            m_pathSub = <a class="code" href="../../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5">m_nh</a>.subscribe(<span class="stringliteral">&quot;/pathFound&quot;</span>, 1000, &amp;MoveToPose::PathCallback, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            m_sharpSensorSub = <a class="code" href="../../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5">m_nh</a>.subscribe(<span class="stringliteral">&quot;/distance_sensors&quot;</span>, 1000, &amp;MoveToPose::DistSensorCallback, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            m_generatePathClient = <a class="code" href="../../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5">m_nh</a>.serviceClient&lt;pathfinder::GeneratePath&gt;(<span class="stringliteral">&quot;/generatePath&quot;</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            m_odomSub = <a class="code" href="../../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5">m_nh</a>.subscribe(<span class="stringliteral">&quot;hardware/odom&quot;</span>, 1000, &amp;MoveToPose::PoseCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            m_pathSub = <a class="code" href="../../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5">m_nh</a>.subscribe(<span class="stringliteral">&quot;navigation/pathFound&quot;</span>, 1000, &amp;MoveToPose::PathCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            m_sharpSensorSub = <a class="code" href="../../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5">m_nh</a>.subscribe(<span class="stringliteral">&quot;hardware/distance_sensors&quot;</span>, 1000, &amp;MoveToPose::DistSensorCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            m_generatePathClient = <a class="code" href="../../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5">m_nh</a>.serviceClient&lt;pathfinder::GeneratePath&gt;(<span class="stringliteral">&quot;navigation/generatePath&quot;</span>);</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.start();</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
@@ -179,7 +179,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 30 2015 00:14:07 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

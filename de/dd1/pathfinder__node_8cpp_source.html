@@ -114,13 +114,13 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.id          = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a7157d85f15920752018e09565864816c">g_lastIdReceived</a>;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.path.header.frame_id = <span class="stringliteral">&quot;map&quot;</span>;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ros::Publisher path_pub    = n.advertise&lt;pathfinder::AstarPath&gt;(<span class="stringliteral">&quot;pathFound&quot;</span>, 1000);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    ros::Publisher path_simple_pub    = n.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;path&quot;</span>, 1000);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ros::Publisher state_pub   = n.advertise&lt;pathfinder::AstarState&gt;(<span class="stringliteral">&quot;pathfinderState&quot;</span>, 1000);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ros::Publisher path_pub    = n.advertise&lt;pathfinder::AstarPath&gt;(<span class="stringliteral">&quot;navigation/pathFound&quot;</span>, 1000);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    ros::Publisher path_simple_pub    = n.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;navigation/path&quot;</span>, 1000);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ros::Publisher state_pub   = n.advertise&lt;pathfinder::AstarState&gt;(<span class="stringliteral">&quot;navigation/pathfinderState&quot;</span>, 1000);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    ros::Subscriber sub_odo    = n.subscribe(<span class="stringliteral">&quot;/odom&quot;</span>, 1000, <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a07ed34ab588d5d5cc3b7b0757819a7f4">odomCallback</a>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    ros::Subscriber sub_odo    = n.subscribe(<span class="stringliteral">&quot;hardware/odom&quot;</span>, 1000, <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a07ed34ab588d5d5cc3b7b0757819a7f4">odomCallback</a>);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    ros::ServiceServer service = n.advertiseService(<span class="stringliteral">&quot;generatePath&quot;</span>, <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a385b3782f71da46f8ab4d2788de8271f">generatePath_callback</a>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    ros::ServiceServer service = n.advertiseService(<span class="stringliteral">&quot;navigation/generatePath&quot;</span>, <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a385b3782f71da46f8ab4d2788de8271f">generatePath_callback</a>);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    ROS_DEBUG(<span class="stringliteral">&quot;Ready to compute A Star pathfinding.&quot;</span>);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
@@ -310,7 +310,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 30 2015 00:14:07 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

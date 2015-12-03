@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: Communication avec la Referee Box</title>
+<title>robocup-pkg: hardware/gripper/README.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -38,10 +38,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
-      <li><a href="../../files.html"><span>Files</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -60,6 +60,13 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       </li>
     </ul>
   </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>File&#160;List</span></a></li>
+      <li><a href="../../globals.html"><span>File&#160;Members</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -74,50 +81,36 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </iframe>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">Communication avec la Referee Box </div>  </div>
+<div class="title">hardware/gripper/README.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Ce package est actuellement fonctionnel avec la branche de développement <b>timn/rcll-2015</b> de la refereeBox</p>
-<h2>Description </h2>
-<p>Ce package implémente la communication avec la referee Box en convertissant les messages au format ROS utilisable par les autres noeuds.</p>
-<h2>Noeuds </h2>
-<ul>
-<li><code>refBoxComm</code> : noeud principal de la communication</li>
-</ul>
-<h2>Launchfiles </h2>
-<ul>
-<li><code>refBoxComm.launch</code> : lance le noeud <code>refBoxComm</code> et donne la possibilité de modifier divers paramètres au lancement (nom d'équipe, couleur d'équipe, numéro et nom du robot)</li>
-<li><code>refDebugddd.launch</code> : idem que <code>refBoxComm.launch</code>, mais en lançant le noeud en mode debug via le logiciel ddd</li>
-</ul>
-<h2>Installation de la referee Box </h2>
-<p>La procédure d'installation est décrite sur le wiki de la refereeBox dans la section reservée à Ubuntu 14.04, <a href="https://trac.fawkesrobotics.org/wiki/LLSFRefBox/Install#InstallRefboxonUbuntu14.04trusty">ici</a>. J'indique ici la procédure complète car plusieurs modifications sont necessaires pour que le package refbox_comm compile correctement :</p>
-<p>Installer les dépendances : </p>
-<pre class="fragment">sudo apt-get install libmodbus-dev protobuf-compiler libprotobuf-dev libprotoc-dev libboost-all-dev \
-                     libglibmm-2.4-dev libgtkmm-3.0-dev libncursesw5-dev libyaml-cpp-dev libavahi-client-dev git \
-                     libxt-dev libxaw7-dev libncurses5-dev autoconf autogen libtool libyaml-dev
-</pre><p>Installation de Clips 6.30 : ​http://sourceforge.net/projects/clipsmm/files/clips/6.30.0.20090722svn/clips-6.30.0.20090722svn.tar.bz2/download</p>
-<p>Compiler : </p>
-<pre class="fragment">./configure &amp;&amp; make
-</pre><p>Installer : </p>
-<pre class="fragment">sudo make install
-</pre><p>Installation de Clipsmm (c++ clips interface) : ​http://sourceforge.net/projects/clipsmm/files/clipsmm/clipsmm-0.3.4.tar.bz2/download</p>
-<p>Compiler: </p>
-<pre class="fragment">./autogen.sh &amp;&amp; ./configure &amp;&amp; make
-</pre><p>Installer </p>
-<pre class="fragment">sudo make install
-</pre><p>Créer un dossier refbox dans votre dossier personnel </p>
-<pre class="fragment">cd ~ &amp;&amp; mkdir refbox &amp;&amp; cd refbox
-</pre><p>Installer la refBox (branche timn/rcll-2015) : </p>
-<pre class="fragment">git clone http://git.fawkesrobotics.org/llsf-refbox.git
-cd llsf-refbox
-git checkout timn/rcll-2015
-make</pre> </div></div><!-- contents -->
+<a href="../../dd/d7e/hardware_2gripper_2README_8md.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;TODO à détailler</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;- Installation (procédure pour hydro, on passera par cmake avec indigo) :</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;* installer rosserial_arduino,</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;* installer l<span class="stringliteral">&#39;IDE arduino,</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">* copier le fichier firmware/arduinoGripper.ino dans le dossier sketchbook,</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">* génération de ros_lib :</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="stringliteral"> $ rosrun rosserial_arduino make_libraries.py /home/vincent/sketchbook/libraries/ gripper_msg</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="stringliteral">* compiler et uploader le programme dans l&#39;</span>arduino.</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;- Utilisation :</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;* lancer un roscore</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;* exécuter :</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; $ rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  (/dev/ttyACM0 étant le port série connecté à l<span class="stringliteral">&#39;arduino)</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="stringliteral">* le service &quot;gripper_srv&quot; et le topic &quot;gripper_status&quot; doivent apparaître.</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="stringliteral">* exemple d&#39;</span>appel du service pour fermer la pince</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; $ rosservice call /gripper_srv <span class="stringliteral">&quot;state: false&quot;</span></div>
+</div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 30 2015 00:14:07 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

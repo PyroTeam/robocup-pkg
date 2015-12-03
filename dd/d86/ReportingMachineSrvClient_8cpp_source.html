@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d7/de4/classReportingMachineSrvClient.html#a54e2ccb8e87dfdbecfd0aa0fc4f7bafe">    6</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d7/de4/classReportingMachineSrvClient.html#a54e2ccb8e87dfdbecfd0aa0fc4f7bafe">ReportingMachineSrvClient::reporting</a>(std::string r_name, std::string r_type, uint8_t r_zone)</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    ros::NodeHandle n;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    ros::ServiceClient client = n.serviceClient&lt;comm_msg::ReportMachine&gt;(<span class="stringliteral">&quot;/refBoxComm/ReportMachine&quot;</span>);</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    ros::ServiceClient client = n.serviceClient&lt;comm_msg::ReportMachine&gt;(<span class="stringliteral">&quot;refBoxComm/ReportMachine&quot;</span>);</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    comm_msg::ReportMachine srv;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    srv.request.name = r_name;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    srv.request.type = r_type;</div>
@@ -122,7 +122,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 30 2015 00:14:07 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 3 2015 01:46:27 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
