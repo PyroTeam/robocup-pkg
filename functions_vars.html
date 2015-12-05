@@ -73,8 +73,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li class="current"><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_type.html"><span>Typedefs</span></a></li>
       <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
       <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -108,7 +110,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -206,14 +208,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_cipher
 : <a class="el" href="d8/d10/classRefBoxTransport.html#a96851b44f99c87411084535dbb980262">RefBoxTransport</a>
 </li>
+<li>m_closedSet
+: <a class="el" href="d9/d5b/classAStarSearch.html#a08662189c12796bda7724c882d7da7bb">AStarSearch</a>
+</li>
 <li>m_config
 : <a class="el" href="d8/d10/classRefBoxTransport.html#ae81781d7132635564d82a88fa8278878">RefBoxTransport</a>
+</li>
+<li>m_cost
+: <a class="el" href="d7/d97/classState.html#aef29f2fd431eb7ce921a148489216731">State</a>
 </li>
 <li>m_crypto_key
 : <a class="el" href="d8/d10/classRefBoxTransport.html#a5dca90d7afa6d76fbb7b901133480368">RefBoxTransport</a>
 </li>
 <li>m_crypto_setup
 : <a class="el" href="d8/d10/classRefBoxTransport.html#a68f961486fc067e4ede5de525a200955">RefBoxTransport</a>
+</li>
+<li>m_d
+: <a class="el" href="d8/d30/classDiagonalHeuristic.html#a98ca0b1801c004fd76b524e099aa10cb">DiagonalHeuristic</a>
+</li>
+<li>m_d2
+: <a class="el" href="d8/d30/classDiagonalHeuristic.html#a792b5a5a08389f67c476487d287aee87">DiagonalHeuristic</a>
 </li>
 <li>m_dataMutex
 : <a class="el" href="d8/d10/classRefBoxTransport.html#a7a703ca810c4371dca29f05f48036a74">RefBoxTransport</a>
@@ -227,8 +241,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_feedback
 : <a class="el" href="d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c">MoveToPose</a>
 </li>
+<li>m_gCost
+: <a class="el" href="df/d8f/classAStarState.html#af57a2ac5faa1c22dfe7808154594f790">AStarState</a>
+</li>
+<li>m_graph
+: <a class="el" href="d9/d45/classPathPlanner.html#a7ab1214b0da1f774fd82f35d9eece23e">PathPlanner</a>
+, <a class="el" href="df/d88/classSearchAlgo.html#aab415d0f90cf20dbfc7139ec92fa9a27">SearchAlgo</a>
+, <a class="el" href="d5/dc1/classUpdateGraph.html#a1812ca418be7c37e9e64db3393862984">UpdateGraph</a>
+</li>
+<li>m_graph_sub
+: <a class="el" href="d5/dc1/classUpdateGraph.html#a966d862bb58685c483980c61976871e6">UpdateGraph</a>
+</li>
+<li>m_grid
+: <a class="el" href="d1/dfa/classGridMapGraph.html#a22c917e0d7b4316d517257714290a11d">GridMapGraph</a>
+</li>
+<li>m_heuristic
+: <a class="el" href="d2/d62/classGraph.html#a3352f4ebfce790add940de97787f035a">Graph</a>
+</li>
+<li>m_id
+: <a class="el" href="d9/d45/classPathPlanner.html#a75495824626052cd118dfcef444c37a5">PathPlanner</a>
+</li>
 <li>m_io_service
 : <a class="el" href="d8/d10/classRefBoxTransport.html#aeb40c0eca387ade30d25be883cc83f32">RefBoxTransport</a>
+</li>
+<li>m_isInit
+: <a class="el" href="d2/d62/classGraph.html#af597d62cb6ddc3bca99cbcb1fddedc84">Graph</a>
 </li>
 <li>m_markerPub
 : <a class="el" href="de/da4/classfinalApproaching.html#a323fb05ac26cdec1a5ce8d15714b9775">finalApproaching</a>
@@ -249,9 +286,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="d0/dd2/classDataLaser.html#aa78c42c47ddc08c95ca55d48e6559c3e">DataLaser</a>
 , <a class="el" href="d6/d6f/classEntryPoint.html#ac88a1a83b62e741b7a33defc231ac82b">EntryPoint</a>
 , <a class="el" href="d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5">MoveToPose</a>
+, <a class="el" href="d9/d45/classPathPlanner.html#a13b424ca7c4f1bf4b5dbf0e8593ebdea">PathPlanner</a>
+, <a class="el" href="d5/dc1/classUpdateGraph.html#a65531aca69380777c0afdc00ad11c8ea">UpdateGraph</a>
+</li>
+<li>m_openList
+: <a class="el" href="d9/d5b/classAStarSearch.html#a06ccefb10ff15f9039fec7bbecb8e0c6">AStarSearch</a>
 </li>
 <li>m_parameter
 : <a class="el" href="de/da4/classfinalApproaching.html#a43ab38e01499e4ca7142d84f4e4f7c5b">finalApproaching</a>
+</li>
+<li>m_path_pub
+: <a class="el" href="d9/d45/classPathPlanner.html#a126356787f742b3424537aeb065442f5">PathPlanner</a>
+</li>
+<li>m_path_srv
+: <a class="el" href="d9/d45/classPathPlanner.html#a46651ec00aaf47b7713faceb613f8ff3">PathPlanner</a>
+</li>
+<li>m_pathFound
+: <a class="el" href="d9/d45/classPathPlanner.html#a88789df822508ef138b25cc4ece27ff3">PathPlanner</a>
+</li>
+<li>m_pathSmoothed
+: <a class="el" href="d9/d45/classPathPlanner.html#aa9919bc41e1d067ed335ddb51471e85a">PathPlanner</a>
 </li>
 <li>m_peer_public
 : <a class="el" href="d8/d10/classRefBoxTransport.html#a028107c112880c1028c0ea7413570d5c">RefBoxTransport</a>
@@ -259,8 +313,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_peer_team
 : <a class="el" href="d8/d10/classRefBoxTransport.html#a147b3a328ba85a17ee16ff5e78ce3546">RefBoxTransport</a>
 </li>
+<li>m_planningPending
+: <a class="el" href="d5/dc1/classUpdateGraph.html#a6b3dc447b97b79dd3860d9c03e64505c">UpdateGraph</a>
+</li>
 <li>m_plot
 : <a class="el" href="de/da4/classfinalApproaching.html#a909594702c2b3174c06efcdd54e43b49">finalApproaching</a>
+</li>
+<li>m_point
+: <a class="el" href="d4/d74/classPointState.html#ab356496758ff5324f766091147a94fe8">PointState</a>
+</li>
+<li>m_pose
+: <a class="el" href="d8/d1a/classPoseState.html#afc72849924e29f68a1e2dac9834b4591">PoseState</a>
+</li>
+<li>m_poses
+: <a class="el" href="db/dc7/classPath.html#a77d4967a632222c2935254b7cd1323d3">Path</a>
+</li>
+<li>m_prevState
+: <a class="el" href="d7/d97/classState.html#aef3c9cbdcb9cf3a27fafb250585bf9e0">State</a>
 </li>
 <li>m_pubMvt
 : <a class="el" href="de/da4/classfinalApproaching.html#a820e4791ece9211ed6938c713d4dca08">finalApproaching</a>
@@ -270,6 +339,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>m_result
 : <a class="el" href="d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">MoveToPose</a>
+</li>
+<li>m_reverse
+: <a class="el" href="df/d88/classSearchAlgo.html#aa796d66522a4e0c594a3f38213eb4baa">SearchAlgo</a>
+, <a class="el" href="dd/d0e/classStateComparison.html#af3f77940d2bf04e6229140420a45c7ee">StateComparison</a>
+</li>
+<li>m_searchAlgo
+: <a class="el" href="d2/d62/classGraph.html#a214ba8b7f600e2ecba7e5e11f4e0fa57">Graph</a>
 </li>
 <li>m_seq
 : <a class="el" href="d8/d10/classRefBoxTransport.html#a067621d529617b70691efe36e232066a">RefBoxTransport</a>
@@ -286,6 +362,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_stamp
 : <a class="el" href="d9/d37/classlaserScan.html#ae124c2c7ca72e344cb972d5a1f0ffb11">laserScan</a>
 </li>
+<li>m_start
+: <a class="el" href="d9/d9c/classcommon__utils_1_1Chrono.html#a68206c10ad2273edb36414711ca740fa">common_utils::Chrono&lt; Clock &gt;</a>
+</li>
+<li>m_stepCost
+: <a class="el" href="d7/d97/classState.html#a536df413cb19ecbb4eba169bdececcbf">State</a>
+</li>
+<li>m_stop
+: <a class="el" href="d9/d9c/classcommon__utils_1_1Chrono.html#a2fe9c5fd597a69f15556544052b62e05">common_utils::Chrono&lt; Clock &gt;</a>
+</li>
 <li>m_sub
 : <a class="el" href="da/dcf/classExploInfoSubscriber.html#a6c5283d651feadfa6c62aa4d2e20ef88">ExploInfoSubscriber</a>
 </li>
@@ -295,12 +380,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_team_name
 : <a class="el" href="d8/d10/classRefBoxTransport.html#aa5fb5e572444cc46662cd1951fdc98b6">RefBoxTransport</a>
 </li>
+<li>m_tieBreaking
+: <a class="el" href="d9/d5b/classAStarSearch.html#a5cc43fff563cfe6665d7798d1ca6346a">AStarSearch</a>
+</li>
 <li>m_type
 : <a class="el" href="de/da4/classfinalApproaching.html#a962a7f41f74e127c7973338c7090690b">finalApproaching</a>
 , <a class="el" href="dc/dda/classMachine.html#aa50932e5c132f331f13577da13050d4f">Machine</a>
 </li>
 <li>m_udpPeer
 : <a class="el" href="d6/d6f/classEntryPoint.html#ab33070ca3f4b382a1ea0e16cb538ba82">EntryPoint</a>
+</li>
+<li>m_weightData
+: <a class="el" href="db/dc7/classPath.html#a9506fc4722ae61f87d9202cc060ad13a">Path</a>
+</li>
+<li>m_weightSmooth
+: <a class="el" href="db/dc7/classPath.html#a1aba1cfe1fcf2aea100dfe9ca135f046">Path</a>
 </li>
 <li>m_zones
 : <a class="el" href="da/dcf/classExploInfoSubscriber.html#afce54d11c15565b5c1f7957a6c32dd9a">ExploInfoSubscriber</a>
@@ -430,7 +524,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 5 2015 14:20:18 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 5 2015 14:22:01 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

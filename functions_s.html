@@ -73,8 +73,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li class="current"><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_type.html"><span>Typedefs</span></a></li>
       <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
       <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -112,7 +114,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -130,6 +132,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>saveSettings()
 : <a class="el" href="d6/d5b/classrqt__ft__gui_1_1FtGui.html#aa1fffd713687bf7f75085974154e0aa2">rqt_ft_gui::FtGui</a>
+</li>
+<li>search()
+: <a class="el" href="d9/d5b/classAStarSearch.html#a006f2bb3f57e51266540464f86690b49">AStarSearch</a>
+, <a class="el" href="d2/d62/classGraph.html#a1d2c624600ebb16c38c16799ca7e519d">Graph</a>
+, <a class="el" href="df/d88/classSearchAlgo.html#a6f8513fa5b0c97175f27099415ebab30">SearchAlgo</a>
+</li>
+<li>SearchAlgo()
+: <a class="el" href="df/d88/classSearchAlgo.html#ab52f10c34baae68a86cd7b3cc41da5bc">SearchAlgo</a>
 </li>
 <li>Segment()
 : <a class="el" href="d8/ddc/classSegment.html#a055946b2476cb79f192b26705aa29ff5">Segment</a>
@@ -154,6 +164,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="de/d39/classEKF.html#add464e2903e8eff8df56926896147828">EKF</a>
 , <a class="el" href="d9/d37/classlaserScan.html#ac03de17a73eb536934a0989eed591778">laserScan</a>
 , <a class="el" href="db/db6/classLine.html#a7b2002c243a799ed50c43cb6085faaf9">Line</a>
+, <a class="el" href="d4/d74/classPointState.html#aefe34988c4af6013bfd887c6ab2ac67e">PointState</a>
+, <a class="el" href="d8/d1a/classPoseState.html#a365ba8ea3cb3a56414de86b7ad2acfdd">PoseState</a>
 , <a class="el" href="d0/d25/classRefBoxMessage.html#a8edfe310ce48694e6f4a515fcb8c3621">RefBoxMessage</a>
 </li>
 <li>setAngle()
@@ -204,6 +216,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setCorrelation()
 : <a class="el" href="d8/ddc/classSegment.html#a0add5b180cd612a9e5923acc11c58053">Segment</a>
 </li>
+<li>setCost()
+: <a class="el" href="d7/d97/classState.html#a616536380f9b84830107c3bbe4a7cafc">State</a>
+</li>
 <li>setCreation()
 : <a class="el" href="d6/d9c/classTask.html#aba3e389300da2c836d6f4ff9489765af">Task</a>
 </li>
@@ -218,8 +233,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="dd/d5e/classStorage.html#a837f7c791d0dd2df336c05478fb568f8">Storage</a>
 , <a class="el" href="d6/d9c/classTask.html#ab51dfd2a486bbd5100c68f14058a1576">Task</a>
 </li>
+<li>setGCost()
+: <a class="el" href="df/d8f/classAStarState.html#a272239d8c75658390fd3c9c1f1d7543b">AStarState</a>
+</li>
 <li>setGradient()
 : <a class="el" href="d8/ddc/classSegment.html#afecf7c708d16748e3ddd75c10dcce584">Segment</a>
+</li>
+<li>setGridMap()
+: <a class="el" href="d1/dfa/classGridMapGraph.html#a70eb6a9a619fba46cde7f953ed8cc540">GridMapGraph</a>
+</li>
+<li>setHeuristic()
+: <a class="el" href="d2/d62/classGraph.html#a027365f2cf18c26a5b1ad712470d27e7">Graph</a>
 </li>
 <li>setId()
 : <a class="el" href="d1/d35/classGtServerSrv.html#ace6e50193e1286f6f45b69ceb2290b85">GtServerSrv</a>
@@ -270,6 +294,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="d6/d18/classModel.html#af97e369d2e9b13adc777dd8f7fa7b03a">Model</a>
 , <a class="el" href="d8/ddc/classSegment.html#af5c1199a4d243dcfdc28a4b94671e6fa">Segment</a>
 </li>
+<li>setPrevState()
+: <a class="el" href="d7/d97/classState.html#a39df3a249a3c4456956cd36c94d8a1de">State</a>
+</li>
 <li>setProcessed()
 : <a class="el" href="dc/dda/classMachine.html#a8645b950dcc0012f3c69bbded177e829">Machine</a>
 , <a class="el" href="d5/d6b/classOrder.html#aed4b831153939a49fa5c75cd9ae8c49d">Order</a>
@@ -305,11 +332,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setRobot()
 : <a class="el" href="d6/d9c/classTask.html#ae585309613cc29fd3bdff681b9302dfc">Task</a>
 </li>
+<li>setSearchAlgo()
+: <a class="el" href="d2/d62/classGraph.html#a28a3476d45b457f3d886e393b5fee1f0">Graph</a>
+</li>
 <li>setSize()
 : <a class="el" href="d8/ddc/classSegment.html#ac35ea8f09c1a0623c129114843422c85">Segment</a>
 </li>
+<li>setSmoothParam()
+: <a class="el" href="db/dc7/classPath.html#a8942156c40cfcebcac3e0e81b9a6650d">Path</a>
+</li>
+<li>setStepCost()
+: <a class="el" href="d7/d97/classState.html#a2828a523f672a01c045e4b50fc74f228">State</a>
+</li>
 <li>setTaskEnd()
 : <a class="el" href="d6/d9c/classTask.html#ab1a5b234a413fe7b9973beda7e028426">Task</a>
+</li>
+<li>setTieBreaking()
+: <a class="el" href="d9/d5b/classAStarSearch.html#af413186deae9351d9bca13e19ab5f268">AStarSearch</a>
 </li>
 <li>setTitle()
 : <a class="el" href="d6/d9c/classTask.html#a097e3b9dc359867521b196109572bbf5">Task</a>
@@ -339,11 +378,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>SimLightDetection()
 : <a class="el" href="d5/d77/classSimLightDetection.html#ad60b188e8942a4f6ceca9cd463b650b2">SimLightDetection</a>
 </li>
+<li>size()
+: <a class="el" href="db/dc7/classPath.html#a0fc21fee4cca5ca64cd694e3e87bd014">Path</a>
+</li>
+<li>smooth()
+: <a class="el" href="db/dc7/classPath.html#a9011b0277d9ba287e03ed6e5587a229b">Path</a>
+</li>
 <li>spawn()
 : <a class="el" href="dc/d79/classSendScheduler.html#acb2563b9d995813486f594897514e323">SendScheduler</a>
 </li>
 <li>Srvorder()
 : <a class="el" href="d5/d38/classSrvorder.html#a5609db380254571cafa4f2f919c1b077">Srvorder</a>
+</li>
+<li>start()
+: <a class="el" href="d9/d9c/classcommon__utils_1_1Chrono.html#a3ca932fd5d3a4bfed2c59cd960961af4">common_utils::Chrono&lt; Clock &gt;</a>
 </li>
 <li>startFinalAp()
 : <a class="el" href="dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">Machine</a>
@@ -354,8 +402,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>startTimer()
 : <a class="el" href="d8/d10/classRefBoxTransport.html#a6136c564317f1f258ee39565b96b5fdc">RefBoxTransport</a>
 </li>
+<li>State()
+: <a class="el" href="d7/d97/classState.html#ab91bb1dd5aa6260ab2a456581daf9ec2">State</a>
+</li>
+<li>StateComparison()
+: <a class="el" href="dd/d0e/classStateComparison.html#a2cc19e24b6f3c4c4a830eca26999451d">StateComparison</a>
+</li>
 <li>stock()
 : <a class="el" href="d6/ddd/classCapStation.html#aed43a9eeca34ce1cf57759239a129f67">CapStation</a>
+</li>
+<li>stop()
+: <a class="el" href="d9/d9c/classcommon__utils_1_1Chrono.html#a047d7d9a84f2b756c47521eb936c1712">common_utils::Chrono&lt; Clock &gt;</a>
 </li>
 <li>Storage()
 : <a class="el" href="dd/d5e/classStorage.html#a7ebe85a8ef664e7f386c95d55c9165e6">Storage</a>
@@ -376,7 +433,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 5 2015 14:20:18 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 5 2015 14:22:01 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
