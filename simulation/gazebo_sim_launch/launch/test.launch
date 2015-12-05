@@ -1,18 +1,53 @@
 <launch>
     <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-		<arg name="world_name" value="$(find gazebo_sim_launch)/worlds/test.world"/>
-		<arg name="paused" value="false"/>
-		<arg name="use_sim_time" value="true"/>
-		<arg name="gui" value="false"/>
-		<arg name="headless" value="false"/>
-		<arg name="debug" value="false"/>
+        <arg name="world_name" value="$(find gazebo_sim_launch)/worlds/test.world"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="false"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
     </include>
 
-    <!-- Load the gazebo_to_ros node -->
-    <node pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
+<!-- Pyro TEAM -->
+    <!-- Team Namespace -->
+    <group ns="PYRO">
+        <param name="machineLocation/robot1" value="robotino1" />
+        <param name="machineLocation/robot2" value="robotino2" />
+        <param name="machineLocation/robot3" value="robotino3" />
+        <param name="machineLocation/centralizedManager" value="" />
+    </group>
+    <!-- Robotino Pyro 1 -->
+    <group ns="robotino1">
+        <param name="teamName" value="PYRO" />
+        <param name="teamColor" value="cyan" />
+        <param name="robotNumber" value="1" />
+        <param name="robotName" value="R1" />
+        <param name="simuRobotNamespace" value="robotino1" />
 
-    <!-- Load the tf_broadcaster node -->
-    <node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node"/>
-
+        <!-- Load the gazebo_to_ros node -->
+        <node pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
+        <!-- Load the tf_broadcaster node -->
+        <node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node"/>
+        <!-- Load the fakeSimLightDetection node -->
+        <node pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>
+        <!-- Load the objectDetections nodes -->
+<!--         <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction_node"/>
+        <node pkg="localisation" name="visualisation" type="visualisation"/>
+        <node pkg="localisation" name="machines_publisher" type="Cartographie" output="screen" launch-prefix="xterm -e"/> -->
+            <!-- Needeed for visualisation -->
+<!--         <node pkg="localisation" name="odometry_correction" type="odometry_correction_node"/> -->
+        <!-- Load the grid maker -->
+        <node pkg="grid_maker" name="grid_maker" type="construct_map_node"/>
+        <node pkg="grid_maker" name="fake_machines_publisher" type="construct_map_test_simulator"/>
+        <!-- Load the path finder -->
+        <node pkg="pathfinder" name="pathfinder" type="pathfinder_node"/>
+        <!-- Load the path tracker -->
+        <node pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen" launch-prefix="xterm -e"/>
+        <node pkg="path_tracker" name="pathtracker" type="path_tracker_node" output="screen" launch-prefix="xterm -e"/>
+        <!-- Load the navigation manager -->
+        <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node"/>
+    </group>
 </launch>
+
+

@@ -129,7 +129,7 @@ void computeAStar_thread_function()
     std::vector<Point*> chemin;
 
     ros::NodeHandle n;
-    ros::Subscriber sub_grid  = n.subscribe("/grid", 1000, &AStar::gridCallback, &mapRobocup);
+    ros::Subscriber sub_grid  = n.subscribe("objectDetection/grid", 1000, &AStar::gridCallback, &mapRobocup);
 
     while(1 && !g_stop)
     {
