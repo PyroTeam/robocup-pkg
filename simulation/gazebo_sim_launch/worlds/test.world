@@ -174,7 +174,7 @@
 					<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
 						<alwaysOn>true</alwaysOn>
 						<updateRate>0.0</updateRate>
-						<cameraName>/top_camera</cameraName>
+						<cameraName>hardware/camera/top_camera</cameraName>
 						<imageTopicName>image_raw</imageTopicName>
 						<cameraInfoTopicName>camera_info</cameraInfoTopicName>
 						<frameName>top_camera_link</frameName>

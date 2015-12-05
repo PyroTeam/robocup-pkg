@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 
 	ros::NodeHandle n;
 
-	ros::Publisher ei_pub = n.advertise<comm_msg::ExplorationInfo>("/refBoxComm/ExplorationInfo", 1000);
+	ros::Publisher ei_pub = n.advertise<comm_msg::ExplorationInfo>("refBoxComm/ExplorationInfo", 1000);
 
 	ros::Rate loop_rate(1);
 

@@ -24,13 +24,13 @@ int main( int argc, char** argv )
 
   EKF ekf = EKF();
 
-  ros::Subscriber sub_odom      = n.subscribe("/new_odom", 1000, &EKF::odomCallback, &ekf);
-  ros::Subscriber sub_machines  = n.subscribe("/droites", 1000, &EKF::linesCallback, &ekf);
-  ros::Subscriber sub_laser     = n.subscribe("/laser", 1000, &EKF::laserCallback, &ekf);
+  ros::Subscriber sub_odom      = n.subscribe("objectDetection/new_odom", 1000, &EKF::odomCallback, &ekf);
+  ros::Subscriber sub_machines  = n.subscribe("objectDetection/droites", 1000, &EKF::linesCallback, &ekf);
+  ros::Subscriber sub_laser     = n.subscribe("objectDetection/laser", 1000, &EKF::laserCallback, &ekf);
 
-  ros::Publisher pub_robot    = n.advertise<geometry_msgs::Point>("/robot", 1000);
-  ros::Publisher pub_machines = n.advertise<deplacement_msg::Landmarks>("/landmarks", 1000);
-  ros::Publisher pub_walls    = n.advertise<deplacement_msg::Landmarks>("/walls", 1000);
+  ros::Publisher pub_robot    = n.advertise<geometry_msgs::Point>("objectDetection/robot", 1000);
+  ros::Publisher pub_machines = n.advertise<deplacement_msg::Landmarks>("objectDetection/landmarks", 1000);
+  ros::Publisher pub_walls    = n.advertise<deplacement_msg::Landmarks>("objectDetection/walls", 1000);
 
   ros::Rate loop_rate(20);
 

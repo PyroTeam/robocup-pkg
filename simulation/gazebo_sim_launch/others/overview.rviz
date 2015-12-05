@@ -73,7 +73,7 @@ Visualization Manager:
         X: 0
         Y: 0
         Z: 0
-      Topic: path
+      Topic: navigation/path
       Value: true
     - Alpha: 0.7
       Class: rviz/Map
@@ -81,7 +81,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Map
-      Topic: /grid
+      Topic: objectDetection/grid
       Value: true
     - Alpha: 0.3
       Autocompute Intensity Bounds: true
@@ -108,7 +108,7 @@ Visualization Manager:
       Size (Pixels): 1
       Size (m): 0.01
       Style: Points
-      Topic: /scan
+      Topic: hardware/scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -120,11 +120,11 @@ Visualization Manager:
       Length: 0.5
       Name: Odometry
       Position Tolerance: 0.001
-      Topic: odom
+      Topic: hardware/odom
       Value: true
     - Class: rviz/Marker
       Enabled: false
-      Marker Topic: /visualization_markers
+      Marker Topic: rviz/visualization_markers
       Name: Marker
       Namespaces:
         {}
@@ -132,7 +132,7 @@ Visualization Manager:
       Value: false
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /top_camera/image_raw
+      Image Topic: hardware/camera/top_camera/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -143,7 +143,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /tower_camera/image_raw
+      Image Topic: hardware/camera/tower_camera/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -154,7 +154,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /platform_camera/image_raw
+      Image Topic: hardware/camera/platform_camera/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -174,7 +174,7 @@ Visualization Manager:
       Hide Inactive Objects: true
     - Class: rviz/MoveCamera
     - Class: rviz/Select
-    - Class: rviz/FocusCamera
+    - Class: rviz/FocusCamera∕
     - Class: rviz/Measure
     - Class: rviz/SetInitialPose
       Topic: /initialpose

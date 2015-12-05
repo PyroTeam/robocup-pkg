@@ -14,7 +14,7 @@ int main(int argc, char **argv)
   std::cout << "argument = " << argv[1] << std::endl;
 
   ros::NodeHandle n;
-  ros::ServiceClient client = n.serviceClient<deplacement_msg::Alarm>("wake_up");
+  ros::ServiceClient client = n.serviceClient<deplacement_msg::Alarm>("objectDetection/wake_up");
   deplacement_msg::Alarm srv;
 
   srv.request.wake_up = atoi(argv[1]);

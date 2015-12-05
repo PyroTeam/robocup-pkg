@@ -6,7 +6,7 @@
 int main(int argc, char **argv){
 	ros::init(argc, argv, "talker");
     ros::NodeHandle n;
-    ros::Publisher artag_topic = n.advertise<ar_track_alvar::String>("ar_pos_marker", 1000);
+    ros::Publisher artag_topic = n.advertise<ar_track_alvar::String>("computerVision/ar_pos_marker", 1000);
     ros::Rate loop_rate(10);
 
 	while (ros::ok()){

@@ -6,11 +6,11 @@
 ========================================*/
 
 SimLightDetection::SimLightDetection():
-	m_as(m_nh, "lecture_feu", false),
-	m_actionName("lecture_feu")
+	m_as(m_nh, "computerVision/lecture_feu", false),
+	m_actionName("computerVision/lecture_feu")
 {
 	// Ros topics
-	m_closestLightSignal_sub = m_nh.subscribe("closest_light_signal", 1, &SimLightDetection::closestLightSignal_callback, this);
+	m_closestLightSignal_sub = m_nh.subscribe("hardware/closest_light_signal", 1, &SimLightDetection::closestLightSignal_callback, this);
 
 	// Ros action server
 	m_as.registerGoalCallback(boost::bind(&SimLightDetection::goalCB, this));

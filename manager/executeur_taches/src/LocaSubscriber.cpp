@@ -6,8 +6,7 @@
 LocaSubscriber::LocaSubscriber():machine(24)
 {
 	ros::NodeHandle n;
-	ros::Subscriber sub = n.subscribe("/landmarks",1000,&LocaSubscriber::tesCallback, this);
-
+	ros::Subscriber sub = n.subscribe("objectDetection/landmarks",1000,&LocaSubscriber::tesCallback, this);
 }
 
 LocaSubscriber::~LocaSubscriber(){}

@@ -3,7 +3,7 @@
 ExploInfoSubscriber::ExploInfoSubscriber()
 {
 	ros::NodeHandle n;
-	m_sub = n.subscribe("/refBoxComm/ExplorationInfo",1000,&ExploInfoSubscriber::tesCallback, this);
+	m_sub = n.subscribe("refBoxComm/ExplorationInfo",1000,&ExploInfoSubscriber::tesCallback, this);
 }
 
 ExploInfoSubscriber::~ExploInfoSubscriber(){}

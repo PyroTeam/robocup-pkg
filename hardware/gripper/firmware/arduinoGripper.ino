@@ -60,9 +60,9 @@ void callback(const gripper_msg::SetGripperRequest & req,
 	}
 }
 
-ros::ServiceServer<gripper_msg::SetGripperRequest, gripper_msg::SetGripperResponse> gripper_server("gripper_srv", &callback);
+ros::ServiceServer<gripper_msg::SetGripperRequest, gripper_msg::SetGripperResponse> gripper_server("hardware/gripper_srv", &callback);
 gripper_msg::GripperStatus gripperStatus_msg;
-ros::Publisher gripper_pub("gripper_status", &gripperStatus_msg);
+ros::Publisher gripper_pub("hardware/gripper_status", &gripperStatus_msg);
 
 void setup()
 {

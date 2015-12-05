@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 {
 	ros::init(argc,argv,"artag_server");
 	ros::NodeHandle n;
-    ros::ServiceServer service = n.advertiseService("artag", test_arTag);
+    ros::ServiceServer service = n.advertiseService("computerVision/artag", test_arTag);
 
 	ros::spin();
 	return 0;

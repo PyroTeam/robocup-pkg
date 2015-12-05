@@ -6,7 +6,7 @@
 bool GripperClientSrv::gripper_uppdate(bool new_state)
 {
 	ros::NodeHandle n;
-	ros::ServiceClient client = n.serviceClient<manager_msg::SetGripper>("/fakeRobotino/setGripper");
+	ros::ServiceClient client = n.serviceClient<manager_msg::SetGripper>("fakeRobotino/setGripper");
 	manager_msg::SetGripper srv;
 	srv.request.state = new_state;
 	if (client.call(srv))

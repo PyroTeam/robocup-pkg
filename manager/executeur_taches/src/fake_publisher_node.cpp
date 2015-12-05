@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 
 	ros::NodeHandle n;
 
-	ros::Publisher landmarks_pub = n.advertise<manager_msg::Landmarks>("/landmarks", 1000);
+	ros::Publisher landmarks_pub = n.advertise<manager_msg::Landmarks>("objectDetection/landmarks", 1000);
 
 	ros::Rate loop_rate(1);
 

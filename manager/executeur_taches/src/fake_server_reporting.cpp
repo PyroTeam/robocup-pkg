@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "report_machine_server");
 	ros::NodeHandle n;
 
-	ros::ServiceServer service = n.advertiseService("/refBoxComm/ReportMachine", add);
+	ros::ServiceServer service = n.advertiseService("refBoxComm/ReportMachine", add);
 	ROS_INFO("Ready report a machine");
 	ros::spin();
 

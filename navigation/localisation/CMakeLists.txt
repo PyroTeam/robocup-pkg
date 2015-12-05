@@ -217,15 +217,15 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-add_executable(
-	tf_broadcaster_node
-    src/tf_broadcaster_node.cpp
-    src/tf_broadcaster.cpp 
-)
-target_link_libraries(
-	tf_broadcaster_node
-  	${catkin_LIBRARIES}
-)
+# add_executable(
+# 	tf_broadcaster_node
+#     src/tf_broadcaster_node.cpp
+#     src/tf_broadcaster.cpp 
+# )
+# target_link_libraries(
+# 	tf_broadcaster_node
+#   	${catkin_LIBRARIES}
+# )
 
 
 #############

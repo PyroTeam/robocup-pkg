@@ -8,7 +8,7 @@ void FeuClientAction::lightsStates(std::vector<comm_msg::LightSpec> &m_lightSpec
 {
 	int i=0;
 
-	actionlib::SimpleActionClient<trait_im_msg::processLightSignalAction> client("lecture_feu",true);
+	actionlib::SimpleActionClient<trait_im_msg::processLightSignalAction> client("computerVision/lecture_feu",true);
 
 	ROS_INFO("Waiting for action Lights Server to start");
 

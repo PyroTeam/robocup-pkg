@@ -64,7 +64,7 @@ int main(int argc, char **argv)
     boost::asio::io_service io_service;
     int port;
     std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, port));
-    TopicToUdpEntry<comm_msg::activity> test_inpt(udpPeer, "/activity");
+    TopicToUdpEntry<comm_msg::activity> test_inpt(udpPeer, "manager/activity");
 
 
     ros::Rate loop_rate(100);

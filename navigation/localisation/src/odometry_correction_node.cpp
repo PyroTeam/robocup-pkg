@@ -61,7 +61,7 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
 
     //on va publier l'odométrie corrigée sur /new_odom
-    pub_odom = n.advertise<nav_msgs::Odometry>("/new_odom", 1000);
+    pub_odom = n.advertise<nav_msgs::Odometry>("objectDetection/new_odom", 1000);
 
     prec.pose.pose.orientation.x = 0.0;
     prec.pose.pose.orientation.y = 0.0;
@@ -69,7 +69,7 @@ int main(int argc, char** argv)
     prec.pose.pose.orientation.w = 1.0;
     
     //on souscrit au topic /odom
-    ros::Subscriber sub_odom  = n.subscribe("/odom", 1000, odomCallback);
+    ros::Subscriber sub_odom  = n.subscribe("hardware/odom", 1000, odomCallback);
 
     ros::Rate loop_rate(100);
 

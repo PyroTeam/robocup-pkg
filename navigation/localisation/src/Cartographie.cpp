@@ -142,11 +142,11 @@ int main( int argc, char** argv )
 
     ros::NodeHandle n;
 
-    ros::Subscriber sub_odom     = n.subscribe("/new_odom", 1000, odomCallback);
-    ros::Subscriber sub_segments = n.subscribe("/segments", 1000, segmentsCallback);
+    ros::Subscriber sub_odom     = n.subscribe("objectDetection/new_odom", 1000, odomCallback);
+    ros::Subscriber sub_segments = n.subscribe("objectDetection/segments", 1000, segmentsCallback);
 
-    ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("/landmarks", 1000);
-    ros::Publisher pub_segments_global = n.advertise< deplacement_msg::Landmarks >("/segments_global", 1000);
+    ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("objectDetection/landmarks", 1000);
+    ros::Publisher pub_segments_global = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments_global", 1000);
 
     ros::Rate loop_rate(10);
     while (n.ok())

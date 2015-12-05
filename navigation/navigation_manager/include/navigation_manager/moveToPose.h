@@ -67,14 +67,14 @@ class MoveToPose
 
 	public:
 	    MoveToPose(std::string name) : m_as(m_nh, name, boost::bind(&MoveToPose::executeCB, this, _1), false),
-	                                   m_actionName(name), m_trackPathAction("/trackPath", true)
+	                                   m_actionName(name), m_trackPathAction("navigation/trackPath", true)
 	    {
 			m_lastId = 0;
 			m_pathId = 0;
-			m_odomSub = m_nh.subscribe("/odom", 1000, &MoveToPose::PoseCallback, this);
-			m_pathSub = m_nh.subscribe("/pathFound", 1000, &MoveToPose::PathCallback, this);
-			m_sharpSensorSub = m_nh.subscribe("/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
-			m_generatePathClient = m_nh.serviceClient<pathfinder::GeneratePath>("/generatePath");
+			m_odomSub = m_nh.subscribe("hardware/odom", 1000, &MoveToPose::PoseCallback, this);
+			m_pathSub = m_nh.subscribe("navigation/pathFound", 1000, &MoveToPose::PathCallback, this);
+			m_sharpSensorSub = m_nh.subscribe("hardware/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
+			m_generatePathClient = m_nh.serviceClient<pathfinder::GeneratePath>("navigation/generatePath");
 			m_as.start();
 	    }
 

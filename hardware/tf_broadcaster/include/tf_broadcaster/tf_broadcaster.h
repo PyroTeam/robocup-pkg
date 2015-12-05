@@ -2,6 +2,8 @@
 #define _TF_BROADCASTER__TF_BROADCASTER_H_
 
 /*==========  Includes  ==========*/
+#include <string>
+
 #include <ros/ros.h>
 #include <tf/transform_broadcaster.h>
 #include <tf/transform_datatypes.h>

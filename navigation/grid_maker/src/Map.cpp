@@ -39,9 +39,9 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "map_gen");
     ros::NodeHandle n;
-    // ros::Subscriber sub_poses_machine    = n.subscribe("/machines", 1000, Poses_Machine_Callback);
-    ros::Subscriber sub_poses_machine    = n.subscribe("/landmarks", 1000, Poses_Machine_Callback);
-    ros::Publisher Map_Pub = n.advertise<nav_msgs::OccupancyGrid>("/grid", 1000);
+    // ros::Subscriber sub_poses_machine    = n.subscribe("objectDetection/machines", 1000, Poses_Machine_Callback);
+    ros::Subscriber sub_poses_machine    = n.subscribe("objectDetection/landmarks", 1000, Poses_Machine_Callback);
+    ros::Publisher Map_Pub = n.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid", 1000);
     ROS_INFO("Ready to Generate the Map");
     float xA,yA;
     ros::Rate loop_rate(1);

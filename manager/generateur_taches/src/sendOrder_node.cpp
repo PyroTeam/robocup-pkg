@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 	}
 
 	ros::NodeHandle n;
-	ros::ServiceClient client = n.serviceClient<manager_msg::order>("order");
+	ros::ServiceClient client = n.serviceClient<manager_msg::order>("manager/order");
 	manager_msg::order srv;
 	  
 	srv.request.number_robot = atoll(argv[1]);
@@ -51,7 +51,7 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
-	ros::Subscriber sub = n.subscribe("task_exec_state",1000,chatterCallback);
+	ros::Subscriber sub = n.subscribe("manager/task_exec_state",1000,chatterCallback);
 	ros::spin();  
 
 	return 0;

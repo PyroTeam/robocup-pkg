@@ -4,7 +4,7 @@
 #include <string>
 
 CorrespondanceZE::CorrespondanceZE(){
-	m_correspondanceZESub = m_nh.subscribe("/refBoxComm/ExplorationInfo",1000,&CorrespondanceZE::cZECallback,this);
+	m_correspondanceZESub = m_nh.subscribe("refBoxComm/ExplorationInfo",1000,&CorrespondanceZE::cZECallback,this);
 }
 
 CorrespondanceZE::~CorrespondanceZE(){}
