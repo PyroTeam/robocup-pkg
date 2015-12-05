@@ -78,7 +78,7 @@ int main( int argc, char** argv )
   ros::Subscriber sub_machines    = n.subscribe("objectDetection/landmarks", 1000, landmarksCallback);
   ros::Subscriber sub_segments    = n.subscribe("objectDetection/segments_global", 100000, segmentsCallback);
   ros::Subscriber sub_odom        = n.subscribe("objectDetection/new_odom", 1000, odomCallback);
-  //ros::Subscriber sub_pos_robot   = n.subscribe("/robot", 1000, robotCallback);
+  //ros::Subscriber sub_pos_robot   = n.subscribe("objectDetection/robot", 1000, robotCallback);
 
   ros::Publisher markers_pub = n.advertise<visualization_msgs::Marker>("rviz/visualization_markers", 1000000);
 

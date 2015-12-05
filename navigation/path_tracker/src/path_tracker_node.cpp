@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "PathTracker");
     ros::NodeHandle nh;
-    //ros::Subscriber grid_sub = nh.subscribe("/gridObstacles", 1000, &gridCallback);
+    //ros::Subscriber grid_sub = nh.subscribe("objectDetection/gridObstacles", 1000, &gridCallback);
 
     ros::spinOnce();
     TrackPathAction pathTrack("navigation/trackPath");

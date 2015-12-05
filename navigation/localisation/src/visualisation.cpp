@@ -164,7 +164,7 @@ int main( int argc, char** argv )
   ros::Subscriber sub_scan_global = n.subscribe("objectDetection/scan_global", 1000, laserCallback);
   ros::Subscriber sub_odom        = n.subscribe("objectDetection/new_odom", 1000, odomCallback);
 
-  //ros::Publisher machines_pub = n.advertise<visualization_msgs::MarkerArray>("/visualization_machines", 10000);
+  //ros::Publisher machines_pub = n.advertise<visualization_msgs::MarkerArray>("rviz/visualization_machines", 10000);
   ros::Publisher markers_pub = n.advertise<visualization_msgs::Marker>("rviz/visualization_markers", 10000);
 
   ros::Rate rate(25);
