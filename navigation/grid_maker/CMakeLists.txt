@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf
   deplacement_msg
+  OpenCV
 )
 
 ## System dependencies are found with CMake's conventions
@@ -100,6 +101,7 @@ catkin_package(
 include_directories(
 	include/path_finder
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -109,33 +111,28 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(construct_map_node src/Map.cpp)
+add_executable(construct_map_weighted_node src/Map_weighted.cpp)
 add_executable(construct_map_test src/Test.cpp)
-add_executable(construct_map_test_simulator src/Test_simulator.cpp)
-add_executable(construct_map_test_D336 src/Map_D336.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 add_dependencies(construct_map_node path_finder_generate_messages_cpp deplacement_msg_gencpp)
+add_dependencies(construct_map_weighted_node path_finder_generate_messages_cpp deplacement_msg_gencpp)
 add_dependencies(construct_map_test path_finder_generate_messages_cpp deplacement_msg_gencpp)
-add_dependencies(construct_map_test_simulator path_finder_generate_messages_cpp deplacement_msg_gencpp)
-add_dependencies(construct_map_test_D336 path_finder_generate_messages_cpp deplacement_msg_gencpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(construct_map_node
  ${catkin_LIBRARIES}
-  )
-  target_link_libraries(construct_map_test
- ${catkin_LIBRARIES}
-  )
-  target_link_libraries(construct_map_test_simulator
- ${catkin_LIBRARIES}
-  )
-  target_link_libraries(construct_map_test_D336
+ )
+target_link_libraries(construct_map_weighted_node
+    ${catkin_LIBRARIES}
+    ${OpenCV_LIBRARIES}
+)
+target_link_libraries(construct_map_test
  ${catkin_LIBRARIES}
   )
 
-set_target_properties(construct_map_test_D336 PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
-
+set_target_properties(construct_map_weighted_node PROPERTIES COMPILE_FLAGS "-std=c++11")
 #############
 ## Install ##
 #############
