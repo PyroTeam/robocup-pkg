@@ -25,7 +25,7 @@ def InitPoseCallback(initPose):
 
     q = QuatMsg_to_quat(initPose.pose.pose.orientation)
     (roll, pitch, yaw) = tf.transformations.euler_from_quaternion(q)
-    rospy.loginfo("init Pose set to = %f,%f,%f", initialPose.position.x, initialPose.position.y, yaw);
+    rospy.loginfo("init Pose set to = %f,%f,%f", initialPose.position.x, initialPose.position.y, yaw)
 
 def GoalPoseCallback(gPose):
     global goalPose
@@ -33,11 +33,13 @@ def GoalPoseCallback(gPose):
     goalPose = gPose.pose
     q = QuatMsg_to_quat(gPose.pose.orientation)
     (roll, pitch, yaw) = tf.transformations.euler_from_quaternion(q)
-    rospy.loginfo("goal Pose set to = %f,%f,%f", goalPose.position.x, goalPose.position.y, yaw);
+    rospy.loginfo("goal Pose set to = %f,%f,%f", goalPose.position.x, goalPose.position.y, yaw)
 
-    rospy.wait_for_service('generatePath')
+    rospy.loginfo("Wait for service generatePath")
+    rospy.wait_for_service('navigation/generatePath')
     try:
-        generatePath = rospy.ServiceProxy('generatePath', GeneratePath)
+        rospy.loginfo("Calling service generatePath")
+        generatePath = rospy.ServiceProxy('navigation/generatePath', GeneratePath)
         resp1 = generatePath(0, goalPose, initialPose, False)
         print resp1.requeteAcceptee
     except rospy.ServiceException, e:

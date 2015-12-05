@@ -21,20 +21,9 @@
 #include "search_algo/AStarSearch.h"
 #include "search_algo/PointState.h"
 #include "search_algo/Path.h"
+#include "PathPlanner.h"
 #include "path_finder/GeneratePath.h"
-
-#include "common_utils/Chrono.h"
-
-std::shared_ptr<Graph> graph(new GridMapGraph());
-
-
-nav_msgs::Path g_pathFound;
-nav_msgs::Path g_pathSmoothed;
-double g_weightData = 0.45;
-double g_weightSmooth = 0.35;
-
-bool generatePath_callback( path_finder::GeneratePath::Request  &req,
-                            path_finder::GeneratePath::Response &res);
+#include "path_finder/AstarPath.h"
 
 
 int main(int argc, char **argv)
@@ -46,14 +35,12 @@ int main(int argc, char **argv)
 
     ROS_INFO_STREAM("Path finder : launched...");
 
-    //paramêtres
+    //paramètres
     bool tieBreaking = false;
-    nh.param<bool>("AstarTieBreaking", tieBreaking, false);
-    nh.param<double>("weightData", g_weightData, 0.45);
-    nh.param<double>("weightSmooth", g_weightSmooth, 0.35);
+    nh.param<bool>("navigation/pathFinder/aStarTieBreaking", tieBreaking, false);
 
-
-    //test instantiation
+    //Création du graph et des algorithmes
+    std::shared_ptr<Graph> graph(new GridMapGraph());
     std::shared_ptr<AStarSearch> searchAlgo(new AStarSearch(graph, true));
     searchAlgo->setTieBreaking(tieBreaking);
     graph->setSearchAlgo(searchAlgo);
@@ -62,76 +49,31 @@ int main(int argc, char **argv)
     graph->setHeuristic(heuristicDiag);
     std::shared_ptr<UpdateGraph> updateGraph(new UpdateGridMapGraph("/map", graph));
 
-    ros::ServiceServer service = nh.advertiseService("generatePath", generatePath_callback);
+
+    //publication des path et pathSmooth pour le debug
     ros::Publisher path_pub = nh.advertise<nav_msgs::Path>("/path", 1000);
     ros::Publisher pathSmooth_pub = nh.advertise<nav_msgs::Path>("/pathSmooth", 1000);
-    g_pathFound.header.stamp = ros::Time::now();
-    g_pathFound.header.frame_id = "map";
-    g_pathSmoothed.header.stamp = ros::Time::now();
-    g_pathSmoothed.header.frame_id = "map";
+    //AstarPath pour la compatibilité
+    ros::Publisher aStarPath_pub = nh.advertise<path_finder::AstarPath>("/pathFound", 1000);
+
+    PathPlanner pathPlanner(graph, "navigation/generatePath");
 
     ros::Rate loop_rate(loopFreq);
     while (ros::ok())
     {
-        path_pub.publish(g_pathFound);
-        pathSmooth_pub.publish(g_pathSmoothed);
+        const nav_msgs::Path &p = pathPlanner.getPath();
+        const nav_msgs::Path &ps = pathPlanner.getPath(true);
+        path_pub.publish(p);
+        pathSmooth_pub.publish(ps);
+
+        path_finder::AstarPath asp;
+        asp.id = pathPlanner.getPathId();
+        asp.path = ps;
+        aStarPath_pub.publish(asp);
+
         ros::spinOnce();
         loop_rate.sleep();
     }
 
     return 0;
-}
-
-
-bool generatePath_callback( path_finder::GeneratePath::Request  &req,
-                            path_finder::GeneratePath::Response &res)
-{
-    ROS_INFO("GeneratePath request - ID : %d", req.id);
-
-    res.requeteAcceptee = true;
-    std::shared_ptr<State> startState(new PointState());
-    std::shared_ptr<State> endState(new PointState());
-
-
-    std::shared_ptr<PointState> pStart = std::dynamic_pointer_cast<PointState>(startState);
-    pStart->set(req.Depart.position.x, req.Depart.position.y);
-    //pStart->set(0, 0);
-    std::shared_ptr<PointState> pEnd = std::dynamic_pointer_cast<PointState>(endState);
-    pEnd->set(req.Arrivee.position.x, req.Arrivee.position.y);
-    //pEnd->set(-2, 3);
-
-    Path path, pathS;
-
-    common_utils::HighResChrono chrono;
-    chrono.start();
-    graph->search(startState, endState, path);
-    chrono.stop();
-    ROS_INFO_STREAM("Time to generate the path : " << chrono);
-
-    if (path.empty())
-    {
-        ROS_INFO("Chemin vide");
-    }
-    else
-    {
-
-        ROS_INFO_STREAM("Taille chemin = " << path.size());
-        g_pathFound.header.stamp = ros::Time::now();
-        g_pathFound.header.frame_id = "map";
-        g_pathFound.poses.clear();
-        g_pathFound.poses = path.getPoses();
-
-        pathS = path;
-        pathS.setSmoothParam(g_weightData, g_weightSmooth);
-        chrono.start();
-        pathS.smooth();
-        chrono.stop();
-        ROS_INFO_STREAM("Time to smooth the path : " << chrono);
-        g_pathSmoothed.header.stamp = ros::Time::now();
-        g_pathSmoothed.header.frame_id = "map";
-        g_pathSmoothed.poses.clear();
-        g_pathSmoothed.poses = pathS.getPoses();
-    }
-
-  return true;
 }

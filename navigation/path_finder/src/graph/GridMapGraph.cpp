@@ -59,7 +59,7 @@ void GridMapGraph::getSuccessors(const std::shared_ptr<State> &state, std::list<
     int cellCost = 0;
     //ROS_INFO_STREAM("Valeur de la case courante (" << p.x << "," << p.y << ") = " << grid_utils::getCellValue(m_grid, p.x, p.y));
 
-    //TODO tenir compte de la valeur de la case pour l'évaluation du cout de déplacement (stepCost)
+    //TODO affiner la prise en compte de l'évaluation du cout de déplacement (stepCost)
     if ((cellCost = grid_utils::getCellValue(m_grid, p.x - resolution, p.y)) < 100)
     {
         std::shared_ptr<PointState> nextState(new PointState());
