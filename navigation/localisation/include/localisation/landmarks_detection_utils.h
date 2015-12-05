@@ -1,41 +1,23 @@
 #ifndef LANDMARKS_DETECTION_UTILS_H
 #define LANDMARKS_DETECTION_UTILS_H
 
-#include "laserScan.h"
-#include "Point.h"
-#include "Droite.h"
-#include "Modele.h"
+#include "geometry_msgs/Point.h"
+#include "geometry_msgs/Pose2D.h"
+
 #include "Segment.h"
+#include "Line.h"
+#include "Model.h"
 #include "Machine.h"
+#include "LaserScan.h"
 
+Model ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts);
 
-double dist(Point a, Droite d);
+void reduceList(std::list<geometry_msgs::Point> &list, Model m);
 
-double dist(Point a, Segment s);
+std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list<geometry_msgs::Point> &l);
 
-Point ortho(Point a, Droite d);
+std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil);
 
-Point ortho(Point a, Segment s);
-
-Modele ransac(std::list<Point> &listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts);
-
-void maj(std::list<Point> &list, Modele m);
-
-//rentrer tous les paramètres de RANSAC dans le prototype de findLines
-std::list<Modele> findLines(const std::list<Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list<Point> &l);
-
-Segment build(const std::list<Point> &points);
-
-std::list<Segment> buildSegment(Modele m, double seuil);
-
-std::list<Segment> buildSegments(std::list<Modele> &listOfModeles);
-
-Machine calculateCoordMachine(Segment s);
-
-void maj(std::list<Segment> &list, Segment s);
-
-std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments);
-
-geometry_msgs::Pose2D pointToPose2D(Point point);
+std::list<Segment> buildSegmentsFromModels(std::list<Model> &listOfModels);
 
 #endif

@@ -1,5 +1,17 @@
+/**
+ * \file         moveToPose.h
+ *
+ * \brief
+ *
+ * \author       Tissot Elise (elise-tissot@polytech-lille.net)
+ * \date         2015-04-23
+ * \copyright    PyroTeam, Polytech-Lille
+ * \license
+ * \version
+ */
+
 #ifndef MOVETOPOSE_H
-#define  MOVETOPOSE_H
+#define MOVETOPOSE_H
 
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
@@ -17,66 +29,60 @@
 
 class MoveToPose
 {
+	private:
+	    ros::Subscriber m_pathSub;
+	    actionlib::SimpleActionClient<deplacement_msg::TrackPathAction> m_trackPathAction;
+	    ros::ServiceClient m_generatePathClient;
+	    ros::Subscriber m_odomSub;
+	    ros::Subscriber m_sharpSensorSub;
 
-private:
+	    sensor_msgs::PointCloud m_sharpSensor;
+	    int m_lastId;
+	    geometry_msgs::Pose m_poseOdom;
+	    int m_pathId;
+	    int m_pathTrackPercentComplete;
 
-    ros::Subscriber m_path_sub;
-    actionlib::SimpleActionClient<deplacement_msg::TrackPathAction> m_trackPathAction;
-    ros::ServiceClient m_generatePathClient;
-    ros::Subscriber m_odom_sub;
-    ros::Subscriber m_sharpSensor_sub;
+	    enum PathTrackStatus
+	    {
+		    RUNNING,
+		    PAUSED
+	    };
 
-    sensor_msgs::PointCloud m_sharpSensor;
-    int m_last_id;
-    geometry_msgs::Pose m_pose_odom;
-    int m_path_id;
-    int m_pathTrackPercentComplete;
+	    void PoseCallback(const nav_msgs::Odometry &odom);
+	    void PathCallback(const pathfinder::AstarPath &path);
+	    void DistSensorCallback(const sensor_msgs::PointCloud &sensor);
+	    void doneCb(const actionlib::SimpleClientGoalState& state,
+		            const deplacement_msg::TrackPathResultConstPtr& result);
+	    void activeCb();
+	    void feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& feedback);
 
-    enum PathTrackStatus
-    {
-        RUNNING,
-        PAUSED
-    };
+	protected:
+	    ros::NodeHandle m_nh;
+	    // NodeHandle instance must be created before this line. Otherwise strange error may occur.
+	    actionlib::SimpleActionServer<deplacement_msg::MoveToPoseAction> m_as;
+	    std::string m_actionName;
+	    // create messages that are used to published feedback/result
+	    deplacement_msg::MoveToPoseFeedback m_feedback;
+	    deplacement_msg::MoveToPoseResult m_result;
 
-    void PoseCallback(const nav_msgs::Odometry &odom);
-    void PathCallback(const pathfinder::AstarPath &path);
-    void DistSensorCallback(const sensor_msgs::PointCloud &sensor);
-    void doneCb(const actionlib::SimpleClientGoalState& state,
-                const deplacement_msg::TrackPathResultConstPtr& result);
-    void activeCb();
-    void feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& feedback);
-protected:
+	public:
+	    MoveToPose(std::string name) : m_as(m_nh, name, boost::bind(&MoveToPose::executeCB, this, _1), false),
+	                                   m_actionName(name), m_trackPathAction("/trackPath", true)
+	    {
+			m_lastId = 0;
+			m_pathId = 0;
+			m_odomSub = m_nh.subscribe("/odom", 1000, &MoveToPose::PoseCallback, this);
+			m_pathSub = m_nh.subscribe("/pathFound", 1000, &MoveToPose::PathCallback, this);
+			m_sharpSensorSub = m_nh.subscribe("/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
+			m_generatePathClient = m_nh.serviceClient<pathfinder::GeneratePath>("/generatePath");
+			m_as.start();
+	    }
 
-    ros::NodeHandle m_nh;
-    // NodeHandle instance must be created before this line. Otherwise strange error may occur.
-    actionlib::SimpleActionServer<deplacement_msg::MoveToPoseAction> m_as;
-    std::string m_action_name;
-    // create messages that are used to published feedback/result
-    deplacement_msg::MoveToPoseFeedback m_feedback;
-    deplacement_msg::MoveToPoseResult m_result;
+	    ~MoveToPose(void)
+	    {
+	    }
 
-public:
-
-    MoveToPose(std::string name) :
-    m_as(m_nh, name, boost::bind(&MoveToPose::executeCB, this, _1), false),
-    m_action_name(name),
-    m_trackPathAction("/trackPath", true)
-    {
-        m_last_id = 0;
-        m_path_id = 0;
-        m_odom_sub = m_nh.subscribe("/odom", 1000, &MoveToPose::PoseCallback, this);
-        m_path_sub = m_nh.subscribe("/pathFound", 1000, &MoveToPose::PathCallback, this);
-        m_sharpSensor_sub = m_nh.subscribe("/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
-        m_generatePathClient = m_nh.serviceClient<pathfinder::GeneratePath>("/generatePath");
-
-        m_as.start();
-    }
-
-    ~MoveToPose(void)
-    {
-    }
-
-    void executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal);
+	    void executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal);
 };
 
 #endif

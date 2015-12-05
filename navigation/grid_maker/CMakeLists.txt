@@ -130,7 +130,7 @@ target_link_libraries(construct_map_weighted_node
 )
 target_link_libraries(construct_map_test
  ${catkin_LIBRARIES}
-)
+  )
 
 set_target_properties(construct_map_weighted_node PROPERTIES COMPILE_FLAGS "-std=c++11")
 #############

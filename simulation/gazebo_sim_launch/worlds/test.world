@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+	<world name="pyro_2015">
+	 <!-- Physics, to determine the simulation speed (step size and update rate) -->
+		<physics type="ode">
+			<max_step_size>0.00125</max_step_size>
+			<real_time_factor>1</real_time_factor>
+			<real_time_update_rate>1000</real_time_update_rate>
+		</physics>
+
+		<!-- A global light source -->
+		<include>
+			<uri>model://sun</uri>
+		</include>
+
+		<include>
+			<uri>model://logistics_league_field</uri>
+					<pose>0 2.5 0 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>model://robotino_pyro</uri>
+					<pose>-3.5 -0.5 0 0 0 1.5775</pose>
+		</include>
+
+<!--
+		<include>
+			<uri>model://robotino3</uri>
+					<pose>-3.5 -0.5 0 0 0 1.5775</pose>
+		</include>
+-->
+
+<!-- 		<include>
+			<uri>model://robotino_bbu2</uri>
+					<pose>-4.5 -0.5 0 0 0 3.1415</pose>
+		</include>
+
+		<include>
+			<uri>model://robotino_bbu3</uri>
+					<pose>-5.5 -0.5 0 0 0 3.1415</pose>
+		</include> -->
+
+<!--
+		<include>
+			<name>CBS</name>
+			<uri>model://mps_base</uri>
+					<pose>-5 4.9 0 0 0 0.43</pose>
+		</include>
+		<include>
+			<name>MBS</name>
+			<uri>model://mps_base</uri>
+					<pose>5 4.9 0 0 0 -0.43</pose>
+		</include>
+
+		<include>
+			<name>CCS1</name>
+			<uri>model://mps_cap</uri>
+					<pose>-1 5.5 0 0 0 2.4</pose>
+		</include>
+		<include>
+			<name>MCS1</name>
+			<uri>model://mps_cap</uri>
+					<pose>1 5.5 0 0 0 -2.4</pose>
+		</include>
+
+		<include>
+			<name>CCS2</name>
+			<uri>model://mps_cap</uri>
+					<pose>-3.2 2.5 0 0 0 1.57</pose>
+		</include>
+		<include>
+			<name>MCS2</name>
+			<uri>model://mps_cap</uri>
+					<pose>3.2 2.5 0 0 0 -1.57</pose>
+		</include>
+
+
+		<include>
+			<name>CRS1</name>
+			<uri>model://mps_ring</uri>
+					<pose>1 2.5 0 0 0 3.1</pose>
+		</include>
+		<include>
+			<name>MRS1</name>
+			<uri>model://mps_ring</uri>
+					<pose>-1 2.5 0 0 0 -3.1</pose>
+		</include>
+
+		<include>
+			<name>CRS2</name>
+			<uri>model://mps_ring</uri>
+					<pose>4.8 3.5 0 0 0 0.8</pose>
+		</include>
+		<include>
+			<name>MRS2</name>
+			<uri>model://mps_ring</uri>
+					<pose>-4.8 3.5 0 0 0 -0.8</pose>
+		</include>
+
+
+		<include>
+			<name>CDS</name>
+			<uri>model://mps_delivery</uri>
+					<pose>4.5 0.5 0 0 0 0.75</pose>
+		</include>
+		<include>
+			<name>MDS</name>
+			<uri>model://mps_delivery</uri>
+					<pose>-4.5 0.5 0 0 0 -0.75</pose>
+		</include>
+-->
+
+
+		<!-- Pucks  -->
+<!--
+		<include>
+			<name>puck_0</name>
+			<uri>model://workpiece_base</uri>
+			<pose>0.97 2.5 0.92 0 0 0</pose>
+		</include>
+		<include>
+			<name>puck_1</name>
+			<uri>model://workpiece_base</uri>
+			<pose>0.97 2.6 0.92 0 0 0</pose>
+		</include>
+-->
+		<!-- Plugins for the world -->
+		<plugin name="llsf_refbox_comm" filename="libllsf_refbox_comm.so" />
+		<plugin name="timesync" filename="libtimesync.so" />
+		<plugin name="mps_placement" filename="libmps_placement.so" />
+
+		<!-- top camera (for supervision) -->
+		<model name="top_camera">
+			<static>true</static>
+
+			<link name="top_camera_link">
+				<pose>0 2.5 8 0 1.57 1.57</pose>
+
+				<gravity>false</gravity>
+
+				<inertial>
+					<mass>0.02</mass>
+				</inertial>
+
+				<visual name="visual">
+					<pose>0 0 0 0 1.6 0</pose>
+					<geometry>
+						<cylinder>
+							<length>0.02</length>
+							<radius>0.03</radius>
+						</cylinder>
+					</geometry>
+					<cast_shadows>false</cast_shadows>
+					<material>
+						<ambient>0.0 0.0 0.0 0.1</ambient>
+						<diffuse>0.0 0.0 0.0 0.11</diffuse>
+					</material>
+				</visual>
+
+				<sensor type="camera" name="top_camera">
+					<update_rate>30.0</update_rate>
+					<camera name="top_camera">
+						<horizontal_fov>1.3962634</horizontal_fov>
+						<image>
+							<width>1200</width>
+							<height>700</height>
+							<format>R8G8B8</format>
+						</image>
+						<clip>
+							<near>0.02</near>
+							<far>300</far>
+						</clip>
+					</camera>
+					<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+						<alwaysOn>true</alwaysOn>
+						<updateRate>0.0</updateRate>
+						<cameraName>/top_camera</cameraName>
+						<imageTopicName>image_raw</imageTopicName>
+						<cameraInfoTopicName>camera_info</cameraInfoTopicName>
+						<frameName>top_camera_link</frameName>
+						<hackBaseline>0.07</hackBaseline>
+						<distortionK1>0.0</distortionK1>
+						<distortionK2>0.0</distortionK2>
+						<distortionK3>0.0</distortionK3>
+						<distortionT1>0.0</distortionT1>
+						<distortionT2>0.0</distortionT2>
+					</plugin>
+				</sensor>
+			</link>
+		</model>
+
+	</world>
+</sdf>

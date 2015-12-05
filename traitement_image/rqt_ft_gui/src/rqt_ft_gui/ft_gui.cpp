@@ -69,88 +69,88 @@ void FtGui::initPlugin(qt_gui_cpp::PluginContext& context)
   bool checked;
   int value;
   // Init Morphops : Ouverture
-  if (nh.hasParam("/feu_tricolore/opening/enabled"))
+  if (nh.hasParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/enabled"))
   {
-    nh.getParam("/feu_tricolore/opening/enabled", checked);
+    nh.getParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/enabled", checked);
     ui_.groupBox_opening->setChecked(checked);
   }
   else
   {
-    nh.setParam("/feu_tricolore/opening/enabled", ui_.groupBox_opening->isChecked());
+    nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/enabled", ui_.groupBox_opening->isChecked());
   }
   connect(ui_.groupBox_opening, SIGNAL(clicked(bool)), this, SLOT(onOpeningEnabling(bool)));
-  if (nh.hasParam("/feu_tricolore/opening/iteration"))
+  if (nh.hasParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/iteration"))
   {
-    nh.getParam("/feu_tricolore/opening/iteration", value);
+    nh.getParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/iteration", value);
     ui_.spinBox_opening_iterations->setValue(value);
   }
   else
   {
-    nh.setParam("/feu_tricolore/opening/iteration", ui_.spinBox_opening_iterations->value());
+    nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/iteration", ui_.spinBox_opening_iterations->value());
   }
   connect(ui_.spinBox_opening_iterations, SIGNAL(valueChanged(int)), this, SLOT(onOpeningIterationChange(int)));
-  if (nh.hasParam("/feu_tricolore/opening/size"))
+  if (nh.hasParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/size"))
   {
-    nh.getParam("/feu_tricolore/opening/size", value);
+    nh.getParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/size", value);
     ui_.spinBox_opening_size->setValue(value);
   }
   else
   {
-    nh.setParam("/feu_tricolore/opening/size", ui_.spinBox_opening_size->value());
+    nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/size", ui_.spinBox_opening_size->value());
   }
   connect(ui_.spinBox_opening_size, SIGNAL(valueChanged(int)), this, SLOT(onOpeningSizeChange(int)));
 
   // Init Morphops : Fermeture
-  if (nh.hasParam("/feu_tricolore/closing/enabled"))
+  if (nh.hasParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/enabled"))
   {
-    nh.getParam("/feu_tricolore/closing/enabled", checked);
+    nh.getParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/enabled", checked);
     ui_.groupBox_closing->setChecked(checked);
   }
   else
   {
-    nh.setParam("/feu_tricolore/closing/enabled", ui_.groupBox_closing->isChecked());
+    nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/enabled", ui_.groupBox_closing->isChecked());
   }
   connect(ui_.groupBox_closing, SIGNAL(clicked(bool)), this, SLOT(onClosingEnabling(bool)));
-  if (nh.hasParam("/feu_tricolore/closing/iteration"))
+  if (nh.hasParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/iteration"))
   {
-    nh.getParam("/feu_tricolore/closing/iteration", value);
+    nh.getParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/iteration", value);
     ui_.spinBox_closing_iterations->setValue(value);
   }
   else
   {
-    nh.setParam("/feu_tricolore/closing/iteration", ui_.spinBox_closing_iterations->value());
+    nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/iteration", ui_.spinBox_closing_iterations->value());
   }
   connect(ui_.spinBox_closing_iterations, SIGNAL(valueChanged(int)), this, SLOT(onClosingIterationChange(int)));
-  if (nh.hasParam("/feu_tricolore/closing/size"))
+  if (nh.hasParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/size"))
   {
-    nh.getParam("/feu_tricolore/closing/size", value);
+    nh.getParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/size", value);
     ui_.spinBox_closing_size->setValue(value);
   }
   else
   {
-    nh.setParam("/feu_tricolore/closing/size", ui_.spinBox_closing_size->value());
+    nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/size", ui_.spinBox_closing_size->value());
   }
   connect(ui_.spinBox_closing_size, SIGNAL(valueChanged(int)), this, SLOT(onClosingSizeChange(int)));
 
   // Init Filtrage : Luminance
-  if (nh.hasParam("/feu_tricolore/HSV_threshold/enabled"))
+  if (nh.hasParam("/trait_im/feu_tricolore/tmp/G/threshold/enabled"))
   {
-    nh.getParam("/feu_tricolore/HSV_threshold/enabled", checked);
+    nh.getParam("/trait_im/feu_tricolore/tmp/G/threshold/enabled", checked);
     ui_.groupBox_HSV_value->setChecked(checked);
   }
   else
   {
-    nh.setParam("/feu_tricolore/HSV_threshold/enabled", ui_.groupBox_HSV_value->isChecked());
+    nh.setParam("/trait_im/feu_tricolore/tmp/G/threshold/enabled", ui_.groupBox_HSV_value->isChecked());
   }
   connect(ui_.groupBox_HSV_value, SIGNAL(clicked(bool)), this, SLOT(onHsvSliderEnabling(bool)));
-  if (nh.hasParam("/feu_tricolore/HSV_threshold/value/min"))
+  if (nh.hasParam("/trait_im/feu_tricolore/tmp/G/threshold/min"))
   {
-    nh.getParam("/feu_tricolore/HSV_threshold/value/min", value);
+    nh.getParam("/trait_im/feu_tricolore/tmp/G/threshold/min", value);
     ui_.spinBox_HSV_value->setValue(value);
   }
   else
   {
-    nh.setParam("/feu_tricolore/HSV_threshold/value/min", ui_.spinBox_HSV_value->value());
+    nh.setParam("/trait_im/feu_tricolore/tmp/G/threshold/min", ui_.spinBox_HSV_value->value());
   }
   connect(ui_.spinBox_HSV_value, SIGNAL(valueChanged(int)), this, SLOT(onHsvSliderChange(int)));
 }
@@ -513,50 +513,50 @@ void FtGui::onDynamicRange_2(bool checked)
 void FtGui::onOpeningEnabling(bool checked)
 {
   ros::NodeHandle nh = getNodeHandle();
-  nh.setParam("/feu_tricolore/opening/enabled", checked);
+  nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/enabled", checked);
 }
 
 void FtGui::onOpeningIterationChange(int value)
 {
   ros::NodeHandle nh = getNodeHandle();
-  nh.setParam("/feu_tricolore/opening/iteration", value);
+  nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/iteration", value);
 }
 
 void FtGui::onOpeningSizeChange(int value)
 {
   ros::NodeHandle nh = getNodeHandle();
-  nh.setParam("/feu_tricolore/opening/size", value);
+  nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/opening/size", value);
 }
 
 void FtGui::onClosingEnabling(bool checked)
 {
   ros::NodeHandle nh = getNodeHandle();
-  nh.setParam("/feu_tricolore/closing/enabled", checked);
+  nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/enabled", checked);
 }
 
 void FtGui::onClosingIterationChange(int value)
 {
   ros::NodeHandle nh = getNodeHandle();
-  nh.setParam("/feu_tricolore/closing/iteration", value);
+  nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/iteration", value);
 }
 
 void FtGui::onClosingSizeChange(int value)
 {
   ros::NodeHandle nh = getNodeHandle();
-  nh.setParam("/feu_tricolore/closing/size", value);
+  nh.setParam("/trait_im/feu_tricolore/tmp/G/morphops/closing/size", value);
 }
 
 
 void FtGui::onHsvSliderEnabling(bool checked)
 {
   ros::NodeHandle nh = getNodeHandle();
-  nh.setParam("/feu_tricolore/HSV_threshold/enabled", checked);
+  nh.setParam("/trait_im/feu_tricolore/tmp/G/threshold/enabled", checked);
 }
 
 void FtGui::onHsvSliderChange(int value)
 {
   ros::NodeHandle nh = getNodeHandle();
-  nh.setParam("/feu_tricolore/HSV_threshold/value/min", value);
+  nh.setParam("/trait_im/feu_tricolore/tmp/G/threshold/min", value);
 }
 
 void FtGui::callbackImage(const sensor_msgs::Image::ConstPtr& msg)

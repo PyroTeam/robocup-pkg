@@ -1,0 +1,18 @@
+<launch>
+    <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(find gazebo_sim_launch)/worlds/test.world"/>
+		<arg name="paused" value="false"/>
+		<arg name="use_sim_time" value="true"/>
+		<arg name="gui" value="false"/>
+		<arg name="headless" value="false"/>
+		<arg name="debug" value="false"/>
+    </include>
+
+    <!-- Load the gazebo_to_ros node -->
+    <node pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
+
+    <!-- Load the tf_broadcaster node -->
+    <node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node"/>
+
+</launch>

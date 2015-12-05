@@ -14,12 +14,14 @@
 #include "robot.h"
 #include "srvorder.h"
 #include "work.h"
-#include "order.h"
 #include "storage.h"
 #include "correspondanceZE.h"
 
+#include "comm_msg/Order.h"
+
 #include <ros/ros.h>
 #include <list>
+#include <vector>
 #include <iostream>
 
 /**
@@ -32,6 +34,6 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
  *	\brief		ce qu'il y a à faire en phase de production
  */
 void workInProductionPhase(std::list<std::list<Task> > &work, Machine (&tabMachine)[6], Robot (&tabRobot)[3],
-						   Storage (&tabStock)[6], bool (&take)[3], int &cptOrder, int robot, int &availableCap, 
-						   int &storage,Order &order, double time);
+						   Storage (&tabStock)[6], bool (&take)[3], int &cptOrder, int robot, int (&availableCap)[2], 
+						   int &storage,std::vector<comm_msg::Order> &tabOrders, double time, std::vector<bool> &ordersInProcess);
 #endif

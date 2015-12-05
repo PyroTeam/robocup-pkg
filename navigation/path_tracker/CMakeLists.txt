@@ -5,9 +5,16 @@ project(path_tracker)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-    rospy
+    actionlib
+    deplacement_msg
     geometry_msgs
-    turtlesim
+    nav_msgs
+    sensor_msgs
+    robotino_msgs
+    roscpp
+    rospy
+    pathfinder
+    tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -80,7 +87,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+  INCLUDE_DIRS include include/path_tracker
 #  LIBRARIES gpio_interface
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
@@ -92,11 +99,11 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(
-#     include
-#     /usr/local/include
-#     ${catkin_INCLUDE_DIRS}
-# )
+include_directories(
+    include
+    include/path_tracker
+    ${catkin_INCLUDE_DIRS}
+)
 
 ## Declare a cpp library
 # add_library(gpio_interface
@@ -104,48 +111,39 @@ catkin_package(
 # )
 
 ## Declare a cpp executable
-# add_executable(leds_button_node
-#         src/leds_button_node.cpp
-# )
+add_executable(path_tracker_node
+        src/path_tracker_node.cpp
+        src/trackPathAction.cpp
+        src/trackPath.cpp
+        src/dataMapObstacle.cpp
+        src/avoidanceObstacle.cpp
+)
 
-# add_executable(fake_vocal_interpreter_node
-#         src/fake_vocal_interpreter_node.cpp
-# )
+add_executable(grid_obstacles_node
+        src/grid_obstacles_node.cpp
+        src/dataLaser.cpp
+        src/map.cpp
+)
 
-# add_executable(fake_vocal_wake_node
-#         src/fake_vocal_wake_node.cpp
-# )
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(leds_button_node 
-#     gpio_messages_gencpp
-#     sound_messages_gencpp)
-
-# add_dependencies(fake_vocal_interpreter_node 
-#     gpio_messages_gencpp
-#     sound_messages_gencpp)
-
-# add_dependencies(fake_vocal_wake_node 
-#     gpio_messages_gencpp
-#     sound_messages_gencpp)
+add_dependencies(path_tracker_node path_tracker_generate_messages_cpp deplacement_msg_gencpp pathfinder_gencpp)
+add_dependencies(grid_obstacles_node path_tracker_generate_messages_cpp deplacement_msg_gencpp pathfinder_gencpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(
-#     leds_button_node
-#     ${catkin_LIBRARIES}
-#     # -lwiringPi
-# )
+target_link_libraries(
+    path_tracker_node
+    ${catkin_LIBRARIES}
+)
 
-# target_link_libraries(
-#     fake_vocal_interpreter_node
-#     ${catkin_LIBRARIES}
-# )
+target_link_libraries(
+    grid_obstacles_node
+    ${catkin_LIBRARIES}
+)
 
-# target_link_libraries(
-#     fake_vocal_wake_node
-#     ${catkin_LIBRARIES}
-# )
+set_target_properties(path_tracker_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
+set_target_properties(grid_obstacles_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
 #############
 ## Install ##
