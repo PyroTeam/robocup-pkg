@@ -73,8 +73,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li class="current"><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_type.html"><span>Typedefs</span></a></li>
       <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
       <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -112,7 +114,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -149,11 +151,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>CapStation()
 : <a class="el" href="d6/ddd/classCapStation.html#afb14b50ec72549e72979fd178c94ba23">CapStation</a>
 </li>
+<li>cbegin()
+: <a class="el" href="db/dc7/classPath.html#a6ceddd7206d55eef881fb3c0b87316bc">Path</a>
+</li>
+<li>cend()
+: <a class="el" href="db/dc7/classPath.html#a0bbbafb07b1af7a8392350e501e7506d">Path</a>
+</li>
 <li>checkStateVector()
 : <a class="el" href="de/d39/classEKF.html#a5440e061a78ae587340e2d563c25abb8">EKF</a>
 </li>
+<li>Chrono()
+: <a class="el" href="d9/d9c/classcommon__utils_1_1Chrono.html#a27b9c479a77ab25622e2873f78d78b56">common_utils::Chrono&lt; Clock &gt;</a>
+</li>
 <li>CIPHER_TYPE
 : <a class="el" href="d7/d78/classEncryptUtils.html#a5ca66d8ace1776704485aecfd1be109b">EncryptUtils</a>
+</li>
+<li>clear()
+: <a class="el" href="d2/d11/classAStarQueue.html#a7d76cabe65fc5d199929363ccfab6c60">AStarQueue&lt; T, Container, Compare &gt;</a>
+, <a class="el" href="db/dc7/classPath.html#a3e94fc24f7c713442f3d52478d0772fb">Path</a>
 </li>
 <li>close()
 : <a class="el" href="dc/d79/classSendScheduler.html#ab359952ed7c0974bc8cfeae08a4facb0">SendScheduler</a>
@@ -161,11 +176,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>closestPoint()
 : <a class="el" href="d6/da1/classTrackPath.html#a52f32e3ac175dfa7fef90a71215f4bf6">TrackPath</a>
 </li>
+<li>compare()
+: <a class="el" href="df/d8f/classAStarState.html#a9f8a8615852c7f544476499c6920c6eb">AStarState</a>
+, <a class="el" href="d4/d74/classPointState.html#a34c1cdc457868c995296e66af493f0dc">PointState</a>
+, <a class="el" href="d8/d1a/classPoseState.html#ad34f9c79fabaa4d57637eb12c3160092">PoseState</a>
+, <a class="el" href="d7/d97/classState.html#ad522e8351c01f873d528f2bf3910edd6">State</a>
+</li>
 <li>compareFloat()
 : <a class="el" href="d6/da1/classTrackPath.html#a0d7d7cc061b1efdac04df14acdaeb8fe">TrackPath</a>
 </li>
 <li>comparePoints()
 : <a class="el" href="d6/da1/classTrackPath.html#ae7da835cb0fa687f427040e23df8f2a9">TrackPath</a>
+</li>
+<li>const_iterator
+: <a class="el" href="d2/d11/classAStarQueue.html#ab3f7b9d4f9cb8693cb35f4e0489ea917">AStarQueue&lt; T, Container, Compare &gt;</a>
+, <a class="el" href="db/dc7/classPath.html#a0fa1319ec361708c7e9e67e2b1f3184d">Path</a>
 </li>
 <li>conversion_mat_
 : <a class="el" href="d6/d5b/classrqt__ft__gui_1_1FtGui.html#ab0f8ad1c9200712241dcb94971eec6c2">rqt_ft_gui::FtGui</a>
@@ -192,7 +217,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 3 2015 01:57:17 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 5 2015 13:40:32 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

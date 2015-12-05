@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['server',['Server',['../da/dc0/fake__action__finalApp_8cpp.html#ace308c6aef588d0434461bc7f561e087',1,'Server():&#160;fake_action_finalApp.cpp'],['../d3/d2d/fake__action__navigation_8cpp.html#a603e0812a860efeec93728d23d93ad19',1,'Server():&#160;fake_action_navigation.cpp'],['../d0/d32/fake__light__server__node_8cpp.html#a7e57c26b02213118b64765b6c03889ee',1,'Server():&#160;fake_light_server_node.cpp']]]
+  ['messagedispatcher',['MessageDispatcher',['../d0/d22/refBoxComm_8h.html#a473e5ff7d49b8b06e35764a96dca7c3d',1,'MessageDispatcher():&#160;refBoxComm.h'],['../d1/d85/refBoxTransport_8h.html#aae7c2a6bb395e50f863bc97e22e9f03d',1,'MessageDispatcher():&#160;refBoxTransport.h']]]
 ];
