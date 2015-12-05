@@ -13,7 +13,6 @@ var searchData=
   ['deliverystation_2eh',['DeliveryStation.h',['../da/ddf/DeliveryStation_8h.html',1,'']]],
   ['destock',['destock',['../d6/ddd/classCapStation.html#af692e9100722674395dc756930911e32',1,'CapStation']]],
   ['detectanddisplay',['detectAndDisplay',['../d4/da7/cv__algo_8cpp.html#a11bafaccf4278600d66f5db751bc8e6e',1,'cv_algo.cpp']]],
-  ['diagonalheuristic',['DiagonalHeuristic',['../d8/d30/classDiagonalHeuristic.html',1,'DiagonalHeuristic'],['../d8/d30/classDiagonalHeuristic.html#ac0b1e3a2c8850c9bd5983b8e589b28fa',1,'DiagonalHeuristic::DiagonalHeuristic()']]],
   ['dispatch_2eh',['dispatch.h',['../d2/d98/refbox__comm_2include_2dispatch_8h.html',1,'']]],
   ['dispatch_2eh',['dispatch.h',['../d5/d17/robot__comm_2include_2dispatch_8h.html',1,'']]],
   ['display_2dhistogram_2ecpp',['display-histogram.cpp',['../d0/d60/display-histogram_8cpp.html',1,'']]],
@@ -28,7 +27,6 @@ var searchData=
   ['drawcolorrect',['drawColorRect',['../de/dcc/cv__utils_8h.html#abf9c2985eae6f99a455ff61c21b2b46b',1,'drawColorRect(cv::Mat &amp;frame):&#160;cv_utils.cpp'],['../d0/d5c/cv__utils_8cpp.html#abf9c2985eae6f99a455ff61c21b2b46b',1,'drawColorRect(cv::Mat &amp;frame):&#160;cv_utils.cpp']]],
   ['drawdisc',['drawDisc',['../d7/db0/classMap.html#a82facb5bfb7ca989e13d58850ee442db',1,'Map']]],
   ['drawobject',['drawObject',['../de/dcc/cv__utils_8h.html#ab10a429a7028edab1eb835e66d6d2c19',1,'drawObject(int x, int y, cv::Mat &amp;frame):&#160;cv_utils.cpp'],['../d0/d5c/cv__utils_8cpp.html#ab10a429a7028edab1eb835e66d6d2c19',1,'drawObject(int x, int y, cv::Mat &amp;frame):&#160;cv_utils.cpp']]],
-  ['drawrect',['drawRect',['../d3/d92/Map_8cpp.html#ad76cd619c2bdf2d46127b74513f4b7e5',1,'drawRect(nav_msgs::OccupancyGrid &amp;Map, float x, float y, float theta, float height, float width, float margin):&#160;Map.cpp'],['../dc/df6/Map__D336_8cpp.html#ad76cd619c2bdf2d46127b74513f4b7e5',1,'drawRect(nav_msgs::OccupancyGrid &amp;Map, float x, float y, float theta, float height, float width, float margin):&#160;Map_D336.cpp'],['../da/db1/Map__weighted_8cpp.html#ad76cd619c2bdf2d46127b74513f4b7e5',1,'drawRect(nav_msgs::OccupancyGrid &amp;Map, float x, float y, float theta, float height, float width, float margin):&#160;Map_weighted.cpp']]],
-  ['droitescallback',['droitesCallback',['../d7/dfc/visualisation_8cpp.html#aeccb4e920534dc98a8885c47b065440c',1,'visualisation.cpp']]],
-  ['duration',['duration',['../d9/d9c/classcommon__utils_1_1Chrono.html#a6e22d91a2344b53c660e13448321ef5a',1,'common_utils::Chrono']]]
+  ['drawrect',['drawRect',['../d3/d92/Map_8cpp.html#ad76cd619c2bdf2d46127b74513f4b7e5',1,'drawRect(nav_msgs::OccupancyGrid &amp;Map, float x, float y, float theta, float height, float width, float margin):&#160;Map.cpp'],['../dc/df6/Map__D336_8cpp.html#ad76cd619c2bdf2d46127b74513f4b7e5',1,'drawRect(nav_msgs::OccupancyGrid &amp;Map, float x, float y, float theta, float height, float width, float margin):&#160;Map_D336.cpp']]],
+  ['droitescallback',['droitesCallback',['../d7/dfc/visualisation_8cpp.html#aeccb4e920534dc98a8885c47b065440c',1,'visualisation.cpp']]]
 ];

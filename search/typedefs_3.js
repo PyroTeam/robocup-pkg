@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['highreschrono',['HighResChrono',['../d8/d65/namespacecommon__utils.html#ac03081e654af5d3ca6720ee139acd967',1,'common_utils']]]
+  ['protomsg',['protoMsg',['../d0/d22/refBoxComm_8h.html#a4ba167cda30dbc6ca180f62c1bd3300c',1,'protoMsg():&#160;refBoxComm.h'],['../d6/d5b/refBoxMessage_8h.html#a4ba167cda30dbc6ca180f62c1bd3300c',1,'protoMsg():&#160;refBoxMessage.h']]]
 ];

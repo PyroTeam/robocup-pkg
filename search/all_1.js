@@ -5,7 +5,6 @@ var searchData=
   ['basestation',['BaseStation',['../d2/d4b/classBaseStation.html',1,'BaseStation'],['../d2/d4b/classBaseStation.html#a90bfd6fa7e927d53e43e99c35c5bfef5',1,'BaseStation::BaseStation()']]],
   ['basestation_2ecpp',['BaseStation.cpp',['../d6/de4/BaseStation_8cpp.html',1,'']]],
   ['basestation_2eh',['BaseStation.h',['../df/de3/BaseStation_8h.html',1,'']]],
-  ['begin',['begin',['../db/dc7/classPath.html#ac4c1cfe43acfa51b90bcad2c8e874b38',1,'Path']]],
   ['binarisation',['binarisation',['../de/dcc/cv__utils_8h.html#abb059808ca7275323c1c2583729d2d88',1,'binarisation(cv::Mat &amp;image, int *nbPixels):&#160;cv_utils.cpp'],['../d0/d5c/cv__utils_8cpp.html#abb059808ca7275323c1c2583729d2d88',1,'binarisation(cv::Mat &amp;image, int *nbPixels):&#160;cv_utils.cpp']]],
   ['blcallback',['blCallback',['../de/d27/classBumperListener.html#a749609b7213e5ecefb1fd9aad29eff50',1,'BumperListener']]],
   ['bring_5fbase_5frs',['bring_base_rs',['../d2/d4b/classBaseStation.html#a360a97d58112752c444ae3a57d6c02cf',1,'BaseStation']]],
