@@ -34,21 +34,21 @@ LectureFeu::LectureFeu()
   action_name_(ros::this_node::getName())
 {
     // Ros topics
-    image_sub_ = it_.subscribe("image_raw", 1, &LectureFeu::imageCb, this);
-    nh_.setParam("feu_tricolore/image_result/list/0_Flux_origine", "/image_raw");
+    image_sub_ = it_.subscribe("hardware/camera/platform_camera/image_raw", 1, &LectureFeu::imageCb, this);
+    nh_.setParam("computerVision/lightSignalDetection/image_result/list/0_Flux_origine", "/image_raw");
 
-    output_1_pub_ = it_.advertise("feu_tricolore/img_ouput_1", 1);
-    nh_.setParam("feu_tricolore/image_result/list/1_Ouput", "/feu_tricolore/img_ouput_1");
-    output_2_pub_ = it_.advertise("feu_tricolore/img_ouput_2", 1);
-    nh_.setParam("feu_tricolore/image_result/list/2_Output", "/feu_tricolore/img_ouput_2");
-    output_3_pub_ = it_.advertise("feu_tricolore/img_ouput_3", 1);
-    nh_.setParam("feu_tricolore/image_result/list/3_Output", "/feu_tricolore/img_ouput_3");
-    output_4_pub_ = it_.advertise("feu_tricolore/img_ouput_4", 1);
-    nh_.setParam("feu_tricolore/image_result/list/4_Output", "/feu_tricolore/img_ouput_4");
-    output_5_pub_ = it_.advertise("feu_tricolore/img_ouput_5", 1);
-    nh_.setParam("feu_tricolore/image_result/list/5_Output", "/feu_tricolore/img_ouput_5");
-    result_pub_ = it_.advertise("feu_tricolore/img_result", 1);
-    nh_.setParam("feu_tricolore/image_result/list/6_Image_resultat", "/feu_tricolore/img_result");
+    output_1_pub_ = it_.advertise("computerVision/lightSignalDetection/img_ouput_1", 1);
+    nh_.setParam("computerVision/lightSignalDetection/image_result/list/1_Ouput", "computerVision/lightSignalDetection/img_ouput_1");
+    output_2_pub_ = it_.advertise("computerVision/lightSignalDetection/img_ouput_2", 1);
+    nh_.setParam("computerVision/lightSignalDetection/image_result/list/2_Output", "computerVision/lightSignalDetection/img_ouput_2");
+    output_3_pub_ = it_.advertise("computerVision/lightSignalDetection/img_ouput_3", 1);
+    nh_.setParam("computerVision/lightSignalDetection/image_result/list/3_Output", "computerVision/lightSignalDetection/img_ouput_3");
+    output_4_pub_ = it_.advertise("computerVision/lightSignalDetection/img_ouput_4", 1);
+    nh_.setParam("computerVision/lightSignalDetection/image_result/list/4_Output", "computerVision/lightSignalDetection/img_ouput_4");
+    output_5_pub_ = it_.advertise("computerVision/lightSignalDetection/img_ouput_5", 1);
+    nh_.setParam("computerVision/lightSignalDetection/image_result/list/5_Output", "computerVision/lightSignalDetection/img_ouput_5");
+    result_pub_ = it_.advertise("computerVision/lightSignalDetection/img_result", 1);
+    nh_.setParam("computerVision/lightSignalDetection/image_result/list/6_Image_resultat", "computerVision/lightSignalDetection/img_result");
 
     // Images - init _origin, _origin_rbg, _result, etc 
     initMembersImgs();
@@ -763,7 +763,7 @@ void LectureFeu::templateProcessing()
 
         /// "Method: \n 0: SQDIFF \n 1: SQDIFF NORMED \n 2: TM CCORR \n 3: TM CCORR NORMED \n 4: TM COEFF \n 5: TM COEFF NORMED";
         int match_method = 0;
-        nh_.param<int>("feu_tricolore/opening/size", match_method, 0);
+        nh_.param<int>("computerVision/lightSignalDetection/opening/size", match_method, 0);
 
         /// Create the result matrix
         int result_cols =  _origin.cols - templ.cols + 1;
@@ -1120,63 +1120,63 @@ void LectureFeu::closing(cv::Mat &imgToProcess, cv::Size size, int shape)
 int LectureFeu::getHSV_max_value()
 {
     int tmp;
-    nh_.param<int>("feu_tricolore/HSV_threshold/value/max", tmp, 255);
+    nh_.param<int>("computerVision/lightSignalDetection/HSV_threshold/value/max", tmp, 255);
     return tmp;
 }
 
 int LectureFeu::getHSV_min_value()
 {
     int tmp;
-    nh_.param<int>("feu_tricolore/HSV_threshold/value/min", tmp, 0);
+    nh_.param<int>("computerVision/lightSignalDetection/HSV_threshold/value/min", tmp, 0);
     return tmp;
 }
 
 bool LectureFeu::getEnableHSV()
 {
     bool tmp;
-    nh_.param<bool>("feu_tricolore/HSV_threshold/enabled", tmp, true);
+    nh_.param<bool>("computerVision/lightSignalDetection/HSV_threshold/enabled", tmp, true);
     return tmp;
 }
 
 int LectureFeu::getOpeningSize()
 {
     int tmp;
-    nh_.param<int>("feu_tricolore/opening/size", tmp, 0);
+    nh_.param<int>("computerVision/lightSignalDetection/opening/size", tmp, 0);
     return ((tmp<1)?1:tmp*2+1);
 }
 
 int LectureFeu::getOpeningIterations()
 {
     int tmp;
-    nh_.param<int>("feu_tricolore/opening/iteration", tmp, 0);
+    nh_.param<int>("computerVision/lightSignalDetection/opening/iteration", tmp, 0);
     return tmp;
 }
 
 bool LectureFeu::getEnableOpening()
 {
     bool tmp;
-    nh_.param<bool>("feu_tricolore/opening/enabled", tmp, true);
+    nh_.param<bool>("computerVision/lightSignalDetection/opening/enabled", tmp, true);
     return tmp;
 }
 
 int LectureFeu::getClosingSize()
 {
     int tmp;
-    nh_.param<int>("feu_tricolore/closing/size", tmp, 0);
+    nh_.param<int>("computerVision/lightSignalDetection/closing/size", tmp, 0);
     return ((tmp<1)?1:tmp*2+1);
 }
 
 int LectureFeu::getClosingIterations()
 {
     int tmp;
-    nh_.param<int>("feu_tricolore/closing/iteration", tmp, 0);
+    nh_.param<int>("computerVision/lightSignalDetection/closing/iteration", tmp, 0);
     return tmp;
 }
 
 bool LectureFeu::getEnableClosing()
 {
     bool tmp;
-    nh_.param<bool>("feu_tricolore/closing/enabled", tmp, true);
+    nh_.param<bool>("computerVision/lightSignalDetection/closing/enabled", tmp, true);
     return tmp;
 }
 

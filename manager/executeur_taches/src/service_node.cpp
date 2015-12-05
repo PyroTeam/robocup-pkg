@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	//n.param<int>("robotNumber",nb_robot,0);
 	GtServerSrv gtsrv;
 	gtsrv.setId(1);
-	ros::ServiceServer service = n.advertiseService("order", &GtServerSrv::responseToGT, &gtsrv);
+	ros::ServiceServer service = n.advertiseService("manager/order", &GtServerSrv::responseToGT, &gtsrv);
 	ROS_INFO("I'm READDY ! ");
 	ros::spin();
 	return 0;

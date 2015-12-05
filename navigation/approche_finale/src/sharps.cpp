@@ -25,6 +25,6 @@ void Sharps::sharpsCallback(const sensor_msgs::PointCloud &msg)
 }
 
 Sharps::Sharps(){
-	m_sharpsSub = m_nh.subscribe("/distance_sensors",1000,&Sharps::sharpsCallback,this);        
+	m_sharpsSub = m_nh.subscribe("hardware/distance_sensors",1000,&Sharps::sharpsCallback,this);        
 }
 

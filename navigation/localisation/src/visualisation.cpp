@@ -156,16 +156,16 @@ int main( int argc, char** argv )
 
   ros::NodeHandle n;
 
-  ros::Subscriber sub_machines    = n.subscribe("/machines", 1000, machinesCallback);
-  ros::Subscriber sub_landmarks   = n.subscribe("/landmarks", 1000, landmarksCallback);
-  ros::Subscriber sub_segments    = n.subscribe("/segments", 1000, segmentsCallback);
-  ros::Subscriber sub_droites     = n.subscribe("/droites", 1000, droitesCallback);
-  ros::Subscriber sub_pos_robot   = n.subscribe("/robot", 1000, robotCallback);
-  ros::Subscriber sub_scan_global = n.subscribe("/scan_global", 1000, laserCallback);
-  ros::Subscriber sub_odom        = n.subscribe("/new_odom", 1000, odomCallback);
+  ros::Subscriber sub_machines    = n.subscribe("objectDetection/machines", 1000, machinesCallback);
+  ros::Subscriber sub_landmarks   = n.subscribe("objectDetection/landmarks", 1000, landmarksCallback);
+  ros::Subscriber sub_segments    = n.subscribe("objectDetection/segments", 1000, segmentsCallback);
+  ros::Subscriber sub_droites     = n.subscribe("objectDetection/droites", 1000, droitesCallback);
+  ros::Subscriber sub_pos_robot   = n.subscribe("objectDetection/robot", 1000, robotCallback);
+  ros::Subscriber sub_scan_global = n.subscribe("objectDetection/scan_global", 1000, laserCallback);
+  ros::Subscriber sub_odom        = n.subscribe("objectDetection/new_odom", 1000, odomCallback);
 
-  //ros::Publisher machines_pub = n.advertise<visualization_msgs::MarkerArray>("/visualization_machines", 10000);
-  ros::Publisher markers_pub = n.advertise<visualization_msgs::Marker>("/visualization_markers", 10000);
+  //ros::Publisher machines_pub = n.advertise<visualization_msgs::MarkerArray>("rviz/visualization_machines", 10000);
+  ros::Publisher markers_pub = n.advertise<visualization_msgs::Marker>("rviz/visualization_markers", 10000);
 
   ros::Rate rate(25);
 

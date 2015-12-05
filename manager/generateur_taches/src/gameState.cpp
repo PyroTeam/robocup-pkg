@@ -13,5 +13,5 @@ void GameState::gsCallback(const comm_msg::GameState &msg) //ici aussi
 
 GameState::GameState(){
 	//ROS_INFO("test");
-	m_gamestateSub = m_nh.subscribe("/refBoxComm/GameState",1000,&GameState::gsCallback,this);
+	m_gamestateSub = m_nh.subscribe("refBoxComm/GameState",1000,&GameState::gsCallback,this);
 }

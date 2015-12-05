@@ -34,8 +34,8 @@ void finalApproaching::preemptCB()
 void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr &goal)
 {
 	ros::Rate loopRate(100);
-	m_pubMvt = nh.advertise<geometry_msgs::Twist>("/cmd_vel",1000);
-	m_plot  = nh.advertise<approche_finale_msg::plotDataFA>("/plotDataFA",1000);
+	m_pubMvt = nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel",1000);
+	m_plot  = nh.advertise<approche_finale_msg::plotDataFA>("rosplot/plotDataFA",1000);
 	approche_finale_msg::plotDataFA plotData;
 	//general initialisation
 	bool success = true;

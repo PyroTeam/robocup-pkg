@@ -13,6 +13,6 @@ void BumperListener::blCallback(const std_msgs::Bool &msg)
 
 BumperListener::BumperListener(){
 	m_state = 0;
-	m_blSub = m_nh.subscribe("/bumper",1000,&BumperListener::blCallback,this);        
+	m_blSub = m_nh.subscribe("hardware/bumper",1000,&BumperListener::blCallback,this);        
 }
 

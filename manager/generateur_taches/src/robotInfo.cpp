@@ -11,5 +11,5 @@ void RobotInfo::robotInfoCallback(const comm_msg::RobotInfo::ConstPtr &msg)
 
 RobotInfo::RobotInfo()
 {
-	m_robotInfoSub = m_nh.subscribe("/refBoxComm/RobotInfo",1000,&RobotInfo::robotInfoCallback,this);
+	m_robotInfoSub = m_nh.subscribe("refBoxComm/RobotInfo",1000,&RobotInfo::robotInfoCallback,this);
 }

@@ -8,7 +8,7 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "order");
 	ROS_INFO("ORDER ");
 	ros::NodeHandle n;
-	ros::ServiceClient client = n.serviceClient <manager_msg::order>("order");
+	ros::ServiceClient client = n.serviceClient <manager_msg::order>("manager/order");
 	manager_msg::order srv;
 	ros::Time game_time = ros::Time::now();
 	srv.request.number_order = 0;

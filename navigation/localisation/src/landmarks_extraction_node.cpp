@@ -18,11 +18,11 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
 
     // Subscribe to laserScan
-    ros::Subscriber sub_laser  = n.subscribe("/scan", 1, &laserScan::laserCallback, &laserData);
+    ros::Subscriber sub_laser  = n.subscribe("hardware/scan", 1, &laserScan::laserCallback, &laserData);
 
     // Publish found segments and machines
-    ros::Publisher pub_droites  = n.advertise< deplacement_msg::Landmarks >("/droites", 1000);
-    ros::Publisher pub_segments = n.advertise< deplacement_msg::Landmarks >("/segments", 1000);
+    ros::Publisher pub_droites  = n.advertise< deplacement_msg::Landmarks >("objectDetection/droites", 1000);
+    ros::Publisher pub_segments = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments", 1000);
 
     // Initialisation du random
     srand(time(NULL));

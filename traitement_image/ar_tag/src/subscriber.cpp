@@ -22,10 +22,10 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg){
 int main(int argc, char **argv){
 	ros::init(argc, argv, "artag_reader");
 	ros::NodeHandle n;
- 	pub_artag = n.advertise<std_msgs::Int16>("/artag", 1000, 1);
+ 	pub_artag = n.advertise<std_msgs::Int16>("computerVision/artag", 1000, 1);
  	ros::Rate r(10);
  	ROS_INFO("Subscribe");
-	ros::Subscriber artag_topic = n.subscribe<ar_track_alvar_msgs::AlvarMarkers>("/ar_pose_marker", 1000, artagCallback);
+	ros::Subscriber artag_topic = n.subscribe<ar_track_alvar_msgs::AlvarMarkers>("computerVision/ar_pose_marker", 1000, artagCallback);
 	while(ros::ok()){
 		r.sleep();
 		ros::spinOnce();

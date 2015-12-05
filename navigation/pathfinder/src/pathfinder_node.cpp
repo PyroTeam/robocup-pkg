@@ -38,13 +38,13 @@ int main(int argc, char **argv)
     g_pathFound.id          = g_lastIdReceived;
     g_pathFound.path.header.frame_id = "map";
 
-    ros::Publisher path_pub    = n.advertise<pathfinder::AstarPath>("pathFound", 1000);
-    ros::Publisher path_simple_pub    = n.advertise<nav_msgs::Path>("path", 1000);
-    ros::Publisher state_pub   = n.advertise<pathfinder::AstarState>("pathfinderState", 1000);
+    ros::Publisher path_pub    = n.advertise<pathfinder::AstarPath>("navigation/pathFound", 1000);
+    ros::Publisher path_simple_pub    = n.advertise<nav_msgs::Path>("navigation/path", 1000);
+    ros::Publisher state_pub   = n.advertise<pathfinder::AstarState>("navigation/pathfinderState", 1000);
     
-    ros::Subscriber sub_odo    = n.subscribe("/odom", 1000, odomCallback);
+    ros::Subscriber sub_odo    = n.subscribe("hardware/odom", 1000, odomCallback);
 
-    ros::ServiceServer service = n.advertiseService("generatePath", generatePath_callback);
+    ros::ServiceServer service = n.advertiseService("navigation/generatePath", generatePath_callback);
     
     ROS_DEBUG("Ready to compute A Star pathfinding.");
 

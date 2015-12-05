@@ -12,5 +12,5 @@ void OrderInfo::orderInfoCallback(const comm_msg::OrderInfo::ConstPtr &msg)
 
 OrderInfo::OrderInfo()
 {
-	m_orderInfoSub = m_nh.subscribe("/refBoxComm/OrderInfo",1000,&OrderInfo::orderInfoCallback,this);
+	m_orderInfoSub = m_nh.subscribe("refBoxComm/OrderInfo",1000,&OrderInfo::orderInfoCallback,this);
 }

@@ -4,7 +4,7 @@
 
 Srvorder::Srvorder(ros::Time game_time,int nb_order,int nb_robot,int type,int parametre,int id){
         ROS_INFO("J ai envoye un ordre");
-        m_client = m_nh.serviceClient<manager_msg::order>("order");
+        m_client = m_nh.serviceClient<manager_msg::order>("manager/order");
         m_srv.request.game_time = game_time;
         m_srv.request.number_order = nb_order;
         m_srv.request.number_robot = nb_robot;
