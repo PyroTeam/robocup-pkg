@@ -94,7 +94,7 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
         {
             geometry_msgs::Point pointArrivee = m_pathTrack.getPointArrivee();
             m_dataMapObstacle.calculObstacle(m_odom_pose, it->m_path_points);
-            if (m_dataMapObstacle.getObstacle() == true && 0)
+            if (m_dataMapObstacle.getObstacle() == true)
             {
                 ROS_INFO("Evitement");
                 m_timeAvoidance = ros::Time::now();
