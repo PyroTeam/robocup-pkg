@@ -54,7 +54,7 @@
         <node pkg="pathfinder" name="pathfinder" type="pathfinder_node"/>
 
         <!-- Load the path tracker -->
-        <arg name="debug_pathtracker" value="false" />
+        <arg name="debug_pathtracker" value="true" />
         <node if="$(arg debug_pathtracker)"
             pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen" launch-prefix="xterm -e gdb -ex run --args"/>
         <node unless="$(arg debug_pathtracker)"

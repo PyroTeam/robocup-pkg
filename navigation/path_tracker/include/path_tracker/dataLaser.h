@@ -52,6 +52,7 @@ public:
     void recoverDataLaser();
 
     DataLaser()
+    : m_listener(ros::Duration(30))
     {
         m_receiveGrid = false;
         m_receiveScan = false;

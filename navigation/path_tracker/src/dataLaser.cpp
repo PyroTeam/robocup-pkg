@@ -46,8 +46,11 @@ void DataLaser::recoverDataLaser()
     if (ranges.size() != 0)
     {
         m_dataLaser.clear();
-	m_listener.waitForTransform(tf_prefix+"odom", m_scan.header.frame_id, ros::Time(0), ros::Duration(1));
-        m_listener.lookupTransform(tf_prefix+"odom", m_scan.header.frame_id, ros::Time(0), m_transform);
+	    // m_listener.waitForTransform(tf_prefix+"odom", m_scan.header.frame_id, ros::Time(0), ros::Duration(1));
+     //    m_listener.lookupTransform(tf_prefix+"odom", m_scan.header.frame_id, ros::Time(0), m_transform);
+        if (!m_listener.waitForTransform(tf_prefix+"odom", m_scan.header.frame_id, m_scan.header.stamp, ros::Duration(1)))
+            return;
+        m_listener.lookupTransform(tf_prefix+"odom", m_scan.header.frame_id, m_scan.header.stamp, m_transform);
         //ROS_INFO("Position robot : x = %f, y = %f", m_transform.getOrigin().x(), m_transform.getOrigin().y()); 
         for (int i = 0 ; i < ranges.size() ; i++)
         {
@@ -88,6 +91,7 @@ void DataLaser::recoverDataLaser()
         m_map.drawDisc(m_grid, m_dataLaser[i]);
     }
 
+    m_grid.header.stamp = m_scan.header.stamp;
     m_grid_pub.publish(m_grid);
     //ROS_INFO("Map obstacles publiee");
 }
