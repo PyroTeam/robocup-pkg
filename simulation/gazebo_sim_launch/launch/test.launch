@@ -54,7 +54,8 @@
         <node pkg="pathfinder" name="pathfinder" type="pathfinder_node"/>
 
         <!-- Load the path tracker -->
-        <arg name="debug_pathtracker" value="true" />
+        <param name="navigation/avoidObstacle" value="false" />
+        <arg name="debug_pathtracker" value="false" />
         <node if="$(arg debug_pathtracker)"
             pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen" launch-prefix="xterm -e gdb -ex run --args"/>
         <node unless="$(arg debug_pathtracker)"
@@ -66,6 +67,7 @@
 
         <!-- Load the navigation manager -->
         <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node"/>
+        <node pkg="navigation_manager" name="move_request" type="moveRequest_node.py"/>
     </group>
 
     <!-- Opposing TEAM -->
