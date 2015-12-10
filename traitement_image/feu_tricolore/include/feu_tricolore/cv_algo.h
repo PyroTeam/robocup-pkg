@@ -18,7 +18,7 @@
 #include "cv_utils.h"
 
 #include "opencv2/features2d/features2d.hpp"
-#include "opencv2/nonfree/features2d.hpp"
+// #include "opencv2/nonfree/features2d.hpp"
 
 #include <trait_im_msg/processLightSignalAction.h>
 #include <actionlib/server/simple_action_server.h>
