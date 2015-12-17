@@ -68,6 +68,13 @@
         <!-- Load the navigation manager -->
         <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node"/>
         <node pkg="navigation_manager" name="move_request" type="moveRequest_node.py"/>
+
+        <!-- Load the refbox comm -->
+        <node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"/>
+
+        <!-- Load the manager -->
+        <node pkg="executeur_taches" name="executeur" type="test_exec" launch-prefix="xterm -e"/>
+        <node pkg="generateur_taches" name="manager" type="main_node" launch-prefix="xterm -e"/>
     </group>
 
     <!-- Opposing TEAM -->
