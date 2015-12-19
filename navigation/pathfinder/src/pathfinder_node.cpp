@@ -70,10 +70,10 @@ int main(int argc, char **argv)
 bool generatePath_callback( pathfinder::GeneratePath::Request  &req,
                             pathfinder::GeneratePath::Response &res)
 {
-    ROS_DEBUG("GeneratePath request - ID : %d", req.id);
+    ROS_INFO("GeneratePath request - ID : %d", req.id);
     if(!req.utilisePositionOdometry)
     {
-        ROS_DEBUG("Pose Depart (Utilisation du parametre) : \n\
+        ROS_INFO("Pose Depart (Utilisation du parametre) : \n\
                   X: %f |\
                   Y : %f",
                   req.Depart.position.x,
@@ -81,7 +81,7 @@ bool generatePath_callback( pathfinder::GeneratePath::Request  &req,
     }
     else
     {
-        ROS_DEBUG("Pose Depart (Utilisation de l'odometrie): \nX: %f | Y : %f | Theta : %f",0.0,0.0,0.0);
+        ROS_INFO("Pose Depart (Utilisation de l'odometrie): \nX: %f | Y : %f | Theta : %f",0.0,0.0,0.0);
     }
 
     if(g_pathReq.processing == true || req.id == g_lastIdReceived)
@@ -97,6 +97,7 @@ bool generatePath_callback( pathfinder::GeneratePath::Request  &req,
         g_pathReq.goalPose.x   = req.Arrivee.position.x;
         g_pathReq.goalPose.y   = req.Arrivee.position.y;
         g_pathReq.goalPose.yaw = tf::getYaw(req.Arrivee.orientation);
+        ROS_INFO("Pose arrivee: \nX: %f | Y : %f | Theta : %f", g_pathReq.goalPose.x, g_pathReq.goalPose.y, g_pathReq.goalPose.yaw);
         if(!req.utilisePositionOdometry)
         {
             g_pathReq.startPose.x = req.Depart.position.x;
@@ -195,13 +196,8 @@ void computeAStar_thread_function()
                 geometry_msgs::PoseStamped pointFinal;
                 pointFinal.pose.position.x = chemin[i]->getX();
                 pointFinal.pose.position.y = chemin[i]->getY();
-                // pointFinal.pose.orientation =
-                //     tf::createQuaternionMsgFromYaw(actualOrders.goalPose.yaw);
-                // Les quatre lignes qui suivent viennent masquer un bug -> la fonction précédente retourne des NaN
-                pointFinal.pose.orientation.x = 0;
-                pointFinal.pose.orientation.y = 0;
-                pointFinal.pose.orientation.z = 0;
-                pointFinal.pose.orientation.w = 0;
+                pointFinal.pose.orientation =
+                    tf::createQuaternionMsgFromYaw(actualOrders.goalPose.yaw);
                 g_pathFound.path.poses.push_back(pointFinal);
 
                 g_pathfinderState.state = g_pathfinderState.SUCCES;

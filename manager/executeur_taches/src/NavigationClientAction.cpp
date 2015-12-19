@@ -21,7 +21,7 @@ int NavigationClientAction::goToAPoint(geometry_msgs::Pose2D dest_point)
 	client.sendGoal(goal);
 
 	//wait for the action to return
-	bool finished_before_timeout = client.waitForResult(ros::Duration(5.0));
+	bool finished_before_timeout = client.waitForResult(ros::Duration(30.0));
 
 	if(finished_before_timeout)
 	{
