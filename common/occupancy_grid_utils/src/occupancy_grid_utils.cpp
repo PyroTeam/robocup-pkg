@@ -15,6 +15,23 @@
 
 namespace occupancy_grid_utils {
 
+void createEmptyMap(nav_msgs::OccupancyGrid &map, const geometry_msgs::Point &size, const geometry_msgs::Point &origin, const std::string &frame_id, double resolution)
+{
+	map.header.frame_id = frame_id;
+	map.info.origin.position.x = origin.x;
+	map.info.origin.position.y = origin.y;
+	map.info.origin.position.z = 0;
+	map.info.origin.orientation.x = 0;
+	map.info.origin.orientation.y = 0;
+	map.info.origin.orientation.z = 0;
+	map.info.origin.orientation.w = 1;
+	map.info.map_load_time = ros::Time::now();
+	map.info.resolution = resolution;
+	map.info.width = size.x/resolution;
+	map.info.height = size.y/resolution;
+	map.data.assign(map.info.width * map.info.height, 0);
+}
+
 /**
  * fonction qui calcule la position dans le vecteur de donnée d'un OccupancyGrid
  * d'un point fourni en coordonnées métrique
@@ -107,5 +124,74 @@ int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2
 {
     return getCellValue(grid, p.x, p.y);
 }
+
+geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, float x, float y)
+{
+
+	//TODO redondance de code à regler avec la fonction getCell
+	geometry_msgs::Point p;
+	p.x = -1;
+	p.y = -1;
+	float res = grid.info.resolution;
+	int width = grid.info.width;
+	int height = grid.info.height;
+	float x0 = grid.info.origin.position.x;
+	float y0 = grid.info.origin.position.y;
+
+	float xMin = x0;
+	float xMax = x0 + res*width;
+	float yMin = y0;
+	float yMax = y0 + res*height;
+	if (!(xMin < x && x < xMax) || !(yMin < y && y < yMax))
+	{
+		return p;
+	}
+
+	p.y = round((y - y0) / res);
+	p.x = round((x - x0) / res);
+
+	return p;
+
+}
+
+geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p)
+{
+	return getCellAsPixelCoord(grid, p.x, p.y);
+}
+
+void setCell(nav_msgs::OccupancyGrid &grid, float x, float y, int value)
+{
+	geometry_msgs::Point p= getCellAsPixelCoord(grid, x, y);
+	setPixelCell(grid, p, value);
+}
+
+void setPixelCell(nav_msgs::OccupancyGrid &grid, unsigned int x, unsigned int y, int value)
+{
+
+	if (x < grid.info.width && y < grid.info.height)
+	{
+		int valueSaturated = 0;
+		if (value < 0)
+		{
+			valueSaturated = 0;
+		}
+		else if (value > 100)
+		{
+			valueSaturated = 100;
+		}
+		else
+		{
+			valueSaturated = value;
+		}
+		grid.data[y * grid.info.width + x] = valueSaturated;
+
+	}
+
+}
+void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, int value)
+{
+	setPixelCell(grid, p.x, p.y, value);
+}
+
 
 } // namespace occupancy_grid_utils

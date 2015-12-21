@@ -28,7 +28,7 @@ public:
 	float xSum;
 	float ySum;
 	float thetaSum;
-	
+
 };
 std::vector<Machine> mps(24);
 
@@ -116,9 +116,9 @@ void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines)
     	mps[zone-1].theta = machines->landmarks[i].theta;
     	mps[zone-1].draw = true;
     	mps[zone-1].zone = zone;
-	}   
+	}
 }
-
+/*
 void Create_Empty_Map(nav_msgs::OccupancyGrid &Map)
 {
 	Map.info.origin.position.x=-7.000;
@@ -134,12 +134,12 @@ void Create_Empty_Map(nav_msgs::OccupancyGrid &Map)
 	Map.info.height=9/Map.info.resolution;
 	Map.data.assign(Map.info.width*Map.info.height, 0);
 }
-
+*/
 void Set_Wall(nav_msgs::OccupancyGrid &Map)
 {
 	// Left Side
 		// IN RIGHT
-    	drawRect(Map, -2, 0, 0, 0.05, 2, MARGIN);   
+    	drawRect(Map, -2, 0, 0, 0.05, 2, MARGIN);
     	// IN WALL RIGHT
     	drawRect(Map, -3, -0.5, 0, 1, 0.05, MARGIN);
     	// IN WALL BOTTOM
@@ -148,12 +148,12 @@ void Set_Wall(nav_msgs::OccupancyGrid &Map)
     	drawRect(Map, -5, 0, 0, 0.05, 2, MARGIN);
 		drawRect(Map, -6, 1, 0, 2, 0.05, MARGIN);
 		drawRect(Map, -6, 5.5, 0, 1, 0.05, MARGIN);
-		drawRect(Map, -5, 6, 0, 0.05, 2, MARGIN);			
+		drawRect(Map, -5, 6, 0, 0.05, 2, MARGIN);
 		drawRect(Map, -1, 6, 0, 0.05, 2, MARGIN);
 
 	// Right side
 		// IN RIGHT
-    	drawRect(Map, 2, 0, 0, 0.05, 2, MARGIN);   
+    	drawRect(Map, 2, 0, 0, 0.05, 2, MARGIN);
     	// IN WALL RIGHT
     	drawRect(Map, 3, -0.5, 0, 1, 0.05, MARGIN);
     	// IN WALL BOTTOM
@@ -162,7 +162,7 @@ void Set_Wall(nav_msgs::OccupancyGrid &Map)
     	drawRect(Map, 5, 0, 0, 0.05, 2, MARGIN);
 		drawRect(Map, 6, 1, 0, 2, 0.05, MARGIN);
 		drawRect(Map, 6, 5.5, 0, 1, 0.05, MARGIN);
-		drawRect(Map, 5, 6, 0, 0.05, 2, MARGIN);			
+		drawRect(Map, 5, 6, 0, 0.05, 2, MARGIN);
 		drawRect(Map, 1, 6, 0, 0.05, 2, MARGIN);
 }
 
@@ -170,51 +170,51 @@ void Set_Forbidden_Zone(nav_msgs::OccupancyGrid &Map)
 {
 	// Left Side
 		// R1
-    	drawRect(Map, -4, 5.25, 0, 1.5, 4, 0); 
+    	drawRect(Map, -4, 5.25, 0, 1.5, 4, 0);
     	// R2
-    	drawRect(Map, -5.1, 3.75, 0, 1.5, 1.8, 0); 
+    	drawRect(Map, -5.1, 3.75, 0, 1.5, 1.8, 0);
     	// R3
-    	drawRect(Map, -4.1, 2.25, 0, 1, 0.2, 0); 
+    	drawRect(Map, -4.1, 2.25, 0, 1, 0.2, 0);
     	// R4
-    	drawRect(Map, -3, 2.25, 0, 1.5, 2, 0); 
+    	drawRect(Map, -3, 2.25, 0, 1.5, 2, 0);
     	// R5
-    	drawRect(Map, -5.1, 0.75, 0, 1.5, 1.8, 0); 
+    	drawRect(Map, -5.1, 0.75, 0, 1.5, 1.8, 0);
     	// R6
-    	drawRect(Map, -3, 0.75, 0, 0.7, 1, 0); 
+    	drawRect(Map, -3, 0.75, 0, 0.7, 1, 0);
     	// R7
-    	drawRect(Map, -3.5, 1.25, 0, 0.5, 1, 0); 
+    	drawRect(Map, -3.5, 1.25, 0, 0.5, 1, 0);
     	// R8
-    	drawRect(Map, -3.25, 0.75, 0, 0.5, 0.5, 0); 
+    	drawRect(Map, -3.25, 0.75, 0, 0.5, 0.5, 0);
 
     	// IN RIGHT
-    	drawRect(Map, -(2.55+0.25), 0, 0, 1.5, 0.5, 0);     	
+    	drawRect(Map, -(2.55+0.25), 0, 0, 1.5, 0.5, 0);
     	// IN LEFT
     	drawRect(Map, -5, -0.2, 0, 0.5, 2.5, 0);
 
 	// Right side
 		// R1
-    	drawRect(Map, 4, 5.25, 0, 1.5, 4, 0); 
+    	drawRect(Map, 4, 5.25, 0, 1.5, 4, 0);
     	// R2
-    	drawRect(Map, 5.1, 3.75, 0, 1.5, 1.8, 0); 
+    	drawRect(Map, 5.1, 3.75, 0, 1.5, 1.8, 0);
     	// R3
-    	drawRect(Map, 4.1, 2.25, 0, 1, 0.2, 0); 
+    	drawRect(Map, 4.1, 2.25, 0, 1, 0.2, 0);
     	// R4
-    	drawRect(Map, 3, 2.25, 0, 1.5, 2, 0); 
+    	drawRect(Map, 3, 2.25, 0, 1.5, 2, 0);
     	// R5
-    	drawRect(Map, 5.1, 0.75, 0, 1.5, 1.8, 0); 
+    	drawRect(Map, 5.1, 0.75, 0, 1.5, 1.8, 0);
     	// R6
-    	drawRect(Map, 3, 0.75, 0, 0.7, 1, 0); 
+    	drawRect(Map, 3, 0.75, 0, 0.7, 1, 0);
     	// R7
-    	drawRect(Map, 3.5, 1.25, 0, 0.5, 1, 0); 
+    	drawRect(Map, 3.5, 1.25, 0, 0.5, 1, 0);
     	// R8
-    	drawRect(Map, 3.25, 0.75, 0, 0.5, 0.5, 0); 
+    	drawRect(Map, 3.25, 0.75, 0, 0.5, 0.5, 0);
 
     	// IN RIGHT
-    	drawRect(Map, (2.55+0.25), 0, 0, 1.5, 0.5, 0);     	
+    	drawRect(Map, (2.55+0.25), 0, 0, 1.5, 0.5, 0);
     	// IN LEFT
     	drawRect(Map, 5, -0.2, 0, 0.5, 2.5, 0);
 }
-
+/*
 int getCell(nav_msgs::OccupancyGrid Map, float x, float y)
 {
 // Environement
@@ -233,7 +233,8 @@ int getCell(nav_msgs::OccupancyGrid Map, float x, float y)
 
 	return cell;
 }
-
+*/
+/*
 int drawRect(nav_msgs::OccupancyGrid &Map, float x, float y, float theta, float height, float width, float margin)
 {
 // Environment
@@ -309,7 +310,7 @@ int drawRect(nav_msgs::OccupancyGrid &Map, float x, float y, float theta, float 
 
 	return 0;
 }
-
+*/
 // TODO - ERASE zones
 int eraseZone(nav_msgs::OccupancyGrid &Map, int zone)
 {
@@ -353,6 +354,7 @@ int eraseZone(nav_msgs::OccupancyGrid &Map, int zone)
 }
 
 // TODO - Get zones
+// TODO voire code Thomas
 int getZone(float x, float y)
 {
 	int zone = 0;

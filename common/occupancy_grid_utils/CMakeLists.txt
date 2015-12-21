@@ -124,12 +124,20 @@ include_directories(
 ## Declare a C++ library
 add_library(occupancy_grid_utils
    src/occupancy_grid_utils.cpp
+   src/shape/Shape.cpp
+   src/shape/ComposedShape.cpp
+   src/shape/Rectangle.cpp
+   src/shape/Circle.cpp
+   src/shape/Line.cpp
+   src/shape/LineSegment.cpp
 )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
 add_dependencies(occupancy_grid_utils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+set_target_properties(occupancy_grid_utils PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 ## Declare a C++ executable
 # add_executable(occupancy_grid_utils_node src/occupancy_grid_utils_node.cpp)
