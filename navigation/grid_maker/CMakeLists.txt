@@ -88,8 +88,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include/path_finder
-#  LIBRARIES path_finder
+#  INCLUDE_DIRS include
+#  LIBRARIES grid_maker
   CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs tf
 #  DEPENDS system_lib
 )
@@ -102,7 +102,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-	include/path_finder
+#	include
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
@@ -113,31 +113,20 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-#add_executable(construct_map_node src/Map.cpp)
-#add_executable(construct_map_weighted_node src/Map_weighted.cpp)
-#add_executable(construct_map_test src/Test.cpp)
 add_executable(grid_maker_node src/grid_maker_node.cpp)
 
 set_target_properties(grid_maker_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-#add_dependencies(construct_map_node path_finder_generate_messages_cpp deplacement_msg_gencpp)
-#add_dependencies(construct_map_weighted_node path_finder_generate_messages_cpp deplacement_msg_gencpp)
-#add_dependencies(construct_map_test path_finder_generate_messages_cpp deplacement_msg_gencpp)
 add_dependencies(grid_maker_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-## Specify libraries to link a library or executable target against
-# target_link_libraries(construct_map_node
-#  ${catkin_LIBRARIES}
-#  )
+
 # target_link_libraries(construct_map_weighted_node
 #     ${catkin_LIBRARIES}
 #     ${OpenCV_LIBRARIES}
 # )
-# target_link_libraries(construct_map_test
-#  ${catkin_LIBRARIES}
-#   )
+
 target_link_libraries(grid_maker_node
     occupancy_grid_utils
     geometry_utils

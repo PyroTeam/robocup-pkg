@@ -1,5 +1,4 @@
 <launch>
-    <node pkg="grid_maker" name="construct_map_test_D336" type="construct_map_test_D336" output="screen"/>
-    <node pkg="grid_maker" name="construct_map_test" type="construct_map_test" output="screen"/>
-
+    <rosparam command="load" file="$(find grid_maker)/cfg/field_D336.yaml" />
+    <node pkg="grid_maker" name="grid_maker_node" type="grid_maker_node" output="screen"/>
 </launch>

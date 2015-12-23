@@ -1,5 +1,5 @@
 <launch>
-    <include file="$(find grid_maker)/launch/grid_maker_new_d336.launch"/>
+    <include file="$(find grid_maker)/launch/grid_maker_d336.launch"/>
 
     <param name="navigation/pathFinder/aStarTieBreaking" value="true" />
     <param name="navigation/pathFinder/weightData" value="0.45" />
