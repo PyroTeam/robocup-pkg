@@ -10,7 +10,7 @@ var searchData=
   ['blcallback',['blCallback',['../de/d27/classBumperListener.html#a749609b7213e5ecefb1fd9aad29eff50',1,'BumperListener']]],
   ['bring_5fbase_5frs',['bring_base_rs',['../d2/d4b/classBaseStation.html#a360a97d58112752c444ae3a57d6c02cf',1,'BaseStation']]],
   ['buffer_5ftype',['Buffer_type',['../d3/d18/encryptUtils_8h.html#ade8cca4c524c0825ab2250bc96a761d1',1,'encryptUtils.h']]],
-  ['build',['build',['../db/db6/classLine.html#a9c60cbe4081f043aeb6ec5663418dfc5',1,'Line::build()'],['../d6/d18/classModel.html#a2bc9247bdd12de03224b8cad12bf601f',1,'Model::build()'],['../d8/ddc/classSegment.html#a0cfcb403d7848a045c83946de28a8248',1,'Segment::build()']]],
+  ['build',['build',['../db/d1c/classoccupancy__grid__utils_1_1Line.html#a4a9fcfbf908de5b3c3f1c4d4e5d1102c',1,'occupancy_grid_utils::Line::build()'],['../db/db6/classLine.html#a9c60cbe4081f043aeb6ec5663418dfc5',1,'Line::build()'],['../d6/d18/classModel.html#a2bc9247bdd12de03224b8cad12bf601f',1,'Model::build()'],['../d8/ddc/classSegment.html#a0cfcb403d7848a045c83946de28a8248',1,'Segment::build()']]],
   ['buildh',['buildH',['../de/d39/classEKF.html#a78b810bfabcf7868bc79cec52f8a2927',1,'EKF::buildH(int i)'],['../de/d39/classEKF.html#a78b810bfabcf7868bc79cec52f8a2927',1,'EKF::buildH(int i)']]],
   ['buildh2',['buildH2',['../de/d39/classEKF.html#a4eef08f86d2966eb9cbd91386ff2c832',1,'EKF::buildH2(geometry_msgs::Pose2D p, int size, int i)'],['../de/d39/classEKF.html#a4eef08f86d2966eb9cbd91386ff2c832',1,'EKF::buildH2(geometry_msgs::Pose2D p, int size, int i)']]],
   ['buildpm',['buildPm',['../de/d39/classEKF.html#a52ecb11b5848d363d083c4f8ce849aa1',1,'EKF::buildPm(int i)'],['../de/d39/classEKF.html#a52ecb11b5848d363d083c4f8ce849aa1',1,'EKF::buildPm(int i)']]],

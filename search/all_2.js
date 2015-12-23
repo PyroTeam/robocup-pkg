@@ -41,6 +41,10 @@ var searchData=
   ['chrono',['Chrono',['../d9/d9c/classcommon__utils_1_1Chrono.html#a27b9c479a77ab25622e2873f78d78b56',1,'common_utils::Chrono']]],
   ['chrono_2eh',['Chrono.h',['../db/dbf/Chrono_8h.html',1,'']]],
   ['cipher_5ftype',['CIPHER_TYPE',['../d7/d78/classEncryptUtils.html#a5ca66d8ace1776704485aecfd1be109b',1,'EncryptUtils']]],
+  ['circle',['Circle',['../d2/d68/classoccupancy__grid__utils_1_1Circle.html#ab2db0fa5bac7bee178ed80856b756df8',1,'occupancy_grid_utils::Circle']]],
+  ['circle',['Circle',['../d2/d68/classoccupancy__grid__utils_1_1Circle.html',1,'occupancy_grid_utils']]],
+  ['circle_2ecpp',['Circle.cpp',['../da/dc1/Circle_8cpp.html',1,'']]],
+  ['circle_2eh',['Circle.h',['../d2/d33/Circle_8h.html',1,'']]],
   ['cleanpath',['cleanPath',['../df/d7a/avoidanceObstacle_8cpp.html#af223be7c51485d875d05c06ff71f9230',1,'avoidanceObstacle.cpp']]],
   ['cleanwork',['cleanWork',['../d5/d62/work_8h.html#adf094fe81c70a95e43c4965f78ed1f0e',1,'cleanWork(std::list&lt; std::list&lt; Task &gt; &gt; &amp;work, std::list&lt; std::list&lt; Task &gt; &gt;::iterator &amp;it, double time):&#160;work.h'],['../d5/d1b/work_8cpp.html#a92a2207f76bd9958c4b5fdb14805ca78',1,'cleanWork(list&lt; list&lt; Task &gt; &gt; &amp;work, list&lt; list&lt; Task &gt; &gt;::iterator &amp;it, double time):&#160;work.cpp']]],
   ['clear',['clear',['../d2/d11/classAStarQueue.html#a7d76cabe65fc5d199929363ccfab6c60',1,'AStarQueue::clear()'],['../db/dc7/classPath.html#a3e94fc24f7c713442f3d52478d0772fb',1,'Path::clear()']]],
@@ -53,6 +57,10 @@ var searchData=
   ['compare',['compare',['../df/d8f/classAStarState.html#a9f8a8615852c7f544476499c6920c6eb',1,'AStarState::compare()'],['../d4/d74/classPointState.html#a34c1cdc457868c995296e66af493f0dc',1,'PointState::compare()'],['../d8/d1a/classPoseState.html#ad34f9c79fabaa4d57637eb12c3160092',1,'PoseState::compare()'],['../d7/d97/classState.html#ad522e8351c01f873d528f2bf3910edd6',1,'State::compare()']]],
   ['comparefloat',['compareFloat',['../d6/da1/classTrackPath.html#a0d7d7cc061b1efdac04df14acdaeb8fe',1,'TrackPath::compareFloat()'],['../df/d7a/avoidanceObstacle_8cpp.html#a7a094d542498ad0b4242846e8d881612',1,'compareFloat():&#160;avoidanceObstacle.cpp']]],
   ['comparepoints',['comparePoints',['../d6/da1/classTrackPath.html#ae7da835cb0fa687f427040e23df8f2a9',1,'TrackPath::comparePoints()'],['../df/d7a/avoidanceObstacle_8cpp.html#aa8a547a327f959d317332e8077dc13ac',1,'comparePoints():&#160;avoidanceObstacle.cpp']]],
+  ['composedshape',['ComposedShape',['../d3/d97/classoccupancy__grid__utils_1_1ComposedShape.html#a3b2778f1561621aa22bde3326f596f22',1,'occupancy_grid_utils::ComposedShape']]],
+  ['composedshape',['ComposedShape',['../d3/d97/classoccupancy__grid__utils_1_1ComposedShape.html',1,'occupancy_grid_utils']]],
+  ['composedshape_2ecpp',['ComposedShape.cpp',['../de/d8e/ComposedShape_8cpp.html',1,'']]],
+  ['composedshape_2eh',['ComposedShape.h',['../de/d36/ComposedShape_8h.html',1,'']]],
   ['computeastar_5fthread_5ffunction',['computeAStar_thread_function',['../de/dd1/pathfinder__node_8cpp.html#a767c4fcf94e79e34e25ae7b1ec5b54b9',1,'pathfinder_node.cpp']]],
   ['const_5fiterator',['const_iterator',['../d2/d11/classAStarQueue.html#ab3f7b9d4f9cb8693cb35f4e0489ea917',1,'AStarQueue::const_iterator()'],['../db/dc7/classPath.html#a0fa1319ec361708c7e9e67e2b1f3184d',1,'Path::const_iterator()']]],
   ['constlightsignaldetectionptr',['ConstLightSignalDetectionPtr',['../da/dfe/gazebo__to__ros__node_8cpp.html#aad78fc6994d21846d3ed929e75b1cdea',1,'gazebo_to_ros_node.cpp']]],
@@ -68,7 +76,7 @@ var searchData=
   ['correspondanceze_2eh',['correspondanceZE.h',['../da/d18/correspondanceZE_8h.html',1,'']]],
   ['correspondancezone',['correspondanceZone',['../dc/dda/classMachine.html#a10207163d1e2f037ae72eb9c708835fd',1,'Machine']]],
   ['correspondingid',['correspondingId',['../de/da4/classfinalApproaching.html#a2ae1d824b63cf65f122fbcaf293feb2a',1,'finalApproaching']]],
-  ['create_5fempty_5fmap',['Create_Empty_Map',['../d3/d92/Map_8cpp.html#ab53515e07bc29ba55586c93f7430d1df',1,'Create_Empty_Map(nav_msgs::OccupancyGrid &amp;Map):&#160;Map.cpp'],['../dc/df6/Map__D336_8cpp.html#ab53515e07bc29ba55586c93f7430d1df',1,'Create_Empty_Map(nav_msgs::OccupancyGrid &amp;Map):&#160;Map_D336.cpp'],['../da/db1/Map__weighted_8cpp.html#ab53515e07bc29ba55586c93f7430d1df',1,'Create_Empty_Map(nav_msgs::OccupancyGrid &amp;Map):&#160;Map_weighted.cpp']]],
+  ['createemptymap',['createEmptyMap',['../da/dd5/namespaceoccupancy__grid__utils.html#aa812f1f836f94247d66353d0e5551f53',1,'occupancy_grid_utils']]],
   ['creationlisttasksaction',['creationListTasksAction',['../d7/db6/tasksList_8h.html#aebf3f83dac26d706496f5fd25af773b6',1,'creationListTasksAction(int action, Product product, int beginningDelivery, int endDelivery):&#160;tasksList.cpp'],['../de/d54/tasksList_8cpp.html#a76222208a483ffad2852ad8165a3fb9f',1,'creationListTasksAction(int action, Product prod, int debut_livr, int fin_livr):&#160;tasksList.cpp']]],
   ['creationlisttasksproduct',['creationListTasksProduct',['../d7/db6/tasksList_8h.html#abd7ef565864ca620e940e7e6e87b5f9e',1,'creationListTasksProduct(Product product, int beginningDelivery, int endDelivery):&#160;tasksList.cpp'],['../de/d54/tasksList_8cpp.html#a56fb70cad11d005b73c397442701f8c0',1,'creationListTasksProduct(Product prod, int debut_livr, int fin_livr):&#160;tasksList.cpp']]],
   ['cv_5falgo_2ecpp',['cv_algo.cpp',['../d4/da7/cv__algo_8cpp.html',1,'']]],
@@ -77,5 +85,6 @@ var searchData=
   ['cv_5futils_2eh',['cv_utils.h',['../de/dcc/cv__utils_8h.html',1,'']]],
   ['cyan',['CYAN',['../d2/d64/GtServerSrv_8h.html#ad243f93c16bc4c1d3e0a13b84421d760',1,'GtServerSrv.h']]],
   ['czecallback',['cZECallback',['../d9/d26/classCorrespondanceZE.html#abfcc62441e70f275a934d7772bc9a12d',1,'CorrespondanceZE']]],
-  ['communication_20avec_20la_20referee_20box',['Communication avec la Referee Box',['../d0/dc9/md_communication_refbox_comm_README.html',1,'']]]
+  ['communication_20avec_20la_20referee_20box',['Communication avec la Referee Box',['../d0/dc9/md_communication_refbox_comm_README.html',1,'']]],
+  ['constructeur_20de_20la_20map',['Constructeur de la map',['../d1/d4f/md_navigation_grid_maker_README.html',1,'']]]
 ];

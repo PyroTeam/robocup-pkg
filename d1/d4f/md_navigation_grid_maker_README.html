@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: README</title>
+<title>robocup-pkg: Constructeur de la map</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -77,13 +77,34 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">README </div>  </div>
+<div class="title">Constructeur de la map </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"></div></div><!-- contents -->
+<div class="textblock"><p>Nuvelle version restructurée mais fonctionnellement similaire à l'ancienne</p>
+<h2>Description </h2>
+<p>Ce package implémente le noeud de génération de la map à partir caractéristiques du terrain et des élements le constituant (murs, machines...)</p>
+<h2>Noeuds </h2>
+<ul>
+<li><code>grid_maker_node</code> : noeud principal</li>
+<li><code>fake_landmarks_node</code> : noeud fake, publiant des landmarks correspondant à des machines, utile pour tester des noeuds ne necessitant pas un simulateur et une localisation complète (ex. path_finder). Ce noeud prend en paramètre un fichier YAML contenant la liste des machines à publier</li>
+</ul>
+<h2>Launchfiles </h2>
+<ul>
+<li><code>grid_maker.launch</code> : lance le noeud <code>grid_maker_node</code> avec la map de la compétition</li>
+<li><code>grid_maker_D336.launch</code> : Lance le noeud <code>grid_maker_node</code>en mode debug via le logiciel ddd</li>
+<li><code>grid_maker_debug.launch</code> : lance le noeud <code>grid_maker_node</code> en mode debug via ddd</li>
+</ul>
+<h2>Fichiers de configurations </h2>
+<ul>
+<li><code>field.yaml</code> : contient les caractéristiques du terrain de la competition (dimension, murs, zones interdites, ...)</li>
+<li><code>field_D336.yaml</code> : idem que <code>field.yaml</code>, mais pour la piste déssais en D336</li>
+<li><code>landmarks.yaml</code> : contient une liste de machines avec leur pose, utilisé pour la publication de landmarks, pour le terrain de la compétition.</li>
+<li><code>landmarks.yaml</code> : idem que <code>landmarks.yaml</code> mais pour la piste d'éssais en D336 </li>
+</ul>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Dec 16 2015 18:10:14 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 23 2015 16:28:51 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

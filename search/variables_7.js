@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['id',['id',['../dd/d39/artag__srv__node_8cpp.html#a051d7468dd23c780411441b008577756',1,'artag_srv_node.cpp']]],
-  ['imgref',['imgRef',['../d4/da7/cv__algo_8cpp.html#abe7dad7ca1f6dc044283b2d44b8f1511',1,'cv_algo.cpp']]],
-  ['ishere',['isHere',['../dc/dda/classMachine.html#a1cd074983014e1bc61d404677e7e6327',1,'Machine::isHere()'],['../d8/d75/classMPS.html#ae5b1cee218c6aa29f35132d67f39ee6e',1,'MPS::isHere()']]]
+  ['lspec',['lSpec',['../da/dcf/classExploInfoSubscriber.html#a4197ca4e9978cd87c9b40564832cc621',1,'ExploInfoSubscriber']]]
 ];
