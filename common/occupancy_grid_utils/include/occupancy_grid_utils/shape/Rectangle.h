@@ -28,7 +28,7 @@ public:
     Rectangle(const geometry_msgs::Pose2D &pose, const geometry_msgs::Point &size, const float margin=0.0);
     virtual ~Rectangle();
 
-    virtual void draw(nav_msgs::OccupancyGrid &grid) override;
+    virtual void draw(nav_msgs::OccupancyGrid &grid, int max_value=100) override;
 protected:
      float m_x;
      float m_y;

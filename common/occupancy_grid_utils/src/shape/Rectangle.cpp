@@ -36,7 +36,7 @@ Rectangle::~Rectangle()
 
 }
 
-void Rectangle::draw(nav_msgs::OccupancyGrid &grid)//, float x, float y, float theta, float height, float width, float margin)
+void Rectangle::draw(nav_msgs::OccupancyGrid &grid, int max_value)
 {
     // Environment
     	// static bool alreadyDone = false;
@@ -70,19 +70,20 @@ void Rectangle::draw(nav_msgs::OccupancyGrid &grid)//, float x, float y, float t
     			{
     				// Variable gain, proportional to the distance with the rect
     				// 	/!\ Temporarily to 50
-    				gain = 25;
+    				gain = max_value;
     			}
     			// Into the rect
-    			else {
+    			else
+                {
     				// Static gain, set to maximum (100)
-    				gain = 100;
+    				gain = max_value;
     			}
 
     			// ROS_INFO("Gain : %d",gain);
 
     			// Get the coords
-    			float deltaX = -totalDrawWidth/2 + i*res/samplingMultiplier;
-    			float deltaY = totalDrawHeight/2 - j*res/samplingMultiplier;
+    			float deltaX = -totalDrawWidth/2.0 + i*res/samplingMultiplier;
+    			float deltaY = totalDrawHeight/2.0 - j*res/samplingMultiplier;
 
     			// ROS_INFO("deltaX : %f",deltaX);
     			// ROS_INFO("deltaY : %f",deltaY);
@@ -97,13 +98,11 @@ void Rectangle::draw(nav_msgs::OccupancyGrid &grid)//, float x, float y, float t
     			// ROS_INFO("xP : %f",xP);
     			// ROS_INFO("yP : %f",yP);
 
-    			// Get the corresponding cell
-    			int cell = getCell(grid, xP, yP);
-
+                int cellValue = getCellValue(grid, xP, yP);
     			// ROS_INFO("cell : %d",cell);
 
     			// Fill it
-    			grid.data[cell] = gain;
+                setCell(grid, xP, yP, std::max(gain, cellValue));
     		}
 
     		// ROS_INFO("\t__________________________________");

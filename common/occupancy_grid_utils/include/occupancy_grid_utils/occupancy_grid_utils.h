@@ -32,8 +32,8 @@ inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs
 inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &p);
 
 void setCell(nav_msgs::OccupancyGrid &grid, float x, float y, int value);
-void setPixelCell(nav_msgs::OccupancyGrid &grid, unsigned int x, unsigned int y, int value);
-void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, int value);
+void setPixelCell(nav_msgs::OccupancyGrid &grid, unsigned int x, unsigned int y, const int& value);
+void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, const int& value);
 
 geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, float x, float y);
 geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p);

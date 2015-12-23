@@ -29,7 +29,7 @@ void ComposedShape::add(std::shared_ptr<Shape> &shape)
     m_shapes.push_back(shape);
 }
 
-void ComposedShape::draw(nav_msgs::OccupancyGrid &grid)
+void ComposedShape::draw(nav_msgs::OccupancyGrid &grid, int max_value)
 {
     for (auto s : m_shapes)
     {

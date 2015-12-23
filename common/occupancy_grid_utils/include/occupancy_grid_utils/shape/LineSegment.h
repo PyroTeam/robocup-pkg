@@ -30,7 +30,7 @@ public:
 
     inline void setPoints(const geometry_msgs::Point &p1, const geometry_msgs::Point &p2);
     inline void getPoints(geometry_msgs::Point &p1, geometry_msgs::Point &p2) const;
-    virtual void draw(nav_msgs::OccupancyGrid &grid) override;
+    virtual void draw(nav_msgs::OccupancyGrid &grid, int max_value=100) override;
 protected:
     geometry_msgs::Point m_p1;
 	geometry_msgs::Point m_p2;

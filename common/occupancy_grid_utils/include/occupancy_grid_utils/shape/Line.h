@@ -37,7 +37,7 @@ public:
 
 	void get2Points(geometry_msgs::Point &p1, geometry_msgs::Point &p2) const;
 
-    virtual void draw(nav_msgs::OccupancyGrid &grid) override;
+    virtual void draw(nav_msgs::OccupancyGrid &grid, int max_value=100) override;
 private:
 	// equation de la droite x*cos(theta) + y*sin(theta) = rho
 	double m_theta;

@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   deplacement_msg
   occupancy_grid_utils
   common_utils
+  geometry_utils
   OpenCV
 )
 
@@ -139,6 +140,8 @@ add_dependencies(grid_maker_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EX
 #   )
 target_link_libraries(grid_maker_node
     occupancy_grid_utils
+    geometry_utils
+    common_utils
     ${catkin_LIBRARIES}
 )
 # set_target_properties(construct_map_weighted_node PROPERTIES COMPILE_FLAGS "-std=c++11")

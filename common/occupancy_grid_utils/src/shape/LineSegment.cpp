@@ -31,7 +31,7 @@ LineSegment::~LineSegment()
 
 }
 
-void LineSegment::draw(nav_msgs::OccupancyGrid &grid)
+void LineSegment::draw(nav_msgs::OccupancyGrid &grid, int max_value)
 {
     //implémentation de l'algorithme de Bresenham
     static const int epsilon = 1e-5;
@@ -40,231 +40,33 @@ void LineSegment::draw(nav_msgs::OccupancyGrid &grid)
 
     //std::cout << m_name << " : (" << p1.x << ", " << p1.y << "), (" << p2.x << ", " << p2.y << ")" << std::endl;
 
-    int x1 = p1.x;
-    int y1 = p1.y;
-    int x2 = p2.x;
-    int y2 = p2.y;
-    int dx = x2 - x1;
-    int dy = y2 - y1;
+    int x0 = p1.x;
+    int y0 = p1.y;
+    int x1 = p2.x;
+    int y1 = p2.y;
 
-    if (dx != 0)
-    {
-        if (dx > 0)
+    //http://members.chello.at/easyfilter/bresenham.html
+
+    int dx =  std::abs(x1-x0), sx = x0<x1 ? 1 : -1;
+    int dy = -std::abs(y1-y0), sy = y0<y1 ? 1 : -1;
+    int err = dx+dy, e2; // error value e_xy
+
+    for(;;){  // loop
+        setPixelCell(grid, x0, y0, max_value);
+        if (x0==x1 && y0==y1)
         {
-            if (dy != 0)
-            {
-                if (dy > 0)
-                {
-                    if (dx >= dy)
-                    {
-                        int e = dx;
-                        dx = dx*2;
-                        dy = dy*2;
-                        while(1)
-                        {
-                            setPixelCell(grid, x1, y1, 100);
-                            if (++x1 == x2)
-                            {
-                                break;
-                            }
-                            e = e - dy;
-                            if (e < 0)
-                            {
-                                ++y1;
-                                e = e + dx;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        int e = dy;
-                        dx = dx*2;
-                        dy = dy*2;
-                        while(1)
-                        {
-                            setPixelCell(grid, x1, y1, 100);
-                            if (++y1 == y2)
-                            {
-                                break;
-                            }
-                            e = e - dx;
-                            if (e < 0)
-                            {
-                                ++x1;
-                                e = e + dy;
-                            }
-                        }
-                    }
-                }
-                else // dy < 0 (et dx > 0)
-                {
-                    if (dx >= -dy)
-                    {
-                        int e = dx;
-                        dx = dx*2;
-                        dy = dy*2;
-                        while(1)
-                        {
-                            setPixelCell(grid, x1, y1, 100);
-                            if (++x1 == x2)
-                            {
-                                break;
-                            }
-                            e = e + dy;
-                            if (e < 0)
-                            {
-                                --y1;
-                                e = e + dx;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        int e = dy;
-                        dx = dx*2;
-                        dy = dy*2;
-                        while(1)
-                        {
-                            setPixelCell(grid, x1, y1, 100);
-                            if (--y1 == y2)
-                            {
-                                break;
-                            }
-                            e = e + dx;
-                            if (e > 0)
-                            {
-                                ++x1;
-                                e = e + dy;
-                            }
-                        }
-                    }
-                }
-            }
-            else // dy = 0 (et dx > 0)
-            {
-                do {
-                    setPixelCell(grid, x1, y1, 100);
-                } while (++x1 != x2);
-            }
+            break;
         }
-        else // dx < 0
+        e2 = 2*err;
+        if (e2 >= dy)
         {
-            if (dy != 0)
-            {
-                if (dy > 0)
-                {
-                    if (-dx >= dy)
-                    {
-                        int e = dx;
-                        dx = dx*2;
-                        dy = dy*2;
-                        while(1)
-                        {
-                            setPixelCell(grid, x1, y1, 100);
-                            if (--x1 == x2)
-                            {
-                                break;
-                            }
-                            e = e + dy;
-                            if (e >= 0)
-                            {
-                                ++y1;
-                                e = e + dx;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        int e = dy;
-                        dx = dx*2;
-                        dy = dy*2;
-                        while(1)
-                        {
-                            setPixelCell(grid, x1, y1, 100);
-                            if (++y1 == y2)
-                            {
-                                break;
-                            }
-                            e = e + dx;
-                            if (e <= 0)
-                            {
-                                --x1;
-                                e = e + dy;
-                            }
-                        }
-                    }
-                }
-                else // dy < 0 (et dx < 0)
-                {
-                    if (dx <= dy)
-                    {
-                        int e = dx;
-                        dx = dx*2;
-                        dy = dy*2;
-                        while(1)
-                        {
-                            setPixelCell(grid, x1, y1, 100);
-                            if (--x1 == x2)
-                            {
-                                break;
-                            }
-                            e = e - dy;
-                            if (e >= 0)
-                            {
-                                --y1;
-                                e = e + dx;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        int e = dy;
-                        dx = dx*2;
-                        dy = dy*2;
-                        while(1)
-                        {
-                            setPixelCell(grid, x1, y1, 100);
-                            if (--y1 == y2)
-                            {
-                                break;
-                            }
-                            e = e - dx;
-                            if (e >= 0)
-                            {
-                                --x1;
-                                e = e + dy;
-                            }
-                        }
-                    }
-                }
-            }
-            else // dy = 0 (et dx < 0)
-            {
-                do {
-                    setPixelCell(grid, x1, y1, 100);
-                } while (--x1 != x2);
-            }
-        }
+            err += dy; x0 += sx;
+        } // e_xy+e_x > 0
+        if (e2 <= dx)
+        {
+            err += dx; y0 += sy;
+        } // e_xy+e_y < 0
     }
-    else // dx = 0
-    {
-        if (dy != 0)
-        {
-            if (dy > 0)
-            {
-                do {
-                    setPixelCell(grid, x1, y1, 100);
-                } while (++y1 != y2);
-            }
-            else // dy < 0 (et dx = 0)
-            {
-                do {
-                    setPixelCell(grid, x1, y1, 100);
-                } while (--y1 != y2);
-            }
-        }
-    }
-    setPixelCell(grid, x2, y2, 100);
 }
 
 } // namespace occupancy_grid_utils

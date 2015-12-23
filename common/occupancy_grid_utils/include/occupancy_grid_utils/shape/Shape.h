@@ -29,7 +29,7 @@ public:
     inline void setName(const std::string &name);
     inline const std::string &getName() const;
 
-    virtual void draw(nav_msgs::OccupancyGrid &grid) = 0;
+    virtual void draw(nav_msgs::OccupancyGrid &grid, int max_value=100) = 0;
 protected:
     std::string m_name;
 };

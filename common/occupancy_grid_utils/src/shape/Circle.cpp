@@ -24,7 +24,7 @@ Circle::~Circle()
 
 }
 
-void Circle::draw(nav_msgs::OccupancyGrid &grid)
+void Circle::draw(nav_msgs::OccupancyGrid &grid, int max_value)
 {
 
 }

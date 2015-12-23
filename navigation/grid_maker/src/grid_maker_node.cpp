@@ -17,6 +17,12 @@
 #include "geometry_msgs/Pose2D.h"
 #include "occupancy_grid_utils/occupancy_grid_utils.h"
 #include "occupancy_grid_utils/shape/LineSegment.h"
+#include "occupancy_grid_utils/shape/ComposedShape.h"
+#include "occupancy_grid_utils/shape/Rectangle.h"
+#include "common_utils/Parameter.h"
+#include "geometry_utils/geometry_utils.h"
+#include "geometry_msgs/Pose2D.h"
+#include "deplacement_msg/Landmarks.h"
 
 #include <set>
 #include <string>
@@ -25,39 +31,12 @@
 #include <cstdio>
 #include <memory>
 
-std::string execProcess(std::string cmd)
-{
-    std::shared_ptr<FILE> pipe(popen(cmd.c_str(), "r"), pclose);
-    if (!pipe)
-    {
-        return "ERROR";
-    }
-    char buffer[128];
-    std::string result = "";
-    while (!feof(pipe.get()))
-    {
-        if (fgets(buffer, 128, pipe.get()) != NULL)
-        {
-            result += buffer;
-        }
-    }
-    return result;
-}
-
-int loadPoint(ros::NodeHandle &nh, const std::string &paramName, geometry_msgs::Point &p)
-{
-    std::vector<double> param_vec;
-    std::vector<double> defaultParam_vec;
-    nh.param<std::vector<double>>(paramName, param_vec, defaultParam_vec);
-    if (param_vec.size()<2)
-    {
-        ROS_ERROR("Loading Map parameters : Wrong Size");
-        return -1;
-    }
-    p.x = param_vec[0];
-    p.y = param_vec[1];
-    return 0;
-}
+void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines);
+std::shared_ptr<occupancy_grid_utils::Shape> g_machinesShape(nullptr);
+float g_margin = 0.3;
+geometry_msgs::Point g_machineSize;
+const float g_sizeX = 0.35;
+const float g_sizeY = 0.7;
 
 
 int main(int argc, char **argv)
@@ -66,9 +45,12 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
 
     ros::Publisher map_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid", 1);
+    ros::Subscriber sub_poses_machine = nh.subscribe("objectDetection/landmarks", 10, Poses_Machine_Callback);
 
     ros::Rate loop_rate(1);
 
+    g_machineSize.x = g_sizeX;
+    g_machineSize.y = g_sizeY;
 
     //obtenir la configuration
     std::string fieldName;
@@ -76,7 +58,7 @@ int main(int argc, char **argv)
     ROS_INFO_STREAM("Creating Map : " << fieldName);
 
     geometry_msgs::Point size;
-    if (loadPoint(nh, "field/size", size) != 0)
+    if (common_utils::getParameter(nh, "field/size", size) != 0)
     {
         std::cout << "size = " << size.x << ", " << size.y << std::endl;
 
@@ -85,7 +67,7 @@ int main(int argc, char **argv)
     }
 
     geometry_msgs::Point origin;
-    if (loadPoint(nh, "field/origin", origin) != 0)
+    if (common_utils::getParameter(nh, "field/origin", origin) != 0)
     {
         ROS_ERROR("Loading Map parameters : origin : Wrong Size");
         return -1;
@@ -97,91 +79,96 @@ int main(int argc, char **argv)
     std::string frame_id = "map";
     nh.param<std::string>("field/frame_id", frame_id, "map");
 
+    nh.param<float>("field/margin", g_margin, 0.3);
+
     //obtenir les murs
-
-    std::string command("rosparam list ");
-    std::string rosNameSpace("");
-    std::string wallParamName("/field/wall");
-    std::string wallStr = execProcess(command + rosNameSpace + wallParamName);
-
-    std::set<std::string> wallSet;
-    std::stringstream sWallStr(wallStr);
-
-    //+1 pour tenir compte du '/' de separation après 'field/wall'
-    size_t wallParamNameSize = rosNameSpace.size() + wallParamName.size() + 1;
-
-    while (!sWallStr.eof())
-    {
-        std::string wall;
-        std::getline(sWallStr, wall, '\n');
-        if (!sWallStr.eof() && wall.size() > wallParamNameSize)
-        {
-            std::size_t prefixFound = wall.find(rosNameSpace + wallParamName);
-            prefixFound += wallParamNameSize;
-            wall = wall.substr(prefixFound);
-            std::size_t found = wall.find("/");
-            if (found != std::string::npos)
-            {
-                wall = wall.substr(0, found);
-                wallSet.insert(wall);
-            }
-        }
-    }
-
     std::list<occupancy_grid_utils::LineSegment> walls;
-    for (auto wall : wallSet)
+    if (common_utils::getParameter(nh, "/field/wall", walls) !=0)
     {
-        //charge la config d'un mur
-        geometry_msgs::Point start;
-        if (loadPoint(nh, "field/wall/"+wall+"/start", start) != 0)
-        {
-            ROS_ERROR_STREAM("Loading Map parameters : " << wall << " start : Wrong Size");
-            return -1;
-        }
-
-        geometry_msgs::Point end;
-        if (loadPoint(nh, "field/wall/"+wall+"/end", end) !=0)
-        {
-            ROS_ERROR_STREAM("Loading Map parameters : " << wall << " end : Wrong Size");
-            return -1;
-        }
-        occupancy_grid_utils::LineSegment wallSegment(start, end);
-        wallSegment.setName(wall);
-        walls.push_back(wallSegment);
+        ROS_ERROR("Error loading /field/wall");
+        return -1;
     }
 
+    //conversion des murs en rectangles
+    std::list<occupancy_grid_utils::Rectangle> wallsRect;
     for (auto wall : walls)
     {
-        geometry_msgs::Point p1,p2;
+        geometry_msgs::Point p1,p2, mp;
         wall.getPoints(p1, p2);
         std::cout << wall.getName() << " : (" << p1.x << ", " << p1.y << "), (" << p2.x << ", " << p2.y << ")" << std::endl;
 
+        mp = geometry_utils::midPoint(p1, p2);
+        geometry_msgs::Pose2D pose;
+        pose.x = mp.x;
+        pose.y = mp.y;
+        pose.theta = geometry_utils::angle(p1, p2);
+
+        geometry_msgs::Point size;
+        size.x = geometry_utils::distance(p1, p2);
+        size.y = 0.05;
+
+        occupancy_grid_utils::Rectangle wallRect(pose, size, g_margin);
+        wallRect.setName(wall.getName());
+        wallsRect.push_back(wallRect);
+
+    }
+
+    //charger zones interdites
+    std::list<occupancy_grid_utils::Rectangle> forbidZones;
+    if (common_utils::getParameter(nh, "/field/forbidden_zone", forbidZones) !=0)
+    {
+        ROS_ERROR("Error loading /field/forbidden_zone");
+        return -1;
     }
 
     // Empty map
     nav_msgs::OccupancyGrid map;
     occupancy_grid_utils::createEmptyMap(map, size, origin, frame_id, resolution);
-    //draw Wall
-    for (auto wall : walls)
+    //draw map
+    for (auto wall : wallsRect)
     {
         wall.draw(map);
     }
-
+    for (auto forbidZone : forbidZones)
+    {
+        forbidZone.draw(map, 75);
+    }
     // ROS Loop
     while(ros::ok())
     {
         //empty map
     	occupancy_grid_utils::createEmptyMap(map, size, origin, frame_id, resolution);
-        //draw wall
-        for (auto wall : walls)
+        //draw map
+        for (auto wall : wallsRect)
         {
             wall.draw(map);
         }
-        
+        for (auto forbidZone : forbidZones)
+        {
+            forbidZone.draw(map, 75);
+        }
+        if (g_machinesShape != nullptr)
+        {
+            g_machinesShape->draw(map);
+        }
+
 	 	map_pub.publish(map);
 	 	ros::spinOnce();
 		loop_rate.sleep();
  	}
 
     return 0;
+}
+
+
+void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines)
+{
+    std::shared_ptr<occupancy_grid_utils::ComposedShape> pShape(new occupancy_grid_utils::ComposedShape);
+
+	for (int i=0; i< machines->landmarks.size(); i++)
+    {
+        std::shared_ptr<occupancy_grid_utils::Shape> rectangle(new occupancy_grid_utils::Rectangle(machines->landmarks[i], g_machineSize, g_margin));
+        pShape->add(rectangle);
+	}
+    g_machinesShape = pShape;
 }

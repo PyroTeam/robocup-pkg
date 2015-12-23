@@ -27,7 +27,7 @@ public:
     Circle();
     ~Circle();
 
-    virtual void draw(nav_msgs::OccupancyGrid &grid) override;
+    virtual void draw(nav_msgs::OccupancyGrid &grid, int max_value=100) override;
 };
 
 } // namespace occupancy_grid_utils

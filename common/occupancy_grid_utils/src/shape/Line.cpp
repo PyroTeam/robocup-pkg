@@ -79,7 +79,7 @@ void Line::get2Points(geometry_msgs::Point &p1, geometry_msgs::Point &p2) const
 }
 
 
-void Line::draw(nav_msgs::OccupancyGrid &grid)
+void Line::draw(nav_msgs::OccupancyGrid &grid, int max_value)
 {
 
 }

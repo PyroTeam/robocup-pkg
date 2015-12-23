@@ -165,7 +165,7 @@ void setCell(nav_msgs::OccupancyGrid &grid, float x, float y, int value)
 	setPixelCell(grid, p, value);
 }
 
-void setPixelCell(nav_msgs::OccupancyGrid &grid, unsigned int x, unsigned int y, int value)
+void setPixelCell(nav_msgs::OccupancyGrid &grid, unsigned int x, unsigned int y, const int& value)
 {
 
 	if (x < grid.info.width && y < grid.info.height)
@@ -188,7 +188,7 @@ void setPixelCell(nav_msgs::OccupancyGrid &grid, unsigned int x, unsigned int y,
 	}
 
 }
-void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, int value)
+void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, const int& value)
 {
 	setPixelCell(grid, p.x, p.y, value);
 }

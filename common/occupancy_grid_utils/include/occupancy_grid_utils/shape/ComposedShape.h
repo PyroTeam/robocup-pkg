@@ -30,7 +30,7 @@ public:
     virtual ~ComposedShape();
 
     void add(std::shared_ptr<Shape> &shape);
-    virtual void draw(nav_msgs::OccupancyGrid &grid) override;
+    virtual void draw(nav_msgs::OccupancyGrid &grid, int max_value=100) override;
 protected:
     std::vector<std::shared_ptr<Shape>> m_shapes;
 };
