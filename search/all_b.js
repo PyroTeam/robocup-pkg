@@ -6,6 +6,7 @@ var searchData=
   ['navigationclientaction_2ecpp',['NavigationClientAction.cpp',['../d6/d5a/NavigationClientAction_8cpp.html',1,'']]],
   ['navigationclientaction_2eh',['NavigationClientAction.h',['../dd/df8/NavigationClientAction_8h.html',1,'']]],
   ['nb_5fimage_5fmax',['NB_IMAGE_MAX',['../d7/d92/fake__img__publisher__node_8cpp.html#ab5c1a8038870995c8d8f8d0efc75982a',1,'fake_img_publisher_node.cpp']]],
+  ['nbactu',['nbActu',['../dc/dda/classMachine.html#af89bd32436dc3569acb35511b8f2edde',1,'Machine']]],
   ['nbr_5fmachines',['NBR_MACHINES',['../d9/d28/tabmachine_8h.html#a13bb2f927770a954b595da0396d62c74',1,'tabmachine.h']]],
   ['nearestsegment',['nearestSegment',['../de/da4/classfinalApproaching.html#a1fd375a64f12c6b668c308e11a86e538',1,'finalApproaching']]],
   ['nh',['nh',['../de/da4/classfinalApproaching.html#a8a6db704e2b5fa39a0be61ec876241fa',1,'finalApproaching']]],

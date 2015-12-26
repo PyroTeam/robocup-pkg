@@ -151,9 +151,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d6/da1/classTrackPath.html#a52f32e3ac175dfa7fef90a71215f4bf6">closestPoint</a>;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../d6/da1/classTrackPath.html#a90ff30234569fd084f9b07323da36021">   73</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../d6/da1/classTrackPath.html#a90ff30234569fd084f9b07323da36021">TrackPath::normaliseAngle</a>(<span class="keywordtype">float</span> <a class="code" href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">angle</a>)</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../d6/da1/classTrackPath.html#a90ff30234569fd084f9b07323da36021">   73</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../d6/da1/classTrackPath.html#a90ff30234569fd084f9b07323da36021">TrackPath::normaliseAngle</a>(<span class="keywordtype">float</span> <a class="code" href="../../d2/de2/math__functions_8h.html#a79c25249c32ed436c0598fcdf007b3d3">angle</a>)</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">float</span> angleNormalise = <a class="code" href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">angle</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">float</span> angleNormalise = <a class="code" href="../../d2/de2/math__functions_8h.html#a79c25249c32ed436c0598fcdf007b3d3">angle</a>;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">while</span> (angleNormalise &lt;= -M_PI)</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    {</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        angleNormalise += 2 * M_PI;</div>
@@ -235,7 +235,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="comment">// Rejoindre le point d&#39;avance</span></div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">float</span> adj = pointAvance.x - pose.x;</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordtype">float</span> opp = pointAvance.y - pose.y;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">angle</a> = atan2(opp, adj);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/de2/math__functions_8h.html#a79c25249c32ed436c0598fcdf007b3d3">angle</a> = atan2(opp, adj);</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordtype">float</span> yaw = tf::getYaw(odom.orientation);</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
@@ -294,10 +294,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">return</span> m_pointArrivee;</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;}</div>
 <div class="ttc" id="classTrackPath_html_a4352a10a07102eef9d9d4e9570cc8bd1"><div class="ttname"><a href="../../d6/da1/classTrackPath.html#a4352a10a07102eef9d9d4e9570cc8bd1">TrackPath::resetState</a></div><div class="ttdeci">void resetState()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dbb/trackPath_8cpp_source.html#l00205">trackPath.cpp:205</a></div></div>
-<div class="ttc" id="namespacegeometry__utils_html_aaefa7120290578f7459a5030c4d9f1b4"><div class="ttname"><a href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">geometry_utils::angle</a></div><div class="ttdeci">double angle(const geometry_msgs::Point &amp;p0)</div></div>
 <div class="ttc" id="classTrackPath_html_a0d7d7cc061b1efdac04df14acdaeb8fe"><div class="ttname"><a href="../../d6/da1/classTrackPath.html#a0d7d7cc061b1efdac04df14acdaeb8fe">TrackPath::compareFloat</a></div><div class="ttdeci">bool compareFloat(float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dbb/trackPath_8cpp_source.html#l00019">trackPath.cpp:19</a></div></div>
 <div class="ttc" id="classTrackPath_html_ab0b10d185044f878aceace646dfb4da2"><div class="ttname"><a href="../../d6/da1/classTrackPath.html#ab0b10d185044f878aceace646dfb4da2">TrackPath::track</a></div><div class="ttdeci">void track(std::vector&lt; geometry_msgs::PoseStamped &gt; &amp;points, const geometry_msgs::Pose &amp;odom)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dbb/trackPath_8cpp_source.html#l00087">trackPath.cpp:87</a></div></div>
 <div class="ttc" id="classTrackPath_html_a27733b5c1090811dfb0a2a35139f8088"><div class="ttname"><a href="../../d6/da1/classTrackPath.html#a27733b5c1090811dfb0a2a35139f8088">TrackPath::getPointArrivee</a></div><div class="ttdeci">geometry_msgs::Point getPointArrivee()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dbb/trackPath_8cpp_source.html#l00211">trackPath.cpp:211</a></div></div>
+<div class="ttc" id="math__functions_8h_html_a79c25249c32ed436c0598fcdf007b3d3"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html#a79c25249c32ed436c0598fcdf007b3d3">angle</a></div><div class="ttdeci">double angle(Segment a, Segment b)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d90/math__functions_8cpp_source.html#l00052">math_functions.cpp:52</a></div></div>
 <div class="ttc" id="classTrackPath_html_a90ff30234569fd084f9b07323da36021"><div class="ttname"><a href="../../d6/da1/classTrackPath.html#a90ff30234569fd084f9b07323da36021">TrackPath::normaliseAngle</a></div><div class="ttdeci">static float normaliseAngle(float angle)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dbb/trackPath_8cpp_source.html#l00073">trackPath.cpp:73</a></div></div>
 <div class="ttc" id="trackPath_8cpp_html_a4c4147489fe53a85f7e54e85dd8088de"><div class="ttname"><a href="../../dd/dbb/trackPath_8cpp.html#a4c4147489fe53a85f7e54e85dd8088de">VIT_ANGLE_MAX</a></div><div class="ttdeci">#define VIT_ANGLE_MAX</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dbb/trackPath_8cpp_source.html#l00016">trackPath.cpp:16</a></div></div>
 <div class="ttc" id="trackPath_8h_html"><div class="ttname"><a href="../../dd/d28/trackPath_8h.html">trackPath.h</a></div></div>
@@ -309,7 +309,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Dec 23 2015 16:28:51 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 26 2015 14:40:21 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
