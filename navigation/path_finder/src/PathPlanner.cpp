@@ -10,6 +10,9 @@
  * \version
  */
 
+#include <future>
+#include <chrono>
+#include <thread>
 #include <ros/ros.h>
 #include "PathPlanner.h"
 #include "graph/Graph.h"
@@ -56,7 +59,16 @@ bool PathPlanner::generatePath_callback(path_finder::GeneratePath::Request  &req
 
     common_utils::HighResChrono chrono;
     chrono.start();
-    m_graph->search(startState, endState, path);
+    std::future<void> searchResult = std::async (std::launch::async, &Graph::search, m_graph, std::ref(startState), std::ref(endState), std::ref(path));
+    std::chrono::milliseconds span (10);
+    while (searchResult.wait_for(span)!=std::future_status::ready)
+    {
+        std::cout << '.';
+        fflush(stdout);
+    }
+    searchResult.get();
+
+
     chrono.stop();
     ROS_INFO_STREAM("Time to generate the path : " << chrono);
 

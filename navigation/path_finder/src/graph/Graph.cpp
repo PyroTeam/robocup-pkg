@@ -79,6 +79,11 @@ void Graph::search(std::shared_ptr<State> &startState, std::shared_ptr<State> &e
     }
 }
 
+void Graph::cancelSearch()
+{
+    m_searchAlgo->cancelSearch();
+}
+
 /**
  * Méthode qui retourne le noeud le plus proche dans le graph pour un point fourni
  *
