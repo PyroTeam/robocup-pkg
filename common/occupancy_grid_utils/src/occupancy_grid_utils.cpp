@@ -193,5 +193,63 @@ void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, 
 	setPixelCell(grid, p.x, p.y, value);
 }
 
+void addGradient(nav_msgs::OccupancyGrid &grid, double distance_max, int min_value)
+{
+	const float &resolution = grid.info.resolution;
+	const int &width = grid.info.width;
+	const int &height = grid.info.height;
+	std::vector<signed char> &data = grid.data;
+
+	//on cherche les points bordures
+	std::set<std::pair<int,int>> borderPoints;
+
+	for(int x = 1; x < width-1; x++)
+	{
+		for(int y = 1; y < height; y++)
+		{
+			if (data[y * width + x] ==100)
+			{
+				if (data[y * width + x-1] != data[y * width + x] ||
+					data[y * width + x+1] != data[y * width + x] ||
+					data[(y-1) * width + x] != data[y * width + x] ||
+					data[(y+1) * width + x] != data[y * width + x] ||
+					data[(y-1) * width + x-1] != data[y * width + x] ||
+					data[(y+1) * width + x-1] != data[y * width + x] ||
+					data[(y-1) * width + x+1] != data[y * width + x] ||
+					data[(y+1) * width + x+1] != data[y * width + x])
+				{
+					borderPoints.insert(std::make_pair(x, y));
+				}
+			}
+		}
+	}
+
+	double a = double(min_value - 100)/distance_max;
+	for(int x = 1; x < width-1; x++)
+	{
+		for(int y = 1; y < height; y++)
+		{
+			if (borderPoints.find(std::make_pair(x,y)) == borderPoints.end())
+			{
+				for (const auto &borderPoint : borderPoints)
+				{
+					int x1 = borderPoint.first;
+					int y1 = borderPoint.second;
+					double d = sqrt((x-x1)*(x-x1) + (y-y1)*(y-y1))*resolution;
+					signed char value = 0;
+					if (d < distance_max)
+					{
+						value = (signed char)(d * a) + 100;
+					}
+
+					data[y * width + x] = std::max(value, data[y * width + x]);
+				}
+			}
+		}
+	}
+
+
+}
+
 
 } // namespace occupancy_grid_utils

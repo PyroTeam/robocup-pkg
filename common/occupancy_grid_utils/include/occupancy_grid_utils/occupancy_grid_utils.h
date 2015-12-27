@@ -37,6 +37,9 @@ void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, 
 
 geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, float x, float y);
 geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p);
+
+void addGradient(nav_msgs::OccupancyGrid &grid, double distance_max = 0.50, int min_value = 0);
+
 } // namespace occupancy_grid_utils
 
 #endif /* OCCUPANCY_GRID_UTILS_OCCUPANCY_GRID_UTILS_H_ */

@@ -151,6 +151,7 @@ int main(int argc, char **argv)
         {
             g_machinesShape->draw(map);
         }
+        occupancy_grid_utils::addGradient(map);
 
 	 	map_pub.publish(map);
 	 	ros::spinOnce();
