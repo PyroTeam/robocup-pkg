@@ -13,7 +13,7 @@
 #include "ros/ros.h"
 #include "graph/Graph.h"
 
-Graph::Graph():m_isInit(false), m_heuristic(nullptr), m_searchAlgo(nullptr)
+Graph::Graph():m_isInit(false), m_heuristic(nullptr), m_searchAlgo(nullptr), m_isSearchRunning(false)
 {
 
 }
@@ -31,6 +31,11 @@ Graph::~Graph()
  */
 void Graph::setHeuristic(const std::shared_ptr<Heuristic> &heuristic)
 {
+    if (m_isSearchRunning)
+    {
+        ROS_ERROR("Path planning in progress : Unable to modify heuristic");
+        return;
+    }
     m_heuristic = heuristic;
 }
 
@@ -42,6 +47,11 @@ void Graph::setHeuristic(const std::shared_ptr<Heuristic> &heuristic)
  */
 void Graph::setSearchAlgo(const std::shared_ptr<SearchAlgo> &searchAlgo)
 {
+    if (m_isSearchRunning)
+    {
+        ROS_ERROR("Path planning in progress : Unable to modify searchAlgo");
+        return;
+    }
     m_searchAlgo = searchAlgo;
 }
 
@@ -67,6 +77,7 @@ double Graph::evaluateHeuristic(State &startState, State &endState)
  */
 void Graph::search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, Path &path)
 {
+    m_isSearchRunning = true;
     if (m_isInit)
     {
         getClosestNode(startState, startState);
@@ -77,6 +88,7 @@ void Graph::search(std::shared_ptr<State> &startState, std::shared_ptr<State> &e
     {
         ROS_ERROR("Tentative de recherche de trajectoire, alors qu'aucune map n'a été reçue.");
     }
+    m_isSearchRunning = false;
 }
 
 void Graph::cancelSearch()
@@ -84,6 +96,10 @@ void Graph::cancelSearch()
     m_searchAlgo->cancelSearch();
 }
 
+bool Graph::isSearchRunning()
+{
+    return m_isSearchRunning;
+}
 /**
  * Méthode qui retourne le noeud le plus proche dans le graph pour un point fourni
  *

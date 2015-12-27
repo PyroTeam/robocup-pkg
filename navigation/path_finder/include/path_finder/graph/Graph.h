@@ -15,6 +15,7 @@
 
 #include <memory>
 #include <list>
+#include <atomic>
 
 #include "Heuristic.h"
 #include "search_algo/SearchAlgo.h"
@@ -39,6 +40,7 @@ public:
 
     void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, Path &path);
     void cancelSearch();
+    bool isSearchRunning();
     void setHeuristic(const std::shared_ptr<Heuristic> &heuristic);
     void setSearchAlgo(const std::shared_ptr<SearchAlgo> &searchAlgo);
     virtual void getSuccessors(const std::shared_ptr<State> &state, std::list<std::shared_ptr<State>> &succ) = 0;
@@ -50,6 +52,7 @@ protected:
     bool m_isInit;
     std::shared_ptr<Heuristic> m_heuristic;
     std::shared_ptr<SearchAlgo> m_searchAlgo;
+    std::atomic<bool> m_isSearchRunning;
 };
 
 #endif /* PATH_FINDER_GRAPH_H_ */

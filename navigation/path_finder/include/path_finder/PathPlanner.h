@@ -30,7 +30,7 @@ class Graph;
  * \class PathPlanner
  * \brief Classe de gestion du noeud
  *
- * La classe gère la réponse aux appel de l'action generatePath
+ * La classe gère la réponse aux appels de l'action generatePath
  *
  */
 class PathPlanner
@@ -40,20 +40,19 @@ public:
     virtual ~PathPlanner();
 
     const nav_msgs::Path &getPath(bool smoothed = false) const;
-    int getPathId() const;
 protected:
     std::shared_ptr<Graph> m_graph;
-    //actionlib::SimpleActionServer<learning_actionlib::AveragingAction> as_;
+
     ros::NodeHandle m_nh;
     ros::Publisher m_path_pub;
 
-    //service temporaire : compatibilité avec l'ancien pathFinder
-    ros::ServiceServer m_path_srv;
-    bool generatePath_callback(path_finder::GeneratePath::Request  &req,
-                               path_finder::GeneratePath::Response &res);
+    actionlib::SimpleActionServer<deplacement_msg::GeneratePathAction> m_path_as;
+    deplacement_msg::GeneratePathFeedback m_pathFeedback;
+    deplacement_msg::GeneratePathResult m_pathResult;
+    void generatePathExecute_callback(const deplacement_msg::GeneratePathGoalConstPtr &goal);
+
     nav_msgs::Path m_pathFound;
     nav_msgs::Path m_pathSmoothed;
-    int m_id;
 };
 
 

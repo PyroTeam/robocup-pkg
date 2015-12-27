@@ -30,8 +30,13 @@ UpdateGridMapGraph::~UpdateGridMapGraph()
  */
 void UpdateGridMapGraph::mapCallback(const nav_msgs::OccupancyGrid &grid)
 {
-    //TODO ajout protection
+    if (m_graph->isSearchRunning())
+    {
+        ROS_INFO("planning in progress, not updating map");
+        return;
+    }
     std::shared_ptr<GridMapGraph> gridMapGraph = std::static_pointer_cast<GridMapGraph>(m_graph);
+
     gridMapGraph->setGridMap(grid);
 
 }

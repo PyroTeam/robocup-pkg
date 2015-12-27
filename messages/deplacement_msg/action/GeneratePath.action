@@ -7,8 +7,8 @@ uint32 timeout # in ms
 # Define the result
 uint8 result
 
-uint8 FINISHED = 1
-uint8 ERROR = 2
+uint8 SUCCESS = 10
+uint8 ERROR = 20
 ---
 # Define a feedback message
-uint32 processingTime
+duration processingTime
