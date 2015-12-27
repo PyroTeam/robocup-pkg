@@ -1,5 +1,5 @@
 /**
- * \file 		PointState.h
+ * \file 		PoseState.h
  *
  * \brief
  *
@@ -53,6 +53,16 @@ public:
                 std::abs(m_pose.theta - s.get().theta) < epsilon);
     }
 
+    virtual std::size_t hash() const override
+    {
+        std::size_t const h1 (std::hash<double>()(m_pose.x));
+        std::size_t const h2 (std::hash<double>()(m_pose.y));
+        std::size_t const h3 (std::hash<double>()(m_pose.theta));
+        //std::cout << "h1 : " << h1 << ",  h2 : " << h2 << std::endl;
+        return h1 ^ ((h2 ^ (h3 << h2)) << h1);
+    }
+
+
     virtual std::ostream& toStream(std::ostream& os) override
     {
         os << m_pose;
@@ -62,4 +72,4 @@ protected:
     geometry_msgs::Pose2D m_pose;
 };
 
-#endif /* PATH_FINDER_POINTSTATE_H_ */
+#endif /* PATH_FINDER_POSESTATE_H_ */
