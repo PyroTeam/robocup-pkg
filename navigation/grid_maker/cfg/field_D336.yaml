@@ -5,7 +5,7 @@ field:
     origin: [-1, -2, 0.0]
     resolution: 0.05
     margin: 0.25
-    wall:
+    walls:
         bottom1:
             start: [0, 0, 0.0]
             end: [1, 0, 0.0]
@@ -33,7 +33,7 @@ field:
         top:
             start: [0, 6, 0.0]
             end: [3, 6, 0.0]
-    forbidden_zone:
+    forbidden_zones:
         top:
             pose: [1.5, 6.5, 0]
             size: [5, 1, 0.0]

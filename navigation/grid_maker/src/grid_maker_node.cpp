@@ -83,9 +83,9 @@ int main(int argc, char **argv)
 
     //obtenir les murs
     std::list<occupancy_grid_utils::LineSegment> walls;
-    if (common_utils::getParameter(nh, "/field/wall", walls) !=0)
+    if (common_utils::getParameter(nh, "/field/walls", walls) !=0)
     {
-        ROS_ERROR("Error loading /field/wall");
+        ROS_ERROR("Error loading /field/walls");
         return -1;
     }
 
@@ -115,9 +115,9 @@ int main(int argc, char **argv)
 
     //charger zones interdites
     std::list<occupancy_grid_utils::Rectangle> forbidZones;
-    if (common_utils::getParameter(nh, "/field/forbidden_zone", forbidZones) !=0)
+    if (common_utils::getParameter(nh, "/field/forbidden_zones", forbidZones) !=0)
     {
-        ROS_ERROR("Error loading /field/forbidden_zone");
+        ROS_ERROR("Error loading /field/forbidden_zones");
         return -1;
     }
 

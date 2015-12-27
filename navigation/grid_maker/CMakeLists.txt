@@ -112,15 +112,18 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(grid_maker_node src/grid_maker_node.cpp)
+add_executable(${PROJECT_NAME}_node src/grid_maker_node.cpp)
 
-set_target_properties(grid_maker_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
+set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(grid_maker_node ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(grid_maker_node
+target_link_libraries(${PROJECT_NAME}_node
+    common_utils
+    occupancy_grid_utils
+    geometry_utils
     ${catkin_LIBRARIES}
 )
 # set_target_properties(construct_map_weighted_node PROPERTIES COMPILE_FLAGS "-std=c++11")

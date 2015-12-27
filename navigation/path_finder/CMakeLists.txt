@@ -134,7 +134,7 @@ include_directories(
 # add_dependencies(path_finder ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(path_finder_node
+add_executable(${PROJECT_NAME}_node
 
     src/graph/Graph.cpp
     src/graph/GridMapGraph.cpp
@@ -151,45 +151,17 @@ add_executable(path_finder_node
     src/path_finder_node.cpp
 )
 
-set_target_properties(path_finder_node PROPERTIES COMPILE_FLAGS "-std=c++11")
+set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(path_finder_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(path_finder_node
+target_link_libraries(${PROJECT_NAME}_node
     occupancy_grid_utils
     ${catkin_LIBRARIES}
 )
-
-#add_executable(closedSet_test_node
-#
-#    src/graph/Graph.cpp
-#    src/graph/GridMapGraph.cpp
-#    src/graph/UpdateGraph.cpp
-#    src/graph/UpdateGridMapGraph.cpp
-#
-#    src/search_algo/AStarSearch.cpp
-#    src/search_algo/Path.cpp
-#    src/search_algo/SearchAlgo.cpp
-#    src/search_algo/State.cpp
-#
-#    src/closedSet_test_node.cpp
-#)
-
-#set_target_properties(closedSet_test_node PROPERTIES COMPILE_FLAGS "-std=c++11 -g3")
-
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(closedSet_test_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-#target_link_libraries(closedSet_test_node
-#    occupancy_grid_utils
-#    ${catkin_LIBRARIES}
-#)
-
 
 #############
 ## Install ##
