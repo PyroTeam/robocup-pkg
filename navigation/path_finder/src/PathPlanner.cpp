@@ -82,6 +82,10 @@ bool PathPlanner::generatePath_callback(path_finder::GeneratePath::Request  &req
         m_pathSmoothed.header.frame_id = "map";
         m_pathSmoothed.poses.clear();
         m_pathSmoothed.poses = pathS.getPoses();
+
+        //orientation finale
+        m_pathFound.poses.back().pose.orientation = req.Arrivee.orientation;
+        m_pathSmoothed.poses.back().pose.orientation = req.Arrivee.orientation;
     }
 
     return true;
