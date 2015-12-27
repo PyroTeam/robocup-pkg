@@ -163,27 +163,31 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <a class="code" href="../../d9/d45/classPathPlanner.html#aa9919bc41e1d067ed335ddb51471e85a">m_pathSmoothed</a>.header.frame_id = <span class="stringliteral">&quot;map&quot;</span>;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <a class="code" href="../../d9/d45/classPathPlanner.html#aa9919bc41e1d067ed335ddb51471e85a">m_pathSmoothed</a>.poses.clear();</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <a class="code" href="../../d9/d45/classPathPlanner.html#aa9919bc41e1d067ed335ddb51471e85a">m_pathSmoothed</a>.poses = pathS.<a class="code" href="../../db/dc7/classPath.html#a0839edd02d6588cfa6ac82bb272b00d5">getPoses</a>();</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="../../d9/d45/classPathPlanner.html#a02057c47c1141918d97124f2d982c322">   90</a></span>&#160;<span class="keyword">const</span> nav_msgs::Path &amp;<a class="code" href="../../d9/d45/classPathPlanner.html#a02057c47c1141918d97124f2d982c322">PathPlanner::getPath</a>(<span class="keywordtype">bool</span> smoothed)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">if</span>(smoothed)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="../../d9/d45/classPathPlanner.html#aa9919bc41e1d067ed335ddb51471e85a">m_pathSmoothed</a>;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment">//orientation finale</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="../../d9/d45/classPathPlanner.html#a88789df822508ef138b25cc4ece27ff3">m_pathFound</a>.poses.back().pose.orientation = req.Arrivee.orientation;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <a class="code" href="../../d9/d45/classPathPlanner.html#aa9919bc41e1d067ed335ddb51471e85a">m_pathSmoothed</a>.poses.back().pose.orientation = req.Arrivee.orientation;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="../../d9/d45/classPathPlanner.html#a02057c47c1141918d97124f2d982c322">   94</a></span>&#160;<span class="keyword">const</span> nav_msgs::Path &amp;<a class="code" href="../../d9/d45/classPathPlanner.html#a02057c47c1141918d97124f2d982c322">PathPlanner::getPath</a>(<span class="keywordtype">bool</span> smoothed)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">if</span>(smoothed)</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="../../d9/d45/classPathPlanner.html#a88789df822508ef138b25cc4ece27ff3">m_pathFound</a>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="../../d9/d45/classPathPlanner.html#aa9919bc41e1d067ed335ddb51471e85a">m_pathSmoothed</a>;</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="../../d9/d45/classPathPlanner.html#a0b31007fee0e57799bf79daaf8e73751">  102</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d9/d45/classPathPlanner.html#a0b31007fee0e57799bf79daaf8e73751">PathPlanner::getPathId</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d9/d45/classPathPlanner.html#a75495824626052cd118dfcef444c37a5">m_id</a>;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    {</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="../../d9/d45/classPathPlanner.html#a88789df822508ef138b25cc4ece27ff3">m_pathFound</a>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="../../d9/d45/classPathPlanner.html#a0b31007fee0e57799bf79daaf8e73751">  106</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d9/d45/classPathPlanner.html#a0b31007fee0e57799bf79daaf8e73751">PathPlanner::getPathId</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d9/d45/classPathPlanner.html#a75495824626052cd118dfcef444c37a5">m_id</a>;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
 <div class="ttc" id="classPointState_html"><div class="ttname"><a href="../../d4/d74/classPointState.html">PointState</a></div><div class="ttdoc">Classe concrète représentant un état sous forme d&#39;un geometry_msgs::Point. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dc2/PointState_8h_source.html#l00028">PointState.h:28</a></div></div>
 <div class="ttc" id="classPath_html_a9011b0277d9ba287e03ed6e5587a229b"><div class="ttname"><a href="../../db/dc7/classPath.html#a9011b0277d9ba287e03ed6e5587a229b">Path::smooth</a></div><div class="ttdeci">void smooth()</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dbb/Path_8cpp_source.html#l00054">Path.cpp:54</a></div></div>
 <div class="ttc" id="classPath_html_a0fc21fee4cca5ca64cd694e3e87bd014"><div class="ttname"><a href="../../db/dc7/classPath.html#a0fc21fee4cca5ca64cd694e3e87bd014">Path::size</a></div><div class="ttdeci">std::size_t size()</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d6f/Path_8h_source.html#l00059">Path.h:59</a></div></div>
@@ -197,11 +201,11 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classPathPlanner_html_a75495824626052cd118dfcef444c37a5"><div class="ttname"><a href="../../d9/d45/classPathPlanner.html#a75495824626052cd118dfcef444c37a5">PathPlanner::m_id</a></div><div class="ttdeci">int m_id</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d7c/PathPlanner_8h_source.html#l00056">PathPlanner.h:56</a></div></div>
 <div class="ttc" id="classPath_html"><div class="ttname"><a href="../../db/dc7/classPath.html">Path</a></div><div class="ttdoc">Classe représentant un chemin calculé à partir d&#39;un algorithme de recherche. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d6f/Path_8h_source.html#l00027">Path.h:27</a></div></div>
 <div class="ttc" id="classPathPlanner_html_a61bd61f848e519df56b75eddd3732ab8"><div class="ttname"><a href="../../d9/d45/classPathPlanner.html#a61bd61f848e519df56b75eddd3732ab8">PathPlanner::~PathPlanner</a></div><div class="ttdeci">virtual ~PathPlanner()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbd/PathPlanner_8cpp_source.html#l00028">PathPlanner.cpp:28</a></div></div>
-<div class="ttc" id="classPathPlanner_html_a0b31007fee0e57799bf79daaf8e73751"><div class="ttname"><a href="../../d9/d45/classPathPlanner.html#a0b31007fee0e57799bf79daaf8e73751">PathPlanner::getPathId</a></div><div class="ttdeci">int getPathId() const </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbd/PathPlanner_8cpp_source.html#l00102">PathPlanner.cpp:102</a></div></div>
+<div class="ttc" id="classPathPlanner_html_a0b31007fee0e57799bf79daaf8e73751"><div class="ttname"><a href="../../d9/d45/classPathPlanner.html#a0b31007fee0e57799bf79daaf8e73751">PathPlanner::getPathId</a></div><div class="ttdeci">int getPathId() const </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbd/PathPlanner_8cpp_source.html#l00106">PathPlanner.cpp:106</a></div></div>
 <div class="ttc" id="Chrono_8h_html"><div class="ttname"><a href="../../db/dbf/Chrono_8h.html">Chrono.h</a></div></div>
 <div class="ttc" id="classPath_html_a8942156c40cfcebcac3e0e81b9a6650d"><div class="ttname"><a href="../../db/dc7/classPath.html#a8942156c40cfcebcac3e0e81b9a6650d">Path::setSmoothParam</a></div><div class="ttdeci">void setSmoothParam(double weightData, double weightSmooth)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dbb/Path_8cpp_source.html#l00049">Path.cpp:49</a></div></div>
 <div class="ttc" id="Graph_8h_html"><div class="ttname"><a href="../../d7/d16/Graph_8h.html">Graph.h</a></div></div>
-<div class="ttc" id="classPathPlanner_html_a02057c47c1141918d97124f2d982c322"><div class="ttname"><a href="../../d9/d45/classPathPlanner.html#a02057c47c1141918d97124f2d982c322">PathPlanner::getPath</a></div><div class="ttdeci">const nav_msgs::Path &amp; getPath(bool smoothed=false) const </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbd/PathPlanner_8cpp_source.html#l00090">PathPlanner.cpp:90</a></div></div>
+<div class="ttc" id="classPathPlanner_html_a02057c47c1141918d97124f2d982c322"><div class="ttname"><a href="../../d9/d45/classPathPlanner.html#a02057c47c1141918d97124f2d982c322">PathPlanner::getPath</a></div><div class="ttdeci">const nav_msgs::Path &amp; getPath(bool smoothed=false) const </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbd/PathPlanner_8cpp_source.html#l00094">PathPlanner.cpp:94</a></div></div>
 <div class="ttc" id="classPathPlanner_html_af8b478fe0f0e66121ee87877d4b95280"><div class="ttname"><a href="../../d9/d45/classPathPlanner.html#af8b478fe0f0e66121ee87877d4b95280">PathPlanner::PathPlanner</a></div><div class="ttdeci">PathPlanner(const std::shared_ptr&lt; Graph &gt; &amp;graph, std::string name)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbd/PathPlanner_8cpp_source.html#l00018">PathPlanner.cpp:18</a></div></div>
 <div class="ttc" id="classPath_html_a0839edd02d6588cfa6ac82bb272b00d5"><div class="ttname"><a href="../../db/dc7/classPath.html#a0839edd02d6588cfa6ac82bb272b00d5">Path::getPoses</a></div><div class="ttdeci">const std::vector&lt; geometry_msgs::PoseStamped &gt; &amp; getPoses() const </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d6f/Path_8h_source.html#l00063">Path.h:63</a></div></div>
 <div class="ttc" id="classPointState_html_aefe34988c4af6013bfd887c6ab2ac67e"><div class="ttname"><a href="../../d4/d74/classPointState.html#aefe34988c4af6013bfd887c6ab2ac67e">PointState::set</a></div><div class="ttdeci">void set(double x, double y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dc2/PointState_8h_source.html#l00039">PointState.h:39</a></div></div>
@@ -212,7 +216,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 27 2015 13:54:33 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 27 2015 14:46:08 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
