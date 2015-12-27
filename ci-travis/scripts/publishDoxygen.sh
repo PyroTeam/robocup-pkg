@@ -8,7 +8,7 @@
 # Echo color function
 source $(dirname "$0")/echoColor.sh
 
-echp ""
+echo ""
 echoC "lb"	"****************************" # Light Blue
 echoC "lb"	"* publishDoxygen.sh script *"
 echoC "lb"	"****************************"
@@ -26,7 +26,7 @@ fi
 if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "devel" ];then
 	# Orange
 	echoC "o" "WARNING: "
-	echoC "o" "This script work only work /devel push"
+	echoC "o" "This script work only for /devel push"
 
 	exit 0
 fi
