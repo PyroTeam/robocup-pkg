@@ -12,9 +12,11 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf
   deplacement_msg
-)
+  occupancy_grid_utils
+  common_utils
+  geometry_utils
 
-find_package(OpenCV)
+)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -86,8 +88,8 @@ find_package(OpenCV)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include/path_finder
-#  LIBRARIES path_finder
+#  INCLUDE_DIRS include
+#  LIBRARIES grid_maker
   CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs tf
 #  DEPENDS system_lib
 )
@@ -100,9 +102,8 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-	include/path_finder
+#	include
   ${catkin_INCLUDE_DIRS}
-  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -111,29 +112,18 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(construct_map_node src/Map.cpp)
-add_executable(construct_map_weighted_node src/Map_weighted.cpp)
-add_executable(construct_map_test src/Test.cpp)
+add_executable(${PROJECT_NAME}_node src/grid_maker_node.cpp)
+
+set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(construct_map_node path_finder_generate_messages_cpp deplacement_msg_gencpp)
-add_dependencies(construct_map_weighted_node path_finder_generate_messages_cpp deplacement_msg_gencpp)
-add_dependencies(construct_map_test path_finder_generate_messages_cpp deplacement_msg_gencpp)
+add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
 
-## Specify libraries to link a library or executable target against
-target_link_libraries(construct_map_node
- ${catkin_LIBRARIES}
- )
-target_link_libraries(construct_map_weighted_node
+target_link_libraries(${PROJECT_NAME}_node
     ${catkin_LIBRARIES}
-    ${OpenCV_LIBRARIES}
 )
-target_link_libraries(construct_map_test
- ${catkin_LIBRARIES}
-  )
-
-set_target_properties(construct_map_weighted_node PROPERTIES COMPILE_FLAGS "-std=c++11")
+# set_target_properties(construct_map_weighted_node PROPERTIES COMPILE_FLAGS "-std=c++11")
 #############
 ## Install ##
 #############
