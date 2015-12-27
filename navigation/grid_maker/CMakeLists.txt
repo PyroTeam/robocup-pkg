@@ -121,9 +121,6 @@ set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-g3 -std=c+
 add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(${PROJECT_NAME}_node
-    common_utils
-    occupancy_grid_utils
-    geometry_utils
     ${catkin_LIBRARIES}
 )
 # set_target_properties(construct_map_weighted_node PROPERTIES COMPILE_FLAGS "-std=c++11")
