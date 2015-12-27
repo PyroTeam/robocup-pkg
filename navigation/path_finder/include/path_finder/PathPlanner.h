@@ -21,7 +21,6 @@
 
 #include "search_algo/Path.h"
 #include "deplacement_msg/GeneratePathAction.h"
-#include "path_finder/GeneratePath.h"
 #include "search_algo/Path.h"
 
 class Graph;

@@ -91,15 +91,25 @@ void Graph::search(std::shared_ptr<State> &startState, std::shared_ptr<State> &e
     m_isSearchRunning = false;
 }
 
+/**
+ * Méthode d'annulation d'une recherche, utile si la recherche est lancée dans un thread
+ *
+ */
 void Graph::cancelSearch()
 {
     m_searchAlgo->cancelSearch();
 }
 
+/**
+ * Méthode permettant de savoir si une recherche est en cours, utile si la recherche est lancée dans un thread
+ *
+ * \return true si une recherche est en cours, false sinon
+ */
 bool Graph::isSearchRunning()
 {
     return m_isSearchRunning;
 }
+
 /**
  * Méthode qui retourne le noeud le plus proche dans le graph pour un point fourni
  *

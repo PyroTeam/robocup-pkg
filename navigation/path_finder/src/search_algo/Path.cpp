@@ -51,6 +51,7 @@ void Path::setSmoothParam(double weightData, double weightSmooth)
     m_weightData = weightData;
     m_weightSmooth = weightSmooth;
 }
+
 void Path::smooth()
 {
 	int pathSize = m_poses.size();

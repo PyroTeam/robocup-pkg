@@ -22,7 +22,6 @@
 #include "search_algo/PointState.h"
 #include "search_algo/Path.h"
 #include "PathPlanner.h"
-#include "path_finder/GeneratePath.h"
 
 int main(int argc, char **argv)
 {

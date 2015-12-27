@@ -14,6 +14,7 @@
 #include <chrono>
 #include <thread>
 #include <ros/ros.h>
+#include <tf/transform_datatypes.h>
 #include "PathPlanner.h"
 #include "graph/Graph.h"
 #include "common_utils/Chrono.h"
@@ -37,8 +38,6 @@ PathPlanner::~PathPlanner()
 }
 
 void PathPlanner::generatePathExecute_callback(const deplacement_msg::GeneratePathGoalConstPtr &goal)
-//bool PathPlanner::generatePath_callback(path_finder::GeneratePath::Request  &req,
-//                                        path_finder::GeneratePath::Response &res)
 {
     bool success = true;
 
@@ -50,8 +49,6 @@ void PathPlanner::generatePathExecute_callback(const deplacement_msg::GeneratePa
 
     std::shared_ptr<State> startState(new PointState());
     std::shared_ptr<State> endState(new PointState());
-
-
     std::shared_ptr<PointState> pStart = std::dynamic_pointer_cast<PointState>(startState);
     pStart->set(goal->start.x, goal->start.y);
     std::shared_ptr<PointState> pEnd = std::dynamic_pointer_cast<PointState>(endState);
@@ -59,12 +56,13 @@ void PathPlanner::generatePathExecute_callback(const deplacement_msg::GeneratePa
 
     Path path, pathS;
 
-    common_utils::HighResChrono chrono;
-    chrono.start();
     std::future<void> searchResult = std::async (std::launch::async, &Graph::search, m_graph, std::ref(startState), std::ref(endState), std::ref(path));
     std::chrono::milliseconds span (50);
+
     ros::Time beginTime = ros::Time::now();
-    while (searchResult.wait_for(span)!=std::future_status::ready  && ros::ok())
+    bool isTimeout = false;
+
+    while (searchResult.wait_for(span)!=std::future_status::ready  && !isTimeout && ros::ok())
     {
         m_pathFeedback.processingTime = ros::Duration(ros::Time::now() - beginTime);
         m_path_as.publishFeedback(m_pathFeedback);
@@ -77,21 +75,24 @@ void PathPlanner::generatePathExecute_callback(const deplacement_msg::GeneratePa
             m_path_as.setPreempted();
             success = false;
         }
-
+        if (m_pathFeedback.processingTime > goal->timeout)
+        {
+            isTimeout = true;
+            m_graph->cancelSearch();
+            ROS_INFO("PathPlanning timeout");
+        }
         ros::spinOnce();
-        std::cout << '.';
-        fflush(stdout);
     }
     searchResult.get();
 
-
-    chrono.stop();
-    ROS_INFO_STREAM("Time to generate the path : " << chrono);
-
-    if (path.empty())
+    if (isTimeout)
+    {
+        m_pathResult.result = deplacement_msg::GeneratePathResult::ERROR_TIMEOUT;
+    }
+    else if (path.empty())
     {
         ROS_INFO("Chemin vide");
-        m_pathResult.result = deplacement_msg::GeneratePathResult::ERROR;
+        m_pathResult.result = deplacement_msg::GeneratePathResult::ERROR_NO_PATH;
     }
     else
     {
@@ -103,29 +104,24 @@ void PathPlanner::generatePathExecute_callback(const deplacement_msg::GeneratePa
 
         pathS = path;
         pathS.setSmoothParam(weightData, weightSmooth);
-        chrono.start();
         pathS.smooth();
-        chrono.stop();
-        ROS_INFO_STREAM("Time to smooth the path : " << chrono);
         m_pathSmoothed.header.stamp = ros::Time::now();
         m_pathSmoothed.header.frame_id = "map";
         m_pathSmoothed.poses.clear();
         m_pathSmoothed.poses = pathS.getPoses();
+
+        //orientation finale
+        m_pathFound.poses.back().pose.orientation = tf::createQuaternionMsgFromYaw(goal->goal.theta);
+        m_pathSmoothed.poses.back().pose.orientation = tf::createQuaternionMsgFromYaw(goal->goal.theta);
 
         m_pathResult.result = deplacement_msg::GeneratePathResult::SUCCESS;
     }
 
     if(success)
     {
-
         ROS_INFO("Path finding : Succeeded");
-
         // set the action state to succeeded
         m_path_as.setSucceeded(m_pathResult);
-    }
-    else
-    {
-
     }
 }
 

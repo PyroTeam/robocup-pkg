@@ -23,6 +23,10 @@ SearchAlgo::~SearchAlgo()
 
 }
 
+/**
+ * Méthode d'annulation d'une recherche, utile si la recherche est lancée dans un thread
+ *
+ */
 void SearchAlgo::cancelSearch()
 {
      m_cancelSearch = true;
