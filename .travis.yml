@@ -1,9 +1,24 @@
+# Work on a trusty VM
 sudo: required
 dist: trusty
+
+# Allow only devel, master and branches containing a */ci-travis/* part
 branches:
   only:
     - devel
-    - doxygen
+    - master
+    - /bob.*/
+    - /stuart.*/
+    - /.*\/ci-travis\/.*/
+
+# Allow catkin_make to be ran
+language:
+  - python
+cache:
+  - apt
+virtualenv:
+  system_site_packages: true
+
 before_install:
 - openssl aes-256-cbc
   -K $encrypted_5a8f759d85bc_key
@@ -13,10 +28,24 @@ before_install:
   -d
 - chmod 0600 ci-travis/travisci_rsa
 - cp ci-travis/travisci_rsa ~/.ssh/id_rsa
-install:
-- sudo apt-get update -qq
-- sudo apt-get install --yes doxygen graphviz
-script : gcc -v
-after_success:
-- ./ci-travis/publish-doxygen.sh
+# Check config
+- $TRAVIS_BUILD_DIR/ci-travis/scripts/checkRequest.sh
+# Do some test (eventually)
+- $TRAVIS_BUILD_DIR/ci-travis/scripts/test.sh
 
+install:
+# Install packages dependencies and some dependencies from source
+- $TRAVIS_BUILD_DIR/ci-travis/scripts/installDependencies.sh
+
+# Configure environment (strongly needed for catkin)
+- source ~/.bashrc
+# Configure catkin workspace
+- $TRAVIS_BUILD_DIR/ci-travis/scripts/installCatkinWorkspace.sh
+
+script :
+# Run catkin_make
+- $TRAVIS_BUILD_DIR/ci-travis/scripts/build.sh
+
+after_success:
+# Deploy doxygen documentation
+- $TRAVIS_BUILD_DIR/ci-travis/scripts/publishDoxygen.sh

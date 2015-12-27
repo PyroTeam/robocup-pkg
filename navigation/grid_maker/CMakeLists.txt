@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   occupancy_grid_utils
   common_utils
   geometry_utils
-  OpenCV
+
 )
 
 ## System dependencies are found with CMake's conventions
@@ -104,7 +104,6 @@ catkin_package(
 include_directories(
 #	include
   ${catkin_INCLUDE_DIRS}
-  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -119,18 +118,9 @@ set_target_properties(grid_maker_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(grid_maker_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-
-# target_link_libraries(construct_map_weighted_node
-#     ${catkin_LIBRARIES}
-#     ${OpenCV_LIBRARIES}
-# )
+add_dependencies(grid_maker_node ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(grid_maker_node
-    occupancy_grid_utils
-    geometry_utils
-    common_utils
     ${catkin_LIBRARIES}
 )
 # set_target_properties(construct_map_weighted_node PROPERTIES COMPILE_FLAGS "-std=c++11")
