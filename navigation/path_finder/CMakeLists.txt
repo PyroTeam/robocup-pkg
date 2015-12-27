@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   occupancy_grid_utils
   common_utils
+  actionlib
+  deplacement_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -48,16 +50,16 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 # Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  AstarPath.msg
-)
+# add_message_files(
+#   FILES
+#   AstarPath.msg
+# )
 
 # Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  GeneratePath.srv
-)
+# add_service_files(
+#   FILES
+#   GeneratePath.srv
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -67,12 +69,12 @@ add_service_files(
 # )
 
 # Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  geometry_msgs
-  nav_msgs
-  std_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   geometry_msgs
+#   nav_msgs
+#   std_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -106,7 +108,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include include/path_finder
 #  LIBRARIES path_finder
-  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs actionlib_msgs actionlib
+  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs deplacement_msg actionlib_msgs actionlib
 #  DEPENDS system_lib
 )
 
@@ -155,7 +157,9 @@ set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-std=c++11"
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_node
+    deplacement_msg_gencpp
+    ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_node

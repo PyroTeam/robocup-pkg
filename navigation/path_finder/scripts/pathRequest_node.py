@@ -2,14 +2,15 @@
 import rospy
 import roslib; roslib.load_manifest('path_finder')
 import tf
-from path_finder.srv import GeneratePath
+import actionlib
+import deplacement_msg.msg
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Quaternion
-from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Pose2D
 
-initialPose = Pose()
-goalPose = Pose()
+initialPose = Pose2D()
+goalPose = Pose2D()
 
 def QuatMsg_to_quat(quat):
     q = []
@@ -21,29 +22,50 @@ def QuatMsg_to_quat(quat):
 
 def InitPoseCallback(initPose):
     global initialPose
-    initialPose = initPose.pose.pose
+    initialPose.x = initPose.pose.pose.position.x
+    initialPose.y = initPose.pose.pose.position.y
 
     q = QuatMsg_to_quat(initPose.pose.pose.orientation)
     (roll, pitch, yaw) = tf.transformations.euler_from_quaternion(q)
-    rospy.loginfo("init Pose set to = %f,%f,%f", initialPose.position.x, initialPose.position.y, yaw)
+    initialPose.theta = yaw
+
+    rospy.loginfo("init Pose set to = %f,%f,%f", initialPose.x, initialPose.y, yaw)
+
+def pathFeedback_cb(feedback):
+    #rospy.loginfo("Elapsed Time : %f", feedback.processingTime.to_sec())
+    return
 
 def GoalPoseCallback(gPose):
     global goalPose
     global initialPose
-    goalPose = gPose.pose
+    goalPose.x = gPose.pose.position.x
+    goalPose.y = gPose.pose.position.y
     q = QuatMsg_to_quat(gPose.pose.orientation)
     (roll, pitch, yaw) = tf.transformations.euler_from_quaternion(q)
-    rospy.loginfo("goal Pose set to = %f,%f,%f", goalPose.position.x, goalPose.position.y, yaw)
+    goalPose.theta = yaw
 
-    rospy.loginfo("Wait for service generatePath")
-    rospy.wait_for_service('navigation/generatePath')
-    try:
-        rospy.loginfo("Calling service generatePath")
-        generatePath = rospy.ServiceProxy('navigation/generatePath', GeneratePath)
-        resp1 = generatePath(0, goalPose, initialPose, False)
-        print resp1.requeteAcceptee
-    except rospy.ServiceException, e:
-        print "Service call failed: %s"%e
+    rospy.loginfo("goal Pose set to = %f,%f,%f", goalPose.x, goalPose.y, yaw)
+
+    client = actionlib.SimpleActionClient('navigation/generatePath', deplacement_msg.msg.GeneratePathAction)
+
+    rospy.loginfo("Wait for Generate Path server")
+    client.wait_for_server()
+
+    rospy.loginfo("generate Goal")
+    goal = deplacement_msg.msg.GeneratePathGoal(start=initialPose, goal=goalPose, timeout=rospy.Duration(secs=20, nsecs=0))
+
+    rospy.loginfo("send goal")
+    client.send_goal(goal, done_cb=None, active_cb=None, feedback_cb=pathFeedback_cb)
+
+    rospy.loginfo("wait for result")
+    client.wait_for_result()
+
+    result = client.get_result()
+
+    if (result.result ==  deplacement_msg.msg.GeneratePathResult.SUCCESS):
+        rospy.loginfo("Path finder find a path in : ")
+    else:
+        rospy.loginfo("Path not found : %d", result.result)
 
 def PathRequest():
     rospy.init_node('pathRequest_node', anonymous=True)

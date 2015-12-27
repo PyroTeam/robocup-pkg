@@ -33,6 +33,11 @@ GridMapGraph::~GridMapGraph()
  */
 void GridMapGraph::setGridMap(const nav_msgs::OccupancyGrid &grid)
 {
+    if (m_isSearchRunning)
+    {
+        ROS_ERROR("Path planning in progress : Unable to modify Grid map");
+        return;
+    }
     m_isInit = true;
     m_grid = grid;
 }

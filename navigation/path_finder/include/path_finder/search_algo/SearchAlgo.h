@@ -15,6 +15,7 @@
 
 #include <memory>
 #include <list>
+#include <atomic>
 #include "State.h"
 #include "Path.h"
 
@@ -35,9 +36,11 @@ public:
     virtual ~SearchAlgo();
 
     virtual void search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, Path &path) = 0;
+    virtual void cancelSearch();
 protected:
     std::shared_ptr<Graph> m_graph;
     bool m_reverse;
+    std::atomic<bool> m_cancelSearch;
 };
 
 #endif /* PATH_FINDER_SEARCHALGO_H_ */

@@ -22,9 +22,6 @@
 #include "search_algo/PointState.h"
 #include "search_algo/Path.h"
 #include "PathPlanner.h"
-#include "path_finder/GeneratePath.h"
-#include "path_finder/AstarPath.h"
-
 
 int main(int argc, char **argv)
 {
@@ -53,8 +50,6 @@ int main(int argc, char **argv)
     //publication des path et pathSmooth pour le debug
     ros::Publisher path_pub = nh.advertise<nav_msgs::Path>("/path", 1000);
     ros::Publisher pathSmooth_pub = nh.advertise<nav_msgs::Path>("/pathSmooth", 1000);
-    //AstarPath pour la compatibilité
-    ros::Publisher aStarPath_pub = nh.advertise<path_finder::AstarPath>("/pathFound", 1000);
 
     PathPlanner pathPlanner(graph, "navigation/generatePath");
 
@@ -65,11 +60,6 @@ int main(int argc, char **argv)
         const nav_msgs::Path &ps = pathPlanner.getPath(true);
         path_pub.publish(p);
         pathSmooth_pub.publish(ps);
-
-        path_finder::AstarPath asp;
-        asp.id = pathPlanner.getPathId();
-        asp.path = ps;
-        aStarPath_pub.publish(asp);
 
         ros::spinOnce();
         loop_rate.sleep();

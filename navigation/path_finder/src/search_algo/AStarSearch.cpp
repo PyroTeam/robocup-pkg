@@ -43,7 +43,8 @@ void AStarSearch::search(std::shared_ptr<State> &startState, std::shared_ptr<Sta
     m_openList.clear();
     m_closedSet.clear();
     m_openList.push(startState);
-    while (!m_openList.empty())
+    m_cancelSearch = false;
+    while (!m_openList.empty() && !m_cancelSearch)
     {
         //on traite le noeud ayant le cout de chemin le plus faible dans m_openList
         std::shared_ptr<State> currentState = m_openList.top();
