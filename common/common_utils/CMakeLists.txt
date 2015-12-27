@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  geometry_msgs
+  occupancy_grid_utils
 )
 
 ## System dependencies are found with CMake's conventions
@@ -101,7 +103,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include include/common_utils
-#  LIBRARIES common_utils
+  LIBRARIES common_utils
   CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
@@ -120,14 +122,16 @@ include_directories(
 )
 
 ## Declare a C++ library
-#add_library(common_utils
-#  src/common_utils.cpp
-#)
+add_library(common_utils
+  src/Parameter.cpp
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-#add_dependencies(common_utils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(common_utils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+set_target_properties(common_utils PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 #set_target_properties(common_utils PROPERTIES COMPILE_FLAGS "-std=c++11")
 
