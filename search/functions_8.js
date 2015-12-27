@@ -20,5 +20,6 @@ var searchData=
   ['isinzone',['isInZone',['../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516',1,'moveToPose.cpp']]],
   ['isopened',['isOpened',['../dc/d79/classSendScheduler.html#a01c86e4080fd06cd7e8edb5a8955d2fe',1,'SendScheduler']]],
   ['isready',['isReady',['../d0/d25/classRefBoxMessage.html#a9fb66a6a37cae3d78764bcbbe9cf4d05',1,'RefBoxMessage']]],
+  ['issearchrunning',['isSearchRunning',['../d2/d62/classGraph.html#afc3bb8bff92b9989abfb78e085182795',1,'Graph']]],
   ['isthesame',['isTheSame',['../d3/d5c/cartographie__utils_8h.html#abee7c4a0d6330a81ff8fd9c329751064',1,'isTheSame(Segment a, Segment b):&#160;cartographie_utils.cpp'],['../db/d1e/cartographie__utils_8cpp.html#abee7c4a0d6330a81ff8fd9c329751064',1,'isTheSame(Segment a, Segment b):&#160;cartographie_utils.cpp']]]
 ];

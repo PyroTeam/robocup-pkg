@@ -115,6 +115,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aef798e116808aaf0d25aa82c6c610963"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f8513fa5b0c97175f27099415ebab30"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d88/classSearchAlgo.html#a6f8513fa5b0c97175f27099415ebab30">search</a> (std::shared_ptr&lt; <a class="el" href="../../d7/d97/classState.html">State</a> &gt; &amp;startState, std::shared_ptr&lt; <a class="el" href="../../d7/d97/classState.html">State</a> &gt; &amp;endState, <a class="el" href="../../db/dc7/classPath.html">Path</a> &amp;path)=0</td></tr>
 <tr class="separator:a6f8513fa5b0c97175f27099415ebab30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8844f28adeb9ce07024cb2b9ab82d61f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d88/classSearchAlgo.html#a8844f28adeb9ce07024cb2b9ab82d61f">cancelSearch</a> ()</td></tr>
+<tr class="separator:a8844f28adeb9ce07024cb2b9ab82d61f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -122,12 +124,14 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:aab415d0f90cf20dbfc7139ec92fa9a27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa796d66522a4e0c594a3f38213eb4baa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d88/classSearchAlgo.html#aa796d66522a4e0c594a3f38213eb4baa">m_reverse</a></td></tr>
 <tr class="separator:aa796d66522a4e0c594a3f38213eb4baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe422f88c010c30a0ef2189dce95f99f"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d88/classSearchAlgo.html#afe422f88c010c30a0ef2189dce95f99f">m_cancelSearch</a></td></tr>
+<tr class="separator:afe422f88c010c30a0ef2189dce95f99f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Classe abstraite pour les algo de recherche sur des <a class="el" href="../../d2/d62/classGraph.html" title="Classe abstraite représentant un graph orienté ">Graph</a>. </p>
 <p> * La classe propose les interfaces génériques des algortihmes de recherche sur les <a class="el" href="../../d2/d62/classGraph.html" title="Classe abstraite représentant un graph orienté ">Graph</a> </p>
 
-<p>Definition at line <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html#l00031">31</a> of file <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html">SearchAlgo.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html#l00032">32</a> of file <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html">SearchAlgo.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ab52f10c34baae68a86cd7b3cc41da5bc"></a>
 <div class="memitem">
@@ -183,6 +187,32 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a8844f28adeb9ce07024cb2b9ab82d61f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SearchAlgo::cancelSearch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Méthode d'annulation d'une recherche, utile si la recherche est lancée dans un thread </p>
+
+<p>Definition at line <a class="el" href="../../db/d7f/SearchAlgo_8cpp_source.html#l00030">30</a> of file <a class="el" href="../../db/d7f/SearchAlgo_8cpp_source.html">SearchAlgo.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a6f8513fa5b0c97175f27099415ebab30"></a>
 <div class="memitem">
 <div class="memproto">
@@ -226,6 +256,28 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="afe422f88c010c30a0ef2189dce95f99f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;bool&gt; SearchAlgo::m_cancelSearch</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html#l00043">43</a> of file <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html">SearchAlgo.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aab415d0f90cf20dbfc7139ec92fa9a27"></a>
 <div class="memitem">
 <div class="memproto">
@@ -244,7 +296,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html#l00039">39</a> of file <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html">SearchAlgo.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html#l00041">41</a> of file <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html">SearchAlgo.h</a>.</p>
 
 </div>
 </div>
@@ -266,7 +318,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html#l00040">40</a> of file <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html">SearchAlgo.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html#l00042">42</a> of file <a class="el" href="../../d0/df8/SearchAlgo_8h_source.html">SearchAlgo.h</a>.</p>
 
 </div>
 </div>
@@ -277,7 +329,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 27 2015 19:32:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 27 2015 22:26:12 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

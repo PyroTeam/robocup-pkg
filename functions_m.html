@@ -136,6 +136,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_as
 : <a class="el" href="d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">MoveToPose</a>
 </li>
+<li>m_cancelSearch
+: <a class="el" href="df/d88/classSearchAlgo.html#afe422f88c010c30a0ef2189dce95f99f">SearchAlgo</a>
+</li>
 <li>m_centerMachine
 : <a class="el" href="dc/dda/classMachine.html#a41c5eb7c088dec04914f0054c61d4a05">Machine</a>
 </li>
@@ -195,14 +198,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_heuristic
 : <a class="el" href="d2/d62/classGraph.html#a3352f4ebfce790add940de97787f035a">Graph</a>
 </li>
-<li>m_id
-: <a class="el" href="d9/d45/classPathPlanner.html#a75495824626052cd118dfcef444c37a5">PathPlanner</a>
-</li>
 <li>m_io_service
 : <a class="el" href="d8/d10/classRefBoxTransport.html#aeb40c0eca387ade30d25be883cc83f32">RefBoxTransport</a>
 </li>
 <li>m_isInit
 : <a class="el" href="d2/d62/classGraph.html#af597d62cb6ddc3bca99cbcb1fddedc84">Graph</a>
+</li>
+<li>m_isSearchRunning
+: <a class="el" href="d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">Graph</a>
 </li>
 <li>m_margin
 : <a class="el" href="df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">occupancy_grid_utils::Rectangle</a>
@@ -242,14 +245,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_parameter
 : <a class="el" href="de/da4/classfinalApproaching.html#a43ab38e01499e4ca7142d84f4e4f7c5b">finalApproaching</a>
 </li>
+<li>m_path_as
+: <a class="el" href="d9/d45/classPathPlanner.html#ae89fb1a5afc5a1ae394741571007a430">PathPlanner</a>
+</li>
 <li>m_path_pub
 : <a class="el" href="d9/d45/classPathPlanner.html#a126356787f742b3424537aeb065442f5">PathPlanner</a>
 </li>
-<li>m_path_srv
-: <a class="el" href="d9/d45/classPathPlanner.html#a46651ec00aaf47b7713faceb613f8ff3">PathPlanner</a>
+<li>m_pathFeedback
+: <a class="el" href="d9/d45/classPathPlanner.html#ae8750ef807dcabba9aa742a6faa47edb">PathPlanner</a>
 </li>
 <li>m_pathFound
 : <a class="el" href="d9/d45/classPathPlanner.html#a88789df822508ef138b25cc4ece27ff3">PathPlanner</a>
+</li>
+<li>m_pathResult
+: <a class="el" href="d9/d45/classPathPlanner.html#a09e8bd3d67f51b884e28abfd9fe4370d">PathPlanner</a>
 </li>
 <li>m_pathSmoothed
 : <a class="el" href="d9/d45/classPathPlanner.html#aa9919bc41e1d067ed335ddb51471e85a">PathPlanner</a>
@@ -441,7 +450,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 27 2015 19:32:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 27 2015 22:26:12 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

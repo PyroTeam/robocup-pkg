@@ -107,13 +107,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a61bd61f848e519df56b75eddd3732ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02057c47c1141918d97124f2d982c322"><td class="memItemLeft" align="right" valign="top">const nav_msgs::Path &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#a02057c47c1141918d97124f2d982c322">getPath</a> (bool smoothed=false) const </td></tr>
 <tr class="separator:a02057c47c1141918d97124f2d982c322"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b31007fee0e57799bf79daaf8e73751"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#a0b31007fee0e57799bf79daaf8e73751">getPathId</a> () const </td></tr>
-<tr class="separator:a0b31007fee0e57799bf79daaf8e73751"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a8f5845c700e443c69d9450c52115c823"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#a8f5845c700e443c69d9450c52115c823">generatePath_callback</a> (path_finder::GeneratePath::Request &amp;req, path_finder::GeneratePath::Response &amp;res)</td></tr>
-<tr class="separator:a8f5845c700e443c69d9450c52115c823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab777a8939fa347555b7a00e4e16fb6bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#ab777a8939fa347555b7a00e4e16fb6bb">generatePathExecute_callback</a> (const deplacement_msg::GeneratePathGoalConstPtr &amp;goal)</td></tr>
+<tr class="separator:ab777a8939fa347555b7a00e4e16fb6bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -123,20 +121,23 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a13b424ca7c4f1bf4b5dbf0e8593ebdea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a126356787f742b3424537aeb065442f5"><td class="memItemLeft" align="right" valign="top">ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#a126356787f742b3424537aeb065442f5">m_path_pub</a></td></tr>
 <tr class="separator:a126356787f742b3424537aeb065442f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46651ec00aaf47b7713faceb613f8ff3"><td class="memItemLeft" align="right" valign="top">ros::ServiceServer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#a46651ec00aaf47b7713faceb613f8ff3">m_path_srv</a></td></tr>
-<tr class="separator:a46651ec00aaf47b7713faceb613f8ff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae89fb1a5afc5a1ae394741571007a430"><td class="memItemLeft" align="right" valign="top">actionlib::SimpleActionServer<br class="typebreak"/>
+&lt; deplacement_msg::GeneratePathAction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#ae89fb1a5afc5a1ae394741571007a430">m_path_as</a></td></tr>
+<tr class="separator:ae89fb1a5afc5a1ae394741571007a430"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8750ef807dcabba9aa742a6faa47edb"><td class="memItemLeft" align="right" valign="top">deplacement_msg::GeneratePathFeedback&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#ae8750ef807dcabba9aa742a6faa47edb">m_pathFeedback</a></td></tr>
+<tr class="separator:ae8750ef807dcabba9aa742a6faa47edb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09e8bd3d67f51b884e28abfd9fe4370d"><td class="memItemLeft" align="right" valign="top">deplacement_msg::GeneratePathResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#a09e8bd3d67f51b884e28abfd9fe4370d">m_pathResult</a></td></tr>
+<tr class="separator:a09e8bd3d67f51b884e28abfd9fe4370d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88789df822508ef138b25cc4ece27ff3"><td class="memItemLeft" align="right" valign="top">nav_msgs::Path&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#a88789df822508ef138b25cc4ece27ff3">m_pathFound</a></td></tr>
 <tr class="separator:a88789df822508ef138b25cc4ece27ff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9919bc41e1d067ed335ddb51471e85a"><td class="memItemLeft" align="right" valign="top">nav_msgs::Path&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#aa9919bc41e1d067ed335ddb51471e85a">m_pathSmoothed</a></td></tr>
 <tr class="separator:aa9919bc41e1d067ed335ddb51471e85a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75495824626052cd118dfcef444c37a5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d45/classPathPlanner.html#a75495824626052cd118dfcef444c37a5">m_id</a></td></tr>
-<tr class="separator:a75495824626052cd118dfcef444c37a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Classe de gestion du noeud. </p>
-<p>La classe gère la réponse aux appel de l'action generatePath </p>
+<p>La classe gère la réponse aux appels de l'action generatePath </p>
 
-<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00036">36</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00035">35</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="af8b478fe0f0e66121ee87877d4b95280"></a>
 <div class="memitem">
@@ -162,7 +163,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html#l00018">18</a> of file <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html">PathPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html#l00022">22</a> of file <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html">PathPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -187,12 +188,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html#l00028">28</a> of file <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html">PathPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html#l00035">35</a> of file <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html">PathPlanner.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a8f5845c700e443c69d9450c52115c823"></a>
+<a class="anchor" id="ab777a8939fa347555b7a00e4e16fb6bb"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -200,21 +201,11 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool PathPlanner::generatePath_callback </td>
+          <td class="memname">void PathPlanner::generatePathExecute_callback </td>
           <td>(</td>
-          <td class="paramtype">path_finder::GeneratePath::Request &amp;&#160;</td>
-          <td class="paramname"><em>req</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">const deplacement_msg::GeneratePathGoalConstPtr &amp;&#160;</td>
+          <td class="paramname"><em>goal</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">path_finder::GeneratePath::Response &amp;&#160;</td>
-          <td class="paramname"><em>res</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -224,7 +215,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html#l00033">33</a> of file <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html">PathPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html#l00040">40</a> of file <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html">PathPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -242,24 +233,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html#l00094">94</a> of file <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html">PathPlanner.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0b31007fee0e57799bf79daaf8e73751"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int PathPlanner::getPathId </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html#l00106">106</a> of file <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html">PathPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html#l00128">128</a> of file <a class="el" href="../../d4/dbd/PathPlanner_8cpp_source.html">PathPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -282,29 +256,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00045">45</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a75495824626052cd118dfcef444c37a5"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int PathPlanner::m_id</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00056">56</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00043">43</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
 
 </div>
 </div>
@@ -326,7 +278,29 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00047">47</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00045">45</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae89fb1a5afc5a1ae394741571007a430"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">actionlib::SimpleActionServer&lt;deplacement_msg::GeneratePathAction&gt; PathPlanner::m_path_as</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00048">48</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
 
 </div>
 </div>
@@ -348,11 +322,11 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00048">48</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00046">46</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a46651ec00aaf47b7713faceb613f8ff3"></a>
+<a class="anchor" id="ae8750ef807dcabba9aa742a6faa47edb"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -360,7 +334,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ros::ServiceServer PathPlanner::m_path_srv</td>
+          <td class="memname">deplacement_msg::GeneratePathFeedback PathPlanner::m_pathFeedback</td>
         </tr>
       </table>
   </td>
@@ -370,7 +344,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00051">51</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00049">49</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
 
 </div>
 </div>
@@ -392,7 +366,29 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00054">54</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00053">53</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a09e8bd3d67f51b884e28abfd9fe4370d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">deplacement_msg::GeneratePathResult PathPlanner::m_pathResult</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00050">50</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
 
 </div>
 </div>
@@ -414,7 +410,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00055">55</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html#l00054">54</a> of file <a class="el" href="../../d4/d7c/PathPlanner_8h_source.html">PathPlanner.h</a>.</p>
 
 </div>
 </div>
@@ -425,7 +421,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 27 2015 19:32:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 27 2015 22:26:12 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

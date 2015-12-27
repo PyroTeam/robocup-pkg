@@ -132,35 +132,36 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="../../db/dc7/classPath.html#a9506fc4722ae61f87d9202cc060ad13a">m_weightData</a> = weightData;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../db/dc7/classPath.html#a1aba1cfe1fcf2aea100dfe9ca135f046">m_weightSmooth</a> = weightSmooth;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../db/dc7/classPath.html#a9011b0277d9ba287e03ed6e5587a229b">   54</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/dc7/classPath.html#a9011b0277d9ba287e03ed6e5587a229b">Path::smooth</a>()</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">int</span> pathSize = <a class="code" href="../../db/dc7/classPath.html#a77d4967a632222c2935254b7cd1323d3">m_poses</a>.size();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    std::vector&lt;geometry_msgs::PoseStamped&gt; newPath;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    newPath = <a class="code" href="../../db/dc7/classPath.html#a77d4967a632222c2935254b7cd1323d3">m_poses</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">double</span> tolerance = 0.000001;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">double</span> change = tolerance+1;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">while</span> (change &gt;= tolerance)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordtype">double</span> aux = 0;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        change = 0.0;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=1; i&lt;pathSize-1; i++)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            aux = newPath[i].pose.position.x;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            newPath[i].pose.position.x = newPath[i].pose.position.x + <a class="code" href="../../db/dc7/classPath.html#a9506fc4722ae61f87d9202cc060ad13a">m_weightData</a> * (<a class="code" href="../../db/dc7/classPath.html#a77d4967a632222c2935254b7cd1323d3">m_poses</a>[i].pose.position.x - newPath[i].pose.position.x);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            newPath[i].pose.position.x = newPath[i].pose.position.x + <a class="code" href="../../db/dc7/classPath.html#a1aba1cfe1fcf2aea100dfe9ca135f046">m_weightSmooth</a> * (newPath[i-1].pose.position.x + newPath[i+1].pose.position.x-(2.0 * newPath[i].pose.position.x));</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            change =change + std::abs(aux-newPath[i].pose.position.x);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            aux = newPath[i].pose.position.y;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            newPath[i].pose.position.y = newPath[i].pose.position.y + <a class="code" href="../../db/dc7/classPath.html#a9506fc4722ae61f87d9202cc060ad13a">m_weightData</a> * (<a class="code" href="../../db/dc7/classPath.html#a77d4967a632222c2935254b7cd1323d3">m_poses</a>[i].pose.position.y - newPath[i].pose.position.y);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            newPath[i].pose.position.y = newPath[i].pose.position.y + <a class="code" href="../../db/dc7/classPath.html#a1aba1cfe1fcf2aea100dfe9ca135f046">m_weightSmooth</a> * (newPath[i-1].pose.position.y + newPath[i+1].pose.position.y-(2.0 * newPath[i].pose.position.y));</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            change = change + std::abs(aux-newPath[i].pose.position.y);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="../../db/dc7/classPath.html#a77d4967a632222c2935254b7cd1323d3">m_poses</a> = newPath;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../db/dc7/classPath.html#a9011b0277d9ba287e03ed6e5587a229b">   55</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/dc7/classPath.html#a9011b0277d9ba287e03ed6e5587a229b">Path::smooth</a>()</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">int</span> pathSize = <a class="code" href="../../db/dc7/classPath.html#a77d4967a632222c2935254b7cd1323d3">m_poses</a>.size();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    std::vector&lt;geometry_msgs::PoseStamped&gt; newPath;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    newPath = <a class="code" href="../../db/dc7/classPath.html#a77d4967a632222c2935254b7cd1323d3">m_poses</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">double</span> tolerance = 0.000001;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">double</span> change = tolerance+1;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">while</span> (change &gt;= tolerance)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">double</span> aux = 0;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        change = 0.0;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=1; i&lt;pathSize-1; i++)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            aux = newPath[i].pose.position.x;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            newPath[i].pose.position.x = newPath[i].pose.position.x + <a class="code" href="../../db/dc7/classPath.html#a9506fc4722ae61f87d9202cc060ad13a">m_weightData</a> * (<a class="code" href="../../db/dc7/classPath.html#a77d4967a632222c2935254b7cd1323d3">m_poses</a>[i].pose.position.x - newPath[i].pose.position.x);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            newPath[i].pose.position.x = newPath[i].pose.position.x + <a class="code" href="../../db/dc7/classPath.html#a1aba1cfe1fcf2aea100dfe9ca135f046">m_weightSmooth</a> * (newPath[i-1].pose.position.x + newPath[i+1].pose.position.x-(2.0 * newPath[i].pose.position.x));</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            change =change + std::abs(aux-newPath[i].pose.position.x);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            aux = newPath[i].pose.position.y;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            newPath[i].pose.position.y = newPath[i].pose.position.y + <a class="code" href="../../db/dc7/classPath.html#a9506fc4722ae61f87d9202cc060ad13a">m_weightData</a> * (<a class="code" href="../../db/dc7/classPath.html#a77d4967a632222c2935254b7cd1323d3">m_poses</a>[i].pose.position.y - newPath[i].pose.position.y);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            newPath[i].pose.position.y = newPath[i].pose.position.y + <a class="code" href="../../db/dc7/classPath.html#a1aba1cfe1fcf2aea100dfe9ca135f046">m_weightSmooth</a> * (newPath[i-1].pose.position.y + newPath[i+1].pose.position.y-(2.0 * newPath[i].pose.position.y));</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            change = change + std::abs(aux-newPath[i].pose.position.y);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="../../db/dc7/classPath.html#a77d4967a632222c2935254b7cd1323d3">m_poses</a> = newPath;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
 <div class="ttc" id="classPointState_html"><div class="ttname"><a href="../../d4/d74/classPointState.html">PointState</a></div><div class="ttdoc">Classe concrète représentant un état sous forme d&#39;un geometry_msgs::Point. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dc2/PointState_8h_source.html#l00028">PointState.h:28</a></div></div>
-<div class="ttc" id="classPath_html_a9011b0277d9ba287e03ed6e5587a229b"><div class="ttname"><a href="../../db/dc7/classPath.html#a9011b0277d9ba287e03ed6e5587a229b">Path::smooth</a></div><div class="ttdeci">void smooth()</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dbb/Path_8cpp_source.html#l00054">Path.cpp:54</a></div></div>
+<div class="ttc" id="classPath_html_a9011b0277d9ba287e03ed6e5587a229b"><div class="ttname"><a href="../../db/dc7/classPath.html#a9011b0277d9ba287e03ed6e5587a229b">Path::smooth</a></div><div class="ttdeci">void smooth()</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dbb/Path_8cpp_source.html#l00055">Path.cpp:55</a></div></div>
 <div class="ttc" id="PointState_8h_html"><div class="ttname"><a href="../../d0/dc2/PointState_8h.html">PointState.h</a></div></div>
 <div class="ttc" id="classPath_html_a9506fc4722ae61f87d9202cc060ad13a"><div class="ttname"><a href="../../db/dc7/classPath.html#a9506fc4722ae61f87d9202cc060ad13a">Path::m_weightData</a></div><div class="ttdeci">double m_weightData</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d6f/Path_8h_source.html#l00084">Path.h:84</a></div></div>
 <div class="ttc" id="classPath_html_a402b2729099e428a271bad6abcb4611f"><div class="ttname"><a href="../../db/dc7/classPath.html#a402b2729099e428a271bad6abcb4611f">Path::push_back</a></div><div class="ttdeci">void push_back(const geometry_msgs::PoseStamped &amp;pose)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d6f/Path_8h_source.html#l00072">Path.h:72</a></div></div>
@@ -176,7 +177,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 27 2015 19:32:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 27 2015 22:26:11 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

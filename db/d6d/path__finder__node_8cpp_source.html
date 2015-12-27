@@ -103,62 +103,52 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d0/dc2/PointState_8h.html">search_algo/PointState.h</a>&quot;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../df/d6f/Path_8h.html">search_algo/Path.h</a>&quot;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d4/d7c/PathPlanner_8h.html">PathPlanner.h</a>&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;path_finder/GeneratePath.h&quot;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;path_finder/AstarPath.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../db/d6d/path__finder__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">   29</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../db/d6d/path__finder__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">int</span> loopFreq = 10;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="../../db/d6d/path__finder__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">   26</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../db/d6d/path__finder__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">int</span> loopFreq = 10;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;path_finder&quot;</span>);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    ros::NodeHandle nh;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;path_finder&quot;</span>);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    ros::NodeHandle nh;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ROS_INFO_STREAM(<span class="stringliteral">&quot;Path finder : launched...&quot;</span>);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">//paramètres</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">bool</span> tieBreaking = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    nh.param&lt;<span class="keywordtype">bool</span>&gt;(<span class="stringliteral">&quot;navigation/pathFinder/aStarTieBreaking&quot;</span>, tieBreaking, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">//Création du graph et des algorithmes</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    std::shared_ptr&lt;Graph&gt; graph(<span class="keyword">new</span> <a class="code" href="../../d1/dfa/classGridMapGraph.html">GridMapGraph</a>());</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    std::shared_ptr&lt;AStarSearch&gt; searchAlgo(<span class="keyword">new</span> <a class="code" href="../../d9/d5b/classAStarSearch.html">AStarSearch</a>(graph, <span class="keyword">true</span>));</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    searchAlgo-&gt;setTieBreaking(tieBreaking);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    graph-&gt;setSearchAlgo(searchAlgo);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::shared_ptr&lt;Heuristic&gt; heuristic(<span class="keyword">new</span> <a class="code" href="../../d4/dbd/classEuclidianHeuristic.html">EuclidianHeuristic</a>());</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    std::shared_ptr&lt;Heuristic&gt; heuristicDiag(<span class="keyword">new</span> <a class="code" href="../../d8/d30/classDiagonalHeuristic.html">DiagonalHeuristic</a>());</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    graph-&gt;setHeuristic(heuristicDiag);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    std::shared_ptr&lt;UpdateGraph&gt; updateGraph(<span class="keyword">new</span> <a class="code" href="../../d6/d8b/classUpdateGridMapGraph.html">UpdateGridMapGraph</a>(<span class="stringliteral">&quot;/map&quot;</span>, graph));</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">//publication des path et pathSmooth pour le debug</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    ros::Publisher path_pub = nh.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;/path&quot;</span>, 1000);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    ros::Publisher pathSmooth_pub = nh.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;/pathSmooth&quot;</span>, 1000);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">//AstarPath pour la compatibilité</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    ros::Publisher aStarPath_pub = nh.advertise&lt;path_finder::AstarPath&gt;(<span class="stringliteral">&quot;/pathFound&quot;</span>, 1000);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="../../d9/d45/classPathPlanner.html">PathPlanner</a> pathPlanner(graph, <span class="stringliteral">&quot;navigation/generatePath&quot;</span>);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    ros::Rate loop_rate(loopFreq);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">while</span> (ros::ok())</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">const</span> nav_msgs::Path &amp;p = pathPlanner.getPath();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">const</span> nav_msgs::Path &amp;ps = pathPlanner.getPath(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        path_pub.publish(p);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        pathSmooth_pub.publish(ps);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        path_finder::AstarPath asp;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        asp.id = pathPlanner.getPathId();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        asp.path = ps;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        aStarPath_pub.publish(asp);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        ros::spinOnce();</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        loop_rate.sleep();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
-<div class="ttc" id="classPathPlanner_html"><div class="ttname"><a href="../../d9/d45/classPathPlanner.html">PathPlanner</a></div><div class="ttdoc">Classe de gestion du noeud. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d7c/PathPlanner_8h_source.html#l00036">PathPlanner.h:36</a></div></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    ROS_INFO_STREAM(<span class="stringliteral">&quot;Path finder : launched...&quot;</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">//paramètres</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">bool</span> tieBreaking = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    nh.param&lt;<span class="keywordtype">bool</span>&gt;(<span class="stringliteral">&quot;navigation/pathFinder/aStarTieBreaking&quot;</span>, tieBreaking, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">//Création du graph et des algorithmes</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    std::shared_ptr&lt;Graph&gt; graph(<span class="keyword">new</span> <a class="code" href="../../d1/dfa/classGridMapGraph.html">GridMapGraph</a>());</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    std::shared_ptr&lt;AStarSearch&gt; searchAlgo(<span class="keyword">new</span> <a class="code" href="../../d9/d5b/classAStarSearch.html">AStarSearch</a>(graph, <span class="keyword">true</span>));</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    searchAlgo-&gt;setTieBreaking(tieBreaking);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    graph-&gt;setSearchAlgo(searchAlgo);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    std::shared_ptr&lt;Heuristic&gt; heuristic(<span class="keyword">new</span> <a class="code" href="../../d4/dbd/classEuclidianHeuristic.html">EuclidianHeuristic</a>());</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    std::shared_ptr&lt;Heuristic&gt; heuristicDiag(<span class="keyword">new</span> <a class="code" href="../../d8/d30/classDiagonalHeuristic.html">DiagonalHeuristic</a>());</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    graph-&gt;setHeuristic(heuristicDiag);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::shared_ptr&lt;UpdateGraph&gt; updateGraph(<span class="keyword">new</span> <a class="code" href="../../d6/d8b/classUpdateGridMapGraph.html">UpdateGridMapGraph</a>(<span class="stringliteral">&quot;/map&quot;</span>, graph));</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">//publication des path et pathSmooth pour le debug</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    ros::Publisher path_pub = nh.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;/path&quot;</span>, 1000);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ros::Publisher pathSmooth_pub = nh.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;/pathSmooth&quot;</span>, 1000);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="../../d9/d45/classPathPlanner.html">PathPlanner</a> pathPlanner(graph, <span class="stringliteral">&quot;navigation/generatePath&quot;</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    ros::Rate loop_rate(loopFreq);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">while</span> (ros::ok())</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">const</span> nav_msgs::Path &amp;p = pathPlanner.getPath();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">const</span> nav_msgs::Path &amp;ps = pathPlanner.getPath(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        path_pub.publish(p);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        pathSmooth_pub.publish(ps);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        ros::spinOnce();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        loop_rate.sleep();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="ttc" id="classPathPlanner_html"><div class="ttname"><a href="../../d9/d45/classPathPlanner.html">PathPlanner</a></div><div class="ttdoc">Classe de gestion du noeud. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d7c/PathPlanner_8h_source.html#l00035">PathPlanner.h:35</a></div></div>
 <div class="ttc" id="UpdateGridMapGraph_8h_html"><div class="ttname"><a href="../../d8/de0/UpdateGridMapGraph_8h.html">UpdateGridMapGraph.h</a></div></div>
 <div class="ttc" id="classGridMapGraph_html"><div class="ttname"><a href="../../d1/dfa/classGridMapGraph.html">GridMapGraph</a></div><div class="ttdoc">Classe concrète dérivée de Graph pour les nav_msgs::OccupancyGrid. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/ddd/GridMapGraph_8h_source.html#l00029">GridMapGraph.h:29</a></div></div>
 <div class="ttc" id="PointState_8h_html"><div class="ttname"><a href="../../d0/dc2/PointState_8h.html">PointState.h</a></div></div>
@@ -171,11 +161,11 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="Path_8h_html"><div class="ttname"><a href="../../df/d6f/Path_8h.html">Path.h</a></div></div>
 <div class="ttc" id="AStarSearch_8h_html"><div class="ttname"><a href="../../db/d55/AStarSearch_8h.html">AStarSearch.h</a></div></div>
 <div class="ttc" id="classEuclidianHeuristic_html"><div class="ttname"><a href="../../d4/dbd/classEuclidianHeuristic.html">EuclidianHeuristic</a></div><div class="ttdoc">Classe concrète dérivée de Heuristic pour l&#39;heuristique euclidienne. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dc7/Heuristic_8h_source.html#l00052">Heuristic.h:52</a></div></div>
-<div class="ttc" id="path__finder__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../db/d6d/path__finder__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d6d/path__finder__node_8cpp_source.html#l00029">path_finder_node.cpp:29</a></div></div>
+<div class="ttc" id="path__finder__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../db/d6d/path__finder__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d6d/path__finder__node_8cpp_source.html#l00026">path_finder_node.cpp:26</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 27 2015 19:32:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 27 2015 22:26:11 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

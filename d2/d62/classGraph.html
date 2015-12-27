@@ -115,6 +115,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a902c5b3eacb66d60752525ab23297a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d2c624600ebb16c38c16799ca7e519d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d62/classGraph.html#a1d2c624600ebb16c38c16799ca7e519d">search</a> (std::shared_ptr&lt; <a class="el" href="../../d7/d97/classState.html">State</a> &gt; &amp;startState, std::shared_ptr&lt; <a class="el" href="../../d7/d97/classState.html">State</a> &gt; &amp;endState, <a class="el" href="../../db/dc7/classPath.html">Path</a> &amp;path)</td></tr>
 <tr class="separator:a1d2c624600ebb16c38c16799ca7e519d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b48b7a91129f12de8162144a05c6040"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d62/classGraph.html#a1b48b7a91129f12de8162144a05c6040">cancelSearch</a> ()</td></tr>
+<tr class="separator:a1b48b7a91129f12de8162144a05c6040"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc3bb8bff92b9989abfb78e085182795"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d62/classGraph.html#afc3bb8bff92b9989abfb78e085182795">isSearchRunning</a> ()</td></tr>
+<tr class="separator:afc3bb8bff92b9989abfb78e085182795"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a027365f2cf18c26a5b1ad712470d27e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d62/classGraph.html#a027365f2cf18c26a5b1ad712470d27e7">setHeuristic</a> (const std::shared_ptr&lt; <a class="el" href="../../d7/dfa/classHeuristic.html">Heuristic</a> &gt; &amp;heuristic)</td></tr>
 <tr class="separator:a027365f2cf18c26a5b1ad712470d27e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28a3476d45b457f3d886e393b5fee1f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d62/classGraph.html#a28a3476d45b457f3d886e393b5fee1f0">setSearchAlgo</a> (const std::shared_ptr&lt; <a class="el" href="../../df/d88/classSearchAlgo.html">SearchAlgo</a> &gt; &amp;searchAlgo)</td></tr>
@@ -136,12 +140,14 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a3352f4ebfce790add940de97787f035a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a214ba8b7f600e2ecba7e5e11f4e0fa57"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../df/d88/classSearchAlgo.html">SearchAlgo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d62/classGraph.html#a214ba8b7f600e2ecba7e5e11f4e0fa57">m_searchAlgo</a></td></tr>
 <tr class="separator:a214ba8b7f600e2ecba7e5e11f4e0fa57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc860519781ef636c0d2e9e76832504f"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">m_isSearchRunning</a></td></tr>
+<tr class="separator:afc860519781ef636c0d2e9e76832504f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Classe abstraite représentant un graph orienté </p>
 <p>La classe offre les interfaces de bases de manipulation du graph, ces fonctionnalités sont configurables. Par exemple, elle possède une méthode de recherche de chemin. L'algorithme de recherche est attribué à la classe et est modifiable (Dijkstra, Astar...) </p>
 
-<p>Definition at line <a class="el" href="../../d7/d16/Graph_8h_source.html#l00034">34</a> of file <a class="el" href="../../d7/d16/Graph_8h_source.html">Graph.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d16/Graph_8h_source.html#l00035">35</a> of file <a class="el" href="../../d7/d16/Graph_8h_source.html">Graph.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ae4c72b8ac4d693c49800a4c7e273654f"></a>
 <div class="memitem">
@@ -186,6 +192,24 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a1b48b7a91129f12de8162144a05c6040"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Graph::cancelSearch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Méthode d'annulation d'une recherche, utile si la recherche est lancée dans un thread </p>
+
+<p>Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00098">98</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a99353307b7703c348417e1d87516a887"></a>
 <div class="memitem">
 <div class="memproto">
@@ -219,7 +243,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>le résultat du calcul de l'heuristique </dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00056">56</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00066">66</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
 
 </div>
 </div>
@@ -265,7 +289,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="../../d1/dfa/classGridMapGraph.html#a84f6ecc71f0e9118774ef5965dadb2fb">GridMapGraph</a>.</p>
 
-<p>Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00088">88</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00119">119</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
 
 </div>
 </div>
@@ -341,6 +365,25 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="afc3bb8bff92b9989abfb78e085182795"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Graph::isSearchRunning </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Méthode permettant de savoir si une recherche est en cours, utile si la recherche est lancée dans un thread</p>
+<dl class="section return"><dt>Returns</dt><dd>true si une recherche est en cours, false sinon </dd></dl>
+
+<p>Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00108">108</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a1d2c624600ebb16c38c16799ca7e519d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -380,7 +423,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00068">68</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00078">78</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
 
 </div>
 </div>
@@ -430,7 +473,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00043">43</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00048">48</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
 
 </div>
 </div>
@@ -453,7 +496,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d16/Graph_8h_source.html#l00050">50</a> of file <a class="el" href="../../d7/d16/Graph_8h_source.html">Graph.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d16/Graph_8h_source.html#l00053">53</a> of file <a class="el" href="../../d7/d16/Graph_8h_source.html">Graph.h</a>.</p>
 
 </div>
 </div>
@@ -475,7 +518,29 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d16/Graph_8h_source.html#l00049">49</a> of file <a class="el" href="../../d7/d16/Graph_8h_source.html">Graph.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d16/Graph_8h_source.html#l00052">52</a> of file <a class="el" href="../../d7/d16/Graph_8h_source.html">Graph.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afc860519781ef636c0d2e9e76832504f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;bool&gt; Graph::m_isSearchRunning</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d16/Graph_8h_source.html#l00055">55</a> of file <a class="el" href="../../d7/d16/Graph_8h_source.html">Graph.h</a>.</p>
 
 </div>
 </div>
@@ -497,7 +562,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d16/Graph_8h_source.html#l00051">51</a> of file <a class="el" href="../../d7/d16/Graph_8h_source.html">Graph.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d16/Graph_8h_source.html#l00054">54</a> of file <a class="el" href="../../d7/d16/Graph_8h_source.html">Graph.h</a>.</p>
 
 </div>
 </div>
@@ -508,7 +573,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 27 2015 19:32:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 27 2015 22:26:12 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
