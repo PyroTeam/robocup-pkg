@@ -130,7 +130,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">if</span> (ranges[i] &lt; <a class="code" href="../../dd/d5c/dataLaser_8cpp.html#ac6237b5f7feb8dc2133b975a7476e723">LASER_RANGE_MAX</a>)</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            {</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="comment">//ROS_INFO(&quot;Point %d : %f &lt; %f&quot;, i, ranges[i], m_scan.range_max); </span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordtype">float</span> <a class="code" href="../../d2/de2/math__functions_8h.html#a79c25249c32ed436c0598fcdf007b3d3">angle</a> = m_scan.angle_min + i * m_scan.angle_increment;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordtype">float</span> <a class="code" href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">angle</a> = m_scan.angle_min + i * m_scan.angle_increment;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordtype">float</span> x = ranges[i] * cos(angle);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <span class="keywordtype">float</span> y = ranges[i] * sin(angle);</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                geometry_msgs::Point point;</div>
@@ -181,9 +181,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    m_scan = scan;</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    m_receiveScan = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
+<div class="ttc" id="namespacegeometry__utils_html_aaefa7120290578f7459a5030c4d9f1b4"><div class="ttname"><a href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">geometry_utils::angle</a></div><div class="ttdeci">double angle(const geometry_msgs::Point &amp;p0)</div></div>
 <div class="ttc" id="dataLaser_8cpp_html_ac6237b5f7feb8dc2133b975a7476e723"><div class="ttname"><a href="../../dd/d5c/dataLaser_8cpp.html#ac6237b5f7feb8dc2133b975a7476e723">LASER_RANGE_MAX</a></div><div class="ttdeci">#define LASER_RANGE_MAX</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/dataLaser_8cpp_source.html#l00016">dataLaser.cpp:16</a></div></div>
 <div class="ttc" id="classMap_html_a82facb5bfb7ca989e13d58850ee442db"><div class="ttname"><a href="../../d7/db0/classMap.html#a82facb5bfb7ca989e13d58850ee442db">Map::drawDisc</a></div><div class="ttdeci">void drawDisc(nav_msgs::OccupancyGrid &amp;grid, geometry_msgs::Point center)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd3/map_8cpp_source.html#l00046">map.cpp:46</a></div></div>
-<div class="ttc" id="math__functions_8h_html_a79c25249c32ed436c0598fcdf007b3d3"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html#a79c25249c32ed436c0598fcdf007b3d3">angle</a></div><div class="ttdeci">double angle(Segment a, Segment b)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d90/math__functions_8cpp_source.html#l00052">math_functions.cpp:52</a></div></div>
 <div class="ttc" id="classDataLaser_html_a8f564195b3f2f3b20fcbf0a0b1cedd5c"><div class="ttname"><a href="../../d0/dd2/classDataLaser.html#a8f564195b3f2f3b20fcbf0a0b1cedd5c">DataLaser::recoverDataLaser</a></div><div class="ttdeci">void recoverDataLaser()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/dataLaser_8cpp_source.html#l00032">dataLaser.cpp:32</a></div></div>
 <div class="ttc" id="classDataLaser_html_a44c9f5abbb5544c3d42154d4020d4bf0"><div class="ttname"><a href="../../d0/dd2/classDataLaser.html#a44c9f5abbb5544c3d42154d4020d4bf0">DataLaser::getDataLaser</a></div><div class="ttdeci">std::vector&lt; geometry_msgs::Point &gt; getDataLaser()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/dataLaser_8cpp_source.html#l00018">dataLaser.cpp:18</a></div></div>
 <div class="ttc" id="dataLaser_8h_html"><div class="ttname"><a href="../../d0/d37/dataLaser_8h.html">dataLaser.h</a></div></div>
@@ -191,7 +191,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 26 2015 23:54:42 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 27 2015 13:54:33 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

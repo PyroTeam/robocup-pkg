@@ -541,7 +541,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    }</div>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    <span class="keywordflow">if</span>(it!=tabPoints.end() &amp;&amp; i!=j)</div>
 <div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    {</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;        std::vector&lt;Point&gt; <a class="code" href="../../d3/d92/Map_8cpp.html#ad59ae1492488ac56cec65ffd16779fa8">tab</a> = *it;</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;        std::vector&lt;Point&gt; tab = *it;</div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;        <a class="code" href="../../dc/d4f/classPoint.html">Point</a> pmin(ranges[i],angleMin+(<span class="keywordtype">double</span>)i*angleInc);</div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;        <a class="code" href="../../dc/d4f/classPoint.html">Point</a> pmax(ranges[j],angleMin+(<span class="keywordtype">double</span>)j*angleInc);</div>
 <div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="../../df/d24/fa__utils_8h.html#ad83617d4280182642bbfee465c6f5c66">distance2points</a>(tab[0],tab[tab.size()-1]);</div>
@@ -936,7 +936,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classfinalApproaching_html_a9914f24e4071f841dcd56c9d490d21fd"><div class="ttname"><a href="../../de/da4/classfinalApproaching.html#a9914f24e4071f841dcd56c9d490d21fd">finalApproaching::executeCB</a></div><div class="ttdeci">void executeCB(const manager_msg::finalApproachingGoalConstPtr &amp;goal)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da7/finalApproaching_8cpp_source.html#l00034">finalApproaching.cpp:34</a></div></div>
 <div class="ttc" id="classArTagFA_html"><div class="ttname"><a href="../../db/d22/classArTagFA.html">ArTagFA</a></div><div class="ttdoc">classe récupérant les données du topic /ar_pose_markers </div><div class="ttdef"><b>Definition:</b> <a href="../../de/db5/arTagFA_8h_source.html#l00018">arTagFA.h:18</a></div></div>
 <div class="ttc" id="classSharps_html_a7c819b61f9a88f04851d1459c5703232"><div class="ttname"><a href="../../d1/d75/classSharps.html#a7c819b61f9a88f04851d1459c5703232">Sharps::getObstacle</a></div><div class="ttdeci">std::vector&lt; bool &gt; getObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d8d/sharps_8h_source.html#l00022">sharps.h:22</a></div></div>
-<div class="ttc" id="Map_8cpp_html_ad59ae1492488ac56cec65ffd16779fa8"><div class="ttname"><a href="../../d3/d92/Map_8cpp.html#ad59ae1492488ac56cec65ffd16779fa8">tab</a></div><div class="ttdeci">std::vector&lt; geometry_msgs::Pose2D &gt; tab</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d92/Map_8cpp_source.html#l00005">Map.cpp:5</a></div></div>
 <div class="ttc" id="math__functions_8h_html_a2122f3512d2c68964acb20a925718058"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html#a2122f3512d2c68964acb20a925718058">ortho</a></div><div class="ttdeci">geometry_msgs::Point ortho(geometry_msgs::Point a, Line d)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d90/math__functions_8cpp_source.html#l00057">math_functions.cpp:57</a></div></div>
 <div class="ttc" id="classfinalApproaching_html_a0d0509d145b1ff3dd26c5e322e63f0e3"><div class="ttname"><a href="../../de/da4/classfinalApproaching.html#a0d0509d145b1ff3dd26c5e322e63f0e3">finalApproaching::m_side</a></div><div class="ttdeci">int m_side</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df9/finalApproaching_8h_source.html#l00037">finalApproaching.h:37</a></div></div>
 <div class="ttc" id="classfinalApproaching_html_abfd86aa480b1a6b139658cc0a4ae2b0d"><div class="ttname"><a href="../../de/da4/classfinalApproaching.html#abfd86aa480b1a6b139658cc0a4ae2b0d">finalApproaching::~finalApproaching</a></div><div class="ttdeci">~finalApproaching(void)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da7/finalApproaching_8cpp_source.html#l00025">finalApproaching.cpp:25</a></div></div>
@@ -969,7 +968,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 26 2015 23:54:42 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 27 2015 13:54:33 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

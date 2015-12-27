@@ -103,19 +103,19 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">return</span> double(t.sec) + double(t.nsec)/1000000000.0;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../df/de6/odometry__correction__node_8cpp.html#a9df5f4200f74539003d6b262841eedf2">   14</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../df/de6/odometry__correction__node_8cpp.html#a9df5f4200f74539003d6b262841eedf2">correctAngle</a>(<span class="keywordtype">double</span> &amp;<a class="code" href="../../d2/de2/math__functions_8h.html#a79c25249c32ed436c0598fcdf007b3d3">angle</a>)</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../df/de6/odometry__correction__node_8cpp.html#a9df5f4200f74539003d6b262841eedf2">   14</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../df/de6/odometry__correction__node_8cpp.html#a9df5f4200f74539003d6b262841eedf2">correctAngle</a>(<span class="keywordtype">double</span> &amp;<a class="code" href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">angle</a>)</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keywordtype">double</span> dx = 0;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="keywordflow">while</span> (angle &gt; M_PI || angle &lt;= -M_PI)</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  {</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">if</span> (angle &gt; M_PI)</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;      dx = M_PI - <a class="code" href="../../d2/de2/math__functions_8h.html#a79c25249c32ed436c0598fcdf007b3d3">angle</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;      dx = M_PI - <a class="code" href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">angle</a>;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;      angle = -M_PI + dx;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (angle &lt;= -M_PI)</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;      dx = -M_PI - <a class="code" href="../../d2/de2/math__functions_8h.html#a79c25249c32ed436c0598fcdf007b3d3">angle</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;      dx = -M_PI - <a class="code" href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">angle</a>;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;      angle = M_PI - dx;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    }</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  }</div>
@@ -171,9 +171,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
+<div class="ttc" id="namespacegeometry__utils_html_aaefa7120290578f7459a5030c4d9f1b4"><div class="ttname"><a href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">geometry_utils::angle</a></div><div class="ttdeci">double angle(const geometry_msgs::Point &amp;p0)</div></div>
 <div class="ttc" id="odometry__correction__node_8cpp_html_ac23f42e23b70b13ce3255b21f487a507"><div class="ttname"><a href="../../df/de6/odometry__correction__node_8cpp.html#ac23f42e23b70b13ce3255b21f487a507">odomCallback</a></div><div class="ttdeci">void odomCallback(const nav_msgs::Odometry &amp;odom)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de6/odometry__correction__node_8cpp_source.html#l00032">odometry_correction_node.cpp:32</a></div></div>
 <div class="ttc" id="odometry__correction__node_8cpp_html_a12b21c24ad2231e7e680693fcd9fa103"><div class="ttname"><a href="../../df/de6/odometry__correction__node_8cpp.html#a12b21c24ad2231e7e680693fcd9fa103">pub_odom</a></div><div class="ttdeci">ros::Publisher pub_odom</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de6/odometry__correction__node_8cpp_source.html#l00007">odometry_correction_node.cpp:7</a></div></div>
-<div class="ttc" id="math__functions_8h_html_a79c25249c32ed436c0598fcdf007b3d3"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html#a79c25249c32ed436c0598fcdf007b3d3">angle</a></div><div class="ttdeci">double angle(Segment a, Segment b)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d90/math__functions_8cpp_source.html#l00052">math_functions.cpp:52</a></div></div>
 <div class="ttc" id="odometry__correction__node_8cpp_html_a9df5f4200f74539003d6b262841eedf2"><div class="ttname"><a href="../../df/de6/odometry__correction__node_8cpp.html#a9df5f4200f74539003d6b262841eedf2">correctAngle</a></div><div class="ttdeci">void correctAngle(double &amp;angle)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de6/odometry__correction__node_8cpp_source.html#l00014">odometry_correction_node.cpp:14</a></div></div>
 <div class="ttc" id="odometry__correction__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../df/de6/odometry__correction__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de6/odometry__correction__node_8cpp_source.html#l00054">odometry_correction_node.cpp:54</a></div></div>
 <div class="ttc" id="odometry__correction__node_8cpp_html_a3f9b88fdf67da792ffe8c1d5c250c66d"><div class="ttname"><a href="../../df/de6/odometry__correction__node_8cpp.html#a3f9b88fdf67da792ffe8c1d5c250c66d">prec</a></div><div class="ttdeci">nav_msgs::Odometry prec</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de6/odometry__correction__node_8cpp_source.html#l00005">odometry_correction_node.cpp:5</a></div></div>
@@ -181,7 +181,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 26 2015 23:54:42 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 27 2015 13:54:33 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
