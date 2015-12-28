@@ -11,7 +11,19 @@
  */
 
 #include "occupancy_grid_utils.h"
+#include <set>
+#include <unordered_set>
 
+namespace std {
+    template <>
+        class hash<std::pair<int, int>>{
+        public :
+            size_t operator()(const std::pair<int, int> &pair ) const
+            {
+                return hash<int>()(pair.first) ^ hash<int>()(pair.second);
+            }
+    };
+};
 
 namespace occupancy_grid_utils {
 
@@ -193,6 +205,90 @@ void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, 
 	setPixelCell(grid, p.x, p.y, value);
 }
 
+
+void check(nav_msgs::OccupancyGrid &grid, int x, int y, int x1, int y1, double d)
+{
+	const int &width = grid.info.width;
+	const int &height = grid.info.height;
+	std::vector<signed char> &data = grid.data;
+
+	double distance_max = 0.5;
+	int min_value = 0;
+
+	double a = double(min_value - 100)/distance_max;
+	double newVal = (double(data[y1 * width + x1]) - 100)/a + d;
+	double oldVal = (double(data[y * width + x]) - 100)/a;
+	if(oldVal > newVal)
+	{
+		data[y * width + x] = newVal*a + 100;
+	}
+}
+
+void addGradient(nav_msgs::OccupancyGrid &grid, double distance_max, int min_value)
+{
+	const float &resolution = grid.info.resolution;
+	const int &width = grid.info.width;
+	const int &height = grid.info.height;
+	std::vector<signed char> &data = grid.data;
+
+	double dx = resolution;
+	double dy = resolution;
+	double dxy = sqrt(2.0)*resolution;
+	ROS_INFO("add gradient");
+	for(int y = 1; y < height; y++)
+	{
+		for(int x = 0; x < width; x++)
+		{
+			if (x>0)
+			{
+				check(grid, x, y, x-1, y-1, dxy);
+			}
+			check(grid, x, y, x, y-1, dy);
+			if (x < width-1)
+			{
+				check(grid, x, y, x+1, y-1, dxy);
+			}
+		}
+		for(int x = 1; x < width; x++)
+		{
+			check(grid, x, y, x-1, y, dx);
+		}
+		for(int x = width-2; x >= 0; x--)
+		{
+			check(grid, x, y, x+1, y, dx);
+		}
+	}
+
+
+	for(int y = height-2; y >= 0; y--)
+	{
+		for(int x = 0; x < width; x++)
+		{
+			if (x>0)
+			{
+				check(grid, x, y, x-1, y+1, dxy);
+			}
+			check(grid, x, y, x, y+1, dy);
+			if (x < width-1)
+			{
+				check(grid, x, y, x+1, y+1, dxy);
+			}
+		}
+		for(int x = 1; x < width; x++)
+		{
+			check(grid, x, y, x-1, y, dx);
+		}
+		for(int x = width-2; x >= 0; x--)
+		{
+			check(grid, x, y, x+1, y, dx);
+		}
+	}
+}
+
+
+
+/*
+
 void addGradient(nav_msgs::OccupancyGrid &grid, double distance_max, int min_value)
 {
 	const float &resolution = grid.info.resolution;
@@ -201,11 +297,12 @@ void addGradient(nav_msgs::OccupancyGrid &grid, double distance_max, int min_val
 	std::vector<signed char> &data = grid.data;
 
 	//on cherche les points bordures
-	std::set<std::pair<int,int>> borderPoints;
+	std::list<std::pair<int,int>> borderPoints;
+
 
 	for(int x = 1; x < width-1; x++)
 	{
-		for(int y = 1; y < height; y++)
+		for(int y = 1; y < height-1; y++)
 		{
 			if (data[y * width + x] ==100)
 			{
@@ -218,24 +315,31 @@ void addGradient(nav_msgs::OccupancyGrid &grid, double distance_max, int min_val
 					data[(y-1) * width + x+1] != data[y * width + x] ||
 					data[(y+1) * width + x+1] != data[y * width + x])
 				{
-					borderPoints.insert(std::make_pair(x, y));
+					borderPoints.push_back(std::make_pair(x, y));
 				}
 			}
 		}
 	}
 
+	std::cout << "number of point in border : " << borderPoints.size() << std::endl;
+
 	double a = double(min_value - 100)/distance_max;
-	for(int x = 1; x < width-1; x++)
+	double sqrt2 = sqrt(2.0);
+	for(int x = 0; x < width; x++)
 	{
-		for(int y = 1; y < height; y++)
+		for(int y = 0; y < height; y++)
 		{
-			if (borderPoints.find(std::make_pair(x,y)) == borderPoints.end())
+			if (data[y * width + x] != 100)//borderPoints.find(std::make_pair(x,y)) == borderPoints.end())
 			{
 				for (const auto &borderPoint : borderPoints)
 				{
 					int x1 = borderPoint.first;
 					int y1 = borderPoint.second;
-					double d = sqrt((x-x1)*(x-x1) + (y-y1)*(y-y1))*resolution;
+					//double d = sqrt((x-x1)*(x-x1) + (y-y1)*(y-y1))*resolution;
+					double dx = std::abs(x - x1);
+					double dy = std::abs(y - y1);
+					double d = (1 * (dx+dy) + (sqrt2 - 2) * std::min(dx, dy))*resolution;
+
 					signed char value = 0;
 					if (d < distance_max)
 					{
@@ -250,6 +354,6 @@ void addGradient(nav_msgs::OccupancyGrid &grid, double distance_max, int min_val
 
 
 }
-
+*/
 
 } // namespace occupancy_grid_utils
