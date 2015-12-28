@@ -19,6 +19,9 @@
 #include "occupancy_grid_utils/shape/LineSegment.h"
 #include "occupancy_grid_utils/shape/ComposedShape.h"
 #include "occupancy_grid_utils/shape/Rectangle.h"
+#include "occupancy_grid_utils/grid_modifier/BasicGradientModifier.h"
+#include "occupancy_grid_utils/grid_modifier/FastGradientModifier.h"
+
 #include "common_utils/Parameter.h"
 #include "geometry_utils/geometry_utils.h"
 #include "geometry_msgs/Pose2D.h"
@@ -121,6 +124,18 @@ int main(int argc, char **argv)
         return -1;
     }
 
+    //definir les modifieurs
+    std::shared_ptr<occupancy_grid_utils::GridModifier> modifiers(nullptr);
+
+    //dégradés
+    double distance = 0.5;
+    nh.param<double>("field/gradient/distance", distance, 0.5);
+    int minValue = 0;
+    nh.param<int>("field/gradient/minValue", minValue, 0);
+    std::shared_ptr<occupancy_grid_utils::FastGradientModifier> gradientModifier(new occupancy_grid_utils::FastGradientModifier(distance, minValue));
+
+    modifiers = gradientModifier;
+
     // Empty map
     nav_msgs::OccupancyGrid map;
     occupancy_grid_utils::createEmptyMap(map, size, origin, frame_id, resolution);
@@ -151,7 +166,11 @@ int main(int argc, char **argv)
         {
             g_machinesShape->draw(map);
         }
-        occupancy_grid_utils::addGradient(map);
+        if (modifiers != nullptr)
+        {
+            modifiers->execute(map);
+        }
+
 
 	 	map_pub.publish(map);
 	 	ros::spinOnce();
