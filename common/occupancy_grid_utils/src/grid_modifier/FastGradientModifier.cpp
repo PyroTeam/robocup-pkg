@@ -30,6 +30,13 @@ void FastGradientModifier::check(nav_msgs::OccupancyGrid &grid, int x, int y, in
 	}
 }
 
+
+/**
+ * fonction spécifique d'execution effectuant l'ajout des dégradés
+ *
+ * \param grid la grille sur laquelle on applique les modifications
+ *
+ */
 void FastGradientModifier::executeImpl(nav_msgs::OccupancyGrid &grid)
 {
     const float &resolution = grid.info.resolution;

@@ -47,7 +47,12 @@ protected:
     virtual void executeImpl(nav_msgs::OccupancyGrid &grid) = 0;
 };
 
-
+/**
+ * fonction d'xecution du modificateur
+ *
+ * \param grid la grille sur laquelle on applique les modifications
+ *
+ */
 inline void GridModifier::execute(nav_msgs::OccupancyGrid &grid)
 {
     executeImpl(grid);

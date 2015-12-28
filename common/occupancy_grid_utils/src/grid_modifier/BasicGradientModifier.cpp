@@ -15,6 +15,13 @@
 
 namespace occupancy_grid_utils {
 
+/**
+ * fonction d'affectation des paramètres de l'algorithme
+ *
+ * \param distance la distance maximum du dégradé autour des objets
+ * \param minValue la valeure minimum du dégradé (la valeur maximum étant définie par les données de la map elle-même)
+ *
+ */
 void BasicGradientModifier::setParameters(double distance, unsigned int minValue)
 {
     if (distance < 0.001) //1mm
@@ -37,6 +44,12 @@ void BasicGradientModifier::setParameters(double distance, unsigned int minValue
     m_a = (double(m_minValue) - 100)/m_distance;
 }
 
+/**
+ * fonction spécifique d'execution effectuant l'ajout des dégradés
+ *
+ * \param grid la grille sur laquelle on applique les modifications
+ *
+ */
 void BasicGradientModifier::executeImpl(nav_msgs::OccupancyGrid &grid)
 {
     const float &resolution = grid.info.resolution;

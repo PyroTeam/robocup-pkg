@@ -19,7 +19,6 @@
 
 namespace common_utils {
 
-
 std::string execProcess(std::string cmd);
 
 void getSetOfParam(ros::NodeHandle &nh, const std::string &paramName, std::set<std::string> &paramSet);

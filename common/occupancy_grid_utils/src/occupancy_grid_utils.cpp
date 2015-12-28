@@ -126,6 +126,15 @@ int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2
     return getCellValue(grid, p.x, p.y);
 }
 
+/**
+ * fonction qui retourne les coordonnées en pixel d'un point donnée en coordonnées métrique
+ *
+ * \param grid la grille
+ * \param x abscisse du point en m
+ * \param y ordonnée du point en m
+ *
+ * \return point en coordonnées pixel
+ */
 geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, float x, float y)
 {
 
@@ -155,17 +164,43 @@ geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, float x,
 
 }
 
+/**
+ * fonction qui retourne les coordonnées en pixel d'un point donnée en coordonnées métrique
+ *
+ * \param grid la grille
+ * \param p point en coordonnées métriques
+ *
+ * \return point en coordonnées pixel
+ */
 geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p)
 {
 	return getCellAsPixelCoord(grid, p.x, p.y);
 }
 
+/**
+ * fonction qui modifie la valeur d'une cellule de la grille
+ *
+ * \param grid la grille
+ * \param x abscisse du point en m
+ * \param y ordonnée du point en m
+ * \param value valeur à attribuer à la cellule
+ *
+ */
 void setCell(nav_msgs::OccupancyGrid &grid, float x, float y, int value)
 {
-	geometry_msgs::Point p= getCellAsPixelCoord(grid, x, y);
+	geometry_msgs::Point p = getCellAsPixelCoord(grid, x, y);
 	setPixelCell(grid, p, value);
 }
 
+/**
+ * fonction qui modifie la valeur d'une cellule de la grille
+ *
+ * \param grid la grille
+ * \param x abscisse du point en pixel
+ * \param y ordonnée du point en pixel
+ * \param value valeur à attribuer à la cellule
+ *
+ */
 void setPixelCell(nav_msgs::OccupancyGrid &grid, unsigned int x, unsigned int y, const int& value)
 {
 
@@ -189,6 +224,15 @@ void setPixelCell(nav_msgs::OccupancyGrid &grid, unsigned int x, unsigned int y,
 	}
 
 }
+
+/**
+ * fonction qui modifie la valeur d'une cellule de la grille
+ *
+ * \param grid la grille
+ * \param p point en coordonnées pixel
+ * \param value valeur à attribuer à la cellule
+ *
+ */
 void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, const int& value)
 {
 	setPixelCell(grid, p.x, p.y, value);

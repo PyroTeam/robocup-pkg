@@ -43,6 +43,14 @@ std::string execProcess(std::string cmd)
     return result;
 }
 
+/**
+ * fonction qui récupère un paramètre sur le serveur de paramètre de ros
+ *
+ * \param nh un nodehandle pour l'accès au serveur de paramètre
+ * \param paramName une chaine de charactère contenant le nom du paramètre à obtenir sous forma d'un chemin (ne pas mettre de "/" à la fin du nom)
+ * \param p la valeur obtenue de type geometry_msg::Point
+ *
+ */
 int getParameter(ros::NodeHandle &nh, const std::string &paramName, geometry_msgs::Point &p)
 {
     std::vector<double> param_vec;
@@ -59,6 +67,14 @@ int getParameter(ros::NodeHandle &nh, const std::string &paramName, geometry_msg
     return 0;
 }
 
+/**
+ * fonction qui récupère un paramètre sur le serveur de paramètre de ros
+ *
+ * \param nh un nodehandle pour l'accès au serveur de paramètre
+ * \param paramName une chaine de charactère contenant le nom du paramètre à obtenir sous forma d'un chemin (ne pas mettre de "/" à la fin du nom)
+ * \param p la valeur obtenue de type geometry_msg::Pose2D
+ *
+ */
 int getParameter(ros::NodeHandle &nh, const std::string &paramName, geometry_msgs::Pose2D &p)
 {
     std::vector<double> param_vec;
@@ -75,6 +91,14 @@ int getParameter(ros::NodeHandle &nh, const std::string &paramName, geometry_msg
     return 0;
 }
 
+/**
+ * fonction qui récupère un paramètre sur le serveur de paramètre de ros
+ *
+ * \param nh un nodehandle pour l'accès au serveur de paramètre
+ * \param paramName une chaine de charactère contenant le nom du paramètre à obtenir sous forma d'un chemin (ne pas mettre de "/" à la fin du nom)
+ * \param segment la valeur obtenue de type occupancy_grid_utils::LineSegment
+ *
+ */
 int getParameter(ros::NodeHandle &nh, const std::string &paramName, occupancy_grid_utils::LineSegment &segment)
 {
     //charge la config d'un segment
@@ -99,6 +123,14 @@ int getParameter(ros::NodeHandle &nh, const std::string &paramName, occupancy_gr
     return 0;
 }
 
+/**
+ * fonction qui récupère un paramètre sur le serveur de paramètre de ros
+ *
+ * \param nh un nodehandle pour l'accès au serveur de paramètre
+ * \param paramName une chaine de charactère contenant le nom du paramètre à obtenir sous forma d'un chemin (ne pas mettre de "/" à la fin du nom)
+ * \param rectangle la valeur obtenue de type occupancy_grid_utils::Rectangle
+ *
+ */
 int getParameter(ros::NodeHandle &nh, const std::string &paramName, occupancy_grid_utils::Rectangle &rectangle)
 {
     geometry_msgs::Pose2D pose;
@@ -120,6 +152,14 @@ int getParameter(ros::NodeHandle &nh, const std::string &paramName, occupancy_gr
     return 0;
 }
 
+/**
+ * fonction qui récupère une liste de nom de sous-paramètres contenus dans un paramètre
+ *
+ * \param nh un nodehandle pour l'accès au serveur de paramètre
+ * \param paramName une chaine de charactère contenant le nom du paramètre à obtenir sous forma d'un chemin (ne pas mettre de "/" à la fin du nom)
+ * \param paramSet un set contenant les noms des sous-paramètres
+ *
+ */
 void getSetOfParam(ros::NodeHandle &nh, const std::string &paramName, std::set<std::string> &paramSet)
 {
     std::string command("rosparam list ");
@@ -151,6 +191,14 @@ void getSetOfParam(ros::NodeHandle &nh, const std::string &paramName, std::set<s
 
 }
 
+/**
+ * fonction qui récupère un paramètre sur le serveur de paramètre de ros
+ *
+ * \param nh un nodehandle pour l'accès au serveur de paramètre
+ * \param paramName une chaine de charactère contenant le nom du paramètre à obtenir sous forma d'un chemin (ne pas mettre de "/" à la fin du nom)
+ * \param listOfSegments la valeur obtenue de type std::list<occupancy_grid_utils::LineSegment>
+ *
+ */
 int getParameter(ros::NodeHandle &nh, const std::string &paramName, std::list<occupancy_grid_utils::LineSegment> &listOfSegments)
 {
     std::set<std::string> paramSet;
@@ -169,6 +217,14 @@ int getParameter(ros::NodeHandle &nh, const std::string &paramName, std::list<oc
     return 0;
 }
 
+/**
+ * fonction qui récupère un paramètre sur le serveur de paramètre de ros
+ *
+ * \param nh un nodehandle pour l'accès au serveur de paramètre
+ * \param paramName une chaine de charactère contenant le nom du paramètre à obtenir sous forma d'un chemin (ne pas mettre de "/" à la fin du nom)
+ * \param listOfRectangles la valeur obtenue de type std::list<occupancy_grid_utils::Rectangle>
+ *
+ */
 int getParameter(ros::NodeHandle &nh, const std::string &paramName, std::list<occupancy_grid_utils::Rectangle> &listOfRectangles)
 {
     std::set<std::string> paramSet;
