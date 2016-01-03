@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['m_5fa',['m_a',['../dd/da5/classoccupancy__grid__utils_1_1BasicGradientModifier.html#a61b3d35a887268569f30057197fd75c0',1,'occupancy_grid_utils::BasicGradientModifier']]],
   ['m_5factionname',['m_actionName',['../d6/d07/classMoveToPose.html#a8213f035a2877b57f0ab6111c3c3c7f6',1,'MoveToPose']]],
   ['m_5fangle',['m_angle',['../d8/ddc/classSegment.html#aa3df66b3f8fa4eb397d8e880bf890099',1,'Segment']]],
   ['m_5fas',['m_as',['../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc',1,'MoveToPose']]],
@@ -14,6 +15,7 @@ var searchData=
   ['m_5fd',['m_d',['../d8/d30/classDiagonalHeuristic.html#a98ca0b1801c004fd76b524e099aa10cb',1,'DiagonalHeuristic']]],
   ['m_5fd2',['m_d2',['../d8/d30/classDiagonalHeuristic.html#a792b5a5a08389f67c476487d287aee87',1,'DiagonalHeuristic']]],
   ['m_5fdatamutex',['m_dataMutex',['../d8/d10/classRefBoxTransport.html#a7a703ca810c4371dca29f05f48036a74',1,'RefBoxTransport']]],
+  ['m_5fdistance',['m_distance',['../dd/da5/classoccupancy__grid__utils_1_1BasicGradientModifier.html#a304d66c536d7c1c904c35d5762df91c3',1,'occupancy_grid_utils::BasicGradientModifier']]],
   ['m_5fentrymachine',['m_entryMachine',['../dc/dda/classMachine.html#aaf66eeceebe514cbaa52779a51d9428f',1,'Machine']]],
   ['m_5fexitmachine',['m_exitMachine',['../dc/dda/classMachine.html#adf6430b60c7e1cd468d0033e0c71f88d',1,'Machine']]],
   ['m_5ffeedback',['m_feedback',['../d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c',1,'MoveToPose']]],
@@ -30,8 +32,10 @@ var searchData=
   ['m_5fmarkerpub',['m_markerPub',['../de/da4/classfinalApproaching.html#a323fb05ac26cdec1a5ce8d15714b9775',1,'finalApproaching']]],
   ['m_5fmax',['m_max',['../d8/ddc/classSegment.html#a66ccf8bacebe2bd1443f931bd0bb0a2b',1,'Segment']]],
   ['m_5fmin',['m_min',['../d8/ddc/classSegment.html#afc42b6eec77bc54936db6606859b9eb8',1,'Segment']]],
+  ['m_5fminvalue',['m_minValue',['../dd/da5/classoccupancy__grid__utils_1_1BasicGradientModifier.html#ac67670e3fb6a05cdb53bfeeb5c649f3b',1,'occupancy_grid_utils::BasicGradientModifier']]],
   ['m_5fmsg',['m_msg',['../d6/d6f/classEntryPoint.html#ab521508b905ec115e6b594bc1cc6a9ac',1,'EntryPoint']]],
   ['m_5fname',['m_name',['../df/d2f/classoccupancy__grid__utils_1_1Shape.html#a3f7b0e742c778bfe849c1890d25e2a2e',1,'occupancy_grid_utils::Shape::m_name()'],['../d6/d6f/classEntryPoint.html#af0bb30eaed0c6279c7cea721e9b40434',1,'EntryPoint::m_name()']]],
+  ['m_5fnextmodifier',['m_nextModifier',['../da/d62/classoccupancy__grid__utils_1_1GridModifier.html#a451f1c8ff5b5b1571b171f17c71a32db',1,'occupancy_grid_utils::GridModifier']]],
   ['m_5fnh',['m_nh',['../d6/d6f/classEntryPoint.html#ac88a1a83b62e741b7a33defc231ac82b',1,'EntryPoint::m_nh()'],['../d6/d07/classMoveToPose.html#aea4650121a75dd3aae1217d5d1c881d5',1,'MoveToPose::m_nh()'],['../d5/dc1/classUpdateGraph.html#a65531aca69380777c0afdc00ad11c8ea',1,'UpdateGraph::m_nh()'],['../d9/d45/classPathPlanner.html#a13b424ca7c4f1bf4b5dbf0e8593ebdea',1,'PathPlanner::m_nh()'],['../d0/dd2/classDataLaser.html#aa78c42c47ddc08c95ca55d48e6559c3e',1,'DataLaser::m_nh()']]],
   ['m_5fopenlist',['m_openList',['../d9/d5b/classAStarSearch.html#a06ccefb10ff15f9039fec7bbecb8e0c6',1,'AStarSearch']]],
   ['m_5fp1',['m_p1',['../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af864cc34f46190a5a10f1961b98b4689',1,'occupancy_grid_utils::LineSegment']]],

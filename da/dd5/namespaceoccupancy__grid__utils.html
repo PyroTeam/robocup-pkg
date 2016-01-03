@@ -92,6 +92,15 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/da5/classoccupancy__grid__utils_1_1BasicGradientModifier.html">BasicGradientModifier</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classe permettant d'ajouter un dégradé autour des objets de la grid map.  <a href="../../dd/da5/classoccupancy__grid__utils_1_1BasicGradientModifier.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/de2/classoccupancy__grid__utils_1_1FastGradientModifier.html">FastGradientModifier</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cette classe implémente une version plus rapide de la transformation de distance.  <a href="../../d7/de2/classoccupancy__grid__utils_1_1FastGradientModifier.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d62/classoccupancy__grid__utils_1_1GridModifier.html">GridModifier</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classe abstraite pour une interface commune de modificateurs de grid map.  <a href="../../da/d62/classoccupancy__grid__utils_1_1GridModifier.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html">Circle</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d97/classoccupancy__grid__utils_1_1ComposedShape.html">ComposedShape</a></td></tr>
@@ -175,7 +184,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00018">18</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00019">19</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -317,7 +326,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>index du tableau data de l'occupancyGrid -1 si le point n'est pas sur la gridMap </dd></dl>
 
-<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00046">46</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00047">47</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -350,8 +359,18 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>fonction qui retourne les coordonnées en pixel d'un point donnée en coordonnées métrique</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grid</td><td>la grille </td></tr>
+    <tr><td class="paramname">x</td><td>abscisse du point en m </td></tr>
+    <tr><td class="paramname">y</td><td>ordonnée du point en m</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>point en coordonnées pixel </dd></dl>
 
-<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00128">128</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00138">138</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -378,8 +397,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>fonction qui retourne les coordonnées en pixel d'un point donnée en coordonnées métrique</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grid</td><td>la grille </td></tr>
+    <tr><td class="paramname">p</td><td>point en coordonnées métriques</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>point en coordonnées pixel </dd></dl>
 
-<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00157">157</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00175">175</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -423,7 +451,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>valeur du point, 255 si le point n'est pas sur la map </dd></dl>
 
-<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00086">86</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00087">87</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -468,7 +496,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>valeur du point, 255 si le point n'est pas sur la map </dd></dl>
 
-<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00109">109</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00110">110</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -513,7 +541,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>valeur du point, 255 si le point n'est pas sur la map </dd></dl>
 
-<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00123">123</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00124">124</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -552,8 +580,18 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>fonction qui modifie la valeur d'une cellule de la grille</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grid</td><td>la grille </td></tr>
+    <tr><td class="paramname">x</td><td>abscisse du point en m </td></tr>
+    <tr><td class="paramname">y</td><td>ordonnée du point en m </td></tr>
+    <tr><td class="paramname">value</td><td>valeur à attribuer à la cellule </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00162">162</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00189">189</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -592,8 +630,18 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>fonction qui modifie la valeur d'une cellule de la grille</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grid</td><td>la grille </td></tr>
+    <tr><td class="paramname">x</td><td>abscisse du point en pixel </td></tr>
+    <tr><td class="paramname">y</td><td>ordonnée du point en pixel </td></tr>
+    <tr><td class="paramname">value</td><td>valeur à attribuer à la cellule </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00168">168</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00204">204</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -626,15 +674,24 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>fonction qui modifie la valeur d'une cellule de la grille</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grid</td><td>la grille </td></tr>
+    <tr><td class="paramname">p</td><td>point en coordonnées pixel </td></tr>
+    <tr><td class="paramname">value</td><td>valeur à attribuer à la cellule </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00191">191</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00236">236</a> of file <a class="el" href="../../da/db7/occupancy__grid__utils_8cpp_source.html">occupancy_grid_utils.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 27 2015 22:26:12 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 3 2016 20:44:52 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

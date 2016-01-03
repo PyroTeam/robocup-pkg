@@ -81,7 +81,7 @@ var searchData=
   ['robot_2eh',['robot.h',['../d1/d9c/robot_8h.html',1,'']]],
   ['robotcallback',['robotCallback',['../d7/dfc/visualisation_8cpp.html#acdc2dba5a2a3304257b4d52e1868a8c9',1,'visualisation.cpp']]],
   ['robotcommnode_2ecpp',['robotCommNode.cpp',['../d7/d2b/robotCommNode_8cpp.html',1,'']]],
-  ['robotinfo',['RobotInfo',['../d4/db2/classRobotInfo.html',1,'RobotInfo'],['../db/d01/classrobotInfo.html',1,'robotInfo'],['../d4/db2/classRobotInfo.html#a23417f47fe096fea1fedd1d6ad70aa16',1,'RobotInfo::RobotInfo()']]],
+  ['robotinfo',['robotInfo',['../db/d01/classrobotInfo.html',1,'robotInfo'],['../d4/db2/classRobotInfo.html',1,'RobotInfo'],['../d4/db2/classRobotInfo.html#a23417f47fe096fea1fedd1d6ad70aa16',1,'RobotInfo::RobotInfo()']]],
   ['robotinfo_2ecpp',['robotInfo.cpp',['../d2/d42/robotInfo_8cpp.html',1,'']]],
   ['robotinfo_2eh',['robotInfo.h',['../db/da6/robotInfo_8h.html',1,'']]],
   ['robotinfo_5fnode_2ecpp',['robotInfo_node.cpp',['../da/d15/robotInfo__node_8cpp.html',1,'']]],

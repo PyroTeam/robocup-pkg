@@ -16,6 +16,8 @@ var searchData=
   ['fakerobotino_2ecpp',['fakeRobotino.cpp',['../db/d9b/fakeRobotino_8cpp.html',1,'']]],
   ['fakerobotino_2eh',['fakeRobotino.h',['../d6/dc4/fakeRobotino_8h.html',1,'']]],
   ['fakerobotinonode_2ecpp',['fakeRobotinoNode.cpp',['../d9/dec/fakeRobotinoNode_8cpp.html',1,'']]],
+  ['fastgradientmodifier_2ecpp',['FastGradientModifier.cpp',['../d9/d16/FastGradientModifier_8cpp.html',1,'']]],
+  ['fastgradientmodifier_2eh',['FastGradientModifier.h',['../d2/da7/FastGradientModifier_8h.html',1,'']]],
   ['feuclientaction_2ecpp',['FeuClientAction.cpp',['../d6/d5b/FeuClientAction_8cpp.html',1,'']]],
   ['feuclientaction_2eh',['FeuClientAction.h',['../d4/da5/FeuClientAction_8h.html',1,'']]],
   ['finalapproaching_2ecpp',['finalApproaching.cpp',['../d0/da7/finalApproaching_8cpp.html',1,'']]],
