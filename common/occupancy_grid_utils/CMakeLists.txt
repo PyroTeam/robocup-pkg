@@ -130,6 +130,8 @@ add_library(occupancy_grid_utils
    src/shape/Circle.cpp
    src/shape/Line.cpp
    src/shape/LineSegment.cpp
+   src/grid_modifier/BasicGradientModifier.cpp
+   src/grid_modifier/FastGradientModifier.cpp
 )
 
 ## Add cmake target dependencies of the library
