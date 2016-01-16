@@ -156,8 +156,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        m_mode = 3;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        m_pointsPath = 0;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        m_odom_sub = m_nh.subscribe(<span class="stringliteral">&quot;hardware/odom&quot;</span>, 1000, &amp;TrackPathAction::odomCallback, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        m_path_sub = m_nh.subscribe(<span class="stringliteral">&quot;navigation/pathFound&quot;</span>, 1000, &amp;TrackPathAction::pathCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        m_odom_sub = m_nh.subscribe(<span class="stringliteral">&quot;hardware/odom&quot;</span>, 1, &amp;TrackPathAction::odomCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        m_path_sub = m_nh.subscribe(<span class="stringliteral">&quot;navigation/pathFound&quot;</span>, 1, &amp;TrackPathAction::pathCallback, <span class="keyword">this</span>);</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        m_success = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        m_failure = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        m_as.start();</div>
@@ -183,7 +183,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 16 2016 16:02:39 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jan 16 2016 16:42:53 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

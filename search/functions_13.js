@@ -60,6 +60,7 @@ var searchData=
   ['_7esegment',['~Segment',['../d8/ddc/classSegment.html#a76b45a453304f1f485e3bc2fcad58b59',1,'Segment::~Segment()'],['../d8/ddc/classSegment.html#a76b45a453304f1f485e3bc2fcad58b59',1,'Segment::~Segment()']]],
   ['_7esendscheduler',['~SendScheduler',['../dc/d79/classSendScheduler.html#a5dcb55acd57f2f8642c961c1f15ea94e',1,'SendScheduler']]],
   ['_7eshape',['~Shape',['../df/d2f/classoccupancy__grid__utils_1_1Shape.html#a630594deae07d8f40c09744913466c7e',1,'occupancy_grid_utils::Shape']]],
+  ['_7esimfinalapproach',['~SimFinalApproach',['../df/d47/classSimFinalApproach.html#a5d8eb96c3e40157d2f40bf569cc93944',1,'SimFinalApproach']]],
   ['_7esimlightdetection',['~SimLightDetection',['../d5/d77/classSimLightDetection.html#a0fda9aa5ef027d3296c2cc6256f7d6c3',1,'SimLightDetection']]],
   ['_7esrvorder',['~Srvorder',['../d5/d38/classSrvorder.html#a5eda43af340e9a847714ead2f6b78594',1,'Srvorder']]],
   ['_7estate',['~State',['../d7/d97/classState.html#a9ddc1df6f998184d6477b48fab90281c',1,'State']]],

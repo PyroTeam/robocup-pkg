@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['laser_5frange_5fmax',['LASER_RANGE_MAX',['../dd/d5c/dataLaser_8cpp.html#ac6237b5f7feb8dc2133b975a7476e723',1,'dataLaser.cpp']]],
-  ['limit_5fpoints_5fpath',['LIMIT_POINTS_PATH',['../d2/d6d/dataMapObstacle_8cpp.html#a1346bb9596fdba6891dce78e956c4919',1,'dataMapObstacle.cpp']]]
+  ['hsv_5fmax',['HSV_MAX',['../de/dcc/cv__utils_8h.html#ad59e8b6a2a4787641f4543edf1cde585',1,'HSV_MAX():&#160;cv_utils.h'],['../d0/d5c/cv__utils_8cpp.html#ad59e8b6a2a4787641f4543edf1cde585',1,'HSV_MAX():&#160;cv_utils.cpp']]],
+  ['hsv_5fmin',['HSV_MIN',['../de/dcc/cv__utils_8h.html#ab26c7cb579e18875bacc9f7118c3d848',1,'HSV_MIN():&#160;cv_utils.h'],['../d0/d5c/cv__utils_8cpp.html#ab26c7cb579e18875bacc9f7118c3d848',1,'HSV_MIN():&#160;cv_utils.cpp']]]
 ];

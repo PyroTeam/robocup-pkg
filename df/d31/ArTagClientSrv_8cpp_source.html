@@ -99,7 +99,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="../../d9/dd5/classArTagClienSrv.html#aba06d6548a5698ba0fbd683ae20c5a50">    7</a></span>&#160;int16_t <a class="code" href="../../d9/dd5/classArTagClienSrv.html#aba06d6548a5698ba0fbd683ae20c5a50">ArTagClienSrv::askForId</a>()</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    ros::NodeHandle n;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    ros::ServiceClient client = n.serviceClient&lt;trait_im_msg::artag&gt;(<span class="stringliteral">&quot;/artag&quot;</span>);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    ros::ServiceClient client = n.serviceClient&lt;trait_im_msg::artag&gt;(<span class="stringliteral">&quot;computerVision/artag&quot;</span>);</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    trait_im_msg::artag srv;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">if</span> (client.call(srv))</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    {</div>
@@ -120,7 +120,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 16 2016 16:02:39 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jan 16 2016 16:42:53 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

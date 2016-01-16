@@ -85,6 +85,7 @@ var searchData=
   ['showhistogram',['showHistogram',['../df/d2e/display-histogram_8h.html#a6a99df52dec6a1b0664c82a65024beba',1,'showHistogram(Mat &amp;img):&#160;display-histogram.cpp'],['../d0/d60/display-histogram_8cpp.html#a6a99df52dec6a1b0664c82a65024beba',1,'showHistogram(Mat &amp;img):&#160;display-histogram.cpp']]],
   ['shutdownplugin',['shutdownPlugin',['../d6/d5b/classrqt__ft__gui_1_1FtGui.html#a21c3d6e75298fae767c16ae518f180c5',1,'rqt_ft_gui::FtGui']]],
   ['signal_5fhandler',['signal_handler',['../d8/d10/classRefBoxTransport.html#a1ef4812a5daa013694c9ed493009af9a',1,'RefBoxTransport']]],
+  ['simfinalapproach',['SimFinalApproach',['../df/d47/classSimFinalApproach.html#a2b1b4b6518b62a3b36f5461d12c0d6a2',1,'SimFinalApproach']]],
   ['simlightdetection',['SimLightDetection',['../d5/d77/classSimLightDetection.html#ad60b188e8942a4f6ceca9cd463b650b2',1,'SimLightDetection']]],
   ['size',['size',['../db/dc7/classPath.html#a0fc21fee4cca5ca64cd694e3e87bd014',1,'Path']]],
   ['smooth',['smooth',['../db/dc7/classPath.html#a9011b0277d9ba287e03ed6e5587a229b',1,'Path']]],

@@ -133,32 +133,33 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d0/dd2/classDataLaser.html#a8f564195b3f2f3b20fcbf0a0b1cedd5c">recoverDataLaser</a>();</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
 <div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../d0/dd2/classDataLaser.html#a12976489597358fa16f65b3d919ab6fb">   54</a></span>&#160;    <a class="code" href="../../d0/dd2/classDataLaser.html#a12976489597358fa16f65b3d919ab6fb">DataLaser</a>()</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        m_receiveGrid = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        m_receiveScan = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        m_grid_sub = <a class="code" href="../../d0/dd2/classDataLaser.html#aa78c42c47ddc08c95ca55d48e6559c3e">m_nh</a>.subscribe(<span class="stringliteral">&quot;objectDetection/grid&quot;</span>, 1000, &amp;DataLaser::gridCallback, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        m_grid_pub = <a class="code" href="../../d0/dd2/classDataLaser.html#aa78c42c47ddc08c95ca55d48e6559c3e">m_nh</a>.advertise&lt;nav_msgs::OccupancyGrid&gt;(<span class="stringliteral">&quot;objectDetection/gridObstacles&quot;</span>, 1000);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        m_laser_sub = <a class="code" href="../../d0/dd2/classDataLaser.html#aa78c42c47ddc08c95ca55d48e6559c3e">m_nh</a>.subscribe(<span class="stringliteral">&quot;hardware/scan&quot;</span>, 1000, &amp;DataLaser::scanCallback, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../d0/dd2/classDataLaser.html#ac8464ae6cb22a9a1273937adb96255ed">   63</a></span>&#160;    <a class="code" href="../../d0/dd2/classDataLaser.html#ac8464ae6cb22a9a1273937adb96255ed">~DataLaser</a>()</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;};</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* DATALASER_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    : m_listener(ros::Duration(30))</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        m_receiveGrid = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        m_receiveScan = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        m_grid_sub = <a class="code" href="../../d0/dd2/classDataLaser.html#aa78c42c47ddc08c95ca55d48e6559c3e">m_nh</a>.subscribe(<span class="stringliteral">&quot;objectDetection/grid&quot;</span>, 1, &amp;DataLaser::gridCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        m_grid_pub = <a class="code" href="../../d0/dd2/classDataLaser.html#aa78c42c47ddc08c95ca55d48e6559c3e">m_nh</a>.advertise&lt;nav_msgs::OccupancyGrid&gt;(<span class="stringliteral">&quot;objectDetection/gridObstacles&quot;</span>, 1);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        m_laser_sub = <a class="code" href="../../d0/dd2/classDataLaser.html#aa78c42c47ddc08c95ca55d48e6559c3e">m_nh</a>.subscribe(<span class="stringliteral">&quot;hardware/scan&quot;</span>, 1, &amp;DataLaser::scanCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../d0/dd2/classDataLaser.html#ac8464ae6cb22a9a1273937adb96255ed">   64</a></span>&#160;    <a class="code" href="../../d0/dd2/classDataLaser.html#ac8464ae6cb22a9a1273937adb96255ed">~DataLaser</a>()</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;};</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* DATALASER_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="classDataLaser_html"><div class="ttname"><a href="../../d0/dd2/classDataLaser.html">DataLaser</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d37/dataLaser_8h_source.html#l00029">dataLaser.h:29</a></div></div>
 <div class="ttc" id="classDataLaser_html_a8f564195b3f2f3b20fcbf0a0b1cedd5c"><div class="ttname"><a href="../../d0/dd2/classDataLaser.html#a8f564195b3f2f3b20fcbf0a0b1cedd5c">DataLaser::recoverDataLaser</a></div><div class="ttdeci">void recoverDataLaser()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/dataLaser_8cpp_source.html#l00032">dataLaser.cpp:32</a></div></div>
 <div class="ttc" id="classDataLaser_html_a44c9f5abbb5544c3d42154d4020d4bf0"><div class="ttname"><a href="../../d0/dd2/classDataLaser.html#a44c9f5abbb5544c3d42154d4020d4bf0">DataLaser::getDataLaser</a></div><div class="ttdeci">std::vector&lt; geometry_msgs::Point &gt; getDataLaser()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/dataLaser_8cpp_source.html#l00018">dataLaser.cpp:18</a></div></div>
 <div class="ttc" id="classDataLaser_html_a12976489597358fa16f65b3d919ab6fb"><div class="ttname"><a href="../../d0/dd2/classDataLaser.html#a12976489597358fa16f65b3d919ab6fb">DataLaser::DataLaser</a></div><div class="ttdeci">DataLaser()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d37/dataLaser_8h_source.html#l00054">dataLaser.h:54</a></div></div>
 <div class="ttc" id="classDataLaser_html_aa78c42c47ddc08c95ca55d48e6559c3e"><div class="ttname"><a href="../../d0/dd2/classDataLaser.html#aa78c42c47ddc08c95ca55d48e6559c3e">DataLaser::m_nh</a></div><div class="ttdeci">ros::NodeHandle m_nh</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d37/dataLaser_8h_source.html#l00048">dataLaser.h:48</a></div></div>
 <div class="ttc" id="classMap_html"><div class="ttname"><a href="../../d7/db0/classMap.html">Map</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/db7/map_8h_source.html#l00023">map.h:23</a></div></div>
-<div class="ttc" id="classDataLaser_html_ac8464ae6cb22a9a1273937adb96255ed"><div class="ttname"><a href="../../d0/dd2/classDataLaser.html#ac8464ae6cb22a9a1273937adb96255ed">DataLaser::~DataLaser</a></div><div class="ttdeci">~DataLaser()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d37/dataLaser_8h_source.html#l00063">dataLaser.h:63</a></div></div>
+<div class="ttc" id="classDataLaser_html_ac8464ae6cb22a9a1273937adb96255ed"><div class="ttname"><a href="../../d0/dd2/classDataLaser.html#ac8464ae6cb22a9a1273937adb96255ed">DataLaser::~DataLaser</a></div><div class="ttdeci">~DataLaser()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d37/dataLaser_8h_source.html#l00064">dataLaser.h:64</a></div></div>
 <div class="ttc" id="map_8h_html"><div class="ttname"><a href="../../dc/db7/map_8h.html">map.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 16 2016 16:02:39 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jan 16 2016 16:42:53 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

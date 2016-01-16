@@ -146,10 +146,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../de/dd1/pathfinder__node_8cpp.html#a385b3782f71da46f8ab4d2788de8271f">   70</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a385b3782f71da46f8ab4d2788de8271f">generatePath_callback</a>( pathfinder::GeneratePath::Request  &amp;req,</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                            pathfinder::GeneratePath::Response &amp;res)</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    ROS_DEBUG(<span class="stringliteral">&quot;GeneratePath request - ID : %d&quot;</span>, req.id);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;GeneratePath request - ID : %d&quot;</span>, req.id);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">if</span>(!req.utilisePositionOdometry)</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        ROS_DEBUG(<span class="stringliteral">&quot;Pose Depart (Utilisation du parametre) : \n\</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Pose Depart (Utilisation du parametre) : \n\</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="stringliteral">                  X: %f |\</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="stringliteral">                  Y : %f&quot;</span>,</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                  req.Depart.position.x,</div>
@@ -157,7 +157,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    }</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        ROS_DEBUG(<span class="stringliteral">&quot;Pose Depart (Utilisation de l&#39;odometrie): \nX: %f | Y : %f | Theta : %f&quot;</span>,0.0,0.0,0.0);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Pose Depart (Utilisation de l&#39;odometrie): \nX: %f | Y : %f | Theta : %f&quot;</span>,0.0,0.0,0.0);</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.processing == <span class="keyword">true</span> || req.id == <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a7157d85f15920752018e09565864816c">g_lastIdReceived</a>)</div>
@@ -173,126 +173,122 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.x   = req.Arrivee.position.x;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.y   = req.Arrivee.position.y;</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.yaw = tf::getYaw(req.Arrivee.orientation);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">if</span>(!req.utilisePositionOdometry)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.x = req.Depart.position.x;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.y = req.Depart.position.y;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.x = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ad2b314bbb49f15819cfcf85e1be48a49">g_current_x</a>;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.y = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a1a8204c99bc37787a83686b7f2b954b1">g_current_y</a>;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="../../de/dd1/pathfinder__node_8cpp.html#a07ed34ab588d5d5cc3b7b0757819a7f4">  115</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a07ed34ab588d5d5cc3b7b0757819a7f4">odomCallback</a>(nav_msgs::Odometry odom)</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;{</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ad2b314bbb49f15819cfcf85e1be48a49">g_current_x</a>       = (odom).pose.pose.position.x;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a1a8204c99bc37787a83686b7f2b954b1">g_current_y</a>       = (odom).pose.pose.position.y;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="../../de/dd1/pathfinder__node_8cpp.html#a767c4fcf94e79e34e25ae7b1ec5b54b9">  121</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a767c4fcf94e79e34e25ae7b1ec5b54b9">computeAStar_thread_function</a>()</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;{</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    boost::posix_time::milliseconds     sleep_time(10);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">int</span> lastId = -1;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    PathOrders actualOrders;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    AStar mapRobocup;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <a class="code" href="../../dc/d4f/classPoint.html">Point</a> *startPoint,*endPoint;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    std::vector&lt;Point*&gt; chemin;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    ros::NodeHandle n;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    ros::Subscriber sub_grid  = n.subscribe(<span class="stringliteral">&quot;/grid&quot;</span>, 1000, &amp;AStar::gridCallback, &amp;mapRobocup);</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordflow">while</span>(1 &amp;&amp; !<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#afbf0f0248cb9b0742fc3668c6ddf4b3d">g_stop</a>)</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keywordflow">if</span>(lastId != <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.id)</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        {</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            ROS_DEBUG(<span class="stringliteral">&quot;~~~~~~~~~~\ncomputeAStar : will start the path request id:%d\</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="stringliteral">                \nWith points start %f:%f and end %f:%f&quot;</span>,<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.id,<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.x,<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.y,<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.x,<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.y);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.processing = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.state = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.EN_COURS;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            lastId = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.id;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            actualOrders = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            <span class="keywordflow">if</span>(mapRobocup.getNearestPoint(</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.x,</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.y,</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                startPoint)){ROS_ERROR(<span class="stringliteral">&quot;getNearestPoint START Failed&quot;</span>);}</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <span class="keywordflow">else</span>{</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                ROS_DEBUG(<span class="stringliteral">&quot;getNearestPoint START Suceeded, will start at %f:%f&quot;</span>,startPoint-&gt;<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>(),startPoint-&gt;<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>());</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            }</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            <span class="keywordflow">if</span>(mapRobocup.getNearestPoint(</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.x,</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.y,</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                endPoint)){ROS_ERROR(<span class="stringliteral">&quot;getNearestPoint END Failed&quot;</span>);}</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <span class="keywordflow">else</span>{</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                ROS_DEBUG(<span class="stringliteral">&quot;getNearestPoint END Suceeded, will stop at %f:%f&quot;</span>,endPoint-&gt;<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>(),endPoint-&gt;<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>());</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            }</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.id = actualOrders.id;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.path.poses.erase(</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.path.poses.begin(),</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.path.poses.end());</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            ros::Time startTime = ros::Time::now();</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            mapRobocup.computeAStar(</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                chemin,</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                startPoint,</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                endPoint);</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> timeElapsed = ros::Time::now().toNSec() - startTime.toNSec();</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;------\ncomputeAStar Ended. Time elapsed = %lld / %lldms&quot;</span>, timeElapsed, timeElapsed/1000000);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.id = actualOrders.id;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            <span class="keywordflow">if</span>( chemin.size() != 0 &amp;&amp;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                chemin.front() == startPoint &amp;&amp;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                chemin.back() == endPoint)</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            {</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                ROS_INFO(<span class="stringliteral">&quot;Path finding sucessfull. Will publish path soon.&quot;</span>);</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                std::size_t i;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                <span class="keywordflow">for</span>(i=0;i&lt;chemin.size()-1;++i)</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                    geometry_msgs::PoseStamped point;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                    point.pose.position.x = chemin[i]-&gt;getX();</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                    point.pose.position.y = chemin[i]-&gt;getY();</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                    <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.path.poses.push_back(point);</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                }</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                geometry_msgs::PoseStamped pointFinal;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                pointFinal.pose.position.x = chemin[i]-&gt;getX();</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                pointFinal.pose.position.y = chemin[i]-&gt;getY();</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                <span class="comment">// pointFinal.pose.orientation =</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                <span class="comment">//     tf::createQuaternionMsgFromYaw(actualOrders.goalPose.yaw);</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                <span class="comment">// Les quatre lignes qui suivent viennent masquer un bug -&gt; la fonction précédente retourne des NaN</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                pointFinal.pose.orientation.x = 0;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                pointFinal.pose.orientation.y = 0;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                pointFinal.pose.orientation.z = 0;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                pointFinal.pose.orientation.w = 0;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.path.poses.push_back(pointFinal);</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.state = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.SUCCES;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Pose arrivee: \nX: %f | Y : %f | Theta : %f&quot;</span>, <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.x, <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.y, <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.yaw);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">if</span>(!req.utilisePositionOdometry)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.x = req.Depart.position.x;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.y = req.Depart.position.y;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.x = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ad2b314bbb49f15819cfcf85e1be48a49">g_current_x</a>;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.y = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a1a8204c99bc37787a83686b7f2b954b1">g_current_y</a>;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    }</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="../../de/dd1/pathfinder__node_8cpp.html#a07ed34ab588d5d5cc3b7b0757819a7f4">  116</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a07ed34ab588d5d5cc3b7b0757819a7f4">odomCallback</a>(nav_msgs::Odometry odom)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;{</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ad2b314bbb49f15819cfcf85e1be48a49">g_current_x</a>       = (odom).pose.pose.position.x;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a1a8204c99bc37787a83686b7f2b954b1">g_current_y</a>       = (odom).pose.pose.position.y;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="../../de/dd1/pathfinder__node_8cpp.html#a767c4fcf94e79e34e25ae7b1ec5b54b9">  122</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a767c4fcf94e79e34e25ae7b1ec5b54b9">computeAStar_thread_function</a>()</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;{</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    boost::posix_time::milliseconds     sleep_time(10);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">int</span> lastId = -1;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    PathOrders actualOrders;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    AStar mapRobocup;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <a class="code" href="../../dc/d4f/classPoint.html">Point</a> *startPoint,*endPoint;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    std::vector&lt;Point*&gt; chemin;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    ros::NodeHandle n;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    ros::Subscriber sub_grid  = n.subscribe(<span class="stringliteral">&quot;objectDetection/grid&quot;</span>, 1000, &amp;AStar::gridCallback, &amp;mapRobocup);</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">while</span>(1 &amp;&amp; !<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#afbf0f0248cb9b0742fc3668c6ddf4b3d">g_stop</a>)</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    {</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordflow">if</span>(lastId != <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.id)</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        {</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            ROS_DEBUG(<span class="stringliteral">&quot;~~~~~~~~~~\ncomputeAStar : will start the path request id:%d\</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="stringliteral">                \nWith points start %f:%f and end %f:%f&quot;</span>,<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.id,<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.x,<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.y,<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.x,<a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.y);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.processing = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.state = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.EN_COURS;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            lastId = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.id;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            actualOrders = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            <span class="keywordflow">if</span>(mapRobocup.getNearestPoint(</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.x,</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.startPose.y,</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                startPoint)){ROS_ERROR(<span class="stringliteral">&quot;getNearestPoint START Failed&quot;</span>);}</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="keywordflow">else</span>{</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                ROS_DEBUG(<span class="stringliteral">&quot;getNearestPoint START Suceeded, will start at %f:%f&quot;</span>,startPoint-&gt;<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>(),startPoint-&gt;<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>());</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            }</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <span class="keywordflow">if</span>(mapRobocup.getNearestPoint(</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.x,</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.goalPose.y,</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                endPoint)){ROS_ERROR(<span class="stringliteral">&quot;getNearestPoint END Failed&quot;</span>);}</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <span class="keywordflow">else</span>{</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                ROS_DEBUG(<span class="stringliteral">&quot;getNearestPoint END Suceeded, will stop at %f:%f&quot;</span>,endPoint-&gt;<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>(),endPoint-&gt;<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>());</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            }</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            </div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.id = actualOrders.id;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.path.poses.erase(</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.path.poses.begin(),</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.path.poses.end());</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            ros::Time startTime = ros::Time::now();</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            mapRobocup.computeAStar(</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                chemin,</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                startPoint,</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                endPoint);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> timeElapsed = ros::Time::now().toNSec() - startTime.toNSec();</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;------\ncomputeAStar Ended. Time elapsed = %lld / %lldms&quot;</span>, timeElapsed, timeElapsed/1000000);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.id = actualOrders.id;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keywordflow">if</span>( chemin.size() != 0 &amp;&amp;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                chemin.front() == startPoint &amp;&amp;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                chemin.back() == endPoint)</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                ROS_INFO(<span class="stringliteral">&quot;Path finding sucessfull. Will publish path soon.&quot;</span>);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                std::size_t i;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                <span class="keywordflow">for</span>(i=0;i&lt;chemin.size()-1;++i)</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                {</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                    geometry_msgs::PoseStamped point;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                    point.pose.position.x = chemin[i]-&gt;getX();</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                    point.pose.position.y = chemin[i]-&gt;getY();</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                    <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.path.poses.push_back(point);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                }</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                geometry_msgs::PoseStamped pointFinal;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                pointFinal.pose.position.x = chemin[i]-&gt;getX();</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                pointFinal.pose.position.y = chemin[i]-&gt;getY();</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                pointFinal.pose.orientation =</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                    tf::createQuaternionMsgFromYaw(actualOrders.goalPose.yaw);</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a>.path.poses.push_back(pointFinal);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.state = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.SUCCES;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            }</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            {</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.state = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.ECHEC;</div>
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            }</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            {</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.state = <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148">g_pathfinderState</a>.ECHEC;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            }</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.processing = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        }</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        boost::this_thread::sleep(sleep_time);</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    }</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;}</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            <a class="code" href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a>.processing = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        }</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        boost::this_thread::sleep(sleep_time);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    }</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;}</div>
 <div class="ttc" id="pathfinder__node_8cpp_html_a7157d85f15920752018e09565864816c"><div class="ttname"><a href="../../de/dd1/pathfinder__node_8cpp.html#a7157d85f15920752018e09565864816c">g_lastIdReceived</a></div><div class="ttdeci">int g_lastIdReceived</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd1/pathfinder__node_8cpp_source.html#l00025">pathfinder_node.cpp:25</a></div></div>
 <div class="ttc" id="pathfinder__node_8cpp_html_a1a8204c99bc37787a83686b7f2b954b1"><div class="ttname"><a href="../../de/dd1/pathfinder__node_8cpp.html#a1a8204c99bc37787a83686b7f2b954b1">g_current_y</a></div><div class="ttdeci">float g_current_y</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd1/pathfinder__node_8cpp_source.html#l00027">pathfinder_node.cpp:27</a></div></div>
 <div class="ttc" id="classPoint_html"><div class="ttname"><a href="../../dc/d4f/classPoint.html">Point</a></div><div class="ttdoc">classe représentant un point du laser </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/Point_8h_source.html#l00015">Point.h:15</a></div></div>
@@ -300,8 +296,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="pathfinder__node_8cpp_html_a4c5f4bd097c80d146c8163a2afebdfe1"><div class="ttname"><a href="../../de/dd1/pathfinder__node_8cpp.html#a4c5f4bd097c80d146c8163a2afebdfe1">g_pathReq</a></div><div class="ttdeci">PathOrders g_pathReq</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd1/pathfinder__node_8cpp_source.html#l00022">pathfinder_node.cpp:22</a></div></div>
 <div class="ttc" id="pathfinder__node_8cpp_html_a385b3782f71da46f8ab4d2788de8271f"><div class="ttname"><a href="../../de/dd1/pathfinder__node_8cpp.html#a385b3782f71da46f8ab4d2788de8271f">generatePath_callback</a></div><div class="ttdeci">bool generatePath_callback(pathfinder::GeneratePath::Request &amp;req, pathfinder::GeneratePath::Response &amp;res)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd1/pathfinder__node_8cpp_source.html#l00070">pathfinder_node.cpp:70</a></div></div>
 <div class="ttc" id="pathfinder__node_8cpp_html_ad2b314bbb49f15819cfcf85e1be48a49"><div class="ttname"><a href="../../de/dd1/pathfinder__node_8cpp.html#ad2b314bbb49f15819cfcf85e1be48a49">g_current_x</a></div><div class="ttdeci">float g_current_x</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd1/pathfinder__node_8cpp_source.html#l00026">pathfinder_node.cpp:26</a></div></div>
-<div class="ttc" id="pathfinder__node_8cpp_html_a767c4fcf94e79e34e25ae7b1ec5b54b9"><div class="ttname"><a href="../../de/dd1/pathfinder__node_8cpp.html#a767c4fcf94e79e34e25ae7b1ec5b54b9">computeAStar_thread_function</a></div><div class="ttdeci">void computeAStar_thread_function()</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd1/pathfinder__node_8cpp_source.html#l00121">pathfinder_node.cpp:121</a></div></div>
-<div class="ttc" id="pathfinder__node_8cpp_html_a07ed34ab588d5d5cc3b7b0757819a7f4"><div class="ttname"><a href="../../de/dd1/pathfinder__node_8cpp.html#a07ed34ab588d5d5cc3b7b0757819a7f4">odomCallback</a></div><div class="ttdeci">void odomCallback(nav_msgs::Odometry odom)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd1/pathfinder__node_8cpp_source.html#l00115">pathfinder_node.cpp:115</a></div></div>
+<div class="ttc" id="pathfinder__node_8cpp_html_a767c4fcf94e79e34e25ae7b1ec5b54b9"><div class="ttname"><a href="../../de/dd1/pathfinder__node_8cpp.html#a767c4fcf94e79e34e25ae7b1ec5b54b9">computeAStar_thread_function</a></div><div class="ttdeci">void computeAStar_thread_function()</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd1/pathfinder__node_8cpp_source.html#l00122">pathfinder_node.cpp:122</a></div></div>
+<div class="ttc" id="pathfinder__node_8cpp_html_a07ed34ab588d5d5cc3b7b0757819a7f4"><div class="ttname"><a href="../../de/dd1/pathfinder__node_8cpp.html#a07ed34ab588d5d5cc3b7b0757819a7f4">odomCallback</a></div><div class="ttdeci">void odomCallback(nav_msgs::Odometry odom)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd1/pathfinder__node_8cpp_source.html#l00116">pathfinder_node.cpp:116</a></div></div>
 <div class="ttc" id="pathfinder__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../de/dd1/pathfinder__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd1/pathfinder__node_8cpp_source.html#l00031">pathfinder_node.cpp:31</a></div></div>
 <div class="ttc" id="pathfinder__node_8cpp_html_ab7beda142dda7eac5c782a3828fd7baa"><div class="ttname"><a href="../../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa">g_pathFound</a></div><div class="ttdeci">pathfinder::AstarPath g_pathFound</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd1/pathfinder__node_8cpp_source.html#l00023">pathfinder_node.cpp:23</a></div></div>
 <div class="ttc" id="classPoint_html_acc27466778cc87a662bba40268c4c0c8"><div class="ttname"><a href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">Point::getX</a></div><div class="ttdeci">float getX()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/Point_8h_source.html#l00024">Point.h:24</a></div></div>
@@ -310,7 +306,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 16 2016 16:02:39 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jan 16 2016 16:42:53 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
