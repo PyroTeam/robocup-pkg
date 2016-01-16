@@ -26,7 +26,10 @@ sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu $(lsb_rele
 wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 
 ### Robotino API2
-sudo sh -c 'echo "deb http://packages.openrobotino.org/trusty trusty main" > /etc/apt/sources.list.d/openrobotino.list'
+# sudo sh -c 'echo "deb http://packages.openrobotino.org/trusty trusty main" > /etc/apt/sources.list.d/openrobotino.list'
+# Currently robotino-pkg are only compliant with robotino-api2 0.9, available on repository below
+sudo sh -c 'echo "deb http://doc.openrobotino.org/download/packages/amd64 ./" > /etc/apt/sources.list.d/openrobotino.list'
+
 wget -qO - http://packages.openrobotino.org/keyFile | sudo apt-key add -
 
 # Exit on first failure option
