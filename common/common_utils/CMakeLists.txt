@@ -1,21 +1,15 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(grid_maker)
+project(common_utils)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  geometry_msgs
-  nav_msgs
   roscpp
   rospy
   std_msgs
-  tf
-  deplacement_msg
+  geometry_msgs
   occupancy_grid_utils
-  common_utils
-  geometry_utils
-
 )
 
 ## System dependencies are found with CMake's conventions
@@ -36,10 +30,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## * Let MSG_DEP_SET be the set of packages whose message types you use in
 ##   your messages/services/actions (e.g. std_msgs, actionlib_msgs, ...).
 ## * In the file package.xml:
+##   * add a build_depend tag for "message_generation"
 ##   * add a build_depend and a run_depend tag for each package in MSG_DEP_SET
-##   * If MSG_DEP_SET isn't empty the following dependencies might have been
-##     pulled in transitively but can be declared for certainty nonetheless:
-##     * add a build_depend tag for "message_generation"
+##   * If MSG_DEP_SET isn't empty the following dependency has been pulled in
+##     but can be declared for certainty nonetheless:
 ##     * add a run_depend tag for "message_runtime"
 ## * In this file (CMakeLists.txt):
 ##   * add "message_generation" and every package in MSG_DEP_SET to
@@ -75,7 +69,27 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs#   nav_msgs#   std_msgs
+#   std_msgs
+# )
+
+################################################
+## Declare ROS dynamic reconfigure parameters ##
+################################################
+
+## To declare and build dynamic reconfigure parameters within this
+## package, follow these steps:
+## * In the file package.xml:
+##   * add a build_depend and a run_depend tag for "dynamic_reconfigure"
+## * In this file (CMakeLists.txt):
+##   * add "dynamic_reconfigure" to
+##     find_package(catkin REQUIRED COMPONENTS ...)
+##   * uncomment the "generate_dynamic_reconfigure_options" section below
+##     and list every .cfg file to be processed
+
+## Generate dynamic reconfigure parameters in the 'cfg' folder
+# generate_dynamic_reconfigure_options(
+#   cfg/DynReconf1.cfg
+#   cfg/DynReconf2.cfg
 # )
 
 ###################################
@@ -88,9 +102,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES grid_maker
-  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs tf
+  INCLUDE_DIRS include include/common_utils
+  LIBRARIES common_utils
+  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -102,28 +116,37 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-#	include
-  ${catkin_INCLUDE_DIRS}
+    include
+    include/common_utils
+    ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a cpp library
-# add_library(path_finder
-#   src/${PROJECT_NAME}/path_finder.cpp
+## Declare a C++ library
+add_library(common_utils
+  src/Parameter.cpp
+)
+
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+add_dependencies(common_utils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+set_target_properties(common_utils PROPERTIES COMPILE_FLAGS "-std=c++11")
+
+#set_target_properties(common_utils PROPERTIES COMPILE_FLAGS "-std=c++11")
+
+## Declare a C++ executable
+# add_executable(common_utils_node src/common_utils_node.cpp)
+
+## Add cmake target dependencies of the executable
+## same as for the library above
+# add_dependencies(common_utils_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Specify libraries to link a library or executable target against
+# target_link_libraries(common_utils_node
+#   ${catkin_LIBRARIES}
 # )
 
-## Declare a cpp executable
-add_executable(${PROJECT_NAME}_node src/grid_maker_node.cpp)
-
-set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
-
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
-
-target_link_libraries(${PROJECT_NAME}_node
-    ${catkin_LIBRARIES}
-)
-# set_target_properties(construct_map_weighted_node PROPERTIES COMPILE_FLAGS "-std=c++11")
 #############
 ## Install ##
 #############
@@ -139,7 +162,7 @@ target_link_libraries(${PROJECT_NAME}_node
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS path_finder path_finder_node
+# install(TARGETS common_utils common_utils_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -164,7 +187,7 @@ target_link_libraries(${PROJECT_NAME}_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_path_finder.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_common_utils.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

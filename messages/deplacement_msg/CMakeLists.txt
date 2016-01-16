@@ -56,16 +56,17 @@ FILES
 )
 
 ## Generate services in the 'srv' folder
-#add_service_files(
-#  FILES
-#  Alarm.srv
-#)
+add_service_files(
+  FILES
+  Alarm.srv
+)
 
 ## Generate actions in the 'action' folder
 add_action_files(
   FILES
   TrackPath.action
   MoveToPose.action
+  GeneratePath.action
 )
 
 ## Generate added messages and services with any dependencies listed here

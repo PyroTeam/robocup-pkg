@@ -1,0 +1,16 @@
+# Define the goal
+geometry_msgs/Pose2D start
+geometry_msgs/Pose2D goal
+
+duration timeout
+---
+# Define the result
+uint8 result
+
+uint8 SUCCESS = 10
+uint8 ERROR_UNKNOWN = 20
+uint8 ERROR_NO_PATH = 21
+uint8 ERROR_TIMEOUT = 22
+---
+# Define a feedback message
+duration processingTime

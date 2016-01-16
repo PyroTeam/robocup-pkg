@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(grid_maker)
+project(path_finder)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -10,12 +10,10 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  tf
-  deplacement_msg
   occupancy_grid_utils
   common_utils
-  geometry_utils
-
+  actionlib
+  deplacement_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -36,10 +34,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## * Let MSG_DEP_SET be the set of packages whose message types you use in
 ##   your messages/services/actions (e.g. std_msgs, actionlib_msgs, ...).
 ## * In the file package.xml:
+##   * add a build_depend tag for "message_generation"
 ##   * add a build_depend and a run_depend tag for each package in MSG_DEP_SET
-##   * If MSG_DEP_SET isn't empty the following dependencies might have been
-##     pulled in transitively but can be declared for certainty nonetheless:
-##     * add a build_depend tag for "message_generation"
+##   * If MSG_DEP_SET isn't empty the following dependency has been pulled in
+##     but can be declared for certainty nonetheless:
 ##     * add a run_depend tag for "message_runtime"
 ## * In this file (CMakeLists.txt):
 ##   * add "message_generation" and every package in MSG_DEP_SET to
@@ -51,18 +49,16 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
-## Generate messages in the 'msg' folder
+# Generate messages in the 'msg' folder
 # add_message_files(
 #   FILES
-#   Message1.msg
-#   Message2.msg
+#   AstarPath.msg
 # )
 
-## Generate services in the 'srv' folder
+# Generate services in the 'srv' folder
 # add_service_files(
 #   FILES
-#   Service1.srv
-#   Service2.srv
+#   GeneratePath.srv
 # )
 
 ## Generate actions in the 'action' folder
@@ -72,10 +68,32 @@ find_package(catkin REQUIRED COMPONENTS
 #   Action2.action
 # )
 
-## Generate added messages and services with any dependencies listed here
+# Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs#   nav_msgs#   std_msgs
+#   geometry_msgs
+#   nav_msgs
+#   std_msgs
+# )
+
+################################################
+## Declare ROS dynamic reconfigure parameters ##
+################################################
+
+## To declare and build dynamic reconfigure parameters within this
+## package, follow these steps:
+## * In the file package.xml:
+##   * add a build_depend and a run_depend tag for "dynamic_reconfigure"
+## * In this file (CMakeLists.txt):
+##   * add "dynamic_reconfigure" to
+##     find_package(catkin REQUIRED COMPONENTS ...)
+##   * uncomment the "generate_dynamic_reconfigure_options" section below
+##     and list every .cfg file to be processed
+
+## Generate dynamic reconfigure parameters in the 'cfg' folder
+# generate_dynamic_reconfigure_options(
+#   cfg/DynReconf1.cfg
+#   cfg/DynReconf2.cfg
 # )
 
 ###################################
@@ -88,9 +106,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES grid_maker
-  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs tf
+  INCLUDE_DIRS include include/path_finder
+#  LIBRARIES path_finder
+  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs deplacement_msg actionlib_msgs actionlib
 #  DEPENDS system_lib
 )
 
@@ -102,28 +120,53 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-#	include
-  ${catkin_INCLUDE_DIRS}
+    include
+    include/path_finder
+    ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a cpp library
+## Declare a C++ library
 # add_library(path_finder
 #   src/${PROJECT_NAME}/path_finder.cpp
 # )
 
-## Declare a cpp executable
-add_executable(${PROJECT_NAME}_node src/grid_maker_node.cpp)
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+# add_dependencies(path_finder ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
+## Declare a C++ executable
+add_executable(${PROJECT_NAME}_node
 
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
+    src/graph/Graph.cpp
+    src/graph/GridMapGraph.cpp
+    src/graph/UpdateGraph.cpp
+    src/graph/UpdateGridMapGraph.cpp
 
+    src/search_algo/AStarSearch.cpp
+    src/search_algo/Path.cpp
+    src/search_algo/SearchAlgo.cpp
+    src/search_algo/State.cpp
+
+    src/PathPlanner.cpp
+
+    src/path_finder_node.cpp
+)
+
+set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-std=c++11")
+
+## Add cmake target dependencies of the executable
+## same as for the library above
+add_dependencies(${PROJECT_NAME}_node
+    deplacement_msg_gencpp
+    ${catkin_EXPORTED_TARGETS})
+
+## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_node
     ${catkin_LIBRARIES}
 )
-# set_target_properties(construct_map_weighted_node PROPERTIES COMPILE_FLAGS "-std=c++11")
+
+
 #############
 ## Install ##
 #############

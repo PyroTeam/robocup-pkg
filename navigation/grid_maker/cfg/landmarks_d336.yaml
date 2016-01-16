@@ -1,0 +1,10 @@
+frame_id: map
+machines:
+    m1:
+        type: M-BS
+        zone: 1
+        pose: [1, 1, -0.75]
+    m2:
+        type: M-CS1
+        zone: 3
+        pose: [2, 4.8, -1.5]

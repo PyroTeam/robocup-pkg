@@ -1,5 +1,0 @@
-<launch>
-    <node pkg="grid_maker" name="construct_map_test_D336" type="construct_map_test_D336" output="screen"/>
-    <node pkg="grid_maker" name="construct_map_test" type="construct_map_test" output="screen"/>
-
-</launch>
