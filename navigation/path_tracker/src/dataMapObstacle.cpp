@@ -103,7 +103,9 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
     std::string tf_prefix;
     m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
     if (tf_prefix.size() != 0)
+    {
         tf_prefix += "/";
+    }
 
     m_vectorObstacle.clear();
     m_vectorObstaclePoints.clear();

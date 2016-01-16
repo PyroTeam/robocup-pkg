@@ -320,9 +320,11 @@ geometry_msgs::Point searchPoint(const std::vector<geometry_msgs::Point> &vector
 void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path, actionlib::SimpleActionServer<deplacement_msg::TrackPathAction> &as, deplacement_msg::TrackPathFeedback &feedback)
 {
     std::string tf_prefix;
-    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
     if (tf_prefix.size() != 0)
+    {
         tf_prefix += "/";
+    }
 
     m_dataMapObstacle.calculObstacle(odom, path);
     std::vector<geometry_msgs::Point> vectorObstacle = m_dataMapObstacle.getVectorObstacle();

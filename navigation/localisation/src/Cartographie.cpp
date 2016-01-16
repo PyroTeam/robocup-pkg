@@ -37,9 +37,9 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     std::string tf_prefix;
     nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
     if (tf_prefix.size() != 0)
+    {
         tf_prefix += "/";
-
-    printf("machinesCallback\n");
+    }
 
     tf::StampedTransform transform;
     try
@@ -58,7 +58,6 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     g_tabMachines.header.stamp = machines->header.stamp;
 
 
-    printf("before FOR\n");
     for (auto &it : machines->landmarks)
     {
         // Changement de repère
@@ -72,7 +71,6 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
 
         // Vérification de la zone
         int zone = machineToArea(p);
-        printf("ZONE %d\n", zone);
         if(zone==0)
         {
             continue;           
@@ -102,7 +100,9 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
     std::string tf_prefix;
     nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
     if (tf_prefix.size() != 0)
+    {
         tf_prefix += "/";
+    }
 
     tf::StampedTransform transform;
     try
@@ -162,6 +162,7 @@ int main( int argc, char** argv )
 
     ros::Subscriber sub_odom     = n.subscribe("objectDetection/new_odom", 1000, odomCallback);
     ros::Subscriber sub_segments = n.subscribe("objectDetection/segments", 1000, segmentsCallback);
+    // TODO: Ensure that the good topic is subscribed below
     ros::Subscriber sub_machines = n.subscribe("objectDetection/segments", 1000, machinesCallback);
 
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("objectDetection/landmarks", 1000);

@@ -39,7 +39,9 @@ void DataLaser::recoverDataLaser()
     std::string tf_prefix;
     m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
     if (tf_prefix.size() != 0)
+    {
         tf_prefix += "/";
+    }
 
     std::vector<float> &ranges = m_scan.ranges;
 
@@ -49,7 +51,9 @@ void DataLaser::recoverDataLaser()
 	    // m_listener.waitForTransform(tf_prefix+"odom", m_scan.header.frame_id, ros::Time(0), ros::Duration(1));
      //    m_listener.lookupTransform(tf_prefix+"odom", m_scan.header.frame_id, ros::Time(0), m_transform);
         if (!m_listener.waitForTransform(tf_prefix+"odom", m_scan.header.frame_id, m_scan.header.stamp, ros::Duration(1)))
+        {
             return;
+        }
         m_listener.lookupTransform(tf_prefix+"odom", m_scan.header.frame_id, m_scan.header.stamp, m_transform);
         //ROS_INFO("Position robot : x = %f, y = %f", m_transform.getOrigin().x(), m_transform.getOrigin().y()); 
         for (int i = 0 ; i < ranges.size() ; i++)
