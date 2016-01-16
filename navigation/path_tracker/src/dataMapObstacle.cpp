@@ -100,6 +100,13 @@ int DataMapObstacle::getCell(const nav_msgs::OccupancyGrid &grid, float x, float
 
 void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path)
 {
+    std::string tf_prefix;
+    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    if (tf_prefix.size() != 0)
+    {
+        tf_prefix += "/";
+    }
+
     m_vectorObstacle.clear();
     m_vectorObstaclePoints.clear();
     m_obstacle = false;
@@ -256,7 +263,7 @@ void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vecto
             static int seq = 0;
             m_pointCloud.header.seq = seq++;
             m_pointCloud.header.stamp = ros::Time::now();
-            m_pointCloud.header.frame_id = "odom";
+            m_pointCloud.header.frame_id = tf_prefix+"odom";
             m_pointCloud_pub.publish(m_pointCloud);
         }
     }

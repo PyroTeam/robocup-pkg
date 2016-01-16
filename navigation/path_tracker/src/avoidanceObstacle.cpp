@@ -319,6 +319,13 @@ geometry_msgs::Point searchPoint(const std::vector<geometry_msgs::Point> &vector
 
 void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path, actionlib::SimpleActionServer<deplacement_msg::TrackPathAction> &as, deplacement_msg::TrackPathFeedback &feedback)
 {
+    std::string tf_prefix;
+    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
+    if (tf_prefix.size() != 0)
+    {
+        tf_prefix += "/";
+    }
+
     m_dataMapObstacle.calculObstacle(odom, path);
     std::vector<geometry_msgs::Point> vectorObstacle = m_dataMapObstacle.getVectorObstacle();
     ROS_INFO("Taille vector obstacles : %d", (int)vectorObstacle.size());
@@ -390,7 +397,7 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
     static int seq = 0;       
     m_path.header.seq = seq++;
     m_path.header.stamp = ros::Time::now();
-    m_path.header.frame_id = "odom";
+    m_path.header.frame_id = tf_prefix+"odom";
     m_path.poses = m_intermediatePath;
     m_path_pub.publish(m_path);
     ROS_INFO("Chemin construit");
@@ -518,7 +525,7 @@ void AvoidanceObstacle::avoid(const nav_msgs::OccupancyGrid &grid, const geometr
         }*/
         m_path.header.seq = seq++;
         m_path.header.stamp = ros::Time::now();
-        m_path.header.frame_id = "odom";
+        m_path.header.frame_id = tf_prefix+"odom";
         m_path.poses = m_intermediatePath;
         m_path_pub.publish(m_path);
 

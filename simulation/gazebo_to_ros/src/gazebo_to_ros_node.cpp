@@ -9,23 +9,33 @@
 #include <geometry_msgs/TwistStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <gazsim_msgs/LightSignalDetection.pb.h>
+#include <llsf_msgs/MachineInfo.pb.h>
 #include <trait_im_msg/LightSignal.h>
+#include <deplacement_msg/Landmarks.h>
+#include <gazebo_msgs/ModelStates.h>
+#include <tf/transform_datatypes.h>
 
 double g_x, g_y, g_z;
 ros::Publisher g_pubOdom;
 ros::Publisher g_pubLightSignal;
+ros::Publisher g_pubMachines;
+deplacement_msg::Landmarks g_landmarks;
+
 
 #include <boost/bind.hpp>
 typedef const boost::shared_ptr<gazsim_msgs::LightSignalDetection const> ConstLightSignalDetectionPtr;
+typedef const boost::shared_ptr< ::gazebo_msgs::ModelStates const> ModelStatesConstPtr;
 void cmdVelCallback(const geometry_msgs::TwistConstPtr& msg);
 void gpsCallback(ConstPosePtr &msg);
 void lightSignalCallback(ConstLightSignalDetectionPtr &msg);
+void machineInfoCallback(ModelStatesConstPtr &msg);
 
 #define ROBOTINO_NAME "robotino_pyro"
 
 /////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
+    printf("Gazebo to ros Started\n");
     // Load gazebo
     gazebo::setupClient(argc, argv);
 
@@ -47,12 +57,13 @@ int main(int argc, char **argv)
 
     // Subscriber
     ros::Subscriber subCmdVel = nh.subscribe("hardware/cmd_vel", 1, &cmdVelCallback);
+    ros::Subscriber subModelStates = nh.subscribe("/gazebo/model_states", 1, &machineInfoCallback);
     g_pubOdom = nh.advertise<nav_msgs::Odometry>("hardware/odom", 1000);
     gazebo::transport::SubscriberPtr subGps = node->Subscribe("/gazebo/pyro_2015/" +robotName+ "/gazsim/gps/", &gpsCallback);
     gazebo::transport::SubscriberPtr subLightSignal = node->Subscribe("/gazebo/pyro_2015/" +robotName+ "/gazsim/light-signal/", &lightSignalCallback);
-
 	// Publisher
 	g_pubLightSignal = nh.advertise<trait_im_msg::LightSignal>("hardware/closest_light_signal", 1000);
+    g_pubMachines = nh.advertise<deplacement_msg::Landmarks>("objectDetection/landmarks", 1000, true);
 
     // Publisher loop...replace with your own code.
     g_x=0; g_y=0; g_z=0;
@@ -130,4 +141,39 @@ void lightSignalCallback(ConstLightSignalDetectionPtr &msg)
 	}
 
 	g_pubLightSignal.publish(lightSignals_msg);
+}
+
+void machineInfoCallback(ModelStatesConstPtr &msg)
+{
+    ros::NodeHandle nh;
+    bool useMachineInfo = false;
+    nh.param<bool>("objectDetection/useSimLandmarks", useMachineInfo, false);
+
+    printf("MachineInfo Callback\n");
+    if (!useMachineInfo)
+        return;
+
+    g_landmarks.header.stamp = ros::Time::now();
+    g_landmarks.header.frame_id = "map";
+
+    // go through all machines
+    g_landmarks.landmarks.clear();
+    for(int i = 0; i < msg->name.size(); i++){
+
+        if (msg->name[i][0] != 'C' && msg->name[i][0] != 'M')
+        {
+            continue;
+        }
+
+        geometry_msgs::Pose2D pose;
+        pose.x = msg->pose[i].position.x;
+        pose.y = msg->pose[i].position.y;
+        pose.theta = tf::getYaw(msg->pose[i].orientation);
+
+        g_landmarks.landmarks.push_back(pose);
+    }
+
+    g_pubMachines.publish(g_landmarks);
+
+    return;
 }

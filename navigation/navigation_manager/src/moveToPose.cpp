@@ -41,7 +41,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     geometry_msgs::Pose poseFinale;
     poseFinale.position.x = poseFinale2D.x;
     poseFinale.position.y = poseFinale2D.y;
-    poseFinale.position.z = 0;
+    poseFinale.position.z = goal->position_finale.theta;
     poseFinale.orientation = tf::createQuaternionMsgFromRollPitchYaw(0, 0, poseFinale2D.theta);
     srv.request.Arrivee = poseFinale;
     srv.request.Depart = m_poseOdom;

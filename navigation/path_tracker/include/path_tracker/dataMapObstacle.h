@@ -54,8 +54,8 @@ public:
 
     DataMapObstacle()
     {
-        m_pointCloud_pub = m_nh.advertise<sensor_msgs::PointCloud>("objectDetection/pointCloudObstacle", 1000);
-        m_grid_sub = m_nh.subscribe("objectDetection/gridObstacles", 1000, &DataMapObstacle::gridCallback, this);
+        m_pointCloud_pub = m_nh.advertise<sensor_msgs::PointCloud>("objectDetection/pointCloudObstacle", 1);
+        m_grid_sub = m_nh.subscribe("objectDetection/gridObstacles", 1, &DataMapObstacle::gridCallback, this);
         m_obstacle = false;
         m_receiveGrid = false;
     }

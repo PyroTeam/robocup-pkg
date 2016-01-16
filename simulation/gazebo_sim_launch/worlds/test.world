@@ -13,123 +13,25 @@
 			<uri>model://sun</uri>
 		</include>
 
+		<!-- Empty Logistic League field -->
 		<include>
 			<uri>model://logistics_league_field</uri>
-					<pose>0 2.5 0 0 0 0</pose>
+			<pose>0 2.5 0 0 0 0</pose>
+			<name>llsf_field</name>
 		</include>
 
+		<!-- PyroTeam robotinos -->
+		<!-- Robotino 1 -->
 		<include>
-			<uri>model://robotino_pyro</uri>
-					<pose>-3.5 -0.5 0 0 0 1.5775</pose>
-		</include>
-
-<!--
-		<include>
-			<uri>model://robotino3</uri>
-					<pose>-3.5 -0.5 0 0 0 1.5775</pose>
-		</include>
--->
-
-<!-- 		<include>
-			<uri>model://robotino_bbu2</uri>
-					<pose>-4.5 -0.5 0 0 0 3.1415</pose>
-		</include>
-
-		<include>
-			<uri>model://robotino_bbu3</uri>
-					<pose>-5.5 -0.5 0 0 0 3.1415</pose>
-		</include> -->
-
-<!--
-		<include>
-			<name>CBS</name>
-			<uri>model://mps_base</uri>
-					<pose>-5 4.9 0 0 0 0.43</pose>
-		</include>
-		<include>
-			<name>MBS</name>
-			<uri>model://mps_base</uri>
-					<pose>5 4.9 0 0 0 -0.43</pose>
-		</include>
-
-		<include>
-			<name>CCS1</name>
-			<uri>model://mps_cap</uri>
-					<pose>-1 5.5 0 0 0 2.4</pose>
-		</include>
-		<include>
-			<name>MCS1</name>
-			<uri>model://mps_cap</uri>
-					<pose>1 5.5 0 0 0 -2.4</pose>
-		</include>
-
-		<include>
-			<name>CCS2</name>
-			<uri>model://mps_cap</uri>
-					<pose>-3.2 2.5 0 0 0 1.57</pose>
-		</include>
-		<include>
-			<name>MCS2</name>
-			<uri>model://mps_cap</uri>
-					<pose>3.2 2.5 0 0 0 -1.57</pose>
+			<uri>model://robotino_pyro_1</uri>
+			<pose>-3.5 -0.5 0 0 0 1.5775</pose>
+			<name>robotino1</name>
 		</include>
 
 
-		<include>
-			<name>CRS1</name>
-			<uri>model://mps_ring</uri>
-					<pose>1 2.5 0 0 0 3.1</pose>
-		</include>
-		<include>
-			<name>MRS1</name>
-			<uri>model://mps_ring</uri>
-					<pose>-1 2.5 0 0 0 -3.1</pose>
-		</include>
-
-		<include>
-			<name>CRS2</name>
-			<uri>model://mps_ring</uri>
-					<pose>4.8 3.5 0 0 0 0.8</pose>
-		</include>
-		<include>
-			<name>MRS2</name>
-			<uri>model://mps_ring</uri>
-					<pose>-4.8 3.5 0 0 0 -0.8</pose>
-		</include>
 
 
-		<include>
-			<name>CDS</name>
-			<uri>model://mps_delivery</uri>
-					<pose>4.5 0.5 0 0 0 0.75</pose>
-		</include>
-		<include>
-			<name>MDS</name>
-			<uri>model://mps_delivery</uri>
-					<pose>-4.5 0.5 0 0 0 -0.75</pose>
-		</include>
--->
-
-
-		<!-- Pucks  -->
-<!--
-		<include>
-			<name>puck_0</name>
-			<uri>model://workpiece_base</uri>
-			<pose>0.97 2.5 0.92 0 0 0</pose>
-		</include>
-		<include>
-			<name>puck_1</name>
-			<uri>model://workpiece_base</uri>
-			<pose>0.97 2.6 0.92 0 0 0</pose>
-		</include>
--->
-		<!-- Plugins for the world -->
-		<plugin name="llsf_refbox_comm" filename="libllsf_refbox_comm.so" />
-		<plugin name="timesync" filename="libtimesync.so" />
-		<plugin name="mps_placement" filename="libmps_placement.so" />
-
-		<!-- top camera (for supervision) -->
+		<!-- Top camera (for supervision) -->
 		<model name="top_camera">
 			<static>true</static>
 
@@ -174,7 +76,7 @@
 					<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
 						<alwaysOn>true</alwaysOn>
 						<updateRate>0.0</updateRate>
-						<cameraName>hardware/camera/top_camera</cameraName>
+						<cameraName>gazebo/camera/top_camera</cameraName>
 						<imageTopicName>image_raw</imageTopicName>
 						<cameraInfoTopicName>camera_info</cameraInfoTopicName>
 						<frameName>top_camera_link</frameName>
@@ -188,6 +90,15 @@
 				</sensor>
 			</link>
 		</model>
+
+
+
+
+		<!-- Plugins for the world -->
+		<plugin name="llsf_refbox_comm" filename="libllsf_refbox_comm.so" />
+		<plugin name="timesync" filename="libtimesync.so" />
+		<plugin name="mps_placement" filename="libmps_placement.so" />
+
 
 	</world>
 </sdf>

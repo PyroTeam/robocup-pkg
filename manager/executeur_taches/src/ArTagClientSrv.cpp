@@ -7,7 +7,7 @@ ArTagClienSrv::~ArTagClienSrv() {}
 int16_t ArTagClienSrv::askForId()
 {
   	ros::NodeHandle n;
-  	ros::ServiceClient client = n.serviceClient<trait_im_msg::artag>("/artag");
+  	ros::ServiceClient client = n.serviceClient<trait_im_msg::artag>("computerVision/artag");
   	trait_im_msg::artag srv;
   	if (client.call(srv))
   	{

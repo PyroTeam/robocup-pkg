@@ -17,6 +17,7 @@ using namespace Eigen;
 
 deplacement_msg::Landmarks g_walls;
 deplacement_msg::Landmarks g_machines;
+deplacement_msg::Landmarks g_tabMachines;
 
 geometry_msgs::Pose2D      g_odomRobot;
 std::vector<Machine>       g_mps(24);
@@ -29,14 +30,22 @@ void odomCallback(const nav_msgs::Odometry& odom)
     g_odomRobot.y = odom.pose.pose.position.y;
     g_odomRobot.theta = tf::getYaw(odom.pose.pose.orientation);
 }
-/*
+
 void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
 {
+    static ros::NodeHandle nh;
+    std::string tf_prefix;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    if (tf_prefix.size() != 0)
+    {
+        tf_prefix += "/";
+    }
 
     tf::StampedTransform transform;
     try
     {
-        g_tf_listener->lookupTransform("/map", "/laser_link", machines->header.stamp, transform);
+
+        g_tf_listener->lookupTransform("/map", tf_prefix+"laser_link", machines->header.stamp, transform);
     }
     catch (tf::TransformException ex)
     {
@@ -45,8 +54,9 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     }
 
     g_tabMachines.landmarks.clear();
-    g_tabMachines.header.frame_id="/laser_link";
+    g_tabMachines.header.frame_id=tf_prefix+"laser_link";
     g_tabMachines.header.stamp = machines->header.stamp;
+
 
     for (auto &it : machines->landmarks)
     {
@@ -83,13 +93,21 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
         g_tabMachines.landmarks.push_back(p);
     } 
 }
-*/
+
 void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
 {
+    static ros::NodeHandle nh;
+    std::string tf_prefix;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    if (tf_prefix.size() != 0)
+    {
+        tf_prefix += "/";
+    }
+
     tf::StampedTransform transform;
     try
     {
-        g_tf_listener->lookupTransform("/odom", "/laser_link", segments->header.stamp, transform);
+        g_tf_listener->lookupTransform(tf_prefix+"odom", tf_prefix+"laser_link", segments->header.stamp, transform);
     }
     catch (tf::TransformException ex)
     {
@@ -98,7 +116,7 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
     }
     
     g_walls.landmarks.clear();
-    g_walls.header.frame_id="/laser_link";
+    g_walls.header.frame_id=tf_prefix+"laser_link";
     g_walls.header.stamp = segments->header.stamp;
 
     for (int i = 0; i < segments->landmarks.size(); i = i+2)
@@ -144,6 +162,8 @@ int main( int argc, char** argv )
 
     ros::Subscriber sub_odom     = n.subscribe("objectDetection/new_odom", 1000, odomCallback);
     ros::Subscriber sub_segments = n.subscribe("objectDetection/segments", 1000, segmentsCallback);
+    // TODO: Ensure that the good topic is subscribed below
+    ros::Subscriber sub_machines = n.subscribe("objectDetection/segments", 1000, machinesCallback);
 
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("objectDetection/landmarks", 1000);
     ros::Publisher pub_segments_global = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments_global", 1000);
@@ -155,7 +175,7 @@ int main( int argc, char** argv )
         // Trouve les machines
         //std::vector<Machine> listOfMachines = recognizeMachinesFrom(listOfSegments);
 
-        //pub_machines.publish(convert(g_mps));
+        pub_machines.publish(convert(g_mps));
 
         std::list<Segment> tmp = landmarksToSegments(g_walls);
         adjust(g_sgtArray,tmp);

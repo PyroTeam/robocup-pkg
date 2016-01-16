@@ -7,6 +7,9 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   trait_im_msg
   nav_msgs
+  deplacement_msg
+  gazebo_msgs
+  tf
 )
 
 # Depend on system install of Gazebo
@@ -56,4 +59,5 @@ target_link_libraries(gazebo_to_ros_node
 )
 add_dependencies(gazebo_to_ros_node
 	trait_im_msg_gencpp
+	deplacement_msg_gencpp
 )

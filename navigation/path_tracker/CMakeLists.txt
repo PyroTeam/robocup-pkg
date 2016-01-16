@@ -17,6 +17,14 @@ find_package(catkin REQUIRED COMPONENTS
     tf
 )
 
+# Use clang++-3.6 if available
+find_program(CLANGPP clang++-3.6 HINTS /usr/local/bin /usr/bin /opt/local/bin)
+if(NOT ${CLANGPP} MATCHES "CLANGPP-NOTFOUND")
+	set(CMAKE_CXX_COMPILER ${CLANGPP})
+endif(NOT ${CLANGPP} MATCHES "CLANGPP-NOTFOUND")
+message(STATUS "Compiler : ${CMAKE_CXX_COMPILER}")
+message(STATUS "Found : ${CLANGPP}")
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
