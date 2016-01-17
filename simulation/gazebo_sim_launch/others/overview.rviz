@@ -4,8 +4,10 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Map1
         - /PyroTeam1
         - /PyroTeam1/Robotino11
+        - /PyroTeam1/Robotino11/Path1
         - /OpposingTeam1/Opposing11
         - /OpposingTeam1/Opposing21
         - /OpposingTeam1/Opposing31
@@ -58,7 +60,7 @@ Visualization Manager:
       Draw Behind: true
       Enabled: true
       Name: Map
-      Topic: robotino1/objectDetection/grid
+      Topic: /robotino1/objectDetection/grid
       Value: true
     - Alpha: 0.5
       Class: rviz/Map
@@ -193,7 +195,7 @@ Visualization Manager:
                 X: 0
                 Y: 0
                 Z: 0
-              Topic: robotino1/navigation/path
+              Topic: /robotino1/navigation/path
               Value: true
             - Alpha: 1
               Buffer Length: 1
@@ -726,5 +728,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1855
-  X: 1495
-  Y: -14
+  X: 1505
+  Y: 24

@@ -9,15 +9,14 @@ from turtlesim.msg import Pose
 from nav_msgs.msg import Path
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float32
-from pathfinder.msg import AstarPath
 
 # Publisher de consignes en vitesse
-pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+pub = rospy.Publisher('hardware/cmd_vel', Twist, queue_size=10)
 
 # Publisher de debug rqt_plot
-pubAngle = rospy.Publisher('/t_angle', Float32, queue_size=10)
-pubErrAngle = rospy.Publisher('/t_err_angle', Float32, queue_size=10)
-pubInfos = rospy.Publisher('/tracker_info', Float32, queue_size=10)
+pubAngle = rospy.Publisher('t_angle', Float32, queue_size=10)
+pubErrAngle = rospy.Publisher('t_err_angle', Float32, queue_size=10)
+pubInfos = rospy.Publisher('tracker_info', Float32, queue_size=10)
 
 # Tableau de points a suivre et dernier chemin sauve (PoseStamped)
 points = []
@@ -43,7 +42,7 @@ class TrackPathAction(object):
     self._action_name = "trackPath"
     self._as = actionlib.SimpleActionServer(self._action_name, deplacement_msg.msg.TrackPathAction, execute_cb=self.execute_cb, auto_start = False)
     self._as.start()
-    
+
   def execute_cb(self, goal):
     global points
     global path
@@ -60,18 +59,18 @@ class TrackPathAction(object):
     ## Check l'id du Path
     idPath = goal.id
     # Already running the good path
-    if pointsId == idPath:
-        pass
-    # New path requested, path received from pathfinder 
-    elif pathId == idPath:
-        points = path
-        pointsId = pathId
-        stopRobot = False
-        pathFinished = False
+    # if pointsId == idPath:
+    #     pass
+    # New path requested, path received from pathfinder
+    # elif pathId == idPath:
+    points = path
+    pointsId = pathId
+    stopRobot = False
+    pathFinished = False
     # New path requested, but path not received from pathfinder
-    else:
-        failure = True
-        stopRobot = True
+    # else:
+    #     failure = True
+    #     stopRobot = True
 
     if not failure:
         # Log
@@ -83,7 +82,7 @@ class TrackPathAction(object):
             # Fill the feedback
             self._feedback.percent_complete=50
             self._feedback.id=idPath
-            
+
             # Check that preempt has not been requested by the client
             if self._as.is_preempt_requested():
                 rospy.loginfo('%s: Preempted' % self._action_name)
@@ -98,8 +97,8 @@ class TrackPathAction(object):
             rospy.sleep(0.1)
 
         if pathFinished:
-            success = True        
-      
+            success = True
+
     # Process the result if needed
     rospy.loginfo('Before Result')
     if success:
@@ -196,7 +195,7 @@ def callbackOdom(data):
     if display:
         rospy.loginfo(closest)
         display = False
-    
+
     # Determiner la distance d'avance
     distAvance = 0.1
 
@@ -248,7 +247,7 @@ def callbackOdom(data):
     rospy.loginfo("PointAvance : ")
     rospy.loginfo(pointAvance)
     rospy.loginfo("Angle %f - VitAngle %f",angle,vitAngle)
-        
+
     if vitAngle > 30:
         vitAngle = 30
     elif vitAngle < -30:
@@ -274,7 +273,7 @@ def callbackOdom(data):
 
     if not stopRobot or (stopRobot and cptCmdVel > 0):
         pub.publish(vel_msg)
-    
+
     pubInfos.publish(ang)
     pubAngle.publish(angle)
     pubErrAngle.publish(errAngle)
@@ -288,13 +287,13 @@ def callbackPath(data):
     global stopRobot
     global pathFinished
 
-    path = data.path.poses
-    pathId = data.id
+    path = data.poses
+    pathId = pathId+1
 
 def path_tracker_node():
     rospy.init_node('path_tracker_node', anonymous=False)
-    rospy.Subscriber("/odom", Odometry, callbackOdom)
-    rospy.Subscriber("/pathFound", AstarPath, callbackPath)
+    rospy.Subscriber("hardware/odom", Odometry, callbackOdom)
+    rospy.Subscriber("navigation/pathSmooth", Path, callbackPath)
 
     TrackPathAction(rospy.get_name())
 
