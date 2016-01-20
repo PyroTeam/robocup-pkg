@@ -57,7 +57,7 @@ geometry_msgs::Pose2D GtServerSrv::calculOutPoint(geometry_msgs::Pose2D pt_actue
 /* Valentin's function */
 void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2)
 {
-#define MARGIN_FROM_CENTER 0.5
+#define MARGIN_FROM_CENTER 0.75
 	geometry_msgs::Pose2D knownMachinePose;
 	float dy = 0;
 	float dx = 0;
@@ -65,9 +65,10 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 	knownMachinePose.x = m_ls->m_machine[zone - 1].x;
 	knownMachinePose.y = m_ls->m_machine[zone - 1].y;
 	knownMachinePose.theta = m_ls->m_machine[zone - 1].theta;
+	knownMachinePose.theta = fmod(knownMachinePose.theta, M_PI);
 
-	dy = MARGIN_FROM_CENTER * cos(knownMachinePose.theta);
-	dy = MARGIN_FROM_CENTER * sin(knownMachinePose.theta);
+	dy = -MARGIN_FROM_CENTER * cos(knownMachinePose.theta);
+	dx = MARGIN_FROM_CENTER * sin(knownMachinePose.theta);
 
 	point1.x = knownMachinePose.x - dx;
 	point1.y = knownMachinePose.y - dy;
@@ -153,54 +154,54 @@ int GtServerSrv::teamColorOfId(int arTag)
 	int team_color = 0;
 	switch(arTag) 
 	{
-		case  C_CS1_IN    :       team_color = CYAN;       m_name = "CS1";      break;
+		case  C_CS1_IN    :       team_color = CYAN;       m_name = "C-CS1";      break;
 
-		case  C_CS1_OUT   :       team_color = CYAN;       m_name = "CS1";      break;
+		case  C_CS1_OUT   :       team_color = CYAN;       m_name = "C-CS1";      break;
 
-		case  C_CS2_IN    :       team_color = CYAN;       m_name = "CS2";      break;
+		case  C_CS2_IN    :       team_color = CYAN;       m_name = "C-CS2";      break;
 
-		case  C_CS2_OUT   :       team_color = CYAN;       m_name = "CS2";      break;
+		case  C_CS2_OUT   :       team_color = CYAN;       m_name = "C-CS2";      break;
 
-		case  C_RS1_IN    :       team_color = CYAN;       m_name = "RS1";      break;
+		case  C_RS1_IN    :       team_color = CYAN;       m_name = "C-RS1";      break;
 
-		case  C_RS1_OUT   :       team_color = CYAN;       m_name = "RS1";      break;
+		case  C_RS1_OUT   :       team_color = CYAN;       m_name = "C-RS1";      break;
 
-		case  C_RS2_IN    :       team_color = CYAN;       m_name = "RS2";      break;
+		case  C_RS2_IN    :       team_color = CYAN;       m_name = "C-RS2";      break;
 
-		case  C_RS2_OUT   :       team_color = CYAN;       m_name = "RS2";      break;
+		case  C_RS2_OUT   :       team_color = CYAN;       m_name = "C-RS2";      break;
 
-		case  C_BS_IN     :       team_color = CYAN;       m_name = "BS";      break;
+		case  C_BS_IN     :       team_color = CYAN;       m_name = "C-BS";      break;
 
-		case  C_BS_OUT    :       team_color = CYAN;       m_name = "BS";      break;
+		case  C_BS_OUT    :       team_color = CYAN;       m_name = "C-BS";      break;
 
-		case  C_DS_IN     :       team_color = CYAN;       m_name = "DS";      break;
+		case  C_DS_IN     :       team_color = CYAN;       m_name = "C-DS";      break;
 
-		case  C_DS_OUT    :       team_color = CYAN;       m_name = "DS";      break;
+		case  C_DS_OUT    :       team_color = CYAN;       m_name = "C-DS";      break;
 
 
-		case  M_CS1_IN    :       team_color = MAGENTA;    m_name = "CS1";      break;
+		case  M_CS1_IN    :       team_color = MAGENTA;    m_name = "M-CS1";      break;
 
-		case  M_CS1_OUT   :       team_color = MAGENTA;    m_name = "CS1";      break;
+		case  M_CS1_OUT   :       team_color = MAGENTA;    m_name = "M-CS1";      break;
 
-		case  M_CS2_IN    :       team_color = MAGENTA;    m_name = "CS2";      break;
+		case  M_CS2_IN    :       team_color = MAGENTA;    m_name = "M-CS2";      break;
 
-		case  M_CS2_OUT   :       team_color = MAGENTA;    m_name = "CS2";      break;
+		case  M_CS2_OUT   :       team_color = MAGENTA;    m_name = "M-CS2";      break;
 
-		case  M_RS1_IN    :       team_color = MAGENTA;    m_name = "RS1";      break;
+		case  M_RS1_IN    :       team_color = MAGENTA;    m_name = "M-RS1";      break;
 
-		case  M_RS1_OUT   :       team_color = MAGENTA;    m_name = "RS1";      break;
+		case  M_RS1_OUT   :       team_color = MAGENTA;    m_name = "M-RS1";      break;
 
-		case  M_RS2_IN    :       team_color = MAGENTA;    m_name = "RS2";      break;
+		case  M_RS2_IN    :       team_color = MAGENTA;    m_name = "M-RS2";      break;
 
-		case  M_RS2_OUT   :       team_color = MAGENTA;    m_name = "RS2";      break;
+		case  M_RS2_OUT   :       team_color = MAGENTA;    m_name = "M-RS2";      break;
 
-		case  M_BS_IN     :       team_color = MAGENTA;    m_name = "BS";      break;
+		case  M_BS_IN     :       team_color = MAGENTA;    m_name = "M-BS";      break;
 
-		case  M_BS_OUT    :       team_color = MAGENTA;    m_name = "BS";      break;
+		case  M_BS_OUT    :       team_color = MAGENTA;    m_name = "M-BS";      break;
 
-		case  M_DS_IN     :       team_color = MAGENTA;    m_name = "DS";      break;
+		case  M_DS_IN     :       team_color = MAGENTA;    m_name = "M-DS";      break;
 
-		case  M_DS_OUT    :       team_color = MAGENTA;    m_name = "DS";      break;
+		case  M_DS_OUT    :       team_color = MAGENTA;    m_name = "M-DS";      break;
 
 		default:      team_color = -1;     break;
 	}
@@ -683,6 +684,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				ReportingMachineSrvClient reportClient;
 
 				log("Order: DISCOVER");
+				req.parameter = req.id;
 				ROS_INFO("Order: DISCOVER, zone %d", req.parameter);
 				// Check if valid zone
 				teamColor = teamColorOfZone(req.parameter);
@@ -735,7 +737,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
 				// Get light signal
 				/* XXX: Use more generic function than a BS machine method */
-				m.getBS().readlights(m_ei->lSpec);
+				m.getBS().readlights(m_ei->m_lSpec);
 				ROS_INFO("DISCOVER - got light signal");
 
 				// From light, get type

@@ -26,6 +26,7 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
 	//update_zone(tabMachine,tabRobot); //trouver une maniere efficace d'attribuer aux machines un robot
 	int cptMachine=0;
 	vector<int> zone = correspondanceZE.getUsefulZone();
+	ROS_INFO("In workInExplorationPhase");
 	if(zone.size() == 12)
 	{
 		Srvorder srvexplo(ros::Time::now(),cptOrder,robot,orderRequest::DISCOVER,orderRequest::NONE,zone[cptZone]);

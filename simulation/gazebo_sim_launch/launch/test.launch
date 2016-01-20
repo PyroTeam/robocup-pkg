@@ -86,7 +86,7 @@
 		<!-- Load the manager -->
 		<!-- <node pkg="executeur_taches" name="executeur" type="test_exec"/> -->
 		<node pkg="executeur_taches" name="executeur" type="test_exec" launch-prefix="xterm -e"/>
-		<!-- <node pkg="generateur_taches" name="manager" type="main_node" launch-prefix="xterm -e"/> -->
+		<node pkg="generateur_taches" name="manager" type="main_node" launch-prefix="xterm -e"/>
 	</group>
 
 	<!-- Opposing TEAM -->

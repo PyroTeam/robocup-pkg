@@ -82,8 +82,10 @@ int main(int argc, char **argv)
 			tabRobotInfo = robotInfo.getRobots();
 			noProblem = robotState(tabRobotInfo,teamColor,j,tabRobot);
 			//mettre a jour les infos envoyees par la refbox
+			ROS_INFO("Busy :%d | noProblem :%d", tabRobot[j].getBusy(), noProblem);
 			if(!tabRobot[j].getBusy() && noProblem) 
 			{
+				ROS_INFO("Not busy");
 				if(gameState.getPhase() == comm_msg::GameState::EXPLORATION && cptZone<12)
 				{
 					workInExplorationPhase(tabMachine,tabRobot,cptOrder,j,cptZone, correspondanceZE);
