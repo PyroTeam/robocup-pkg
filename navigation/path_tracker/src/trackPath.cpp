@@ -94,10 +94,14 @@ void TrackPath::track(std::vector<geometry_msgs::PoseStamped> &points, const geo
     geometry_msgs::Point start;
     geometry_msgs::Point stop;
     geometry_msgs::Point pointSuiv;
+    float finalAngle = 0;
+
 
     if (points.size() != 0)
     {
-        m_stopRobot = false;
+    	m_stopRobot = false;
+        m_targetReached = false;
+     	finalAngle = tf::getYaw(points.back().pose.orientation);
     }
     pointObjectif = points[0].pose.position;
     for (int i = 0 ; i < points.size() ; i++)
@@ -122,7 +126,7 @@ void TrackPath::track(std::vector<geometry_msgs::PoseStamped> &points, const geo
             else
             {
                 closest = start;
-                m_stopRobot = true;
+                m_targetReached = true;
             }
         }
     }
@@ -151,15 +155,34 @@ void TrackPath::track(std::vector<geometry_msgs::PoseStamped> &points, const geo
 
     m_pointArrivee = pointAvance;
 
+	float angle =0;
     // Rejoindre le point d'avance
-    float adj = pointAvance.x - pose.x;
-    float opp = pointAvance.y - pose.y;
-    float angle = atan2(opp, adj);
+    if (!m_targetReached)
+    {
+	    float adj = pointAvance.x - pose.x;
+	    float opp = pointAvance.y - pose.y;
+	    angle = atan2(opp, adj);    	
+    }
+    // Target orientation
+    else
+    {
+    	angle = finalAngle;
+    	// ROS_DEBUG_ONCE("Targeted orientation : %f", angle);
+    	ROS_INFO("Targeted orientation : %f", angle);
+    }
 
     float yaw = tf::getYaw(odom.orientation);
 
     float errAngle = (angle - yaw);
     errAngle = normaliseAngle(errAngle);
+
+    /* Check if orientation reached */
+    #define FINAL_ORIENTATION_TOLERANCE_RAD	0.1
+    if (m_targetReached && fabs(errAngle) < FINAL_ORIENTATION_TOLERANCE_RAD)
+    {
+   		m_stopRobot = true;
+    }
+    #undef FINAL_ORIENTATION_TOLERANCE_RAD
 
     float errAnglePointSuiv = (ang - yaw);
     errAnglePointSuiv = normaliseAngle(errAnglePointSuiv);
@@ -175,12 +198,21 @@ void TrackPath::track(std::vector<geometry_msgs::PoseStamped> &points, const geo
         vitAngle = -VIT_ANGLE_MAX;
     }
 
-    if (!m_stopRobot)
+    /* Follow path until target point */
+    if (!m_targetReached)
     {
         m_cmdVel.linear.x = 0.2;
         m_cmdVel.linear.y = errAngle/10;
         m_cmdVel.angular.z = vitAngle*1;
     }
+    /* Target reached, adjust angle */
+    else if (!m_stopRobot)
+    {
+        m_cmdVel.linear.x = 0;
+        m_cmdVel.linear.y = 0;
+        m_cmdVel.angular.z = errAngle*1;
+    }
+    /* Target and orientation reached, finish tracking */
     else
     {
         m_cmdVel.linear.x = 0;

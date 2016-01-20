@@ -332,7 +332,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				break;
 		  	case orderRequest::DISCOVER:
 
-				ROS_INFO (" test  ");
+				ROS_INFO ("Received discover Order");
 
 				geometry_msgs::Pose2D pt_dest;
 				geometry_msgs::Pose2D pt_actuel;

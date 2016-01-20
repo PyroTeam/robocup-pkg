@@ -90,11 +90,16 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
         m_feedback.id = it->m_path_id;
         m_as.publishFeedback(m_feedback);
         m_pathTrack.resetState();
+
+        // Don't spin at more than 10Hz
+        ros::Rate loop_rate(10);
         while (!m_failure && !m_success)
         {
             geometry_msgs::Point pointArrivee = m_pathTrack.getPointArrivee();
             m_dataMapObstacle.calculObstacle(m_odom_pose, it->m_path_points);
-            if (m_dataMapObstacle.getObstacle() == true)
+            bool avoid = true;
+            m_nh.param<bool>("navigation/avoidObstacle", avoid, true);
+            if (m_dataMapObstacle.getObstacle() == true && avoid)
             {
                 ROS_INFO("Evitement");
                 m_timeAvoidance = ros::Time::now();
@@ -128,6 +133,8 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
 
                 m_pathTrack.track(it->m_path_points, m_odom_pose);
                 m_dataMapObstacle.calculObstacle(m_odom_pose, it->m_path_points);
+                // Don't spin at more than 10Hz
+                ros::Rate sub_loop_rate(10);
                 while (!m_dataMapObstacle.getObstacle() && !m_pathTrack.success() && !m_pathTrack.failure())
                 {
                     m_pathTrack.track(it->m_path_points, m_odom_pose);
@@ -135,6 +142,7 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
                     m_as.publishFeedback(m_feedback);
                     m_dataMapObstacle.calculObstacle(m_odom_pose, it->m_path_points);
                     //ROS_INFO("Obstacle : %d", m_dataMapObstacle.getObstacle());
+                    sub_loop_rate.sleep();
                 }
                 if (m_pathTrack.success())
                 {
@@ -145,6 +153,8 @@ void TrackPathAction::executeCB(const deplacement_msg::TrackPathGoalConstPtr &go
                     m_failure = true;
                 }
             }
+            // Don't spin at more than (see above)
+            loop_rate.sleep();
         }
         if (m_failure)
         {

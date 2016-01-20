@@ -75,8 +75,8 @@ public:
         m_mode = 3;
         m_pointsPath = 0;
 
-        m_odom_sub = m_nh.subscribe("hardware/odom", 1000, &TrackPathAction::odomCallback, this);
-        m_path_sub = m_nh.subscribe("navigation/pathFound", 1000, &TrackPathAction::pathCallback, this);
+        m_odom_sub = m_nh.subscribe("hardware/odom", 1, &TrackPathAction::odomCallback, this);
+        m_path_sub = m_nh.subscribe("navigation/pathFound", 1, &TrackPathAction::pathCallback, this);
         m_success = false;
         m_failure = false;
         m_as.start();

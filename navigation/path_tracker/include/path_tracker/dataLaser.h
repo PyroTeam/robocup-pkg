@@ -52,12 +52,13 @@ public:
     void recoverDataLaser();
 
     DataLaser()
+    : m_listener(ros::Duration(30))
     {
         m_receiveGrid = false;
         m_receiveScan = false;
-        m_grid_sub = m_nh.subscribe("objectDetection/grid", 1000, &DataLaser::gridCallback, this);
-        m_grid_pub = m_nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/gridObstacles", 1000);
-        m_laser_sub = m_nh.subscribe("hardware/scan", 1000, &DataLaser::scanCallback, this);
+        m_grid_sub = m_nh.subscribe("objectDetection/grid", 1, &DataLaser::gridCallback, this);
+        m_grid_pub = m_nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/gridObstacles", 1);
+        m_laser_sub = m_nh.subscribe("hardware/scan", 1, &DataLaser::scanCallback, this);
     }
 
     ~DataLaser()

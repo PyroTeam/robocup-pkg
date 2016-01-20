@@ -30,6 +30,7 @@ class TrackPath
 private:
     bool m_success;
     bool m_failure;
+	bool m_targetReached;
     bool m_stopRobot;
 
     geometry_msgs::Pose m_odom_pose;
@@ -53,9 +54,10 @@ public:
 
     TrackPath()
     {
-        m_cmdVel_pub = m_nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1000);
+        m_cmdVel_pub = m_nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1);
         m_success = false;
         m_failure = false;
+        m_targetReached = false;
     }
 
     ~TrackPath()
