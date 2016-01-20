@@ -10,7 +10,7 @@ ExploInfoSubscriber::~ExploInfoSubscriber(){}
 
 void ExploInfoSubscriber::tesCallback(const comm_msg::ExplorationInfo &msg)
 {
-	ROS_INFO("I heard the ExplorationInfo publisher ");
+	ROS_INFO_ONCE("I heard the ExplorationInfo publisher ");
 
 	m_signals = msg.signals;
 	m_zones   = msg.zones;

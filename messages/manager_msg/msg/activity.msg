@@ -14,6 +14,8 @@ int8 CS2    = 4
 int8 DS     = 5
 int8 NONE   = 6
 
-int8 machine_used 
+int8 machine_used
 
 int8 nb_order
+
+string details
