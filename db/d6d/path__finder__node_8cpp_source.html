@@ -125,12 +125,12 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    std::shared_ptr&lt;Heuristic&gt; heuristic(<span class="keyword">new</span> <a class="code" href="../../d4/dbd/classEuclidianHeuristic.html">EuclidianHeuristic</a>());</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    std::shared_ptr&lt;Heuristic&gt; heuristicDiag(<span class="keyword">new</span> <a class="code" href="../../d8/d30/classDiagonalHeuristic.html">DiagonalHeuristic</a>());</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    graph-&gt;setHeuristic(heuristicDiag);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::shared_ptr&lt;UpdateGraph&gt; updateGraph(<span class="keyword">new</span> <a class="code" href="../../d6/d8b/classUpdateGridMapGraph.html">UpdateGridMapGraph</a>(<span class="stringliteral">&quot;/map&quot;</span>, graph));</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::shared_ptr&lt;UpdateGraph&gt; updateGraph(<span class="keyword">new</span> <a class="code" href="../../d6/d8b/classUpdateGridMapGraph.html">UpdateGridMapGraph</a>(<span class="stringliteral">&quot;objectDetection/grid&quot;</span>, graph));</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">//publication des path et pathSmooth pour le debug</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    ros::Publisher path_pub = nh.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;/path&quot;</span>, 1000);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ros::Publisher pathSmooth_pub = nh.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;/pathSmooth&quot;</span>, 1000);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    ros::Publisher path_pub = nh.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;navigation/path&quot;</span>, 1000);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ros::Publisher pathSmooth_pub = nh.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;navigation/pathSmooth&quot;</span>, 1000);</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="../../d9/d45/classPathPlanner.html">PathPlanner</a> pathPlanner(graph, <span class="stringliteral">&quot;navigation/generatePath&quot;</span>);</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
@@ -165,7 +165,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 16 2016 16:42:53 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jan 23 2016 14:26:59 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
