@@ -38,8 +38,8 @@ void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines);
 std::shared_ptr<occupancy_grid_utils::Shape> g_machinesShape(nullptr);
 float g_margin = 0.3;
 geometry_msgs::Point g_machineSize;
-const float g_sizeX = 0.35;
-const float g_sizeY = 0.7;
+const float g_sizeX = 0.7;
+const float g_sizeY = 0.35;
 
 
 int main(int argc, char **argv)
@@ -52,6 +52,7 @@ int main(int argc, char **argv)
 
     ros::Rate loop_rate(1);
 
+    //TODO paramêtrer la taille des machines
     g_machineSize.x = g_sizeX;
     g_machineSize.y = g_sizeY;
 
@@ -86,9 +87,9 @@ int main(int argc, char **argv)
 
     //obtenir les murs
     std::list<occupancy_grid_utils::LineSegment> walls;
-    if (common_utils::getParameter(nh, "/field/walls", walls) !=0)
+    if (common_utils::getParameter(nh, "field/walls", walls) !=0)
     {
-        ROS_ERROR("Error loading /field/walls");
+        ROS_ERROR("Error loading field/walls");
         return -1;
     }
 
@@ -118,9 +119,9 @@ int main(int argc, char **argv)
 
     //charger zones interdites
     std::list<occupancy_grid_utils::Rectangle> forbidZones;
-    if (common_utils::getParameter(nh, "/field/forbidden_zones", forbidZones) !=0)
+    if (common_utils::getParameter(nh, "field/forbidden_zones", forbidZones) !=0)
     {
-        ROS_ERROR("Error loading /field/forbidden_zones");
+        ROS_ERROR("Error loading field/forbidden_zones");
         return -1;
     }
 

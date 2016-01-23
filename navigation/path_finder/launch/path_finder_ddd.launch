@@ -3,8 +3,6 @@
     <param name="AstarTieBreaking" value="false" />
     <param name="weightData" value="0.45" />
     <param name="weightSmooth" value="0.45" />
-    <node pkg="path_finder" name="path_finder_node" type="path_finder_node" launch-prefix="ddd --args">
-        <remap from="map" to="grid"/>
-    </node>
+    <node pkg="path_finder" name="path_finder_node" type="path_finder_node" launch-prefix="ddd --args"/>
 
 </launch>
