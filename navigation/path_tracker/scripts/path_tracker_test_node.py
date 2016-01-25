@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 import rospy
+import tf
 import roslib
 import actionlib
+import deplacement_msg.msg
 from math import atan2, pi, cos, sin, sqrt
 from geometry_msgs.msg import Twist, PoseStamped, Pose2D
 from nav_msgs.msg import Path
@@ -13,17 +15,39 @@ g_trackingIsActive = False
 g_pathFinished = False
 g_stopRobot = True
 
-anglePID = PID(0.1, 0, 0, 1/20.0)
+
+class PID:
+    def __init__(self, Kp, Ki, Kd, T):
+        self._Kp = Kp
+        self._Ki = Ki
+        self._Kd = Kd
+        self._err = 0
+        self._I = 0
+        self._T = T
+
+    def update(self, err):
+        self._I = self._I + err*self._T
+        y = self._Kp * err + self._Ki * self._I + self._Kd * (err - self._err)/self._T
+        self._err = err
+        return y
+
+
+anglePID = PID(1.5, 0, 0, 1/20.0)
 speedPID = PID(0.1, 0, 0, 1/20.0)
 
 #vitesse max robotino fixe
-Vlim = 0.5
+Vlim = 0.3
 
 
 # Publisher de consignes en vitesse
 cmdVel_pub = rospy.Publisher('hardware/cmd_vel', Twist, queue_size=10)
 
-
+def normalizeAngle(angle):
+    while angle > pi:
+        angle = angle - 2*pi
+    while angle <= -pi:
+        angle = angle + 2*pi
+    return angle
 
 class TrackPathAction(object):
   # create messages that are used to publish feedback/result
@@ -40,14 +64,19 @@ class TrackPathAction(object):
     global g_path
     global g_stopRobot
     global g_pathFinished
+    global g_indexTraj
+    global g_trackingIsActive
 
     # helper variables
     r = rospy.Rate(1)
     success = False
     failure = False
 
+    g_indexTraj = 0
     g_stopRobot = False
     g_pathFinished = False
+    g_trackingIsActive = True
+
 
     if not failure:
         # Log
@@ -76,6 +105,8 @@ class TrackPathAction(object):
         if g_pathFinished:
             success = True
 
+    g_trackingIsActive = False
+    g_indexTraj = 0
     # Process the result if needed
     rospy.loginfo('Before Result')
     if success:
@@ -99,30 +130,18 @@ def QuatMsg_to_quat(quat):
     q.append(quat.w)
     return q
 
-def euler_from_quaternion_msg(q):
-    q = QuatMsg_to_quat(data.pose.pose.orientation)
+def euler_from_quaternion_msg(orientation):
+    q = QuatMsg_to_quat(orientation)
     euler = tf.transformations.euler_from_quaternion(q)
     return euler
 
-class PID:
-    def __init__(self, Kp, Ki, Kd, T):
-        self._Kp = Kp
-        self._Ki = Ki
-        self._Kd = Kd
-        self._err = 0
-        self._I = 0
-        self._T = T
 
-    def update(self, err):
-        self._I = self._I + err*T
-        y = self._Kp * err + self._Ki * self._I + self._Kd * (err - self._err)/self._T
-        self._err = err
-        return y
 
 def callbackOdom(data):
     global g_path
     global g_trackingIsActive
     global g_pathFinished
+    global g_indexTraj
     cmdVel_msg = Twist()
 
     pose = Pose2D()
@@ -135,16 +154,18 @@ def callbackOdom(data):
         cmdVel_pub.publish(cmdVel_msg)
         return
 
-    # recherche du segment à suivre
-    if g_indexTraj < len(g_path) and g_trackingIsActive:
+    # recherche du segment a suivre
+    if g_indexTraj < len(g_path)-2 and g_trackingIsActive:
         err = 0
         u = 10.0
-        while u > 1.0:
+        delta_x = 0
+        delta_y = 0
+        while u > 1.0 and g_indexTraj < len(g_path)-2:
             delta_x = g_path[g_indexTraj+1].pose.position.x - g_path[g_indexTraj].pose.position.x
             delta_y = g_path[g_indexTraj+1].pose.position.y - g_path[g_indexTraj].pose.position.y
 
             Rx = pose.x - g_path[g_indexTraj].pose.position.x
-            Rx = pose.y - g_path[g_indexTraj].pose.position.y
+            Ry = pose.y - g_path[g_indexTraj].pose.position.y
 
             denom = (delta_x*delta_x + delta_y*delta_y)
             u = (Rx*delta_x + Ry*delta_y) / denom;
@@ -153,27 +174,31 @@ def callbackOdom(data):
                 g_indexTraj = g_indexTraj+1
 
             err = (Ry*delta_x - Rx*delta_y) / denom
-            #on a donc notre segment à suivre et l'erreur
+            #on a donc notre segment a suivre et l'erreur
 
         #calcul de l'orienation du segment
-        delta_x = g_path[g_indexTraj+1].pose.position.x - g_path[g_indexTraj].pose.position.x
-        delta_y = g_path[g_indexTraj+1].pose.position.y - g_path[g_indexTraj].pose.position.y
+        #delta_x = g_path[g_indexTraj+1].pose.position.x - g_path[g_indexTraj].pose.position.x
+        #delta_y = g_path[g_indexTraj+1].pose.position.y - g_path[g_indexTraj].pose.position.y
         segmentAngle = atan2(delta_y, delta_x)
 
         #calcul de l'erreur en angle
         errAngle = 0
-        if (g_indexTraj == len(g_path)-1):
-            #sur le dernier segment on commence à reguler sur l'orientation finale
+        if (g_indexTraj == len(g_path)-3):
+            #sur le dernier segment on commence a reguler sur l'orientation finale
             (lastRoll, lastPitch, lastYaw) = euler_from_quaternion_msg(g_path[-1].pose.orientation)
-            errAngle = lastYaw - pose.theta
+            errAngle = normalizeAngle(lastYaw - pose.theta)
         else:
-            errAngle = segmentAngle - pose.theta
+            errAngle = normalizeAngle(segmentAngle - pose.theta)
 
         cmdVel_msg.angular.z = anglePID.update(errAngle)
+        if cmdVel_msg.angular.z > 10:
+            cmdVel_msg.angular.z = 10
+        elif cmdVel_msg.angular.z < -10:
+            cmdVel_msg.angular.z = -10
 
-        #En repère segment local
-        Vy = speedPID.update(err)
-        #saturer Vy à + ou -Vlim
+        #En repere segment local
+        Vy = speedPID.update(-err)
+        #saturer Vy a + ou -Vlim
         if Vy > Vlim:
             Vy = Vlim
         elif Vy < -Vlim:
@@ -181,15 +206,15 @@ def callbackOdom(data):
 
         Vx = sqrt(Vlim**2 - Vy**2)
 
-        #Passer le vecteur (Vx Vy) en repère robot pour appliquer à cmdVel
+        #Passer le vecteur (Vx Vy) en repere robot pour appliquer a cmdVel
         theta = segmentAngle - pose.theta
         cmdVel_msg.linear.x = Vx * cos(theta) - Vy * sin(theta)
         cmdVel_msg.linear.y = Vx * sin(theta) + Vy * cos(theta)
 
 
-    elif g_indexTraj >= len(g_path) and g_trackingIsActive:
+    elif g_indexTraj >= len(g_path)-2 and g_trackingIsActive:
         #arreter robot
-        cmdVel_pub.publish(cmdVel_msg)
+
         #orienation finale
         (lastRoll, lastPitch, lastYaw) = euler_from_quaternion_msg(g_path[-1].pose.orientation)
         if (abs(lastYaw - pose.theta) < 0.001):
