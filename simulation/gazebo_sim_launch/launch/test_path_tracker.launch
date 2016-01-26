@@ -68,8 +68,8 @@
       <node pkg="path_tracker" name="path_trackerRequest_node" type="path_trackerRequest_node.py" output="screen"/>
 
 			<!-- Load the path tracker -->
-      <!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" launch-prefix="xterm -e"/> -->
-
+      <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" launch-prefix="xterm -e"/>
+      <!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node.py" launch-prefix="xterm -e"/> -->
 
 			<!-- Load the fake final approach -->
 			<node pkg="approche_finale" name="final_approach" type="simFinalApproach_node"/>

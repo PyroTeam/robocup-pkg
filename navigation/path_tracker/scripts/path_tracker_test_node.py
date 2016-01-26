@@ -32,8 +32,8 @@ class PID:
         return y
 
 
-anglePID = PID(1.5, 0, 0, 1/20.0)
-speedPID = PID(0.1, 0, 0, 1/20.0)
+anglePID = PID(1.5, 0, 0, 1/10.0)
+speedPID = PID(0.1, 0, 0, 1/10.0)
 
 #vitesse max robotino fixe
 Vlim = 0.3
@@ -68,7 +68,7 @@ class TrackPathAction(object):
     global g_trackingIsActive
 
     # helper variables
-    r = rospy.Rate(1)
+    r = rospy.Rate(2)
     success = False
     failure = False
 
@@ -82,9 +82,8 @@ class TrackPathAction(object):
         # Log
         rospy.loginfo('%s: Executing TrackPath' % (self._action_name))
 
-        # Do we have finished
         while not g_pathFinished:
-
+            rospy.loginfo('g_indexTraj : %d' % (g_indexTraj))
             # Fill the feedback
             self._feedback.percent_complete=g_indexTraj
             self._feedback.id=0
@@ -100,17 +99,18 @@ class TrackPathAction(object):
             # Publish the feedback
             self._as.publish_feedback(self._feedback)
 
-            rospy.sleep(0.1)
+            r.sleep()
 
         if g_pathFinished:
             success = True
 
+    g_stopRobot = True
     g_trackingIsActive = False
     g_indexTraj = 0
     # Process the result if needed
     rospy.loginfo('Before Result')
     if success:
-      rospy.loginfo('SUCESS')
+      rospy.loginfo('SUCCESS')
       self._result.result = self._result.FINISHED
       rospy.loginfo('%s: Succeeded' % self._action_name)
       self._as.set_succeeded(self._result)
@@ -152,15 +152,18 @@ def callbackOdom(data):
 
     if g_stopRobot == True or len(g_path) == 0:
         cmdVel_pub.publish(cmdVel_msg)
+        g_indexTraj = 0
         return
 
     # recherche du segment a suivre
     if g_indexTraj < len(g_path)-2 and g_trackingIsActive:
+        rospy.loginfo('Odom : g_indexTraj : %d' % (g_indexTraj))
         err = 0
         u = 10.0
         delta_x = 0
         delta_y = 0
         while u > 1.0 and g_indexTraj < len(g_path)-2:
+            rospy.loginfo('Odom While: g_indexTraj : %d' % (g_indexTraj))
             delta_x = g_path[g_indexTraj+1].pose.position.x - g_path[g_indexTraj].pose.position.x
             delta_y = g_path[g_indexTraj+1].pose.position.y - g_path[g_indexTraj].pose.position.y
 
@@ -169,7 +172,7 @@ def callbackOdom(data):
 
             denom = (delta_x*delta_x + delta_y*delta_y)
             u = (Rx*delta_x + Ry*delta_y) / denom;
-
+            rospy.loginfo('Odom While: u : %f' % (u))
             if u>1.0:
                 g_indexTraj = g_indexTraj+1
 
@@ -177,8 +180,6 @@ def callbackOdom(data):
             #on a donc notre segment a suivre et l'erreur
 
         #calcul de l'orienation du segment
-        #delta_x = g_path[g_indexTraj+1].pose.position.x - g_path[g_indexTraj].pose.position.x
-        #delta_y = g_path[g_indexTraj+1].pose.position.y - g_path[g_indexTraj].pose.position.y
         segmentAngle = atan2(delta_y, delta_x)
 
         #calcul de l'erreur en angle
@@ -191,10 +192,10 @@ def callbackOdom(data):
             errAngle = normalizeAngle(segmentAngle - pose.theta)
 
         cmdVel_msg.angular.z = anglePID.update(errAngle)
-        if cmdVel_msg.angular.z > 10:
-            cmdVel_msg.angular.z = 10
-        elif cmdVel_msg.angular.z < -10:
-            cmdVel_msg.angular.z = -10
+        if cmdVel_msg.angular.z > 1:
+            cmdVel_msg.angular.z = 1
+        elif cmdVel_msg.angular.z < -1:
+            cmdVel_msg.angular.z = -1
 
         #En repere segment local
         Vy = speedPID.update(-err)
@@ -217,10 +218,15 @@ def callbackOdom(data):
 
         #orienation finale
         (lastRoll, lastPitch, lastYaw) = euler_from_quaternion_msg(g_path[-1].pose.orientation)
-        if (abs(lastYaw - pose.theta) < 0.001):
+        err = normalizeAngle(lastYaw - pose.theta)
+        if (abs(err) < 0.001):
             g_pathFinished = True
         else:
-            cmdVel_msg.angular.z = anglePID.update(lastYaw - pose.theta)
+            cmdVel_msg.angular.z = anglePID.update(err)
+            if cmdVel_msg.angular.z > 1:
+                cmdVel_msg.angular.z = 1
+            elif cmdVel_msg.angular.z < -1:
+                cmdVel_msg.angular.z = -1
 
     cmdVel_pub.publish(cmdVel_msg)
 

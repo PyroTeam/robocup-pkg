@@ -65,6 +65,8 @@ def GoalPoseCallback(gPose):
 
     if (result.result ==  deplacement_msg.msg.GeneratePathResult.SUCCESS):
         rospy.loginfo("Path finder find a path")
+        # attendre une seconde pour s'assurer que le pathTracker a recu le nouveau chemin
+        rospy.sleep(1.0)
         # on execute le path_tracker
         clientPathTrack = actionlib.SimpleActionClient('trackPath', deplacement_msg.msg.TrackPathAction)
 
@@ -82,7 +84,7 @@ def GoalPoseCallback(gPose):
 
         result = clientPathTrack.get_result()
 
-        if (result.result ==  deplacement_msg.msg.GeneratePathResult.SUCCESS):
+        if (result.result ==  deplacement_msg.msg.TrackPathResult.FINISHED):
             rospy.loginfo("Path tracker finished")
         else:
             rospy.loginfo("Path tracker failed : %d", result.result)
