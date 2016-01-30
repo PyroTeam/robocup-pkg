@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   nav_msgs
+  common_utils
 )
 
 ## System dependencies are found with CMake's conventions
@@ -109,10 +110,10 @@ include_directories(
 # )
 
 # Declare a cpp executable - pathfinder_node
-add_executable(pathfinder_node  
-    src/pathfinder_node.cpp 
-    src/AStar.cpp 
-    src/Point.cpp 
+add_executable(pathfinder_node
+    src/pathfinder_node.cpp
+    src/AStar.cpp
+    src/Point.cpp
 )
 target_link_libraries(pathfinder_node
     ${catkin_LIBRARIES}

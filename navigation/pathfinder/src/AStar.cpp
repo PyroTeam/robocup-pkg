@@ -7,17 +7,18 @@
  *
  * Implémentation complète de l'algorithme AStar pour les robotinos de PYRO Team,
  * dans le cadre de la RoboCup Logistic League.
- * 
+ *
  * La classe AStar est en charge de récupérer la map (une OccupancyGrid), grâce
  * à sa fonction de CallBack et de trouver un chemin optimal entre deux points.
  * Fonction : computeAStar.
- * 
+ *
  * L'implémentation de l'openList est en grande partie codée dans Point.cpp
  *
  */
 
 /*==========  Includes  ==========*/
 #include "pathfinder/AStar.hpp"
+#include "common_utils/Chrono.h"
 
 /*==========  Constructor & desctuctors  ==========*/
 /**
@@ -32,7 +33,7 @@ m_width(280),
 m_height(180),
 m_origin_x(-7),
 m_origin_y(-2)
-{       
+{
     m_allowDiagonal      = true;
     m_crossCorner        = false;
     m_heuristicFonction  = EUCLIDEAN;
@@ -48,7 +49,7 @@ m_origin_y(-2)
  * @details Desalloue la mémoire de la map
  */
 AStar::~AStar()
-{   
+{
     destructMap();
 }
 
@@ -56,7 +57,7 @@ AStar::~AStar()
 /**
  * @brief Callback nav_msgs::OccupancyGrid
  * @details Met simplement à jour la map à chaque réception de l'OccupancyGrid
- * 
+ *
  * @param grid OccupancyGrid représentant la map et les obstacles
  */
 void AStar::gridCallback(nav_msgs::OccupancyGridConstPtr grid)
@@ -68,7 +69,7 @@ void AStar::gridCallback(nav_msgs::OccupancyGridConstPtr grid)
  * @brief Fonction de mise à jour de la map
  * @details Met à jour les points selon les informations de l'OccupancyGrid
  * Les emplacements mémoires des points de la map sont inaltérés ici
- *  
+ *
  * @param grid OccupancyGrid représentant la map et les obstacles
  */
 void AStar::updateMap(nav_msgs::OccupancyGridConstPtr grid)
@@ -91,7 +92,7 @@ void AStar::updateMap(nav_msgs::OccupancyGridConstPtr grid)
  * @brief Création de la map
  * @details La map est crée dans cette fonction.
  * i.e : chaque point de la map sont alloués en mémoires et placées à leur coordonées
- * 
+ *
  * A ce stade la map est vierge, pas de murs, pas d'obstacles
  */
 void AStar::constructMap()
@@ -147,10 +148,10 @@ void AStar::setHeuristicFunction(typeHeuristic heuristicFonction)
 /**
  * @brief Fonction d'estimation de distance heuristique entre deux points
  * @details Utilise la fonction heuristique appropriee, selon notre configuration de depart
- * 
+ *
  * @param pointDepart
  * @param pointDistant
- * 
+ *
  * @return La distance estimee entre les deux points
  */
 float AStar::heuristic(Point const *pointDepart, Point const *pointDistant)
@@ -179,10 +180,10 @@ float AStar::heuristic(Point const *pointDepart, Point const *pointDistant)
 /**
  * @brief Distance heuristique de Manhattan
  * @details Heuristic du taxi -> voir wikipedia, pertinent quand on ne se deplace pas ou peu en diagonale
- * 
- * @param pointDepart 
- * @param pointDistant 
- * 
+ *
+ * @param pointDepart
+ * @param pointDistant
+ *
  * @return La distance estimee entre les deux points
  */
 float AStar::heuristicManhattan(Point const *pointDepart, Point const *pointDistant)
@@ -201,10 +202,10 @@ float AStar::heuristicManhattan(Point const *pointDepart, Point const *pointDist
 /**
  * @brief Distance heuristique d'Euclide
  * @details Heuristic "vol d'oiseau"
- * 
- * @param pointDepart 
- * @param pointDistant 
- * 
+ *
+ * @param pointDepart
+ * @param pointDistant
+ *
  * @return La distance estimee entre les deux points
  */
 float AStar::heuristicEuclidean(Point const *pointDepart, Point const *pointDistant)
@@ -223,10 +224,10 @@ float AStar::heuristicEuclidean(Point const *pointDepart, Point const *pointDist
 /**
  * @brief Distance heuristique de Chebyshev
  * @details Retourne la distance en X ou en Y maximale
- * 
- * @param pointDepart 
- * @param pointDistant 
- * 
+ *
+ * @param pointDepart
+ * @param pointDistant
+ *
  * @return La distance estimee entre les deux points
  */
 float AStar::heuristicChebyshev(Point const *pointDepart, Point const *pointDistant)
@@ -244,34 +245,34 @@ float AStar::heuristicChebyshev(Point const *pointDepart, Point const *pointDist
 
 /**
  * @brief Indique si un point est libre (passage possible) à la ligne/colonne indiquée
- * @details Si un point est configuré comme non libre (obstacle ou autre) 
- * ou est exterieur à la map, le point est condiséré impossible à franchir 
- * 
+ * @details Si un point est configuré comme non libre (obstacle ou autre)
+ * ou est exterieur à la map, le point est condiséré impossible à franchir
+ *
  * @param raw
  * @param col
- * 
+ *
  * @return Booleen, vrai pour libre, faux sinon
  */
 bool AStar::isFreeAt(signed int raw, signed int col)
 {
     if(raw < nbPointsLignes && raw >= 0 && col < nbPointsColonnes && col>=0)
         return m_pointsPassage[raw][col]->isFree();
-    else 
+    else
         return false;
 }
 
 /**
  * @brief Retourne tous les voisins d'un point
- * @details 
- * Retourne tous les voisins d'un point en prenant en compte les paramètres : 
+ * @details
+ * Retourne tous les voisins d'un point en prenant en compte les paramètres :
  * m_allowDiagonal et m_crossCorner
- * 
+ *
  * @param voisins Vecteur parametre resultat
  * @param oirigin Point dont on cherche les voisins
- * 
+ *
  *  s0 à 4 représentent les voisins simples
  *  d0 à 4 représentent les voisins diagonaux
- * 
+ *
  *  simpleOffsets:  diagonalOffsets:
  *  +---+---+---+    +---+---+---+
  *  |   | 0 |   |    | 0 |   | 1 |
@@ -280,7 +281,7 @@ bool AStar::isFreeAt(signed int raw, signed int col)
  *  +---+---+---+    +---+---+---+
  *  |   | 2 |   |    | 3 |   | 2 |
  *  +---+---+---+    +---+---+---+
- * 
+ *
  * @return 0 si tous s'est bien passé
  */
 signed int AStar::getVoisins(std::vector<Point*> &voisins, Point *oirigin)
@@ -324,7 +325,7 @@ signed int AStar::getVoisins(std::vector<Point*> &voisins, Point *oirigin)
     if (!m_allowDiagonal)
         return 0;
 
-    // Les simple s0 à s3 remplient precedemment permettent 
+    // Les simple s0 à s3 remplient precedemment permettent
     // de trouver les diagonals d0 à d3 franchissable ou non
     if (!m_crossCorner)
     {
@@ -367,7 +368,7 @@ signed int AStar::getVoisins(std::vector<Point*> &voisins, Point *oirigin)
 /**
  * @brief Implementation d'AStar a proprement parler
  * @details [long description]
- * 
+ *
  * @param path Vecteur résultat contenant les points du chemin
  * @param startPoint
  * @param endPoint
@@ -377,27 +378,30 @@ signed int AStar::computeAStar(std::vector<Point*> &path,
                              Point *startPoint,
                              Point *endPoint)
 {
+    common_utils::HighResChrono chrono;
+    chrono.start();
+
 // Environement
     // Il faut remettre a zero tout AStar
     reset();
     Point* openList = NULL;
 
-// Algo 
+// Algo
     // Le point de depart sera le premier evalue
-    startPoint->insertInOpenList(&openList, openList);   
+    startPoint->insertInOpenList(&openList, openList);
 
-    // Tant qu'il reste des points a evaluer, on persevere   
-    while(!Point::openListIsEmpty(openList))                   
+    // Tant qu'il reste des points a evaluer, on persevere
+    while(!Point::openListIsEmpty(openList))
     {
         ROS_DEBUG_STREAM("OpenList size : " << Point::openListSize());
-        ROS_DEBUG_STREAM("CloseList size : " << Point::closeListSize());    
+        ROS_DEBUG_STREAM("CloseList size : " << Point::closeListSize());
         // if(Point::openListSize() != Point::countList(openList))
         // {
         //     ROS_ERROR("Incoherence size et count");
         //     exit(666);
         // }
 
-        // A chaque iteartion, on evalue le point avec le plus petit F 
+        // A chaque iteartion, on evalue le point avec le plus petit F
         //  (au tout debut il n'y a que startPoint)
         Point *actualPoint = Point::getLowerFromOpenList(openList);
 
@@ -445,14 +449,14 @@ signed int AStar::computeAStar(std::vector<Point*> &path,
                 // Sinon - calcul g potentiel via actualPoint
                 float newG = actualPoint->getG() + neighbour->distWith(actualPoint);
 
-                // Si le neighbour n'et pas deja dans a evalue 
+                // Si le neighbour n'et pas deja dans a evalue
                 // ou que le nouveau g est plus interessant
                 // on modifie et on stocke
                 if( !neighbour->isInOpenList() ||
                     newG < neighbour->getG())
-                {             
-                    if(!neighbour->isInOpenList()) 
-                    {   
+                {
+                    if(!neighbour->isInOpenList())
+                    {
                         neighbour->setPointPrec(actualPoint);
                         neighbour->setG(newG);
                         neighbour->setH((neighbour->getH())?neighbour->getH():heuristic(neighbour, endPoint));
@@ -515,7 +519,11 @@ signed int AStar::computeAStar(std::vector<Point*> &path,
             // Le chemin est constuit a l'envers, il faut le retourner
             std::reverse(path.begin(),path.end());
 
-            setClean(false);            
+            setClean(false);
+
+            chrono.stop();
+            ROS_INFO_STREAM("Time to find the path : " << chrono);
+
             return 0;
         }
     }
@@ -523,14 +531,14 @@ signed int AStar::computeAStar(std::vector<Point*> &path,
     ROS_WARN("PathFinder termine sans trouver de chemin");
 
     setClean(false);
-    return -1;       
+    return -1;
 }
 
 /**
  * @brief Retourne un point de la map repéré par sa ligne et sa colonne
- * 
- * @param ligne 
- * @param colonne 
+ *
+ * @param ligne
+ * @param colonne
  * @param point Paramètre résultat
  * @return 0 si le point existe, -1 sinon
  */
@@ -544,7 +552,7 @@ signed int AStar::getPointAt(signed int ligne, signed int colonne, Point*& point
         point = m_pointsPassage[ligne][colonne];
         return 0;
     }
-    else 
+    else
     {
         return -1;
     }
@@ -552,7 +560,7 @@ signed int AStar::getPointAt(signed int ligne, signed int colonne, Point*& point
 
 /**
  * @brief Retourne le point de la map le plus proche
- * 
+ *
  * @param x
  * @param y
  * @param point Paramètre résultat
@@ -594,7 +602,7 @@ signed int AStar::getNearestPoint(float x, float y, Point*& point) const
 
 /**
  * @brief Remise à zero d'AStar
- * @details Ne remet a zero AStar que si necessaire, 
+ * @details Ne remet a zero AStar que si necessaire,
  * grâce au booleen m_clean qui indique si un reset d'AStar serait superflu
  */
 void AStar::reset()
@@ -607,9 +615,9 @@ void AStar::reset()
             {
                 m_pointsPassage[i][j]->reset();
             }
-        }       
+        }
 
-        setClean(true); 
+        setClean(true);
     }
 }
 
