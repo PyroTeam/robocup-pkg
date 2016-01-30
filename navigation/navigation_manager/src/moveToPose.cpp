@@ -12,6 +12,7 @@
 
 #include "navigation_manager/moveToPose.h"
 #include <tf/transform_datatypes.h>
+#include "deplacement_msg/GeneratePathAction.h"
 
 const int c_timeOutGenePath = 5;
 
@@ -34,157 +35,137 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     ROS_INFO("Serveur MoveToPose, goal : %f %f %f", goal->position_finale.x, goal->position_finale.y, goal->position_finale.theta);
 
     // start executing the action
-    pathfinder::GeneratePath srv;
-    m_lastId++;
-    srv.request.id = m_lastId;
-    geometry_msgs::Pose2D poseFinale2D = goal->position_finale;
-    geometry_msgs::Pose poseFinale;
-    poseFinale.position.x = poseFinale2D.x;
-    poseFinale.position.y = poseFinale2D.y;
-    poseFinale.position.z = goal->position_finale.theta;
-    poseFinale.orientation = tf::createQuaternionMsgFromRollPitchYaw(0, 0, poseFinale2D.theta);
-    srv.request.Arrivee = poseFinale;
-    srv.request.Depart = m_poseOdom;
-    srv.request.utilisePositionOdometry = false;
+    actionlib::SimpleActionClient<deplacement_msg::GeneratePathAction> genePathAction("navigation/generatePath", true);
 
-    if (m_generatePathClient.call(srv))
-	{
-        ROS_INFO("Requete acceptee : %d", srv.response.requeteAcceptee);
+    ROS_INFO("Waiting for path_finder action server to start.");
+    genePathAction.waitForServer();
+    ROS_INFO("Action server started, sending goal.");
+    // send a goal to the action
+    deplacement_msg::GeneratePathGoal genePathGoal;
+    genePathGoal.start.x = m_poseOdom.position.x;
+    genePathGoal.start.y = m_poseOdom.position.y;
+    genePathGoal.start.theta = tf::getYaw( m_poseOdom.orientation);
+    genePathGoal.goal =  goal->position_finale;
+    genePathGoal.timeout = ros::Duration(10);
+    genePathAction.sendGoal(genePathGoal);
+    //wait for the action to return
+    bool finished_before_timeout = genePathAction.waitForResult(ros::Duration(30.0));
+
+    if (genePathAction.getResult()->result == deplacement_msg::GeneratePathResult::SUCCESS)
+    {
+        ROS_INFO("Path finder find a path");
     }
     else
-	{
-        ROS_ERROR("Failed to call service generate path");
-        m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
-        m_as.setAborted(m_result);
-        return;
-    }
-
-    ros::Time t = ros::Time::now() + ros::Duration(c_timeOutGenePath);
-    while (m_lastId != m_pathId && ros::ok() && ros::Time::now() < t)
-	{
-        r.sleep();
-        ros::spinOnce();
-    }
-
-    //timeout genePath
-    if (ros::Time::now() >= t)
-	{
-        ROS_INFO("Path generate : Timeout!");
+    {
+        ROS_INFO("Path not found : %d", genePathAction.getResult()->result);
         m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
         m_as.setAborted(m_result);
         return;
     }
 
     //path Found
-    if (m_lastId == m_pathId)
-	{
-        ROS_INFO("Path generated! with id : %d", m_pathId);
-        deplacement_msg::TrackPathGoal tgoal;
-        tgoal.id = m_lastId;
-        m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
-                                          boost::bind(&MoveToPose::activeCb, this),
-                                          boost::bind(&MoveToPose::feedbackCb, this, _1));
+    m_pathId++;
+    ROS_INFO("Path generated! with id : %d", m_pathId);
+    deplacement_msg::TrackPathGoal tgoal;
+    tgoal.id = m_lastId;
+    m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
+                                      boost::bind(&MoveToPose::activeCb, this),
+                                      boost::bind(&MoveToPose::feedbackCb, this, _1));
 
-        bool isOk = true;
-        enum PathTrackStatus pathTrackStatus = RUNNING;
-        bool obstacleInRange;
+    bool isOk = true;
+    enum PathTrackStatus pathTrackStatus = RUNNING;
+    bool obstacleInRange;
 
-		float xmax = 0.4, xmin = 0, ymin = -0.3, ymax = 0.3;
+	float xmax = 0.4, xmin = 0, ymin = -0.3, ymax = 0.3;
 
-        while (isOk)
-        {
-            obstacleInRange = false;
-            /*if (std::abs(m_sharpSensor.points[0].x) < max && std::abs(m_sharpSensor.points[0].y) < max){
-                obstacleInRange = true;
-            }
-            if (std::abs(m_sharpSensor.points[1].x) < max && std::abs(m_sharpSensor.points[1].y) < max){
-                obstacleInRange = true;
-            }
-            if (std::abs(m_sharpSensor.points[2].x) < max && std::abs(m_sharpSensor.points[2].y) < max){
-                obstacleInRange = true;
-            }
-            if (std::abs(m_sharpSensor.points[7].x) < max && std::abs(m_sharpSensor.points[7].y) < max){
-                obstacleInRange = true;
-            }
-            if (std::abs(m_sharpSensor.points[8].x) < max && std::abs(m_sharpSensor.points[8].y) < max){
-                obstacleInRange = true;
-            }*/
+    while (isOk)
+    {
+        obstacleInRange = false;
+        /*if (std::abs(m_sharpSensor.points[0].x) < max && std::abs(m_sharpSensor.points[0].y) < max){
+            obstacleInRange = true;
+        }
+        if (std::abs(m_sharpSensor.points[1].x) < max && std::abs(m_sharpSensor.points[1].y) < max){
+            obstacleInRange = true;
+        }
+        if (std::abs(m_sharpSensor.points[2].x) < max && std::abs(m_sharpSensor.points[2].y) < max){
+            obstacleInRange = true;
+        }
+        if (std::abs(m_sharpSensor.points[7].x) < max && std::abs(m_sharpSensor.points[7].y) < max){
+            obstacleInRange = true;
+        }
+        if (std::abs(m_sharpSensor.points[8].x) < max && std::abs(m_sharpSensor.points[8].y) < max){
+            obstacleInRange = true;
+        }*/
 
 /*
-            if (isInZone(m_sharpSensor.points[0].x, m_sharpSensor.points[0].y, xmin, xmax, ymin, ymax))
-            {
-                obstacleInRange = true;
-            }
-            if (isInZone(m_sharpSensor.points[1].x, m_sharpSensor.points[1].y, xmin, xmax, ymin, ymax))
-            {
-                obstacleInRange = true;
-            }
-            if (isInZone(m_sharpSensor.points[2].x, m_sharpSensor.points[2].y, xmin, xmax, ymin, ymax))
-            {
-                obstacleInRange = true;
-            }
-            if (isInZone(m_sharpSensor.points[7].x, m_sharpSensor.points[7].y, xmin, xmax, ymin, ymax))
-            {
-                obstacleInRange = true;
-            }
-            if (isInZone(m_sharpSensor.points[8].x, m_sharpSensor.points[8].y, xmin, xmax, ymin, ymax))
-            {
-                obstacleInRange = true;
-            }
+        if (isInZone(m_sharpSensor.points[0].x, m_sharpSensor.points[0].y, xmin, xmax, ymin, ymax))
+        {
+            obstacleInRange = true;
+        }
+        if (isInZone(m_sharpSensor.points[1].x, m_sharpSensor.points[1].y, xmin, xmax, ymin, ymax))
+        {
+            obstacleInRange = true;
+        }
+        if (isInZone(m_sharpSensor.points[2].x, m_sharpSensor.points[2].y, xmin, xmax, ymin, ymax))
+        {
+            obstacleInRange = true;
+        }
+        if (isInZone(m_sharpSensor.points[7].x, m_sharpSensor.points[7].y, xmin, xmax, ymin, ymax))
+        {
+            obstacleInRange = true;
+        }
+        if (isInZone(m_sharpSensor.points[8].x, m_sharpSensor.points[8].y, xmin, xmax, ymin, ymax))
+        {
+            obstacleInRange = true;
+        }
 
 
-            std::cout << "Obstacle in range :" << obstacleInRange << std::endl;
+        std::cout << "Obstacle in range :" << obstacleInRange << std::endl;
 */
-            if(obstacleInRange && pathTrackStatus == RUNNING)
-            {
-                m_trackPathAction.cancelGoal();
-                pathTrackStatus = PAUSED;
-            }
-            else if(!obstacleInRange && pathTrackStatus == PAUSED)
-            {
-                m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
-                                                  boost::bind(&MoveToPose::activeCb, this),
-                                                  boost::bind(&MoveToPose::feedbackCb, this, _1));
-                pathTrackStatus = RUNNING;
-            }
-
-            //std::cout << "PathTrack Status = " << pathTrackStatus << std::endl;
-
-            m_feedback.percent_complete = m_pathTrackPercentComplete;
-            m_as.publishFeedback(m_feedback);
-
-
-            if (!ros::ok())
-            {
-                isOk = false;
-            }
-            else if (m_as.isPreemptRequested())
-            {
-                isOk = false;
-			//todo cancel path_track
-            }
-            else if (m_trackPathAction.getResult()->result == deplacement_msg::MoveToPoseResult::FINISHED)
-            {
-                isOk = false;
-            }
+        if(obstacleInRange && pathTrackStatus == RUNNING)
+        {
+            m_trackPathAction.cancelGoal();
+            pathTrackStatus = PAUSED;
+        }
+        else if(!obstacleInRange && pathTrackStatus == PAUSED)
+        {
+            m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
+                                              boost::bind(&MoveToPose::activeCb, this),
+                                              boost::bind(&MoveToPose::feedbackCb, this, _1));
+            pathTrackStatus = RUNNING;
         }
 
-        if (m_trackPathAction.getResult()->result == deplacement_msg::MoveToPoseResult::FINISHED)
-		{
-            m_result.result = deplacement_msg::MoveToPoseResult::FINISHED;
+        //std::cout << "PathTrack Status = " << pathTrackStatus << std::endl;
+
+        m_feedback.percent_complete = m_pathTrackPercentComplete;
+        m_as.publishFeedback(m_feedback);
+
+
+        if (!ros::ok())
+        {
+            isOk = false;
         }
-        else
-		{
-            m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
+        else if (m_as.isPreemptRequested())
+        {
+            isOk = false;
+		//todo cancel path_track
         }
-        m_as.setSucceeded(m_result);
+        else if (m_trackPathAction.getResult()->result == deplacement_msg::MoveToPoseResult::FINISHED)
+        {
+            isOk = false;
+        }
+    }
+
+    if (m_trackPathAction.getResult()->result == deplacement_msg::MoveToPoseResult::FINISHED)
+	{
+        m_result.result = deplacement_msg::MoveToPoseResult::FINISHED;
     }
     else
-    {
+	{
         m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
-        m_as.setAborted(m_result);
-        return;
     }
+    m_as.setSucceeded(m_result);
+
 }
 
 // Called once when the goal completes
@@ -213,10 +194,6 @@ void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom)
     m_poseOdom = odom.pose.pose;
 }
 
-void MoveToPose::PathCallback(const pathfinder::AstarPath &path)
-{
-    m_pathId = path.id;
-}
 
 void MoveToPose::DistSensorCallback(const sensor_msgs::PointCloud &sensor)
 {

@@ -32,15 +32,15 @@ class PID:
         return y
 
 
-anglePID = PID(1.5, 0, 0, 1/10.0)
-speedPID = PID(0.1, 0, 0, 1/10.0)
+g_anglePID = PID(1.5, 0, 0, 1/10.0)
+g_speedPID = PID(0.1, 0, 0, 1/10.0)
 
 #vitesse max robotino fixe
-Vlim = 0.3
+g_Vlim = 0.3
 
 
 # Publisher de consignes en vitesse
-cmdVel_pub = rospy.Publisher('hardware/cmd_vel', Twist, queue_size=10)
+g_cmdVel_pub = rospy.Publisher('hardware/cmd_vel', Twist, queue_size=10)
 
 def normalizeAngle(angle):
     while angle > pi:
@@ -142,6 +142,11 @@ def callbackOdom(data):
     global g_trackingIsActive
     global g_pathFinished
     global g_indexTraj
+    global g_speedPID
+    global g_anglePID
+    global g_cmdVel_pub
+    global g_Vlim
+
     cmdVel_msg = Twist()
 
     pose = Pose2D()
@@ -151,7 +156,7 @@ def callbackOdom(data):
     pose.theta = yaw
 
     if g_stopRobot == True or len(g_path) == 0:
-        cmdVel_pub.publish(cmdVel_msg)
+        g_cmdVel_pub.publish(cmdVel_msg)
         g_indexTraj = 0
         return
 
@@ -191,14 +196,14 @@ def callbackOdom(data):
         else:
             errAngle = normalizeAngle(segmentAngle - pose.theta)
 
-        cmdVel_msg.angular.z = anglePID.update(errAngle)
+        cmdVel_msg.angular.z = g_anglePID.update(errAngle)
         if cmdVel_msg.angular.z > 1:
             cmdVel_msg.angular.z = 1
         elif cmdVel_msg.angular.z < -1:
             cmdVel_msg.angular.z = -1
 
         #En repere segment local
-        Vy = speedPID.update(-err)
+        Vy = g_speedPID.update(-err)
         #saturer Vy a + ou -Vlim
         if Vy > Vlim:
             Vy = Vlim
@@ -222,13 +227,13 @@ def callbackOdom(data):
         if (abs(err) < 0.001):
             g_pathFinished = True
         else:
-            cmdVel_msg.angular.z = anglePID.update(err)
+            cmdVel_msg.angular.z = g_anglePID.update(err)
             if cmdVel_msg.angular.z > 1:
                 cmdVel_msg.angular.z = 1
             elif cmdVel_msg.angular.z < -1:
                 cmdVel_msg.angular.z = -1
 
-    cmdVel_pub.publish(cmdVel_msg)
+    g_cmdVel_pub.publish(cmdVel_msg)
 
 
 def callbackPath(data):
