@@ -56,7 +56,7 @@ class TrackPathAction(object):
   _state   = deplacement_msg.msg.TrackPathResult()
 
   def __init__(self, name):
-    self._action_name = "trackPath"
+    self._action_name = "navigation/trackPath"
     self._as = actionlib.SimpleActionServer(self._action_name, deplacement_msg.msg.TrackPathAction, execute_cb=self.execute_cb, auto_start = False)
     self._as.start()
 
@@ -205,12 +205,12 @@ def callbackOdom(data):
         #En repere segment local
         Vy = g_speedPID.update(-err)
         #saturer Vy a + ou -Vlim
-        if Vy > Vlim:
-            Vy = Vlim
-        elif Vy < -Vlim:
-            Vy = -Vlim
+        if Vy > g_Vlim:
+            Vy = g_Vlim
+        elif Vy < -g_Vlim:
+            Vy = -g_Vlim
 
-        Vx = sqrt(Vlim**2 - Vy**2)
+        Vx = sqrt(g_Vlim**2 - Vy**2)
 
         #Passer le vecteur (Vx Vy) en repere robot pour appliquer a cmdVel
         theta = segmentAngle - pose.theta
@@ -224,7 +224,7 @@ def callbackOdom(data):
         #orienation finale
         (lastRoll, lastPitch, lastYaw) = euler_from_quaternion_msg(g_path[-1].pose.orientation)
         err = normalizeAngle(lastYaw - pose.theta)
-        if (abs(err) < 0.001):
+        if (abs(err) < 0.01):
             g_pathFinished = True
         else:
             cmdVel_msg.angular.z = g_anglePID.update(err)

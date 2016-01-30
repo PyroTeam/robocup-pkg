@@ -4,6 +4,7 @@
  * \brief
  *
  * \author       Tissot Elise (elise-tissot@polytech-lille.net)
+ *               Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date         2015-04-23
  * \copyright    PyroTeam, Polytech-Lille
  * \license
@@ -63,6 +64,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
         return;
     }
 
+    sleep(1);
     //path Found
     m_pathId++;
     ROS_INFO("Path generated! with id : %d", m_pathId);

@@ -68,7 +68,7 @@ def GoalPoseCallback(gPose):
         # attendre une seconde pour s'assurer que le pathTracker a recu le nouveau chemin
         rospy.sleep(1.0)
         # on execute le path_tracker
-        clientPathTrack = actionlib.SimpleActionClient('trackPath', deplacement_msg.msg.TrackPathAction)
+        clientPathTrack = actionlib.SimpleActionClient('navigation/trackPath', deplacement_msg.msg.TrackPathAction)
 
         rospy.loginfo("Wait for Path tracker server")
         clientPathTrack.wait_for_server()
