@@ -1,21 +1,27 @@
-TODO à détailler
+Installation et des paquets nécessaires
 
+* sudo apt-get install ros-indigo-rosserial-arduino ros-indigo-rosserial arduino
+* sudo su
+* source /home/<user>/catkin_ws/devel/setup.bash
+* copier le fichier firmware/arduinoGripper.ino dans le dossier sketchbook
 
-- Installation (procédure pour hydro, on passera par cmake avec indigo) :
-* installer rosserial_arduino,
-* installer l'IDE arduino,
-* copier le fichier firmware/arduinoGripper.ino dans le dossier sketchbook,
-* génération de ros_lib :
- $ rosrun rosserial_arduino make_libraries.py /home/vincent/sketchbook/libraries/ gripper_msg
+Génération de ros_lib :
 
-* compiler et uploader le programme dans l'arduino.
+* cd sketchbook/libraries
+* rm -rf ros_lib
+* rosrun rosserial_arduino make_libraries.py /root/sketchbook/libraries/ gripper_msg
 
-- Utilisation :
-* lancer un roscore
-* exécuter :
- $ rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0
+Compilation et upload du programme dans l'arduino.
+
+Utilisation du node
+
+* roscore
+* rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0
+
   (/dev/ttyACM0 étant le port série connecté à l'arduino)
 
-* le service "gripper_srv" et le topic "gripper_status" doivent apparaître.
-* exemple d'appel du service pour fermer la pince
- $ rosservice call /gripper_srv "state: false"
+Le service "gripper_srv" et le topic "gripper_status" doivent apparaître
+
+Exemple d'appel du service pour tourner (servo du haut) et/ou pousser (servo du bas)
+
+ rosservice call /gripper_srv "stateTurn: false statePush: false"
