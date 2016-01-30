@@ -1,0 +1,24 @@
+goal : TAKE or RELEASE a product
+
+communication with the other nodes :
+
+topic
+
+* status 
+	- standby (servo haut relevé, pousseur rentré)
+
+	- taking (servo haut baissé, pousseur rentré, robot reculant un peu)
+	- took (servo haut baissé, pousseur sorti, robot arrêté)
+
+	- releasing (servo haut baissé, pousseur rentré, robot avancant un peu)
+	- released (servo haut levé, pousseur sorti)
+
+services
+
+* take
+* release
+
+request send to the final approach node :
+
+* forward
+* backward
