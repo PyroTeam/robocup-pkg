@@ -84,9 +84,10 @@
 		<node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"/>
 
 		<!-- Load the manager -->
-		<!-- <node pkg="executeur_taches" name="executeur" type="test_exec"/> -->
-		<node pkg="executeur_taches" name="executeur" type="test_exec" launch-prefix="xterm -e"/>
-		<node pkg="generateur_taches" name="manager" type="main_node" launch-prefix="xterm -e"/>
+		<node pkg="executeur_taches" name="executeur" type="test_exec"/>
+		<!-- <node pkg="executeur_taches" name="executeur" type="test_exec" launch-prefix="xterm -e"/> -->
+		<node pkg="generateur_taches" name="manager" type="main_node"/>
+		<!-- <node pkg="generateur_taches" name="manager" type="main_node" launch-prefix="xterm -e"/> -->
 	</group>
 
 	<!-- Opposing TEAM -->
@@ -112,6 +113,7 @@
 		<!-- Load the fakeSimLightDetection node -->
 		<node pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>
 	</group>
+
+	<!-- Load rviz -->
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find gazebo_sim_launch)/others/overview.rviz"/>
 </launch>
-
-

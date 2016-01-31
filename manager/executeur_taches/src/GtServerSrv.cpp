@@ -4,7 +4,7 @@ GtServerSrv::GtServerSrv()
 {
 	ros::NodeHandle n;
     std::string teamColor;
-	n.param<int>("robotNumber",m_nbrobot,0);
+	n.param<int>("robotNumber", m_nbrobot, 0);
 	n.param<std::string>("teamColor", teamColor, "cyan");
 	m_color = (teamColor == "magenta")? MAGENTA: CYAN;
 
@@ -29,13 +29,14 @@ void GtServerSrv::going(geometry_msgs::Pose2D point)
 {
    int count = 0, stateOfNavigation;
    do{
-		ROS_INFO("going to the point : x : %f - y : %f - theta %f",point.x,point.y,point.theta);
+		ROS_INFO("Going to point : x: %f; y: %f; theta: %f",point.x,point.y,point.theta);
 		NavigationClientAction n_c;
 		stateOfNavigation = n_c.goToAPoint(point);
 		if(stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR)
 		{
 			count ++;
-			ROS_INFO("Can't go to the asked point sorry :(.. I will try another one ");
+			ROS_WARN("Unable to reach requested point (%f;%f; %f rads). Will try another one"
+				, point.x, point.y, point.theta);
 			point.x -= 0.2;
 			point.y += 0.2;
    		}
@@ -81,6 +82,12 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 #undef MARGIN_FROM_CENTER
 }
 
+bool GtServerSrv::knownMachineInZone(int zone)
+{
+	return m_ls->m_machine[zone - 1].isHere;
+}
+
+
 void GtServerSrv::getNearestPoint(geometry_msgs::Pose2D &pose
 	, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2
 	, geometry_msgs::Pose2D **targetPointPtr, geometry_msgs::Pose2D **otherPointPtr)
@@ -111,7 +118,6 @@ void GtServerSrv::asking(geometry_msgs::Pose2D point)
 
 manager_msg::activity GtServerSrv::getActivityMsg()
 {
-    log("Activity - I'm ready");
 	return m_msg;
 }
 
@@ -252,7 +258,9 @@ int GtServerSrv::teamColorOfZone(int zone)
 
 bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::order::Response &res)
 {
-	ROS_INFO("No problem, I received the order ");
+	ROS_INFO("Order received");
+	ROS_INFO("Request: nb_order=%d, nb_robot=%d, type=%d, parameter=%d, id=%d"
+		, (int)req.number_order, (int)req.number_robot, (int)req.type, (int)req.parameter, (int)req.id);
 	log("Order received");
 	setId(req.id);
 	if (req.number_robot == m_nbrobot)
@@ -386,7 +394,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 							}
 							else
 							{
-								if(i == 3 ) ROS_INFO(" ERROR : no more place to stock ");
+								if(i == 3 ) ROS_ERROR("ERROR: no more place to stock ");
 							}
 						}
 				}
@@ -417,24 +425,23 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				   	m.getCS2().destock(req.id,m_nbrobot,req.number_order,activity::CS2);
 				   	m.getCS2().majStockID(req.id, 0);
 				}
-				else 
+				else
 				{
-				  	ROS_ERROR("ERROR : req.id is not between 0 and 5 ");
+				  	ROS_ERROR("ERROR: req.id is not between 0 and 5 ");
 				  	res.accepted =false;
 				}
 				break;
 
 		  	case orderRequest::DISCOVER:
 		  	{
-				ROS_INFO ("Received discover Order");
-
 				#if 1 == 0 // Sandra's discover code
+				ROS_INFO ("Received discover Order");
 
 				geometry_msgs::Pose2D pt_dest;
 				geometry_msgs::Pose2D pt_actuel;
 
 				if(req.id == 4) // DS CYAN
-				{ 
+				{
 					pt_dest.x = 1.8;
 					pt_dest.y = 4.9;
 					pt_dest.theta = M_PI;
@@ -443,7 +450,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 					pt_dest.y = 4.9;
 				}
 				else if (req.id == 16)  // DS MAGENTA
-				{  
+				{
 					pt_dest.x = -1.8;
 					pt_dest.y = 4.9;
 					pt_dest.theta = 0;
@@ -451,7 +458,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 					pt_dest.x = -1.5;
 					pt_dest.y = 4.9;
 				}
-				else 
+				else
 				{
 					interpretationZone();
 					pt_dest.x = this->m_x;
@@ -462,7 +469,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
 				ROS_INFO ("I went to the asked point successfully ");
 
-				ROS_INFO(" Starting exploring the ARTag ");
+				ROS_INFO("Starting exploring the ARTag ");
 				asking(pt_dest);
 
 				int team_color = teamColorOfId(m_id);
@@ -471,7 +478,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
 				if(team_color != this->m_color)
 				{
-					ROS_ERROR(" Machine isn't for my team ");
+					ROS_ERROR("Machine isn't for my team ");
 					res.accepted = false;
 					break;
 				}
@@ -490,7 +497,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 					  	{
 						  	m_msg = m.getBS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::BS,req.id);
 						 	m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						  	if(m_ei->m_signals.size() != 0) 
+						  	if(m_ei->m_signals.size() != 0)
 						  	{
 								m.getBS().readlights(m_ei->lSpec);
 								m_ei->interpretationFeu();
@@ -696,6 +703,14 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 					break;
 				}
 
+				// Determine if a MPS is known here
+				if ( !knownMachineInZone(req.parameter) )
+				{
+					ROS_ERROR("No MPS known here. Abort");
+					res.accepted = false;
+					break;
+				}
+
 				// Zone discover approach, i.e. determine where the machine is on zone
 				/* NOTE: Not needed if first poc */
 
@@ -758,11 +773,16 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 	  	m_msg = m.getBS().msgToGT(m_nbrobot,activity::END,activity::NONE,req.id);
 	  	res.accepted = true;
 	}
-	else res.accepted = false;
+	else
+	{
+		ROS_WARN("Request for another robot");
+		res.accepted = false;
+	}
 
 	/* VERIFICATIONS */
-	ROS_INFO("request: nb_order=%d, m_nbrobot=%d, type=%d, parameter=%d, id=%d", (int)req.number_order, (int)req.number_robot, (int)req.type, (int)req.parameter, (int)req.id);
-	ROS_INFO("sending back response: nb_order=[%d], m_nbrobot=[%d]", (int)res.number_order, (int)res.number_robot);
+	ROS_INFO("Requested (reminder): nb_order=%d, nb_robot=%d, type=%d, parameter=%d, id=%d"
+		, (int)req.number_order, (int)req.number_robot, (int)req.type, (int)req.parameter, (int)req.id);
+	ROS_INFO("Response: nb_order=%d, nb_robot=%d", (int)res.number_order, (int)res.number_robot);
 
 return true;
 }

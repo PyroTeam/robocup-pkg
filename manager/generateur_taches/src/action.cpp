@@ -10,11 +10,11 @@ void Action::tesCallback(const manager_msg::activity &msg)
 	m_state = msg.state;
 	m_usedMachine = msg.machine_used;
 	m_nbOrder = msg.nb_order;
-	ROS_INFO("nb_robot: %d,state: %d,machine_used: %d,nb_order: %d",m_nbRobot,m_state,m_usedMachine,m_nbOrder);
+	ROS_DEBUG("nb_robot: %d,state: %d,machine_used: %d,nb_order: %d",m_nbRobot,m_state,m_usedMachine,m_nbOrder);
 }
 
 Action::Action(){
-	m_activitySub = m_nh.subscribe("task_exec_state",1000,&Action::tesCallback,this);
+	m_activitySub = m_nh.subscribe("manager/task_exec_state",1000,&Action::tesCallback,this);
 }
 
 void Action::updateRobot(Robot (&robot)[3]){

@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     while(ros::ok())
     {
         // ROS_INFO("I'm READY ! ");
-        // activite_pub.publish(gtsrv.getActivityMsg());
+        activite_pub.publish(gtsrv.getActivityMsg());
 
         /* Let's Spin until the end of the world !! */
         ros::spinOnce();

@@ -58,7 +58,7 @@
 #define CYAN 0
 #define MAGENTA 1
 
-class GtServerSrv 
+class GtServerSrv
 {
 	public:
 		/* Constructeur */
@@ -78,6 +78,7 @@ class GtServerSrv
 		void going(geometry_msgs::Pose2D point);
 		geometry_msgs::Pose2D calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone);
 		void getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2);
+		bool knownMachineInZone(int zone);
 		void getNearestPoint(geometry_msgs::Pose2D &pose
 			, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2
 			, geometry_msgs::Pose2D **targetPointPtr, geometry_msgs::Pose2D **otherPointPtr);
