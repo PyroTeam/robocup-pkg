@@ -52,7 +52,7 @@
 		<!--         <node pkg="localisation" name="odometry_correction" type="odometry_correction_node"/> -->
 
 			<!-- Load the grid maker -->
-			<rosparam command="load" file="$(find grid_maker)/cfg/field.yaml" />
+			<rosparam command="load" file="$(find grid_maker)/cfg/field_simulator.yaml" />
 			<node pkg="grid_maker" name="grid_maker" type="grid_maker_node"/>
 		  <!-- 	<node pkg="grid_maker" name="grid_maker" type="construct_map_node"/>-->
 			<!-- <node pkg="grid_maker" name="fake_machines_publisher" type="construct_map_test_simulator"/> -->
