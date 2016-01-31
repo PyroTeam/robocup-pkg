@@ -91,234 +91,212 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../d9/ddc/moveToPose_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d8/d03/moveToPose_8h.html">navigation_manager/moveToPose.h</a>&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;tf/transform_datatypes.h&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d9/ddc/moveToPose_8cpp.html#a10f181e7f41623c25e03221e5700fccf">   16</a></span>&#160;<span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../d9/ddc/moveToPose_8cpp.html#a10f181e7f41623c25e03221e5700fccf">c_timeOutGenePath</a> = 5;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d8/d03/moveToPose_8h.html">navigation_manager/moveToPose.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;tf/transform_datatypes.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;deplacement_msg/GeneratePathAction.h&quot;</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="../../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516">   18</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516">isInZone</a>(<span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y, <span class="keywordtype">float</span> xmin, <span class="keywordtype">float</span> xmax, <span class="keywordtype">float</span> ymin, <span class="keywordtype">float</span> ymax)</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">if</span>((x &lt; xmin || xmax &lt; x) || (y &lt; ymin || ymax &lt; y))</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../d6/d07/classMoveToPose.html#aebed066348b89a76a1628a96518e16d7">   27</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d07/classMoveToPose.html#aebed066348b89a76a1628a96518e16d7">MoveToPose::executeCB</a>(<span class="keyword">const</span> deplacement_msg::MoveToPoseGoalConstPtr &amp;goal)</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">// helper variables</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ros::Rate <a class="code" href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a>(1);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">bool</span> success = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment">// publish info to the console for the user</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Serveur MoveToPose, goal : %f %f %f&quot;</span>, goal-&gt;position_finale.x, goal-&gt;position_finale.y, goal-&gt;position_finale.theta);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="comment">// start executing the action</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    pathfinder::GeneratePath srv;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    m_lastId++;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    srv.request.id = m_lastId;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    geometry_msgs::Pose2D poseFinale2D = goal-&gt;position_finale;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    geometry_msgs::Pose poseFinale;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    poseFinale.position.x = poseFinale2D.x;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    poseFinale.position.y = poseFinale2D.y;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    poseFinale.position.z = goal-&gt;position_finale.theta;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    poseFinale.orientation = tf::createQuaternionMsgFromRollPitchYaw(0, 0, poseFinale2D.theta);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    srv.request.Arrivee = poseFinale;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    srv.request.Depart = m_poseOdom;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    srv.request.utilisePositionOdometry = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> (m_generatePathClient.call(srv))</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Requete acceptee : %d&quot;</span>, srv.response.requeteAcceptee);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        ROS_ERROR(<span class="stringliteral">&quot;Failed to call service generate path&quot;</span>);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>.result = deplacement_msg::MoveToPoseResult::ERROR;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.setAborted(<a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    ros::Time t = ros::Time::now() + ros::Duration(<a class="code" href="../../d9/ddc/moveToPose_8cpp.html#a10f181e7f41623c25e03221e5700fccf">c_timeOutGenePath</a>);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">while</span> (m_lastId != m_pathId &amp;&amp; ros::ok() &amp;&amp; ros::Time::now() &lt; t)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        r.sleep();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        ros::spinOnce();</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment">//timeout genePath</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> (ros::Time::now() &gt;= t)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Path generate : Timeout!&quot;</span>);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>.result = deplacement_msg::MoveToPoseResult::ERROR;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.setAborted(<a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="comment">//path Found</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span> (m_lastId == m_pathId)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Path generated! with id : %d&quot;</span>, m_pathId);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        deplacement_msg::TrackPathGoal tgoal;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        tgoal.id = m_lastId;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        m_trackPathAction.sendGoal(tgoal, boost::bind(&amp;MoveToPose::doneCb, <span class="keyword">this</span>, _1, _2),</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                          boost::bind(&amp;MoveToPose::activeCb, <span class="keyword">this</span>),</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                                          boost::bind(&amp;MoveToPose::feedbackCb, <span class="keyword">this</span>, _1));</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordtype">bool</span> isOk = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keyword">enum</span> PathTrackStatus pathTrackStatus = RUNNING;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordtype">bool</span> obstacleInRange;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordtype">float</span> xmax = 0.4, xmin = 0, ymin = -0.3, ymax = 0.3;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordflow">while</span> (isOk)</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            obstacleInRange = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="comment">/*if (std::abs(m_sharpSensor.points[0].x) &lt; max &amp;&amp; std::abs(m_sharpSensor.points[0].y) &lt; max){</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">            }</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">            if (std::abs(m_sharpSensor.points[1].x) &lt; max &amp;&amp; std::abs(m_sharpSensor.points[1].y) &lt; max){</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment">            }</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">            if (std::abs(m_sharpSensor.points[2].x) &lt; max &amp;&amp; std::abs(m_sharpSensor.points[2].y) &lt; max){</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment">            }</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment">            if (std::abs(m_sharpSensor.points[7].x) &lt; max &amp;&amp; std::abs(m_sharpSensor.points[7].y) &lt; max){</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment">            }</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment">            if (std::abs(m_sharpSensor.points[8].x) &lt; max &amp;&amp; std::abs(m_sharpSensor.points[8].y) &lt; max){</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">            }*/</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">            if (isInZone(m_sharpSensor.points[0].x, m_sharpSensor.points[0].y, xmin, xmax, ymin, ymax))</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">            {</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">            }</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment">            if (isInZone(m_sharpSensor.points[1].x, m_sharpSensor.points[1].y, xmin, xmax, ymin, ymax))</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">            {</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment">            }</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">            if (isInZone(m_sharpSensor.points[2].x, m_sharpSensor.points[2].y, xmin, xmax, ymin, ymax))</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">            {</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">            }</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">            if (isInZone(m_sharpSensor.points[7].x, m_sharpSensor.points[7].y, xmin, xmax, ymin, ymax))</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment">            {</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment">            }</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment">            if (isInZone(m_sharpSensor.points[8].x, m_sharpSensor.points[8].y, xmin, xmax, ymin, ymax))</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment">            {</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment">                obstacleInRange = true;</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment">            }</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment">            std::cout &lt;&lt; &quot;Obstacle in range :&quot; &lt;&lt; obstacleInRange &lt;&lt; std::endl;</span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            <span class="keywordflow">if</span>(obstacleInRange &amp;&amp; pathTrackStatus == RUNNING)</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            {</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                m_trackPathAction.cancelGoal();</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                pathTrackStatus = PAUSED;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            }</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span>(!obstacleInRange &amp;&amp; pathTrackStatus == PAUSED)</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                m_trackPathAction.sendGoal(tgoal, boost::bind(&amp;MoveToPose::doneCb, <span class="keyword">this</span>, _1, _2),</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                                                  boost::bind(&amp;MoveToPose::activeCb, <span class="keyword">this</span>),</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                                                  boost::bind(&amp;MoveToPose::feedbackCb, <span class="keyword">this</span>, _1));</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                pathTrackStatus = RUNNING;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            }</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <span class="comment">//std::cout &lt;&lt; &quot;PathTrack Status = &quot; &lt;&lt; pathTrackStatus &lt;&lt; std::endl;</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <a class="code" href="../../d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c">m_feedback</a>.percent_complete = m_pathTrackPercentComplete;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.publishFeedback(<a class="code" href="../../d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c">m_feedback</a>);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keywordflow">if</span> (!ros::ok())</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            {</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                isOk = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            }</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.isPreemptRequested())</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            {</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                isOk = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <span class="comment">//todo cancel path_track</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            }</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (m_trackPathAction.getResult()-&gt;result == deplacement_msg::MoveToPoseResult::FINISHED)</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            {</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                isOk = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            }</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        }</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keywordflow">if</span> (m_trackPathAction.getResult()-&gt;result == deplacement_msg::MoveToPoseResult::FINISHED)</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        {</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            <a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>.result = deplacement_msg::MoveToPoseResult::FINISHED;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        }</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        {</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>.result = deplacement_msg::MoveToPoseResult::ERROR;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        }</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.setSucceeded(<a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>);</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    {</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>.result = deplacement_msg::MoveToPoseResult::ERROR;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.setAborted(<a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>);</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    }</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;}</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="comment">// Called once when the goal completes</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="keywordtype">void</span> MoveToPose::doneCb(<span class="keyword">const</span> actionlib::SimpleClientGoalState&amp; state,</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                        <span class="keyword">const</span> deplacement_msg::TrackPathResultConstPtr&amp; result)</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;{</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Finished in state [%s]&quot;</span>, state.toString().c_str());</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Answer: %d&quot;</span>, result-&gt;result);</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;}</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="comment">// Called once when the goal becomes active</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="keywordtype">void</span> MoveToPose::activeCb()</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;{</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Goal just went active&quot;</span>);</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;}</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="comment">// Called every time feedback is received for the goal</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="keywordtype">void</span> MoveToPose::feedbackCb(<span class="keyword">const</span> deplacement_msg::TrackPathFeedbackConstPtr&amp; feedback)</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;{</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Got Feedback of length %d&quot;</span>, feedback-&gt;percent_complete);</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    m_pathTrackPercentComplete = feedback-&gt;percent_complete;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;}</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="keywordtype">void</span> MoveToPose::PoseCallback(<span class="keyword">const</span> nav_msgs::Odometry &amp;odom)</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;{</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    m_poseOdom = odom.pose.pose;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;}</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="keywordtype">void</span> MoveToPose::PathCallback(<span class="keyword">const</span> pathfinder::AstarPath &amp;path)</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;{</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    m_pathId = path.id;</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;}</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="keywordtype">void</span> MoveToPose::DistSensorCallback(<span class="keyword">const</span> sensor_msgs::PointCloud &amp;sensor)</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;{</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    m_sharpSensor = sensor;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0 ; i &lt; 9 ; i++)</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    {</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="comment">// ROS_INFO(&quot;Données capteur %d : %f %f %f&quot;, i, m_sharpSensor.points[i].x, m_sharpSensor.points[i].y, m_sharpSensor.points[i].z);</span></div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    }</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;}</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="../../d9/ddc/moveToPose_8cpp.html#a10f181e7f41623c25e03221e5700fccf">   18</a></span>&#160;<span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../d9/ddc/moveToPose_8cpp.html#a10f181e7f41623c25e03221e5700fccf">c_timeOutGenePath</a> = 5;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516">   20</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516">isInZone</a>(<span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y, <span class="keywordtype">float</span> xmin, <span class="keywordtype">float</span> xmax, <span class="keywordtype">float</span> ymin, <span class="keywordtype">float</span> ymax)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">if</span>((x &lt; xmin || xmax &lt; x) || (y &lt; ymin || ymax &lt; y))</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../d6/d07/classMoveToPose.html#aebed066348b89a76a1628a96518e16d7">   29</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d07/classMoveToPose.html#aebed066348b89a76a1628a96518e16d7">MoveToPose::executeCB</a>(<span class="keyword">const</span> deplacement_msg::MoveToPoseGoalConstPtr &amp;goal)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">// helper variables</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    ros::Rate <a class="code" href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a>(1);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">bool</span> success = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">// publish info to the console for the user</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Serveur MoveToPose, goal : %f %f %f&quot;</span>, goal-&gt;position_finale.x, goal-&gt;position_finale.y, goal-&gt;position_finale.theta);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// start executing the action</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    actionlib::SimpleActionClient&lt;deplacement_msg::GeneratePathAction&gt; genePathAction(<span class="stringliteral">&quot;navigation/generatePath&quot;</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Waiting for path_finder action server to start.&quot;</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    genePathAction.waitForServer();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Action server started, sending goal.&quot;</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">// send a goal to the action</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    deplacement_msg::GeneratePathGoal genePathGoal;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    genePathGoal.start.x = m_poseOdom.position.x;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    genePathGoal.start.y = m_poseOdom.position.y;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    genePathGoal.start.theta = tf::getYaw( m_poseOdom.orientation);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    genePathGoal.goal =  goal-&gt;position_finale;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    genePathGoal.timeout = ros::Duration(10);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    genePathAction.sendGoal(genePathGoal);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//wait for the action to return</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">bool</span> finished_before_timeout = genePathAction.waitForResult(ros::Duration(30.0));</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> (genePathAction.getResult()-&gt;result == deplacement_msg::GeneratePathResult::SUCCESS)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Path finder find a path&quot;</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Path not found : %d&quot;</span>, genePathAction.getResult()-&gt;result);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>.result = deplacement_msg::MoveToPoseResult::ERROR;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.setAborted(<a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    sleep(1);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">//path Found</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    m_pathId++;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Path generated! with id : %d&quot;</span>, m_pathId);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    deplacement_msg::TrackPathGoal tgoal;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    tgoal.id = m_lastId;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    m_trackPathAction.sendGoal(tgoal, boost::bind(&amp;MoveToPose::doneCb, <span class="keyword">this</span>, _1, _2),</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                      boost::bind(&amp;MoveToPose::activeCb, <span class="keyword">this</span>),</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                      boost::bind(&amp;MoveToPose::feedbackCb, <span class="keyword">this</span>, _1));</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">bool</span> isOk = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">enum</span> PathTrackStatus pathTrackStatus = RUNNING;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">bool</span> obstacleInRange;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">float</span> xmax = 0.4, xmin = 0, ymin = -0.3, ymax = 0.3;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">while</span> (isOk)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        obstacleInRange = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment">/*if (std::abs(m_sharpSensor.points[0].x) &lt; max &amp;&amp; std::abs(m_sharpSensor.points[0].y) &lt; max){</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">            obstacleInRange = true;</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">        }</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">        if (std::abs(m_sharpSensor.points[1].x) &lt; max &amp;&amp; std::abs(m_sharpSensor.points[1].y) &lt; max){</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">            obstacleInRange = true;</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">        }</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">        if (std::abs(m_sharpSensor.points[2].x) &lt; max &amp;&amp; std::abs(m_sharpSensor.points[2].y) &lt; max){</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">            obstacleInRange = true;</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">        }</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment">        if (std::abs(m_sharpSensor.points[7].x) &lt; max &amp;&amp; std::abs(m_sharpSensor.points[7].y) &lt; max){</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">            obstacleInRange = true;</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment">        }</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">        if (std::abs(m_sharpSensor.points[8].x) &lt; max &amp;&amp; std::abs(m_sharpSensor.points[8].y) &lt; max){</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">            obstacleInRange = true;</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">        }*/</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">        if (isInZone(m_sharpSensor.points[0].x, m_sharpSensor.points[0].y, xmin, xmax, ymin, ymax))</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">        {</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment">            obstacleInRange = true;</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment">        }</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment">        if (isInZone(m_sharpSensor.points[1].x, m_sharpSensor.points[1].y, xmin, xmax, ymin, ymax))</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment">        {</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment">            obstacleInRange = true;</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment">        }</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">        if (isInZone(m_sharpSensor.points[2].x, m_sharpSensor.points[2].y, xmin, xmax, ymin, ymax))</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment">        {</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">            obstacleInRange = true;</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">        }</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">        if (isInZone(m_sharpSensor.points[7].x, m_sharpSensor.points[7].y, xmin, xmax, ymin, ymax))</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">        {</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">            obstacleInRange = true;</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment">        }</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">        if (isInZone(m_sharpSensor.points[8].x, m_sharpSensor.points[8].y, xmin, xmax, ymin, ymax))</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">        {</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment">            obstacleInRange = true;</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">        }</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">        std::cout &lt;&lt; &quot;Obstacle in range :&quot; &lt;&lt; obstacleInRange &lt;&lt; std::endl;</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">if</span>(obstacleInRange &amp;&amp; pathTrackStatus == RUNNING)</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            m_trackPathAction.cancelGoal();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            pathTrackStatus = PAUSED;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        }</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(!obstacleInRange &amp;&amp; pathTrackStatus == PAUSED)</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        {</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            m_trackPathAction.sendGoal(tgoal, boost::bind(&amp;MoveToPose::doneCb, <span class="keyword">this</span>, _1, _2),</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                                              boost::bind(&amp;MoveToPose::activeCb, <span class="keyword">this</span>),</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                                              boost::bind(&amp;MoveToPose::feedbackCb, <span class="keyword">this</span>, _1));</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            pathTrackStatus = RUNNING;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        }</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="comment">//std::cout &lt;&lt; &quot;PathTrack Status = &quot; &lt;&lt; pathTrackStatus &lt;&lt; std::endl;</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c">m_feedback</a>.percent_complete = m_pathTrackPercentComplete;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.publishFeedback(<a class="code" href="../../d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c">m_feedback</a>);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordflow">if</span> (!ros::ok())</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        {</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            isOk = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        }</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.isPreemptRequested())</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        {</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            isOk = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="comment">//todo cancel path_track</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        }</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (m_trackPathAction.getResult()-&gt;result == deplacement_msg::MoveToPoseResult::FINISHED)</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        {</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            isOk = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        }</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    }</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">if</span> (m_trackPathAction.getResult()-&gt;result == deplacement_msg::MoveToPoseResult::FINISHED)</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>.result = deplacement_msg::MoveToPoseResult::FINISHED;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    }</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>.result = deplacement_msg::MoveToPoseResult::ERROR;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <a class="code" href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">m_as</a>.setSucceeded(<a class="code" href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">m_result</a>);</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;}</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="comment">// Called once when the goal completes</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="keywordtype">void</span> MoveToPose::doneCb(<span class="keyword">const</span> actionlib::SimpleClientGoalState&amp; state,</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                        <span class="keyword">const</span> deplacement_msg::TrackPathResultConstPtr&amp; result)</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;{</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Finished in state [%s]&quot;</span>, state.toString().c_str());</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Answer: %d&quot;</span>, result-&gt;result);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;}</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="comment">// Called once when the goal becomes active</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="keywordtype">void</span> MoveToPose::activeCb()</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;{</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Goal just went active&quot;</span>);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;}</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment">// Called every time feedback is received for the goal</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="keywordtype">void</span> MoveToPose::feedbackCb(<span class="keyword">const</span> deplacement_msg::TrackPathFeedbackConstPtr&amp; feedback)</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;{</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Got Feedback of length %d&quot;</span>, feedback-&gt;percent_complete);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    m_pathTrackPercentComplete = feedback-&gt;percent_complete;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;}</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="keywordtype">void</span> MoveToPose::PoseCallback(<span class="keyword">const</span> nav_msgs::Odometry &amp;odom)</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;{</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    m_poseOdom = odom.pose.pose;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;}</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="keywordtype">void</span> MoveToPose::DistSensorCallback(<span class="keyword">const</span> sensor_msgs::PointCloud &amp;sensor)</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;{</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    m_sharpSensor = sensor;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0 ; i &lt; 9 ; i++)</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    {</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        <span class="comment">// ROS_INFO(&quot;Données capteur %d : %f %f %f&quot;, i, m_sharpSensor.points[i].x, m_sharpSensor.points[i].y, m_sharpSensor.points[i].z);</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    }</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;}</div>
 <div class="ttc" id="moveToPose_8h_html"><div class="ttname"><a href="../../d8/d03/moveToPose_8h.html">moveToPose.h</a></div></div>
-<div class="ttc" id="classMoveToPose_html_ad1eb86e2dbb8f09f33ab8c45a6a2a18a"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">MoveToPose::m_result</a></div><div class="ttdeci">deplacement_msg::MoveToPoseResult m_result</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d03/moveToPose_8h_source.html#l00066">moveToPose.h:66</a></div></div>
-<div class="ttc" id="classMoveToPose_html_a0ebdf67e402d0536fac8f8c73589e0fc"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">MoveToPose::m_as</a></div><div class="ttdeci">actionlib::SimpleActionServer&lt; deplacement_msg::MoveToPoseAction &gt; m_as</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d03/moveToPose_8h_source.html#l00062">moveToPose.h:62</a></div></div>
+<div class="ttc" id="classMoveToPose_html_ad1eb86e2dbb8f09f33ab8c45a6a2a18a"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html#ad1eb86e2dbb8f09f33ab8c45a6a2a18a">MoveToPose::m_result</a></div><div class="ttdeci">deplacement_msg::MoveToPoseResult m_result</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d03/moveToPose_8h_source.html#l00065">moveToPose.h:65</a></div></div>
+<div class="ttc" id="classMoveToPose_html_a0ebdf67e402d0536fac8f8c73589e0fc"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html#a0ebdf67e402d0536fac8f8c73589e0fc">MoveToPose::m_as</a></div><div class="ttdeci">actionlib::SimpleActionServer&lt; deplacement_msg::MoveToPoseAction &gt; m_as</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d03/moveToPose_8h_source.html#l00061">moveToPose.h:61</a></div></div>
 <div class="ttc" id="visualisation_8cpp_html_a4a07afa2d32ef986e4a2fa3e66b5f64f"><div class="ttname"><a href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a></div><div class="ttdeci">geometry_msgs::Pose2D r</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfc/visualisation_8cpp_source.html#l00023">visualisation.cpp:23</a></div></div>
-<div class="ttc" id="classMoveToPose_html_aebed066348b89a76a1628a96518e16d7"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html#aebed066348b89a76a1628a96518e16d7">MoveToPose::executeCB</a></div><div class="ttdeci">void executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &amp;goal)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/ddc/moveToPose_8cpp_source.html#l00027">moveToPose.cpp:27</a></div></div>
-<div class="ttc" id="moveToPose_8cpp_html_a6cd5be4b6885e90e3df70826ca095516"><div class="ttname"><a href="../../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516">isInZone</a></div><div class="ttdeci">bool isInZone(float x, float y, float xmin, float xmax, float ymin, float ymax)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/ddc/moveToPose_8cpp_source.html#l00018">moveToPose.cpp:18</a></div></div>
-<div class="ttc" id="moveToPose_8cpp_html_a10f181e7f41623c25e03221e5700fccf"><div class="ttname"><a href="../../d9/ddc/moveToPose_8cpp.html#a10f181e7f41623c25e03221e5700fccf">c_timeOutGenePath</a></div><div class="ttdeci">const int c_timeOutGenePath</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/ddc/moveToPose_8cpp_source.html#l00016">moveToPose.cpp:16</a></div></div>
-<div class="ttc" id="classMoveToPose_html_a7802d160b9c297eb852427ca19e4441c"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c">MoveToPose::m_feedback</a></div><div class="ttdeci">deplacement_msg::MoveToPoseFeedback m_feedback</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d03/moveToPose_8h_source.html#l00065">moveToPose.h:65</a></div></div>
+<div class="ttc" id="classMoveToPose_html_aebed066348b89a76a1628a96518e16d7"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html#aebed066348b89a76a1628a96518e16d7">MoveToPose::executeCB</a></div><div class="ttdeci">void executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &amp;goal)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/ddc/moveToPose_8cpp_source.html#l00029">moveToPose.cpp:29</a></div></div>
+<div class="ttc" id="moveToPose_8cpp_html_a6cd5be4b6885e90e3df70826ca095516"><div class="ttname"><a href="../../d9/ddc/moveToPose_8cpp.html#a6cd5be4b6885e90e3df70826ca095516">isInZone</a></div><div class="ttdeci">bool isInZone(float x, float y, float xmin, float xmax, float ymin, float ymax)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/ddc/moveToPose_8cpp_source.html#l00020">moveToPose.cpp:20</a></div></div>
+<div class="ttc" id="moveToPose_8cpp_html_a10f181e7f41623c25e03221e5700fccf"><div class="ttname"><a href="../../d9/ddc/moveToPose_8cpp.html#a10f181e7f41623c25e03221e5700fccf">c_timeOutGenePath</a></div><div class="ttdeci">const int c_timeOutGenePath</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/ddc/moveToPose_8cpp_source.html#l00018">moveToPose.cpp:18</a></div></div>
+<div class="ttc" id="classMoveToPose_html_a7802d160b9c297eb852427ca19e4441c"><div class="ttname"><a href="../../d6/d07/classMoveToPose.html#a7802d160b9c297eb852427ca19e4441c">MoveToPose::m_feedback</a></div><div class="ttdeci">deplacement_msg::MoveToPoseFeedback m_feedback</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d03/moveToPose_8h_source.html#l00064">moveToPose.h:64</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 23 2016 14:26:59 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 31 2016 10:35:26 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
