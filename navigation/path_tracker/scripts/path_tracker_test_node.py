@@ -16,6 +16,7 @@ g_pathFinished = False
 g_stopRobot = True
 
 
+
 class PID:
     def __init__(self, Kp, Ki, Kd, T):
         self._Kp = Kp
@@ -29,14 +30,47 @@ class PID:
         self._I = self._I + err*self._T
         y = self._Kp * err + self._Ki * self._I + self._Kd * (err - self._err)/self._T
         self._err = err
+
         return y
+
+def saturation(x, min, max):
+    if x < min:
+        return min
+    elif x > max:
+        return max
+    else:
+        return x
+
+class RateLimiter:
+    def  __init__(self, upLimit, lowLimit, T):
+        if lowLimit < upLimit:
+            self._upLimit = upLimit
+            self._lowLimit = lowLimit
+        else:
+            self._upLimit = lowLimit
+            self._lowLimit = upLimit
+        self._T = T
+        self._lastX = 0
+
+
+
+    def update(self, x):
+        sigTemp = x - self._lastX
+        sigTemp = saturation(sigTemp, self._lowLimit * self._T, self._upLimit * self._T)
+        sigTemp = sigTemp + self._lastX
+        self._lastX = sigTemp
+        return sigTemp
 
 
 g_anglePID = PID(1.5, 0, 0, 1/10.0)
 g_speedPID = PID(0.1, 0, 0, 1/10.0)
 
+g_speedLimiter = RateLimiter(-01.0, 0.2, 1/10.0)
+
 #vitesse max robotino fixe
 g_Vlim = 0.3
+g_VminStatic = 0.05
+g_Vmax = 1.0
 
 
 # Publisher de consignes en vitesse
@@ -83,7 +117,7 @@ class TrackPathAction(object):
         rospy.loginfo('%s: Executing TrackPath' % (self._action_name))
 
         while not g_pathFinished:
-            rospy.loginfo('g_indexTraj : %d' % (g_indexTraj))
+            # rospy.loginfo('g_indexTraj : %d' % (g_indexTraj))
             # Fill the feedback
             self._feedback.percent_complete=g_indexTraj
             self._feedback.id=0
@@ -146,6 +180,9 @@ def callbackOdom(data):
     global g_anglePID
     global g_cmdVel_pub
     global g_Vlim
+    global g_VminStatic
+    global g_Vmax
+    global g_speedLimiter
 
     cmdVel_msg = Twist()
 
@@ -162,13 +199,13 @@ def callbackOdom(data):
 
     # recherche du segment a suivre
     if g_indexTraj < len(g_path)-2 and g_trackingIsActive:
-        rospy.loginfo('Odom : g_indexTraj : %d' % (g_indexTraj))
+        # rospy.loginfo('Odom : g_indexTraj : %d' % (g_indexTraj))
         err = 0
         u = 10.0
         delta_x = 0
         delta_y = 0
         while u > 1.0 and g_indexTraj < len(g_path)-2:
-            rospy.loginfo('Odom While: g_indexTraj : %d' % (g_indexTraj))
+            # rospy.loginfo('Odom While: g_indexTraj : %d' % (g_indexTraj))
             delta_x = g_path[g_indexTraj+1].pose.position.x - g_path[g_indexTraj].pose.position.x
             delta_y = g_path[g_indexTraj+1].pose.position.y - g_path[g_indexTraj].pose.position.y
 
@@ -177,7 +214,7 @@ def callbackOdom(data):
 
             denom = (delta_x*delta_x + delta_y*delta_y)
             u = (Rx*delta_x + Ry*delta_y) / denom;
-            rospy.loginfo('Odom While: u : %f' % (u))
+            # rospy.loginfo('Odom While: u : %f' % (u))
             if u>1.0:
                 g_indexTraj = g_indexTraj+1
 
@@ -201,6 +238,46 @@ def callbackOdom(data):
             cmdVel_msg.angular.z = 1
         elif cmdVel_msg.angular.z < -1:
             cmdVel_msg.angular.z = -1
+
+        #estimation de la vitesse max
+        #parcours du chemin pour calcul amax et damax
+        tmpIndex = g_indexTraj+1
+        dWindow = 1.50
+        dCurrent = 0
+        aMax = 0
+        daMax = 0
+        aSegmentPrec = segmentAngle
+        aRef = pi/16.0
+        while tmpIndex < len(g_path)-1 and dCurrent < dWindow:
+            dx = g_path[tmpIndex+1].pose.position.x - g_path[tmpIndex].pose.position.x
+            dy = g_path[tmpIndex+1].pose.position.y - g_path[tmpIndex].pose.position.y
+            aSegment = atan2(dy, dx)
+            a = normalizeAngle(aSegment - aSegmentPrec)
+            aSegmentPrec = aSegment
+            dSegment = sqrt(dx**2 + dy**2)
+            dCurrent += dSegment
+            rospy.loginfo('a : %f' % (a))
+            if (abs(a) > aMax):
+                aMax = abs(a)
+                daMax = dCurrent
+            tmpIndex+=1
+
+        if (tmpIndex == len(g_path)-1):
+            aMax = pi
+            daMax = dCurrent
+
+        rospy.loginfo('aMax : %f, daMax : %f' % (aMax, daMax))
+
+
+        if aMax > aRef:
+            Vmin = g_VminStatic
+        else:
+            Vmin = (g_VminStatic - g_Vmax)/aRef * aMax + g_Vmax
+
+
+        g_Vlim = g_speedLimiter.update((g_Vmax - Vmin)/dWindow * daMax + Vmin)
+
+        rospy.loginfo('Vlim : %f' % (g_Vlim))
 
         #En repere segment local
         Vy = g_speedPID.update(-err)
@@ -232,6 +309,7 @@ def callbackOdom(data):
                 cmdVel_msg.angular.z = 1
             elif cmdVel_msg.angular.z < -1:
                 cmdVel_msg.angular.z = -1
+            rospy.loginfo('Vz = %f' % (cmdVel_msg.angular.z))
 
     g_cmdVel_pub.publish(cmdVel_msg)
 
