@@ -6,7 +6,7 @@ field:
     resolution: 0.05
     margin: 0.25
     gradient:
-        distance: 0.5
+        distance: 0.35
         minValue: 0
     walls:
         bottom1:

@@ -49,7 +49,6 @@ class MoveToPose
 	    };
 
 	    void PoseCallback(const nav_msgs::Odometry &odom);
-	    void PathCallback(const pathfinder::AstarPath &path);
 	    void DistSensorCallback(const sensor_msgs::PointCloud &sensor);
 	    void doneCb(const actionlib::SimpleClientGoalState& state,
 		            const deplacement_msg::TrackPathResultConstPtr& result);
@@ -72,7 +71,6 @@ class MoveToPose
 			m_lastId = 0;
 			m_pathId = 0;
 			m_odomSub = m_nh.subscribe("hardware/odom", 1000, &MoveToPose::PoseCallback, this);
-			m_pathSub = m_nh.subscribe("navigation/pathFound", 1000, &MoveToPose::PathCallback, this);
 			m_sharpSensorSub = m_nh.subscribe("hardware/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
 			m_generatePathClient = m_nh.serviceClient<pathfinder::GeneratePath>("navigation/generatePath");
 			m_as.start();

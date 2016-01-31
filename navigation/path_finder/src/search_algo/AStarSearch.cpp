@@ -15,6 +15,7 @@
 #include "ros/ros.h"
 #include "search_algo/AStarSearch.h"
 #include "search_algo/AStarState.h"
+#include "common_utils/Chrono.h"
 
 AStarSearch::AStarSearch(const std::shared_ptr<Graph> &graph, bool reverse) : SearchAlgo(graph, reverse), m_openList(StateComparison(true)), m_tieBreaking(false)
 {
@@ -35,6 +36,8 @@ AStarSearch::~AStarSearch()
  */
 void AStarSearch::search(std::shared_ptr<State> &startState, std::shared_ptr<State> &endState, Path &path)
 {
+    common_utils::HighResChrono chrono;
+    chrono.start();
     if (m_reverse)
     {
         std::swap(startState, endState);
@@ -76,6 +79,8 @@ void AStarSearch::search(std::shared_ptr<State> &startState, std::shared_ptr<Sta
                 }
             }
             //... et quitter la fonction
+            chrono.stop();
+            ROS_INFO_STREAM("Time to find the path : " << chrono);
             return;
         }
 
@@ -127,6 +132,7 @@ void AStarSearch::search(std::shared_ptr<State> &startState, std::shared_ptr<Sta
         }
     }
     //pas de chemin trouvé
+    ROS_INFO_STREAM("Unable to find the path in " << chrono);
 }
 
 void AStarSearch::setTieBreaking(bool tieBreaking)
