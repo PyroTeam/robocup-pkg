@@ -38,10 +38,10 @@ enum GripperState
 GripperCommand gc_turn, gc_push;
 GripperState gs_turn, gs_push;
 
-#define OPEN_VALUE_TURN		150
-#define CLOSE_VALUE_TURN	 65
-#define OPEN_VALUE_PUSH		150
-#define CLOSE_VALUE_PUSH	 65
+#define OPEN_VALUE_TURN	 150
+#define CLOSE_VALUE_TURN  65
+#define OPEN_VALUE_PUSH	 150
+#define CLOSE_VALUE_PUSH  65
 
 int targetTurn = OPEN_VALUE_TURN;
 int currentTurn = OPEN_VALUE_TURN;
