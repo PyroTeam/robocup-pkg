@@ -1,3 +1,8 @@
 <launch>
-    <node pkg="pathfinder" name="server" type="server"/>
+    <include file="$(find grid_maker)/launch/grid_maker.launch"/>
+
+    <node pkg="pathfinder" name="pathfinder_node" type="pathfinder_node" output="screen"/>
+
+    <node pkg="pathfinder" name="pathRequest_node" type="pathRequest_node.py" output="screen"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find path_finder)/rviz_cfg/testPathFinder.rviz"/>
 </launch>

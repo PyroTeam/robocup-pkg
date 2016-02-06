@@ -161,7 +161,9 @@ void machineInfoCallback(ModelStatesConstPtr &msg)
     for(int i = 0; i < msg->name.size(); i++){
 
         if (msg->name[i][0] != 'C' && msg->name[i][0] != 'M')
+        {
             continue;
+        }
 
         geometry_msgs::Pose2D pose;
         pose.x = msg->pose[i].position.x;
