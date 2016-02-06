@@ -1,5 +1,5 @@
-#ifndef _TF_BROADCASTER__TF_BROADCASTER_H_
-#define _TF_BROADCASTER__TF_BROADCASTER_H_
+#ifndef _TF_BROADCASTER_H_
+#define _TF_BROADCASTER_H_
 
 #include <ros/ros.h>
 #include <tf/transform_broadcaster.h>
@@ -8,4 +8,4 @@
 
 void poseCallback(const nav_msgs::Odometry& odom);
 
-#endif // _TF_BROADCASTER__TF_BROADCASTER_H_
+#endif // _TF_BROADCASTER_H_

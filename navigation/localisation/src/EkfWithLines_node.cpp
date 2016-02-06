@@ -18,19 +18,19 @@ using namespace Eigen;
 
 int main( int argc, char** argv )
 {
-  ros::init(argc, argv, "EKF_node");
+  ros::init(argc, argv, "EkfWithLines_node");
 
   ros::NodeHandle n;
 
   EKF ekf = EKF();
 
   ros::Subscriber sub_odom      = n.subscribe("objectDetection/new_odom", 1000, &EKF::odomCallback, &ekf);
-  ros::Subscriber sub_machines  = n.subscribe("objectDetection/machines", 1000, &EKF::machinesCallback, &ekf);
+  ros::Subscriber sub_machines  = n.subscribe("objectDetection/droites", 1000, &EKF::linesCallback, &ekf);
   ros::Subscriber sub_laser     = n.subscribe("objectDetection/laser", 1000, &EKF::laserCallback, &ekf);
 
   ros::Publisher pub_robot    = n.advertise<geometry_msgs::Point>("objectDetection/robot", 1000);
   ros::Publisher pub_machines = n.advertise<deplacement_msg::Landmarks>("objectDetection/landmarks", 1000);
-  ros::Publisher pub_laser    = n.advertise<deplacement_msg::Landmarks>("objectDetection/scan_global", 1000);
+  ros::Publisher pub_walls    = n.advertise<deplacement_msg::Landmarks>("objectDetection/walls", 1000);
 
   ros::Rate loop_rate(20);
 
@@ -43,28 +43,27 @@ int main( int argc, char** argv )
       ekf.prediction();
       int area;
   
-      //si on observe une machine
-      if (ekf.getTabMachines().size() > 0)
+      //si on observe une droite
+      if (ekf.getTabLines().size() > 0)
       {
-        //pour toutes les machines observées
-        for (auto &it : ekf.getTabMachines())
+        //pour toutes les droites observées
+        for (auto &it : ekf.getTabLines())
         {
-          //on regarde si elle appartient à une zone
           int area = ekf.machineToArea(it);
-          //si oui
+          //si elle appartient à la zone de jeu
           if (area != 0)
           {
-            //si on a déjà vu une machine dans cette zone
+            //si on a déjà vu cette droite
             if (ekf.test(area))
             {
               //on corrige sa position et on se recale par rapport à celle ci
               ekf.correction(it, ekf.checkStateVector(it));
             }
-            //sinon si elle est assez loin de toutes les machines existantes
+            //sinon si elle est assez loin de toutes les droites existantes
             else if (ekf.isFarFromEverything(it))
             {
-              // on ajoute cette machine
-              std::cout << "ajout machine" << std::endl;
+              // on ajoute cette droite
+              std::cout << "ajout droite" << std::endl;
               ekf.addMachine(it);
               cpt++;
             }
@@ -83,6 +82,7 @@ int main( int argc, char** argv )
       robot.x = xMean(0);
       robot.y = xMean(1);
   
+      //to do
       deplacement_msg::Landmarks m;
       for (int i = 3; i < xMean.rows(); i = i + 3)
       {
@@ -93,18 +93,10 @@ int main( int argc, char** argv )
         m.landmarks.push_back(md);
       }
   
-      deplacement_msg::Landmarks l;
-      for (auto &it : ekf.getScan())
-      {
-        l.landmarks.push_back(it);
-      }
-  
       pub_robot.publish(robot);
       pub_machines.publish(m);
-      pub_laser.publish(l);
   
       m.landmarks.clear();
-      l.landmarks.clear();
     }
 
     // Spin
