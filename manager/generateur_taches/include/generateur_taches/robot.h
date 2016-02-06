@@ -17,9 +17,9 @@ class Robot{
  
 public :
  
-	// Robot(){m_busy=true; m_machine=manager_msg::activity::NONE; m_nbOrder=0;}
+	Robot(){m_busy=true; m_machine=manager_msg::activity::NONE; m_nbOrder=0;}
  	/* TODO: Check why busy was to true */
-	Robot(){m_busy=false; m_machine=manager_msg::activity::NONE; m_nbOrder=0;}
+	// Robot(){m_busy=false; m_machine=manager_msg::activity::NONE; m_nbOrder=0;}
  
 	bool getBusy(){return m_busy;}
 	void setBusy(bool busy){m_busy = busy;}

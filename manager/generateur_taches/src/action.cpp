@@ -20,7 +20,7 @@ Action::Action(){
 void Action::updateRobot(Robot (&robot)[3]){
 	for(int i=0;i<3;i++)
 	{
-		if(m_nbRobot == i)
+		if(m_nbRobot == i+1)
 		{
 			robot[i].setMachine(m_usedMachine);
 			robot[i].setNbOrder(m_nbOrder);

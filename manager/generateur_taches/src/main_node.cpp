@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 /* TODO: Find a sexy way to work with a variable number of robots 
  * Temporarily, work with only one robot
  * */
-#define TEST_ONE_ROBOT
+// #define TEST_ONE_ROBOT
 #ifdef  TEST_ONE_ROBOT
 			if ( j != 1 )
 			{
@@ -92,10 +92,10 @@ int main(int argc, char **argv)
 			ROS_DEBUG("Time elasped = %d secs",(int)time);
 			action.updateRobot(tabRobot);
 			tabRobotInfo = robotInfo.getRobots();
-			noProblem = robotState(tabRobotInfo,teamColor,j,tabRobot);
+			noProblem = robotState(tabRobotInfo,teamColor,j-1,tabRobot);
 			//mettre a jour les infos envoyees par la refbox
-			ROS_DEBUG("Busy: %d \t|\tnoProblem: %d", tabRobot[j].getBusy(), noProblem);
-			if(!tabRobot[j].getBusy() && noProblem)
+			ROS_DEBUG("Robot: %d\t|\tBusy: %d\t|\tnoProblem: %d", j, tabRobot[j-1].getBusy(), noProblem);
+			if(!tabRobot[j-1].getBusy() && noProblem)
 			{
 				ROS_DEBUG("Not busy");
 				if(gameState.getPhase() == comm_msg::GameState::EXPLORATION && cptZone<12)
