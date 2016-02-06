@@ -13,6 +13,7 @@
 #include <cmath>
 #include "ros/ros.h"
 #include "nav_msgs/OccupancyGrid.h"
+#include "nav_msgs/GetMap.h"
 #include <vector>
 #include "geometry_msgs/Pose2D.h"
 #include "occupancy_grid_utils/occupancy_grid_utils.h"
@@ -35,13 +36,16 @@
 #include <memory>
 
 void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines);
+bool getMap_service(nav_msgs::GetMap::Request  &req, nav_msgs::GetMap::Response &res);
+
 std::shared_ptr<occupancy_grid_utils::Shape> g_machinesShape(nullptr);
 std::shared_ptr<occupancy_grid_utils::Shape> g_machinesShapeNoMargin(nullptr);
 float g_margin = 0.3;
 geometry_msgs::Point g_machineSize;
 const float g_sizeX = 0.7;
 const float g_sizeY = 0.35;
-
+nav_msgs::OccupancyGrid mapLocalisation;
+nav_msgs::OccupancyGrid mapLocalisationWithMachine;
 
 int main(int argc, char **argv)
 {
@@ -51,6 +55,8 @@ int main(int argc, char **argv)
     ros::Publisher map_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid", 1);
     ros::Publisher mapFieldOnly_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid_fieldOnly", 1);
     ros::Publisher mapFieldAndMachines_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid_fieldAndMachines", 1);
+    ros::ServiceServer getMap_server = nh.advertiseService("static_map", getMap_service);
+
     ros::Subscriber sub_poses_machine = nh.subscribe("objectDetection/landmarks", 10, Poses_Machine_Callback);
 
     ros::Rate loop_rate(1);
@@ -144,7 +150,6 @@ int main(int argc, char **argv)
     nav_msgs::OccupancyGrid map;
     occupancy_grid_utils::createEmptyMap(map, size, origin, frame_id, resolution);
     // Map for localisation
-    nav_msgs::OccupancyGrid mapLocalisation;
     occupancy_grid_utils::createEmptyMap(mapLocalisation, size, origin, frame_id, resolution);
 
     //draw map
@@ -171,11 +176,12 @@ int main(int argc, char **argv)
             forbidZone.draw(mapLocalisation, 75);
         }
         mapFieldOnly_pub.publish(mapLocalisation);
+        mapLocalisationWithMachine = mapLocalisation;
         if (g_machinesShape != nullptr)
         {
-            g_machinesShapeNoMargin->draw(mapLocalisation);
+            g_machinesShapeNoMargin->draw(mapLocalisationWithMachine);
         }
-        mapFieldAndMachines_pub.publish(mapLocalisation);
+        mapFieldAndMachines_pub.publish(mapLocalisationWithMachine);
 
         //empty map
     	occupancy_grid_utils::createEmptyMap(map, size, origin, frame_id, resolution);
@@ -220,4 +226,10 @@ void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines)
 	}
     g_machinesShape = pShape;
     g_machinesShapeNoMargin = pShapeNoMargin;
+}
+
+bool getMap_service(nav_msgs::GetMap::Request  &req, nav_msgs::GetMap::Response &res)
+{
+    res.map = mapLocalisation;
+    return true;
 }
