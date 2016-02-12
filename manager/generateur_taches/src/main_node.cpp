@@ -76,18 +76,6 @@ int main(int argc, char **argv)
 	// il y a trois robots
 		for(int j = 1; j <= 3; j++)
 		{
-
-/* TODO: Find a sexy way to work with a variable number of robots 
- * Temporarily, work with only one robot
- * */
-// #define TEST_ONE_ROBOT
-#ifdef  TEST_ONE_ROBOT
-			if ( j != 1 )
-			{
-				break;
-			}
-#endif
-#undef  TEST_ONE_ROBOT
 			time = ros::Time::now().toSec() - t0;
 			ROS_DEBUG("Time elasped = %d secs",(int)time);
 			action.updateRobot(tabRobot);

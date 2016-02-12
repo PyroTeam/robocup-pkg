@@ -83,7 +83,6 @@ class GtServerSrv
 			, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2
 			, geometry_msgs::Pose2D **targetPointPtr, geometry_msgs::Pose2D **otherPointPtr);
 		void asking(geometry_msgs::Pose2D point);
-		void log(std::string message);
 	private:
 		/* Variables d'instance */
 		int m_nbrobot;

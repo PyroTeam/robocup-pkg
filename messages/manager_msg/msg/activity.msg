@@ -17,5 +17,3 @@ int8 NONE   = 6
 int8 machine_used
 
 int8 nb_order
-
-string details

@@ -158,58 +158,58 @@ void GtServerSrv::interpretationZone()
 int GtServerSrv::teamColorOfId(int arTag)
 {
 	int team_color = 0;
-	switch(arTag) 
+	switch(arTag)
 	{
-		case  C_CS1_IN    :       team_color = CYAN;       m_name = "C-CS1";      break;
+		case  C_CS1_IN    :       team_color = CYAN;          m_name = "C-CS1";       break;
 
-		case  C_CS1_OUT   :       team_color = CYAN;       m_name = "C-CS1";      break;
+		case  C_CS1_OUT   :       team_color = CYAN;          m_name = "C-CS1";       break;
 
-		case  C_CS2_IN    :       team_color = CYAN;       m_name = "C-CS2";      break;
+		case  C_CS2_IN    :       team_color = CYAN;          m_name = "C-CS2";       break;
 
-		case  C_CS2_OUT   :       team_color = CYAN;       m_name = "C-CS2";      break;
+		case  C_CS2_OUT   :       team_color = CYAN;          m_name = "C-CS2";       break;
 
-		case  C_RS1_IN    :       team_color = CYAN;       m_name = "C-RS1";      break;
+		case  C_RS1_IN    :       team_color = CYAN;          m_name = "C-RS1";       break;
 
-		case  C_RS1_OUT   :       team_color = CYAN;       m_name = "C-RS1";      break;
+		case  C_RS1_OUT   :       team_color = CYAN;          m_name = "C-RS1";       break;
 
-		case  C_RS2_IN    :       team_color = CYAN;       m_name = "C-RS2";      break;
+		case  C_RS2_IN    :       team_color = CYAN;          m_name = "C-RS2";       break;
 
-		case  C_RS2_OUT   :       team_color = CYAN;       m_name = "C-RS2";      break;
+		case  C_RS2_OUT   :       team_color = CYAN;          m_name = "C-RS2";       break;
 
-		case  C_BS_IN     :       team_color = CYAN;       m_name = "C-BS";      break;
+		case  C_BS_IN     :       team_color = CYAN;          m_name = "C-BS";        break;
 
-		case  C_BS_OUT    :       team_color = CYAN;       m_name = "C-BS";      break;
+		case  C_BS_OUT    :       team_color = CYAN;          m_name = "C-BS";        break;
 
-		case  C_DS_IN     :       team_color = CYAN;       m_name = "C-DS";      break;
+		case  C_DS_IN     :       team_color = CYAN;          m_name = "C-DS";        break;
 
-		case  C_DS_OUT    :       team_color = CYAN;       m_name = "C-DS";      break;
+		case  C_DS_OUT    :       team_color = CYAN;          m_name = "C-DS";        break;
 
 
-		case  M_CS1_IN    :       team_color = MAGENTA;    m_name = "M-CS1";      break;
+		case  M_CS1_IN    :       team_color = MAGENTA;       m_name = "M-CS1";       break;
 
-		case  M_CS1_OUT   :       team_color = MAGENTA;    m_name = "M-CS1";      break;
+		case  M_CS1_OUT   :       team_color = MAGENTA;       m_name = "M-CS1";       break;
 
-		case  M_CS2_IN    :       team_color = MAGENTA;    m_name = "M-CS2";      break;
+		case  M_CS2_IN    :       team_color = MAGENTA;       m_name = "M-CS2";       break;
 
-		case  M_CS2_OUT   :       team_color = MAGENTA;    m_name = "M-CS2";      break;
+		case  M_CS2_OUT   :       team_color = MAGENTA;       m_name = "M-CS2";       break;
 
-		case  M_RS1_IN    :       team_color = MAGENTA;    m_name = "M-RS1";      break;
+		case  M_RS1_IN    :       team_color = MAGENTA;       m_name = "M-RS1";       break;
 
-		case  M_RS1_OUT   :       team_color = MAGENTA;    m_name = "M-RS1";      break;
+		case  M_RS1_OUT   :       team_color = MAGENTA;       m_name = "M-RS1";       break;
 
-		case  M_RS2_IN    :       team_color = MAGENTA;    m_name = "M-RS2";      break;
+		case  M_RS2_IN    :       team_color = MAGENTA;       m_name = "M-RS2";       break;
 
-		case  M_RS2_OUT   :       team_color = MAGENTA;    m_name = "M-RS2";      break;
+		case  M_RS2_OUT   :       team_color = MAGENTA;       m_name = "M-RS2";       break;
 
-		case  M_BS_IN     :       team_color = MAGENTA;    m_name = "M-BS";      break;
+		case  M_BS_IN     :       team_color = MAGENTA;       m_name = "M-BS";        break;
 
-		case  M_BS_OUT    :       team_color = MAGENTA;    m_name = "M-BS";      break;
+		case  M_BS_OUT    :       team_color = MAGENTA;       m_name = "M-BS";        break;
 
-		case  M_DS_IN     :       team_color = MAGENTA;    m_name = "M-DS";      break;
+		case  M_DS_IN     :       team_color = MAGENTA;       m_name = "M-DS";        break;
 
-		case  M_DS_OUT    :       team_color = MAGENTA;    m_name = "M-DS";      break;
+		case  M_DS_OUT    :       team_color = MAGENTA;       m_name = "M-DS";        break;
 
-		default:      team_color = -1;     break;
+		default           :       team_color = -1;            m_name = "";            break;
 	}
 	return team_color;
 }
@@ -261,7 +261,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 	ROS_INFO("Order received");
 	ROS_INFO("Request: nb_order=%d, nb_robot=%d, type=%d, parameter=%d, id=%d"
 		, (int)req.number_order, (int)req.number_robot, (int)req.type, (int)req.parameter, (int)req.id);
-	log("Order received");
 	setId(req.id);
 	if (req.number_robot == m_nbrobot)
 	{
@@ -272,11 +271,9 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 	  	switch(req.type)   // à rajouter => machine non occupée par un robotino et au départ (on ne sait pas cs1/cs2 et rs1/rs2)
 	  	{
 		  	case orderRequest::TAKE_BASE:
-				log("Order: TAKE_BASE");
 				m.getBS().take_base(req.parameter,m_nbrobot,req.number_order);
 				break;
 		  	case orderRequest::PUT_CAP:
-				log("Order: PUT_CAP");
 				switch(req.parameter)
 				{
 					case orderRequest::BLACK :
@@ -290,7 +287,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::TAKE_CAP:
-				log("Order: TAKE_CAP");
 			   switch(req.parameter)
 			   {
 					case orderRequest::BLACK :
@@ -304,7 +300,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::PUT_RING:
-				log("Order: PUT_RING");
 				switch(req.parameter)
 				{
 					case orderRequest::GREEN :
@@ -326,7 +321,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::TAKE_RING:
-				log("Order: TAKE_RING");
 				switch(req.parameter)
 				{
 					case orderRequest::GREEN :
@@ -348,7 +342,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::BRING_BASE_RS:
-				log("Order: BRING_BASE_RS");
 				switch(req.parameter)
 				{
 					case orderRequest::GREEN :
@@ -370,7 +363,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::DELIVER:
-				log("Order: DELIVER");
 				switch(req.parameter)
 				{
 					case orderRequest::DS :
@@ -400,7 +392,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::UNCAP:
-				log("Order: UNCAP");
 				switch(req.parameter)   // à verifier? chaque CS à des capscat spécifiques
 				{
 					case orderRequest::BLACK :
@@ -414,7 +405,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::DESTOCK:
-				log("Order: DESTOCK");
 				if(req.id >= 0 && req.id < 3)
 				{
 					m.getCS1().destock(req.id,m_nbrobot,req.number_order,activity::CS1);
@@ -690,7 +680,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				geometry_msgs::Pose2D *otherPointPtr = NULL;
 				ReportingMachineSrvClient reportClient;
 
-				log("Order: DISCOVER");
 				req.parameter = req.id;
 				ROS_INFO("Order: DISCOVER, zone %d", req.parameter);
 				// Check if valid zone
@@ -699,7 +688,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				{
 					ROS_ERROR("Opposing team or unknown team zone #%d", req.parameter);
 					res.accepted = false;
-					log("ERROR: DISCOVER - invalid or unknown team zone");
 					break;
 				}
 
@@ -765,7 +753,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 			} break;
 
 			default:
-				log("UNKNOWN ORDER");
 				break;
 		}
 	  	//if(req.id != 0) ROS_INFO(" DESTOCKAGE à l'endroit d'id = %d", (int) req.id);
@@ -785,17 +772,4 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 	ROS_INFO("Response: nb_order=%d, nb_robot=%d", (int)res.number_order, (int)res.number_robot);
 
 return true;
-}
-
-void GtServerSrv::log(std::string message)
-{
-	manager_msg::activity tmp_msg;
-
-	tmp_msg.nb_robot = 66;
-	tmp_msg.state = 66;
-	tmp_msg.machine_used = 66;
-	tmp_msg.nb_order = 66;
-	tmp_msg.details = message;
-
-	m_activity_pub.publish(tmp_msg);
 }
