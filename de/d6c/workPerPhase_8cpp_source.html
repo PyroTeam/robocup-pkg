@@ -113,106 +113,107 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">using namespace </span>manager_msg;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="../../de/d6c/workPerPhase_8cpp.html#aeb7e5b7c8ac83ecba1fc87bc0c932b6c">   24</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/d6c/workPerPhase_8cpp.html#aeb7e5b7c8ac83ecba1fc87bc0c932b6c">workInExplorationPhase</a>(<a class="code" href="../../dc/dda/classMachine.html">Machine</a> (&amp;tabMachine)[6], <a class="code" href="../../de/d78/classRobot.html">Robot</a> (&amp;tabRobot)[3],<span class="keywordtype">int</span> &amp;cptOrder, <span class="keywordtype">int</span> robot ,<span class="keywordtype">int</span> &amp;cptZone, </div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="../../de/d6c/workPerPhase_8cpp.html#aeb7e5b7c8ac83ecba1fc87bc0c932b6c">   24</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/d6c/workPerPhase_8cpp.html#aeb7e5b7c8ac83ecba1fc87bc0c932b6c">workInExplorationPhase</a>(<a class="code" href="../../dc/dda/classMachine.html">Machine</a> (&amp;tabMachine)[6], <a class="code" href="../../de/d78/classRobot.html">Robot</a> (&amp;tabRobot)[3],<span class="keywordtype">int</span> &amp;cptOrder, <span class="keywordtype">int</span> robot ,<span class="keywordtype">int</span> &amp;cptZone,</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                            <a class="code" href="../../d9/d26/classCorrespondanceZE.html">CorrespondanceZE</a> &amp;correspondanceZE){</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment">//update_zone(tabMachine,tabRobot); //trouver une maniere efficace d&#39;attribuer aux machines un robot</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">int</span> cptMachine=0;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    vector&lt;int&gt; zone = correspondanceZE.<a class="code" href="../../d9/d26/classCorrespondanceZE.html#a31b27bb659d131b36614f194a9a64ab9">getUsefulZone</a>();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">if</span>(zone.size() == 12)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="../../d5/d38/classSrvorder.html">Srvorder</a> srvexplo(ros::Time::now(),cptOrder,robot,orderRequest::DISCOVER,orderRequest::NONE,zone[cptZone]);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Robot n° %d execute la tache DISCOVER sur la zone n %d&quot;</span>,robot,zone[cptZone]);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        cptZone++;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        cptOrder++;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">if</span>(srvexplo.<a class="code" href="../../d5/d38/classSrvorder.html#aa8c2bf88c6c6976fe93a2f60dcd4450f">getAccepted</a>())</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        cptMachine++;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        tabRobot[robot].setBusy(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;In workInExplorationPhase&quot;</span>);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">if</span>(zone.size() == 12)</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="../../d5/d38/classSrvorder.html">Srvorder</a> srvexplo(ros::Time::now(),cptOrder,robot,orderRequest::DISCOVER,orderRequest::NONE,zone[cptZone]);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Robot %d execute la tache DISCOVER sur la zone %d&quot;</span>,robot,zone[cptZone]);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        cptZone++;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        cptOrder++;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">if</span>(srvexplo.<a class="code" href="../../d5/d38/classSrvorder.html#aa8c2bf88c6c6976fe93a2f60dcd4450f">getAccepted</a>())</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            cptMachine++;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            tabRobot[robot].setBusy(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../de/d6c/workPerPhase_8cpp.html#ae8cc65a56d3f14076d3c99b84da1c1f7">   44</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/d6c/workPerPhase_8cpp.html#ae8cc65a56d3f14076d3c99b84da1c1f7">workInProductionPhase</a>(std::list&lt;std::list&lt;Task&gt; &gt; &amp;work, <a class="code" href="../../dc/dda/classMachine.html">Machine</a> (&amp;tabMachine)[6], <a class="code" href="../../de/d78/classRobot.html">Robot</a> (&amp;tabRobot)[3], </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                           <a class="code" href="../../dd/d5e/classStorage.html">Storage</a> (&amp;tabStock)[6], <span class="keywordtype">bool</span> (&amp;take)[3], <span class="keywordtype">int</span> &amp;cptOrder, <span class="keywordtype">int</span> robot, <span class="keywordtype">int</span> (&amp;availableCap)[2], </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                           <span class="keywordtype">int</span> &amp;storage,std::vector&lt;comm_msg::Order&gt; &amp;tabOrders, <span class="keywordtype">double</span> time, std::vector&lt;bool&gt; &amp;ordersInProcess)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">if</span>(!tabRobot[robot].getBusy()) </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">int</span> <span class="keywordtype">id</span> = 0;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="../../d5/d62/work_8h.html#a274230c441938facf1fe3a038590f2b1">addInWork</a>(work,tabOrders,availableCap, ordersInProcess);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">//s&#39;il y a au moins un ratio strictement positif</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">if</span>(<a class="code" href="../../d5/d62/work_8h.html#acab8d78807fdd18d2b099b0953942cfc">positiveRatio</a>(work))</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            list&lt;list&lt;Task&gt; &gt;::iterator wit;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="comment">//boucle permettant de déterminer s&#39;il faut rajouter du temps de traitement de machine</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">for</span>(wit = work.begin(); wit != work.end(); wit++)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="keywordflow">if</span>(wit-&gt;begin()-&gt;getRobot() == robot)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    wit-&gt;begin()-&gt;setTaskEnd(time + wit-&gt;begin()-&gt;getMachineTime());</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    wit-&gt;begin()-&gt;setRobot(0);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <a class="code" href="../../d5/d62/work_8h.html#af483a263eb82c75b7bd094dda40e62e2">finishedTasks</a>(work,time);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="comment">//partie permettant de déterminer la tâche la plus prioritaire</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <a class="code" href="../../d5/d62/work_8h.html#a9639c515be2af22cf902f4b8aa0edadb">ratioCalculus</a>(work,time,robot,take);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            list&lt;list&lt;Task&gt; &gt;::iterator it = <a class="code" href="../../d5/d62/work_8h.html#ad103141eaac790888edf50376490c32d">maxRatio</a>(work);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <a class="code" href="../../d5/d62/work_8h.html#af33a4f3e6d58334182620c0b2a0f510b">particularTasksInWork</a>(it,availableCap,storage,time);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="comment">//partie permettant de retrouver l&#39;id de l&#39;objet qui était stocké</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">if</span>(it-&gt;begin()-&gt;getTitle() == orderRequest::DESTOCK)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="keywordtype">id</span>=<a class="code" href="../../d1/dd0/storageChart_8h.html#a3c00c42b7b216f2e3ae2752ba2b749ab">findId</a>(tabStock,it-&gt;begin()-&gt;getBeginningDelivery(), it-&gt;begin()-&gt;getEndDelivery());</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="comment">//service envoyé à l&#39;exécuteur de tâches</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <a class="code" href="../../d5/d38/classSrvorder.html">Srvorder</a> srv(ros::Time::now(),cptOrder,robot+1,it-&gt;begin()-&gt;getTitle(),it-&gt;begin()-&gt;getParameter(),0);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Robot: %d tâche: %d parametre: %d id: %d&quot;</span>,robot+1,it-&gt;begin()-&gt;getTitle(),</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                     it-&gt;begin()-&gt;getParameter(),srv.getId());</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            cptOrder++;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="comment">//dans le cas où c&#39;est accepté</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">if</span>(srv.getAccepted())</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                it-&gt;begin()-&gt;setInProcess(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                it-&gt;begin()-&gt;setRobot(robot);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="comment">//s&#39;il faut stocker un produit</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordflow">if</span>((it-&gt;begin()-&gt;getTitle() == orderRequest::DELIVER) &amp;&amp; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                   (it-&gt;begin()-&gt;getParameter() == orderRequest::STOCK))</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                    vector&lt;uint8_t&gt; nothing(1,1);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                    <span class="comment">//produit bidon servant juste pour creationListTasksAction</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                    <a class="code" href="../../db/d79/classProduct.html">Product</a> prod_tmp(it-&gt;begin()-&gt;getComplexity(),1,nothing,1);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    list&lt;Task&gt; ltmp = <a class="code" href="../../d7/db6/tasksList_8h.html#aebf3f83dac26d706496f5fd25af773b6">creationListTasksAction</a>(<span class="keywordtype">int</span>(orderRequest::DESTOCK),prod_tmp,</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                                      it-&gt;begin()-&gt;getBeginningDelivery(),it-&gt;begin()-&gt;getEndDelivery());</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    it-&gt;splice(it-&gt;end(),ltmp);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    <a class="code" href="../../dd/d5e/classStorage.html">Storage</a> stock(it-&gt;begin()-&gt;getComplexity(),it-&gt;begin()-&gt;getBeginningDelivery(),</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                                  it-&gt;begin()-&gt;getEndDelivery());</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    tabStock[srv.getId()]=stock;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="comment">//s&#39;il faut déstocker un produit</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">if</span>(it-&gt;begin()-&gt;getTitle() == orderRequest::DESTOCK)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                    tabStock[<a class="code" href="../../dd/d39/artag__srv__node_8cpp.html#a051d7468dd23c780411441b008577756">id</a>].<a class="code" href="../../dd/d5e/classStorage.html#ab228711c9db57ed76511801f9c0bfbd4">setBeginningDelivery</a>(0);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    tabStock[<a class="code" href="../../dd/d39/artag__srv__node_8cpp.html#a051d7468dd23c780411441b008577756">id</a>].setEndDelivery(0);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <span class="comment">//si le robot doit chercher un produit (fini ou non) auprès d&#39;une machine</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                <span class="keywordflow">if</span>((it-&gt;begin()-&gt;getTitle() == orderRequest::TAKE_BASE) </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                    || (it-&gt;begin()-&gt;getTitle() == orderRequest::TAKE_CAP) </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                    || (it-&gt;begin()-&gt;getTitle() == orderRequest::TAKE_CAP))</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                    take[robot] = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    take[robot] = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                }</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="comment">//mettre à jour le tableau contenant les infos de l&#39;ensemble des robots</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                tabRobot[robot].setBusy(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            }</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        }</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="comment">//order.setQuantity(0);</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keywordtype">id</span>=0;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    }</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../de/d6c/workPerPhase_8cpp.html#ae8cc65a56d3f14076d3c99b84da1c1f7">   45</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/d6c/workPerPhase_8cpp.html#ae8cc65a56d3f14076d3c99b84da1c1f7">workInProductionPhase</a>(std::list&lt;std::list&lt;Task&gt; &gt; &amp;work, <a class="code" href="../../dc/dda/classMachine.html">Machine</a> (&amp;tabMachine)[6], <a class="code" href="../../de/d78/classRobot.html">Robot</a> (&amp;tabRobot)[3],</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                           <a class="code" href="../../dd/d5e/classStorage.html">Storage</a> (&amp;tabStock)[6], <span class="keywordtype">bool</span> (&amp;take)[3], <span class="keywordtype">int</span> &amp;cptOrder, <span class="keywordtype">int</span> robot, <span class="keywordtype">int</span> (&amp;availableCap)[2],</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                           <span class="keywordtype">int</span> &amp;storage,std::vector&lt;comm_msg::Order&gt; &amp;tabOrders, <span class="keywordtype">double</span> time, std::vector&lt;bool&gt; &amp;ordersInProcess)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span>(!tabRobot[robot].getBusy())</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">int</span> <span class="keywordtype">id</span> = 0;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="../../d5/d62/work_8h.html#a274230c441938facf1fe3a038590f2b1">addInWork</a>(work,tabOrders,availableCap, ordersInProcess);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">//s&#39;il y a au moins un ratio strictement positif</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">if</span>(<a class="code" href="../../d5/d62/work_8h.html#acab8d78807fdd18d2b099b0953942cfc">positiveRatio</a>(work))</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            list&lt;list&lt;Task&gt; &gt;::iterator wit;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="comment">//boucle permettant de déterminer s&#39;il faut rajouter du temps de traitement de machine</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">for</span>(wit = work.begin(); wit != work.end(); wit++)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="keywordflow">if</span>(wit-&gt;begin()-&gt;getRobot() == robot)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    wit-&gt;begin()-&gt;setTaskEnd(time + wit-&gt;begin()-&gt;getMachineTime());</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    wit-&gt;begin()-&gt;setRobot(0);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <a class="code" href="../../d5/d62/work_8h.html#af483a263eb82c75b7bd094dda40e62e2">finishedTasks</a>(work,time);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="comment">//partie permettant de déterminer la tâche la plus prioritaire</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <a class="code" href="../../d5/d62/work_8h.html#a9639c515be2af22cf902f4b8aa0edadb">ratioCalculus</a>(work,time,robot,take);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            list&lt;list&lt;Task&gt; &gt;::iterator it = <a class="code" href="../../d5/d62/work_8h.html#ad103141eaac790888edf50376490c32d">maxRatio</a>(work);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <a class="code" href="../../d5/d62/work_8h.html#af33a4f3e6d58334182620c0b2a0f510b">particularTasksInWork</a>(it,availableCap,storage,time);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="comment">//partie permettant de retrouver l&#39;id de l&#39;objet qui était stocké</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">if</span>(it-&gt;begin()-&gt;getTitle() == orderRequest::DESTOCK)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="keywordtype">id</span>=<a class="code" href="../../d1/dd0/storageChart_8h.html#a3c00c42b7b216f2e3ae2752ba2b749ab">findId</a>(tabStock,it-&gt;begin()-&gt;getBeginningDelivery(), it-&gt;begin()-&gt;getEndDelivery());</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="comment">//service envoyé à l&#39;exécuteur de tâches</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <a class="code" href="../../d5/d38/classSrvorder.html">Srvorder</a> srv(ros::Time::now(),cptOrder,robot+1,it-&gt;begin()-&gt;getTitle(),it-&gt;begin()-&gt;getParameter(),0);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Robot: %d tâche: %d parametre: %d id: %d&quot;</span>,robot+1,it-&gt;begin()-&gt;getTitle(),</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                     it-&gt;begin()-&gt;getParameter(),srv.getId());</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            cptOrder++;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="comment">//dans le cas où c&#39;est accepté</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">if</span>(srv.getAccepted())</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                it-&gt;begin()-&gt;setInProcess(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                it-&gt;begin()-&gt;setRobot(robot);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="comment">//s&#39;il faut stocker un produit</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <span class="keywordflow">if</span>((it-&gt;begin()-&gt;getTitle() == orderRequest::DELIVER) &amp;&amp;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                   (it-&gt;begin()-&gt;getParameter() == orderRequest::STOCK))</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                    vector&lt;uint8_t&gt; nothing(1,1);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                    <span class="comment">//produit bidon servant juste pour creationListTasksAction</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    <a class="code" href="../../db/d79/classProduct.html">Product</a> prod_tmp(it-&gt;begin()-&gt;getComplexity(),1,nothing,1);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    list&lt;Task&gt; ltmp = <a class="code" href="../../d7/db6/tasksList_8h.html#aebf3f83dac26d706496f5fd25af773b6">creationListTasksAction</a>(<span class="keywordtype">int</span>(orderRequest::DESTOCK),prod_tmp,</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                      it-&gt;begin()-&gt;getBeginningDelivery(),it-&gt;begin()-&gt;getEndDelivery());</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    it-&gt;splice(it-&gt;end(),ltmp);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    <a class="code" href="../../dd/d5e/classStorage.html">Storage</a> stock(it-&gt;begin()-&gt;getComplexity(),it-&gt;begin()-&gt;getBeginningDelivery(),</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                                  it-&gt;begin()-&gt;getEndDelivery());</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                    tabStock[srv.getId()]=stock;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="comment">//s&#39;il faut déstocker un produit</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="keywordflow">if</span>(it-&gt;begin()-&gt;getTitle() == orderRequest::DESTOCK)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    tabStock[<a class="code" href="../../dd/d39/artag__srv__node_8cpp.html#a051d7468dd23c780411441b008577756">id</a>].<a class="code" href="../../dd/d5e/classStorage.html#ab228711c9db57ed76511801f9c0bfbd4">setBeginningDelivery</a>(0);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                    tabStock[<a class="code" href="../../dd/d39/artag__srv__node_8cpp.html#a051d7468dd23c780411441b008577756">id</a>].setEndDelivery(0);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                <span class="comment">//si le robot doit chercher un produit (fini ou non) auprès d&#39;une machine</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">if</span>((it-&gt;begin()-&gt;getTitle() == orderRequest::TAKE_BASE)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                    || (it-&gt;begin()-&gt;getTitle() == orderRequest::TAKE_CAP)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                    || (it-&gt;begin()-&gt;getTitle() == orderRequest::TAKE_CAP))</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                    take[robot] = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                    take[robot] = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                <span class="comment">//mettre à jour le tableau contenant les infos de l&#39;ensemble des robots</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                tabRobot[robot].setBusy(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            }</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        }</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="comment">//order.setQuantity(0);</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keywordtype">id</span>=0;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;}</div>
 <div class="ttc" id="classSrvorder_html"><div class="ttname"><a href="../../d5/d38/classSrvorder.html">Srvorder</a></div><div class="ttdoc">classe permettant le traitement du service manager_msg::order </div><div class="ttdef"><b>Definition:</b> <a href="../../db/d47/srvorder_8h_source.html#l00017">srvorder.h:17</a></div></div>
 <div class="ttc" id="classRobot_html"><div class="ttname"><a href="../../de/d78/classRobot.html">Robot</a></div><div class="ttdoc">classe représentant l&#39;état d&#39;un robot </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9c/robot_8h_source.html#l00016">robot.h:16</a></div></div>
 <div class="ttc" id="work_8h_html_af483a263eb82c75b7bd094dda40e62e2"><div class="ttname"><a href="../../d5/d62/work_8h.html#af483a263eb82c75b7bd094dda40e62e2">finishedTasks</a></div><div class="ttdeci">void finishedTasks(std::list&lt; std::list&lt; Task &gt; &gt; &amp;work, double time)</div><div class="ttdoc">vérifie les tâches terminées </div></div>
@@ -224,7 +225,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classSrvorder_html_aa8c2bf88c6c6976fe93a2f60dcd4450f"><div class="ttname"><a href="../../d5/d38/classSrvorder.html#aa8c2bf88c6c6976fe93a2f60dcd4450f">Srvorder::getAccepted</a></div><div class="ttdeci">bool getAccepted()</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d47/srvorder_8h_source.html#l00024">srvorder.h:24</a></div></div>
 <div class="ttc" id="srvorder_8h_html"><div class="ttname"><a href="../../db/d47/srvorder_8h.html">srvorder.h</a></div></div>
 <div class="ttc" id="classStorage_html_ab228711c9db57ed76511801f9c0bfbd4"><div class="ttname"><a href="../../dd/d5e/classStorage.html#ab228711c9db57ed76511801f9c0bfbd4">Storage::setBeginningDelivery</a></div><div class="ttdeci">void setBeginningDelivery(int deb)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d6b/storage_8h_source.html#l00021">storage.h:21</a></div></div>
-<div class="ttc" id="workPerPhase_8cpp_html_ae8cc65a56d3f14076d3c99b84da1c1f7"><div class="ttname"><a href="../../de/d6c/workPerPhase_8cpp.html#ae8cc65a56d3f14076d3c99b84da1c1f7">workInProductionPhase</a></div><div class="ttdeci">void workInProductionPhase(std::list&lt; std::list&lt; Task &gt; &gt; &amp;work, Machine(&amp;tabMachine)[6], Robot(&amp;tabRobot)[3], Storage(&amp;tabStock)[6], bool(&amp;take)[3], int &amp;cptOrder, int robot, int(&amp;availableCap)[2], int &amp;storage, std::vector&lt; comm_msg::Order &gt; &amp;tabOrders, double time, std::vector&lt; bool &gt; &amp;ordersInProcess)</div><div class="ttdoc">ce qu&#39;il y a à faire en phase de production </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6c/workPerPhase_8cpp_source.html#l00044">workPerPhase.cpp:44</a></div></div>
+<div class="ttc" id="workPerPhase_8cpp_html_ae8cc65a56d3f14076d3c99b84da1c1f7"><div class="ttname"><a href="../../de/d6c/workPerPhase_8cpp.html#ae8cc65a56d3f14076d3c99b84da1c1f7">workInProductionPhase</a></div><div class="ttdeci">void workInProductionPhase(std::list&lt; std::list&lt; Task &gt; &gt; &amp;work, Machine(&amp;tabMachine)[6], Robot(&amp;tabRobot)[3], Storage(&amp;tabStock)[6], bool(&amp;take)[3], int &amp;cptOrder, int robot, int(&amp;availableCap)[2], int &amp;storage, std::vector&lt; comm_msg::Order &gt; &amp;tabOrders, double time, std::vector&lt; bool &gt; &amp;ordersInProcess)</div><div class="ttdoc">ce qu&#39;il y a à faire en phase de production </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6c/workPerPhase_8cpp_source.html#l00045">workPerPhase.cpp:45</a></div></div>
 <div class="ttc" id="orderInfo_8h_html"><div class="ttname"><a href="../../d3/dfd/orderInfo_8h.html">orderInfo.h</a></div></div>
 <div class="ttc" id="work_8h_html_a274230c441938facf1fe3a038590f2b1"><div class="ttname"><a href="../../d5/d62/work_8h.html#a274230c441938facf1fe3a038590f2b1">addInWork</a></div><div class="ttdeci">void addInWork(std::list&lt; std::list&lt; Task &gt; &gt; &amp;work, std::vector&lt; comm_msg::Order &gt; tabOrders, int(&amp;availableCap)[2], std::vector&lt; bool &gt; &amp;ordersInProcess)</div><div class="ttdoc">rajoute un ordre de la RefBox dans la structure de travail </div></div>
 <div class="ttc" id="classCorrespondanceZE_html_a31b27bb659d131b36614f194a9a64ab9"><div class="ttname"><a href="../../d9/d26/classCorrespondanceZE.html#a31b27bb659d131b36614f194a9a64ab9">CorrespondanceZE::getUsefulZone</a></div><div class="ttdeci">std::vector&lt; int &gt; getUsefulZone()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc4/correspondanceZE_8cpp_source.html#l00026">correspondanceZE.cpp:26</a></div></div>
@@ -248,7 +249,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 6 2016 09:02:41 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 13 2016 13:07:50 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

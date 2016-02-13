@@ -12,5 +12,6 @@ var searchData=
   ['m_5frs1_5fout',['M_RS1_OUT',['../d2/d64/GtServerSrv_8h.html#a71b7730af37a1d86f63770340e064726',1,'GtServerSrv.h']]],
   ['m_5frs2_5fin',['M_RS2_IN',['../d2/d64/GtServerSrv_8h.html#aa9af7a7555114a21bb63f1c0566c804e',1,'GtServerSrv.h']]],
   ['m_5frs2_5fout',['M_RS2_OUT',['../d2/d64/GtServerSrv_8h.html#acb6f9185f8edbe554e84433b94deecc5',1,'GtServerSrv.h']]],
-  ['magenta',['MAGENTA',['../d2/d64/GtServerSrv_8h.html#a6f699060902f800f12aaae150f3a708e',1,'GtServerSrv.h']]]
+  ['magenta',['MAGENTA',['../d2/d64/GtServerSrv_8h.html#a6f699060902f800f12aaae150f3a708e',1,'GtServerSrv.h']]],
+  ['margin_5ffrom_5fcenter',['MARGIN_FROM_CENTER',['../d0/dba/GtServerSrv_8cpp.html#a2087d66eddf2096578bfa92e93a86f67',1,'GtServerSrv.cpp']]]
 ];

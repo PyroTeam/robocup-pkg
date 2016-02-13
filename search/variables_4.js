@@ -9,7 +9,7 @@ var searchData=
   ['g_5fmachines',['g_machines',['../de/de7/Cartographie_8cpp.html#acc2604ab8b1a3cfe2fdc2db5a2560184',1,'Cartographie.cpp']]],
   ['g_5fmachines_5fstamp',['g_machines_stamp',['../d7/dfc/visualisation_8cpp.html#ab5e5b74a195eee6058fff76db7d7a94f',1,'visualisation.cpp']]],
   ['g_5fmachinesize',['g_machineSize',['../d1/d87/grid__maker__node_8cpp.html#ad22f295505f37825fe1d348e00ae3b8c',1,'grid_maker_node.cpp']]],
-  ['g_5fmargin',['g_margin',['../d1/d87/grid__maker__node_8cpp.html#a38d422b73a9f45f28f913d8183c5eed0',1,'grid_maker_node.cpp']]],
+  ['g_5fmargin',['g_margin',['../d1/d87/grid__maker__node_8cpp.html#ad355840bd7073298ba74592f20666d96',1,'grid_maker_node.cpp']]],
   ['g_5fodomrobot',['g_odomRobot',['../de/de7/Cartographie_8cpp.html#ae879a8e294c03cbe87b0875969a4fa0e',1,'Cartographie.cpp']]],
   ['g_5fpathfinderstate',['g_pathfinderState',['../de/dd1/pathfinder__node_8cpp.html#a8cb92596a795a2d681ed041ffa3a5148',1,'pathfinder_node.cpp']]],
   ['g_5fpathfound',['g_pathFound',['../de/dd1/pathfinder__node_8cpp.html#ab7beda142dda7eac5c782a3828fd7baa',1,'pathfinder_node.cpp']]],

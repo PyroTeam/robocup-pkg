@@ -120,9 +120,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="comment">/* Publisher topic générateur de taches */</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    ros::Publisher activite_pub = n.advertise&lt;manager_msg::activity&gt;(<span class="stringliteral">&quot;manager/task_exec_state&quot;</span>, 1000);</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">while</span>(ros::ok)</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">while</span>(ros::ok())</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;I&#39;m READY ! &quot;</span>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="comment">// ROS_INFO(&quot;I&#39;m READY ! &quot;);</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        activite_pub.publish(gtsrv.<a class="code" href="../../d1/d35/classGtServerSrv.html#a6ba937a962da159da336bacd02dad48e">getActivityMsg</a>());</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="comment">/* Let&#39;s Spin until the end of the world !! */</span></div>
@@ -131,18 +131,18 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
-<div class="ttc" id="classGtServerSrv_html_a6ba937a962da159da336bacd02dad48e"><div class="ttname"><a href="../../d1/d35/classGtServerSrv.html#a6ba937a962da159da336bacd02dad48e">GtServerSrv::getActivityMsg</a></div><div class="ttdeci">manager_msg::activity getActivityMsg()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dba/GtServerSrv_8cpp_source.html#l00072">GtServerSrv.cpp:72</a></div></div>
+<div class="ttc" id="classGtServerSrv_html_a6ba937a962da159da336bacd02dad48e"><div class="ttname"><a href="../../d1/d35/classGtServerSrv.html#a6ba937a962da159da336bacd02dad48e">GtServerSrv::getActivityMsg</a></div><div class="ttdeci">manager_msg::activity getActivityMsg()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dba/GtServerSrv_8cpp_source.html#l00119">GtServerSrv.cpp:119</a></div></div>
 <div class="ttc" id="main_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../df/d0a/main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d0a/main_8cpp_source.html#l00015">main.cpp:15</a></div></div>
 <div class="ttc" id="GtServerSrv_8h_html"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html">GtServerSrv.h</a></div></div>
 <div class="ttc" id="LocaSubscriber_8h_html"><div class="ttname"><a href="../../d1/d05/LocaSubscriber_8h.html">LocaSubscriber.h</a></div></div>
-<div class="ttc" id="classGtServerSrv_html_a8251299b9e2a3ebb0a6a366dd6cfa8d0"><div class="ttname"><a href="../../d1/d35/classGtServerSrv.html#a8251299b9e2a3ebb0a6a366dd6cfa8d0">GtServerSrv::responseToGT</a></div><div class="ttdeci">bool responseToGT(manager_msg::order::Request &amp;req, manager_msg::order::Response &amp;res)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dba/GtServerSrv_8cpp_source.html#l00170">GtServerSrv.cpp:170</a></div></div>
+<div class="ttc" id="classGtServerSrv_html_a8251299b9e2a3ebb0a6a366dd6cfa8d0"><div class="ttname"><a href="../../d1/d35/classGtServerSrv.html#a8251299b9e2a3ebb0a6a366dd6cfa8d0">GtServerSrv::responseToGT</a></div><div class="ttdeci">bool responseToGT(manager_msg::order::Request &amp;req, manager_msg::order::Response &amp;res)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dba/GtServerSrv_8cpp_source.html#l00259">GtServerSrv.cpp:259</a></div></div>
 <div class="ttc" id="FeuClientAction_8h_html"><div class="ttname"><a href="../../d4/da5/FeuClientAction_8h.html">FeuClientAction.h</a></div></div>
 <div class="ttc" id="classGtServerSrv_html"><div class="ttname"><a href="../../d1/d35/classGtServerSrv.html">GtServerSrv</a></div><div class="ttdoc">classe serveur pour le générateur de tâches </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d64/GtServerSrv_8h_source.html#l00061">GtServerSrv.h:61</a></div></div>
-<div class="ttc" id="classGtServerSrv_html_ace6e50193e1286f6f45b69ceb2290b85"><div class="ttname"><a href="../../d1/d35/classGtServerSrv.html#ace6e50193e1286f6f45b69ceb2290b85">GtServerSrv::setId</a></div><div class="ttdeci">void setId(int id)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dba/GtServerSrv_8cpp_source.html#l00019">GtServerSrv.cpp:19</a></div></div>
+<div class="ttc" id="classGtServerSrv_html_ace6e50193e1286f6f45b69ceb2290b85"><div class="ttname"><a href="../../d1/d35/classGtServerSrv.html#ace6e50193e1286f6f45b69ceb2290b85">GtServerSrv::setId</a></div><div class="ttdeci">void setId(int id)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dba/GtServerSrv_8cpp_source.html#l00023">GtServerSrv.cpp:23</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 6 2016 09:02:41 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 13 2016 13:07:50 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

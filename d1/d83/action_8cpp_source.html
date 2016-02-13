@@ -102,17 +102,17 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    m_state = msg.state;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    m_usedMachine = msg.machine_used;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    m_nbOrder = msg.nb_order;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;nb_robot: %d,state: %d,machine_used: %d,nb_order: %d&quot;</span>,m_nbRobot,m_state,m_usedMachine,m_nbOrder);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    ROS_DEBUG(<span class="stringliteral">&quot;nb_robot: %d,state: %d,machine_used: %d,nb_order: %d&quot;</span>,m_nbRobot,m_state,m_usedMachine,m_nbOrder);</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
 <div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../db/d09/classAction.html#a4f457ccfc8336b565cadca56b36e0271">   16</a></span>&#160;<a class="code" href="../../db/d09/classAction.html#a4f457ccfc8336b565cadca56b36e0271">Action::Action</a>(){</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    m_activitySub = m_nh.subscribe(<span class="stringliteral">&quot;task_exec_state&quot;</span>,1000,&amp;<a class="code" href="../../db/d09/classAction.html#aef39fe13f33d73fdf703d167ca093a91">Action::tesCallback</a>,<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    m_activitySub = m_nh.subscribe(<span class="stringliteral">&quot;manager/task_exec_state&quot;</span>,1000,&amp;<a class="code" href="../../db/d09/classAction.html#aef39fe13f33d73fdf703d167ca093a91">Action::tesCallback</a>,<span class="keyword">this</span>);</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;}</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
 <div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../db/d09/classAction.html#ada5fc72ee9ff6cf7a15e68b050316b6d">   20</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d09/classAction.html#ada5fc72ee9ff6cf7a15e68b050316b6d">Action::updateRobot</a>(<a class="code" href="../../de/d78/classRobot.html">Robot</a> (&amp;robot)[3]){</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0;i&lt;3;i++)</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordflow">if</span>(m_nbRobot == i)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordflow">if</span>(m_nbRobot == i+1)</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        {</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            robot[i].setMachine(m_usedMachine);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            robot[i].setNbOrder(m_nbOrder);</div>
@@ -136,7 +136,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 6 2016 09:02:41 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 13 2016 13:07:50 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

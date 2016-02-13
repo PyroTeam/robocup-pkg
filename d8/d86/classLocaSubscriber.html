@@ -104,8 +104,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad7fb2aab1f07bd0df9063f907b5fbc13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad136957367ceecd82cad71932fdc484d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#ad136957367ceecd82cad71932fdc484d">~LocaSubscriber</a> ()</td></tr>
 <tr class="separator:ad136957367ceecd82cad71932fdc484d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f8628a7ff973edd040a9c8d31f077bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a3f8628a7ff973edd040a9c8d31f077bf">tesCallback</a> (const manager_msg::LandmarksConstPtr &amp;msg)</td></tr>
-<tr class="separator:a3f8628a7ff973edd040a9c8d31f077bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24dcdcf55f90ee357cdc0be41698fd53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a24dcdcf55f90ee357cdc0be41698fd53">tesCallback</a> (const deplacement_msg::LandmarksConstPtr &amp;msg)</td></tr>
+<tr class="separator:a24dcdcf55f90ee357cdc0be41698fd53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2e52fc511fe33edb0163cfd5080a3c0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#aa2e52fc511fe33edb0163cfd5080a3c0">getZone</a> (float x, float y)</td></tr>
 <tr class="separator:aa2e52fc511fe33edb0163cfd5080a3c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -114,8 +114,8 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:af65482750da6bb767408f8953791469b"><td class="memItemLeft" align="right" valign="top">std::vector<br class="typebreak"/>
 &lt; geometry_msgs::Pose2D &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#af65482750da6bb767408f8953791469b">tab_machine</a></td></tr>
 <tr class="separator:af65482750da6bb767408f8953791469b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add10b3c03596f41fe2cd66ea96e590ed"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d8/d75/classMPS.html">MPS</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#add10b3c03596f41fe2cd66ea96e590ed">machine</a></td></tr>
-<tr class="separator:add10b3c03596f41fe2cd66ea96e590ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4775e29eff81220485ac62afa693dac1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d8/d75/classMPS.html">MPS</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a4775e29eff81220485ac62afa693dac1">m_machine</a></td></tr>
+<tr class="separator:a4775e29eff81220485ac62afa693dac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>classe pour s'abonner au Topic de la localisation </p>
@@ -196,14 +196,14 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3f8628a7ff973edd040a9c8d31f077bf"></a>
+<a class="anchor" id="a24dcdcf55f90ee357cdc0be41698fd53"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void LocaSubscriber::tesCallback </td>
           <td>(</td>
-          <td class="paramtype">const manager_msg::LandmarksConstPtr &amp;&#160;</td>
+          <td class="paramtype">const deplacement_msg::LandmarksConstPtr &amp;&#160;</td>
           <td class="paramname"><em>msg</em></td><td>)</td>
           <td></td>
         </tr>
@@ -215,12 +215,12 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="add10b3c03596f41fe2cd66ea96e590ed"></a>
+<a class="anchor" id="a4775e29eff81220485ac62afa693dac1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="../../d8/d75/classMPS.html">MPS</a>&gt; LocaSubscriber::machine</td>
+          <td class="memname">std::vector&lt;<a class="el" href="../../d8/d75/classMPS.html">MPS</a>&gt; LocaSubscriber::m_machine</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -250,7 +250,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 6 2016 09:02:41 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 13 2016 13:07:51 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

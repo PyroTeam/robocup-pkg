@@ -96,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../de/d04/classFeuClientAction.html#a3023ec71489b2b6d425f3f4467f68a26">    5</a></span>&#160;<a class="code" href="../../de/d04/classFeuClientAction.html#a3023ec71489b2b6d425f3f4467f68a26">FeuClientAction::~FeuClientAction</a>(){}</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="../../de/d04/classFeuClientAction.html#a166762484cb4336532b926cfa3ff8310">    7</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/d04/classFeuClientAction.html#a166762484cb4336532b926cfa3ff8310">FeuClientAction::lightsStates</a>(std::vector&lt;comm_msg::LightSpec&gt; &amp;m_lightSpec)</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="../../de/d04/classFeuClientAction.html#a166762484cb4336532b926cfa3ff8310">    7</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/d04/classFeuClientAction.html#a166762484cb4336532b926cfa3ff8310">FeuClientAction::lightsStates</a>(std::vector&lt;comm_msg::LightSpec&gt; &amp;lightSpec)</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordtype">int</span> i=0;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
@@ -118,9 +118,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    {</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        actionlib::SimpleClientGoalState state = client.getState();</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        ROS_INFO(<span class="stringliteral">&quot;Action finished : %s &quot;</span>,state.toString().c_str());</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        m_lightSpec = client.getResult()-&gt;light_signal;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="comment">/*for(i = 0 ; i &lt; m_lightSpec.size() ; i++){</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">            ROS_INFO(&quot;color : %d , state : %d&quot;,m_lightSpec[i].color,m_lightSpec[i].state);</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        lightSpec = client.getResult()-&gt;light_signal;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="comment">/*for(i = 0 ; i &lt; lightSpec.size() ; i++){</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">            ROS_INFO(&quot;color : %d , state : %d&quot;,lightSpec[i].color,lightSpec[i].state);</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">        }*/</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
@@ -136,7 +136,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 6 2016 09:02:41 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 13 2016 13:07:50 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
