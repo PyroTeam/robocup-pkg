@@ -27,7 +27,6 @@
 #include "ArTagClientSrv.h"
 #include "ReportingMachineSrvClient.h"
 #include "LocaSubscriber.h"
-#include "FinalApproachingClient.h"
 
 #define C_CS1_IN   1
 #define C_CS1_OUT  2

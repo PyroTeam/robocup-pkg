@@ -121,7 +121,6 @@ add_executable(
   src/GripperClientSrv.cpp
   src/MyElements.cpp
   src/FeuClientAction.cpp
-  src/FinalApproachingClient.cpp
   src/ExploInfoSubscriber.cpp
   src/ReportingMachineSrvClient.cpp
   src/ArTagClientSrv.cpp
@@ -152,9 +151,7 @@ add_executable(
 
 add_dependencies(test_order manager_msg_gencpp comm_msg_gencpp)
 
-
-add_executable(finalApproaching_client src/finalApproaching_client.cpp)
-add_dependencies(finalApproaching_client manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
+add_dependencies(manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
 
 add_executable(
   test_ei
@@ -228,10 +225,6 @@ target_link_libraries(
 #)
 
 
-target_link_libraries(
-  finalApproaching_client
-  ${catkin_LIBRARIES}
-)
 #############
 ## Install ##
 #############

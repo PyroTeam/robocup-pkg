@@ -16,6 +16,7 @@
 #include <actionlib/client/terminal_state.h>
 
 #include <deplacement_msg/MoveToPoseAction.h>
+#include <deplacement_msg/finalApproaching.h>
 
 
 class NavigationClientAction
@@ -28,6 +29,15 @@ class NavigationClientAction
 		virtual  ~NavigationClientAction();
 
 		/* Méthodes */
-		int goToAPoint(geometry_msgs::Pose2D dest_point);
+		deplacement_msg::finalApproaching setFinalApproachingData(int8_t machineType, int8_t machineSide, int8_t machineParameter);
+		bool getSuccess();
+		int16_t getError();
+		int16_t getStatus();
+		void navigate(geometry_msgs::Pose2D dest_point, bool fa, bool fast, bool puckInGripper, bool goAway, int8_t machineType, int8_t machineSide, int8_t machineParameter);
+
+	private:
+		bool m_success;
+		int16_t m_error;
+		int16_t m_status;
 };
 #endif

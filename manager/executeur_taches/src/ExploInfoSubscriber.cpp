@@ -51,7 +51,7 @@ void ExploInfoSubscriber::interpretationFeu()
 				else break;
 			}
 		}
-		if(i=3) break;
+		if(i==3) break;
 		j++;
     } 
     this->type = m_signals[j].type;

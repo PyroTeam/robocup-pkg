@@ -18,7 +18,6 @@
 #include "deplacement_msg/MoveToPoseAction.h"
 #include "FeuClientAction.h"
 #include "GripperClientSrv.h"
-#include "FinalApproachingClient.h"
 #include "ExploInfoSubscriber.h"
 #include "NavigationClientAction.h"
 
@@ -35,6 +34,9 @@ class Machine
 		geometry_msgs::Pose2D m_exitMachine;
 		int zone;
 		bool isHere;
+		bool navigation_success;
+		int16_t navigation_error;
+		int16_t navigation status;
 
 	public:
 		/* Constructeur */
@@ -50,10 +52,12 @@ class Machine
 		geometry_msgs::Pose2D getCenterMachine();
 		geometry_msgs::Pose2D getEntryMachine();
 		geometry_msgs::Pose2D getExitMachine();
+		void getNavigationData(&bool success, &int16_t error, &int16_t status);
 		void majEntry(geometry_msgs::Pose2D point);
 		void majExit(geometry_msgs::Pose2D point);
 		manager_msg::activity msgToGT(int n_robot, int stateOfOrder, int machine, int n_order);
-		void goTo(geometry_msgs::Pose2D pt_dest);
+		geometry_msgs::Pose2D zeroPose2D();
+		void goTo(geometry_msgs::Pose2D pt_dest, bool fast, bool puckInGripper, bool goAway);
 		void take();
 		void let();
 		void readlights(std::vector<comm_msg::LightSpec> lSpec);

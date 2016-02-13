@@ -1,11 +1,34 @@
 # Define the goal
 geometry_msgs/Pose2D position_finale
+bool final_approaching
+bool puck_in_gripper
+bool fast
+bool go_away
+deplacement_msg/finalApproaching faData
 ---
 # Define the result
-uint8 result
+bool success
 
-uint8 FINISHED = 1
-uint8 ERROR = 2
+uint16 error
+
+uint16 ERR_UNKNOWN = 0
+uint16 ERR_NONE = 1
+uint16 ERR_IR_UNKNOWN = 100
+uint16 ERR_IR_OUT_MAP = 101
+uint16 ERR_IR_STATIC_OBSTACLE = 102
+uint16 ERR_IR_NO_MATCHING_DISPLACEMENT = 103
+uint16 ERR_RT_UNKNOWN = 200
+uint16 ERR_RT_BUMPER = 201
+uint16 ERR_RT_TIME_OUT = 202
+
+uint16 status 
+
+uint16 STATUS_UNKNOWN = 1000
+uint16 STATUS_FINISHED = 1001
+uint16 STATUS_CANCELED = 1002
+uint16 STATUS_INTERRUPTED = 1003
+
 ---
 # Define a feedback message
-uint8 percent_complete
+uint8 percent_complete 
+# duration 

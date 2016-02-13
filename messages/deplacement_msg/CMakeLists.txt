@@ -53,6 +53,8 @@ DIRECTORY
 	msg
 FILES
   	Landmarks.msg
+	plotDataFa.msg
+	finalApproaching.msg
 )
 
 ## Generate services in the 'srv' folder
