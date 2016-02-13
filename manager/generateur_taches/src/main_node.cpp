@@ -28,12 +28,12 @@
 
 #include "comm_msg/Order.h"
 #include "comm_msg/Robot.h"
-#include "comm_msg/GameState.h" 
+#include "comm_msg/GameState.h"
 
 using namespace std;
 using namespace manager_msg;
 
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
 
 	/*** INITIALISATION ***/
@@ -70,23 +70,25 @@ int main(int argc, char **argv)
 		ordersInProcess.push_back(false);
 	}
 	/***FONCTION PRINCIPALE ***/
-	
-	while(ros::ok()) 
+
+	while(ros::ok())
 	{
 	// il y a trois robots
-		for(int j=0; j<3; j++)
+		for(int j = 1; j <= 3; j++)
 		{
 			time = ros::Time::now().toSec() - t0;
-			ROS_INFO("temps en sec = %d",(int)time);
+			ROS_DEBUG("Time elasped = %d secs",(int)time);
 			action.updateRobot(tabRobot);
 			tabRobotInfo = robotInfo.getRobots();
-			noProblem = robotState(tabRobotInfo,teamColor,j,tabRobot);
+			noProblem = robotState(tabRobotInfo,teamColor,j-1,tabRobot);
 			//mettre a jour les infos envoyees par la refbox
-			if(!tabRobot[j].getBusy() && noProblem) 
+			ROS_DEBUG("Robot: %d\t|\tBusy: %d\t|\tnoProblem: %d", j, tabRobot[j-1].getBusy(), noProblem);
+			if(!tabRobot[j-1].getBusy() && noProblem)
 			{
+				ROS_DEBUG("Not busy");
 				if(gameState.getPhase() == comm_msg::GameState::EXPLORATION && cptZone<12)
 				{
-					workInExplorationPhase(tabMachine,tabRobot,cptOrder,j,cptZone, correspondanceZE);
+					workInExplorationPhase(tabMachine, tabRobot, cptOrder, j, cptZone, correspondanceZE);
 				}
 				if(gameState.getPhase() == comm_msg::GameState::PRODUCTION && !work.empty())
 				{

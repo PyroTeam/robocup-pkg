@@ -12,7 +12,7 @@
 
 #include <ros/ros.h>
 #include "geometry_msgs/Pose2D.h"
-#include "manager_msg/Landmarks.h" 
+#include "deplacement_msg/Landmarks.h" 
 #include "MPS.h"
 #include <vector>
 
@@ -26,10 +26,13 @@ class LocaSubscriber
 	    virtual  ~LocaSubscriber();
 
 	    /* Méthodes */
-	    void tesCallback(const manager_msg::LandmarksConstPtr &msg);
+	    void tesCallback(const deplacement_msg::LandmarksConstPtr &msg);
 	    int getZone(float x, float y);
 	    std::vector<geometry_msgs::Pose2D> tab_machine;
-	    std::vector<MPS> machine;
+	    std::vector<MPS> m_machine;
+
+	private:
+		ros::Subscriber m_sub;
 };
 #endif 
 

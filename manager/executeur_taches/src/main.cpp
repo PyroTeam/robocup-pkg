@@ -28,9 +28,9 @@ int main(int argc, char **argv)
     /* Publisher topic générateur de taches */
     ros::Publisher activite_pub = n.advertise<manager_msg::activity>("manager/task_exec_state", 1000);
 
-    while(ros::ok)
+    while(ros::ok())
     {
-        ROS_INFO("I'm READY ! ");
+        // ROS_INFO("I'm READY ! ");
         activite_pub.publish(gtsrv.getActivityMsg());
 
         /* Let's Spin until the end of the world !! */

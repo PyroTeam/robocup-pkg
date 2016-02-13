@@ -42,7 +42,7 @@ void poseCallback(const nav_msgs::Odometry &odom)
     transform.setOrigin(tf::Vector3(0.2, 0.0, tower_camera_link_z));
     q.setRPY(0.0, 0.0, 0.0);
     transform.setRotation(q);
-    baseLinkToTowerCameraLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, tf_prefix+"base_link", tf_prefix+"tower_camera__link"));
+    baseLinkToTowerCameraLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, tf_prefix+"base_link", tf_prefix+"tower_camera_link"));
 
     // Base Link to Platform Camera Link
     static double platform_camera_link_z = 0;
