@@ -68,11 +68,11 @@ manager_msg::activity Machine::msgToGT(int n_robot, int stateOfOrder, int machin
 
 void Machine::goTo(geometry_msgs::Pose2D pt_dest)
 {
-	ROS_INFO("going to the point : x %f - y %f - theta %f",pt_dest.x,pt_dest.y,pt_dest.theta);
+	ROS_INFO("Going to point : x: %f; y: %f; theta: %f",pt_dest.x,pt_dest.y,pt_dest.theta);
 	NavigationClientAction n_c;
 	int stateOfNavigation = n_c.goToAPoint(pt_dest);
-	if(stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR) ROS_ERROR("Can't go to this point Sorry :( ");
-	else ROS_INFO ("I went to the asked point successfully ");
+	if(stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR) ROS_ERROR("Unable to go to requested point");
+	else ROS_INFO ("Going to point - SUCCESS");
 }
 
 /* Fonction qui permet de prendre un produit */
@@ -89,7 +89,7 @@ void Machine::let( )
 	gsrv.gripper_uppdate(false);
 }
 
-void Machine::readlights(std::vector<comm_msg::LightSpec> lSpec)
+void Machine::readlights(std::vector<comm_msg::LightSpec> &lSpec)
 {
 	ROS_INFO(" Starting exploring the lights ");
 	FeuClientAction f_c;

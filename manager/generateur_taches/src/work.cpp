@@ -62,7 +62,7 @@ bool positiveRatio(list<list<Task> > work)
 	return tmp;
 }
 
-//renvoie la tâche qui le plus grand ratio 
+//renvoie la tâche qui le plus grand ratio
 list<list<Task> >::iterator maxRatio(list<list<Task> > &work)
 {
 	list<list<Task> >::iterator workIterator;
@@ -84,12 +84,12 @@ void ratioCalculus(list<list<Task> > &work,double time,int robot,bool take[])
 	for(t_it = work.begin(); t_it != work.end(); t_it++)
 	{
 		t_it->begin()->setRatio(0);
-		if(t_it->begin()->getTitle() == int(orderRequest::DESTOCK)) 
+		if(t_it->begin()->getTitle() == int(orderRequest::DESTOCK))
 		{
-			if(t_it->begin()->inTime(time)) 
+			if(t_it->begin()->inTime(time))
 			{
 				t_it->begin()->setRatio(100);
-			} 
+			}
 		}
 		else
 		{
@@ -104,8 +104,8 @@ void ratioCalculus(list<list<Task> > &work,double time,int robot,bool take[])
 		}
 		if(take[robot]==true)
 		{
-			if(t_it->begin()->getTitle() == int(orderRequest::PUT_CAP) || 
-			   t_it->begin()->getTitle() == int(orderRequest::PUT_RING) || 
+			if(t_it->begin()->getTitle() == int(orderRequest::PUT_CAP) ||
+			   t_it->begin()->getTitle() == int(orderRequest::PUT_RING) ||
 			   t_it->begin()->getTitle() == int(orderRequest::DESTOCK))
 			{
 				t_it->begin()->setRatio(300);
@@ -117,30 +117,30 @@ void ratioCalculus(list<list<Task> > &work,double time,int robot,bool take[])
 		}
 		t_it->begin()->setRatio(t_it->begin()->getRatio() / t_it->begin()->getCreation());
 	}
-}			
+}
 
 //affiche des infos sur la structure contenant les tâches à réaliser
 void getInfoWork(list<list<Task> > work)
 {
 	list<list<Task> >::iterator wit;
-	int compteur = 1; 
+	int compteur = 1;
 	for(wit = work.begin(); wit != work.end(); wit++)
 	{
-		ROS_INFO("taille de la liste %d : %d ratio: %f intitule première tâche: %d parametre: %d debut_livr: %d fin_livr: %d",
+		ROS_INFO("Taille de la liste %d : %d ratio: %f intitule premiere tache: %d parametre: %d debut_livr: %d fin_livr: %d",
 		         compteur,(int)wit->size(),(float)wit->begin()->getRatio(),wit->begin()->getTitle(),
 		         wit->begin()->getParameter(),wit->begin()->getBeginningDelivery(),wit->begin()->getEndDelivery());
 		compteur++;
 	}
-}			
-			
+}
+
 //enlève ce qui est déjà fait
 void cleanWork(list<list<Task> > &work,list<list<Task> >::iterator &it,double time){
-	if(!it->empty()) 
+	if(!it->empty())
 	{
 		it->pop_front();
 		//it->begin()->setTaskEnd(it->begin()->getTaskEnd() + time);
 	}
-	if(it->empty()) 
+	if(it->empty())
 	{
 		work.erase(it);
 	}
@@ -150,7 +150,7 @@ void cleanWork(list<list<Task> > &work,list<list<Task> >::iterator &it,double ti
 void particularTasksInWork(list<list<Task> > ::iterator &it, int (&availableCap)[2], int &storage,double time){
 	//si la seule tâche est de décapsuler dans la liste
 	if((it->begin()->getTitle() == int(orderRequest::UNCAP)) && (it->size() == 1))
-	{ 
+	{
 		switch(it->begin()->getParameter())
 		{
 			case int(orderRequest::BLACK) :
@@ -164,7 +164,7 @@ void particularTasksInWork(list<list<Task> > ::iterator &it, int (&availableCap)
 	}
 	//si on a un product fini
 	if(it->begin()->getTitle() == int(orderRequest::DELIVER))
-	{   
+	{
 		if(it->begin()->inTime(time))
 		{
 			it->begin()->setParameter(orderRequest::DS);
@@ -173,7 +173,7 @@ void particularTasksInWork(list<list<Task> > ::iterator &it, int (&availableCap)
 		{
 			it->begin()->setParameter(int(orderRequest::STOCK));
 		}
-	}  	
+	}
 }
 
 //verifie les taches terminees
@@ -187,7 +187,7 @@ void finishedTasks(list<list<Task> > &work, double time){
 			cleanWork(work,wit,time);
 		}
 	}
-}  
+}
 
 void addNewTasksList(std::list<std::list<Task> > &work, comm_msg::Order order, int availableCap)
 {
@@ -219,4 +219,4 @@ void addAccordingToCap(std::list<std::list<Task> > &work, comm_msg::Order order,
 	{
 		addNewTasksList(work, order, availableCap[1]);
 	}
-}  
+}
