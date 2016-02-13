@@ -254,7 +254,7 @@ def callbackOdom(data):
         else:
             g_Vlim = g_speedLimiter.update(g_Vmax)
 
-        rospy.loginfo('Vlim : %f' % (g_Vlim))
+        # rospy.loginfo('Vlim : %f' % (g_Vlim))
 
         #En repere segment local
         Vy = g_speedPID.update(-err)
@@ -281,7 +281,7 @@ def callbackOdom(data):
             cmdVel_msg.angular.z = g_anglePID.update(err)
             cmdVel_msg.angular.z = saturation(cmdVel_msg.angular.z, -1.0, 1.0)
 
-            rospy.loginfo('Vz = %f' % (cmdVel_msg.angular.z))
+            # rospy.loginfo('Vz = %f' % (cmdVel_msg.angular.z))
 
     g_cmdVel_pub.publish(cmdVel_msg)
 

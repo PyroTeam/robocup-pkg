@@ -97,6 +97,7 @@ void cmdVelCallback(const geometry_msgs::TwistConstPtr& msg)
 
 void gpsCallback(ConstPosePtr &msg)
 {
+    static double nx=0, ny=0;
     ros::NodeHandle nh;
     std::string tf_prefix;
     nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
@@ -108,8 +109,10 @@ void gpsCallback(ConstPosePtr &msg)
     odom_msg.header.frame_id=tf_prefix+"odom";
     odom_msg.header.stamp=ros::Time::now();
 
-    odom_msg.pose.pose.position.x=msg->position().x();
-    odom_msg.pose.pose.position.y=msg->position().y();
+    nx+=0.001;
+    ny+=0.001;
+    odom_msg.pose.pose.position.x=msg->position().x()+nx;
+    odom_msg.pose.pose.position.y=msg->position().y()+ny;
     odom_msg.pose.pose.position.z=0;
 
     odom_msg.pose.pose.orientation.x=msg->orientation().x();
@@ -117,8 +120,8 @@ void gpsCallback(ConstPosePtr &msg)
     odom_msg.pose.pose.orientation.z=msg->orientation().z();
     odom_msg.pose.pose.orientation.w=msg->orientation().w();
 
-    odom_msg.twist.twist.linear.x=g_x;
-    odom_msg.twist.twist.linear.y=g_y;
+    odom_msg.twist.twist.linear.x=g_x+.001;
+    odom_msg.twist.twist.linear.y=g_y+.001;
     odom_msg.twist.twist.linear.z=0;
     odom_msg.twist.twist.angular.x=0;
     odom_msg.twist.twist.angular.y=0;

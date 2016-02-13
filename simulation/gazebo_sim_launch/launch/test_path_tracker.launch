@@ -68,8 +68,8 @@
       <!-- <node pkg="path_tracker" name="path_trackerRequest_node" type="path_trackerRequest_node.py" output="screen"/> -->
 
 			<!-- Load the path tracker -->
-      <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" launch-prefix="xterm -e"/>
-      <!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node.py" launch-prefix="xterm -e"/> -->
+      <!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py"/> -->
+      <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node_tf.py" launch-prefix="xterm -e"/>
 
 			<!-- Load the fake final approach -->
 			<node pkg="approche_finale" name="final_approach" type="simFinalApproach_node"/>
@@ -90,6 +90,8 @@
 			<!-- <node pkg="generateur_taches" name="manager" type="main_node" launch-prefix="xterm -e"/> -->
 
       <!-- Load rviz -->
-      <node pkg="rviz" type="rviz" name="rviz" args="-d $(find gazebo_sim_launch)/others/overview.rviz"/>
+      <node pkg="rviz" type="rviz" name="rviz" args="-d $(find gazebo_sim_launch)/others/overview.rviz">
+        <remap from="/initialpose" to="/robotino1/initialpose/"/>
+      </node>
 		</group>
 </launch>
