@@ -4,6 +4,7 @@
  * \brief
  *
  * \author       Tissot Elise (elise-tissot@polytech-lille.net)
+ *               Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date         2015-04-23
  * \copyright    PyroTeam, Polytech-Lille
  * \license
@@ -17,7 +18,7 @@
 #include <actionlib/server/simple_action_server.h>
 #include <actionlib/client/simple_action_client.h>
 #include <sensor_msgs/PointCloud.h>
-
+#include <tf/transform_listener.h>
 #include "deplacement_msg/MoveToPoseAction.h"
 #include "deplacement_msg/TrackPathAction.h"
 #include "pathfinder/GeneratePath.h"
@@ -63,10 +64,11 @@ class MoveToPose
 	    // create messages that are used to published feedback/result
 	    deplacement_msg::MoveToPoseFeedback m_feedback;
 	    deplacement_msg::MoveToPoseResult m_result;
-
+			tf::TransformListener m_tfListener;
 	public:
 	    MoveToPose(std::string name) : m_as(m_nh, name, boost::bind(&MoveToPose::executeCB, this, _1), false),
-	                                   m_actionName(name), m_trackPathAction("navigation/trackPath", true)
+	                                   m_actionName(name), m_trackPathAction("navigation/trackPath", true),
+																		 m_tfListener(m_nh, ros::Duration(5.0))
 	    {
 			m_lastId = 0;
 			m_pathId = 0;

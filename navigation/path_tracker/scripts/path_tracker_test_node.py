@@ -76,6 +76,8 @@ g_Vmax = 0.3
 # Publisher de consignes en vitesse
 g_cmdVel_pub = rospy.Publisher('hardware/cmd_vel', Twist, queue_size=10)
 
+
+
 def normalizeAngle(angle):
     while angle > pi:
         angle = angle - 2*pi
@@ -183,13 +185,23 @@ def callbackOdom(data):
     global g_VminStatic
     global g_Vmax
     global g_speedLimiter
+    global g_tfListener
 
     cmdVel_msg = Twist()
 
+    poseIn = PoseStamped()
+    poseOut = PoseStamped()
+    poseIn.header = data.header
+    poseIn.pose = data.pose.pose
+
+    now = rospy.Time.now()
+    # g_tfListener.waitForTransform("robotino1/base_link", "map", now, rospy.Duration(0.1))
+    poseOut = g_tfListener.transformPose("map", poseIn)
+
     pose = Pose2D()
-    (roll, pitch, yaw) = euler_from_quaternion_msg(data.pose.pose.orientation)
-    pose.x = data.pose.pose.position.x
-    pose.y = data.pose.pose.position.y
+    (roll, pitch, yaw) = euler_from_quaternion_msg(poseOut.pose.orientation)
+    pose.x = poseOut.pose.position.x
+    pose.y = poseOut.pose.position.y
     pose.theta = yaw
 
     if g_stopRobot == True or len(g_path) == 0:
@@ -292,9 +304,13 @@ def callbackPath(data):
 
 
 def path_tracker_node():
+    global g_tfListener
+
     rospy.init_node('path_tracker_node', anonymous=False)
     rospy.Subscriber("hardware/odom", Odometry, callbackOdom)
     rospy.Subscriber("navigation/pathSmooth", Path, callbackPath)
+
+    g_tfListener = tf.TransformListener()
 
     TrackPathAction(rospy.get_name())
 

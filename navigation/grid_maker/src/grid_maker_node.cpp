@@ -230,6 +230,6 @@ void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines)
 
 bool getMap_service(nav_msgs::GetMap::Request  &req, nav_msgs::GetMap::Response &res)
 {
-    res.map = mapLocalisation;
+    res.map = mapLocalisationWithMachine;
     return true;
 }

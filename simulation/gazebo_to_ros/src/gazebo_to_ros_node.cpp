@@ -4,8 +4,8 @@
 #include <gazebo/math/gzmath.hh>
 
 #include <iostream>
-
 #include <ros/ros.h>
+#include <tf/transform_datatypes.h>
 #include <geometry_msgs/TwistStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <gazsim_msgs/LightSignalDetection.pb.h>
@@ -14,6 +14,8 @@
 #include <deplacement_msg/Landmarks.h>
 #include <gazebo_msgs/ModelStates.h>
 #include <tf/transform_datatypes.h>
+#include <stdlib.h>
+#include <time.h>
 
 double g_x, g_y, g_z;
 ros::Publisher g_pubOdom;
@@ -35,6 +37,7 @@ void machineInfoCallback(ModelStatesConstPtr &msg);
 /////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
+
     printf("Gazebo to ros Started\n");
     // Load gazebo
     gazebo::setupClient(argc, argv);
@@ -64,6 +67,8 @@ int main(int argc, char **argv)
 	// Publisher
 	g_pubLightSignal = nh.advertise<trait_im_msg::LightSignal>("hardware/closest_light_signal", 1000);
     g_pubMachines = nh.advertise<deplacement_msg::Landmarks>("objectDetection/landmarks", 1000, true);
+
+    srand (time(NULL));
 
     // Publisher loop...replace with your own code.
     g_x=0; g_y=0; g_z=0;
@@ -97,7 +102,12 @@ void cmdVelCallback(const geometry_msgs::TwistConstPtr& msg)
 
 void gpsCallback(ConstPosePtr &msg)
 {
-    static double nx=0, ny=0;
+    static double noiseX, noiseY, noiseTheta;
+    // double nx=0, ny=0, ntheta=0;
+    double nx = 0.05* (double(rand())/double(RAND_MAX) - .55);
+    double ny = 0.05 * (double(rand())/double(RAND_MAX) - .55);
+    double ntheta = 0.01 * (double(rand())/double(RAND_MAX) - .55);
+
     ros::NodeHandle nh;
     std::string tf_prefix;
     nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
@@ -109,23 +119,28 @@ void gpsCallback(ConstPosePtr &msg)
     odom_msg.header.frame_id=tf_prefix+"odom";
     odom_msg.header.stamp=ros::Time::now();
 
-    nx+=0.001;
-    ny+=0.001;
-    odom_msg.pose.pose.position.x=msg->position().x()+nx;
-    odom_msg.pose.pose.position.y=msg->position().y()+ny;
+    noiseX+=nx*g_x;
+    noiseY+=ny*g_y;
+    noiseTheta+=ntheta*g_z;
+    ROS_INFO("noiseX : %f", float(noiseX));
+    odom_msg.pose.pose.position.x=msg->position().x()+noiseX;
+    odom_msg.pose.pose.position.y=msg->position().y()+noiseY;
     odom_msg.pose.pose.position.z=0;
 
     odom_msg.pose.pose.orientation.x=msg->orientation().x();
     odom_msg.pose.pose.orientation.y=msg->orientation().y();
     odom_msg.pose.pose.orientation.z=msg->orientation().z();
     odom_msg.pose.pose.orientation.w=msg->orientation().w();
+    double yaw = tf::getYaw(odom_msg.pose.pose.orientation) + noiseTheta;
+    odom_msg.pose.pose.orientation = tf::createQuaternionMsgFromYaw(yaw);
 
-    odom_msg.twist.twist.linear.x=g_x+.001;
-    odom_msg.twist.twist.linear.y=g_y+.001;
+
+    odom_msg.twist.twist.linear.x=g_x+nx*g_x;
+    odom_msg.twist.twist.linear.y=g_y+ny*g_y;
     odom_msg.twist.twist.linear.z=0;
     odom_msg.twist.twist.angular.x=0;
     odom_msg.twist.twist.angular.y=0;
-    odom_msg.twist.twist.angular.z=g_z;
+    odom_msg.twist.twist.angular.z=g_z+ntheta*g_z;
 
     g_pubOdom.publish(odom_msg);
 }

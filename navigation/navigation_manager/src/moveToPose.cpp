@@ -193,7 +193,21 @@ void MoveToPose::feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& fe
 
 void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom)
 {
-    m_poseOdom = odom.pose.pose;
+    geometry_msgs::PoseStamped poseIn;
+    geometry_msgs::PoseStamped poseOut;
+
+    poseIn.header = odom.header;
+    poseIn.pose = odom.pose.pose;
+    try
+    {
+        m_tfListener.transformPose("/map", poseIn, poseOut);
+        m_poseOdom = poseOut.pose;
+    }
+    catch (tf::TransformException ex)
+    {
+        m_poseOdom = poseIn.pose;
+        ROS_ERROR("%s",ex.what());
+    }
 }
 
 
