@@ -110,11 +110,11 @@ git clone https://github.com/PyroTeam/gazebo-rcll.git
 
 sudo sh -c 'echo "" >> /usr/share/gazebo/setup.sh'
 sudo sh -c 'echo "export GAZEBO_RCLL=${HOME}/gazebo-rcll" >> /usr/share/gazebo/setup.sh'
-sudo sh -c 'echo "export GAZEBO_RESOURCE_PATH=$GAZEBO_RESOURCE_PATH:$GAZEBO_RCLL/worlds" >> /usr/share/gazebo/setup.sh'
-sudo sh -c 'echo "export GAZEBO_PLUGIN_PATH=$GAZEBO_PLUGIN_PATH:$GAZEBO_RCLL/plugins/lib/gazebo" >> /usr/share/gazebo/setup.sh'
-sudo sh -c 'echo "export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$GAZEBO_RCLL/models" >> /usr/share/gazebo/setup.sh'
+sudo sh -c 'echo "export GAZEBO_RESOURCE_PATH=\$GAZEBO_RESOURCE_PATH:\$GAZEBO_RCLL/worlds" >> /usr/share/gazebo/setup.sh'
+sudo sh -c 'echo "export GAZEBO_PLUGIN_PATH=\$GAZEBO_PLUGIN_PATH:\$GAZEBO_RCLL/plugins/lib/gazebo" >> /usr/share/gazebo/setup.sh'
+sudo sh -c 'echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:\$GAZEBO_RCLL/models" >> /usr/share/gazebo/setup.sh'
 sudo sh -c 'echo "# To include team specific models, also add for example this line:" >> /usr/share/gazebo/setup.sh'
-sudo sh -c 'echo "export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$GAZEBO_RCLL/models/pyro" >> /usr/share/gazebo/setup.sh'
+sudo sh -c 'echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:\$GAZEBO_RCLL/models/pyro" >> /usr/share/gazebo/setup.sh'
 
 echo "# Gazebo (ROS)" >> ~/.bashrc
 echo "source /usr/share/gazebo/setup.sh" >> ~/.bashrc
