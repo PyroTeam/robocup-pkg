@@ -62,8 +62,8 @@ fi
 
 ### Refbox
 sudo apt-get --yes --force-yes	install libmodbus-dev protobuf-compiler libprotobuf-dev libprotoc-dev libboost-all-dev \
-										libglibmm-2.4-dev libgtkmm-3.0-dev libncursesw5-dev libyaml-cpp-dev libavahi-client-dev\
-										git libxt-dev libxaw7-dev libncurses5-dev autoconf autogen libtool libyaml-dev
+				libglibmm-2.4-dev libgtkmm-3.0-dev libncursesw5-dev libyaml-cpp-dev libavahi-client-dev \
+				git libxt-dev libxaw7-dev libncurses5-dev autoconf autogen libtool libyaml-dev
 
 ### Protobuf
 sudo apt-get --yes --force-yes	install libprotoc-dev libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler
