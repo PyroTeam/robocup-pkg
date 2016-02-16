@@ -57,7 +57,7 @@ void poseCallback(const nav_msgs::Odometry &odom)
 	nh.param<double>("hardware/robotDescription/baseLink_to_platformCameraLink/y", platform_camera_link_y, 0.00);
 	nh.param<double>("hardware/robotDescription/baseLink_to_platformCameraLink/z", platform_camera_link_z, 0.90);
 	transform.setOrigin(tf::Vector3(platform_camera_link_x, platform_camera_link_y, platform_camera_link_z));
-	q.setRPY(0.0, 0.0, -1.57);
+	q.setRPY(-1.57, 0, -1.57);
 	transform.setRotation(q);
 	baseLinkToPlatformCameraLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp
 		, tf_prefix+"base_link", tf_prefix+"platform_camera_link"));
