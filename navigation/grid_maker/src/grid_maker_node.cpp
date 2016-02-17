@@ -36,7 +36,7 @@
 
 void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines);
 std::shared_ptr<occupancy_grid_utils::Shape> g_machinesShape(nullptr);
-float g_margin = 0.3;
+double g_margin = 0.3;
 geometry_msgs::Point g_machineSize;
 const float g_sizeX = 0.7;
 const float g_sizeY = 0.35;
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     std::string frame_id = "map";
     nh.param<std::string>("field/frame_id", frame_id, "map");
 
-    nh.param<float>("field/margin", g_margin, 0.3);
+    nh.param<double>("field/margin", g_margin, 0.3);
 
     //obtenir les murs
     std::list<occupancy_grid_utils::LineSegment> walls;
