@@ -11,27 +11,27 @@ laserScan::~laserScan()
 
 }
 
-float laserScan::getRangeMin()
+float laserScan::getRangeMin() const
 {
 	return m_range_min;
 }
 
-float laserScan::getRangeMax()
+float laserScan::getRangeMax() const
 {
 	return m_range_max;
 }
 
-float laserScan::getAngleMin()
+float laserScan::getAngleMin() const
 {
 	return m_angle_min;
 }
 
-float laserScan::getAngleMax()
+float laserScan::getAngleMax() const
 {
 	return m_angle_max;
 }
 
-float laserScan::getAngleInc()
+float laserScan::getAngleInc() const
 {
 	return m_angle_inc;
 }
@@ -46,28 +46,28 @@ const std::list<geometry_msgs::Point>& laserScan::getPoints() const
 	return m_points;
 }
 
-void laserScan::setRangeMin(float min)
+void laserScan::setRangeMin(const float &min)
 {
-	m_range_min=min;
+	m_range_min = min;
 }	
-void laserScan::setRangeMax(float max)
+void laserScan::setRangeMax(const float &max)
 {
-	m_range_max=max;
+	m_range_max = max;
 }
 
-void laserScan::setAngleMin(float min)
+void laserScan::setAngleMin(const float &min)
 {
-	m_angle_min=min;
+	m_angle_min = min;
 }
 
-void laserScan::setAngleMax(float max)
+void laserScan::setAngleMax(const float &max)
 {
-	m_angle_max=max;
+	m_angle_max = max;
 }
 	
-void laserScan::setAngleInc(float inc)
+void laserScan::setAngleInc(const float &inc)
 {
-	m_angle_inc=inc;
+	m_angle_inc = inc;
 }
 
 
@@ -88,16 +88,16 @@ void laserScan::PolarToCart ()
 void laserScan::set(const sensor_msgs::LaserScanConstPtr& scan)
 {
 	m_points.clear();
-	
-	setRangeMin(scan->range_min);
-	setRangeMax(scan->range_max);
-	setAngleMin(scan->angle_min);
-	setAngleMax(scan->angle_max);
-	setAngleInc(scan->angle_increment);
+
+	this->setRangeMin(scan->range_min);
+	this->setRangeMax(scan->range_max);
+	this->setAngleMin(scan->angle_min);
+	this->setAngleMax(scan->angle_max);
+	this->setAngleInc(scan->angle_increment);
 
 	m_ranges=scan->ranges;
 
-	PolarToCart();
+	this->PolarToCart();
 }
 
 void laserScan::laserCallback(const sensor_msgs::LaserScanConstPtr& scan)

@@ -12,8 +12,8 @@ int main(int argc, char** argv)
     laserScan laserData;
 
     //Initialisation du noeud ROS
-    ros::init(argc, argv, "landmarks_extraction_node");
-    ROS_INFO("Starting node landmarks_extraction_node");
+    ros::init(argc, argv, "LandmarksExtraction_node");
+    ROS_INFO("Starting node LandmarksExtraction_node");
     
     ros::NodeHandle n;
 

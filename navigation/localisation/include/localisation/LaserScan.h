@@ -18,20 +18,20 @@ public:
 
 	void PolarToCart();
 
-	float getRangeMin();
-	float getRangeMax();
-	float getAngleMin();
-	float getAngleMax();
-	float getAngleInc();
+	float getRangeMin() const;
+	float getRangeMax() const;
+	float getAngleMin() const;
+	float getAngleMax() const;
+	float getAngleInc() const;
 
 	const std::vector<float>& getRanges() const;
 	const std::list<geometry_msgs::Point>& getPoints() const;
 
-	void setRangeMin(float min);
-	void setRangeMax(float max);
-	void setAngleMin(float min);
-	void setAngleMax(float max);
-	void setAngleInc(float inc);
+	void setRangeMin(const float &min);
+	void setRangeMax(const float &max);
+	void setAngleMin(const float &min);
+	void setAngleMax(const float &max);
+	void setAngleInc(const float &inc);
 
 	void set(const sensor_msgs::LaserScanConstPtr& scan);
 
