@@ -4,6 +4,7 @@
 #include <gazebo/math/gzmath.hh>
 
 #include <iostream>
+
 #include <ros/ros.h>
 #include <tf/transform_datatypes.h>
 #include <geometry_msgs/TwistStamped.h>
@@ -18,6 +19,8 @@
 #include <time.h>
 
 double g_x, g_y, g_z;
+/* TODO: Find better solution */
+bool g_init = false;
 ros::Publisher g_pubOdom;
 ros::Publisher g_pubLightSignal;
 ros::Publisher g_pubMachines;
@@ -37,67 +40,65 @@ void machineInfoCallback(ModelStatesConstPtr &msg);
 /////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
+	printf("Gazebo to ros Started\n");
+	// Load gazebo
+	gazebo::setupClient(argc, argv);
 
-    printf("Gazebo to ros Started\n");
-    // Load gazebo
-    gazebo::setupClient(argc, argv);
+	// Create our node for communication
+	gazebo::transport::NodePtr node(new gazebo::transport::Node());
+	node->Init();
+	ros::init(argc, argv, "publisher");
+	ros::NodeHandle nh;
+	std::string robotName;
+	nh.param<std::string>("simuRobotNamespace", robotName, ROBOTINO_NAME);
 
-    // Create our node for communication
-    gazebo::transport::NodePtr node(new gazebo::transport::Node());
-    node->Init();
-    ros::init(argc, argv, "publisher");
-    ros::NodeHandle nh;
-    std::string robotName;
-    nh.param<std::string>("simuRobotNamespace", robotName, ROBOTINO_NAME);
+	// Publish to a Gazebo topic
+	gazebo::transport::PublisherPtr pub =
+		// node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/robotino_pyro/RobotinoSim/MotorMove/");
+		node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/" +robotName+ "/RobotinoSim/MotorMove/");
 
-    // Publish to a Gazebo topic
-    gazebo::transport::PublisherPtr pub =
-        // node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/robotino_pyro/RobotinoSim/MotorMove/");
-        node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/" +robotName+ "/RobotinoSim/MotorMove/");
+	// Wait for a subscriber to connect
+	pub->WaitForConnection();
 
-    // Wait for a subscriber to connect
-    pub->WaitForConnection();
-
-    // Subscriber
-    ros::Subscriber subCmdVel = nh.subscribe("hardware/cmd_vel", 1, &cmdVelCallback);
-    ros::Subscriber subModelStates = nh.subscribe("/gazebo/model_states", 1, &machineInfoCallback);
-    g_pubOdom = nh.advertise<nav_msgs::Odometry>("hardware/odom", 1000);
-    gazebo::transport::SubscriberPtr subGps = node->Subscribe("/gazebo/pyro_2015/" +robotName+ "/gazsim/gps/", &gpsCallback);
-    gazebo::transport::SubscriberPtr subLightSignal = node->Subscribe("/gazebo/pyro_2015/" +robotName+ "/gazsim/light-signal/", &lightSignalCallback);
+	// Subscriber
+	ros::Subscriber subCmdVel = nh.subscribe("hardware/cmd_vel", 1, &cmdVelCallback);
+	ros::Subscriber subModelStates = nh.subscribe("/gazebo/model_states", 1, &machineInfoCallback);
+	g_pubOdom = nh.advertise<nav_msgs::Odometry>("hardware/odom", 1000);
+	gazebo::transport::SubscriberPtr subGps = node->Subscribe("/gazebo/pyro_2015/" +robotName+ "/gazsim/gps/", &gpsCallback);
+	gazebo::transport::SubscriberPtr subLightSignal = node->Subscribe("/gazebo/pyro_2015/" +robotName+ "/gazsim/light-signal/", &lightSignalCallback);
 	// Publisher
 	g_pubLightSignal = nh.advertise<trait_im_msg::LightSignal>("hardware/closest_light_signal", 1000);
-    g_pubMachines = nh.advertise<deplacement_msg::Landmarks>("objectDetection/landmarks", 1000, true);
+	g_pubMachines = nh.advertise<deplacement_msg::Landmarks>("objectDetection/landmarks", 1000, true);
+	g_init = true;
 
-    srand (time(NULL));
+	// Publisher loop...replace with your own code.
+	g_x=0; g_y=0; g_z=0;
+	gazebo::math::Vector3 vect(g_x,g_y,g_z);
+	while (ros::ok())
+	{
+		// Throttle Publication
+		gazebo::common::Time::MSleep(100);
 
-    // Publisher loop...replace with your own code.
-    g_x=0; g_y=0; g_z=0;
-    gazebo::math::Vector3 vect(g_x,g_y,g_z);
-    while (ros::ok())
-    {
-        // Throttle Publication
-        gazebo::common::Time::MSleep(100);
+		// Generate a pose
+		vect.Set(g_x, g_y, g_z);
 
-        // Generate a pose
-        vect.Set(g_x, g_y, g_z);
+		// Convert to a pose message
+		gazebo::msgs::Vector3d msg;
+		gazebo::msgs::Set(&msg, vect);
 
-        // Convert to a pose message
-        gazebo::msgs::Vector3d msg;
-        gazebo::msgs::Set(&msg, vect);
+		pub->Publish(msg);
+		ros::spinOnce();
+	}
 
-        pub->Publish(msg);
-        ros::spinOnce();
-    }
-
-    // Make sure to shut everything down.
-    gazebo::shutdown();
+	// Make sure to shut everything down.
+	gazebo::shutdown();
 }
 
 void cmdVelCallback(const geometry_msgs::TwistConstPtr& msg)
 {
-    g_x=msg->linear.x;
-    g_y=msg->linear.y;
-    g_z=msg->angular.z;
+	g_x=msg->linear.x;
+	g_y=msg->linear.y;
+	g_z=msg->angular.z;
 }
 
 void gpsCallback(ConstPosePtr &msg)
@@ -141,8 +142,10 @@ void gpsCallback(ConstPosePtr &msg)
     odom_msg.twist.twist.angular.x=0;
     odom_msg.twist.twist.angular.y=0;
     odom_msg.twist.twist.angular.z=g_z+ntheta*g_z;
-
-    g_pubOdom.publish(odom_msg);
+    if (g_init)
+    {
+        g_pubOdom.publish(odom_msg);
+    }
 }
 
 
@@ -158,40 +161,42 @@ void lightSignalCallback(ConstLightSignalDetectionPtr &msg)
 		lightSignals_msg.lights.push_back(lightSpec_msg);
 	}
 
-	g_pubLightSignal.publish(lightSignals_msg);
+	if (g_init)
+		g_pubLightSignal.publish(lightSignals_msg);
 }
 
 void machineInfoCallback(ModelStatesConstPtr &msg)
 {
-    ros::NodeHandle nh;
-    bool useMachineInfo = false;
-    nh.param<bool>("objectDetection/useSimLandmarks", useMachineInfo, false);
+	ros::NodeHandle nh;
+	bool useMachineInfo = false;
+	nh.param<bool>("objectDetection/useSimLandmarks", useMachineInfo, false);
 
-    printf("MachineInfo Callback\n");
-    if (!useMachineInfo)
-        return;
+	printf("MachineInfo Callback\n");
+	if (!useMachineInfo)
+		return;
 
-    g_landmarks.header.stamp = ros::Time::now();
-    g_landmarks.header.frame_id = "map";
+	g_landmarks.header.stamp = ros::Time::now();
+	g_landmarks.header.frame_id = "map";
 
-    // go through all machines
-    g_landmarks.landmarks.clear();
-    for(int i = 0; i < msg->name.size(); i++){
+	// go through all machines
+	g_landmarks.landmarks.clear();
+	for(int i = 0; i < msg->name.size(); i++){
 
-        if (msg->name[i][0] != 'C' && msg->name[i][0] != 'M')
-        {
-            continue;
-        }
+		if (msg->name[i][0] != 'C' && msg->name[i][0] != 'M')
+		{
+			continue;
+		}
 
-        geometry_msgs::Pose2D pose;
-        pose.x = msg->pose[i].position.x;
-        pose.y = msg->pose[i].position.y;
-        pose.theta = tf::getYaw(msg->pose[i].orientation);
+		geometry_msgs::Pose2D pose;
+		pose.x = msg->pose[i].position.x;
+		pose.y = msg->pose[i].position.y;
+		pose.theta = tf::getYaw(msg->pose[i].orientation);
 
-        g_landmarks.landmarks.push_back(pose);
-    }
+		g_landmarks.landmarks.push_back(pose);
+	}
 
-    g_pubMachines.publish(g_landmarks);
+	if (g_init)
+		g_pubMachines.publish(g_landmarks);
 
-    return;
+	return;
 }

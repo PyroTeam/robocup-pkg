@@ -58,7 +58,7 @@
 #define CYAN 0
 #define MAGENTA 1
 
-class GtServerSrv 
+class GtServerSrv
 {
 	public:
 		/* Constructeur */
@@ -71,11 +71,17 @@ class GtServerSrv
 		bool responseToGT(manager_msg::order::Request  &req,manager_msg::order::Response &res);
 		void setId(int id);
 		int teamColorOfId(int arTag);
+		int teamColorOfZone(int zone);
 		manager_msg::activity getActivityMsg();
 		manager_msg::finalApproachingAction getFinalAppAction();
 		void interpretationZone();
 		void going(geometry_msgs::Pose2D point);
 		geometry_msgs::Pose2D calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone);
+		void getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2);
+		bool knownMachineInZone(int zone);
+		void getNearestPoint(geometry_msgs::Pose2D &pose
+			, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2
+			, geometry_msgs::Pose2D **targetPointPtr, geometry_msgs::Pose2D **otherPointPtr);
 		void asking(geometry_msgs::Pose2D point);
 	private:
 		/* Variables d'instance */
@@ -89,6 +95,7 @@ class GtServerSrv
 		manager_msg::finalApproachingAction m_act;
 		ExploInfoSubscriber *m_ei;
 		LocaSubscriber *m_ls;
+    	ros::Publisher m_activity_pub;
 };
 
 #endif

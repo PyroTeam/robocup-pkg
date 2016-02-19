@@ -40,7 +40,7 @@ bool getMap_service(nav_msgs::GetMap::Request  &req, nav_msgs::GetMap::Response 
 
 std::shared_ptr<occupancy_grid_utils::Shape> g_machinesShape(nullptr);
 std::shared_ptr<occupancy_grid_utils::Shape> g_machinesShapeNoMargin(nullptr);
-float g_margin = 0.3;
+double g_margin = 0.3;
 geometry_msgs::Point g_machineSize;
 const float g_sizeX = 0.7;
 const float g_sizeY = 0.35;
@@ -92,7 +92,7 @@ int main(int argc, char **argv)
     std::string frame_id = "map";
     nh.param<std::string>("field/frame_id", frame_id, "map");
 
-    nh.param<float>("field/margin", g_margin, 0.3);
+    nh.param<double>("field/margin", g_margin, 0.3);
 
     //obtenir les murs
     std::list<occupancy_grid_utils::LineSegment> walls;
@@ -149,9 +149,6 @@ int main(int argc, char **argv)
     // Empty map
     nav_msgs::OccupancyGrid map;
     occupancy_grid_utils::createEmptyMap(map, size, origin, frame_id, resolution);
-    // Map for localisation
-    occupancy_grid_utils::createEmptyMap(mapLocalisation, size, origin, frame_id, resolution);
-
     //draw map
     for (auto wall : wallsRect)
     {
@@ -164,25 +161,6 @@ int main(int argc, char **argv)
     // ROS Loop
     while(ros::ok())
     {
-        //empty map
-    	occupancy_grid_utils::createEmptyMap(mapLocalisation, size, origin, frame_id, resolution);
-        //draw map
-        for (auto wall : walls)
-        {
-            wall.draw(mapLocalisation);
-        }
-        for (auto forbidZone : forbidZones)
-        {
-            forbidZone.draw(mapLocalisation, 75);
-        }
-        mapFieldOnly_pub.publish(mapLocalisation);
-        mapLocalisationWithMachine = mapLocalisation;
-        if (g_machinesShape != nullptr)
-        {
-            g_machinesShapeNoMargin->draw(mapLocalisationWithMachine);
-        }
-        mapFieldAndMachines_pub.publish(mapLocalisationWithMachine);
-
         //empty map
     	occupancy_grid_utils::createEmptyMap(map, size, origin, frame_id, resolution);
         //draw map
@@ -202,8 +180,9 @@ int main(int argc, char **argv)
         {
             modifiers->execute(map);
         }
-        map_pub.publish(map);
 
+
+	 	map_pub.publish(map);
 	 	ros::spinOnce();
 		loop_rate.sleep();
  	}
@@ -215,21 +194,11 @@ int main(int argc, char **argv)
 void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines)
 {
     std::shared_ptr<occupancy_grid_utils::ComposedShape> pShape(new occupancy_grid_utils::ComposedShape);
-    std::shared_ptr<occupancy_grid_utils::ComposedShape> pShapeNoMargin(new occupancy_grid_utils::ComposedShape);
 
 	for (int i=0; i< machines->landmarks.size(); i++)
     {
         std::shared_ptr<occupancy_grid_utils::Shape> rectangle(new occupancy_grid_utils::Rectangle(machines->landmarks[i], g_machineSize, g_margin));
         pShape->add(rectangle);
-        std::shared_ptr<occupancy_grid_utils::Shape> rectangleNoMargin(new occupancy_grid_utils::Rectangle(machines->landmarks[i], g_machineSize, 0));
-        pShapeNoMargin->add(rectangleNoMargin);
 	}
     g_machinesShape = pShape;
-    g_machinesShapeNoMargin = pShapeNoMargin;
-}
-
-bool getMap_service(nav_msgs::GetMap::Request  &req, nav_msgs::GetMap::Response &res)
-{
-    res.map = mapLocalisationWithMachine;
-    return true;
 }

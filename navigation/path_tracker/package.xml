@@ -25,7 +25,6 @@
   <build_depend>robotino_msgs</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
-  <build_depend>pathfinder</build_depend>
   <build_depend>tf</build_depend>
 
   <run_depend>actionlib</run_depend>
@@ -36,7 +35,6 @@
   <run_depend>robotino_msgs</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
-  <run_depend>pathfinder</run_depend>
   <run_depend>tf</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
