@@ -68,7 +68,8 @@
 		<node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py"/>
 
 			<!-- Load the fake final approach -->
-			<node pkg="approche_finale" name="final_approach" type="simFinalApproach_node"/>
+			<!--<node pkg="approche_finale" name="final_approach" type="simFinalApproach_node"/>-->
+			<node pkg="approche_finale" name="final_approach" type="finalApproaching_node"/>
 			<!-- <node pkg="approche_finale" name="final_approach" type="simFinalApproach_node" launch-prefix="xterm -e"/> -->
 
 			<!-- Load the navigation manager -->
