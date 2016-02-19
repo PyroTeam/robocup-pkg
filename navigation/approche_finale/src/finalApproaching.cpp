@@ -89,6 +89,7 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		{
 			usefulInfo = true;
 		}
+		loopRate.sleep();
 	}
 	//loop to find a correct ARTag
 	std::vector<int> allPossibleId = idWanted(teamColor,0/*gameState.getPhase()*/);
@@ -112,6 +113,7 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		float newOrientation = odom.getOrientationZ()-initOrientation;
 		phase = phaseDependingOnOrientation(newOrientation,phase);
 		m_pubMvt.publish(msgTwist);
+		loopRate.sleep();
 	}
 	//lock loop with ARTag camera 
 	while(ros::ok() && !bp.getState() && phase!=3 && avancementArTag==0 && obstacle==false)
@@ -134,6 +136,7 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		}
 		allObstacles = sharps.getObstacle();
 		obstacle = false;//obstacleDetection(allObstacles, k, oz, pz);
+		loopRate.sleep();
 	}
 	ROS_INFO("Waiting a complete laserscan");
 	//lock loop with laserscan
@@ -217,8 +220,8 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 				as.publishFeedback(feedback);
 				ros::spinOnce();
 				ROS_DEBUG("etat du bumper: %d ",bp.getState());
-				loopRate.sleep();
 			}
+			loopRate.sleep();
 		}
 	}
 	//reinitialisation
