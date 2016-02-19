@@ -1,7 +1,6 @@
 var searchData=
 [
   ['path_5ftracker',['Path_tracker',['../dd/dd7/md_navigation_path_tracker_README.html',1,'']]],
-  ['pathfinder',['pathfinder',['../d5/d04/md_navigation_pathfinder_README.html',1,'']]],
   ['parameter_2ecpp',['Parameter.cpp',['../d6/d06/Parameter_8cpp.html',1,'']]],
   ['parameter_2eh',['Parameter.h',['../d0/ddd/Parameter_8h.html',1,'']]],
   ['particulartasksinwork',['particularTasksInWork',['../d5/d62/work_8h.html#af33a4f3e6d58334182620c0b2a0f510b',1,'particularTasksInWork(std::list&lt; std::list&lt; Task &gt; &gt;::iterator &amp;it, int(&amp;availableCap)[2], int &amp;storage, double time):&#160;work.h'],['../d5/d1b/work_8cpp.html#ac76b1cce20c1f8f6c7110f23f013fd48',1,'particularTasksInWork(list&lt; list&lt; Task &gt; &gt;::iterator &amp;it, int(&amp;availableCap)[2], int &amp;storage, double time):&#160;work.cpp']]],
@@ -10,7 +9,6 @@ var searchData=
   ['path_2eh',['Path.h',['../df/d6f/Path_8h.html',1,'']]],
   ['path_5ffinder_5fnode_2ecpp',['path_finder_node.cpp',['../db/d6d/path__finder__node_8cpp.html',1,'']]],
   ['path_5ftracker_5fnode_2ecpp',['path_tracker_node.cpp',['../d2/d22/path__tracker__node_8cpp.html',1,'']]],
-  ['pathfinder_5fnode_2ecpp',['pathfinder_node.cpp',['../de/dd1/pathfinder__node_8cpp.html',1,'']]],
   ['pathplanner',['PathPlanner',['../d9/d45/classPathPlanner.html',1,'PathPlanner'],['../d9/d45/classPathPlanner.html#af8b478fe0f0e66121ee87877d4b95280',1,'PathPlanner::PathPlanner()']]],
   ['pathplanner_2ecpp',['PathPlanner.cpp',['../d4/dbd/PathPlanner_8cpp.html',1,'']]],
   ['pathplanner_2eh',['PathPlanner.h',['../d4/d7c/PathPlanner_8h.html',1,'']]],
@@ -23,8 +21,7 @@ var searchData=
   ['phase_5fsetup',['PHASE_SETUP',['../d2/dde/refBoxUtils_8h.html#a896617de6e1c82953f407789633057d8ab89f9795c446c5d168fc610d9a2d3897',1,'refBoxUtils.h']]],
   ['phasedependingonorientation',['phaseDependingOnOrientation',['../de/da4/classfinalApproaching.html#a9fe35e889d6e1127776632d39f34afc4',1,'finalApproaching']]],
   ['point',['Point',['../dc/d4f/classPoint.html',1,'Point'],['../dc/d4f/classPoint.html#a923301cc6bcdcc0232b23aae67b32364',1,'Point::Point()']]],
-  ['point_2ecpp',['Point.cpp',['../d7/d63/approche__finale_2src_2Point_8cpp.html',1,'']]],
-  ['point_2ecpp',['Point.cpp',['../df/d9c/pathfinder_2src_2Point_8cpp.html',1,'']]],
+  ['point_2ecpp',['Point.cpp',['../d3/d3f/Point_8cpp.html',1,'']]],
   ['point_2eh',['Point.h',['../d4/de5/Point_8h.html',1,'']]],
   ['pointpercomplexity',['pointPerComplexity',['../d6/d9c/classTask.html#a1b8a70cc9eaa1e158025413202ae2e15',1,'Task']]],
   ['pointstate',['PointState',['../d4/d74/classPointState.html',1,'PointState'],['../d4/d74/classPointState.html#a600df1c025b05474de2bd05f71346ccd',1,'PointState::PointState()']]],
