@@ -1,5 +1,0 @@
-<launch>
-
-    <node pkg="pathfinder" name="server" type="server" output="screen" launch-prefix="ddd --args"/>
-
-</launch>
