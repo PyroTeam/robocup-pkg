@@ -11,8 +11,6 @@
 #include "cartographie_utils.h"
 #include "math_functions.h"
 
-#include "EKF_class.h"
-
 using namespace Eigen;
 
 deplacement_msg::Landmarks g_walls;

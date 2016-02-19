@@ -111,7 +111,7 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(
-  landmarks_extraction_node
+  landmarks_extraction
   src/landmarks_extraction_node.cpp
   src/landmarks_detection_utils.cpp
   src/math_functions.cpp
@@ -122,20 +122,20 @@ add_executable(
   src/Segment.cpp
   src/Model.cpp
   src/Machine.cpp)
-set_target_properties(landmarks_extraction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(landmarks_extraction_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+set_target_properties(landmarks_extraction PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(landmarks_extraction deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
-  landmarks_extraction_node
+  landmarks_extraction
   ${catkin_LIBRARIES}
 )
 
 add_executable(
-  odometry_correction_node
+  odometry_correction
   src/odometry_correction_node.cpp)
-set_target_properties(odometry_correction_node PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(odometry_correction_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+set_target_properties(odometry_correction PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(odometry_correction deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
-  odometry_correction_node
+  odometry_correction
   ${catkin_LIBRARIES}
 )
 
@@ -169,29 +169,19 @@ target_link_libraries(
 )
 
 add_executable(
-  ekf_node
+  ekf
   src/ekf_node.cpp
-  src/EKF_class.cpp)
-set_target_properties(ekf_node PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(ekf_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+  src/Ekf.cpp)
+set_target_properties(ekf PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(ekf deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
-  ekf_node
+  ekf
   ${catkin_LIBRARIES}
 )
 
 add_executable(
-  EKF_client
-  src/EKF_client.cpp)
-set_target_properties(EKF_client PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(EKF_client deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
-target_link_libraries(
-  EKF_client
-  ${catkin_LIBRARIES}
-)
-
-add_executable(
-  Cartographie
-  src/Cartographie.cpp
+  cartographie
+  src/cartographie_node.cpp
   src/landmarks_detection_utils.cpp
   src/math_functions.cpp
   src/conversion_functions.cpp
@@ -200,32 +190,22 @@ add_executable(
   src/Machine.cpp
   src/Line.cpp
   src/Model.cpp)
-set_target_properties(Cartographie PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(Cartographie deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+set_target_properties(cartographie PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(cartographie deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
-  Cartographie
+  cartographie
   ${catkin_LIBRARIES}
 )
 
 add_executable(
-  fake_scan_node
+  fake_scan
   src/fake_scan_node.cpp)
-set_target_properties(fake_scan_node PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(fake_scan_node deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+set_target_properties(fake_scan PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(fake_scan deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
-  fake_scan_node
+  fake_scan
   ${catkin_LIBRARIES}
 )
-
-# add_executable(
-# 	tf_broadcaster_node
-#     src/tf_broadcaster_node.cpp
-#     src/tf_broadcaster.cpp 
-# )
-# target_link_libraries(
-# 	tf_broadcaster_node
-#   	${catkin_LIBRARIES}
-# )
 
 
 #############
