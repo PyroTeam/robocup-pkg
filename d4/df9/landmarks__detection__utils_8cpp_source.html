@@ -140,13 +140,13 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        }</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="comment">//on fabrique alors une droite à partir de ces points</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        modele_possible.<a class="code" href="../../d6/d18/classModel.html#a2bc9247bdd12de03224b8cad12bf601f">build</a>(a,b);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        modele_possible.<a class="code" href="../../d6/d18/classModel.html#a589292a0d1e5c53143cd739771e9632e">build</a>(a,b);</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        </div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">//pour tous les points</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">for</span> (std::list&lt;geometry_msgs::Point&gt;::iterator it = listOfPoints.begin(); it != listOfPoints.end(); ++it)</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="comment">//si le point se situe dans le voisinage de la droite du modele_possible</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a>(*it, modele_possible.<a class="code" href="../../d6/d18/classModel.html#adfc2176f74bb2865412505b45f247e91">getLine</a>()) &lt; seuil)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d2/de2/math__functions_8h.html#a53e94fd08016e1a1b2f5e07b5fe1fb14">dist</a>(*it, modele_possible.<a class="code" href="../../d6/d18/classModel.html#adfc2176f74bb2865412505b45f247e91">getLine</a>()) &lt; seuil)</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            {</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="comment">//on ajoute l&#39;indice correspondant à ce point dans la liste d&#39;indices du modele_possible</span></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                modele_possible.<a class="code" href="../../d6/d18/classModel.html#a288ee306a3ae847ef8dde53cc5c151f2">addIndex</a>(it);</div>
@@ -238,7 +238,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordflow">for</span>(std::list&lt;geometry_msgs::Point&gt;::const_iterator it = m.<a class="code" href="../../d6/d18/classModel.html#ad5800f94ab319141fc021ed304378ed3">getPoints</a>().cbegin(); it != m.<a class="code" href="../../d6/d18/classModel.html#ad5800f94ab319141fc021ed304378ed3">getPoints</a>().cend(); ++it)</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    {   </div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <span class="comment">//si les points sont proches</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a>(*it, *previousPoint) &lt; seuil)</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../d2/de2/math__functions_8h.html#a53e94fd08016e1a1b2f5e07b5fe1fb14">dist</a>(*it, *previousPoint) &lt; seuil)</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        {</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <span class="comment">//on sauvegarde ces points dans une liste</span></div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            tmp.push_back(*it);</div>
@@ -246,7 +246,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="comment">//sinon (si on détecte un seuil important)</span></div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">else</span> </div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        {</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a>(tmp.front(), tmp.back()) &gt;= 0.5)</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d2/de2/math__functions_8h.html#a53e94fd08016e1a1b2f5e07b5fe1fb14">dist</a>(tmp.front(), tmp.back()) &gt;= 0.5)</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            {</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                <span class="comment">//on construit un nouveau segment à partir de la liste enregistrée des points qui sont proches</span></div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                s.<a class="code" href="../../d8/ddc/classSegment.html#a0cfcb403d7848a045c83946de28a8248">build</a>(tmp);</div>
@@ -263,7 +263,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="comment">//pour le dernier point, le seuil ne pouvant plus être dépassé,</span></div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="comment">//on construit le dernier segment et on l&#39;ajoute</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordflow">if</span> (tmp.size() &gt;= 2 &amp;&amp; <a class="code" href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a>(tmp.front(), tmp.back()) &gt;= 0.5)</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordflow">if</span> (tmp.size() &gt;= 2 &amp;&amp; <a class="code" href="../../d2/de2/math__functions_8h.html#a53e94fd08016e1a1b2f5e07b5fe1fb14">dist</a>(tmp.front(), tmp.back()) &gt;= 0.5)</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    {</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="comment">//on construit un nouveau segment à partir de la liste enregistrée des points qui sont proches</span></div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        s.<a class="code" href="../../d8/ddc/classSegment.html#a0cfcb403d7848a045c83946de28a8248">build</a>(tmp);</div>
@@ -289,7 +289,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">return</span> listOfSegments;</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
-<div class="ttc" id="classModel_html_a2bc9247bdd12de03224b8cad12bf601f"><div class="ttname"><a href="../../d6/d18/classModel.html#a2bc9247bdd12de03224b8cad12bf601f">Model::build</a></div><div class="ttdeci">void build(geometry_msgs::Point a, geometry_msgs::Point b)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00077">Model.cpp:77</a></div></div>
+<div class="ttc" id="classModel_html_a589292a0d1e5c53143cd739771e9632e"><div class="ttname"><a href="../../d6/d18/classModel.html#a589292a0d1e5c53143cd739771e9632e">Model::build</a></div><div class="ttdeci">void build(const geometry_msgs::Point &amp;a, const geometry_msgs::Point &amp;b)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00077">Model.cpp:77</a></div></div>
 <div class="ttc" id="classModel_html_a8976f84f757eb3cd68b2aa7eeb5a345f"><div class="ttname"><a href="../../d6/d18/classModel.html#a8976f84f757eb3cd68b2aa7eeb5a345f">Model::update</a></div><div class="ttdeci">void update()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00082">Model.cpp:82</a></div></div>
 <div class="ttc" id="landmarks__detection__utils_8cpp_html_a97b9f3e03bc6f2cbc2e859af9cdc7dfa"><div class="ttname"><a href="../../d4/df9/landmarks__detection__utils_8cpp.html#a97b9f3e03bc6f2cbc2e859af9cdc7dfa">buildSegmentsFromOneModel</a></div><div class="ttdeci">std::list&lt; Segment &gt; buildSegmentsFromOneModel(Model m, double seuil)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00138">landmarks_detection_utils.cpp:138</a></div></div>
 <div class="ttc" id="Model_8h_html"><div class="ttname"><a href="../../d3/d5a/Model_8h.html">Model.h</a></div></div>
@@ -304,16 +304,16 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classModel_html_a885838eba35afa704b12ade25c41040b"><div class="ttname"><a href="../../d6/d18/classModel.html#a885838eba35afa704b12ade25c41040b">Model::linReg</a></div><div class="ttdeci">void linReg()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00063">Model.cpp:63</a></div></div>
 <div class="ttc" id="landmarks__detection__utils_8h_html"><div class="ttname"><a href="../../d0/d57/landmarks__detection__utils_8h.html">landmarks_detection_utils.h</a></div></div>
 <div class="ttc" id="classSegment_html"><div class="ttname"><a href="../../d8/ddc/classSegment.html">Segment</a></div><div class="ttdoc">classe représentant un segment d environ 70 cm </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00018">Segment.h:18</a></div></div>
-<div class="ttc" id="math__functions_8h_html_ae4264d4880bb948b54372cf921c51140"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html#ae4264d4880bb948b54372cf921c51140">dist</a></div><div class="ttdeci">double dist(geometry_msgs::Point a, Line d)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d90/math__functions_8cpp_source.html#l00003">math_functions.cpp:3</a></div></div>
 <div class="ttc" id="cv__utils_8h_html_a339d22b3e442946380f98ed19e320db2"><div class="ttname"><a href="../../de/dcc/cv__utils_8h.html#a339d22b3e442946380f98ed19e320db2">s</a></div><div class="ttdeci">int s</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d5c/cv__utils_8cpp_source.html#l00016">cv_utils.cpp:16</a></div></div>
 <div class="ttc" id="math__functions_8h_html"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html">math_functions.h</a></div></div>
 <div class="ttc" id="classSegment_html_a0cfcb403d7848a045c83946de28a8248"><div class="ttname"><a href="../../d8/ddc/classSegment.html#a0cfcb403d7848a045c83946de28a8248">Segment::build</a></div><div class="ttdeci">void build(const std::list&lt; geometry_msgs::Point &gt; &amp;points)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d70/localisation_2src_2Segment_8cpp_source.html#l00082">Segment.cpp:82</a></div></div>
+<div class="ttc" id="math__functions_8h_html_a53e94fd08016e1a1b2f5e07b5fe1fb14"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html#a53e94fd08016e1a1b2f5e07b5fe1fb14">dist</a></div><div class="ttdeci">double dist(const geometry_msgs::Point &amp;a, const Line &amp;d)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d90/math__functions_8cpp_source.html#l00003">math_functions.cpp:3</a></div></div>
 <div class="ttc" id="landmarks__detection__utils_8cpp_html_aa5ce15aac32476187bd5a9b153b38eb9"><div class="ttname"><a href="../../d4/df9/landmarks__detection__utils_8cpp.html#aa5ce15aac32476187bd5a9b153b38eb9">findLines</a></div><div class="ttdeci">std::list&lt; Model &gt; findLines(const std::list&lt; geometry_msgs::Point &gt; &amp;listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list&lt; geometry_msgs::Point &gt; &amp;l)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/df9/landmarks__detection__utils_8cpp_source.html#l00100">landmarks_detection_utils.cpp:100</a></div></div>
 <div class="ttc" id="conversion__functions_8h_html"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html">conversion_functions.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 19 2016 22:00:00 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 19 2016 22:21:13 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
