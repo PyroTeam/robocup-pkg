@@ -275,7 +275,7 @@ def callbackOdom(data):
         #orienation finale
         (lastRoll, lastPitch, lastYaw) = euler_from_quaternion_msg(g_path[-1].pose.orientation)
         err = normalizeAngle(lastYaw - pose.theta)
-        if (abs(err) < 0.01):
+        if (abs(err) < 0.05):
             g_pathFinished = True
         else:
             cmdVel_msg.angular.z = g_anglePID.update(err)

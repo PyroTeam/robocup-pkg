@@ -41,7 +41,7 @@ void ArTagFA::artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& m
 
 ArTagFA::ArTagFA()
 {
-	m_arTagSub = m_nh.subscribe("computerVision/ar_pose_marker",1000,&ArTagFA::artagCallback,this);        
+	m_arTagSub = m_nh.subscribe("ar_pose_marker",1000,&ArTagFA::artagCallback,this);        
 }
 
 std::vector<int> ArTagFA::getId()
