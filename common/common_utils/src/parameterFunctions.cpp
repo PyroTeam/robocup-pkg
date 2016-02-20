@@ -1,5 +1,5 @@
 /**
- * \file        common_utils/Parameter.cpp
+ * \file
  *
  * \brief
  *
@@ -10,7 +10,7 @@
  * \version
  */
 
-#include "common_utils/Parameter.h"
+#include "common_utils/parameterFunctions.h"
 #include <ros/ros.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Pose2D.h>

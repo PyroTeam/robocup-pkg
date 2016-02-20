@@ -22,7 +22,7 @@
 #include "occupancy_grid_utils/grid_modifier/BasicGradientModifier.h"
 #include "occupancy_grid_utils/grid_modifier/FastGradientModifier.h"
 
-#include "common_utils/Parameter.h"
+#include "common_utils/parameterFunctions.h"
 #include "geometry_utils/geometry_utils.h"
 #include "geometry_msgs/Pose2D.h"
 #include "deplacement_msg/Landmarks.h"

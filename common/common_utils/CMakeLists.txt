@@ -123,7 +123,7 @@ include_directories(
 
 ## Declare a C++ library
 add_library(common_utils
-  src/Parameter.cpp
+  src/parameterFunctions.cpp
 )
 
 ## Add cmake target dependencies of the library
