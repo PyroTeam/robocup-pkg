@@ -40,7 +40,7 @@ const std::list<geometry_msgs::Point> &Model::getPoints() const
 	return m_points;
 }
 
-void Model::addPoint(geometry_msgs::Point point)
+void Model::addPoint(const geometry_msgs::Point &point)
 {
 	m_points.push_back(point);
 }
@@ -55,7 +55,7 @@ void Model::addIndex(std::list<geometry_msgs::Point>::iterator &it)
 	m_index.push_back(it);
 }
 
-void Model::setLine(Line line)
+void Model::setLine(const Line &line)
 {
 	m_line = line;
 }
@@ -74,7 +74,7 @@ void Model::linReg()
 	m_line.set(pt);
 }
 
-void Model::build(geometry_msgs::Point a, geometry_msgs::Point b)
+void Model::build(const geometry_msgs::Point &a, const geometry_msgs::Point &b)
 {
   	m_line.build(pointToPose2D(a),pointToPose2D(b));
 }

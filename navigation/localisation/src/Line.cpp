@@ -12,17 +12,17 @@ Line::~Line()
 
 }
 
-geometry_msgs::Pose2D Line::getPoint()
+geometry_msgs::Pose2D Line::getPoint() const
 {
 	return m_point;
 }
 
-double Line::getAngle()
+double Line::getAngle() const
 {
 	return m_point.theta;
 }
 
-double Line::getSlope()
+double Line::getSlope() const
 {
 	return tan(m_point.theta);
 }

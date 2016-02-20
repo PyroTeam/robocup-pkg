@@ -5,9 +5,9 @@
 
 int main(int argc, char** argv)
 {
-	ROS_INFO("Starting node fake_scan_node");
+	ROS_INFO("Starting node FakeScan_node");
 	//Initialisation du noeud ROS
-	ros::init(argc, argv, "fake_scan_node");
+	ros::init(argc, argv, "FakeScan_node");
 	ros::NodeHandle n;
 	//on publie un scan laser sur le topic /fake_scan
 	ros::Publisher pub_scan = n.advertise<sensor_msgs::LaserScan>("hardware/fake_scan", 1000);

@@ -20,10 +20,8 @@
 
 #include "deplacement_msg/MoveToPoseAction.h"
 #include "deplacement_msg/TrackPathAction.h"
-#include "pathfinder/GeneratePath.h"
 
 #include "nav_msgs/Odometry.h"
-#include "pathfinder/AstarPath.h"
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Pose2D.h"
 
@@ -32,7 +30,6 @@ class MoveToPose
 	private:
 	    ros::Subscriber m_pathSub;
 	    actionlib::SimpleActionClient<deplacement_msg::TrackPathAction> m_trackPathAction;
-	    ros::ServiceClient m_generatePathClient;
 	    ros::Subscriber m_odomSub;
 	    ros::Subscriber m_sharpSensorSub;
 
@@ -72,7 +69,6 @@ class MoveToPose
 			m_pathId = 0;
 			m_odomSub = m_nh.subscribe("hardware/odom", 1000, &MoveToPose::PoseCallback, this);
 			m_sharpSensorSub = m_nh.subscribe("hardware/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
-			m_generatePathClient = m_nh.serviceClient<pathfinder::GeneratePath>("navigation/generatePath");
 			m_as.start();
 	    }
 

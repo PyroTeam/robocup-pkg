@@ -1,13 +1,24 @@
 #ifndef CARTOGRAPHIE_H
 #define CARTOGRAPHIE_H
 
-#include "geometry_msgs/Pose2D.h"
-#include "geometry_msgs/Point.h"
-#include "deplacement_msg/Landmarks.h"
+#include <ros/ros.h>
+#include <tf/transform_datatypes.h>
+#include <visualization_msgs/Marker.h>
 #include "Machine.h"
 #include "Segment.h"
+#include "Ekf.h"
+
 #include "landmarks_detection_utils.h"
 #include "conversion_functions.h"
+#include "math_functions.h"
+
+#include "geometry_msgs/Point.h"
+#include "geometry_msgs/Pose2D.h"
+#include "deplacement_msg/Landmarks.h"
+
+#include <Eigen/Dense>
+#include <vector>
+#include <cmath>
 
 int getZone(geometry_msgs::Pose2D m);
 

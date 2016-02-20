@@ -34,7 +34,7 @@ class ExploInfoSubscriber
     void interpretationFeu();
     std::string type;
     uint8_t zone;
-    std::vector<comm_msg::LightSpec> lSpec;
+    std::vector<comm_msg::LightSpec> m_lSpec;
     std::vector<comm_msg::ExplorationSignal>  m_signals;
     std::vector<comm_msg::ExplorationZone>  m_zones;
     ros::Subscriber m_sub;

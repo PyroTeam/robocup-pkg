@@ -4,7 +4,7 @@ FeuClientAction::FeuClientAction() {}
 
 FeuClientAction::~FeuClientAction(){}
 
-void FeuClientAction::lightsStates(std::vector<comm_msg::LightSpec> &m_lightSpec)
+void FeuClientAction::lightsStates(std::vector<comm_msg::LightSpec> &lightSpec)
 {
 	int i=0;
 
@@ -26,9 +26,9 @@ void FeuClientAction::lightsStates(std::vector<comm_msg::LightSpec> &m_lightSpec
 	{
 		actionlib::SimpleClientGoalState state = client.getState();
 		ROS_INFO("Action finished : %s ",state.toString().c_str());
-		m_lightSpec = client.getResult()->light_signal;
-		/*for(i = 0 ; i < m_lightSpec.size() ; i++){
-		 	ROS_INFO("color : %d , state : %d",m_lightSpec[i].color,m_lightSpec[i].state);
+		lightSpec = client.getResult()->light_signal;
+		/*for(i = 0 ; i < lightSpec.size() ; i++){
+		 	ROS_INFO("color : %d , state : %d",lightSpec[i].color,lightSpec[i].state);
 		}*/
 
 	}
