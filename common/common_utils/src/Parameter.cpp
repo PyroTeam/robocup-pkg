@@ -12,45 +12,47 @@
 
 #include "Parameter.h"
 
-Parameter::Parameter(ros::NodeHandle nh, std::string fullName)
+Parameter::Parameter(ros::NodeHandle nh, std::string name, float defaultValue)
 : m_nh(nh)
-, m_fullName(fullName)
-, m_mode(FORCE_REFRESH)
+, m_defaultValue(defaultValue)
+, m_useDefault(false)
 {
-	// TODO
+	m_fullName = m_nh.resolveName(name);
+	ROS_DEBUG("Construct %s parameter object", m_fullName.c_str());
+
+	if (!m_nh.hasParam(m_fullName))
+	{
+		ROS_WARN("Unable to find %s parameter. Will use default value : %f"
+			, m_fullName.c_str(), m_defaultValue);
+		m_useDefault = true;
+	}
 }
 
 Parameter::~Parameter(void)
 {
-	// TODO
+	ROS_DEBUG("Destroy %s parameter object", m_fullName.c_str());
 }
 
 float Parameter::get(void)
 {
-	// TODO
+	double tmp_value;
+	if (!m_useDefault)
+	{
+		if (!m_nh.getParamCached(m_fullName, tmp_value))
+		{
+			ROS_WARN("Unable to get %s parameter. Fallback on default value : %f"
+				, m_fullName.c_str(), m_defaultValue);
+			m_useDefault = true;
+			return m_defaultValue;
+		}
 
-	return 0.0;
+		return (float)tmp_value;
+	}
+
+	return m_defaultValue;
 }
 
 float Parameter::operator()(void)
 {
-	//TODO
-
 	return this->get();
-}
-
-void Parameter::refresh(void)
-{
-	//TODO
-
-}
-
-void Parameter::setMode(parameterCacheMode_t mode)
-{
-
-}
-
-parameterCacheMode_t Parameter::getMode(void)
-{
-
 }
