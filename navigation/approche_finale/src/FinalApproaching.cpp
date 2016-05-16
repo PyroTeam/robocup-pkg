@@ -1,54 +1,62 @@
+#include "FinalApproaching.h"
+
+#include "Bumperlistener.h"
+#include "fa_utils.h"
+#include "LaserScan.h"
+#include "Point.h"
+#include "ArTagFA.h"
+#include "OdomFA.h"
+#include "Sharps.h"
+#include "GameStateFA.h"
+
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
-#include <manager_msg/finalApproachingAction.h>
-#include "approche_finale_msg/plotDataFA.h"
+#include <ar_track_alvar_msgs/AlvarMarkers.h>
 #include <visualization_msgs/Marker.h>
+#include <sensor_msgs/PointCloud.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose2D.h>
-#include <ar_track_alvar_msgs/AlvarMarkers.h>
-#include <sensor_msgs/PointCloud.h>
+
+#include <manager_msg/FinalApproachingAction.h>
+#include <approche_finale_msg/plotDataFA.h>
+
 #include <cmath>
 #include <vector>
 #include <list>
 
-#include "finalApproaching.h"
-#include "bumperlistener.h"
-#include "fa_utils.h"
-#include "laserScan.h"
-#include "Point.h"
-#include "arTagFA.h"
-#include "odomFA.h"
-#include "sharps.h"
-#include "gameStateFA.h"
+FinalApproaching::~FinalApproaching(void){}
 
-finalApproaching::~finalApproaching(void){}
-
-void finalApproaching::preemptCB()
+void FinalApproaching::preemptCB()
 {
 	ROS_INFO("%s: Preempted", actionName.c_str());
 	// set the action state to preempted
 	as.setPreempted();
 }
 
-void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr &goal)
+void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr &goal)
 {
 	ros::Rate loopRate(100);
 	m_pubMvt = nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel",1000);
 	m_plot  = nh.advertise<approche_finale_msg::plotDataFA>("rosplot/plotDataFA",1000);
 	approche_finale_msg::plotDataFA plotData;
-	//general initialisation
+
+	// General initialization
 	bool success = true;
 	feedback.percent_complete = 0;
 	geometry_msgs::Twist msgTwist;
 	bool usefulInfo = false;
-	//initialisation for bumper
+
+	// BumperListener
 	BumperListener bp;
-	//initialisation for odometry
+
+	// Odom
 	OdomFA odom;
+
 	float initOrientation = odom.getOrientationZ();
 	bool initOdom = false;
-	//initialisation for ARTag
+
+	// ARTag
 	ArTagFA at;
 	int k=-1;
 	int phase = 0;
@@ -58,22 +66,27 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 	std::vector<float> pz = at.getPositionZ();
 	std::vector<float> oz = at.getOrientationZ();
 	std::vector<float> arTagDistance = at.getDistance();
-	//initialisation for sharps
+
+	// Sharps
 	Sharps sharps;
 	bool obstacle = false;
 	std::vector<bool> allObstacles = sharps.getObstacle();
-	//initialisation for team and game phase
+
+	// GameState
 	GameStateFA gameState;
 	int teamColor;
 	nh.param<int>("teamColor",teamColor,0);
-	//initialisation for laserscan
-	laserScan ls;
+
+	// LaserScan
+	LaserScan ls;
 	int a=0, b=0, c=0, cpt=0;
 	float positionY=0, gradient=0, ortho=0, moyY=0, moyO=0;
     int j = 0;
     std::list<float> listPositionY, listOrtho;
+
+
     //to get goal action   		  
-	ROS_INFO("%s: Executing, creating finalApproaching sequence of type %i with side %i and parameter %i", actionName.c_str(), goal->type, goal->side,goal->parameter);
+	ROS_INFO("%s: Executing, creating FinalApproaching sequence of type %i with side %i and parameter %i", actionName.c_str(), goal->type, goal->side,goal->parameter);
 	m_type = goal->type;
 	m_side = goal->side;
 	m_parameter = goal->parameter;
@@ -132,7 +145,7 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 			k=correspondingId(allPossibleId,at.getId(),at.getDistance());
 			ROS_DEBUG("taille de px: %d de pz: %d de oz: %d et valeur de k: %d",
 			          (int)px.size(),(int)pz.size(),(int)oz.size(),k);
-			avancementArTag=finalApproaching::asservissementCamera(px,pz,oz,k);
+			avancementArTag=FinalApproaching::asservissementCamera(px,pz,oz,k);
 		}
 		allObstacles = sharps.getObstacle();
 		obstacle = false;//obstacleDetection(allObstacles, k, oz, pz);
@@ -275,7 +288,7 @@ void finalApproaching::executeCB(const manager_msg::finalApproachingGoalConstPtr
 }
 
 
-int finalApproaching::avancement(int a, int b, int c)
+int FinalApproaching::avancement(int a, int b, int c)
 {
 	int tmp=-20;
 	if(c==2)
@@ -304,27 +317,27 @@ int finalApproaching::avancement(int a, int b, int c)
 }
 
 
-float finalApproaching::objectifY()
+float FinalApproaching::objectifY()
 {
 	float tmp=0;
 	switch(m_parameter)
 	{
-		case manager_msg::finalApproachingGoal::S1 :
+		case manager_msg::FinalApproachingGoal::S1 :
 			tmp = 0.28; break;
-		case manager_msg::finalApproachingGoal::S2 :
+		case manager_msg::FinalApproachingGoal::S2 :
 			tmp = 0.175; break;
-		case manager_msg::finalApproachingGoal::S3 :
+		case manager_msg::FinalApproachingGoal::S3 :
 			tmp = 0.08; break;
-		case manager_msg::finalApproachingGoal::LANE_RS :
+		case manager_msg::FinalApproachingGoal::LANE_RS :
 				tmp = 0.09; break;
-		case manager_msg::finalApproachingGoal::LIGHT :
+		case manager_msg::FinalApproachingGoal::LIGHT :
 			tmp = 0.35; break;
-		case manager_msg::finalApproachingGoal::CONVEYOR :
+		case manager_msg::FinalApproachingGoal::CONVEYOR :
 			switch(m_side)
 			{
-				case manager_msg::finalApproachingGoal::IN :
+				case manager_msg::FinalApproachingGoal::IN :
 					tmp = 0.37; break;
-				case manager_msg::finalApproachingGoal::OUT :
+				case manager_msg::FinalApproachingGoal::OUT :
 					tmp = 0.315; break;
 			}
 		default: break;
@@ -332,10 +345,10 @@ float finalApproaching::objectifY()
 	return tmp;
 }
 
-float finalApproaching::objectifX()
+float FinalApproaching::objectifX()
 {
 	float tmp = 0;
-	if(m_parameter == manager_msg::finalApproachingGoal::LIGHT)
+	if(m_parameter == manager_msg::FinalApproachingGoal::LIGHT)
 	{
 		tmp = 0.35;
 	}
@@ -346,7 +359,7 @@ float finalApproaching::objectifX()
 	return tmp;
 }
 
-std::list<std::vector<Point> > finalApproaching::objectsConstruction(std::vector<float> ranges, float angleMin, double angleInc, float rangeMin, float rangeMax)
+std::list<std::vector<Point> > FinalApproaching::objectsConstruction(std::vector<float> ranges, float angleMin, double angleInc, float rangeMin, float rangeMax)
 {
 	std::list<std::vector<Point> > tabPoints;
 	Point p0(ranges[0],angleMin);
@@ -386,7 +399,7 @@ std::list<std::vector<Point> > finalApproaching::objectsConstruction(std::vector
 }
 
 
-std::vector<Segment> finalApproaching::segmentsConstruction(std::list<std::vector<Point> > tabPoints, std::vector<float> ranges, float angleMin, double angleInc)
+std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vector<Point> > tabPoints, std::vector<float> ranges, float angleMin, double angleInc)
 {
 	std::vector<Segment> tabSegments;
 	std::list<std::vector<Point> >::iterator it;
@@ -439,7 +452,7 @@ std::vector<Segment> finalApproaching::segmentsConstruction(std::list<std::vecto
 	return tabSegments;
 }
 
-float finalApproaching::objectLength(int i, int j,std::list<std::vector<Point> > tabPoints,std::vector<float> ranges, float angleMin, double angleInc)
+float FinalApproaching::objectLength(int i, int j,std::list<std::vector<Point> > tabPoints,std::vector<float> ranges, float angleMin, double angleInc)
 {
 	std::list<std::vector<Point> >::iterator it = tabPoints.begin();
 	int compteur=0;
@@ -463,7 +476,7 @@ float finalApproaching::objectLength(int i, int j,std::list<std::vector<Point> >
 	}
 }
 
-int finalApproaching::nearestSegment(std::vector<Segment> tabSegments, std::vector<float> ranges)
+int FinalApproaching::nearestSegment(std::vector<Segment> tabSegments, std::vector<float> ranges)
 {
 	int nearest=0;
 	std::vector<Segment>::iterator it;
@@ -480,7 +493,7 @@ int finalApproaching::nearestSegment(std::vector<Segment> tabSegments, std::vect
 }
 
 //condition préalable: la machine est a 90° du laser
-float finalApproaching::distanceOrtho(Segment s,std::vector<float> ranges,float angleMin, double angleInc)
+float FinalApproaching::distanceOrtho(Segment s,std::vector<float> ranges,float angleMin, double angleInc)
 {
 	float ortho=0.0;
 	int min = s.getMinRanges();
@@ -516,7 +529,7 @@ float finalApproaching::distanceOrtho(Segment s,std::vector<float> ranges,float 
 	return ortho;	
 }
 
-float finalApproaching::positionYLaser(Segment s,std::vector<float> ranges, float angleMin, double angleInc)
+float FinalApproaching::positionYLaser(Segment s,std::vector<float> ranges, float angleMin, double angleInc)
 {
 	/*
 	int tmp = 0;
@@ -562,7 +575,7 @@ float finalApproaching::positionYLaser(Segment s,std::vector<float> ranges, floa
 	//return (left.y-segmentSize+right.y)/(float)2;
 }
 
-std::vector<int> finalApproaching::idWanted(int team,int phase)
+std::vector<int> FinalApproaching::idWanted(int team,int phase)
 {
 	std::vector<int> tabId;
 	//exploration phase
@@ -650,7 +663,7 @@ std::vector<int> finalApproaching::idWanted(int team,int phase)
 	return tabId;
 }
 
-int finalApproaching::correspondingId(std::vector<int> allPossibleId,std::vector<int> arTagId,std::vector<float> arTagDistance)
+int FinalApproaching::correspondingId(std::vector<int> allPossibleId,std::vector<int> arTagId,std::vector<float> arTagDistance)
 {
 	int correspondingId = -1;
 	std::vector<int> ids;
@@ -687,7 +700,7 @@ int finalApproaching::correspondingId(std::vector<int> allPossibleId,std::vector
 	return correspondingId;
 }
 
-int finalApproaching::asservissementCamera(std::vector<float> px, std::vector<float> pz, std::vector<float> oz,int k)
+int FinalApproaching::asservissementCamera(std::vector<float> px, std::vector<float> pz, std::vector<float> oz,int k)
 {
 	int avancementArTag=0;
 	geometry_msgs::Twist msgTwist;
@@ -732,7 +745,7 @@ int finalApproaching::asservissementCamera(std::vector<float> px, std::vector<fl
 	return avancementArTag;
 }
 
-float finalApproaching::cameraScanVelocity(int phase)
+float FinalApproaching::cameraScanVelocity(int phase)
 {
 	float tmp;
 	switch(phase)
@@ -752,7 +765,7 @@ float finalApproaching::cameraScanVelocity(int phase)
 	return tmp;
 }
 
-int finalApproaching::phaseDependingOnOrientation(float newOrientation, int phase)
+int FinalApproaching::phaseDependingOnOrientation(float newOrientation, int phase)
 {
 	//to have newOrientation between -PI and PI
 	if(newOrientation<-M_PI)
@@ -776,7 +789,7 @@ int finalApproaching::phaseDependingOnOrientation(float newOrientation, int phas
 	return phase;
 }
 
-bool finalApproaching::obstacleDetection(std::vector<bool> allObstacles,int k,std::vector<float> oz,std::vector<float> pz)
+bool FinalApproaching::obstacleDetection(std::vector<bool> allObstacles,int k,std::vector<float> oz,std::vector<float> pz)
 {
 	bool obstacle = false;
 	if(k!=-1 && oz.size()>0 && pz.size()>0)

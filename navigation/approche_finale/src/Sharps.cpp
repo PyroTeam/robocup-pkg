@@ -1,7 +1,9 @@
-#include "sharps.h"
+#include "Sharps.h"
+
 #include <ros/ros.h>
-#include <vector>
 #include <sensor_msgs/PointCloud.h>
+
+#include <vector>
 
 void Sharps::sharpsCallback(const sensor_msgs::PointCloud &msg)
 {

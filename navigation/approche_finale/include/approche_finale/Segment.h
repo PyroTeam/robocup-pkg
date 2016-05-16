@@ -11,9 +11,11 @@
 #define SEGMENT_H
 
 #include "Point.h"
-#include <vector>
+
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/Point.h>
+
+#include <vector>
 
 class Segment{
 

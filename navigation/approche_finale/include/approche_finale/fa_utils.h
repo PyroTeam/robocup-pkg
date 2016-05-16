@@ -9,12 +9,15 @@
 #ifndef FA_UTILS_H
 #define FA_UTILS_H
 
-#include <ros/ros.h>
-#include <vector>
 #include "Point.h"
-#include "approche_finale_msg/plotDataFA.h"
-#include "geometry_msgs/Point.h"
-#include "geometry_msgs/Pose2D.h"
+
+#include <ros/ros.h>
+#include <geometry_msgs/Point.h>
+#include <geometry_msgs/Pose2D.h>
+
+#include <approche_finale_msg/plotDataFA.h>
+
+#include <vector>
 
 
 geometry_msgs::Point orthoProjection(Point p, geometry_msgs::Pose2D p2d);

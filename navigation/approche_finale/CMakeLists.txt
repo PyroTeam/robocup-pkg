@@ -46,15 +46,15 @@ catkin_package(
 ## FinalApproaching_node
 add_executable(finalApproaching_node 
 	src/fa_utils.cpp
-	src/laserScan.cpp
+	src/LaserScan.cpp
 	src/Point.cpp
 	src/Segment.cpp
-	src/finalApproaching.cpp
-	src/bumperlistener.cpp
-	src/arTagFA.cpp
-	src/odomFA.cpp
-	src/sharps.cpp
-	src/gameStateFA.cpp
+	src/FinalApproaching.cpp
+	src/Bumperlistener.cpp
+	src/ArTagFA.cpp
+	src/OdomFA.cpp
+	src/Sharps.cpp
+	src/GameStateFA.cpp
 	src/finalApproaching_node.cpp
 )
 target_link_libraries(finalApproaching_node
@@ -72,10 +72,10 @@ set_target_properties(finalApproaching_node
 
 
 # Mocked final approach (work on simulation, with mocked machine detection)
-add_executable(simFinalApproach_node 
+add_executable(simFinalApproach_node
 	src/simFinalApproach_node.cpp
 	src/SimFinalApproach.cpp
-	src/odomFA.cpp
+	src/OdomFA.cpp
 )
 target_link_libraries(simFinalApproach_node
 	${catkin_LIBRARIES}
@@ -97,7 +97,7 @@ target_link_libraries(
 	${catkin_LIBRARIES}
 )
 set_target_properties(fake_scan_cyril_node
-	PROPERTIES COMPILE_FLAG "-g3 -std=c++11"
+	PROPERTIES COMPILE_FLAG "-g3 -std=c++0x"
 )
 
 # AR Tag reader node

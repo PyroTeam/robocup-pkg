@@ -1,19 +1,19 @@
 #ifndef __APPROCHE_FINALE__SIM_FINAL_APPROACH__HEADER__
 #define __APPROCHE_FINALE__SIM_FINAL_APPROACH__HEADER__
 
+#include "OdomFA.h"
+
 // Ros
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
 #include <geometry_msgs/Twist.h>
 
-// Stl
-#include <vector>
-
 // Ours
 #include <manager_msg/finalApproachingAction.h>
 #include <deplacement_msg/Landmarks.h>
 
-#include "odomFA.h"
+// Stl
+#include <vector>
 
 class SimFinalApproach
 {

@@ -1,16 +1,19 @@
+#include "fa_utils.h"
+
+#include "Point.h"
+
+#include <ros/ros.h>
+#include <geometry_msgs/Twist.h>
+#include <geometry_msgs/Point.h>
+#include <geometry_msgs/Pose2D.h>
+
+#include <approche_finale_msg/plotDataFA.h>
+
 #include <cmath>
 #include <vector>
 #include <functional>
-#include <ros/ros.h>
 #include <math.h>
 #include <iostream>
-
-#include "fa_utils.h"
-#include "Point.h"
-#include "geometry_msgs/Twist.h"
-#include "approche_finale_msg/plotDataFA.h"
-#include "geometry_msgs/Point.h"
-#include "geometry_msgs/Pose2D.h"
 
 geometry_msgs::Point orthoProjection(Point p, geometry_msgs::Pose2D p2d)
 {

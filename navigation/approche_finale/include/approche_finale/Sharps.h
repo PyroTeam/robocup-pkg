@@ -11,8 +11,9 @@
 #define SHARPS_H
 
 #include <ros/ros.h>
+#include <sensor_msgs/PointCloud.h>
+
 #include <vector>
-#include "sensor_msgs/PointCloud.h"
 
 class Sharps 
 {

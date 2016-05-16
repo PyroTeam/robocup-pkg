@@ -1,7 +1,9 @@
-#include "arTagFA.h"
+#include "ArTagFA.h"
+
 #include <ros/ros.h>
+#include <ar_track_alvar_msgs/AlvarMarkers.h>
+
 #include <vector>
-#include "ar_track_alvar_msgs/AlvarMarkers.h"
 
 void ArTagFA::artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg)
 {

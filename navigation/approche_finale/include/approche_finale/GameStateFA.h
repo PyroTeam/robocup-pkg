@@ -11,7 +11,8 @@
 #define GAMESTATE_FA_H
 
 #include <ros/ros.h>
-#include "comm_msg/GameState.h" 
+
+#include <comm_msg/GameState.h>
 
 class GameStateFA
 {

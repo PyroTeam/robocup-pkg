@@ -1,12 +1,15 @@
 #include "Segment.h"
+
 #include "Point.h"
 #include "fa_utils.h"
-#include <math.h>
-#include <cmath>
-#include <vector>
+
 #include <ros/ros.h>
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/Point.h>
+
+#include <math.h>
+#include <cmath>
+#include <vector>
 
 Segment::Segment(){}
 

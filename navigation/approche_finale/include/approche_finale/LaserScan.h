@@ -1,26 +1,27 @@
 /**
- * \file 			laserScan.h
- * \class			laserScan
+ * \file 			LaserScan.h
+ * \class			LaserScan
  * \brief			classe traitnt les infos du laser 
  * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date			2015-04-20
  * \copyright		PyroTeam, Polytech-Lille
  */
 
-#ifndef laserScan_H
-#define laserScan_H
+#ifndef LASERSCAN_H
+#define LASERSCAN_H
 
 #include <ros/ros.h>
+#include <sensor_msgs/LaserScan.h>
+
 #include <vector>
-#include "sensor_msgs/LaserScan.h"
 
 
-class laserScan
+class LaserScan
 {
 	public:
 
-		laserScan();
-		~laserScan();
+		LaserScan();
+		~LaserScan();
 		
 		void laserCallback(const sensor_msgs::LaserScanConstPtr& scan);
 		

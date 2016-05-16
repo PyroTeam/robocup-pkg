@@ -1,22 +1,18 @@
+#include "SimFinalApproach.h"
+
 #include <ros/ros.h>
-
 #include <actionlib/server/simple_action_server.h>
-
-
+#include <ar_track_alvar_msgs/AlvarMarkers.h>
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose2D.h>
-#include <ar_track_alvar_msgs/AlvarMarkers.h>
 
-#include <manager_msg/finalApproachingAction.h>
+#include <manager_msg/FinalApproachingAction.h>
 
 #include <cmath>
 #include <vector>
 #include <list>
-
-#include "SimFinalApproach.h"
-
 
 
 SimFinalApproach::SimFinalApproach(std::string name):

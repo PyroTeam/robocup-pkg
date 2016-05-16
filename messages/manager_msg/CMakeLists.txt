@@ -77,7 +77,7 @@ FILES
    DIRECTORY
    action
    FILES
-   finalApproaching.action
+   FinalApproaching.action
 #   Action2.action
  )
 

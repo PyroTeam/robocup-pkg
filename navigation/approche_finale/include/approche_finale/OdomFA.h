@@ -11,9 +11,9 @@
 #define ODOM_FA_H
 
 #include <ros/ros.h>
-#include "nav_msgs/Odometry.h"
+#include <nav_msgs/Odometry.h>
 
-class OdomFA 
+class OdomFA
 {
 	public:
 		OdomFA();

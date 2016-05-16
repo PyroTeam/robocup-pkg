@@ -1,9 +1,10 @@
-#include "gameStateFA.h"
+#include "GameStateFA.h"
+
 #include <ros/ros.h>
 
-#include "comm_msg/GameState.h" 
+#include <comm_msg/GameState.h>
 
-void GameStateFA::gameStateFACallback(const comm_msg::GameState &msg) 
+void GameStateFA::gameStateFACallback(const comm_msg::GameState &msg)
 {
 	m_already = true;
 	m_state=msg.state;

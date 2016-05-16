@@ -1,6 +1,6 @@
 /**
- * \file 			finalApproaching.h
- * \class			finalApproaching
+ * \file 			FinalApproaching.h
+ * \class			FinalApproaching
  * \brief			classe principale de l approche finale
  * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date			2015-04-20
@@ -10,26 +10,29 @@
 #ifndef FINALAPPROACHING_H
 #define FINALAPPROACHING_H
 
-#include <manager_msg/finalApproachingAction.h>
-#include <actionlib/server/simple_action_server.h>
-#include <ros/ros.h>
-#include <vector>
 #include "Point.h"
 #include "Segment.h"
-#include "geometry_msgs/Twist.h"
-#include "ar_track_alvar_msgs/AlvarMarkers.h"
 
-class finalApproaching
+#include <ros/ros.h>
+#include <actionlib/server/simple_action_server.h>
+#include <ar_track_alvar_msgs/AlvarMarkers.h>
+#include <geometry_msgs/Twist.h>
+
+#include <manager_msg/FinalApproachingAction.h>
+
+#include <vector>
+
+class FinalApproaching
 {
 
 	protected:
 		ros::NodeHandle nh;
 		// NodeHandle instance must be created before this line. Otherwise strange error may occur.
-		actionlib::SimpleActionServer<manager_msg::finalApproachingAction> as;
+		actionlib::SimpleActionServer<manager_msg::FinalApproachingAction> as;
 		std::string actionName;
 		// create messages that are used to published feedback/result
-		manager_msg::finalApproachingFeedback feedback;
-		manager_msg::finalApproachingResult result;
+		manager_msg::FinalApproachingFeedback feedback;
+		manager_msg::FinalApproachingResult result;
 		ros::Publisher m_pubMvt;
 		ros::Publisher m_markerPub;
 		ros::Publisher m_plot;
@@ -39,21 +42,21 @@ class finalApproaching
 		
 
 	public:
-		finalApproaching(std::string name) :
-		as(nh, name, boost::bind(&finalApproaching::executeCB, this, _1), false),actionName(name)
+		FinalApproaching(std::string name) :
+		as(nh, name, boost::bind(&FinalApproaching::executeCB, this, _1), false),actionName(name)
 		{
-			as.registerPreemptCallback(boost::bind(&finalApproaching::preemptCB, this));
+			as.registerPreemptCallback(boost::bind(&FinalApproaching::preemptCB, this));
 			as.start();
 		}
 
-		~finalApproaching(void);
+		~FinalApproaching(void);
 
 /**
  *	\brief		Vérifie si l'action a été annulée
  */
 		void preemptCB();
 		
-		void executeCB(const manager_msg::finalApproachingGoalConstPtr &goal);
+		void executeCB(const manager_msg::FinalApproachingGoalConstPtr &goal);
 		
 /**
  *  \brief		Avancement de l action

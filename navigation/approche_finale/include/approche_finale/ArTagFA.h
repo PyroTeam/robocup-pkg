@@ -12,10 +12,11 @@
 #define ARTAG_FA_H
 
 #include <ros/ros.h>
-#include <vector>
-#include "ar_track_alvar_msgs/AlvarMarkers.h"
+#include <ar_track_alvar_msgs/AlvarMarkers.h>
 
-class ArTagFA 
+#include <vector>
+
+class ArTagFA
 {
 	public:
 		ArTagFA();
