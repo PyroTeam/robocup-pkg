@@ -30,8 +30,12 @@ void poseCallback(const nav_msgs::Odometry &odom)
 
 	// Base Link to Laser Link
 	static double laser_link_x = 0;
-	nh.param<double>("hardware/robotDescription/baseLink_to_laserLink/x", laser_link_x, 0.10);
-	transform.setOrigin(tf::Vector3(laser_link_x, 0.0, 0.232));
+	static double laser_link_y = 0;
+	static double laser_link_z = 0;
+	nh.param<double>("hardware/robotDescription/baseLink_to_laserLink/x", laser_link_x, 0.10+0.01);
+	nh.param<double>("hardware/robotDescription/baseLink_to_laserLink/x", laser_link_y, 0.0);
+	nh.param<double>("hardware/robotDescription/baseLink_to_laserLink/x", laser_link_z, 0.235+0.0175);
+	transform.setOrigin(tf::Vector3(laser_link_x, laser_link_y, laser_link_z));
 	q.setRPY(0.0, 0.0, 0.0);
 	transform.setRotation(q);
 	baseLinkToLaserLink.sendTransform(tf::StampedTransform(transform, odom.header.stamp, tf_prefix+"base_link", tf_prefix+"laser_link"));
