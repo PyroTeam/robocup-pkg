@@ -9,9 +9,15 @@
 		<arg name="debug" value="false"/>
 	</include>
 
+	<!-- Root params -->
+	<param name="nbTeam" value="2" />
+	<param name="team1" value="PYRO" />
+	<param name="team2" value="OPPOSING" />
+
 	<!-- Pyro TEAM -->
 	<!-- Team Namespace -->
 	<group ns="PYRO">
+		<param name="nbRobot" value="3" />
 		<param name="machineLocation/robot1" value="robotino1" />
 		<param name="machineLocation/robot2" value="robotino2" />
 		<param name="machineLocation/robot3" value="robotino3" />
@@ -91,6 +97,7 @@
 		<!-- Opposing TEAM -->
 		<!-- Team namespace -->
 		<group ns="OPPOSING">
+			<param name="nbRobot" value="3" />
 			<param name="machineLocation/robot1" value="opposing1" />
 			<param name="machineLocation/robot2" value="opposing2" />
 			<param name="machineLocation/robot3" value="opposing3" />
@@ -115,3 +122,4 @@
 		<!-- Load rviz -->
 		<node pkg="rviz" type="rviz" name="rviz" args="-d $(find gazebo_sim_launch)/others/overview.rviz"/>
 	</launch>
+	
