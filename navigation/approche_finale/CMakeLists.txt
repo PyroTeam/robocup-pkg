@@ -97,8 +97,7 @@ target_link_libraries(
 	${catkin_LIBRARIES}
 )
 set_target_properties(fake_scan_cyril_node
-	PROPERTIES COMPILE_FLAG
-	"-g3 -std=c++11"
+	PROPERTIES COMPILE_FLAG "-g3 -std=c++11"
 )
 
 # AR Tag reader node
