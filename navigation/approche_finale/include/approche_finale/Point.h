@@ -1,5 +1,5 @@
 /**
- * \file 			Point.h
+ * \file
  * \class			Point
  * \brief			classe représentant un point du laser
  * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
@@ -17,8 +17,10 @@ class Point
 	public:
 		Point(float r = 0.0, double phi = 0.0);
 		~Point();
+
 		void setR(float val){m_r = val;}
 		void setPhi(double val){m_phi = val;}
+
 		float getR() {return m_r;}
 		double getPhi() {return m_phi;}
 		float getX() {return m_r*sin(M_PI_2 - m_phi);}
@@ -27,7 +29,6 @@ class Point
 	private:
 		float m_r;
 		double m_phi;
-
 };
 
-#endif
+#endif	/* POINT_H */

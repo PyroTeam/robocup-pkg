@@ -137,17 +137,23 @@ class FinalApproaching
 
 		/**
 		 * \brief      Crée les objets a partir du tableau de points des données
-		 *             lasers
+		 *             lasers.
+		 *
+		 * \detail La segmentation s'effectue sur la différence de range entre deux points
+		 * voisins, si elle est supérieur à margin (5 centimètres recommandés), un nouvel
+		 * objet est créé. Les points comportant un range hors des limites de rangeMin /
+		 * rangeMax seront ignorés (mais pas leurs voisins, pour l'instant)
 		 *
 		 * \param[in]  ranges    The ranges
 		 * \param[in]  angleMin  The angle minimum
 		 * \param[in]  angleInc  The angle increment
 		 * \param[in]  rangeMin  The range minimum
 		 * \param[in]  rangeMax  The range maximum
+		 * \param[in]  margin    The margin
 		 *
 		 * \return     { description_of_the_return_value }
 		 */
-		std::list<std::vector<Point> > objectsConstruction(std::vector<float> ranges, float angleMin, double angleInc, float rangeMin, float rangeMax);
+		std::list<std::vector<Point> > objectsConstruction(std::vector<float> ranges, float angleMin, double angleInc, float rangeMin, float rangeMax, float margin = 0.10);
 
 		/**
 		 * \brief      Construit les différents segments vus par le laser

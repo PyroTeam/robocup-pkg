@@ -153,6 +153,11 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 
 	// Asservissement ARTag camera
 	ROS_INFO("ArTag Asservissement");firstTimeInLoop = true;
+// TODO: Uncomment after investigation
+#define RELEASE_CODE
+#ifndef RELEASE_CODE
+avancementArTag = 1;
+#else // RELEASE_CODE
 	while(ros::ok() && !bp.getState() && phase != 3 && avancementArTag == 0 && obstacle == false)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "ArTag Asservissement - process");firstTimeInLoop = false;
@@ -180,6 +185,7 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 
 		loopRate.sleep();
 	}
+#endif // RELEASE_CODE
 	if (!firstTimeInLoop)
 		ROS_INFO("ArTag Asservissement - DONE");
 	else
@@ -209,17 +215,18 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 			std::vector<float> ranges = ls.getRanges();
 			float angleMin = ls.getAngleMin();
 			double angleInc = ls.getAngleInc();
-			float rangeMin = ls.getRangeMin();
-			float rangeMax = ls.getRangeMax();
-			std::list<std::vector<Point> > tabPoints = objectsConstruction(ranges, angleMin, angleInc, rangeMin, rangeMax);
-			std::vector<Segment> tabSegments = segmentsConstruction(tabPoints, ranges, angleMin, angleInc);
+			float rangeMin = ls.getRangeMin() - 0.10; // Ignoring limit ranges is currently bugguy
+			float rangeMax = ls.getRangeMax() + 0.10; // Ignoring limit ranges is currently bugguy
+			std::list<std::vector<Point> > listPointsVectors = objectsConstruction(ranges, angleMin, angleInc, rangeMin, rangeMax);
+			std::vector<Segment> tabSegments = segmentsConstruction(listPointsVectors, ranges, angleMin, angleInc);
 			// At least one segment found
-			if(tabSegments.size()>0)
+			if(tabSegments.size() > 0)
 			{
 				Segment seg = tabSegments[0];
 				ROS_DEBUG("min seg: %d max seg %d", seg.getMinRanges(), seg.getMaxRanges());
 				// If no error about the laserscan data
-				if(seg.getMinRanges() >= 0 && seg.getMinRanges() <= 513 && seg.getMaxRanges() >= 0 && seg.getMaxRanges() <= 513)
+				if(		seg.getMinRanges() >= 0 && seg.getMinRanges() <= ranges.size()
+					&& 	seg.getMaxRanges() >= 0 && seg.getMaxRanges() <= ranges.size())
 				{
 					// Debug Marker
 					tmp_marker.header.frame_id = ls.getFrame();
@@ -243,13 +250,13 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 					geometry_msgs::Point tmp_point;
 					tmp_point.x = seg.getMin().getX();
 					tmp_point.y = seg.getMin().getY();
-					tmp_point.z = 0.5;
+					tmp_point.z = 0.05;
 					tmp_marker.points.push_back(tmp_point);
 
 					// Second point
 					tmp_point.x = seg.getMax().getX();
 					tmp_point.y = seg.getMax().getY();
-					tmp_point.z = 0.5;
+					tmp_point.z = 0.05;
 					tmp_marker.points.push_back(tmp_point);
 
 					m_markerPub.publish(tmp_marker);
@@ -263,8 +270,12 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 					ortho = distanceOrtho(seg, ranges, angleMin, angleInc);
 					ROS_DEBUG("distance orthogonale laser-machine : %f",ortho);
 
+// TODO: Uncomment after investigation
+#ifndef RELEASE_CODE
+c = 0;
+#else // RELEASE_CODE
 					// To do an average
-					if(j<1)
+					if(j < 1)
 					{
 						listPositionY.push_back(positionY);
 						listOrtho.push_back(ortho);
@@ -291,7 +302,7 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 						if((a == 1) && (cpt < 200))
 						{
 							//to move on the Y axis of the robot
-							b = asservissementPositionY(plotData,m_pubMvt,moyY,objectifY(),gauche.getY(),droite.getY());
+							b = asservissementPositionY(plotData, m_pubMvt, moyY, objectifY(), gauche.getY(), droite.getY());
 							ROS_INFO("positionY: %f",positionY);
 							//listPositionY.clear();
 							if(b==1)
@@ -301,10 +312,12 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 						}
 						if(a == 1 && cpt >= 200)
 						{
-							//to move on the X axis of the robot
-							c = asservissementPositionX(plotData,m_pubMvt,ortho,objectifX());
+							// To move on the X axis of the robot
+							c = asservissementPositionX(plotData, m_pubMvt, ortho, objectifX());
 						}
 					}
+#endif // RELEASE_CODE
+
 				}
 				m_plot.publish(plotData);
 				m_feedback.percent_complete = avancement(a,b,c);
@@ -456,130 +469,178 @@ float FinalApproaching::objectifX()
 	return tmp;
 }
 
-std::list<std::vector<Point> > FinalApproaching::objectsConstruction(std::vector<float> ranges, float angleMin, double angleInc, float rangeMin, float rangeMax)
+std::list<std::vector<Point> > FinalApproaching::objectsConstruction(std::vector<float> ranges
+								, float angleMin, double angleInc, float rangeMin, float rangeMax, float margin)
 {
-	std::list<std::vector<Point> > tabPoints;
-	Point p0(ranges[0],angleMin);
-	std::vector<Point> tabP0;
-	tabP0.push_back(p0);
-	tabPoints.push_back(tabP0);
-	std::list<std::vector<Point> >::iterator it = tabPoints.begin();
-	for (int i=1; i<ranges.size(); i++)
+	assert(rangeMin <= rangeMax);
+
+	// Init the list of points' vectors
+	std::list<std::vector<Point> > listPointsVectors;
+	Point pointInit(ranges[0], angleMin);
+	std::vector<Point> pointsVectorInit;
+	pointsVectorInit.push_back(pointInit);
+	listPointsVectors.push_back(pointsVectorInit);
+
+	std::list<std::vector<Point> >::iterator pointsVector_it = listPointsVectors.begin();
+
+	for (int i = 1; i < ranges.size(); i++)
 	{
-		if((ranges[i]>rangeMin) && (ranges[i]<rangeMax))
+		if((ranges[i] > rangeMin) && (ranges[i] < rangeMax))
 		{
-			Point p(ranges[i],angleMin + (float)i*angleInc);
-			//if nearby points (less than 5 cm)
-			if(std::abs(ranges[i] - ranges[i-1]) < 0.05)
+			Point point(ranges[i], angleMin + (float)i*angleInc);
+
+			// If nearby points (less than margin (0.05 meters recommended)
+			if(std::abs(ranges[i] - ranges[i-1]) < margin)
 			{
-				it->push_back(p);
+				pointsVector_it->push_back(point);
 			}
 			else
 			{
-				//new object
-				std::vector<Point> tabP;
-				tabP.push_back(p);
-				tabPoints.push_back(tabP);
-				it++;
+				// New object
+				std::vector<Point> pointsVector;
+				pointsVector.push_back(point);
+				listPointsVectors.push_back(pointsVector);
+				pointsVector_it++;
 			}
 		}
 	}
-	ROS_DEBUG("nombre d elements de tabPoints: %d",(int)tabPoints.size());
-	int j=0,min=0;
-	for(it=tabPoints.begin();it!=tabPoints.end();it++)
+
+	ROS_DEBUG("Nombre d elements de listPointsVectors: %d", (int)listPointsVectors.size());
+	int j = 0, min = 0;
+	for(pointsVector_it = listPointsVectors.begin(); pointsVector_it != listPointsVectors.end(); pointsVector_it++)
 	{
-		ROS_DEBUG("nombre de points de l objet %d = %d",j,(int)it->size());
+		ROS_DEBUG("Nombre de points de l'objet #%d: %zu", j, pointsVector_it->size());
+		ROS_DEBUG("startId: %d | stopID: %lu", min, min + pointsVector_it->size());
+		min += pointsVector_it->size();
 		j++;
-		min = min + it->size();
 	}
-	return tabPoints;
+
+	return listPointsVectors;
 }
 
 
-std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vector<Point> > tabPoints, std::vector<float> ranges, float angleMin, double angleInc)
+std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vector<Point> > listPointsVectors
+					, std::vector<float> ranges, float angleMin, double angleInc)
 {
 	std::vector<Segment> tabSegments;
-	std::list<std::vector<Point> >::iterator it;
-	int min=0,i=0;
-	for(it = tabPoints.begin();it != tabPoints.end(); it++)
+	std::list<std::vector<Point> >::iterator pointsVector_it;
+	int rangesStartIdx = 0, objectIdx = 0;
+
+	for(pointsVector_it = listPointsVectors.begin(); pointsVector_it != listPointsVectors.end(); pointsVector_it++)
 	{
-		float d=0;
+		float d = 0;
 		Point pmin(0,0);
 		Point pmax(0,0);
-		if(it->size()>1)
+		size_t lowerLimitIdx = rangesStartIdx;
+		size_t upperLimitIdx = rangesStartIdx + pointsVector_it->size() - 1;
+		assert(ranges.size() >= lowerLimitIdx); assert(lowerLimitIdx >= 0);
+		assert(ranges.size() >= upperLimitIdx); assert(upperLimitIdx >= 0);
+
+		// Not enough points in object
+		if(pointsVector_it->size() <= 1)
 		{
-			ROS_ERROR_COND(ranges.size() <= min || min < 0, "OOPS, Bad index vector access, after line %d in file %s", __LINE__, __FILE__);
-			pmin.setR(ranges[min]);
-			pmin.setPhi(angleMin+(double)min*angleInc);
-			ROS_ERROR_COND(ranges.size() <= min+it->size()-1 || min+it->size()-1 < 0, "OOPS, Bad index vector acess, after line %d in file %s", __LINE__, __FILE__);
-			pmax.setR(ranges[min+it->size()-1]);
-			pmax.setPhi(angleMin+angleInc*(double)(min+it->size()-1));
-			d = objectLength(i,min+it->size()-1,tabPoints,ranges,angleMin,angleInc);
+			rangesStartIdx += pointsVector_it->size();
+			objectIdx++;
+			continue;
 		}
-		//if object length around 70 cm
-		if(d>0.65 && d<0.75)
+
+		pmin.setR(ranges[lowerLimitIdx]);
+		pmin.setPhi(angleMin + (double)lowerLimitIdx * angleInc);
+
+		pmax.setR(ranges[upperLimitIdx]);
+		pmax.setPhi(angleMin + (double)upperLimitIdx * angleInc);
+
+		d = objectLength(objectIdx, upperLimitIdx, listPointsVectors, ranges, angleMin, angleInc);
+
+
+
+
+		// If object length around 70 cm
+		if(d > 0.65 && d < 0.75)
 		{
-			//construction of segment
-			Segment segm(pmin,pmax,min,it->size() + min -1);
-			ROS_DEBUG("distance objet %d du laser = %f",i,segm.distanceLaserSegment(ranges));
-			ROS_DEBUG("distance ortho de l objet %d: %f",i,distanceOrtho(segm,ranges,angleMin,angleInc));
-			geometry_msgs::Pose2D p=segm.linearRegression(*it);
+			// Construction of segment
+			Segment segm(pmin, pmax, lowerLimitIdx, upperLimitIdx);
+
+			ROS_DEBUG("Distance objet #%d du laser: %f", objectIdx, segm.distanceLaserSegment(ranges));
+			ROS_DEBUG("Distance ortho de l'objet #%d: %f", objectIdx, distanceOrtho(segm, ranges, angleMin, angleInc));
+
+			geometry_msgs::Pose2D p = segm.linearRegression(*pointsVector_it);
 			geometry_msgs::Point orthoMin = orthoProjection(pmin,p);
 			geometry_msgs::Point orthoMax = orthoProjection(pmax,p);
-			ROS_INFO("pmin.x: %f pmin.y: %f pmax.x: %f pmax.y: %f",pmin.getX(),pmin.getY(),pmax.getX(),pmax.getY());
-			ROS_INFO("omin.x: %f omin.y: %f omax.x: %f omax.y: %f",orthoMin.x,orthoMin.y,orthoMax.x,orthoMax.y); 
+
+			ROS_INFO("Pmin (%f, %f), Pmax (%f, %f)", pmin.getX(), pmin.getY(), pmax.getX(), pmax.getY());
+			ROS_INFO("Omin (%f, %f), Omax (%f, %f)", orthoMin.x, orthoMin.y, orthoMax.x, orthoMax.y);
+
 			segm.setMinPoint(orthoMin);
 			segm.setMaxPoint(orthoMax);
-			ROS_DEBUG("taille du segment = %f",d); 
+
+			ROS_DEBUG("Taille du segment: %f", d);
+
 			segm.setDistance(d);
 			tabSegments.push_back(segm);
+
+			// TODO: Remove below in release
+			ROS_DEBUG("DEBUG Segment for Object #%d", objectIdx);
+			std::stringstream rangesValues;
+			for (int j = segm.getMinRanges(); j != segm.getMaxRanges(); j++)
+			{
+				rangesValues << " " << j << ": " << ranges[j] << " |";
+			}
+			ROS_DEBUG("DEBUG %s", rangesValues.str().c_str());
+
 		}
-		min = min + it->size();
-		i++;
+
+
+		rangesStartIdx += pointsVector_it->size();
+		objectIdx++;
 	}
-	Segment s;
-	ROS_DEBUG("nombre de segment d environ 70 cm : %d",(int)tabSegments.size());
-	//only the nearest segment is kept
-	if(tabSegments.size()>1)
+
+	ROS_DEBUG("Nombre de segments d environ 70 cm trouvés: %zu", tabSegments.size());
+
+	// Only the nearest segment is kept
+	if(tabSegments.size() > 1)
 	{
-		s=tabSegments[nearestSegment(tabSegments,ranges)];
+		Segment s;
+		s = tabSegments[nearestSegment(tabSegments, ranges)];
 		tabSegments.clear();
 		tabSegments.push_back(s);
 	}
+
 	return tabSegments;
 }
 
-float FinalApproaching::objectLength(int i, int j,std::list<std::vector<Point> > tabPoints,std::vector<float> ranges, float angleMin, double angleInc)
+float FinalApproaching::objectLength(int i, int j, std::list<std::vector<Point> > listPointsVectors
+									, std::vector<float> ranges, float angleMin, double angleInc)
 {
-	std::list<std::vector<Point> >::iterator it = tabPoints.begin();
-	int compteur=0;
-	int cpt2 =0;
-	while(compteur!=i)
+	std::list<std::vector<Point> >::iterator it = listPointsVectors.begin();
+	int compteur = 0;
+	int cpt2 = 0;
+	while(compteur != i)
 	{
 		compteur++;
 		cpt2 = cpt2 + it->size();
 		it++;
 	}
-	if(it!=tabPoints.end() && i!=j)
+
+	// TODO: Check the validity of this condition
+	if(it != listPointsVectors.end() && i != j)
 	{
 		std::vector<Point> tab = *it;
-		Point pmin(ranges[i],angleMin+(double)i*angleInc);
-		Point pmax(ranges[j],angleMin+(double)j*angleInc);
-		return distance2points(tab[0],tab[tab.size()-1]);
+		Point pmin(ranges[i], angleMin + (double)i*angleInc);
+		Point pmax(ranges[j], angleMin + (double)j*angleInc);
+		return distance2points(tab[0], tab[tab.size() - 1]);
 	}
-	else
-	{
-		return 0;
-	}
+
+	return 0;
 }
 
 int FinalApproaching::nearestSegment(std::vector<Segment> tabSegments, std::vector<float> ranges)
 {
 	int nearest=0;
 	std::vector<Segment>::iterator it;
-	for(int i=0; i < tabSegments.size(); i++)
+	for(int i = 0; i < tabSegments.size(); i++)
 	{
-		// What are thoses errors ??
+		// TODO: Check what are thoses errors messages ??
 		// ROS_ERROR_COND(tabSegments.size() <= i || i < 0, "OOPS, Bad index vector acess, after line %d in file %s", __LINE__, __FILE__);
 		// ROS_ERROR_COND(ranges.size() != 513, "OOPS, Bad index vector acess, after line %d in file %s", __LINE__, __FILE__);
 		if(tabSegments[i].distanceLaserSegment(ranges) < tabSegments[nearest].distanceLaserSegment(ranges))
@@ -590,21 +651,36 @@ int FinalApproaching::nearestSegment(std::vector<Segment> tabSegments, std::vect
 	return nearest;
 }
 
-//condition préalable: la machine est a 90° du laser
-float FinalApproaching::distanceOrtho(Segment s,std::vector<float> ranges,float angleMin, double angleInc)
+// Condition préalable: la machine est a 90° du laser
+float FinalApproaching::distanceOrtho(Segment s, std::vector<float> ranges, float angleMin, double angleInc)
 {
 	float ortho=0.0;
 	int min = s.getMinRanges();
 	int max = s.getMaxRanges();
-	ROS_ERROR_COND(ranges.size() <= max || max < 0, "OOPS, Bad index vector acess, after line %d in file %s", __LINE__, __FILE__);
-	Point gauche(ranges[max],angleMin+(double)max*angleInc);
-	ROS_ERROR_COND(ranges.size() <= min || min < 0, "OOPS, Bad index vector acess, after line %d in file %s", __LINE__, __FILE__);
-	Point droite(ranges[min],angleMin+(double)min*angleInc);
-	//si le laser se trouve entre les deux points extremes du segment
-	//si yg et yd sont de signes différents
-	ROS_DEBUG("xg=%f xd=%f",gauche.getX(),droite.getX());
-	ROS_DEBUG("yg=%f yd=%f",gauche.getY(),droite.getY());
-	//if the laser is between the two extremities of the machine
+
+	assert(ranges.size() >= min); assert(min >= 0);
+	assert(ranges.size() >= max); assert(max >= 0);
+
+	ROS_DEBUG("distanceOrtho - range idx (min : max) -> (%d : %d)", min, max);
+	ROS_DEBUG("distanceOrtho - range val (min : max) -> (%f : %f)", ranges[min], ranges[max]);
+	if (max - min >= 9)
+	{
+		ROS_DEBUG("distanceOrtho - ranges val before max (max : max-9) -> (%f : %f : %f : %f : %f : %f : %f : %f : %f : %f)"
+			, ranges[max-0], ranges[max-1], ranges[max-2], ranges[max-3], ranges[max-4]
+			, ranges[max-5], ranges[max-6], ranges[max-7], ranges[max-8],ranges[max-9]);
+		ROS_DEBUG("distanceOrtho - ranges val after min (min : min-9) -> (%f : %f : %f : %f : %f : %f : %f : %f : %f : %f)"
+			, ranges[min+0], ranges[min+1], ranges[min+2], ranges[min+3], ranges[min+4]
+			, ranges[min+5], ranges[min+6], ranges[min+7], ranges[min+8],ranges[min+9]);
+	}
+
+	Point gauche(ranges[max], angleMin + (double)max*angleInc);
+	Point droite(ranges[min], angleMin + (double)min*angleInc);
+
+	// Si le laser se trouve entre les deux points extremes du segment
+	// Si yg et yd sont de signes différents
+	ROS_DEBUG("distanceOrtho - pGauche (%f, %f)", gauche.getX(), gauche.getY());
+	ROS_DEBUG("distanceOrtho - pDroit (%f, %f)", droite.getX(), droite.getY());
+	// If the laser is between the two extremities of the machine
 	if(gauche.getY()*droite.getY()<0)
 	{
 		int tmp = min;
@@ -627,7 +703,7 @@ float FinalApproaching::distanceOrtho(Segment s,std::vector<float> ranges,float 
 	return ortho;
 }
 
-float FinalApproaching::positionYLaser(Segment s,std::vector<float> ranges, float angleMin, double angleInc)
+float FinalApproaching::positionYLaser(Segment s, std::vector<float> ranges, float angleMin, double angleInc)
 {
 	/*
 	int tmp = 0;
@@ -668,7 +744,7 @@ float FinalApproaching::positionYLaser(Segment s,std::vector<float> ranges, floa
 	geometry_msgs::Point right = s.getMinPoint();
 	geometry_msgs::Point left = s.getMaxPoint();
 	float segmentSize = sqrt((left.x-right.x)*(left.x-right.x)+(left.y-right.y)*(left.y-right.y));
-	ROS_INFO("left.x: %f left.y: %f right.x: %f right.y: %f segmentSize: %f",left.x,left.y,right.x,right.y,segmentSize);
+	ROS_INFO("left.x: %f left.y: %f right.x: %f right.y: %f segmentSize: %f", left.x, left.y, right.x, right.y, segmentSize);
 	return right.y;
 	//return (left.y-segmentSize+right.y)/(float)2;
 }
