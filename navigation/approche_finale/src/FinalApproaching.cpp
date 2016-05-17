@@ -4,7 +4,6 @@
 #include "fa_utils.h"
 #include "LaserScan.h"
 #include "Point.h"
-#include "ArTagFA.h"
 #include "OdomFA.h"
 #include "Sharps.h"
 #include "GameStateFA.h"
@@ -18,9 +17,6 @@
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose2D.h>
 
-#include <manager_msg/FinalApproachingAction.h>
-#include <approche_finale_msg/plotDataFA.h>
-
 #include <cmath>
 #include <vector>
 #include <list>
@@ -29,23 +25,23 @@ FinalApproaching::~FinalApproaching(void){}
 
 void FinalApproaching::preemptCB()
 {
-	ROS_INFO("%s: Preempted", actionName.c_str());
-	// set the action state to preempted
-	as.setPreempted();
+	ROS_INFO("%s: Preempted", m_actionName.c_str());
+	// Set the action state to preempted
+	m_as.setPreempted();
 }
 
 void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr &goal)
 {
 	ros::Rate loopRate(100);
-	m_pubMvt = nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel",1000);
-	m_plot  = nh.advertise<approche_finale_msg::plotDataFA>("rosplot/plotDataFA",1000);
 	approche_finale_msg::plotDataFA plotData;
+	bool firstTimeInLoop = false;
 
 	// General initialization
 	bool success = true;
-	feedback.percent_complete = 0;
+	m_feedback.percent_complete = 0;
 	geometry_msgs::Twist msgTwist;
 	bool usefulInfo = false;
+	visualization_msgs::Marker tmp_marker;
 
 	// BumperListener
 	BumperListener bp;
@@ -74,8 +70,10 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 
 	// GameState
 	GameStateFA gameState;
-	int teamColor;
-	nh.param<int>("teamColor",teamColor,0);
+
+    std::string teamColor;
+	m_nh.param<std::string>("teamColor", teamColor, "cyan");
+	int team = (teamColor == "magenta")? MAGENTA: CYAN;
 
 	// LaserScan
 	LaserScan ls;
@@ -85,84 +83,129 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
     std::list<float> listPositionY, listOrtho;
 
 
-    //to get goal action   		  
-	ROS_INFO("%s: Executing, creating FinalApproaching sequence of type %i with side %i and parameter %i", actionName.c_str(), goal->type, goal->side,goal->parameter);
+    // To get goal action
+	ROS_INFO("%s: Executing, creating FinalApproaching sequence of type %i with side %i and parameter %i"
+				, m_actionName.c_str(), goal->type, goal->side,goal->parameter);
 	m_type = goal->type;
 	m_side = goal->side;
 	m_parameter = goal->parameter;
-	//at least one callback for odometry and gamestate
+
+	// Wait for odometry and gamestate (must be received at least one time or more)
+	ROS_INFO("Wait some infos");firstTimeInLoop = true;
 	while(ros::ok() && !bp.getState() && !usefulInfo)
 	{
-		// make sure that the action hasn't been canceled
-		if (!as.isActive())
+		ROS_INFO_COND(firstTimeInLoop, "Wait some infos - process");firstTimeInLoop = false;
+
+		// Make sure that the action hasn't been canceled
+		if (!m_as.isActive())
 		{
+			ROS_INFO("Action canceled during wait infos looop");
       		return;
   		}
+
 		if(odom.getTurn() /*&& gameState.getAlready()*/)
 		{
 			usefulInfo = true;
 		}
 		loopRate.sleep();
 	}
-	//loop to find a correct ARTag
-	std::vector<int> allPossibleId = idWanted(teamColor,0/*gameState.getPhase()*/);
-	while(ros::ok() && !bp.getState() && k==-1 && phase!=3)
+	if (!firstTimeInLoop)
+		ROS_INFO("Wait some infos - DONE");
+	else
+		ROS_WARN("Wait some infos - SKIPPED");
+
+	// Try to locate a correct ARTag
+	ROS_INFO("Locate ArTag");firstTimeInLoop = true;
+	std::vector<int> allPossibleId = idWanted(team, 1/*gameState.getPhase()*/);
+	while(ros::ok() && !bp.getState() && k == -1 && phase != 3)
 	{
-		// make sure that the action hasn't been canceled
-		if (!as.isActive())
+		ROS_INFO_COND(firstTimeInLoop, "Locate ArTag - process");firstTimeInLoop = false;
+
+		// Make sure that the action hasn't been canceled
+		if (!m_as.isActive())
 		{
+			ROS_INFO("Action canceled during ArTag search looop");
       		return;
-  		}		
+  		}
+
+
 		if(at.getFoundId())
-		{	
-			k=correspondingId(allPossibleId,at.getId(),at.getDistance());
+		{
+			k = correspondingId(allPossibleId, at.getId(), at.getDistance());
 		}
+
 		if(phase == 0)
 		{
 			initOrientation = odom.getOrientationZ();
 			phase++;
 		}
 		msgTwist.angular.z = cameraScanVelocity(phase);
-		float newOrientation = odom.getOrientationZ()-initOrientation;
-		phase = phaseDependingOnOrientation(newOrientation,phase);
+		float newOrientation = odom.getOrientationZ() - initOrientation;
+		phase = phaseDependingOnOrientation(newOrientation, phase);
 		m_pubMvt.publish(msgTwist);
+
 		loopRate.sleep();
 	}
-	//lock loop with ARTag camera 
-	while(ros::ok() && !bp.getState() && phase!=3 && avancementArTag==0 && obstacle==false)
+	if (!firstTimeInLoop)
+		ROS_INFO("Locate ArTag - DONE");
+	else
+		ROS_WARN("Locate ArTag - SKIPPED");
+
+	// Asservissement ARTag camera
+	ROS_INFO("ArTag Asservissement");firstTimeInLoop = true;
+	while(ros::ok() && !bp.getState() && phase != 3 && avancementArTag == 0 && obstacle == false)
 	{
-		// make sure that the action hasn't been canceled
-		if (!as.isActive())
+		ROS_INFO_COND(firstTimeInLoop, "ArTag Asservissement - process");firstTimeInLoop = false;
+
+		// Make sure that the action hasn't been canceled
+		if (!m_as.isActive())
 		{
+			ROS_INFO("Action canceled during ArTag asserv looop");
       		return;
-  		}		
-		//if at least one ARTag found	
+  		}
+
+		// If at least one ARTag found
 		if(at.getFoundId())
 		{
-			px=at.getPositionX();
-			pz=at.getPositionZ();
-			oz=at.getOrientationZ();
-			k=correspondingId(allPossibleId,at.getId(),at.getDistance());
+			px = at.getPositionX();
+			pz = at.getPositionZ();
+			oz = at.getOrientationZ();
+			k = correspondingId(allPossibleId, at.getId(), at.getDistance());
 			ROS_DEBUG("taille de px: %d de pz: %d de oz: %d et valeur de k: %d",
 			          (int)px.size(),(int)pz.size(),(int)oz.size(),k);
-			avancementArTag=FinalApproaching::asservissementCamera(px,pz,oz,k);
+			avancementArTag = FinalApproaching::asservissementCamera(px, pz, oz, k, at);
 		}
 		allObstacles = sharps.getObstacle();
 		obstacle = false;//obstacleDetection(allObstacles, k, oz, pz);
+
 		loopRate.sleep();
 	}
-	ROS_INFO("Waiting a complete laserscan");
-	//lock loop with laserscan
-	while(ros::ok() && !bp.getState() && phase!=3 && avancementArTag==1 && c!=2 && obstacle==false)
+	if (!firstTimeInLoop)
+		ROS_INFO("ArTag Asservissement - DONE");
+	else
 	{
-		// make sure that the action hasn't been canceled
-		if (!as.isActive())
+		ROS_WARN("ArTag Asservissement - SKIPPED");
+		ROS_DEBUG_NAMED("investigation", "Bumper: %d | Phase: %d | AvancementArTag: %d | Obstacle: %d"
+						, bp.getState(), phase, avancementArTag, obstacle);
+	}
+
+	// Asservissement laserScan
+	ROS_INFO("LaserScan Asservissement");firstTimeInLoop = true;
+	while(ros::ok() && !bp.getState() && phase != 3 && avancementArTag == 1 && c != 2 && obstacle == false)
+	{
+		ROS_INFO_COND(firstTimeInLoop, "LaserScan Asservissement - process");firstTimeInLoop = false;
+
+		// Make sure that the action hasn't been canceled
+		if ( !m_as.isActive() )
 		{
+			ROS_INFO("Action canceled during LaserScan asserv looop");
       		return;
-  		}	
-		// if the scan is complete
-		if(ls.getRanges().size() == 513)
+  		}
+
+		// If the scan is complete
+		if( !ls.getRanges().empty() )
 		{
+			ROS_INFO_ONCE("Got a complete LaserScan");
 			std::vector<float> ranges = ls.getRanges();
 			float angleMin = ls.getAngleMin();
 			double angleInc = ls.getAngleInc();
@@ -170,22 +213,57 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 			float rangeMax = ls.getRangeMax();
 			std::list<std::vector<Point> > tabPoints = objectsConstruction(ranges, angleMin, angleInc, rangeMin, rangeMax);
 			std::vector<Segment> tabSegments = segmentsConstruction(tabPoints, ranges, angleMin, angleInc);
-			//at least one segment found
+			// At least one segment found
 			if(tabSegments.size()>0)
 			{
 				Segment seg = tabSegments[0];
-				ROS_DEBUG("min seg: %d max seg %d",seg.getMinRanges(),seg.getMaxRanges());
-				//if no error about the laserscan data
-				if(seg.getMinRanges()>=0 && seg.getMinRanges()<=513 && seg.getMaxRanges()>=0 && seg.getMaxRanges()<=513)
+				ROS_DEBUG("min seg: %d max seg %d", seg.getMinRanges(), seg.getMaxRanges());
+				// If no error about the laserscan data
+				if(seg.getMinRanges() >= 0 && seg.getMinRanges() <= 513 && seg.getMaxRanges() >= 0 && seg.getMaxRanges() <= 513)
 				{
+					// Debug Marker
+					tmp_marker.header.frame_id = ls.getFrame();
+					tmp_marker.header.stamp = ls.getStamp();
+
+					tmp_marker.type = tmp_marker.LINE_LIST;
+					tmp_marker.action = tmp_marker.ADD;
+					tmp_marker.ns = ros::this_node::getName();
+					tmp_marker.id = SEGMENT_MARKER_ID;
+					tmp_marker.scale.x = 0.015;
+					// RED
+					tmp_marker.color.r = 1.0;
+					tmp_marker.color.g = 0.0;
+					tmp_marker.color.b = 0.0;
+					tmp_marker.color.a = 1.0;
+
+					tmp_marker.lifetime = ros::Duration(10);
+					tmp_marker.frame_locked = false;
+
+					// First point
+					geometry_msgs::Point tmp_point;
+					tmp_point.x = seg.getMin().getX();
+					tmp_point.y = seg.getMin().getY();
+					tmp_point.z = 0.5;
+					tmp_marker.points.push_back(tmp_point);
+
+					// Second point
+					tmp_point.x = seg.getMax().getX();
+					tmp_point.y = seg.getMax().getY();
+					tmp_point.z = 0.5;
+					tmp_marker.points.push_back(tmp_point);
+
+					m_markerPub.publish(tmp_marker);
+					tmp_marker.points.clear();
+
+
 					gradient = seg.getGradient();
 					ROS_DEBUG("gradient du segment le plus proche : %f",gradient);
 					positionY = positionYLaser(seg, ranges, angleMin, angleInc);
 					ROS_INFO("l objet se trouve a environ %f m du bord",positionY);
 					ortho = distanceOrtho(seg, ranges, angleMin, angleInc);
 					ROS_DEBUG("distance orthogonale laser-machine : %f",ortho);
-					
-					//to do an average 
+
+					// To do an average
 					if(j<1)
 					{
 						listPositionY.push_back(positionY);
@@ -201,7 +279,7 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 						moyY = moy(listPositionY);
 						moyO = moy(listOrtho);
 						//to be in front of the machine
-						a = asservissementAngle(plotData,m_pubMvt,gradient);	
+						a = asservissementAngle(plotData,m_pubMvt,gradient);
 						int min = seg.getMinRanges();
 						int max = seg.getMaxRanges();
 						Point gauche(ranges[max],angleMin+(double)min*angleInc);
@@ -220,70 +298,89 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 							{
 								cpt++;
 							}
-						}	
+						}
 						if(a == 1 && cpt >= 200)
 						{
 							//to move on the X axis of the robot
-							c = asservissementPositionX(plotData,m_pubMvt,ortho,objectifX());	
+							c = asservissementPositionX(plotData,m_pubMvt,ortho,objectifX());
 						}
-					}	
+					}
 				}
 				m_plot.publish(plotData);
-				feedback.percent_complete = avancement(a,b,c);
-				as.publishFeedback(feedback);
+				m_feedback.percent_complete = avancement(a,b,c);
+				m_as.publishFeedback(m_feedback);
 				ros::spinOnce();
-				ROS_DEBUG("etat du bumper: %d ",bp.getState());
+				ROS_DEBUG("BumperState : %d ",bp.getState());
 			}
+			else
+			{
+				ROS_INFO_ONCE("Waiting LaserScan data");
+			}
+
 			loopRate.sleep();
 		}
 	}
-	//reinitialisation
+	if (!firstTimeInLoop)
+		ROS_INFO("LaserScan Asservissement - DONE");
+	else
+		ROS_WARN("LaserScan Asservissement - SKIPPED");
+
+	// Reinit
 	geometry_msgs::Twist stop;
-	a=0;
-	b=0;
-	c=0;
-	cpt=0;
-	j=0;
-	avancementArTag=0;
-	phase=0;
+	a = 0;
+	b = 0;
+	c = 0;
+	cpt = 0;
+	j = 0;
+	avancementArTag = 0;
+	phase = 0;
+
 	listPositionY.clear();
 	listOrtho.clear();
+
 	stop.linear.x = 0;
 	stop.linear.y = 0;
 	stop.angular.z = 0;
 	m_pubMvt.publish(stop);
-	//if any problem
-	if(bp.getState() || phase==3 || obstacle==true)
+
+	// If any problem
+	if(bp.getState() || phase == 3 || obstacle == true)
 	{
+		ROS_WARN("FinalApproach ended with some failures\n");
+
 		if(bp.getState())
 		{
-			ROS_WARN("OBSTACLE RENCONTRE\n");
-			result.state = 1;
+			ROS_WARN("Failure : contact with obstacle\n");
+			m_result.state = 1;
 		}
+
 		if(phase == 3)
 		{
-			ROS_WARN("UN BALAYAGE COMPLET SANS ARTAG CORRECT\n");
-			result.state = 3;
+			ROS_WARN("Failure : no arTag found\n");
+			m_result.state = 3;
 		}
-		if(obstacle==true)
+
+		if(obstacle == true)
 		{
-			ROS_WARN("OBSTACLE TROP PROCHE\n");
-			result.state = 2;
+			ROS_WARN("Failure : an obstacle is too near\n");
+			m_result.state = 2;
 		}
-		success=false;	
+
+		success = false;
 	}
+
 	if(success)
 	{
-		result.success = true;
-		result.state = 0;
-		ROS_INFO("%s: Succeeded", actionName.c_str());
-		as.setSucceeded(result);
+		m_result.success = true;
+		m_result.state = 0;
+		ROS_INFO("%s: Succeeded", m_actionName.c_str());
+		m_as.setSucceeded(m_result);
 	}
 	else
 	{
-		result.success = false;
-		ROS_INFO("%s: Aborted",actionName.c_str());
-		as.setAborted(result);
+		m_result.success = false;
+		ROS_INFO("%s: Aborted", m_actionName.c_str());
+		m_as.setAborted(m_result);
 	}
 }
 
@@ -300,7 +397,7 @@ int FinalApproaching::avancement(int a, int b, int c)
 		if(b == 1 && (c == 0 || c==1))
 		{
 			tmp = 67;
-		}	
+		}
 		else
 		{
 			if(a==1 && b==0 && (c == 0 || c==1))
@@ -313,7 +410,7 @@ int FinalApproaching::avancement(int a, int b, int c)
 			}
 		}
 	}
-	return tmp;	
+	return tmp;
 }
 
 
@@ -460,7 +557,7 @@ float FinalApproaching::objectLength(int i, int j,std::list<std::vector<Point> >
 	while(compteur!=i)
 	{
 		compteur++;
-		cpt2 = cpt2 + it->size(); 
+		cpt2 = cpt2 + it->size();
 		it++;
 	}
 	if(it!=tabPoints.end() && i!=j)
@@ -480,10 +577,11 @@ int FinalApproaching::nearestSegment(std::vector<Segment> tabSegments, std::vect
 {
 	int nearest=0;
 	std::vector<Segment>::iterator it;
-	for(int i=0; i<tabSegments.size(); i++)
+	for(int i=0; i < tabSegments.size(); i++)
 	{
-		ROS_ERROR_COND(tabSegments.size() <= i || i < 0, "OOPS, Bad index vector acess, after line %d in file %s", __LINE__, __FILE__);
-		ROS_ERROR_COND(ranges.size() != 513, "OOPS, Bad index vector acess, after line %d in file %s", __LINE__, __FILE__);
+		// What are thoses errors ??
+		// ROS_ERROR_COND(tabSegments.size() <= i || i < 0, "OOPS, Bad index vector acess, after line %d in file %s", __LINE__, __FILE__);
+		// ROS_ERROR_COND(ranges.size() != 513, "OOPS, Bad index vector acess, after line %d in file %s", __LINE__, __FILE__);
 		if(tabSegments[i].distanceLaserSegment(ranges) < tabSegments[nearest].distanceLaserSegment(ranges))
 		{
 			nearest = i;
@@ -526,7 +624,7 @@ float FinalApproaching::distanceOrtho(Segment s,std::vector<float> ranges,float 
 		ortho = (orthoMin+orthoMax)/(float)2;
 		ROS_INFO("orthoMin: %f orthoMax: %f",orthoMin,orthoMax);
 	}
-	return ortho;	
+	return ortho;
 }
 
 float FinalApproaching::positionYLaser(Segment s,std::vector<float> ranges, float angleMin, double angleInc)
@@ -575,84 +673,83 @@ float FinalApproaching::positionYLaser(Segment s,std::vector<float> ranges, floa
 	//return (left.y-segmentSize+right.y)/(float)2;
 }
 
-std::vector<int> FinalApproaching::idWanted(int team,int phase)
+std::vector<int> FinalApproaching::idWanted(int team, int phase)
 {
 	std::vector<int> tabId;
-	//exploration phase
-	if(phase==0)
+	// Exploration phase
+	if(phase == 0)
 	{
 		switch(team)
 		{
-			//cyan
-			case 0:
-				tabId.push_back(2);//CS1 Out
-				tabId.push_back(18);//CS2 Out
-				tabId.push_back(34);//RS1 Out
-				tabId.push_back(178);//RS2 Out
-				tabId.push_back(66);//BS Out
-				tabId.push_back(81);//DS In
+			case CYAN:
+				tabId.push_back(C_CS1_OUT);
+				tabId.push_back(C_CS2_OUT);
+				tabId.push_back(C_RS1_OUT);
+				tabId.push_back(C_RS2_OUT);
+				tabId.push_back(C_BS_OUT);
+				tabId.push_back(C_DS_IN);
 				break;
-			//magenta
-			case 1:	
-				tabId.push_back(98);//CS1 Out
-				tabId.push_back(114);//CS2 Out
-				tabId.push_back(130);//RS1 Out
-				tabId.push_back(146);//RS2 Out
-				tabId.push_back(162);//BS Out
-				tabId.push_back(49);//DS In
+			case MAGENTA:
+				tabId.push_back(M_CS1_OUT);
+				tabId.push_back(M_CS2_OUT);
+				tabId.push_back(M_RS1_OUT);
+				tabId.push_back(M_RS2_OUT);
+				tabId.push_back(M_BS_OUT);
+				tabId.push_back(M_DS_IN);
 				break;
 		}
 	}
-	//production phase
+	// Production phase
 	else
 	{
 		switch(team)
 		{
-			//cyan
-			case 0:
+			// Cyan
+			case CYAN:
 			switch(m_type)
 			{
 				//BS
-				case 0:
-					tabId.push_back(65);
+				case manager_msg::FinalApproachingGoal::BS:
+					tabId.push_back(C_BS_IN);
 					break;
 				//RS
-				case 1:
-					tabId.push_back(33);
-					tabId.push_back(177);
+				case manager_msg::FinalApproachingGoal::RS:
+					tabId.push_back(C_RS1_IN);
+					tabId.push_back(C_RS2_IN);
 					break;
 				//CS
-				case 2:
-					tabId.push_back(1);
-					tabId.push_back(17);
+				case manager_msg::FinalApproachingGoal::CS:
+					tabId.push_back(C_CS1_IN);
+					tabId.push_back(C_CS2_IN);
 					break;
 				//DS
-				case 3:
-					tabId.push_back(81);
-					break;					
+				case manager_msg::FinalApproachingGoal::DS:
+					tabId.push_back(C_DS_IN);
+					break;
 			}
-			//magenta
-			case 1:
+			// Magenta
+			case MAGENTA:
 			switch(m_type)
 			{
-				case 0:
-					tabId.push_back(161);
+				case manager_msg::FinalApproachingGoal::BS:
+					tabId.push_back(M_BS_IN);
 					break;
-				case 1:
-					tabId.push_back(129);
-					tabId.push_back(145);
+				case manager_msg::FinalApproachingGoal::RS:
+					tabId.push_back(M_RS1_IN);
+					tabId.push_back(M_RS2_IN);
 					break;
-				case 2:
-					tabId.push_back(97);
-					tabId.push_back(113);
+				case manager_msg::FinalApproachingGoal::CS:
+					tabId.push_back(M_CS1_IN);
+					tabId.push_back(M_CS2_IN);
 					break;
-				case 3:
-					tabId.push_back(49);
+				case manager_msg::FinalApproachingGoal::DS:
+					tabId.push_back(M_DS_IN);
 					break;
 			}
 		}
-		//out
-		if(m_type==101)
+
+		// Out
+		if(m_type == manager_msg::FinalApproachingGoal::OUT)
 		{
 			for(int i=0; i<tabId.size(); i++)
 			{
@@ -660,36 +757,40 @@ std::vector<int> FinalApproaching::idWanted(int team,int phase)
 			}
 		}
 	}
+
 	return tabId;
 }
 
-int FinalApproaching::correspondingId(std::vector<int> allPossibleId,std::vector<int> arTagId,std::vector<float> arTagDistance)
+int FinalApproaching::correspondingId(std::vector<int> allPossibleId, std::vector<int> arTagId, std::vector<float> arTagDistance)
 {
 	int correspondingId = -1;
 	std::vector<int> ids;
 	ids.clear();
 	if(!arTagId.empty())
-	{
-		//loop to get the good ARTags
-		for(int i=0; i<allPossibleId.size(); i++)
+	{;
+		// oop to get the good ARTags
+		for(int i=0; i < allPossibleId.size(); i++)
 		{
 			for(int k=0; k<arTagId.size(); k++)
 			{
-				if(arTagId[k]==allPossibleId[i])
+				ROS_DEBUG_NAMED("investigation", "Possible %d VS Found %d", allPossibleId[i], arTagId[k]);
+				if(arTagId[k] == allPossibleId[i])
 				{
 					ids.push_back(k);
+					ROS_DEBUG_NAMED("investigation", "Match");
 				}
 			}
 		}
+
 		if(!ids.empty() && !arTagDistance.empty())
 		{
 			int tmp = ids[0];
-			ROS_DEBUG("taille de ids: %d de arTagDistance: %d",(int)ids.size(),(int)arTagDistance.size());
+			ROS_DEBUG("taille de ids: %d de arTagDistance: %d", (int)ids.size(), (int)arTagDistance.size());
 			//loop to keep the nearest ARTag
 			for(int j=0; j<ids.size(); j++)
 			{
 				ROS_DEBUG("ids[j]: %d tmp: %d",ids[j],tmp);
-				if(arTagDistance[ids[j]]<arTagDistance[tmp])
+				if(arTagDistance[ids[j]] < arTagDistance[tmp])
 				{
 					tmp = ids[j];
 				}
@@ -700,28 +801,72 @@ int FinalApproaching::correspondingId(std::vector<int> allPossibleId,std::vector
 	return correspondingId;
 }
 
-int FinalApproaching::asservissementCamera(std::vector<float> px, std::vector<float> pz, std::vector<float> oz,int k)
+int FinalApproaching::asservissementCamera(std::vector<float> px, std::vector<float> pz, std::vector<float> oz, int k, ArTagFA &arTag)
 {
-	int avancementArTag=0;
+	int avancementArTag = 0;
 	geometry_msgs::Twist msgTwist;
+
+	// float errY = 0.0;
+	// float errX = 0.0;
+	// float errTheta = 0.0;
+
+ //    std::string tf_prefix;
+ //    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
+ //    if (tf_prefix.size() != 0)
+ //    {
+ //        tf_prefix += "/";
+ //    }
+
+ //    tf::StampedTransform transform;
+ //    try
+ //    {
+ //        g_tf_listener->lookupTransform(arTag.getFrame(), tf_prefix+"base_link", arTag.getStamp(), transform);
+ //    }
+ //    catch (tf::TransformException ex)
+ //    {
+ //        ROS_WARN("%s",ex.what());
+ //        return;
+ //    }
+
+ //    double yaw = tf::getYaw(transform.getRotation());
+
+ //        p.x     = px[k]*cos(yaw) - it.y*sin(yaw) + transform.getOrigin().x();
+ //        p.y     = px[k]*sin(yaw) + it.y*cos(yaw) + transform.getOrigin().y();
+ //        p.theta = it.theta + yaw;
+
+
+
+
+
+
+
+
+
+
+
+
+
 	if(!px.empty() && !pz.empty() && !oz.empty())
 	{
+		ROS_DEBUG_NAMED("investigation", "PX: %f, PZ: %f, OZ: %f", px[k], pz[k], oz[k]);
 		if(std::abs(px[k]) < 0.005)
-        	{
+        {
 			msgTwist.linear.y = 0;
 		}
 		else
 		{
-			msgTwist.linear.y = -0.75*px[k];
+			msgTwist.linear.y = -0.75 * px[k];
 		}
+
 		if(std::abs(pz[k]-0.50) < 0.01)
 		{
 			msgTwist.linear.x = 0;
 		}
 		else
 		{
-			msgTwist.linear.x = 0.25*(pz[k]-0.50);
+			msgTwist.linear.x = 0.25 * (pz[k]-0.50);
 		}
+
 		if(std::abs(oz[k]) < 0.01)
 		{
 			msgTwist.angular.z = 0;
@@ -730,17 +875,19 @@ int FinalApproaching::asservissementCamera(std::vector<float> px, std::vector<fl
 		{
 			msgTwist.angular.z = 0.125*oz[k];
 		}
-		if(msgTwist.linear.x==0 && msgTwist.linear.y==0 && msgTwist.angular.z==0)
+
+		if(msgTwist.linear.x == 0 && msgTwist.linear.y == 0 && msgTwist.angular.z == 0)
 		{
-			avancementArTag=1;
+			avancementArTag = 1;
 		}
 	}
 	else
 	{
-		msgTwist.linear.x=0;
-		msgTwist.linear.y=0;
-		msgTwist.angular.z=0;
+		msgTwist.linear.x = 0;
+		msgTwist.linear.y = 0;
+		msgTwist.angular.z = 0;
 	}
+
 	m_pubMvt.publish(msgTwist);
 	return avancementArTag;
 }
@@ -751,11 +898,11 @@ float FinalApproaching::cameraScanVelocity(int phase)
 	switch(phase)
 	{
 		case 1:
-			//turn on the left
+			// Turn on the left
 			tmp = 0.25; 
 			break;
 		case 2:
-			//turn on the right
+			// Turn on the right
 			tmp = -0.25; 
 			break;
 		case 3: 
@@ -767,22 +914,22 @@ float FinalApproaching::cameraScanVelocity(int phase)
 
 int FinalApproaching::phaseDependingOnOrientation(float newOrientation, int phase)
 {
-	//to have newOrientation between -PI and PI
-	if(newOrientation<-M_PI)
+	// To have newOrientation between -PI and PI
+	if(newOrientation < -M_PI)
 	{
-		newOrientation=newOrientation+2*M_PI;
+		newOrientation = newOrientation + 2*M_PI;
 	}
-	if(newOrientation>M_PI)
+	if(newOrientation > M_PI)
 	{
-		newOrientation=newOrientation-2*M_PI;
+		newOrientation = newOrientation - 2*M_PI;
 	}
-	//if robot have finished turning left
-	if(newOrientation>M_PI_2 && phase==1)
+	// If robot have finished turning left
+	if(newOrientation > M_PI_2 && phase == 1)
 	{
 		phase = 2;
 	}
-	//if robot have finished turning right
-	if(newOrientation<-M_PI_2 && phase==2)
+	// If robot have finished turning right
+	if(newOrientation < -M_PI_2 && phase == 2)
 	{
 		phase = 3;
 	}

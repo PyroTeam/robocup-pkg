@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
 	ar_track_alvar_msgs
 	trait_im_msg
 	nav_msgs
+	visualization_msgs
 )
 
 # Use clang++-3.6 if available
@@ -62,6 +63,7 @@ target_link_libraries(finalApproaching_node
 )
 add_dependencies(finalApproaching_node
 	${manager_msg_EXPORTED_TARGETS}
+	${visualization_msgs_EXPORTED_TARGETS}
 	approche_finale_msg_gencpp
 	comm_msg_gencpp
 	manager_msg_gencpp

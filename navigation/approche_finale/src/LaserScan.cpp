@@ -7,7 +7,7 @@
 
 LaserScan::LaserScan():m_rangeMin(0.0),m_rangeMax(0.0),m_angleMin(0.0),m_angleMax(0.0),m_angleInc(0.0)
 {
-	m_lsSub = m_nh.subscribe("hardware/scan",1000,&LaserScan::laserCallback,this);
+	m_lsSub = m_nh.subscribe("hardware/scan", 1000, &LaserScan::laserCallback, this);
 }
 
 void LaserScan::laserCallback(const sensor_msgs::LaserScanConstPtr& scan)
@@ -18,7 +18,8 @@ void LaserScan::laserCallback(const sensor_msgs::LaserScanConstPtr& scan)
 	setAngleMax(scan->angle_max);
 	setAngleInc(scan->angle_increment);
 	m_ranges = scan->ranges;
-
+	m_stamp = scan->header.stamp;
+	m_frame = scan->header.frame_id;
 }
 
 

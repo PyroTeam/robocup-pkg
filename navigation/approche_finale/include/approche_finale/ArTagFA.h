@@ -27,6 +27,8 @@ class ArTagFA
 		std::vector<float> getDistance();
 		bool getFoundId(){return m_foundId;}
 		void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg);
+		ros::Time getStamp(void){ return m_stamp;}
+		std::string getFrame(void){ return m_frame;}
 
 	private:
 		ros::NodeHandle m_nh;
@@ -37,6 +39,8 @@ class ArTagFA
 		std::vector<float> m_orientationZ;
 		std::vector<float> m_distance;
 		bool m_foundId;
+		std::string m_frame;
+		ros::Time m_stamp;
 
 };
 
