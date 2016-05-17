@@ -178,6 +178,28 @@ geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, const ge
 }
 
 /**
+ * fonction qui retourne la position métrique d'une case de la grille à partir de son index dans le tableau de données
+ *
+ * \param grid la grille
+ * \param index position dans le tableau grid.data
+ *
+ * \return point en coordonnée métrique
+ */
+geometry_msgs::Point getCellCenter(nav_msgs::OccupancyGrid &grid, unsigned int index)
+{
+    geometry_msgs::Point p;
+
+    int a = index/int(grid.info.width);
+    int b = index%int(grid.info.width);
+
+    p.y = a*grid.info.resolution + grid.info.origin.position.y;
+    p.x = b*grid.info.resolution + grid.info.origin.position.x;
+
+    return p;
+}
+
+
+/**
  * fonction qui modifie la valeur d'une cellule de la grille
  *
  * \param grid la grille

@@ -9,6 +9,8 @@
  * \license
  * \version
  */
+ #ifndef SIMPLE_CLOUD_LASER_PLUGIN_H_
+ #define SIMPLE_CLOUD_LASER_PLUGIN_H_
 
 #include <filters/filter_base.h>
 #include <pluginlib/class_list_macros.h>
@@ -26,3 +28,6 @@ public:
 };
 
 PLUGINLIB_REGISTER_CLASS(SimpleCloudLaserFilter, SimpleCloudLaser, filters::FilterBase<sensor_msgs::PointCloud>);
+
+
+#endif /* SIMPLE_CLOUD_LASER_PLUGIN_H_ */

@@ -38,6 +38,8 @@ void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, 
 geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, float x, float y);
 geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p);
 
+geometry_msgs::Point getCellCenter(nav_msgs::OccupancyGrid &grid, unsigned int index);
+
 } // namespace occupancy_grid_utils
 
 #endif /* OCCUPANCY_GRID_UTILS_OCCUPANCY_GRID_UTILS_H_ */
