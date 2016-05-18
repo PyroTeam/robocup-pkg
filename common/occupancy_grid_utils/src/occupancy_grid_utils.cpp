@@ -16,22 +16,6 @@
 
 namespace occupancy_grid_utils {
 
-void createEmptyMap(nav_msgs::OccupancyGrid &map, const geometry_msgs::Point &size, const geometry_msgs::Point &origin, const std::string &frame_id, double resolution)
-{
-	map.header.frame_id = frame_id;
-	map.info.origin.position.x = origin.x;
-	map.info.origin.position.y = origin.y;
-	map.info.origin.position.z = 0;
-	map.info.origin.orientation.x = 0;
-	map.info.origin.orientation.y = 0;
-	map.info.origin.orientation.z = 0;
-	map.info.origin.orientation.w = 1;
-	map.info.map_load_time = ros::Time::now();
-	map.info.resolution = resolution;
-	map.info.width = size.x/resolution;
-	map.info.height = size.y/resolution;
-	map.data.assign(map.info.width * map.info.height, 0);
-}
 
 /**
  * fonction qui calcule la position dans le vecteur de donnée d'un OccupancyGrid
@@ -175,27 +159,6 @@ geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, float x,
 geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p)
 {
 	return getCellAsPixelCoord(grid, p.x, p.y);
-}
-
-/**
- * fonction qui retourne la position métrique d'une case de la grille à partir de son index dans le tableau de données
- *
- * \param grid la grille
- * \param index position dans le tableau grid.data
- *
- * \return point en coordonnée métrique
- */
-geometry_msgs::Point getCellCenter(nav_msgs::OccupancyGrid &grid, unsigned int index)
-{
-    geometry_msgs::Point p;
-
-    int a = index/int(grid.info.width);
-    int b = index%int(grid.info.width);
-
-    p.y = a*grid.info.resolution + grid.info.origin.position.y;
-    p.x = b*grid.info.resolution + grid.info.origin.position.x;
-
-    return p;
 }
 
 

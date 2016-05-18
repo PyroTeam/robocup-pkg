@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
 	geometry_msgs
 	sensor_msgs
   	actionlib
+    nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -53,6 +54,7 @@ DIRECTORY
 	msg
 FILES
   	Landmarks.msg
+    OccupancyGridFloat.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -75,6 +77,7 @@ generate_messages(
   	std_msgs
   	geometry_msgs
     actionlib
+    nav_msgs
 )
 
 ###################################

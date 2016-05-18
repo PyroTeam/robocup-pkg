@@ -32,6 +32,7 @@ public:
     inline void getParams(geometry_msgs::Point &p, float &a, float &b) const;
 
     virtual void draw(nav_msgs::OccupancyGrid &grid, int max_value=100) override;
+    virtual void draw(deplacement_msg::OccupancyGridFloat &grid, int max_value=100) override;
 
 protected:
     geometry_msgs::Point m_p;

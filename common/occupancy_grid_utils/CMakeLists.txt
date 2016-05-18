@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  deplacement_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -133,12 +134,16 @@ add_library(occupancy_grid_utils
    src/shape/Paraboloid.cpp
    src/grid_modifier/BasicGradientModifier.cpp
    src/grid_modifier/FastGradientModifier.cpp
+   src/grid_fusion/basic_fusion.cpp
 )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-add_dependencies(occupancy_grid_utils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(occupancy_grid_utils
+    ${${PROJECT_NAME}_EXPORTED_TARGETS}
+    ${catkin_EXPORTED_TARGETS}
+    deplacement_msg_gencpp)
 
 set_target_properties(occupancy_grid_utils PROPERTIES COMPILE_FLAGS "-std=c++11")
 

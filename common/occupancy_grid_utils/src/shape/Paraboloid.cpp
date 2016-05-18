@@ -49,12 +49,30 @@ void Paraboloid::draw(nav_msgs::OccupancyGrid &grid, int max_value)
         {
             grid.data[i] = int(z);
         }
-            //grid.data[i] = 50;
     }
-
-
-//        setPixelCell(grid, x0, y0, max_value);
-
 }
+
+
+void Paraboloid::draw(deplacement_msg::OccupancyGridFloat &grid, int max_value)
+{
+    for (unsigned int i = 0; i < grid.data.size(); ++i)
+    {
+        geometry_msgs::Point p =  getCellCenter(grid, i);
+
+        double dx = (p.x-m_p.x)/m_a;
+        double dy = (p.y-m_p.y)/m_b;
+
+        double z = dx*dx + dy*dy + m_p.z;
+        if (z >= max_value)
+        {
+            grid.data[i] = max_value;
+        }
+        else
+        {
+            grid.data[i] = float(z);
+        }
+    }
+}
+
 
 } // namespace occupancy_grid_utils
