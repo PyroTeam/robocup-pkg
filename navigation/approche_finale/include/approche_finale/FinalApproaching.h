@@ -135,15 +135,13 @@ class FinalApproaching
 	int m_type;
 	int m_side;
 	int m_parameter;
-	enum team_e m_team;
+	enum team_e m_teamColor;
 
   public:
 	FinalApproaching(std::string name)
 	    : m_as(m_nh, name, boost::bind(&FinalApproaching::executeCB, this, _1), false), m_actionName(name)
 	{
-		std::string teamColor;
-		m_nh.param<std::string>("teamColor", teamColor, "cyan");
-		m_team = (teamColor == "magenta") ? MAGENTA : CYAN;
+		refreshParams();
 
 		// Advertise publishers
 		m_pubMvt = m_nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1);
@@ -222,6 +220,18 @@ class FinalApproaching
 	 */
 	std::vector<Segment> segmentsConstruction(std::list<std::vector<Point> > tabPoints, std::vector<float> ranges,
 	                                          float angleMin, double angleInc);
+
+	void refreshParams(void)
+	{
+		std::string teamColor_str;
+		if (!m_nh.getParamCached("teamColor", teamColor_str))
+		{
+			teamColor_str = "cyan";
+			ROS_WARN("Unable to get teamColor parameter. Will use default: %s", teamColor_str.c_str());
+		}
+
+		m_teamColor = (teamColor_str == "magenta") ? MAGENTA : CYAN;
+	}
 
 	/**
 	 * \brief      Calcule la longueur d'un objet
@@ -307,7 +317,7 @@ class FinalApproaching
 	 * \param[in]  k      { parameter_description }
 	 * \param      arTag  The archive tag
 	 *
-	 * \return     retourne 0 si c'est fini, 0 sinon
+	 * \return     retourne 1 si c'est fini, 0 sinon
 	 */
 	int asservissementCamera(std::vector<float> px, std::vector<float> pz, std::vector<float> oz, int k,
 	                         ArTagFA &arTag);
