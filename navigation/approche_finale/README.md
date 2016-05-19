@@ -1,17 +1,19 @@
-approche_finale
-===============
+FinalApproach
+=============
 
 Description
 -----------
-* Package permettant d aborder les machines afin de pouvoir interagir avec elles
-* L'approche finale se déroule en trois étapes :
+* Package permettant d'aborder les machines afin de pouvoir interagir avec elles par la suite
+* L'approche finale se déroule actuellement en trois étapes :
     * Recherche d'un arTag correspondant à la demande de l'exécuteur de tâches
-    * Asservissement grâce aux données de la caméra
+    * Asservissement grâce aux données de la caméra, approche à 50cm
     * Asservissement grâce aux données du laser
+    	1. En ciblant en Y d'abord
+    	2. En avancant tout droit en suite
 
 Noeuds
 ------
-* `finalApproaching_node` : noeud principal 
+* `finalApproaching_node` : noeud principal
 * `fake_scan_node` : noeud de test pour valider le code autour de l action
 
 Lignes de commandes
@@ -32,7 +34,7 @@ Launchfiles
 
 Remarques utiles
 ----------------
-* Pour l'instant, il est primordial de laisser les ROS_INFO dans le fichier `arTagFA.h` .  
+* Pour l'instant, il est primordial de laisser les ROS_INFO dans le fichier `arTagFA.h` .
 Sans cela, il y a des erreurs de segmentation lors des appels aux fonctions qui y sont contenues.
 * Bien mettre en paramètre la couleur de l'équipe (par défaut équipe cyan)
 
@@ -42,3 +44,16 @@ Travail restant
 * [x] Faire le test ROS_UNLIKELY(true) pour chercher à résoudre l'erreur de segmentation
 * [ ] Gestion des murs qui sont à proximité des machines
 * [ ] Déterminer au préalable si un objet existe dans la zone à explorer
+
+----
+
+## BILAN
+Je vais résumer ici les problèmes connus, améliorations possibles, etc
+
+### Problèmes connus :
+ * L'utilisation des ArTags est limitée au repère de la caméra, il n'y a pas de changement de repère effectué.
+ * L'asservissement laser est particulièrement lent.
+ * Le filtre sur les machines "accessible" n'est pas du ressort de l'approche finale.
+
+### Conditions nécéssaire :
+ * [ ] Arttrack_alvar doit publier ses positions dans le repère caméra.
