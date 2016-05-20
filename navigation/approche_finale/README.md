@@ -57,3 +57,6 @@ Je vais résumer ici les problèmes connus, améliorations possibles, etc
 
 ### Conditions nécéssaire :
  * [ ] Arttrack_alvar doit publier ses positions dans le repère caméra.
+
+### Améliorations possibles :
+ * Make a common lib with PID or look after http://wiki.ros.org/pid and http://wiki.ros.org/lyap_control

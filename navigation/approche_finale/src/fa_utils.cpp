@@ -15,6 +15,8 @@
 #include <math.h>
 #include <iostream>
 
+// XXX: Make a common lib with PID or look after http://wiki.ros.org/pid and http://wiki.ros.org/lyap_control
+
 geometry_msgs::Point orthoProjection(Point p, geometry_msgs::Pose2D p2d)
 {
         float denom = sqrt(cos(p2d.theta)*cos(p2d.theta)+sin(p2d.theta)*sin(p2d.theta));
