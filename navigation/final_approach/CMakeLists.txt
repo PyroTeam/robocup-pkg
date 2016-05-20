@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(approche_finale)
+project(final_approach)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -35,7 +35,7 @@ message(STATUS "Found : ${CLANGPP}")
 ###################################
 catkin_package(
 	INCLUDE_DIRS include
-	LIBRARIES approche_finale
+	LIBRARIES final_approach
 	CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib sensor_msgs geometry_msgs message_runtime std_msgs message_generation ar_track_alvar nav_msgs
 #  DEPENDS system_lib
 )
@@ -45,7 +45,9 @@ catkin_package(
 ###########
 
 ## FinalApproaching_node
-add_executable(finalApproaching_node 
+add_executable(
+	finalApproaching_node
+
 	src/fa_utils.cpp
 	src/LaserScan.cpp
 	src/Point.cpp
@@ -58,64 +60,89 @@ add_executable(finalApproaching_node
 	src/GameStateFA.cpp
 	src/finalApproaching_node.cpp
 )
-target_link_libraries(finalApproaching_node
+target_link_libraries(
+	finalApproaching_node
+
 	${catkin_LIBRARIES}
 )
-add_dependencies(finalApproaching_node
+add_dependencies(
+	finalApproaching_node
+
 	${manager_msg_EXPORTED_TARGETS}
 	${visualization_msgs_EXPORTED_TARGETS}
-	approche_finale_msg_gencpp
+	final_approach_msg_gencpp
 	comm_msg_gencpp
 	manager_msg_gencpp
 )
-set_target_properties(finalApproaching_node
+set_target_properties(
+	finalApproaching_node
+
 	PROPERTIES COMPILE_FLAGS "-g3 -std=c++11"
 )
 
 
 # Mocked final approach (work on simulation, with mocked machine detection)
-add_executable(simFinalApproach_node
+add_executable(
+	simFinalApproach_node
+
 	src/simFinalApproach_node.cpp
 	src/SimFinalApproach.cpp
 	src/OdomFA.cpp
 )
-target_link_libraries(simFinalApproach_node
+target_link_libraries(
+	simFinalApproach_node
+
 	${catkin_LIBRARIES}
 )
-add_dependencies(simFinalApproach_node
+add_dependencies(
+	simFinalApproach_node
+
 	deplacement_msg_gencpp
 	manager_msg_gencpp
 )
-set_target_properties(simFinalApproach_node
+set_target_properties(
+	simFinalApproach_node
+
 	PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 
 
 # Fake_scan_cyril_node
-add_executable(fake_scan_cyril_node
+add_executable(
+	fake_scan_cyril_node
+
 	src/fake_scan_node.cpp
 )
 target_link_libraries(
 	fake_scan_cyril_node
+
 	${catkin_LIBRARIES}
 )
-set_target_properties(fake_scan_cyril_node
+set_target_properties(
+	fake_scan_cyril_node
+
 	PROPERTIES COMPILE_FLAG "-g3 -std=c++0x"
 )
 
+
 # AR Tag reader node
-add_executable(ar_tag_reader_node
+add_executable(
+	ar_tag_reader_node
+
 	src/ar_tag_reader_node.cpp
 )
-target_link_libraries(ar_tag_reader_node
+target_link_libraries(
+	ar_tag_reader_node
+
 	${catkin_LIBRARIES}
 )
+
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+	include
 	${catkin_INCLUDE_DIRS}
-	include/approche_finale
 )
 
 #############

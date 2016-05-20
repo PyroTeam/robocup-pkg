@@ -1,7 +1,7 @@
-#include "Segment.h"
+#include "final_approach/Segment.h"
 
-#include "Point.h"
-#include "fa_utils.h"
+#include "final_approach/Point.h"
+#include "final_approach/fa_utils.h"
 
 #include <ros/ros.h>
 #include <geometry_msgs/Pose2D.h>

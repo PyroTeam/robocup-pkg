@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(approche_finale_msg)
+project(final_approach_msg)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   message_generation
+  actionlib_msgs
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -44,11 +46,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
- add_message_files(
-   FILES
-   plotDataFA.msg
-#   Message2.msg
- )
+add_message_files(
+	FILES
+		plotDataFA.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -58,19 +59,19 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   DIRECTORY
-#   action
-#   FILES
-#   finalApproaching.action
-# )
+add_action_files(
+	DIRECTORY
+		action
+	FILES
+		FinalApproaching.action
+)
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   std_msgs  # Or other packages containing msgs
-#   actionlib_msgs     
- )
+generate_messages(
+	DEPENDENCIES
+		std_msgs
+		actionlib_msgs
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -83,8 +84,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES approche_finale_msg
-  CATKIN_DEPENDS roscpp rospy message_runtime
+#  LIBRARIES final_approach_msg
+	CATKIN_DEPENDS roscpp rospy message_runtime actionlib_msgs actionlib
 #  DEPENDS system_lib
 )
 
@@ -100,19 +101,19 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(approche_finale_msg
-#   src/${PROJECT_NAME}/approche_finale_msg.cpp
+# add_library(final_approach_msg
+#   src/${PROJECT_NAME}/final_approach_msg.cpp
 # )
 
 ## Declare a cpp executable
-# add_executable(approche_finale_msg_node src/approche_finale_msg_node.cpp)
+# add_executable(final_approach_msg_node src/final_approach_msg_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(approche_finale_msg_node approche_finale_msg_generate_messages_cpp)
+# add_dependencies(final_approach_msg_node final_approach_msg_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(approche_finale_msg_node
+# target_link_libraries(final_approach_msg_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -131,7 +132,7 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS approche_finale_msg approche_finale_msg_node
+# install(TARGETS final_approach_msg final_approach_msg_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -156,7 +157,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_approche_finale_msg.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_final_approach_msg.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

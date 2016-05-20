@@ -39,9 +39,9 @@
 #ifndef FINALAPPROACHING_H
 #define FINALAPPROACHING_H
 
-#include "Point.h"
-#include "Segment.h"
-#include "ArTagFA.h"
+#include "final_approach/Point.h"
+#include "final_approach/Segment.h"
+#include "final_approach/ArTagFA.h"
 
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>

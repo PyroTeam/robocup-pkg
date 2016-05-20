@@ -9,7 +9,7 @@
 #ifndef FA_UTILS_H
 #define FA_UTILS_H
 
-#include "Point.h"
+#include "final_approach/Point.h"
 
 #include <ros/ros.h>
 #include <geometry_msgs/Point.h>

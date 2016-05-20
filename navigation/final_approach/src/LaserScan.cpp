@@ -1,4 +1,4 @@
-#include "LaserScan.h"
+#include "final_approach/LaserScan.h"
 
 #include <ros/ros.h>
 #include <sensor_msgs/LaserScan.h>
