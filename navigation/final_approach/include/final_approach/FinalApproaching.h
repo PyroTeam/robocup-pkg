@@ -50,7 +50,7 @@
 #include <geometry_msgs/Twist.h>
 
 #include <manager_msg/FinalApproachingAction.h>
-#include <approche_finale_msg/plotDataFA.h>
+#include <final_approach_msg/plotDataFA.h>
 #include <manager_msg/FinalApproachingAction.h>
 
 #include <vector>
@@ -123,7 +123,7 @@ class FinalApproaching
 	// Messages
 	manager_msg::FinalApproachingFeedback m_feedback;
 	manager_msg::FinalApproachingResult m_result;
-	approche_finale_msg::plotDataFA m_plotData;
+	final_approach_msg::plotDataFA m_plotData;
 	visualization_msgs::Marker m_marker;
 	geometry_msgs::Twist m_msgTwist;
 
@@ -145,7 +145,7 @@ class FinalApproaching
 
 		// Advertise publishers
 		m_pubMvt = m_nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1);
-		m_plot = m_nh.advertise<approche_finale_msg::plotDataFA>("rosplot/plotDataFA", 1000);
+		m_plot = m_nh.advertise<final_approach_msg::plotDataFA>("rosplot/plotDataFA", 1000);
 		m_markerPub = m_nh.advertise<visualization_msgs::Marker>("visualization_marker", 100);
 
 		// Start ActionServer

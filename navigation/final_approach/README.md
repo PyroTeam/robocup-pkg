@@ -18,7 +18,7 @@ Noeuds
 
 Lignes de commandes
 -------------------
-* `rosrun approche_finale finalApproaching_node` : ligne permettant de lancer l'approche finale
+* `rosrun final_approach finalApproaching_node` : ligne permettant de lancer l'approche finale
 * `rosrun actionlib axclient.py /finalApproaching_node` : ligne permettant de simuler un client
 
 Champs possibles

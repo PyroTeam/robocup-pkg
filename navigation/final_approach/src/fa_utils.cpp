@@ -7,7 +7,7 @@
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Pose2D.h>
 
-#include <approche_finale_msg/plotDataFA.h>
+#include <final_approach_msg/plotDataFA.h>
 
 #include <cmath>
 #include <vector>
@@ -49,7 +49,7 @@ float moy(std::list<float> position_y){
 	return moyenne;
 }
 
-int asservissementAngle(approche_finale_msg::plotDataFA &plotData,ros::Publisher pubMvt,float angle){
+int asservissementAngle(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt,float angle){
 	geometry_msgs::Twist msg;
 	plotData.angleErr = std::abs(angle-0.01);
 	if(std::abs(angle-0.01) < 0.015)
@@ -70,7 +70,7 @@ int asservissementAngle(approche_finale_msg::plotDataFA &plotData,ros::Publisher
 }
 
 
-int asservissementPositionY(approche_finale_msg::plotDataFA &plotData,ros::Publisher pubMvt, float goal, float moyPos, float yLeft, float yRight){
+int asservissementPositionY(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt, float goal, float moyPos, float yLeft, float yRight){
 	geometry_msgs::Twist msg;
 	msg.angular.z = 0;
 	if(yLeft >= 0 && yRight >= 0)
@@ -116,7 +116,7 @@ int asservissementPositionY(approche_finale_msg::plotDataFA &plotData,ros::Publi
 }
 
 
-int asservissementPositionX(approche_finale_msg::plotDataFA &plotData,ros::Publisher pubMvt, float distance, float goal){
+int asservissementPositionX(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt, float distance, float goal){
 	geometry_msgs::Twist msg;
 	msg.linear.y = 0;
 	msg.angular.z = 0;

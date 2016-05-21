@@ -115,7 +115,7 @@ void SimFinalApproach::executeCB(const manager_msg::finalApproachingGoalConstPtr
 // Disabled code
 #if (0 == 1)
 	ros::Rate loopRate(100);
-	approche_finale_msg::plotDataFA plotData;
+	final_approach_msg::plotDataFA plotData;
 	//general initialisation
 	bool success = true;
 	feedback.percent_complete = 0;

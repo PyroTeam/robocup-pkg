@@ -1,7 +1,7 @@
 <launch>
 	<group ns="approchefinale1">
 		<!-- to use ROS_DEBUG -->
-		<env name="ROSCONSOLE_CONFIG_FILE" value="$(find approche_finale)/cfg/custom_rosconsole.conf"/>
+		<env name="ROSCONSOLE_CONFIG_FILE" value="$(find final_approach)/cfg/custom_rosconsole.conf"/>
 		<!--if cyan then teamColor = 0, if magenta then teamColor = 1-->
 	    <param name="teamColor" value="cyan" />
 	    <node pkg="final_approach" name="FA_node" type="finalApproaching_node" launch-prefix="ddd --args"/>

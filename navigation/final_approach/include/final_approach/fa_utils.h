@@ -15,7 +15,7 @@
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Pose2D.h>
 
-#include <approche_finale_msg/plotDataFA.h>
+#include <final_approach_msg/plotDataFA.h>
 
 #include <vector>
 
@@ -37,19 +37,19 @@ float moy(std::list<float> positionY);
  *  \brief		permet d asservir en angle
  *  \return		etat d avancement de l asservissement
  */
-int asservissementAngle(approche_finale_msg::plotDataFA &plotData,ros::Publisher pubMvt,float moyGradient);
+int asservissementAngle(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt,float moyGradient);
 
 /**
  *  \brief		permet d asservir en y (repere laser)
  *  \return		etat d avancement de l asservissement
  */
-int asservissementPositionY(approche_finale_msg::plotDataFA &plotData,ros::Publisher pubMvt, float goal, float moyPos, float yLeft, float yRight);
+int asservissementPositionY(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt, float goal, float moyPos, float yLeft, float yRight);
 
 /**
  *  \brief		permet d asservir en x (repere laser)
  *  \return		etat d avancement de l asservissement
  */
-int asservissementPositionX(approche_finale_msg::plotDataFA &plotData,ros::Publisher pubMvt, float distance, float goal);
+int asservissementPositionX(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt, float distance, float goal);
 
 
 #endif // _FINAL_APPROACH__FA_UTILS__H_
