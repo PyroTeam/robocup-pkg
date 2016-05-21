@@ -31,7 +31,7 @@ void FinalApproaching::preemptCB()
 	m_as.setPreempted();
 }
 
-void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr &goal)
+void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &goal)
 {
 	ros::Rate loopRate(100);
 	bool firstTimeInLoop = false;  // Used to reduce logging, see ROS_DEBUG_COND(firstTimeInLoop, "[...]");
@@ -431,28 +431,28 @@ float FinalApproaching::objectifY()
 	float tmp = 0;
 	switch (m_parameter)
 	{
-	case manager_msg::FinalApproachingGoal::S1:
+	case final_approach_msg::FinalApproachingGoal::S1:
 		tmp = 0.28;
 		break;
-	case manager_msg::FinalApproachingGoal::S2:
+	case final_approach_msg::FinalApproachingGoal::S2:
 		tmp = 0.175;
 		break;
-	case manager_msg::FinalApproachingGoal::S3:
+	case final_approach_msg::FinalApproachingGoal::S3:
 		tmp = 0.08;
 		break;
-	case manager_msg::FinalApproachingGoal::LANE_RS:
+	case final_approach_msg::FinalApproachingGoal::LANE_RS:
 		tmp = 0.09;
 		break;
-	case manager_msg::FinalApproachingGoal::LIGHT:
+	case final_approach_msg::FinalApproachingGoal::LIGHT:
 		tmp = 0.35;
 		break;
-	case manager_msg::FinalApproachingGoal::CONVEYOR:
+	case final_approach_msg::FinalApproachingGoal::CONVEYOR:
 		switch (m_side)
 		{
-		case manager_msg::FinalApproachingGoal::IN:
+		case final_approach_msg::FinalApproachingGoal::IN:
 			tmp = 0.37;
 			break;
-		case manager_msg::FinalApproachingGoal::OUT:
+		case final_approach_msg::FinalApproachingGoal::OUT:
 			tmp = 0.315;
 			break;
 		}
@@ -465,7 +465,7 @@ float FinalApproaching::objectifY()
 float FinalApproaching::objectifX()
 {
 	float tmp = 0;
-	if (m_parameter == manager_msg::FinalApproachingGoal::LIGHT)
+	if (m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT)
 	{
 		tmp = 0.35;
 	}
@@ -799,21 +799,21 @@ std::vector<int> FinalApproaching::idWanted(int phase)
 			switch (m_type)
 			{
 			// BS
-			case manager_msg::FinalApproachingGoal::BS:
+			case final_approach_msg::FinalApproachingGoal::BS:
 				tabId.push_back(C_BS_IN);
 				break;
 			// RS
-			case manager_msg::FinalApproachingGoal::RS:
+			case final_approach_msg::FinalApproachingGoal::RS:
 				tabId.push_back(C_RS1_IN);
 				tabId.push_back(C_RS2_IN);
 				break;
 			// CS
-			case manager_msg::FinalApproachingGoal::CS:
+			case final_approach_msg::FinalApproachingGoal::CS:
 				tabId.push_back(C_CS1_IN);
 				tabId.push_back(C_CS2_IN);
 				break;
 			// DS
-			case manager_msg::FinalApproachingGoal::DS:
+			case final_approach_msg::FinalApproachingGoal::DS:
 				tabId.push_back(C_DS_IN);
 				break;
 			}
@@ -821,25 +821,25 @@ std::vector<int> FinalApproaching::idWanted(int phase)
 		case MAGENTA:
 			switch (m_type)
 			{
-			case manager_msg::FinalApproachingGoal::BS:
+			case final_approach_msg::FinalApproachingGoal::BS:
 				tabId.push_back(M_BS_IN);
 				break;
-			case manager_msg::FinalApproachingGoal::RS:
+			case final_approach_msg::FinalApproachingGoal::RS:
 				tabId.push_back(M_RS1_IN);
 				tabId.push_back(M_RS2_IN);
 				break;
-			case manager_msg::FinalApproachingGoal::CS:
+			case final_approach_msg::FinalApproachingGoal::CS:
 				tabId.push_back(M_CS1_IN);
 				tabId.push_back(M_CS2_IN);
 				break;
-			case manager_msg::FinalApproachingGoal::DS:
+			case final_approach_msg::FinalApproachingGoal::DS:
 				tabId.push_back(M_DS_IN);
 				break;
 			}
 		}
 
 		// Out
-		if (m_type == manager_msg::FinalApproachingGoal::OUT)
+		if (m_type == final_approach_msg::FinalApproachingGoal::OUT)
 		{
 			for (int i = 0; i < tabId.size(); i++)
 			{

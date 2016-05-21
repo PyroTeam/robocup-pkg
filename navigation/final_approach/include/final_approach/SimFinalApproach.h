@@ -9,7 +9,7 @@
 #include <geometry_msgs/Twist.h>
 
 // Ours
-#include <manager_msg/finalApproachingAction.h>
+#include <final_approach_msg/FinalApproachingAction.h>
 #include <deplacement_msg/Landmarks.h>
 
 // Stl
@@ -22,7 +22,7 @@ class SimFinalApproach
 		~SimFinalApproach(void);
 
 		void preemptCB();
-		void executeCB(const manager_msg::finalApproachingGoalConstPtr &goal);
+		void executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &goal);
 		void landmarksCallback(const deplacement_msg::Landmarks::ConstPtr& msg);
 
 	private:
@@ -30,11 +30,11 @@ class SimFinalApproach
 
 		/* Action stuffs */
 		// NodeHandle instance must be created before this line. Otherwise strange error may occur.
-		actionlib::SimpleActionServer<manager_msg::finalApproachingAction> m_as;
+		actionlib::SimpleActionServer<final_approach_msg::FinalApproachingAction> m_as;
 		std::string m_actionName;
 		// create messages that are used to published feedback/result
-		manager_msg::finalApproachingFeedback m_feedback;
-		manager_msg::finalApproachingResult m_result;
+		final_approach_msg::FinalApproachingFeedback m_feedback;
+		final_approach_msg::FinalApproachingResult m_result;
 
 		/* Velocity, markers and plot publishers */
 		ros::Publisher m_pubMvt;

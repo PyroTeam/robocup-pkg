@@ -49,9 +49,8 @@
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/Twist.h>
 
-#include <manager_msg/FinalApproachingAction.h>
+#include <final_approach_msg/FinalApproachingAction.h>
 #include <final_approach_msg/plotDataFA.h>
-#include <manager_msg/FinalApproachingAction.h>
 
 #include <vector>
 
@@ -117,12 +116,12 @@ class FinalApproaching
 	ros::NodeHandle m_nh;
 
 	// NodeHandle instance must be created before this line. Otherwise strange error may occur.
-	actionlib::SimpleActionServer<manager_msg::FinalApproachingAction> m_as;
+	actionlib::SimpleActionServer<final_approach_msg::FinalApproachingAction> m_as;
 	std::string m_actionName;
 
 	// Messages
-	manager_msg::FinalApproachingFeedback m_feedback;
-	manager_msg::FinalApproachingResult m_result;
+	final_approach_msg::FinalApproachingFeedback m_feedback;
+	final_approach_msg::FinalApproachingResult m_result;
 	final_approach_msg::plotDataFA m_plotData;
 	visualization_msgs::Marker m_marker;
 	geometry_msgs::Twist m_msgTwist;
@@ -160,7 +159,7 @@ class FinalApproaching
 	 */
 	void preemptCB();
 
-	void executeCB(const manager_msg::FinalApproachingGoalConstPtr &goal);
+	void executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &goal);
 
 	/**
 	 * \brief      Avancement de l action
