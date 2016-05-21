@@ -7,8 +7,8 @@
  * \copyright		PyroTeam, Polytech-Lille
  */
 
-#ifndef POINT_H
-#define POINT_H
+#ifndef _FINAL_APPROACH__POINT__H_
+#define _FINAL_APPROACH__POINT__H_
 
 #include <cmath>
 
@@ -31,4 +31,4 @@ class Point
 		double m_phi;
 };
 
-#endif	/* POINT_H */
+#endif	// _FINAL_APPROACH__POINT__H_

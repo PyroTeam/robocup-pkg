@@ -7,8 +7,8 @@
  * \copyright	PyroTeam, Polytech-Lille
  */
 
-#ifndef GAMESTATE_FA_H
-#define GAMESTATE_FA_H
+#ifndef _FINAL_APPROACH__GAMESTATE_FA__H_
+#define _FINAL_APPROACH__GAMESTATE_FA__H_
 
 #include <ros/ros.h>
 
@@ -43,4 +43,4 @@ class GameStateFA
 
 };
 
-#endif
+#endif // _FINAL_APPROACH__GAMESTATE_FA__H_

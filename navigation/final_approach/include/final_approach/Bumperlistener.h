@@ -7,8 +7,8 @@
  * \copyright		PyroTeam, Polytech-Lille
  */
 
-#ifndef BUMPERLISTENER_H
-#define BUMPERLISTENER_H
+#ifndef _FINAL_APPROACH__BUMPERLISTENER__H_
+#define _FINAL_APPROACH__BUMPERLISTENER__H_
 
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
@@ -27,4 +27,4 @@ class BumperListener
 
 };
 
-#endif
+#endif // _FINAL_APPROACH__BUMPERLISTENER__H_

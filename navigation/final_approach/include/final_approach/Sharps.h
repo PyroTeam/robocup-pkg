@@ -7,8 +7,8 @@
  * \copyright		PyroTeam, Polytech-Lille
  */
 
-#ifndef SHARPS_H
-#define SHARPS_H
+#ifndef _FINAL_APPROACH__SHARPS__H_
+#define _FINAL_APPROACH__SHARPS__H_
 
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud.h>
@@ -31,4 +31,4 @@ class Sharps
 
 };
 
-#endif
+#endif // _FINAL_APPROACH__SHARPS__H_

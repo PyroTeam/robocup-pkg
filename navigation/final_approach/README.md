@@ -31,6 +31,8 @@ Launchfiles
 -----------
 * `debug.launch` : lance le noeud finalApproaching_node avec ddd
 * `approcheFinale.launch` : lance le noeud finalApproaching_node
+* `test_finalApproach.launch` : lance le noeud finalApproaching_node avec du ROS_DEBUG et rviz. Destiné à être lancé
+avec gazebo_sim_launch/launch/env_finalApproach.launch
 
 Remarques utiles
 ----------------
@@ -57,6 +59,11 @@ Je vais résumer ici les problèmes connus, améliorations possibles, etc
 
 ### Conditions nécéssaire :
  * [ ] Arttrack_alvar doit publier ses positions dans le repère caméra.
+ * [ ] Le robot doit être à moins de 2m de la machine (filtrage des arTag trop éloignés)
 
 ### Améliorations possibles :
  * Make a common lib with PID or look after http://wiki.ros.org/pid and http://wiki.ros.org/lyap_control
+ * Paramétrer les asservissements
+   * Paramètrages PID
+   * Paramétrages limites (recherche d'arTag par exemple)
+   * Paramétrages des positions intermédiaires

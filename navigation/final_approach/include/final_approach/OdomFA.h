@@ -7,8 +7,8 @@
  * \copyright		PyroTeam, Polytech-Lille
  */
 
-#ifndef ODOM_FA_H
-#define ODOM_FA_H
+#ifndef _FINAL_APPROACH__ODOM_FA__H_
+#define _FINAL_APPROACH__ODOM_FA__H_
 
 #include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
@@ -33,4 +33,4 @@ class OdomFA
 
 };
 
-#endif
+#endif // _FINAL_APPROACH__ODOM_FA__H_

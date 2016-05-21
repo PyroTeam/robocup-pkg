@@ -7,8 +7,8 @@
  * \copyright  PyroTeam, Polytech-Lille
  */
 
-#ifndef SEGMENT_H
-#define SEGMENT_H
+#ifndef _FINAL_APPROACH__SEGMENT__H_
+#define _FINAL_APPROACH__SEGMENT__H_
 
 #include "Point.h"
 
@@ -80,4 +80,4 @@ class Segment{
 		float m_angle;
 };
 
-#endif
+#endif // _FINAL_APPROACH__SEGMENT__H_

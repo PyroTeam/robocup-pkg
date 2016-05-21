@@ -1,0 +1,14 @@
+<launch>
+
+	<!-- Robotino Pyro 1 -->
+	<group ns="robotino1">
+		<!-- to use ROS_DEBUG -->
+		<env name="ROSCONSOLE_CONFIG_FILE" value="$(find final_approach)/cfg/custom_rosconsole.conf"/>
+
+		<!-- Load the final approach -->
+		<node pkg="final_approach" name="final_approach" type="finalApproaching_node"/>
+	</group>
+
+	<!-- Load rviz -->
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find final_approach)/others/finalApproach.rviz"/>
+</launch>

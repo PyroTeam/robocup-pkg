@@ -1,5 +1,5 @@
 <launch>
     <!--if cyan then teamColor = 0, if magenta then teamColor = 1-->
-    <param name="teamColor" value="0" />
-    <node pkg="approche_finale" name="FA_node" type="finalApproaching_node"/>
+    <param name="teamColor" value="cyan" />
+    <node pkg="final_approach" name="FA_node" type="finalApproaching_node"/>
 </launch>

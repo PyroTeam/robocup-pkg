@@ -8,27 +8,39 @@
  */
 
 
-#ifndef ARTAG_FA_H
-#define ARTAG_FA_H
+#ifndef _FINAL_APPROACH__ARTAGFA__H_
+#define _FINAL_APPROACH__ARTAGFA__H_
 
 #include <ros/ros.h>
 #include <ar_track_alvar_msgs/AlvarMarkers.h>
+#include <geometry_msgs/Pose.h>
 
 #include <vector>
+
+typedef struct arTag_s
+{
+	int id;
+	geometry_msgs::Pose pose;
+	// Les deux champs qui suivent existent par commodité
+	double yaw;
+	float distance;
+} arTag_t;
 
 class ArTagFA
 {
 	public:
 		ArTagFA();
+
 		std::vector<int> getId();
 		std::vector<float> getPositionX();
 		std::vector<float> getPositionZ();
 		std::vector<float> getOrientationZ();
 		std::vector<float> getDistance();
 		bool getFoundId(){return m_foundId;}
-		void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg);
 		ros::Time getStamp(void){ return m_stamp;}
 		std::string getFrame(void){ return m_frame;}
+
+		void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg);
 
 	private:
 		ros::NodeHandle m_nh;
@@ -41,7 +53,7 @@ class ArTagFA
 		bool m_foundId;
 		std::string m_frame;
 		ros::Time m_stamp;
-
+		std::vector<arTag_t> m_arTags;
 };
 
-#endif
+#endif // _FINAL_APPROACH__ARTAGFA__H_

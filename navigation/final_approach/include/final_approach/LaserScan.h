@@ -7,8 +7,8 @@
  * \copyright		PyroTeam, Polytech-Lille
  */
 
-#ifndef LASERSCAN_H
-#define LASERSCAN_H
+#ifndef _FINAL_APPROACH__LASERSCAN__H_
+#define _FINAL_APPROACH__LASERSCAN__H_
 
 #include <ros/ros.h>
 #include <sensor_msgs/LaserScan.h>
@@ -52,4 +52,4 @@ class LaserScan
 		ros::Time m_stamp;
 		std::string m_frame;
 };
-#endif
+#endif // _FINAL_APPROACH__LASERSCAN__H_
