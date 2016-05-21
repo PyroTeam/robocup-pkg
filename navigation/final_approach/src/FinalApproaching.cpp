@@ -63,6 +63,7 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 	std::vector<float> pz = at.getPositionZ();
 	std::vector<float> oz = at.getOrientationZ();
 	std::vector<float> arTagDistance = at.getDistance();
+	std::vector<arTag_t> arTags = at.getArTags();
 
 	// Sharps
 	Sharps sharps;
@@ -92,6 +93,7 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 		if (!m_as.isActive())
 		{
 			ROS_INFO("Action canceled during wait infos looop");
+			stopRobot();
 			return;
 		}
 
@@ -120,10 +122,11 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 		if (!m_as.isActive())
 		{
 			ROS_INFO("Action canceled during ArTag search looop");
+			stopRobot();
 			return;
 		}
 
-		if (at.getFoundId())
+		if (at.hasArTags())
 		{
 			// TODO: Make sure it works
 			arTagId_idx = correspondingId(allPossibleId, at.getId(), at.getDistance());
@@ -134,11 +137,12 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 			initOrientation = odom.getOrientationZ();
 			locateArTagPhase++;
 		}
+
 		m_msgTwist.angular.z = cameraScanVelocity(locateArTagPhase);
 		float newOrientation = odom.getOrientationZ() - initOrientation;
 		locateArTagPhase = phaseDependingOnOrientation(newOrientation, locateArTagPhase);
-		m_pubMvt.publish(m_msgTwist);
 
+		m_pubMvt.publish(m_msgTwist);
 		loopRate.sleep();
 	}
 	if (!firstTimeInLoop)
@@ -163,11 +167,12 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 		if (!m_as.isActive())
 		{
 			ROS_INFO("Action canceled during ArTag asserv looop");
+			stopRobot();
 			return;
 		}
 
 		// If at least one ARTag found
-		if (at.getFoundId())
+		if (at.hasArTags())
 		{
 			px = at.getPositionX();
 			pz = at.getPositionZ();
@@ -175,7 +180,7 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 			arTagId_idx = correspondingId(allPossibleId, at.getId(), at.getDistance());
 			ROS_DEBUG("taille de px: %d de pz: %d de oz: %d et valeur de k: %d", (int)px.size(), (int)pz.size(),
 			          (int)oz.size(), arTagId_idx);
-			avancementArTag = FinalApproaching::asservissementCamera(px, pz, oz, arTagId_idx, at);
+			avancementArTag = FinalApproaching::asservissementCameraNew(at.getArTags()[arTagId_idx]);
 		}
 		allObstacles = sharps.getObstacle();
 		obstacle = false;  // obstacleDetection(allObstacles, k, oz, pz);
@@ -204,6 +209,7 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 		if (!m_as.isActive())
 		{
 			ROS_INFO("Action canceled during LaserScan asserv looop");
+			stopRobot();
 			return;
 		}
 
@@ -338,7 +344,6 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 		ROS_WARN("LaserScan Asservissement - SKIPPED");
 
 	// Reinit
-	geometry_msgs::Twist stop;
 	angleAsservState = 0;
 	yAsservState = 0;
 	xAsservState = 0;
@@ -350,10 +355,7 @@ void FinalApproaching::executeCB(const manager_msg::FinalApproachingGoalConstPtr
 	listPositionY.clear();
 	listOrtho.clear();
 
-	stop.linear.x = 0;
-	stop.linear.y = 0;
-	stop.angular.z = 0;
-	m_pubMvt.publish(stop);
+	stopRobot();
 
 	// If any problem
 	if (bp.getState() || locateArTagPhase == 3 || obstacle == true)
@@ -760,6 +762,7 @@ float FinalApproaching::positionYLaser(Segment s, std::vector<float> ranges, flo
 	// return (left.y-segmentSize+right.y)/(float)2;
 }
 
+// XXX: A retirer / corriger. L'approche finale n'a pas à gérer ce genre de choses
 std::vector<int> FinalApproaching::idWanted(int phase)
 {
 	std::vector<int> tabId;
@@ -969,6 +972,57 @@ int FinalApproaching::asservissementCamera(std::vector<float> px, std::vector<fl
 	return avancementArTag;
 }
 
+// TODO: Regler et paramétrer cette phase
+bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
+{
+	// XXX: La fonction peut-elle être appelé sans arTag valide ? A vérifier
+
+
+	bool finished = true;
+
+	float errX = target.pose.position.z;  // A corriger une fois les transformations appliquée
+	float errY = -target.pose.position.x;  // A corriger une fois les transformations appliquée
+	float errYaw = target.yaw;  // A corriger une fois les transformations appliquée
+
+	ROS_DEBUG_NAMED("artag", "asservissementCameraNew - errX: %f | errY: %f | errYaw: %f", errX, errY, errYaw);
+
+	// Asserv en Y
+	if (std::abs(errY) < 0.03)	// 3cm
+	{
+		m_msgTwist.linear.y = 0;
+	}
+	else
+	{
+		finished = false;
+		m_msgTwist.linear.y = 0.75 * errY;
+	}
+
+	// Asserv en X
+	if (std::abs(errX - 0.50) < 0.03) // 3cm
+	{
+		m_msgTwist.linear.x = 0;
+	}
+	else
+	{
+		finished = false;
+		m_msgTwist.linear.x = 0.75 * (errX - 0.50);
+	}
+
+	// Asserv en angle
+	if (std::abs(errYaw) < 0.02) // 0.02 rad -> 1 deg
+	{
+		m_msgTwist.angular.z = 0;
+	}
+	else
+	{
+		finished = false;
+		m_msgTwist.angular.z = 0.5 * errYaw;
+	}
+
+	m_pubMvt.publish(m_msgTwist);
+	return finished;
+}
+
 float FinalApproaching::cameraScanVelocity(int phase)
 {
 	float tmp;
@@ -1039,4 +1093,20 @@ bool FinalApproaching::obstacleDetection(std::vector<bool> allObstacles, int k, 
 		}
 	}
 	return obstacle;
+}
+
+
+void FinalApproaching::stopRobot(void)
+{
+	geometry_msgs::Twist stop_msg;
+
+	stop_msg.linear.x = 0;
+	stop_msg.linear.y = 0;
+	stop_msg.linear.z = 0;
+	stop_msg.angular.x = 0;
+	stop_msg.angular.y = 0;
+	stop_msg.angular.z = 0;
+	m_pubMvt.publish(stop_msg);
+
+	return;
 }

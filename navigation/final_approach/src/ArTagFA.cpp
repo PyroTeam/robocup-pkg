@@ -48,7 +48,7 @@ void ArTagFA::artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& m
 
 				arTag.id = msg->markers[i].id;
 				arTag.distance = dist;
-				arTag.yaw = pitch; // XXX: C'est évidemment faux, mais l'absence de transformation amène à ça, à changer
+				arTag.yaw = -pitch; // XXX: C'est évidemment faux, mais l'absence de transformation amène à ça, à changer
 				arTag.pose = msg->markers[i].pose.pose;
 
 				m_arTags.push_back(arTag);
@@ -155,5 +155,18 @@ std::vector<float> ArTagFA::getDistance()
 	else
 	{
 		return m_distance;
+	}
+}
+
+std::vector<arTag_t> ArTagFA::getArTags()
+{
+	if(m_arTags.empty())
+	{
+		ROS_WARN_NAMED("artag", "Requested empty arTags vector");
+		return m_arTags;
+	}
+	else
+	{
+		return m_arTags;
 	}
 }

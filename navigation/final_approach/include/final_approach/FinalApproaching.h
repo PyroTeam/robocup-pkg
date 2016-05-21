@@ -322,6 +322,17 @@ class FinalApproaching
 	int asservissementCamera(std::vector<float> px, std::vector<float> pz, std::vector<float> oz, int k,
 	                         ArTagFA &arTag);
 
+
+	/**
+	 * \brief      place le robot à 50cm (par rapport à la caméra) en face de
+	 *             l'artag
+	 *
+	 * \param[in]  target  The targeted arTag
+	 *
+	 * \return     true if finished, false otherwise
+	 */
+	bool asservissementCameraNew(const arTag_t &target);
+
 	/**
 	 * \brief      détermine la vitesse angulaire du robot pour effectuer un
 	 *             balayage
@@ -354,6 +365,12 @@ class FinalApproaching
 	 * \return     retourne true si présence d'obstacle, sinon false
 	 */
 	bool obstacleDetection(std::vector<bool> allObstacles, int k, std::vector<float> oz, std::vector<float> pz);
+
+	/**
+	 * \brief      Publie un message de vitesse nulle sur cmd_vel (pour stopper
+	 *             le robot)
+	 */
+	void stopRobot(void);
 };
 
 

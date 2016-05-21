@@ -36,11 +36,18 @@ class ArTagFA
 		std::vector<float> getPositionZ();
 		std::vector<float> getOrientationZ();
 		std::vector<float> getDistance();
+		std::vector<arTag_t> getArTags();
 		bool getFoundId(){return m_foundId;}
 		ros::Time getStamp(void){ return m_stamp;}
 		std::string getFrame(void){ return m_frame;}
 
 		void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg);
+		/**
+		 * \brief      Indique si l'objet a bien détécté des arTags (dans la limite de son filtrage)
+		 *
+		 * \return     true if has arTags, false otherwise
+		 */
+		bool hasArTags(void) { return !m_arTags.empty();}
 
 	private:
 		ros::NodeHandle m_nh;
