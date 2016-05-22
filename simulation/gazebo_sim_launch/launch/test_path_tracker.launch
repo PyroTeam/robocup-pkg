@@ -37,6 +37,9 @@
 			<!-- Load the tf_broadcaster node -->
 			<node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node"/>
 
+            <!-- load the laser to pcl converter -->
+            <node pkg="laser_utils" name="laser_to_pcl" type="laser_to_pcl"/>
+
 			<!-- Load the fakeSimLightDetection node -->
 			<node pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>
 

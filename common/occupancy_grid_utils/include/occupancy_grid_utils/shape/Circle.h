@@ -25,9 +25,14 @@ class Circle : public Shape
 {
 public:
     Circle();
+    Circle(const geometry_msgs::Point &center, float radius);
     ~Circle();
 
     virtual void draw(nav_msgs::OccupancyGrid &grid, int max_value=100) override;
+    virtual void draw(deplacement_msg::OccupancyGridFloat &grid, int max_value=100) override;
+protected:
+    geometry_msgs::Point m_center;
+    float m_radius;
 };
 
 } // namespace occupancy_grid_utils

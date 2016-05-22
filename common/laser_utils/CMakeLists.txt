@@ -10,6 +10,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  tf
+  laser_geometry
 )
 
 ## System dependencies are found with CMake's conventions
@@ -131,16 +133,16 @@ add_library(laser_utils_plugins
 # add_dependencies(laser_utils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(laser_utils_node src/laser_utils_node.cpp)
+add_executable(laser_to_pcl src/laser_to_pcl_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(laser_utils_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(laser_to_pcl ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(laser_utils_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(laser_to_pcl
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

@@ -28,7 +28,7 @@ deplacement_msg::OccupancyGridFloat additiveFusion(const deplacement_msg::Occupa
 
     for (unsigned int i=0; i<newGrid.data.size(); ++i)
     {
-        newGrid.data[i] = std::min<float>(100.0, grid1.data[i]+grid2.data[i]);
+        newGrid.data[i] = std::min<float>(10000.0, grid1.data[i]+float(grid2.data[i]));
     }
     return newGrid;
 }
@@ -51,7 +51,7 @@ nav_msgs::OccupancyGrid  gridConvert(const deplacement_msg::OccupancyGridFloat &
 
     for (unsigned int i=0; i<newGrid.data.size(); ++i)
     {
-        newGrid.data[i] = int(grid.data[i]);
+        newGrid.data[i] = std::min<int>(100, int(grid.data[i]));
     }
     return newGrid;
 }
