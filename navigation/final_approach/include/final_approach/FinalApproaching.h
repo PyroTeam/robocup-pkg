@@ -155,15 +155,15 @@ class FinalApproaching
   public:
 	FinalApproaching(std::string name)
 	    : m_as(m_nh, name, boost::bind(&FinalApproaching::executeCB, this, _1), false), m_actionName(name)
-	    , m_laserXPidKp(m_nh, "finalApproach/laserAsserv/xPid/Kp", 0.25)
-	    , m_laserXPidKi(m_nh, "finalApproach/laserAsserv/xPid/Ki", 0)
-	    , m_laserXPidKd(m_nh, "finalApproach/laserAsserv/xPid/Kd", 0)
-	    , m_laserYPidKp(m_nh, "finalApproach/laserAsserv/yPid/Kp", 0.075)
-	    , m_laserYPidKi(m_nh, "finalApproach/laserAsserv/yPid/Ki", 0)
-	    , m_laserYPidKd(m_nh, "finalApproach/laserAsserv/yPid/Kd", 0)
-	    , m_laserYawPidKp(m_nh, "finalApproach/laserAsserv/yawPid/Kp", 0.4)
-	    , m_laserYawPidKi(m_nh, "finalApproach/laserAsserv/yawPid/Ki", 0)
-	    , m_laserYawPidKd(m_nh, "finalApproach/laserAsserv/yawPid/Kd", 0)
+	    , m_laserXPidKp(m_nh, "navigation/finalApproach/laserAsserv/xPid/Kp", 0.25)
+	    , m_laserXPidKi(m_nh, "navigation/finalApproach/laserAsserv/xPid/Ki", 0)
+	    , m_laserXPidKd(m_nh, "navigation/finalApproach/laserAsserv/xPid/Kd", 0)
+	    , m_laserYPidKp(m_nh, "navigation/finalApproach/laserAsserv/yPid/Kp", 0.075)
+	    , m_laserYPidKi(m_nh, "navigation/finalApproach/laserAsserv/yPid/Ki", 0)
+	    , m_laserYPidKd(m_nh, "navigation/finalApproach/laserAsserv/yPid/Kd", 0)
+	    , m_laserYawPidKp(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Kp", 0.4)
+	    , m_laserYawPidKi(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Ki", 0)
+	    , m_laserYawPidKd(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Kd", 0)
 	{
 		refreshParams();
 

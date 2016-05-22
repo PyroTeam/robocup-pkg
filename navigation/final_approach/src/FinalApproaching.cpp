@@ -153,11 +153,6 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	// Asservissement ARTag camera
 	ROS_INFO("ArTag Asservissement");
 	firstTimeInLoop = true;
-// TODO: Uncomment after investigation
-#define RELEASE_CODE
-#ifndef RELEASE_CODE
-	avancementArTag = 1;
-#else   // RELEASE_CODE
 	while (ros::ok() && !bp.getState() && locateArTagPhase != 3 && avancementArTag == 0 && obstacle == false)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "ArTag Asservissement - process");
@@ -187,7 +182,6 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 
 		loopRate.sleep();
 	}
-#endif  // RELEASE_CODE
 	if (!firstTimeInLoop)
 		ROS_INFO("ArTag Asservissement - DONE");
 	else
@@ -275,10 +269,6 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 					ortho = distanceOrtho(seg, ranges, angleMin, angleInc);
 					ROS_DEBUG("distance orthogonale laser-machine : %f", ortho);
 
-// TODO: Uncomment after investigation
-#ifndef RELEASE_CODE
-					xAsservState = 0;
-#else   // RELEASE_CODE
 
 					ROS_INFO("Assev Laser - nouvelle iteration");
 					// To do an average
@@ -311,7 +301,9 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 							// to move on the Y axis of the robot
 							yAsservState = asservissementPositionY(m_plotData, m_pubMvt, moyY, objectifY(), gauche.getY(),
 							                            droite.getY());
-							ROS_DEBUG("positionY: %f", positionY);
+							ROS_DEBUG("Position Y: %f", -positionY);
+							ROS_DEBUG("Moyenne Y: %f", -moyY);
+							ROS_DEBUG("Objectif Y: %f", objectifY());
 							// listPositionY.clear();
 							if (yAsservState == 1)
 							{
@@ -322,10 +314,12 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 						{
 							// To move on the X axis of the robot
 							ROS_WARN_ONCE("Skip to AsservX");
+							break;
 							xAsservState = asservissementPositionX(m_plotData, m_pubMvt, ortho, objectifX());
+							ROS_DEBUG("Position X: %f", ortho);
+							ROS_DEBUG("Objectif X: %f", objectifX());
 						}
 					}
-#endif  // RELEASE_CODE
 				}
 				m_plot.publish(m_plotData);
 				m_feedback.percent_complete = avancement(angleAsservState, yAsservState, xAsservState);
@@ -431,52 +425,37 @@ int FinalApproaching::avancement(int a, int b, int c)
 
 float FinalApproaching::objectifY()
 {
-	float tmp = 0;
 	switch (m_parameter)
 	{
-	case final_approach_msg::FinalApproachingGoal::S1:
-		tmp = 0.28;
-		break;
-	case final_approach_msg::FinalApproachingGoal::S2:
-		tmp = 0.175;
-		break;
-	case final_approach_msg::FinalApproachingGoal::S3:
-		tmp = 0.08;
-		break;
-	case final_approach_msg::FinalApproachingGoal::LANE_RS:
-		tmp = 0.09;
-		break;
-	case final_approach_msg::FinalApproachingGoal::LIGHT:
-		tmp = 0.35;
-		break;
-	case final_approach_msg::FinalApproachingGoal::CONVEYOR:
-		switch (m_side)
-		{
-		case final_approach_msg::FinalApproachingGoal::IN:
-			tmp = 0.37;
-			break;
-		case final_approach_msg::FinalApproachingGoal::OUT:
-			tmp = 0.315;
-			break;
-		}
-	default:
-		break;
+		case final_approach_msg::FinalApproachingGoal::S1:
+			return 0.28;
+		case final_approach_msg::FinalApproachingGoal::S2:
+			return 0.175;
+		case final_approach_msg::FinalApproachingGoal::S3:
+			return 0.08;
+		case final_approach_msg::FinalApproachingGoal::LANE_RS:
+			return 0.09;
+		case final_approach_msg::FinalApproachingGoal::LIGHT:
+			return 0.35;
+		case final_approach_msg::FinalApproachingGoal::CONVEYOR:
+		// TODO: Pourquoi deux mesures différentes ?
+			if (m_side == final_approach_msg::FinalApproachingGoal::IN)
+				return 0.37;
+			return 0.315;
+		default:
+			ROS_ERROR("Unknown parameter %d", m_parameter);
+			return -1;
 	}
-	return tmp;
 }
 
 float FinalApproaching::objectifX()
 {
-	float tmp = 0;
+	// XXX: Paramétrer selon repère robot, voir repère préhenseur
 	if (m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT)
 	{
-		tmp = 0.35;
+		return 0.35;
 	}
-	else
-	{
-		tmp = 0.16;
-	}
-	return tmp;
+	return 0.16;
 }
 
 std::list<std::vector<Point> > FinalApproaching::objectsConstruction(std::vector<float> ranges, float angleMin,
@@ -681,9 +660,18 @@ float FinalApproaching::distanceOrtho(Segment s, std::vector<float> ranges, floa
 		    ranges[max - 0], ranges[max - 1], ranges[max - 2], ranges[max - 3], ranges[max - 4], ranges[max - 5],
 		    ranges[max - 6], ranges[max - 7], ranges[max - 8], ranges[max - 9]);
 		ROS_DEBUG(
-		    "distanceOrtho - ranges val after min (min : min-9) -> (%f : %f : %f : %f : %f : %f : %f : %f : %f : %f)",
+		    "distanceOrtho - ranges val after min (min : min+9) -> (%f : %f : %f : %f : %f : %f : %f : %f : %f : %f)",
 		    ranges[min + 0], ranges[min + 1], ranges[min + 2], ranges[min + 3], ranges[min + 4], ranges[min + 5],
 		    ranges[min + 6], ranges[min + 7], ranges[min + 8], ranges[min + 9]);
+		// TODO: REMOVE
+		ROS_DEBUG(
+		    "distanceOrtho - ranges val after max (max : max+9) -> (%f : %f : %f : %f : %f : %f : %f : %f : %f : %f)",
+		    ranges[max + 0], ranges[max + 1], ranges[max + 2], ranges[max + 3], ranges[max + 4], ranges[max + 5],
+		    ranges[max + 6], ranges[max + 7], ranges[max + 8], ranges[max + 9]);
+		ROS_DEBUG(
+		    "distanceOrtho - ranges val before min (min : min-9) -> (%f : %f : %f : %f : %f : %f : %f : %f : %f : %f)",
+		    ranges[min - 0], ranges[min - 1], ranges[min - 2], ranges[min - 3], ranges[min - 4], ranges[min - 5],
+		    ranges[min - 6], ranges[min - 7], ranges[min - 8], ranges[min - 9]);
 	}
 
 	Point gauche(ranges[max], angleMin + (double)max * angleInc);
@@ -842,7 +830,7 @@ std::vector<int> FinalApproaching::idWanted(int phase)
 		}
 
 		// Out
-		if (m_type == final_approach_msg::FinalApproachingGoal::OUT)
+		if (m_side == final_approach_msg::FinalApproachingGoal::OUT)
 		{
 			for (int i = 0; i < tabId.size(); i++)
 			{

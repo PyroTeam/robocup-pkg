@@ -1,0 +1,16 @@
+navigation:
+    finalApproach:
+        arTagAsserv: "empty"
+        laserAsserv:
+            xPid:
+                Kp: 0.25
+                Ki: 0.0
+                Kd: 0.0
+            yPid:
+                Kp: 0.075
+                Ki: 0.0
+                Kd: 0.0
+            yawPid:
+                Kp: 0.4
+                Ki: 0.0
+                Kd: 0.0

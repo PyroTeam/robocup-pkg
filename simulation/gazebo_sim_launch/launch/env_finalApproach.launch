@@ -31,6 +31,8 @@
 		<param name="robotName" value="R1" />
 		<param name="simuRobotNamespace" value="robotino1" />
 
+		<rosparam file="$(find gazebo_sim_launch)/param/robotino1_navigation.yaml" />
+
 		<!-- Robot description -->
 		<param name="robot_description" textfile="$(find robotino_description)/urdf/robotino3_pyro.urdf" />
 		<node if="0" pkg="tf2_ros" type="static_transform_publisher" name="tf_laser_link_broadcaster" args="0.12 0 0.025 0 0 0 base_link laser_link 50" />
