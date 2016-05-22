@@ -51,6 +51,7 @@
 
 #include <final_approach_msg/FinalApproachingAction.h>
 #include <final_approach_msg/plotDataFA.h>
+#include "common_utils/Parameter.h"
 
 #include <vector>
 
@@ -136,9 +137,33 @@ class FinalApproaching
 	int m_parameter;
 	enum team_e m_teamColor;
 
+	// Laser X Asserv PID Parameters
+	Parameter m_laserXPidKp;
+	Parameter m_laserXPidKi;
+	Parameter m_laserXPidKd;
+
+	// Laser Y Asserv PID Parameters
+	Parameter m_laserYPidKp;
+	Parameter m_laserYPidKi;
+	Parameter m_laserYPidKd;
+
+	// Laser Yaw Asserv PID Parameters
+	Parameter m_laserYawPidKp;
+	Parameter m_laserYawPidKi;
+	Parameter m_laserYawPidKd;
+
   public:
 	FinalApproaching(std::string name)
 	    : m_as(m_nh, name, boost::bind(&FinalApproaching::executeCB, this, _1), false), m_actionName(name)
+	    , m_laserXPidKp(m_nh, "finalApproach/laserAsserv/xPid/Kp", 0.25)
+	    , m_laserXPidKi(m_nh, "finalApproach/laserAsserv/xPid/Ki", 0)
+	    , m_laserXPidKd(m_nh, "finalApproach/laserAsserv/xPid/Kd", 0)
+	    , m_laserYPidKp(m_nh, "finalApproach/laserAsserv/yPid/Kp", 0.075)
+	    , m_laserYPidKi(m_nh, "finalApproach/laserAsserv/yPid/Ki", 0)
+	    , m_laserYPidKd(m_nh, "finalApproach/laserAsserv/yPid/Kd", 0)
+	    , m_laserYawPidKp(m_nh, "finalApproach/laserAsserv/yawPid/Kp", 0.4)
+	    , m_laserYawPidKi(m_nh, "finalApproach/laserAsserv/yawPid/Ki", 0)
+	    , m_laserYawPidKd(m_nh, "finalApproach/laserAsserv/yawPid/Kd", 0)
 	{
 		refreshParams();
 
@@ -370,6 +395,26 @@ class FinalApproaching
 	 *             le robot)
 	 */
 	void stopRobot(void);
+
+	/**
+	 *  \brief		permet d asservir en angle
+	 *  \return		etat d avancement de l asservissement
+	 */
+	int asservissementAngle(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt,float moyGradient);
+
+	/**
+	 *  \brief		permet d asservir en y (repere laser)
+	 *  \return		etat d avancement de l asservissement
+	 */
+	int asservissementPositionY(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt, float goal
+		, float moyPos, float yLeft, float yRight);
+
+	/**
+	 *  \brief		permet d asservir en x (repere laser)
+	 *  \return		etat d avancement de l asservissement
+	 */
+	int asservissementPositionX(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt
+		, float distance, float goal);
 };
 
 

@@ -144,9 +144,9 @@ set_target_properties(common_utils PROPERTIES COMPILE_FLAGS "-std=c++11")
 # add_dependencies(common_utils_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(common_utils_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(common_utils
+    ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

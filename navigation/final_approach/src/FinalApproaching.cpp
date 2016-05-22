@@ -1113,3 +1113,111 @@ void FinalApproaching::stopRobot(void)
 
 	return;
 }
+
+
+
+int FinalApproaching::asservissementAngle(final_approach_msg::plotDataFA &plotData, ros::Publisher pubMvt, float angle){
+	geometry_msgs::Twist msg;
+	float err = angle - 0.01;
+	plotData.angleErr = std::abs(err);
+	if(std::abs(err) < 0.015)
+	{
+		msg.angular.z = 0;
+		plotData.angleCmd = msg.angular.z;
+		pubMvt.publish(msg);
+		return 1;
+	}
+	else
+	{
+		msg.angular.z = m_laserYawPidKp() * err;
+		plotData.angleCmd = msg.angular.z;
+		pubMvt.publish(msg);
+		return 0;
+	}
+}
+
+
+int FinalApproaching::asservissementPositionY(final_approach_msg::plotDataFA &plotData, ros::Publisher pubMvt
+							, float goal, float moyPos, float yLeft, float yRight)
+{
+	geometry_msgs::Twist msg;
+	msg.angular.z = 0;
+	float err = moyPos + goal;
+
+	// Determiner ce que sont les deux premiers if
+	ROS_DEBUG("Asserv Laser Y");
+	if(yLeft >= 0 && yRight >= 0)
+	{
+		ROS_DEBUG("GO Full Right");
+		msg.linear.y = 0.25;
+		plotData.YErr = 2; // 2 >> error
+        plotData.YCmd = msg.linear.y;
+        pubMvt.publish(msg);
+		return 0;
+	}
+	else if(yLeft <= 0 && yRight <= 0)
+	{
+		ROS_DEBUG("GO Full Left");
+		msg.linear.y = -0.25;
+		plotData.YErr = 2; // 2 >> error
+		plotData.YCmd = msg.linear.y;
+        pubMvt.publish(msg);
+		return 0;
+	}
+	else
+	{
+		ROS_DEBUG("Asserv standard");
+		plotData.YErr = std::abs(err);
+		ROS_DEBUG("Asserv standard. Erreur: %f", std::abs(err));
+		// TODO: Paramétrer seuil
+		if(std::abs(err) < 0.01)
+		{
+			msg.linear.y = 0;
+			plotData.YCmd = msg.linear.y;
+			pubMvt.publish(msg);
+			return 1;
+		}
+		else
+		{
+			msg.linear.y = m_laserYPidKp() * err;
+			plotData.YCmd = msg.linear.y;
+			pubMvt.publish(msg);
+			return 0;
+		}
+	}
+}
+
+
+int FinalApproaching::asservissementPositionX(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt, float distance, float goal){
+	geometry_msgs::Twist msg;
+	msg.linear.y = 0;
+	msg.angular.z = 0;
+	float err = distance - goal;
+	plotData.XErr = std::abs(err);
+
+	ROS_DEBUG("Asserv Laser X");
+	if(std::abs(err) < 0.007)
+	{
+		msg.linear.x = 0;
+		plotData.XCmd = msg.linear.x;
+		pubMvt.publish(msg);
+		return 2;
+	}
+	else
+	{
+		if(std::abs(err) < 0.04)
+		{
+			msg.linear.x = err * m_laserXPidKp();
+			plotData.XCmd = msg.linear.x;
+			pubMvt.publish(msg);
+			return 1;
+		}
+		else
+		{
+			msg.linear.x = err * m_laserXPidKp();
+			plotData.XCmd = msg.linear.x;
+			pubMvt.publish(msg);
+			return 0;
+		}
+	}
+}

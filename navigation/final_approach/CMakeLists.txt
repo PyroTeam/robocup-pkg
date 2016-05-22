@@ -20,6 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
 	trait_im_msg
 	nav_msgs
 	visualization_msgs
+	common_utils
 )
 
 # Use clang++-3.6 if available
