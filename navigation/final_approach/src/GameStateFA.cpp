@@ -17,5 +17,5 @@ GameStateFA::GameStateFA()
 	m_state = -1;
 	m_phase = -1;
 	m_already = false;
-	m_gamestateSubFA = m_nh.subscribe("refBoxComm/GameState",1000,&GameStateFA::gameStateFACallback,this);
+	m_gamestateSubFA = m_nh.subscribe("refBoxComm/GameState", 1, &GameStateFA::gameStateFACallback, this);
 }

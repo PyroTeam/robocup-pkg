@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 	ros::init(argc, argv, "fake_scan_node");
 	ros::NodeHandle n;
 	//on publie un scan laser sur le topic /fake_scan
-	ros::Publisher pub_scan = n.advertise<sensor_msgs::LaserScan>("hardware/fake_scan", 1000);
+	ros::Publisher pub_scan = n.advertise<sensor_msgs::LaserScan>("hardware/fake_scan", 1);
 	//construction du faux scan
 	sensor_msgs::LaserScanPtr scan(new sensor_msgs::LaserScan());
 

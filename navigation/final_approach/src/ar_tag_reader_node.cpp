@@ -62,13 +62,12 @@ int main(int argc, char **argv)
 	ros::NodeHandle n;
  	ros::Rate r(100);
  	ROS_INFO("Subscribe");
-	ros::Subscriber artag_topic = n.subscribe<ar_track_alvar_msgs::AlvarMarkers>("computerVision/ar_pose_marker", 1000, artagCallback);
-	pubMvt = n.advertise<geometry_msgs::Twist>("hardware/cmd_vel",1000);
+	ros::Subscriber artag_topic = n.subscribe<ar_track_alvar_msgs::AlvarMarkers>("computerVision/ar_pose_marker", 1, artagCallback);
+	pubMvt = n.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1);
 	while(ros::ok())
 	{
-			
 		r.sleep();
 		ros::spinOnce();
-	} 
+	}
     return 0;
   }

@@ -66,7 +66,6 @@ int asservissementAngle(final_approach_msg::plotDataFA &plotData,ros::Publisher 
 		pubMvt.publish(msg);
 		return 0;
 	}
-	
 }
 
 
@@ -79,7 +78,7 @@ int asservissementPositionY(final_approach_msg::plotDataFA &plotData,ros::Publis
 		msg.linear.y = 0.25;
 		plotData.YErr = 2; // 2 >> error
         plotData.YCmd = 0.25;
-        pubMvt.publish(msg);		
+        pubMvt.publish(msg);
 		return 0;
 	}
 	else
@@ -121,7 +120,7 @@ int asservissementPositionX(final_approach_msg::plotDataFA &plotData,ros::Publis
 	msg.linear.y = 0;
 	msg.angular.z = 0;
 	plotData.XErr = std::abs(distance-goal);
-	if(std::abs(distance-goal) < 0.007) 
+	if(std::abs(distance-goal) < 0.007)
 	{
 		msg.linear.x = 0;
 		plotData.XCmd = 0;

@@ -56,6 +56,8 @@ Je vais résumer ici les problèmes connus, améliorations possibles, etc
  * L'utilisation des ArTags est limitée au repère de la caméra, il n'y a pas de changement de repère effectué.
  * L'asservissement laser est particulièrement lent.
  * Le filtre sur les machines "accessible" n'est pas du ressort de l'approche finale.
+ * Il faut reprendre tous les launchfiles pour s'assurer que ar_track_alvar publie dans le bon repère à chaque fois.
+ * Le launchfile robotino_node doit être repris.
 
 ### Conditions nécéssaire :
  * [ ] Arttrack_alvar doit publier ses positions dans le repère caméra.
