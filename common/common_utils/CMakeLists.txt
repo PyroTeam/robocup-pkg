@@ -117,7 +117,6 @@ catkin_package(
 # include_directories(include)
 include_directories(
     include
-    include/common_utils
     ${catkin_INCLUDE_DIRS}
 )
 
@@ -125,6 +124,7 @@ include_directories(
 add_library(common_utils
   src/parameterFunctions.cpp
   src/Parameter.cpp
+  src/Pid.cpp
 )
 
 ## Add cmake target dependencies of the library

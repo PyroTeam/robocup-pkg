@@ -10,8 +10,8 @@
  * \version
  */
 
-#ifndef COMMON_UTILS_PARAMETER_H_
-#define COMMON_UTILS_PARAMETER_H_
+#ifndef _COMMON_UTILS__PARAMETERFUNCTIONS__H_
+#define _COMMON_UTILS__PARAMETERFUNCTIONS__H_
 
 #include <list>
 #include "shape/LineSegment.h"
@@ -32,4 +32,4 @@ int getParameter(ros::NodeHandle &nh, const std::string &paramName, std::list<oc
 
 } // namespace common_utils
 
-#endif /* COMMON_UTILS_PARAMETER_H_ */
+#endif /* _COMMON_UTILS__PARAMETERFUNCTIONS__H_ */

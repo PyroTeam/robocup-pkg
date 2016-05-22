@@ -10,6 +10,9 @@
  * \version
  */
 
+#ifndef _COMMON_UTILS__PARAMETER__H_
+#define _COMMON_UTILS__PARAMETER__H_
+
 #include <string>
 
 #include <ros/ros.h>
@@ -28,3 +31,5 @@ private:
 	float m_defaultValue;
 	bool m_useDefault;
 };
+
+#endif //_COMMON_UTILS__PARAMETER__H_

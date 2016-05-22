@@ -5,12 +5,12 @@
  *
  * \author      Valentin Vergez (valentin.vergez@gmail.com)
  * \date        2016-02-20
- * \copyright   PyroTeam, Polytech-Lille
- * \license		LGPLv3
+ * \copyright   2016, Association de Robotique de Polytech Lille
+ * \license		BSD
  * \version
  */
 
-#include "Parameter.h"
+#include "common_utils/Parameter.h"
 
 Parameter::Parameter(ros::NodeHandle nh, std::string name, float defaultValue)
 : m_nh(nh)
@@ -48,6 +48,8 @@ float Parameter::get(void)
 
 		return (float)tmp_value;
 	}
+
+	ROS_DEBUG("Parameter %s use default value : %f", m_fullName.c_str(), m_defaultValue);
 
 	return m_defaultValue;
 }
