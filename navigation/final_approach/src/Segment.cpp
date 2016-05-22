@@ -91,7 +91,7 @@ geometry_msgs::Pose2D Segment::linearRegression(std::vector<Point> tabPoints)
 	p.y = moyY;
 	p.theta = atan2(varY, covXY);
 
-	ROS_INFO("linearRegression - result : (x, y - theta) -> (%f, %f - %f)", (float)p.x, (float)p.y, (float)p.theta);
+	ROS_DEBUG("linearRegression - result : (x, y - theta) -> (%f, %f - %f)", (float)p.x, (float)p.y, (float)p.theta);
 	return p;
 }
 

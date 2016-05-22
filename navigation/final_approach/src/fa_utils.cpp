@@ -69,47 +69,52 @@ int asservissementAngle(final_approach_msg::plotDataFA &plotData,ros::Publisher 
 }
 
 
-int asservissementPositionY(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt, float goal, float moyPos, float yLeft, float yRight){
+int asservissementPositionY(final_approach_msg::plotDataFA &plotData, ros::Publisher pubMvt
+							, float goal, float moyPos, float yLeft, float yRight)
+{
 	geometry_msgs::Twist msg;
 	msg.angular.z = 0;
+
+	// Determiner ce que sont les deux premiers if
+	ROS_DEBUG("Asserv Laser Y");
 	if(yLeft >= 0 && yRight >= 0)
 	{
-		ROS_DEBUG("Il faut tourner aller a droite");
+		ROS_DEBUG("GO Full Right");
 		msg.linear.y = 0.25;
 		plotData.YErr = 2; // 2 >> error
         plotData.YCmd = 0.25;
         pubMvt.publish(msg);
 		return 0;
 	}
+	else if(yLeft <= 0 && yRight <= 0)
+	{
+		ROS_DEBUG("GO Full Left");
+		msg.linear.y = -0.25;
+		plotData.YErr = 2; // 2 >> error
+		plotData.YCmd = -0.25;
+        pubMvt.publish(msg);
+		return 0;
+	}
 	else
 	{
-		if(yLeft <= 0 && yRight <= 0)
+		ROS_DEBUG("Asserv standard");
+		plotData.YErr = std::abs(moyPos - goal);
+		ROS_DEBUG("Asserv standard. Erreur: %f", std::abs(moyPos + goal));
+		// TODO: Paramétrer seuil
+		if(std::abs(moyPos + goal) < 0.01)
 		{
-			ROS_DEBUG("Il faut aller a gauche");
-			msg.linear.y = -0.25;
-			plotData.YErr = 2; // 2 >> error
-			plotData.YCmd = -0.25;
-	        pubMvt.publish(msg);
-			return 0;
+			msg.linear.y = 0;
+			plotData.YCmd = 0;
+			pubMvt.publish(msg);
+			return 1;
 		}
 		else
 		{
-			ROS_INFO("deplacement normal");
-			plotData.YErr = std::abs(moyPos - goal);
-			if(std::abs(moyPos + goal) < 0.003)
-			{
-				msg.linear.y = 0;
-				plotData.YCmd = 0;
-				pubMvt.publish(msg);
-				return 1;
-			}
-			else
-			{
-				msg.linear.y = 0.025*(moyPos + goal);
-				plotData.YCmd = 0.025*(moyPos + goal);
-				pubMvt.publish(msg);
-				return 0;
-			}
+			// TODO: Paramétrer asserv
+			msg.linear.y = 0.075 * (moyPos + goal);
+			plotData.YCmd = 0.075 * (moyPos + goal);
+			pubMvt.publish(msg);
+			return 0;
 		}
 	}
 }
@@ -120,6 +125,7 @@ int asservissementPositionX(final_approach_msg::plotDataFA &plotData,ros::Publis
 	msg.linear.y = 0;
 	msg.angular.z = 0;
 	plotData.XErr = std::abs(distance-goal);
+	ROS_DEBUG("Asserv Laser X");
 	if(std::abs(distance-goal) < 0.007)
 	{
 		msg.linear.x = 0;

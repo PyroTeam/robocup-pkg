@@ -75,11 +75,11 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 
 	// LaserScan
 	LaserScan ls;
-	int angleAsservState = 0, yAsservState = 0, xAsservState = 0, cpt = 0;
+	int angleAsservState = 0, yAsservState = 0, xAsservState = 0, asservLaserYOk_cpt = 0;
 	float positionY = 0, gradient = 0, ortho = 0, moyY = 0, moyO = 0;
-	int j = 0;
+	int asservLaser_cpt = 0;
 	std::list<float> listPositionY, listOrtho;
-
+	int nbAsservLaserYOkNeeded = 20;
 
 	// Wait for sensors
 	ROS_INFO("Wait sensors infos");
@@ -271,7 +271,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 					gradient = seg.getGradient();
 					ROS_DEBUG("gradient du segment le plus proche : %f", gradient);
 					positionY = positionYLaser(seg, ranges, angleMin, angleInc);
-					ROS_INFO("l objet se trouve a environ %f m du bord", positionY);
+					ROS_DEBUG("l objet se trouve a environ %f m du bord", positionY);
 					ortho = distanceOrtho(seg, ranges, angleMin, angleInc);
 					ROS_DEBUG("distance orthogonale laser-machine : %f", ortho);
 
@@ -279,12 +279,14 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 #ifndef RELEASE_CODE
 					xAsservState = 0;
 #else   // RELEASE_CODE
+
+					ROS_INFO("Assev Laser - nouvelle iteration");
 					// To do an average
-					if (j < 1)
+					if (asservLaser_cpt < 1)
 					{
 						listPositionY.push_back(positionY);
 						listOrtho.push_back(ortho);
-						j++;
+						asservLaser_cpt++;
 					}
 					else
 					{
@@ -304,21 +306,22 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 						m_plotData.YLeft = gauche.getY();
 						m_plotData.XRight = droite.getX();
 						m_plotData.YRight = droite.getY();
-						if ((angleAsservState == 1) && (cpt < 200))
+						if ((angleAsservState == 1) && (asservLaserYOk_cpt < nbAsservLaserYOkNeeded))
 						{
 							// to move on the Y axis of the robot
 							yAsservState = asservissementPositionY(m_plotData, m_pubMvt, moyY, objectifY(), gauche.getY(),
 							                            droite.getY());
-							ROS_INFO("positionY: %f", positionY);
+							ROS_DEBUG("positionY: %f", positionY);
 							// listPositionY.clear();
 							if (yAsservState == 1)
 							{
-								cpt++;
+								asservLaserYOk_cpt++;
 							}
 						}
-						if (angleAsservState == 1 && cpt >= 200)
+						if (angleAsservState == 1 && asservLaserYOk_cpt >= nbAsservLaserYOkNeeded)
 						{
 							// To move on the X axis of the robot
+							ROS_WARN_ONCE("Skip to AsservX");
 							xAsservState = asservissementPositionX(m_plotData, m_pubMvt, ortho, objectifX());
 						}
 					}
@@ -347,8 +350,8 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	angleAsservState = 0;
 	yAsservState = 0;
 	xAsservState = 0;
-	cpt = 0;
-	j = 0;
+	asservLaserYOk_cpt = 0;
+	asservLaser_cpt = 0;
 	avancementArTag = 0;
 	locateArTagPhase = 0;
 
@@ -567,39 +570,39 @@ std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vecto
 			// Construction of segment
 			Segment segm(pmin, pmax, lowerLimit_idx, upperLimit_idx);
 
-			ROS_DEBUG("Distance objet #%d du laser: %f", object_idx, segm.distanceLaserSegment(ranges));
-			ROS_DEBUG("Distance ortho de l'objet #%d: %f", object_idx, distanceOrtho(segm, ranges, angleMin, angleInc));
+			ROS_DEBUG_NAMED("segmentsConstrutcion", "Distance objet #%d du laser: %f", object_idx, segm.distanceLaserSegment(ranges));
+			ROS_DEBUG_NAMED("segmentsConstrutcion", "Distance ortho de l'objet #%d: %f", object_idx, distanceOrtho(segm, ranges, angleMin, angleInc));
 
 			geometry_msgs::Pose2D p = segm.linearRegression(*pointsVector_it);
 			geometry_msgs::Point orthoMin = orthoProjection(pmin, p);
 			geometry_msgs::Point orthoMax = orthoProjection(pmax, p);
 
-			ROS_INFO("Pmin (%f, %f), Pmax (%f, %f)", pmin.getX(), pmin.getY(), pmax.getX(), pmax.getY());
-			ROS_INFO("Omin (%f, %f), Omax (%f, %f)", orthoMin.x, orthoMin.y, orthoMax.x, orthoMax.y);
+			ROS_DEBUG_NAMED("segmentsConstrutcion", "Pmin (%f, %f), Pmax (%f, %f)", pmin.getX(), pmin.getY(), pmax.getX(), pmax.getY());
+			ROS_DEBUG_NAMED("segmentsConstrutcion", "Omin (%f, %f), Omax (%f, %f)", orthoMin.x, orthoMin.y, orthoMax.x, orthoMax.y);
 
 			segm.setMinPoint(orthoMin);
 			segm.setMaxPoint(orthoMax);
 
-			ROS_DEBUG("Taille du segment: %f", d);
+			ROS_DEBUG_NAMED("segmentsConstrutcion", "Taille du segment: %f", d);
 
 			segm.setDistance(d);
 			tabSegments.push_back(segm);
 
 			// TODO: Remove below in release
-			ROS_DEBUG("DEBUG Segment for Object #%d", object_idx);
+			ROS_DEBUG_NAMED("segmentsConstrutcion", "DEBUG Segment for Object #%d", object_idx);
 			std::stringstream rangesValues;
 			for (int j = segm.getMinRanges(); j != segm.getMaxRanges(); j++)
 			{
 				rangesValues << " " << j << ": " << ranges[j] << " |";
 			}
-			ROS_DEBUG("DEBUG %s", rangesValues.str().c_str());
+			ROS_DEBUG_NAMED("segmentsConstrutcion", "DEBUG %s", rangesValues.str().c_str());
 		}
 
 		rangesStart_idx += pointsVector_it->size();
 		object_idx++;
 	}
 
-	ROS_DEBUG("Nombre de segments d environ 70 cm trouvés: %zu", tabSegments.size());
+	ROS_DEBUG_NAMED("segmentsConstrutcion", "Nombre de segments d environ 70 cm trouvés: %zu", tabSegments.size());
 
 	// Only the nearest segment is kept
 	if (tabSegments.size() > 1)
@@ -756,7 +759,7 @@ float FinalApproaching::positionYLaser(Segment s, std::vector<float> ranges, flo
 	geometry_msgs::Point right = s.getMinPoint();
 	geometry_msgs::Point left = s.getMaxPoint();
 	float segmentSize = sqrt((left.x - right.x) * (left.x - right.x) + (left.y - right.y) * (left.y - right.y));
-	ROS_INFO("left.x: %f left.y: %f right.x: %f right.y: %f segmentSize: %f", left.x, left.y, right.x, right.y,
+	ROS_DEBUG("left.x: %f left.y: %f right.x: %f right.y: %f segmentSize: %f", left.x, left.y, right.x, right.y,
 	         segmentSize);
 	return right.y;
 	// return (left.y-segmentSize+right.y)/(float)2;
