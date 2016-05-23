@@ -45,54 +45,57 @@ bool Segment::nilGradient()
 }
 
 
-geometry_msgs::Pose2D Segment::linearRegression(std::vector<Point> tabPoints)
+geometry_msgs::Pose2D Segment::linearRegression(std::vector<Point> pointsVector)
 {
-	float n = (float)tabPoints.size();
+	float nbPoints = (float)pointsVector.size();
 	float sumX = 0, sumY = 0;
 	float ecartX = 0, ecartY = 0;				// Ecart
 	float sumEcartXY = 0.0;						// Somme des produits des ecarts sur x et y
 	float ecartX2  = 0.0, ecartY2  = 0.0;		// Somme des ecarts au carre
 	float covXY = 0.0, varX = 0.0, varY = 0.0;	// Variances et covariances
-	std::vector<Point>::iterator it;
+	float correl;
+	std::vector<Point>::iterator pointsVector_it;
 
-	for(it=tabPoints.begin();it!=tabPoints.end();it++)
+	// Calcul des sommes
+	for(pointsVector_it = pointsVector.begin(); pointsVector_it != pointsVector.end(); pointsVector_it++)
 	{
-		sumX += it->getX();
-		sumY += it->getY();
+		sumX += pointsVector_it->getX();
+		sumY += pointsVector_it->getY();
 	}
 
 	// Calcul des moyennes
-	float moyX = sumX/n;
-	float moyY = sumY/n;
+	float moyX = sumX / nbPoints;
+	float moyY = sumY / nbPoints;
 
 	// Calcul du coefficient de corrélation
-	for(it=tabPoints.begin();it!=tabPoints.end();it++)
+	for(pointsVector_it = pointsVector.begin(); pointsVector_it != pointsVector.end(); pointsVector_it++)
 	{
-		ecartX = it->getX() - moyX;
-		ecartY = it->getY() - moyY;
+		ecartX = pointsVector_it->getX() - moyX;
+		ecartY = pointsVector_it->getY() - moyY;
 		sumEcartXY += ecartX * ecartY;
 		ecartX2  += ecartX * ecartX;
 		ecartY2  += ecartY * ecartY;
 	}
+	covXY = sumEcartXY / nbPoints;
+	varX = ecartX2 / nbPoints; if(varX == 0) varX = 1;
+	varY = ecartY2 / nbPoints; if(varY == 0) varY = 1;
 
-	covXY = sumEcartXY / n;
-	varX = ecartX2 / n; if(varX == 0) varX = 1;
-	varY = ecartY2 / n; if(varY == 0) varY = 1;
-
-	float correl = covXY / sqrt(varX * varY);
-	setCorrelation(correl * correl);
+	correl = covXY / sqrt(varX * varY);
+	m_correlation = correl * correl;
 
 	m_gradient = atan2(varY, covXY);
 	m_gradient = fmod(m_gradient, 2*M_PI);
 	m_gradient = m_gradient - M_PI_2;
 
-	geometry_msgs::Pose2D p;
-	p.x = moyX;
-	p.y = moyY;
-	p.theta = atan2(varY, covXY);
+	geometry_msgs::Pose2D pose;
+	pose.x = moyX;
+	pose.y = moyY;
+	pose.theta = atan2(varY, covXY);
 
-	ROS_DEBUG("linearRegression - result : (x, y - theta) -> (%f, %f - %f)", (float)p.x, (float)p.y, (float)p.theta);
-	return p;
+	ROS_DEBUG("linearRegression - result : (x, y - theta) -> (%f, %f - %f)"
+						, (float)pose.x, (float)pose.y, (float)pose.theta);
+
+	return pose;
 }
 
 float Segment::distanceLaserSegment(std::vector<float> ranges)

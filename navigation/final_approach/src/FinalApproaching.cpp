@@ -519,7 +519,7 @@ std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vecto
 
 	for (pointsVector_it = listPointsVectors.begin(); pointsVector_it != listPointsVectors.end(); pointsVector_it++)
 	{
-		float d = 0;
+		float objLength = 0;
 		Point pmin(0, 0);
 		Point pmax(0, 0);
 		size_t lowerLimit_idx = rangesStart_idx;
@@ -543,10 +543,10 @@ std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vecto
 		pmax.setR(ranges[upperLimit_idx]);
 		pmax.setPhi(angleMin + (double)upperLimit_idx * angleInc);
 
-		d = objectLength(object_idx, upperLimit_idx, listPointsVectors, ranges, angleMin, angleInc);
+		objLength = objectLengthNew(*pointsVector_it);
 
 		// If object length around 70 cm
-		if (d > 0.65 && d < 0.75)
+		if (objLength > 0.65 && objLength < 0.75)
 		{
 			// Construction of segment
 			Segment segm(pmin, pmax, lowerLimit_idx, upperLimit_idx);
@@ -564,9 +564,9 @@ std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vecto
 			segm.setMinPoint(orthoMin);
 			segm.setMaxPoint(orthoMax);
 
-			ROS_DEBUG_NAMED("segmentsConstrutcion", "Taille du segment: %f", d);
+			ROS_DEBUG_NAMED("segmentsConstrutcion", "Taille du segment: %f", objLength);
 
-			segm.setDistance(d);
+			segm.setDistance(objLength);
 			tabSegments.push_back(segm);
 
 			// TODO: Remove below in release
@@ -613,13 +613,18 @@ float FinalApproaching::objectLength(int i, int j, std::list<std::vector<Point> 
 	// TODO: Check the validity of this condition
 	if (it != listPointsVectors.end() && i != j)
 	{
-		std::vector<Point> tab = *it;
+		std::vector<Point> pointsVector = *it;
 		Point pmin(ranges[i], angleMin + (double)i * angleInc);
 		Point pmax(ranges[j], angleMin + (double)j * angleInc);
-		return distance2points(tab[0], tab[tab.size() - 1]);
+		return distance2points(pointsVector[0], pointsVector[pointsVector.size() - 1]);
 	}
 
 	return 0;
+}
+
+float FinalApproaching::objectLengthNew(std::vector<Point> &pointsVector)
+{
+	return distance2points(pointsVector.front(), pointsVector.back());
 }
 
 int FinalApproaching::nearestSegment(std::vector<Segment> tabSegments, std::vector<float> ranges)

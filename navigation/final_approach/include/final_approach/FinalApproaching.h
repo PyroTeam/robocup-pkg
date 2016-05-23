@@ -314,6 +314,15 @@ class FinalApproaching
 	                   float angleMin, double angleInc);
 
 	/**
+	 * \brief      Longueur entre les deux extrémités d'un "objet"
+	 *
+	 * \param      pointsVector  The points vector (ou objet)
+	 *
+	 * \return     Distance en mètres
+	 */
+	float objectLengthNew(std::vector<Point> &pointsVector);
+
+	/**
 	 * \brief      Détermine le segment le plus proche du laser
 	 *
 	 * \param[in]  tabSegments  The tab segments
