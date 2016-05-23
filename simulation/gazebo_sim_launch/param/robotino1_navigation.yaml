@@ -8,8 +8,8 @@ navigation:
                 Kd: 0.0
                 threshold: 0.01
             yPid:
-                Kp: 0.075
-                Ki: 0.0
+                Kp: 1.0
+                Ki: 0.1
                 Kd: 0.0
                 threshold: 0.003
             yawPid:

@@ -519,11 +519,12 @@ std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vecto
 
 	for (pointsVector_it = listPointsVectors.begin(); pointsVector_it != listPointsVectors.end(); pointsVector_it++)
 	{
-		float objLength = 0;
+		float objLength;
 		Point pmin(0, 0);
 		Point pmax(0, 0);
 		size_t lowerLimit_idx = rangesStart_idx;
 		size_t upperLimit_idx = rangesStart_idx + pointsVector_it->size() - 1;
+
 		assert(ranges.size() >= lowerLimit_idx);
 		assert(lowerLimit_idx >= 0);
 		assert(ranges.size() >= upperLimit_idx);
@@ -537,6 +538,7 @@ std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vecto
 			continue;
 		}
 
+		// Init pmin and pmax
 		pmin.setR(ranges[lowerLimit_idx]);
 		pmin.setPhi(angleMin + (double)lowerLimit_idx * angleInc);
 
@@ -544,6 +546,12 @@ std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vecto
 		pmax.setPhi(angleMin + (double)upperLimit_idx * angleInc);
 
 		objLength = objectLengthNew(*pointsVector_it);
+
+		// TODO: Refacto
+		// Ce que je comprend ici :
+		//  * Un segment est construit par regression linéaire sur tous les points de l'objet
+		//  * Des informations supplémentaires sont settées (utiles ou pas ?)
+		//  * Le segment le plus proche est conservé ...
 
 		// If object length around 70 cm
 		if (objLength > 0.65 && objLength < 0.75)

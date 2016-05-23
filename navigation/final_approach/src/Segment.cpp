@@ -17,7 +17,7 @@ Segment::Segment(geometry_msgs::Point min, geometry_msgs::Point max, float gradi
 {
 	m_minPoint = min;
 	m_maxPoint = max;
-	m_gradient = fmod(m_gradient,2*M_PI);
+	m_gradient = fmod(m_gradient, 2*M_PI);
 	m_gradient= m_gradient - M_PI_2;
 }
 

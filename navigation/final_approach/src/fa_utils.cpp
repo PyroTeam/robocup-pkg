@@ -30,21 +30,19 @@ geometry_msgs::Point orthoProjection(Point p, geometry_msgs::Pose2D p2d)
 }
 
 
-float distance2points(Point a, Point b){
-	float xa = a.getX();
-	float xb = b.getX();
-	float ya = a.getY();
-	float yb = b.getY();
-	return sqrt( std::abs(xb-xa)*std::abs(xb-xa) + std::abs(yb-ya)*std::abs(yb-ya) );
+float distance2points(Point a, Point b)
+{
+	return sqrt(  std::abs(b.getX() - a.getX()) * std::abs(b.getX() - a.getX())
+				+ std::abs(b.getY() - a.getY()) * std::abs(b.getY() - a.getY()));
 }
 
 float moy(std::list<float> position_y){
 	std::list<float>::iterator it;
 	float moyenne = 0;
-	for(it=position_y.begin();it!=position_y.end();it++)
+	for(it = position_y.begin(); it != position_y.end(); it++)
 	{
 		moyenne = moyenne + *it;
 	}
-	moyenne = moyenne / (float)(position_y.size()) ;
+	moyenne = moyenne / (float)(position_y.size());
 	return moyenne;
 }
