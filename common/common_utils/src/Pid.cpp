@@ -41,6 +41,10 @@ m_Kp(Kp), m_Ki(Ki), m_Kd(Kd), m_err(0), m_I(0), m_T(T)
 {
 }
 
+Pid::~Pid()
+{
+}
+
 float Pid::update(float err)
 {
 	float cmd;

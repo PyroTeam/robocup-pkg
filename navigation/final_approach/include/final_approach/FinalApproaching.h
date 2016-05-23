@@ -51,9 +51,16 @@
 
 #include <final_approach_msg/FinalApproachingAction.h>
 #include <final_approach_msg/plotDataFA.h>
-#include "common_utils/Parameter.h"
+#include <common_utils/Parameter.h>
+#include <common_utils/Pid.h>
 
 #include <vector>
+
+
+/**
+ * Fréquence des boucles en Hz
+ */
+const int g_loopFreq = 100;
 
 /**
  * \brief      Team color
@@ -141,29 +148,51 @@ class FinalApproaching
 	Parameter m_laserXPidKp;
 	Parameter m_laserXPidKi;
 	Parameter m_laserXPidKd;
+	Parameter m_laserXPidThreshold;
 
 	// Laser Y Asserv PID Parameters
 	Parameter m_laserYPidKp;
 	Parameter m_laserYPidKi;
 	Parameter m_laserYPidKd;
+	Parameter m_laserYPidThreshold;
 
 	// Laser Yaw Asserv PID Parameters
 	Parameter m_laserYawPidKp;
 	Parameter m_laserYawPidKi;
 	Parameter m_laserYawPidKd;
+	Parameter m_laserYawPidThreshold;
+
+	// PID
+	Pid m_laserXPid;
+	Pid m_laserYPid;
+	Pid m_laserYawPid;
+
+	// Some useful infos
+	Parameter m_mpsWidth;
 
   public:
 	FinalApproaching(std::string name)
-	    : m_as(m_nh, name, boost::bind(&FinalApproaching::executeCB, this, _1), false), m_actionName(name)
-	    , m_laserXPidKp(m_nh, "navigation/finalApproach/laserAsserv/xPid/Kp", 0.25)
-	    , m_laserXPidKi(m_nh, "navigation/finalApproach/laserAsserv/xPid/Ki", 0)
-	    , m_laserXPidKd(m_nh, "navigation/finalApproach/laserAsserv/xPid/Kd", 0)
-	    , m_laserYPidKp(m_nh, "navigation/finalApproach/laserAsserv/yPid/Kp", 0.075)
-	    , m_laserYPidKi(m_nh, "navigation/finalApproach/laserAsserv/yPid/Ki", 0)
-	    , m_laserYPidKd(m_nh, "navigation/finalApproach/laserAsserv/yPid/Kd", 0)
-	    , m_laserYawPidKp(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Kp", 0.4)
-	    , m_laserYawPidKi(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Ki", 0)
-	    , m_laserYawPidKd(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Kd", 0)
+		: m_as(m_nh, name, boost::bind(&FinalApproaching::executeCB, this, _1), false), m_actionName(name)
+		, m_laserXPidKp(m_nh, "navigation/finalApproach/laserAsserv/xPid/Kp", 0.25)
+		, m_laserXPidKi(m_nh, "navigation/finalApproach/laserAsserv/xPid/Ki", 0)
+		, m_laserXPidKd(m_nh, "navigation/finalApproach/laserAsserv/xPid/Kd", 0)
+		, m_laserXPidThreshold(m_nh, "navigation/finalApproach/laserAsserv/xPid/threshold", 0.01)
+
+		, m_laserYPidKp(m_nh, "navigation/finalApproach/laserAsserv/yPid/Kp", 0.075)
+		, m_laserYPidKi(m_nh, "navigation/finalApproach/laserAsserv/yPid/Ki", 0)
+		, m_laserYPidKd(m_nh, "navigation/finalApproach/laserAsserv/yPid/Kd", 0)
+		, m_laserYPidThreshold(m_nh, "navigation/finalApproach/laserAsserv/yPid/threshold", 0.003)
+
+		, m_laserYawPidKp(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Kp", 0.4)
+		, m_laserYawPidKi(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Ki", 0)
+		, m_laserYawPidKd(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Kd", 0)
+		, m_laserYawPidThreshold(m_nh, "navigation/finalApproach/laserAsserv/yawPid/threshold", 0.003)
+
+		, m_laserXPid(m_laserXPidKp(), m_laserXPidKi(), m_laserXPidKd(), 1.0/g_loopFreq)
+		, m_laserYPid(m_laserYPidKp(), m_laserYPidKi(), m_laserYPidKd(), 1.0/g_loopFreq)
+		, m_laserYawPid(m_laserYawPidKp(), m_laserYawPidKi(), m_laserYawPidKd(), 1.0/g_loopFreq)
+
+		, m_mpsWidth(m_nh, "navigation/finalApproach/mps/width", 0.700)
 	{
 		refreshParams();
 
@@ -255,6 +284,18 @@ class FinalApproaching
 		}
 
 		m_teamColor = (teamColor_str == "magenta") ? MAGENTA : CYAN;
+
+		m_laserXPid.setKp(m_laserXPidKp());
+		m_laserXPid.setKi(m_laserXPidKi());
+		m_laserXPid.setKd(m_laserXPidKd());
+
+		m_laserYPid.setKp(m_laserYPidKp());
+		m_laserYPid.setKi(m_laserYPidKi());
+		m_laserYPid.setKd(m_laserYPidKd());
+
+		m_laserYawPid.setKp(m_laserYawPidKp());
+		m_laserYawPid.setKi(m_laserYawPidKi());
+		m_laserYawPid.setKd(m_laserYawPidKd());
 	}
 
 	/**

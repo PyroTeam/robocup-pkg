@@ -20,7 +20,7 @@
 class Parameter
 {
 public:
-	Parameter(ros::NodeHandle nh, std::string name, float defaultValue);
+	Parameter(ros::NodeHandle &nh, std::string name, float defaultValue);
 	~Parameter(void);
 	float get(void);
 	float operator()(void);

@@ -60,6 +60,9 @@ public:
 	 * \return     La commande
 	 */
 	float update(float err);
+	void setKp(float Kp) { m_Kp = Kp;};
+	void setKi(float Ki) { m_Ki = Ki;};
+	void setKd(float Kd) { m_Kd = Kd;};
 
 private:
 	float m_Kp;   // Coeff P

@@ -33,7 +33,7 @@ void FinalApproaching::preemptCB()
 
 void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &goal)
 {
-	ros::Rate loopRate(100);
+	ros::Rate loopRate(g_loopFreq);
 	bool firstTimeInLoop = false;  // Used to reduce logging, see ROS_DEBUG_COND(firstTimeInLoop, "[...]");
 
 	// General initialization
@@ -80,6 +80,9 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	int asservLaser_cpt = 0;
 	std::list<float> listPositionY, listOrtho;
 	int nbAsservLaserYOkNeeded = 20;
+
+	// Reload parameters
+	refreshParams();
 
 	// Wait for sensors
 	ROS_INFO("Wait sensors infos");
@@ -314,7 +317,6 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 						{
 							// To move on the X axis of the robot
 							ROS_WARN_ONCE("Skip to AsservX");
-							break;
 							xAsservState = asservissementPositionX(m_plotData, m_pubMvt, ortho, objectifX());
 							ROS_DEBUG("Position X: %f", ortho);
 							ROS_DEBUG("Objectif X: %f", objectifX());
@@ -1108,7 +1110,7 @@ int FinalApproaching::asservissementAngle(final_approach_msg::plotDataFA &plotDa
 	geometry_msgs::Twist msg;
 	float err = angle - 0.01;
 	plotData.angleErr = std::abs(err);
-	if(std::abs(err) < 0.015)
+	if(std::abs(err) < m_laserYawPidThreshold())
 	{
 		msg.angular.z = 0;
 		plotData.angleCmd = msg.angular.z;
@@ -1117,7 +1119,7 @@ int FinalApproaching::asservissementAngle(final_approach_msg::plotDataFA &plotDa
 	}
 	else
 	{
-		msg.angular.z = m_laserYawPidKp() * err;
+		msg.angular.z = m_laserYawPid.update(err);
 		plotData.angleCmd = msg.angular.z;
 		pubMvt.publish(msg);
 		return 0;
@@ -1134,6 +1136,7 @@ int FinalApproaching::asservissementPositionY(final_approach_msg::plotDataFA &pl
 
 	// Determiner ce que sont les deux premiers if
 	ROS_DEBUG("Asserv Laser Y");
+#ifdef NOT_SO_USELESS
 	if(yLeft >= 0 && yRight >= 0)
 	{
 		ROS_DEBUG("GO Full Right");
@@ -1154,11 +1157,12 @@ int FinalApproaching::asservissementPositionY(final_approach_msg::plotDataFA &pl
 	}
 	else
 	{
+#endif
 		ROS_DEBUG("Asserv standard");
 		plotData.YErr = std::abs(err);
 		ROS_DEBUG("Asserv standard. Erreur: %f", std::abs(err));
 		// TODO: Paramétrer seuil
-		if(std::abs(err) < 0.01)
+		if(std::abs(err) < m_laserYPidThreshold())
 		{
 			msg.linear.y = 0;
 			plotData.YCmd = msg.linear.y;
@@ -1167,12 +1171,14 @@ int FinalApproaching::asservissementPositionY(final_approach_msg::plotDataFA &pl
 		}
 		else
 		{
-			msg.linear.y = m_laserYPidKp() * err;
+			msg.linear.y = m_laserYPid.update(err);
 			plotData.YCmd = msg.linear.y;
 			pubMvt.publish(msg);
 			return 0;
 		}
+#ifdef NOT_SO_USELESS
 	}
+#endif
 }
 
 
@@ -1184,7 +1190,7 @@ int FinalApproaching::asservissementPositionX(final_approach_msg::plotDataFA &pl
 	plotData.XErr = std::abs(err);
 
 	ROS_DEBUG("Asserv Laser X");
-	if(std::abs(err) < 0.007)
+	if(std::abs(err) < m_laserXPidThreshold())
 	{
 		msg.linear.x = 0;
 		plotData.XCmd = msg.linear.x;
@@ -1193,16 +1199,16 @@ int FinalApproaching::asservissementPositionX(final_approach_msg::plotDataFA &pl
 	}
 	else
 	{
-		if(std::abs(err) < 0.04)
+		if(std::abs(err) < 0.003)
 		{
-			msg.linear.x = err * m_laserXPidKp();
+			msg.linear.x = m_laserXPid.update(err);
 			plotData.XCmd = msg.linear.x;
 			pubMvt.publish(msg);
 			return 1;
 		}
 		else
 		{
-			msg.linear.x = err * m_laserXPidKp();
+			msg.linear.x = m_laserXPid.update(err);
 			plotData.XCmd = msg.linear.x;
 			pubMvt.publish(msg);
 			return 0;

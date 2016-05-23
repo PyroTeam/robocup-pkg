@@ -6,11 +6,16 @@ navigation:
                 Kp: 0.25
                 Ki: 0.0
                 Kd: 0.0
+                threshold: 0.01
             yPid:
                 Kp: 0.075
                 Ki: 0.0
                 Kd: 0.0
+                threshold: 0.003
             yawPid:
                 Kp: 0.4
                 Ki: 0.0
                 Kd: 0.0
+                threshold: 0.003
+        mps:
+            width: 0.685

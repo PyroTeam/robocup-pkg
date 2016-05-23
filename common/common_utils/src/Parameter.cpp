@@ -12,7 +12,7 @@
 
 #include "common_utils/Parameter.h"
 
-Parameter::Parameter(ros::NodeHandle nh, std::string name, float defaultValue)
+Parameter::Parameter(ros::NodeHandle &nh, std::string name, float defaultValue)
 : m_nh(nh)
 , m_defaultValue(defaultValue)
 , m_useDefault(false)
