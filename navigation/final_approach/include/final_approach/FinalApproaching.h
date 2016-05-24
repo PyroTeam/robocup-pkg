@@ -42,6 +42,7 @@
 #include "final_approach/Point.h"
 #include "final_approach/Segment.h"
 #include "final_approach/ArTagFA.h"
+#include "final_approach/LaserScan.h"
 
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
@@ -271,7 +272,7 @@ class FinalApproaching
 	 *
 	 * \return     { description_of_the_return_value }
 	 */
-	std::vector<Segment> segmentsConstruction(std::list<std::vector<Point> > tabPoints, std::vector<float> ranges,
+	Segment segmentConstruction(std::list<std::vector<Point> > tabPoints, std::vector<float> ranges,
 	                                          float angleMin, double angleInc);
 
 	void refreshParams(void)
@@ -330,7 +331,7 @@ class FinalApproaching
 	 *
 	 * \return     le numero du  segment le plus proche du laser
 	 */
-	int nearestSegment(std::vector<Segment> tabSegments, std::vector<float> ranges);
+	int nearestSegment(std::vector<Segment> tabSegments);
 
 	/**
 	 * \brief      Détermine la distance orthogonale entre le laser et le
@@ -450,21 +451,27 @@ class FinalApproaching
 	 *  \brief		permet d asservir en angle
 	 *  \return		etat d avancement de l asservissement
 	 */
-	int asservissementAngle(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt,float moyGradient);
+	bool asservissementAngle(float setpoint, float measure);
 
 	/**
 	 *  \brief		permet d asservir en y (repere laser)
 	 *  \return		etat d avancement de l asservissement
 	 */
-	int asservissementPositionY(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt, float goal
-		, float moyPos, float yLeft, float yRight);
+	bool asservissementPositionY(float setpoint, float measure);
 
 	/**
 	 *  \brief		permet d asservir en x (repere laser)
 	 *  \return		etat d avancement de l asservissement
 	 */
-	int asservissementPositionX(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt
-		, float distance, float goal);
+	bool asservissementPositionX(float setpoint, float measure);
+
+	/**
+	 * \brief      Publie un marker line_list (unique) représentant le segment
+	 *
+	 * \param      ls    Une référence sur laserScan pour récupérer quelques infos
+	 * \param      seg   The segment
+	 */
+	void publishSegmentMarker(LaserScan &ls, Segment &seg);
 };
 
 

@@ -75,7 +75,8 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 
 	// LaserScan
 	LaserScan ls;
-	int angleAsservState = 0, yAsservState = 0, xAsservState = 0, asservLaserYOk_cpt = 0;
+	bool angleAsservDone = 0, yAsservDone = 0, xAsservDone = 0;
+	int asservLaserYOk_cpt = 0;
 	float positionY = 0, gradient = 0, ortho = 0, moyY = 0, moyO = 0;
 	int asservLaser_cpt = 0;
 	std::list<float> listPositionY, listOrtho;
@@ -109,6 +110,14 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		ROS_INFO("Wait sensors infos - DONE");
 	else
 		ROS_WARN("Wait sensors infos - SKIPPED");
+
+
+
+
+
+
+
+
 
 
 	// Try to locate a correct ARTag
@@ -153,6 +162,15 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	else
 		ROS_WARN("Locate ArTag - SKIPPED");
 
+
+
+
+
+
+
+
+
+
 	// Asservissement ARTag camera
 	ROS_INFO("ArTag Asservissement");
 	firstTimeInLoop = true;
@@ -194,10 +212,19 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		                locateArTagPhase, avancementArTag, obstacle);
 	}
 
+
+
+
+
+
+
+
+
+
 	// Asservissement laserScan
 	ROS_INFO("LaserScan Asservissement");
 	firstTimeInLoop = true;
-	while (ros::ok() && !bp.getState() && locateArTagPhase != 3 && avancementArTag == 1 && xAsservState != 2 && obstacle == false)
+	while (ros::ok() && !bp.getState() && locateArTagPhase != 3 && avancementArTag == 1 && !xAsservDone && obstacle == false)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "LaserScan Asservissement - process");
 		firstTimeInLoop = false;
@@ -210,150 +237,87 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			return;
 		}
 
-		// If the scan is complete
-		if (!ls.getRanges().empty())
+		// Loop at loop beginning because it's easier
+		loopRate.sleep();
+
+		// If the scan isn't complete, skip
+		if (ls.getRanges().empty())
 		{
-			ROS_INFO_ONCE("Got a complete LaserScan");
-			std::vector<float> ranges = ls.getRanges();
-			float angleMin = ls.getAngleMin();
-			double angleInc = ls.getAngleInc();
-			float rangeMin = ls.getRangeMin() - 0.10;  // Ignoring limit ranges is currently bugguy
-			float rangeMax = ls.getRangeMax() + 0.10;  // Ignoring limit ranges is currently bugguy
-			std::list<std::vector<Point> > listPointsVectors =
-			    objectsConstruction(ranges, angleMin, angleInc, rangeMin, rangeMax);
-			std::vector<Segment> tabSegments = segmentsConstruction(listPointsVectors, ranges, angleMin, angleInc);
-			// At least one segment found
-			if (tabSegments.size() > 0)
-			{
-				Segment seg = tabSegments[0];
-				ROS_DEBUG("min seg: %d max seg %d", seg.getMinRanges(), seg.getMaxRanges());
-				// If no error about the laserscan data
-				if (seg.getMinRanges() >= 0 && seg.getMinRanges() <= ranges.size() && seg.getMaxRanges() >= 0 &&
-				    seg.getMaxRanges() <= ranges.size())
-				{
-					// Debug Marker
-					m_marker.header.frame_id = ls.getFrame();
-					m_marker.header.stamp = ls.getStamp();
-
-					m_marker.type = m_marker.LINE_LIST;
-					m_marker.action = m_marker.ADD;
-					m_marker.ns = ros::this_node::getName();
-					m_marker.id = SEGMENT_MARKER_ID;
-					m_marker.scale.x = 0.015;
-					// RED
-					m_marker.color.r = 1.0;
-					m_marker.color.g = 0.0;
-					m_marker.color.b = 0.0;
-					m_marker.color.a = 1.0;
-
-					m_marker.lifetime = ros::Duration(10);
-					m_marker.frame_locked = false;
-
-					// First point
-					geometry_msgs::Point tmp_point;
-					tmp_point.x = seg.getMin().getX();
-					tmp_point.y = seg.getMin().getY();
-					tmp_point.z = 0.05;
-					m_marker.points.push_back(tmp_point);
-
-					// Second point
-					tmp_point.x = seg.getMax().getX();
-					tmp_point.y = seg.getMax().getY();
-					tmp_point.z = 0.05;
-					m_marker.points.push_back(tmp_point);
-
-					m_markerPub.publish(m_marker);
-					m_marker.points.clear();
-
-					gradient = seg.getGradient();
-					ROS_DEBUG("gradient du segment le plus proche : %f", gradient);
-					positionY = positionYLaser(seg, ranges, angleMin, angleInc);
-					ROS_DEBUG("l objet se trouve a environ %f m du bord", positionY);
-					ortho = distanceOrtho(seg, ranges, angleMin, angleInc);
-					ROS_DEBUG("distance orthogonale laser-machine : %f", ortho);
-
-
-					ROS_INFO("Assev Laser - nouvelle iteration");
-					// To do an average
-					if (asservLaser_cpt < 1)
-					{
-						listPositionY.push_back(positionY);
-						listOrtho.push_back(ortho);
-						asservLaser_cpt++;
-					}
-					else
-					{
-						listPositionY.pop_front();
-						listOrtho.pop_front();
-						listPositionY.push_back(positionY);
-						listOrtho.push_back(ortho);
-						moyY = moy(listPositionY);
-						moyO = moy(listOrtho);
-						// to be in front of the machine
-						angleAsservState = asservissementAngle(m_plotData, m_pubMvt, gradient);
-						int min = seg.getMinRanges();
-						int max = seg.getMaxRanges();
-						Point gauche(ranges[max], angleMin + (double)min * angleInc);
-						Point droite(ranges[min], angleMin + (double)max * angleInc);
-						m_plotData.XLeft = gauche.getX();
-						m_plotData.YLeft = gauche.getY();
-						m_plotData.XRight = droite.getX();
-						m_plotData.YRight = droite.getY();
-						if ((angleAsservState == 1) && (asservLaserYOk_cpt < nbAsservLaserYOkNeeded))
-						{
-							// to move on the Y axis of the robot
-							yAsservState = asservissementPositionY(m_plotData, m_pubMvt, moyY, objectifY(), gauche.getY(),
-							                            droite.getY());
-							ROS_DEBUG("Position Y: %f", -positionY);
-							ROS_DEBUG("Moyenne Y: %f", -moyY);
-							ROS_DEBUG("Objectif Y: %f", objectifY());
-							// listPositionY.clear();
-							if (yAsservState == 1)
-							{
-								asservLaserYOk_cpt++;
-							}
-						}
-						if (angleAsservState == 1 && asservLaserYOk_cpt >= nbAsservLaserYOkNeeded)
-						{
-							// To move on the X axis of the robot
-							ROS_WARN_ONCE("Skip to AsservX");
-							xAsservState = asservissementPositionX(m_plotData, m_pubMvt, ortho, objectifX());
-							ROS_DEBUG("Position X: %f", ortho);
-							ROS_DEBUG("Objectif X: %f", objectifX());
-						}
-					}
-				}
-				m_plot.publish(m_plotData);
-				m_feedback.percent_complete = avancement(angleAsservState, yAsservState, xAsservState);
-				m_as.publishFeedback(m_feedback);
-				ros::spinOnce();
-				ROS_DEBUG("BumperState : %d ", bp.getState());
-			}
-			else
-			{
-				ROS_INFO_ONCE("Waiting LaserScan data");
-			}
-
-			loopRate.sleep();
+			ROS_INFO_ONCE("Waiting LaserScan data");
+			continue;
 		}
+
+		ROS_INFO_ONCE("Got a complete LaserScan");
+
+		std::vector<float> ranges = ls.getRanges();
+		float angleMin 	= ls.getAngleMin();
+		double angleInc = ls.getAngleInc();
+		float rangeMin 	= ls.getRangeMin() - 0.10;  // Ignoring limit ranges is currently bugguy
+		float rangeMax 	= ls.getRangeMax() + 0.10;  // Ignoring limit ranges is currently bugguy
+
+
+		// Segmente le scan laser en plusieurs objets
+		std::list<std::vector<Point> > listPointsVectors =
+		    							objectsConstruction(ranges, angleMin, angleInc, rangeMin, rangeMax);
+
+		// Récupère le segment ressemblant à une machine le plus proche
+		Segment seg = segmentConstruction(listPointsVectors, ranges, angleMin, angleInc);
+
+		if (!seg.isConstructed())
+		{
+			ROS_DEBUG("No segment found");
+			continue;
+		}
+
+		// Publish segment marker for debug
+		publishSegmentMarker(ls, seg);
+
+		// XXX: Un moyennage (pas trop dégeu, sur base de repère robot, à grand renfor de tf) des informations d'entrée
+		// pourra s'avérer utile. A voir.
+		angleAsservDone = asservissementAngle(0.0, seg.getAngle());
+
+
+		if (angleAsservDone && (asservLaserYOk_cpt < nbAsservLaserYOkNeeded))
+		{
+			yAsservDone = asservissementPositionY(objectifY(), seg.getMiddlePoint().y);
+			if (yAsservDone)
+			{
+				asservLaserYOk_cpt++;
+			}
+		}
+
+		if (angleAsservDone && asservLaserYOk_cpt >= nbAsservLaserYOkNeeded)
+		{
+			xAsservDone = asservissementPositionX(objectifX(), seg.distanceOrthoLaserSegment());
+		}
+
+		// TODO: Utiliser les plotData
+		// TODO: Faire un bon feedback
+		m_feedback.percent_complete = 33;
+		m_as.publishFeedback(m_feedback);
+
+		// TODO: S'assurer qu'on a un bon pattern d'execution de ros node
+		// (le ros::spinonce dans une boucle dans une callback, p-e pas l'idéal)
+		ros::spinOnce();
+
+
+		loopRate.sleep();
 	}
 	if (!firstTimeInLoop)
 		ROS_INFO("LaserScan Asservissement - DONE");
 	else
 		ROS_WARN("LaserScan Asservissement - SKIPPED");
 
+
+
+
+
+
+
+
+
+
 	// Reinit
-	angleAsservState = 0;
-	yAsservState = 0;
-	xAsservState = 0;
-	asservLaserYOk_cpt = 0;
-	asservLaser_cpt = 0;
-	avancementArTag = 0;
-	locateArTagPhase = 0;
-
-	listPositionY.clear();
-	listOrtho.clear();
-
 	stopRobot();
 
 	// If any problem
@@ -427,26 +391,30 @@ int FinalApproaching::avancement(int a, int b, int c)
 
 float FinalApproaching::objectifY()
 {
+
+	/**
+	 * On asservit en fonction de la position de la machine en y dans le repère robot, la logique est spéciale
+	 */
 	switch (m_parameter)
 	{
 		case final_approach_msg::FinalApproachingGoal::S1:
-			return 0.28;
+			return -(0.28-0.35);
 		case final_approach_msg::FinalApproachingGoal::S2:
-			return 0.175;
+			return -(0.175-0.35);
 		case final_approach_msg::FinalApproachingGoal::S3:
-			return 0.08;
+			return -(0.08-0.35);
 		case final_approach_msg::FinalApproachingGoal::LANE_RS:
-			return 0.09;
+			return -(0.09-0.35);
 		case final_approach_msg::FinalApproachingGoal::LIGHT:
-			return 0.35;
+			return -(0.35-0.35);
 		case final_approach_msg::FinalApproachingGoal::CONVEYOR:
 		// TODO: Pourquoi deux mesures différentes ?
 			if (m_side == final_approach_msg::FinalApproachingGoal::IN)
-				return 0.37;
-			return 0.315;
+				return -(0.37-0.35);
+			return -(0.315-0.35);
 		default:
 			ROS_ERROR("Unknown parameter %d", m_parameter);
-			return -1;
+			return 42;
 	}
 }
 
@@ -497,12 +465,12 @@ std::list<std::vector<Point> > FinalApproaching::objectsConstruction(std::vector
 		}
 	}
 
-	ROS_DEBUG("Nombre d elements de listPointsVectors: %d", (int)listPointsVectors.size());
+	ROS_DEBUG_NAMED("objectsConstruction", "Nombre d elements de listPointsVectors: %d", (int)listPointsVectors.size());
 	int j = 0, min = 0;
 	for (pointsVector_it = listPointsVectors.begin(); pointsVector_it != listPointsVectors.end(); pointsVector_it++)
 	{
-		ROS_DEBUG("Nombre de points de l'objet #%d: %zu", j, pointsVector_it->size());
-		ROS_DEBUG("startId: %d | stopID: %lu", min, min + pointsVector_it->size());
+		ROS_DEBUG_NAMED("objectsConstruction", "Nombre de points de l'objet #%d: %zu", j, pointsVector_it->size());
+		ROS_DEBUG_NAMED("objectsConstruction", "startId: %d | stopID: %lu", min, min + pointsVector_it->size());
 		min += pointsVector_it->size();
 		j++;
 	}
@@ -510,7 +478,7 @@ std::list<std::vector<Point> > FinalApproaching::objectsConstruction(std::vector
 	return listPointsVectors;
 }
 
-std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vector<Point> > listPointsVectors,
+Segment FinalApproaching::segmentConstruction(std::list<std::vector<Point> > listPointsVectors,
                                                             std::vector<float> ranges, float angleMin, double angleInc)
 {
 	std::vector<Segment> tabSegments;
@@ -557,52 +525,25 @@ std::vector<Segment> FinalApproaching::segmentsConstruction(std::list<std::vecto
 		if (objLength > 0.65 && objLength < 0.75)
 		{
 			// Construction of segment
-			Segment segm(pmin, pmax, lowerLimit_idx, upperLimit_idx);
+			Segment segm;
+			segm.linearRegression(*pointsVector_it);
 
-			ROS_DEBUG_NAMED("segmentsConstrutcion", "Distance objet #%d du laser: %f", object_idx, segm.distanceLaserSegment(ranges));
-			ROS_DEBUG_NAMED("segmentsConstrutcion", "Distance ortho de l'objet #%d: %f", object_idx, distanceOrtho(segm, ranges, angleMin, angleInc));
-
-			geometry_msgs::Pose2D p = segm.linearRegression(*pointsVector_it);
-			geometry_msgs::Point orthoMin = orthoProjection(pmin, p);
-			geometry_msgs::Point orthoMax = orthoProjection(pmax, p);
-
-			ROS_DEBUG_NAMED("segmentsConstrutcion", "Pmin (%f, %f), Pmax (%f, %f)", pmin.getX(), pmin.getY(), pmax.getX(), pmax.getY());
-			ROS_DEBUG_NAMED("segmentsConstrutcion", "Omin (%f, %f), Omax (%f, %f)", orthoMin.x, orthoMin.y, orthoMax.x, orthoMax.y);
-
-			segm.setMinPoint(orthoMin);
-			segm.setMaxPoint(orthoMax);
-
-			ROS_DEBUG_NAMED("segmentsConstrutcion", "Taille du segment: %f", objLength);
-
-			segm.setDistance(objLength);
 			tabSegments.push_back(segm);
-
-			// TODO: Remove below in release
-			ROS_DEBUG_NAMED("segmentsConstrutcion", "DEBUG Segment for Object #%d", object_idx);
-			std::stringstream rangesValues;
-			for (int j = segm.getMinRanges(); j != segm.getMaxRanges(); j++)
-			{
-				rangesValues << " " << j << ": " << ranges[j] << " |";
-			}
-			ROS_DEBUG_NAMED("segmentsConstrutcion", "DEBUG %s", rangesValues.str().c_str());
 		}
 
 		rangesStart_idx += pointsVector_it->size();
 		object_idx++;
 	}
 
-	ROS_DEBUG_NAMED("segmentsConstrutcion", "Nombre de segments d environ 70 cm trouvés: %zu", tabSegments.size());
-
-	// Only the nearest segment is kept
-	if (tabSegments.size() > 1)
+	// If no segment founds, return an empty one
+	if (tabSegments.empty())
 	{
-		Segment s;
-		s = tabSegments[nearestSegment(tabSegments, ranges)];
-		tabSegments.clear();
-		tabSegments.push_back(s);
+		Segment emptySeg;
+		return emptySeg;
 	}
 
-	return tabSegments;
+	// Only the nearest segment is kept
+	return tabSegments[nearestSegment(tabSegments)];
 }
 
 float FinalApproaching::objectLength(int i, int j, std::list<std::vector<Point> > listPointsVectors,
@@ -635,18 +576,12 @@ float FinalApproaching::objectLengthNew(std::vector<Point> &pointsVector)
 	return distance2points(pointsVector.front(), pointsVector.back());
 }
 
-int FinalApproaching::nearestSegment(std::vector<Segment> tabSegments, std::vector<float> ranges)
+int FinalApproaching::nearestSegment(std::vector<Segment> tabSegments)
 {
 	int nearest = 0;
-	std::vector<Segment>::iterator it;
 	for (int i = 0; i < tabSegments.size(); i++)
 	{
-		// TODO: Check what are thoses errors messages ??
-		// ROS_ERROR_COND(tabSegments.size() <= i || i < 0, "OOPS, Bad index vector acess, after line %d in file %s",
-		// __LINE__, __FILE__);
-		// ROS_ERROR_COND(ranges.size() != 513, "OOPS, Bad index vector acess, after line %d in file %s", __LINE__,
-		// __FILE__);
-		if (tabSegments[i].distanceLaserSegment(ranges) < tabSegments[nearest].distanceLaserSegment(ranges))
+		if (tabSegments[i].distanceLaserSegment() < tabSegments[nearest].distanceLaserSegment())
 		{
 			nearest = i;
 		}
@@ -904,34 +839,6 @@ int FinalApproaching::asservissementCamera(std::vector<float> px, std::vector<fl
 {
 	int avancementArTag = 0;
 
-	// float errY = 0.0;
-	// float errX = 0.0;
-	// float errTheta = 0.0;
-
-	//    std::string tf_prefix;
-	//    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
-	//    if (tf_prefix.size() != 0)
-	//    {
-	//        tf_prefix += "/";
-	//    }
-
-	//    tf::StampedTransform transform;
-	//    try
-	//    {
-	//        g_tf_listener->lookupTransform(arTag.getFrame(), tf_prefix+"base_link", arTag.getStamp(), transform);
-	//    }
-	//    catch (tf::TransformException ex)
-	//    {
-	//        ROS_WARN("%s",ex.what());
-	//        return;
-	//    }
-
-	//    double yaw = tf::getYaw(transform.getRotation());
-
-	//        p.x     = px[k]*cos(yaw) - it.y*sin(yaw) + transform.getOrigin().x();
-	//        p.y     = px[k]*sin(yaw) + it.y*cos(yaw) + transform.getOrigin().y();
-	//        p.theta = it.theta + yaw;
-
 	if (!px.empty() && !pz.empty() && !oz.empty())
 	{
 		ROS_DEBUG_NAMED("investigation", "PX: %f, PZ: %f, OZ: %f", px[k], pz[k], oz[k]);
@@ -1119,112 +1026,111 @@ void FinalApproaching::stopRobot(void)
 
 
 
-int FinalApproaching::asservissementAngle(final_approach_msg::plotDataFA &plotData, ros::Publisher pubMvt, float angle){
-	geometry_msgs::Twist msg;
-	float err = angle - 0.01;
-	plotData.angleErr = std::abs(err);
+bool FinalApproaching::asservissementAngle(float setpoint, float measure)
+{
+	float err = setpoint - measure;
+	m_plotData.angleErr = std::abs(err);
+
 	if(std::abs(err) < m_laserYawPidThreshold())
 	{
-		msg.angular.z = 0;
-		plotData.angleCmd = msg.angular.z;
-		pubMvt.publish(msg);
-		return 1;
+		m_msgTwist.angular.z = 0;
+		m_plotData.angleCmd = m_msgTwist.angular.z;
+		m_pubMvt.publish(m_msgTwist);
+		return true;
 	}
 	else
 	{
-		msg.angular.z = m_laserYawPid.update(err);
-		plotData.angleCmd = msg.angular.z;
-		pubMvt.publish(msg);
-		return 0;
+		m_msgTwist.angular.z = m_laserYawPid.update(err);
+		m_plotData.angleCmd = m_msgTwist.angular.z;
+		m_pubMvt.publish(m_msgTwist);
+		return false;
 	}
 }
 
 
-int FinalApproaching::asservissementPositionY(final_approach_msg::plotDataFA &plotData, ros::Publisher pubMvt
-							, float goal, float moyPos, float yLeft, float yRight)
+bool FinalApproaching::asservissementPositionY(float setpoint, float measure)
 {
-	geometry_msgs::Twist msg;
-	msg.angular.z = 0;
-	float err = moyPos + goal;
+	float err = setpoint - measure;
+	m_plotData.YErr = std::abs(err);
 
-	// Determiner ce que sont les deux premiers if
-	ROS_DEBUG("Asserv Laser Y");
-#ifdef NOT_SO_USELESS
-	if(yLeft >= 0 && yRight >= 0)
+	if(std::abs(err) < m_laserYPidThreshold())
 	{
-		ROS_DEBUG("GO Full Right");
-		msg.linear.y = 0.25;
-		plotData.YErr = 2; // 2 >> error
-        plotData.YCmd = msg.linear.y;
-        pubMvt.publish(msg);
-		return 0;
-	}
-	else if(yLeft <= 0 && yRight <= 0)
-	{
-		ROS_DEBUG("GO Full Left");
-		msg.linear.y = -0.25;
-		plotData.YErr = 2; // 2 >> error
-		plotData.YCmd = msg.linear.y;
-        pubMvt.publish(msg);
-		return 0;
+		m_msgTwist.linear.y = 0;
+		m_plotData.YCmd = m_msgTwist.linear.y;
+		m_pubMvt.publish(m_msgTwist);
+		return true;
 	}
 	else
 	{
-#endif
-		ROS_DEBUG("Asserv standard");
-		plotData.YErr = std::abs(err);
-		ROS_DEBUG("Asserv standard. Erreur: %f", std::abs(err));
-		// TODO: Paramétrer seuil
-		if(std::abs(err) < m_laserYPidThreshold())
-		{
-			msg.linear.y = 0;
-			plotData.YCmd = msg.linear.y;
-			pubMvt.publish(msg);
-			return 1;
-		}
-		else
-		{
-			msg.linear.y = m_laserYPid.update(err);
-			plotData.YCmd = msg.linear.y;
-			pubMvt.publish(msg);
-			return 0;
-		}
-#ifdef NOT_SO_USELESS
+		m_msgTwist.linear.y = m_laserYPid.update(err);
+		m_plotData.YCmd = m_msgTwist.linear.y;
+		m_pubMvt.publish(m_msgTwist);
+		return false;
 	}
-#endif
 }
 
 
-int FinalApproaching::asservissementPositionX(final_approach_msg::plotDataFA &plotData,ros::Publisher pubMvt, float distance, float goal){
-	geometry_msgs::Twist msg;
-	msg.linear.y = 0;
-	msg.angular.z = 0;
-	float err = distance - goal;
-	plotData.XErr = std::abs(err);
+bool FinalApproaching::asservissementPositionX(float setpoint, float measure)
+{
+	float err = setpoint - measure;
+	m_plotData.XErr = std::abs(err);
 
-	ROS_DEBUG("Asserv Laser X");
 	if(std::abs(err) < m_laserXPidThreshold())
 	{
-		msg.linear.x = 0;
-		plotData.XCmd = msg.linear.x;
-		pubMvt.publish(msg);
-		return 2;
+		m_msgTwist.linear.x = m_laserXPid.update(err);
+		m_plotData.XCmd = m_msgTwist.linear.x;
+		m_pubMvt.publish(m_msgTwist);
+		return true;
 	}
 	else
 	{
-		if(std::abs(err) < 0.003)
-		{
-			msg.linear.x = m_laserXPid.update(err);
-			plotData.XCmd = msg.linear.x;
-			pubMvt.publish(msg);
-			return 1;
-		}
-		else
-		{
-			msg.linear.x = m_laserXPid.update(err);
-			plotData.XCmd = msg.linear.x;
-			pubMvt.publish(msg);
-			return 0;
-		}
+		m_msgTwist.linear.x = m_laserXPid.update(err);
+		m_plotData.XCmd = m_msgTwist.linear.x;
+		m_pubMvt.publish(m_msgTwist);
+		return false;
 	}
+}
+
+void FinalApproaching::publishSegmentMarker(LaserScan &ls, Segment &seg)
+{
+	// Debug Marker
+	m_marker.header.frame_id = ls.getFrame();
+	m_marker.header.stamp = ls.getStamp();
+
+	m_marker.type = m_marker.LINE_LIST;
+	m_marker.action = m_marker.ADD;
+	m_marker.ns = ros::this_node::getName();
+	m_marker.id = SEGMENT_MARKER_ID;
+	m_marker.scale.x = 0.015;
+	// RED
+	m_marker.color.r = 1.0;
+	m_marker.color.g = 0.0;
+	m_marker.color.b = 0.0;
+	m_marker.color.a = 1.0;
+
+	m_marker.lifetime = ros::Duration(10);
+	m_marker.frame_locked = false;
+
+	// dY and dX
+	geometry_msgs::Point middlePoint = seg.getMiddlePoint();
+	float angle = seg.getAngle();
+	float dY = sin(angle) * m_mpsWidth()/2;
+	float dX = cos(angle) * m_mpsWidth()/2;
+	ROS_DEBUG("Marker MPS is : (%f / %f) - %f rad", middlePoint.x, middlePoint.y, angle);
+
+	// First point
+	geometry_msgs::Point tmp_point;
+	tmp_point.x = middlePoint.x + dX;
+	tmp_point.y = middlePoint.y + dY;
+	tmp_point.z = 0.05;
+	m_marker.points.push_back(tmp_point);
+
+	// Second point
+	tmp_point.x = middlePoint.x - dX;
+	tmp_point.y = middlePoint.y - dY;
+	tmp_point.z = 0.05;
+	m_marker.points.push_back(tmp_point);
+
+	m_markerPub.publish(m_marker);
+	m_marker.points.clear();
 }

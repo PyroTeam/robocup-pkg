@@ -27,6 +27,7 @@ class Segment{
 
 		geometry_msgs::Point getMinPoint(){return m_minPoint;}
 		geometry_msgs::Point getMaxPoint(){return m_maxPoint;}
+		geometry_msgs::Point getMiddlePoint(){return m_middlePoint;}
 		Point getMin(){return m_min;}
 		Point getMax(){return m_max;}
 		float getGradient(){return m_gradient;}
@@ -35,6 +36,7 @@ class Segment{
 		float getDistance(){return m_distance;}
 		int getMinRanges(){return m_minRanges;}
 		int getMaxRanges(){return m_maxRanges;}
+		bool isConstructed(){return !m_nullSegment;}
 
 		void setMinPoint(geometry_msgs::Point p){m_minPoint = p;}
 		void setMaxPoint(geometry_msgs::Point p){m_maxPoint = p;}
@@ -45,11 +47,11 @@ class Segment{
 		/**
 		 * \brief      Effectue un regression lineaire sur le segment
 		 *
-		 * \param[in]  <unnamed>  { parameter_description }
+		 * \param[in]  pointsVector  The points vector
 		 *
 		 * \return     { description_of_the_return_value }
 		 */
-		geometry_msgs::Pose2D linearRegression(std::vector<Point>);
+		geometry_msgs::Pose2D linearRegression(std::vector<Point> pointsVector);
 
 		/**
 		 * \brief      Determine si la pente est quasi nulle ou non
@@ -61,15 +63,24 @@ class Segment{
 		/**
 		 * \brief      Determine la distance entre le segment et le laser
 		 *
-		 * \param[in]  ranges  The ranges
+		 * \return     la distance entre l'objet et le laser
+		 */
+		float distanceLaserSegment();
+
+		/**
+		 * \brief      Determine la distance orthogonale (sur axe x laser) entre le segment et le laser
 		 *
 		 * \return     la distance entre l'objet et le laser
 		 */
-		float distanceLaserSegment(std::vector<float> ranges);
+		float distanceOrthoLaserSegment();
 
 	private:
 		geometry_msgs::Point m_minPoint;
 		geometry_msgs::Point m_maxPoint;
+
+		geometry_msgs::Point m_middlePoint;  // CONFIANCE
+		geometry_msgs::Point m_orthoPoint;  // CONFIANCE
+
 		Point m_min;
 		Point m_max;
 		float m_gradient;
@@ -77,7 +88,8 @@ class Segment{
 		float m_distance;
 		int m_minRanges;
 		int m_maxRanges;
-		float m_angle;
+		float m_angle;		 // CONFIANCE
+		bool m_nullSegment;  // CONFIANCE
 };
 
 #endif // _FINAL_APPROACH__SEGMENT__H_
