@@ -109,7 +109,7 @@ void GtServerSrv::asking(geometry_msgs::Pose2D point)
 		else if(count = 3) {point.y -= 1.5; point.theta += M_PI/2;  going(point);}
 		else if(count = 4) {point.x += 2;   point.theta += M_PI/2;  going(point);}
 		else count = 0;
-		fa_c.starting(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+		fa_c.starting(FinalApproachingGoal::BS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 		mid = atg.askForId();
 		count ++;
 	}while(mid == -1);
@@ -121,7 +121,7 @@ manager_msg::activity GtServerSrv::getActivityMsg()
 	return m_msg;
 }
 
-manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction()
+final_approach_msg::FinalApproachingAction GtServerSrv::getFinalAppAction()
 {
 	return m_act;
 }
@@ -486,7 +486,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 						if(m_id == C_BS_OUT || m_id == M_BS_OUT)
 					  	{
 						  	m_msg = m.getBS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::BS,req.id);
-						 	m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+						 	m.getBS().startFinalAp(FinalApproachingGoal::BS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 						  	if(m_ei->m_signals.size() != 0)
 						  	{
 								m.getBS().readlights(m_ei->lSpec);
@@ -500,7 +500,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 							pt_actuel = pt_dest;
 							pt_dest = calculOutPoint(pt_actuel, req.id);
 							going(pt_dest);
-							m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+							m.getBS().startFinalAp(FinalApproachingGoal::BS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 							if(m_ei->m_signals.size() != 0) 
 							{
 								m.getBS().readlights(m_ei->lSpec);
@@ -522,7 +522,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 						if(m_id == C_RS1_OUT || m_id == M_RS1_OUT)
 						{
 							m_msg = m.getRS1().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::RS1,req.id);
-							m.getBS().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+							m.getBS().startFinalAp(FinalApproachingGoal::RS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 							if(m_ei->m_signals.size() != 0) 
 							{
 								m.getRS1().readlights(m_ei->lSpec);
@@ -534,7 +534,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 						else if(m_id == C_RS2_OUT || m_id == M_RS2_OUT)
 						{
 							m_msg = m.getRS2().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::RS2,req.id);
-							m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+							m.getRS2().startFinalAp(FinalApproachingGoal::RS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 							if(m_ei->m_signals.size() != 0) 
 							{
 								m.getRS2().readlights(m_ei->lSpec);
@@ -549,7 +549,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 						   	pt_actuel = pt_dest;
 						   	pt_dest = calculOutPoint(pt_actuel, req.id);
 						   	going(pt_dest);
-						   	m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+						   	m.getRS1().startFinalAp(FinalApproachingGoal::RS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 						   	if(m_ei->m_signals.size() != 0) 
 						   	{
 							  	m.getRS1().readlights(m_ei->lSpec);
@@ -564,7 +564,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 						   	pt_actuel = pt_dest;
 						   	pt_dest = calculOutPoint(pt_actuel, req.id);
 						   	going(pt_dest);
-						   	m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+						   	m.getRS2().startFinalAp(FinalApproachingGoal::RS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 						   	if(m_ei->m_signals.size() != 0) 
 						   	{
 							  	m.getRS2().readlights(m_ei->lSpec);
@@ -585,7 +585,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 					  	if(m_id == C_CS1_OUT || m_id == M_CS1_OUT)
 					  	{
 						 	m_msg = m.getCS1().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::CS1,req.id);
-						  	m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+						  	m.getCS1().startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 						  	if(m_ei->m_signals.size() != 0) 
 						  	{
 							  	m.getCS1().readlights(m_ei->lSpec);
@@ -597,7 +597,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 					  	else if(m_id == C_CS2_OUT || m_id == M_CS2_OUT)
 					  	{
 						  	m_msg = m.getCS2().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::CS2,req.id);
-						  	m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+						  	m.getCS2().startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 						  	if(m_ei->m_signals.size() != 0) 
 						  	{
 							  	m.getCS2().readlights(m_ei->lSpec);
@@ -613,7 +613,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 						  	pt_actuel = pt_dest;
 						   	pt_dest = calculOutPoint(pt_actuel, req.id);
 						   	going(pt_dest);
-						   	m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+						   	m.getCS1().startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 						   	if(m_ei->m_signals.size() != 0) 
 						   	{
 							  	m.getCS1().readlights(m_ei->lSpec);
@@ -628,7 +628,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 						   	pt_actuel = pt_dest;
 						   	pt_dest = calculOutPoint(pt_actuel, req.id);
 						   	going(pt_dest);
-						   	m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+						   	m.getCS2().startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 						   	if(m_ei->m_signals.size() != 0) 
 						   	{
 							  	m.getCS2().readlights(m_ei->lSpec);
@@ -645,7 +645,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 					  	if(m_id == C_DS_IN || m_id == M_DS_IN)
 					  	{
 						   	m_msg = m.getDS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::DS,req.id);
-						   	m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+						   	m.getDS().startFinalAp(FinalApproachingGoal::DS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 						   	if(m_ei->m_signals.size() != 0) 
 						   	{
 								m.getDS().readlights(m_ei->lSpec);
@@ -659,7 +659,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 						  	pt_actuel = pt_dest;
 						  	pt_dest = calculOutPoint(pt_actuel, req.id);
 						  	going(pt_dest);
-						  	//m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+						  	//m.getDS().startFinalAp(FinalApproachingGoal::DS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 						  	if(m_ei->m_signals.size() != 0) 
 						  	{
 								m.getDS().readlights(m_ei->lSpec);

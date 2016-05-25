@@ -150,6 +150,7 @@ add_dependencies(
 	test_publish
 
 	manager_msg_gencpp
+	final_approach_msg_gencpp
 	comm_msg_gencpp
 )
 target_link_libraries(
@@ -169,6 +170,7 @@ add_dependencies(
 	test_lights
 
 	manager_msg_gencpp
+	final_approach_msg_gencpp
 	comm_msg_gencpp
 	trait_im_msg_gencpp
 )
@@ -189,6 +191,7 @@ add_dependencies(
 	test_order
 
 	manager_msg_gencpp
+	final_approach_msg_gencpp
 	comm_msg_gencpp
 )
 target_link_libraries(
@@ -247,6 +250,7 @@ add_dependencies(
 	test_arTag
 
 	manager_msg_gencpp
+	final_approach_msg_gencpp
 	comm_msg_gencpp
 	trait_im_msg_gencpp
 )
@@ -285,6 +289,7 @@ add_dependencies(
 	test_navigation
 
 	manager_msg_gencpp
+	final_approach_msg_gencpp
 	comm_msg_gencpp
 	deplacement_msg_gencpp
 )

@@ -58,7 +58,7 @@ void CapStation::put_cap(int color, int n_robot, int n_order, int machine)
 
 	goTo(this->m_entryMachine);
 
-	this->startFinalAp(finalApproachingGoal::CS, finalApproachingGoal::IN, finalApproachingGoal::CONVEYOR);
+	this->startFinalAp(FinalApproachingGoal::CS, FinalApproachingGoal::IN, FinalApproachingGoal::CONVEYOR);
 	this->let();
 
 	//Communication_RefBox(je veux un cap de couleur "couleur" )
@@ -82,7 +82,7 @@ void CapStation::take_cap(int color, int n_robot, int n_order, int machine)
 
 	// while(Communication_RefBox(bs n'a terminé de livrer)) { } ???????
 
-	this->startFinalAp(finalApproachingGoal::CS, finalApproachingGoal::OUT, finalApproachingGoal::CONVEYOR);
+	this->startFinalAp(FinalApproachingGoal::CS, FinalApproachingGoal::OUT, FinalApproachingGoal::CONVEYOR);
 	this->take();
 	msg = msgToGT(n_robot,activity::END,machine,n_order);
 }
@@ -98,11 +98,11 @@ void CapStation::stock(int id, int n_robot, int n_order,int machine)
 
 	goTo(this->m_entryMachine);
 	
-	if(id == 0) place = finalApproachingGoal::S1;
-	else if(id == 1) place = finalApproachingGoal::S2; 
-	else if(id == 2) place = finalApproachingGoal::S3;
+	if(id == 0) place = FinalApproachingGoal::S1;
+	else if(id == 1) place = FinalApproachingGoal::S2; 
+	else if(id == 2) place = FinalApproachingGoal::S3;
 
-	this->startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::IN,place);
+	this->startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::IN,place);
 	this->take();
 	msg = msgToGT(n_robot,activity::END,machine,n_order);
 }
@@ -118,11 +118,11 @@ void CapStation::destock(int id, int n_robot, int n_order,int machine)
 
 	goTo(this->m_entryMachine);
 	
-	if(id == 0) place = finalApproachingGoal::S1;
-	else if(id == 1) place = finalApproachingGoal::S2; 
-	else if(id == 2) place = finalApproachingGoal::S3;
+	if(id == 0) place = FinalApproachingGoal::S1;
+	else if(id == 1) place = FinalApproachingGoal::S2; 
+	else if(id == 2) place = FinalApproachingGoal::S3;
 
-	this->startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::IN,place);
+	this->startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::IN,place);
 	this->let();
 	msg = msgToGT(n_robot,activity::END,machine,n_order);
 }
@@ -142,27 +142,27 @@ void CapStation::uncap(int color, int n_robot, int n_order,int machine)
 
 	if(m_capID[0] == 1)
 	{ 
-		place = finalApproachingGoal::S1;
+		place = FinalApproachingGoal::S1;
 		m_capID[0] == 0;
 		m_stockID[0] = 0;
 	}
 	else if(m_capID[1] == 1) 
 	{
-		place = finalApproachingGoal::S2;
+		place = FinalApproachingGoal::S2;
 		m_capID[1] == 0;
 		m_stockID[1] = 0;
 	} 
 	else if(m_capID[2] == 1)
 	{ 
-		place = finalApproachingGoal::S3;
+		place = FinalApproachingGoal::S3;
 		m_capID[2] == 0;
 		m_stockID[2] = 0;
 	}
 
-	this->startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::IN,finalApproachingGoal::CONVEYOR);
+	this->startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::IN,FinalApproachingGoal::CONVEYOR);
 	this->take();
 
-	this->startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::IN,finalApproachingGoal::CONVEYOR);
+	this->startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::IN,FinalApproachingGoal::CONVEYOR);
 	this->let();
 
 	//Communication_RefBox( Uncap )

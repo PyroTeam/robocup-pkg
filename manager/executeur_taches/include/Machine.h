@@ -23,6 +23,7 @@
 #include "NavigationClientAction.h"
 
 using namespace manager_msg;
+using namespace final_approach_msg;
 
 class Machine
 {
