@@ -3,10 +3,10 @@ navigation:
         arTagAsserv: "empty"
         laserAsserv:
             xPid:
-                Kp: 0.25
+                Kp: 3.0
                 Ki: 0.0
                 Kd: 0.0
-                threshold: 0.01
+                threshold: 0.10
             yPid:
                 Kp: 1.0
                 Ki: 0.1

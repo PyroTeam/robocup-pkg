@@ -43,6 +43,7 @@
 #include "final_approach/Segment.h"
 #include "final_approach/ArTagFA.h"
 #include "final_approach/LaserScan.h"
+#include "final_approach/OdomFA.h"
 
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
@@ -56,7 +57,7 @@
 #include <common_utils/Pid.h>
 
 #include <vector>
-
+#include <cmath>
 
 /**
  * Fréquence des boucles en Hz
@@ -472,6 +473,16 @@ class FinalApproaching
 	 * \param      seg   The segment
 	 */
 	void publishSegmentMarker(LaserScan &ls, Segment &seg);
+
+	/**
+	 * \brief      Affiche avec ROS_LOG le résultat de l'approche finale. Ne fonctionne qu'en input
+	 *
+	 * \param      odom      The odom
+	 * \param[in]  mpsX      The mps x
+	 * \param[in]  mpsY      The mps y
+	 * \param[in]  mpsTheta  The mps theta
+	 */
+	void debugFinalApproachResult(OdomFA &odom, float mpsX = 0, float mpsY = 2.5, float mpsTheta = 0.0);
 };
 
 

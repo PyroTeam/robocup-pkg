@@ -359,6 +359,9 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		ROS_INFO("%s: Aborted", m_actionName.c_str());
 		m_as.setAborted(m_result);
 	}
+
+	// Affiche l'erreur de l'approche finale
+	debugFinalApproachResult(odom);
 }
 
 int FinalApproaching::avancement(int a, int b, int c)
@@ -395,6 +398,7 @@ float FinalApproaching::objectifY()
 	/**
 	 * On asservit en fonction de la position de la machine en y dans le repère robot, la logique est spéciale
 	 */
+	// TODO: A vérifier
 	switch (m_parameter)
 	{
 		case final_approach_msg::FinalApproachingGoal::S1:
@@ -1148,4 +1152,28 @@ void FinalApproaching::publishSegmentMarker(LaserScan &ls, Segment &seg)
 
 	m_markerPub.publish(m_marker);
 	m_marker.points.clear();
+}
+
+void FinalApproaching::debugFinalApproachResult(OdomFA &odom, float mpsX, float mpsY, float mpsTheta)
+{
+	float errX, errY, errYaw;
+
+	float x = odom.getPositionX();
+	float y = odom.getPositionY();
+	float yaw = odom.getOrientationZ();
+	float cosMps = std::cos(mpsTheta);
+	float sinMps = std::sin(mpsTheta);
+
+	// TODO: Inverser les signes de objectifY() si corrigé
+	float goalY = mpsY - objectifX()*sinMps - objectifY()*cosMps;
+	float goalX = mpsX - objectifX()*cosMps + objectifY()*sinMps;
+	float goalYaw = mpsTheta;
+
+	errX = std::abs(goalX - x) - 0.11;  // Prise en compte de la position laser
+	errY = std::abs(goalY - y);
+	errYaw = std::abs(goalYaw - yaw);
+
+	ROS_INFO("FinalApproach result: goal (%5.3f | %5.3f) yaw: %3.1f", goalX, goalY, goalYaw*(180.0/M_PI));
+	ROS_INFO("FinalApproach result: position (%5.3f | %5.3f) yaw: %3.1f", x, y, yaw*(180.0/M_PI));
+	ROS_INFO("FinalApproach result: erreur (%5.3f cm| %5.3f cm) yaw: %3.1f", errX/100, errY/100, errYaw*(180.0/M_PI));
 }

@@ -69,3 +69,5 @@ Je vais résumer ici les problèmes connus, améliorations possibles, etc
    * Paramètrages PID
    * Paramétrages limites (recherche d'arTag par exemple)
    * Paramétrages des positions intermédiaires
+ * Moyenner les segments dans le repère map, pondérés par le coefficient de correllation
+ * Filtrer les segments autour de la position détectée de l'arTag (plus fiable que la simple distance)
