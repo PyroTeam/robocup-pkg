@@ -274,7 +274,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 
 		// XXX: Un moyennage (pas trop dégeu, sur base de repère robot, à grand renfor de tf) des informations d'entrée
 		// pourra s'avérer utile. A voir.
-		angleAsservDone = asservissementAngle(0.0, seg.getAngle());
+		angleAsservDone = asservissementAngle(M_PI/2, seg.getAngle());
 
 
 		if (angleAsservDone && (asservLaserYOk_cpt < nbAsservLaserYOkNeeded))
@@ -1031,16 +1031,21 @@ bool FinalApproaching::asservissementAngle(float setpoint, float measure)
 	float err = setpoint - measure;
 	m_plotData.angleErr = std::abs(err);
 
+	m_msgTwist.angular.x = 0;
+	m_msgTwist.angular.y = 0;
+	m_msgTwist.angular.z = 0;
+
+	// TODO: Changer de repère et retirer ce '-' sur la commande
 	if(std::abs(err) < m_laserYawPidThreshold())
 	{
 		m_msgTwist.angular.z = 0;
-		m_plotData.angleCmd = m_msgTwist.angular.z;
+		m_plotData.angleCmd = -m_msgTwist.angular.z;
 		m_pubMvt.publish(m_msgTwist);
 		return true;
 	}
 	else
 	{
-		m_msgTwist.angular.z = m_laserYawPid.update(err);
+		m_msgTwist.angular.z = -m_laserYawPid.update(err);
 		m_plotData.angleCmd = m_msgTwist.angular.z;
 		m_pubMvt.publish(m_msgTwist);
 		return false;
@@ -1053,6 +1058,11 @@ bool FinalApproaching::asservissementPositionY(float setpoint, float measure)
 	float err = setpoint - measure;
 	m_plotData.YErr = std::abs(err);
 
+	m_msgTwist.angular.x = 0;
+	m_msgTwist.angular.y = 0;
+	m_msgTwist.angular.z = 0;
+
+	// TODO: Changer de repère et retirer ce '-' sur la commande
 	if(std::abs(err) < m_laserYPidThreshold())
 	{
 		m_msgTwist.linear.y = 0;
@@ -1062,7 +1072,7 @@ bool FinalApproaching::asservissementPositionY(float setpoint, float measure)
 	}
 	else
 	{
-		m_msgTwist.linear.y = m_laserYPid.update(err);
+		m_msgTwist.linear.y = -m_laserYPid.update(err);
 		m_plotData.YCmd = m_msgTwist.linear.y;
 		m_pubMvt.publish(m_msgTwist);
 		return false;
@@ -1075,16 +1085,21 @@ bool FinalApproaching::asservissementPositionX(float setpoint, float measure)
 	float err = setpoint - measure;
 	m_plotData.XErr = std::abs(err);
 
+	m_msgTwist.angular.x = 0;
+	m_msgTwist.angular.y = 0;
+	m_msgTwist.angular.z = 0;
+
+	// TODO: Changer de repère et retirer ce '-' sur la commande
 	if(std::abs(err) < m_laserXPidThreshold())
 	{
-		m_msgTwist.linear.x = m_laserXPid.update(err);
+		m_msgTwist.linear.x = -m_laserXPid.update(err);
 		m_plotData.XCmd = m_msgTwist.linear.x;
 		m_pubMvt.publish(m_msgTwist);
 		return true;
 	}
 	else
 	{
-		m_msgTwist.linear.x = m_laserXPid.update(err);
+		m_msgTwist.linear.x = -m_laserXPid.update(err);
 		m_plotData.XCmd = m_msgTwist.linear.x;
 		m_pubMvt.publish(m_msgTwist);
 		return false;

@@ -96,7 +96,11 @@ geometry_msgs::Pose2D Segment::linearRegression(std::vector<Point> pointsVector)
 	varianceX = sumEcartX2 / nbPoints; if(varianceX == 0) varianceX = 1;
 	varianceY = sumEcartY2 / nbPoints; if(varianceY == 0) varianceY = 1;
 
-	slope = covarianceXY / varianceX;
+	// Sauvegarde l'angle de la droite (en radian)
+	m_angle = atan2(varianceY, covarianceXY);
+	m_angle = fmod(m_angle, 2*M_PI);
+
+	slope = tan(m_angle);
 	origin = moyY - slope * moyX;
 	X0 = (slope != 0)? -origin/slope : 0;  // Si la pente est nul, on considère que (0,0) sera le point otho
 
@@ -104,9 +108,6 @@ geometry_msgs::Pose2D Segment::linearRegression(std::vector<Point> pointsVector)
 	m_orthoPoint.x = X0;
 	m_orthoPoint.y = 0.0;
 	m_orthoPoint.z = 0.0;
-
-	// Sauvegarde l'angle de la droite (en radian)
-	m_angle = fmod(atan(slope), M_PI);
 
 	// Marquer le segment comme construit
 	m_nullSegment = false;
@@ -116,10 +117,12 @@ geometry_msgs::Pose2D Segment::linearRegression(std::vector<Point> pointsVector)
 	// XXX: A partir d'ici je ne garantie pas le code. D'ailleurs rien d'ici ne devrait m'être utile.
 	// A relire, documenter ou retirer
 	correl = covarianceXY / sqrt(varianceX * varianceY);
+	ROS_DEBUG_NAMED("segmentConstruction","Coeff correlation: %4.2f | Droite (%5.3f, %5.3f) Angle: %5.3f | Pente: %4.2f", correl, moyX, moyY, m_angle, slope);
 	m_correlation = correl * correl;
 
 	m_gradient = atan2(varianceY, covarianceXY);
 	m_gradient = fmod(m_gradient, 2*M_PI);
+	// m_angle = m_gradient; // TODO: Remove
 	m_gradient = m_gradient - M_PI_2;
 
 	geometry_msgs::Pose2D pose;
