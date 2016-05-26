@@ -14,11 +14,11 @@ int main(int argc, char** argv)
     //Initialisation du noeud ROS
     ros::init(argc, argv, "LandmarksExtraction_node");
     ROS_INFO("Starting node LandmarksExtraction_node");
-    
+
     ros::NodeHandle n;
 
     // Subscribe to laserScan
-    ros::Subscriber sub_laser  = n.subscribe("hardware/scan", 1, &laserScan::laserCallback, &laserData);
+    ros::Subscriber sub_laser  = n.subscribe("/robotino1/hardware/scan", 1, &laserScan::laserCallback, &laserData);
 
     // Publish found segments and machines
     ros::Publisher pub_droites  = n.advertise< deplacement_msg::Landmarks >("objectDetection/droites", 1000);
@@ -43,11 +43,11 @@ int main(int argc, char** argv)
         deplacement_msg::Landmarks segments;
 
         for (auto &it : listOfModels)
-        { 
+        {
             droites.landmarks.push_back(it.getLine().getPoint());
         }
         for (auto &it : listOfSegments)
-        { 
+        {
             segments.landmarks.push_back(pointToPose2D(it.getMin()));
             segments.landmarks.push_back(pointToPose2D(it.getMax()));
         }

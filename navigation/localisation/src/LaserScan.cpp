@@ -49,7 +49,7 @@ const std::list<geometry_msgs::Point>& laserScan::getPoints() const
 void laserScan::setRangeMin(const float &min)
 {
 	m_range_min = min;
-}	
+}
 void laserScan::setRangeMax(const float &max)
 {
 	m_range_max = max;
@@ -64,7 +64,7 @@ void laserScan::setAngleMax(const float &max)
 {
 	m_angle_max = max;
 }
-	
+
 void laserScan::setAngleInc(const float &inc)
 {
 	m_angle_inc = inc;
@@ -75,7 +75,7 @@ void laserScan::PolarToCart ()
 {
 	for (int i=0; i<m_ranges.size(); i++)
 	{
-	   	if((m_ranges[i] > getRangeMin()) && (m_ranges[i] < getRangeMax()))
+	   	if((m_ranges[i] > getRangeMin()) && (m_ranges[i] < getRangeMax()-0.5))
 	   	{
 	   		geometry_msgs::Point p;
 	   		p.x = m_ranges[i]*cos(double(getAngleMin() + i*getAngleInc()));
