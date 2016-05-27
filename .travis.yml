@@ -10,6 +10,7 @@ branches:
     - /bob.*/
     - /stuart.*/
     - /.*\/ci-travis\/.*/
+    - navigation-devel
 
 # Allow catkin_make to be ran
 language:
