@@ -298,11 +298,6 @@ bool checkCircle(const geometry_msgs::Pose2D &req, double window, const nav_msgs
 {
 	bool found = false;
 
-	if (getCellValue(grid, req) < 100)
-	{
-		found = true;
-		foundPose = req;
-	}
 	if (checkRow(grid, topLeft(grid, req, window), window, foundPose))
 	{
 		found = true;
@@ -361,7 +356,13 @@ geometry_msgs::Pose2D checkStartPos(const geometry_msgs::Pose2D &req, double win
 	foundPose.theta = req.theta;
 
 	bool found = false;
-	double currentWindow = 0.0;
+	double currentWindow = grid.info.resolution;
+
+	if (getCellValue(grid, req) < 100)
+	{
+		found = true;
+		foundPose = req;
+	}
 
 	while (!found && currentWindow < window)
 	{

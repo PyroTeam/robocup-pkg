@@ -27,6 +27,25 @@ tf::TransformListener     *g_tf_listener;
 
 void odomCallback(const nav_msgs::Odometry& odom)
 {
+    static ros::NodeHandle nh;
+    std::string tf_prefix;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    if (tf_prefix.size() != 0)
+    {
+        tf_prefix += "/";
+    }
+
+    tf::StampedTransform transform;
+    try
+    {
+        g_tf_listener->lookupTransform("/map", tf_prefix+"odom", odom.header.stamp, transform);
+    }
+    catch (tf::TransformException ex)
+    {
+        ROS_WARN("%s",ex.what());
+        return;
+    }
+
     g_odomRobot.x = odom.pose.pose.position.x;
     g_odomRobot.y = odom.pose.pose.position.y;
     g_odomRobot.theta = tf::getYaw(odom.pose.pose.orientation);
@@ -36,7 +55,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
 {
     static ros::NodeHandle nh;
     std::string tf_prefix;
-    nh.param<std::string>("simuRobotNamespace", tf_prefix, "robotino1");;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
     if (tf_prefix.size() != 0)
     {
         tf_prefix += "/";
@@ -98,7 +117,7 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
 {
     static ros::NodeHandle nh;
     std::string tf_prefix;
-    nh.param<std::string>("simuRobotNamespace", tf_prefix, "robotino1");;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
     if (tf_prefix.size() != 0)
     {
         tf_prefix += "/";

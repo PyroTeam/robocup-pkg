@@ -100,7 +100,7 @@ int main( int argc, char** argv )
     segments.color.a = 1.0;
     segments.points = tabSegments;
 
-    landmarks.header.frame_id = "robotino1/hardware/odom";
+    landmarks.header.frame_id = "map";
     landmarks.header.stamp = g_landmarks_stamp;
     landmarks.ns = "visualisation_machines";
     landmarks.action = visualization_msgs::Marker::ADD;
