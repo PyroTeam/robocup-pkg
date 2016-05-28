@@ -4,7 +4,7 @@
  * \brief			classe récupérant les ordres de la RefBox
  * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date			2015-05-10
- * \copyright		PyroTeam, Polytech-Lille
+ * \copyright       2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef ORDERINFO_H

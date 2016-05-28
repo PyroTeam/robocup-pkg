@@ -4,7 +4,7 @@
  * \brief			classe représentant l'etat du Bumper
  * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date			2015-04-20
- * \copyright		PyroTeam, Polytech-Lille
+ * \copyright       2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef _FINAL_APPROACH__BUMPERLISTENER__H_

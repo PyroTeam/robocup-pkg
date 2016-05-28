@@ -4,7 +4,7 @@
  * \brief			classe représentant la tâche élémentaire que puisse demande le générateur de tâches
  * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date			2015-04-01
- * \copyright		PyroTeam, Polytech-Lille
+ * \copyright       2016, Association de Robotique de Polytech Lille All rights reserved
  */
  
 #ifndef TASK_H

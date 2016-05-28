@@ -5,8 +5,7 @@
  *
  * \author      Valentin Vergez (valentin.vergez@gmail.com)
  * \date        2016-02-20
- * \copyright   PyroTeam, Polytech-Lille
- * \license		LGPLv3
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  * \version
  */
 

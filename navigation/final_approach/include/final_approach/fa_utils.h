@@ -1,9 +1,9 @@
 /**
- * \file 			fa_utils.h
- * \brief			ensemble de fonctions nécessaires pour l'approche finale
- * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
- * \date			2015-04-20
- * \copyright		PyroTeam, Polytech-Lille
+ * \file         fa_utils.h
+ * \brie         ensemble de fonctions nécessaires pour l'approche finale
+ * \author       Smagghe Cyril (cyril.smagghe@polytech-lille.net)
+ * \date         2015-04-20
+ * \copyright    2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef _FINAL_APPROACH__FA_UTILS__H_

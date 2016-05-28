@@ -4,7 +4,7 @@
  * \brief		classe représentant l'état du jeu
  * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date		2015-06-15
- * \copyright	PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef _FINAL_APPROACH__GAMESTATE_FA__H_

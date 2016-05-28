@@ -4,7 +4,7 @@
  * \brief			classe récupérant les données du topic /odom
  * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date			2015-05-25
- * \copyright		PyroTeam, Polytech-Lille
+ * \copyright       2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef _FINAL_APPROACH__ODOM_FA__H_

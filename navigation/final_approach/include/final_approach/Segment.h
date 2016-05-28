@@ -4,7 +4,7 @@
  * \brief      Classe représentant un segment d'environ 70 cm
  * \author     Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date       2015-05-25
- * \copyright  PyroTeam, Polytech-Lille
+ * \copyright  2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef _FINAL_APPROACH__SEGMENT__H_

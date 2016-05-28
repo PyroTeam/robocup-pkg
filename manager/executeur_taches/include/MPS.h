@@ -4,7 +4,7 @@
  * \brief       classe pour stocker la position et l'orientation d'une machine
  * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
  * \date        2015-10-10
- * \copyright   PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef MPS_H

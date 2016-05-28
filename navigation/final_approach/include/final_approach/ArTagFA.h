@@ -4,7 +4,7 @@
  * \brief			classe récupérant les données du topic /ar_pose_markers
  * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date			2015-05-25
- * \copyright		PyroTeam, Polytech-Lille
+ * \copyright       2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 
