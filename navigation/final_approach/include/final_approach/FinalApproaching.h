@@ -9,8 +9,8 @@
  * \copyright  2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
-#ifndef FINALAPPROACHING_H
-#define FINALAPPROACHING_H
+#ifndef _FINAL_APPROACH__FINALAPPROACHING__H_
+#define _FINAL_APPROACH__FINALAPPROACHING__H_
 
 #include "final_approach/Point.h"
 #include "final_approach/Segment.h"
@@ -459,4 +459,4 @@ class FinalApproaching
 };
 
 
-#endif
+#endif // _FINAL_APPROACH__FINALAPPROACHING__H_

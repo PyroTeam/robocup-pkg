@@ -36,7 +36,7 @@ float distance2points(Point a, Point b)
 				+ std::abs(b.getY() - a.getY()) * std::abs(b.getY() - a.getY()));
 }
 
-float moy(std::list<float> position_y){
+float mean(std::list<float> position_y){
 	std::list<float>::iterator it;
 	float moyenne = 0;
 	for(it = position_y.begin(); it != position_y.end(); it++)

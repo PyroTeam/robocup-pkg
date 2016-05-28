@@ -31,7 +31,7 @@ float distance2points(Point a, Point b);
  *  \brief		Fait une moyenne
  *  \return		la valeur moyenne de l'ensemble des flottants passes en parametres
  */
-float moy(std::list<float> positionY);
+float mean(std::list<float> positionY);
 
 
 #endif // _FINAL_APPROACH__FA_UTILS__H_

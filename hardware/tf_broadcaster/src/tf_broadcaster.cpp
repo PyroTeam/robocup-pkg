@@ -33,8 +33,8 @@ void poseCallback(const nav_msgs::Odometry &odom)
 	static double laser_link_y = 0;
 	static double laser_link_z = 0;
 	nh.param<double>("hardware/robotDescription/baseLink_to_laserLink/x", laser_link_x, 0.10+0.01);
-	nh.param<double>("hardware/robotDescription/baseLink_to_laserLink/x", laser_link_y, 0.0);
-	nh.param<double>("hardware/robotDescription/baseLink_to_laserLink/x", laser_link_z, 0.235+0.0175);
+	nh.param<double>("hardware/robotDescription/baseLink_to_laserLink/y", laser_link_y, 0.0);
+	nh.param<double>("hardware/robotDescription/baseLink_to_laserLink/z", laser_link_z, 0.235+0.0175);
 	transform.setOrigin(tf::Vector3(laser_link_x, laser_link_y, laser_link_z));
 	q.setRPY(0.0, 0.0, 0.0);
 	transform.setRotation(q);
