@@ -14,6 +14,7 @@
 #include "navigation_manager/moveToPose.h"
 #include <tf/transform_datatypes.h>
 #include "deplacement_msg/GeneratePathAction.h"
+#include "deplacement_msg/ClosestReachablePoint.h"
 
 const int c_timeOutGenePath = 5;
 
@@ -42,10 +43,38 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     genePathAction.waitForServer();
     ROS_INFO("Action server started, sending goal.");
     // send a goal to the action
-    deplacement_msg::GeneratePathGoal genePathGoal;
+    deplacement_msg::GeneratePathGoal genePathGoal;/*
+    //  old silly version with possibly a sad and bad error
     genePathGoal.start.x = m_poseOdom.position.x;
     genePathGoal.start.y = m_poseOdom.position.y;
     genePathGoal.start.theta = tf::getYaw( m_poseOdom.orientation);
+
+*/
+    // Client for asking a reachable start position
+    ros::ServiceClient client = m_nh.serviceClient<deplacement_msg::ClosestReachablePoint>("path_finder_node/ClosestReachablePoint");
+    deplacement_msg::ClosestReachablePoint srv;
+    srv.request.currentPosition.x = m_poseOdom.position.x;
+    srv.request.currentPosition.y = m_poseOdom.position.y;
+    srv.request.currentPosition.theta = tf::getYaw( m_poseOdom.orientation);
+    srv.request.window = 0.5;
+
+    if (client.call(srv))
+    {
+      if (srv.response.found)
+      {
+        ROS_INFO("Found : (%f,%f,%f)", srv.response.foundPosition.x, srv.response.foundPosition.y, srv.response.foundPosition.theta);
+      }
+      else
+      {
+        ROS_INFO("HUMMMMM... ");
+      }
+    }
+    else
+    {
+      ROS_ERROR("Failed to call service ClosestReachablePoint");
+    }
+
+    genePathGoal.start = srv.response.foundPosition;
     genePathGoal.goal =  goal->position_finale;
     genePathGoal.timeout = ros::Duration(10);
     genePathAction.sendGoal(genePathGoal);

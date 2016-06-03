@@ -67,9 +67,9 @@ int main(int argc, char** argv)
     prec.pose.pose.orientation.y = 0.0;
     prec.pose.pose.orientation.z = 0.0;
     prec.pose.pose.orientation.w = 1.0;
-    
+
     //on souscrit au topic /odom
-    ros::Subscriber sub_odom  = n.subscribe("hardware/odom", 1000, odomCallback);
+    ros::Subscriber sub_odom  = n.subscribe("/hardware/odom", 1000, odomCallback);
 
     ros::Rate loop_rate(100);
 
