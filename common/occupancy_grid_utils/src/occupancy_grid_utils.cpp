@@ -302,15 +302,15 @@ bool checkCircle(const geometry_msgs::Pose2D &req, double window, const nav_msgs
 	{
 		found = true;
 	}
-	if (checkRow(grid, bottomLeft(grid, req, window), window, foundPose))
+	else if (checkRow(grid, bottomLeft(grid, req, window), window, foundPose))
 	{
 		found = true;
 	}
-	if (checkColumn(grid, topLeft(grid, req, window), window, foundPose))
+	else if (checkColumn(grid, topLeft(grid, req, window), window, foundPose))
 	{
 		found = true;
 	}
-	if (checkColumn(grid, topRight(grid, req, window), window, foundPose))
+	else if (checkColumn(grid, topRight(grid, req, window), window, foundPose))
 	{
 		found = true;
 	}

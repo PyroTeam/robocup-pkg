@@ -75,6 +75,9 @@ void laserScan::PolarToCart ()
 {
 	for (int i=0; i<m_ranges.size(); i++)
 	{
+		// sur le simulateur, le bruit sur le laser est important entre 5.5 et 5.6 m,
+		// on réduit alors le seuil de validité du scan pour ne pas avoir des rayons
+		// qui ne toucheraient pas d'obstacles mais serainet considérés comme tels
 	   	if((m_ranges[i] > getRangeMin()) && (m_ranges[i] < getRangeMax()-0.5))
 	   	{
 	   		geometry_msgs::Point p;
