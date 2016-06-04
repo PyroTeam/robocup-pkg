@@ -1,4 +1,4 @@
-\co/**
+/**
  * \file        encryptUtils.h
  *
  * \brief
