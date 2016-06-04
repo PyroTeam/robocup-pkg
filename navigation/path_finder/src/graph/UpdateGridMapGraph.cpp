@@ -48,7 +48,7 @@ bool UpdateGridMapGraph::closestReachablePoint(
   deplacement_msg::ClosestReachablePoint::Request  &req,
   deplacement_msg::ClosestReachablePoint::Response &res)
 {
-  res.foundPosition = occupancy_grid_utils::checkStartPos(req.currentPosition, req.window, m_grid);
+  res.foundPosition = checkStartPos(req.currentPosition, req.window, m_grid);
   res.found = true;
 
   ROS_INFO("request: x=%f, y=%f", req.currentPosition.x, req.currentPosition.y);
@@ -67,7 +67,7 @@ geometry_msgs::Pose2D UpdateGridMapGraph::checkStartPos(const geometry_msgs::Pos
 	bool found = false;
 	double currentWindow = grid.info.resolution;
 
-	if (getCellValue(grid, req) < 100)
+	if (occupancy_grid_utils::getCellValue(grid, req) < 100)
 	{
 		found = true;
 		foundPose = req;
@@ -75,7 +75,7 @@ geometry_msgs::Pose2D UpdateGridMapGraph::checkStartPos(const geometry_msgs::Pos
 
 	while (!found && currentWindow < window)
 	{
-		found = checkCircle(req, currentWindow, grid, foundPose);
+		found = occupancy_grid_utils::checkCircle(req, currentWindow, grid, foundPose);
 		currentWindow += grid.info.resolution;
 	}
 

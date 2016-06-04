@@ -98,7 +98,6 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     m_pathId++;
     ROS_INFO("Path generated! with id : %d", m_pathId);
     deplacement_msg::TrackPathGoal tgoal;
-    tgoal.id = m_lastId;
     m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
                                       boost::bind(&MoveToPose::activeCb, this),
                                       boost::bind(&MoveToPose::feedbackCb, this, _1));
@@ -181,13 +180,13 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
             isOk = false;
 		//todo cancel path_track
         }
-        else if (m_trackPathAction.getResult()->result == deplacement_msg::MoveToPoseResult::FINISHED)
+        else if (m_trackPathAction.getResult()->status == deplacement_msg::MoveToPoseResult::FINISHED)
         {
             isOk = false;
         }
     }
 
-    if (m_trackPathAction.getResult()->result == deplacement_msg::MoveToPoseResult::FINISHED)
+    if (m_trackPathAction.getResult()->status == deplacement_msg::MoveToPoseResult::FINISHED)
 	{
         m_result.result = deplacement_msg::MoveToPoseResult::FINISHED;
     }
@@ -204,7 +203,7 @@ void MoveToPose::doneCb(const actionlib::SimpleClientGoalState& state,
                         const deplacement_msg::TrackPathResultConstPtr& result)
 {
     ROS_INFO("Finished in state [%s]", state.toString().c_str());
-    ROS_INFO("Answer: %d", result->result);
+    ROS_INFO("Answer: %d", result->status);
 }
 
 // Called once when the goal becomes active
@@ -216,8 +215,8 @@ void MoveToPose::activeCb()
 // Called every time feedback is received for the goal
 void MoveToPose::feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& feedback)
 {
-    ROS_INFO("Got Feedback of length %d", feedback->percent_complete);
-    m_pathTrackPercentComplete = feedback->percent_complete;
+    ROS_INFO("Got Feedback of length %d", feedback->percentComplete);
+    m_pathTrackPercentComplete = feedback->percentComplete;
 }
 
 void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom)
