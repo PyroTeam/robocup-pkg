@@ -1,4 +1,4 @@
-/**
+\co/**
  * \file        encryptUtils.h
  *
  * \brief
@@ -6,7 +6,7 @@
  * \author      Coelen Vincent (vincent.coelen@polytech-lille.net)
  *              Tissot Elise
  * \date        2015-04-07
- * pyright   2016, Association de Robotique de Polytech Lille All rights reserved
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  * \version
  */
 
