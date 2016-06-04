@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   cmake_modules
   deplacement_msg
   tf
+  message_filters
 )
 
 ## System dependencies are found with CMake's conventions

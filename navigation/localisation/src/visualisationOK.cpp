@@ -99,8 +99,8 @@ int main( int argc, char** argv )
     segments.color.r = 1.0;
     segments.color.a = 1.0;
     segments.points = tabSegments;
-    
-    landmarks.header.frame_id = "/odom";
+
+    landmarks.header.frame_id = "map";
     landmarks.header.stamp = g_landmarks_stamp;
     landmarks.ns = "visualisation_machines";
     landmarks.action = visualization_msgs::Marker::ADD;
@@ -159,7 +159,7 @@ int main( int argc, char** argv )
 */
 
     markers_pub.publish(segments);
-    //markers_pub.publish(landmarks);
+    markers_pub.publish(landmarks);
     markers_pub.publish(odom_brute);
     //markers_pub.publish(robot);
 

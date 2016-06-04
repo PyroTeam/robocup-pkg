@@ -1,12 +1,11 @@
 <launch>
 
-    <group ns="localisation">
-        <node pkg="localisation" name="landmarks_extraction_node" type="landmarks_extraction_node"/>
+  <group ns="robotino1">
+        <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction"/>
         <node pkg="localisation" name="visualisation" type="visualisation"/>
-        <node pkg="localisation" name="odometry_correction_node" type="odometry_correction_node"/>
-        <node pkg="localisation" name="Cartographie" type="Cartographie" output="screen"/>
-        <node pkg="localisation" name="tf_broadcaster_node" type="tf_broadcaster_node"/>
-    </group>
+        <node pkg="localisation" name="odometry_correction" type="odometry_correction"/>
+        <node pkg="localisation" name="cartographie" type="cartographie" output="screen"/>
+  </group>
 
 
 </launch>
