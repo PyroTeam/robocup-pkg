@@ -348,29 +348,5 @@ geometry_msgs::Pose2D topRight(const nav_msgs::OccupancyGrid &grid, const geomet
 	return tmp;
 }
 
-geometry_msgs::Pose2D checkStartPos(const geometry_msgs::Pose2D &req, double window, const nav_msgs::OccupancyGrid &grid)
-{
-	geometry_msgs::Pose2D foundPose;
-	foundPose.x = req.x;
-	foundPose.y = req.y;
-	foundPose.theta = req.theta;
-
-	bool found = false;
-	double currentWindow = grid.info.resolution;
-
-	if (getCellValue(grid, req) < 100)
-	{
-		found = true;
-		foundPose = req;
-	}
-
-	while (!found && currentWindow < window)
-	{
-		found = checkCircle(req, currentWindow, grid, foundPose);
-		currentWindow += grid.info.resolution;
-	}
-
-	return foundPose;
-}
 
 } // namespace occupancy_grid_utils

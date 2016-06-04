@@ -46,8 +46,6 @@ geometry_msgs::Pose2D topLeft(const nav_msgs::OccupancyGrid &grid, const geometr
 geometry_msgs::Pose2D bottomLeft(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &req, double window);
 geometry_msgs::Pose2D topRight(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &req, double window);
 
-geometry_msgs::Pose2D checkStartPos(const geometry_msgs::Pose2D &req, double window, const nav_msgs::OccupancyGrid &grid);
-
 } // namespace occupancy_grid_utils
 
 #endif /* OCCUPANCY_GRID_UTILS_OCCUPANCY_GRID_UTILS_H_ */
