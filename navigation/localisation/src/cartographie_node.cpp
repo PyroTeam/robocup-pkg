@@ -38,7 +38,7 @@ void odomCallback(const nav_msgs::Odometry& odom)
     tf::StampedTransform transform;
     try
     {
-        g_tf_listener->lookupTransform("/map", tf_prefix+"odom", odom.header.stamp, transform);
+        g_tf_listener->lookupTransform("/map", tf_prefix+"new_odom", odom.header.stamp, transform);
     }
     catch (tf::TransformException ex)
     {
@@ -122,7 +122,6 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
     {
         tf_prefix += "/";
     }
-    std::cout << "tf prefix = " << tf_prefix << std::endl;
 
     tf::StampedTransform transform;
     try
@@ -158,17 +157,17 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
         //g_walls.landmarks.push_back(q);
 
         // si le segment est un mur
-        /*
+
         if ((((std::abs(p.x + 6.0) <= 0.3 && std::abs(q.x + 6.0) <= 0.3) ||
               (std::abs(p.x - 6.0) <= 0.3 && std::abs(q.x - 6.0) <= 0.3)) &&
                std::abs(p.y - 3.0) <= 3.3 && std::abs(q.y - 3.0) <= 3.3) ||
             (((std::abs(p.y - 6.0) <= 0.3 && std::abs(q.y - 6.0) <= 0.3) ||
               (std::abs(p.y) <= 0.3 && std::abs(q.y) <= 0.3)) &&
                std::abs(p.x) <= 6.3 && std::abs(q.x) <= 6.3))
-        {*/
+        {
             g_walls.landmarks.push_back(p);
             g_walls.landmarks.push_back(q);
-        //}
+        }
     }
 }
 
@@ -196,11 +195,11 @@ int main( int argc, char** argv )
         // Trouve les machines
         //std::vector<Machine> listOfMachines = recognizeMachinesFrom(listOfSegments);
 
-        pub_machines.publish(convert(g_mps));
+        //pub_machines.publish(convert(g_mps));
 
         std::list<Segment> tmp = landmarksToSegments(g_walls);
         adjust(g_sgtArray,tmp);
-        //gather(g_sgtArray);
+        gather(g_sgtArray);
         //std::cout << g_sgtArray.size() << std::endl;
         pub_segments_global.publish(backToLandmarks(g_sgtArray));
         //tmp.clear();

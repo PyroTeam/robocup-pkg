@@ -124,7 +124,7 @@ void projection(Segment &worst, Segment &best)
     worst.setPoints(P1,P2);
     worst.update();
   }
-  else 
+  else
   {
     P1 = ortho(best.getMin(), worst);
     P2 = ortho(best.getMax(), worst);
@@ -148,8 +148,8 @@ bool modify(Segment a, Segment &b)
 
   if(dist(aMin,aMax) >= 0.5 &&
      dist(bMin,bMax) >= 0.5 &&
-     (dist(aMin, bMin) <= 0.4 || dist(aMin, bMax) <= 0.4) &&
-     (dist(aMax, bMax) <= 0.4 || dist(aMax, bMin) <= 0.4))
+     (dist(aMin, bMin) <= 0.3 || dist(aMin, bMax) <= 0.3) &&
+     (dist(aMax, bMax) <= 0.3 || dist(aMax, bMin) <= 0.3))
   {
     if (aMin.x <= bMin.x)
     {
@@ -163,8 +163,8 @@ bool modify(Segment a, Segment &b)
       {
         tmp.setMax(a.getMax());
       }
-    } 
-    else    
+    }
+    else
     {
       tmp.setMin(b.getMin());
 
@@ -208,7 +208,7 @@ void adjust(std::list<Segment> &segmentsRecorded, std::list<Segment> segmentsSee
         nb++;
       }
     }
-    
+
     if (nb == 0)
     {
       segmentsRecorded.push_back(sgtS);
@@ -218,12 +218,12 @@ void adjust(std::list<Segment> &segmentsRecorded, std::list<Segment> segmentsSee
 
 void gatherTwoSegments(Segment &segment_1, Segment segment_2)
 {
-  if (dist(segment_2.getMax(), segment_1.getMin()) < 1.0)
+  if (dist(segment_2.getMax(), segment_1.getMin()) < 0.5)
   {
     segment_1.setMin(segment_2.getMin());
     segment_1.update();
   }
-  else if(dist(segment_1.getMax(), segment_2.getMin()) < 1.0)
+  else if(dist(segment_1.getMax(), segment_2.getMin()) < 0.5)
   {
     segment_1.setMax(segment_2.getMax());
     segment_1.update();
@@ -239,7 +239,7 @@ void gatherOneSegmentWithAList(Segment &segment, std::list<Segment> &sgts)
     if(((std::abs(segment.getAngle() - it->getAngle()) <= M_PI/4) ||
         (std::abs(segment.getAngle() - it->getAngle()) >= 3*M_PI/4)) &&
         ((dist(segment.getMax(), it->getMin()) < 0.3) ||
-         (dist(it->getMax(), segment.getMin()) < 0.3)) && 
+         (dist(it->getMax(), segment.getMin()) < 0.3)) &&
           !isTheSame(segment, *it))
     {
       gatherTwoSegments(segment, *it);
@@ -255,7 +255,7 @@ void gatherOneSegmentWithAList(Segment &segment, std::list<Segment> &sgts)
 void gather(std::list<Segment> &sgts)
 {
   std::list<Segment>::iterator it = sgts.begin();
-  
+
   while(it != sgts.end())
   {
     gatherOneSegmentWithAList(*it, sgts);
