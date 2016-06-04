@@ -115,65 +115,81 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
         g_tabMachines.landmarks.push_back(p);
     }
 }
-
+*/
 void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
 {
-    static ros::NodeHandle nh;
-    std::string tf_prefix;
-    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
-    if (tf_prefix.size() != 0)
-    {
-        tf_prefix += "/";
-    }
+  static ros::NodeHandle nh;
+  std::string tf_prefix;
+  nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+  if (tf_prefix.size() != 0)
+  {
+    tf_prefix += "/";
+  }
 
-    tf::StampedTransform transform;
-    try
-    {
+  tf::StampedTransform transform;
+  try
+  {/*
+    if (g_tf_listener->waitForTransform(tf_prefix+"odom", tf_prefix+"laser_link", segments->header.stamp, ros::Duration(3.0)))
+    {*/
         g_tf_listener->lookupTransform(tf_prefix+"odom", tf_prefix+"laser_link", segments->header.stamp, transform);
-    }
-    catch (tf::TransformException ex)
+    /*}
+    else
     {
-        ROS_WARN("%s",ex.what());
-        return;
-    }
+      ROS_WARN("Unable to get TF transform");
+      return;
+    }*/
+  }
+  catch (tf::TransformException ex)
+  {
+    ROS_WARN("%s",ex.what());
+    return;
+  }
 
-    g_walls.landmarks.clear();
-    g_walls.header.frame_id=tf_prefix+"laser_link";
-    g_walls.header.stamp = segments->header.stamp;
+  g_walls.landmarks.clear();
+  g_walls.header.frame_id=tf_prefix+"laser_link";
+  g_walls.header.stamp = segments->header.stamp;
 
-    for (int i = 0; i < segments->landmarks.size(); i = i+2)
+
+  for (int i = 0; i < segments->landmarks.size(); i = i+2)
+  {
+    // Changement de repère
+    geometry_msgs::Pose2D p, q;
+
+    double yaw = tf::getYaw(transform.getRotation());
+
+    p.x     = segments->landmarks[i].x*cos(yaw) - segments->landmarks[i].y*sin(yaw) + transform.getOrigin().x();
+    p.y     = segments->landmarks[i].x*sin(yaw) + segments->landmarks[i].y*cos(yaw) + transform.getOrigin().y();
+    p.theta = segments->landmarks[i].theta + yaw;
+
+    q.x     = segments->landmarks[i+1].x*cos(yaw) - segments->landmarks[i+1].y*sin(yaw) + transform.getOrigin().x();
+    q.y     = segments->landmarks[i+1].x*sin(yaw) + segments->landmarks[i+1].y*cos(yaw) + transform.getOrigin().y();
+    q.theta = segments->landmarks[i+1].theta + yaw;
+
+    g_walls.landmarks.push_back(p);
+    g_walls.landmarks.push_back(q);
+  /*
+    // si le segment est un mur
+
+    if ((((std::abs(p.x + 6.0) <= 0.3 && std::abs(q.x + 6.0) <= 0.3) ||
+          (std::abs(p.x - 6.0) <= 0.3 && std::abs(q.x - 6.0) <= 0.3)) &&
+           std::abs(p.y - 3.0) <= 3.3 && std::abs(q.y - 3.0) <= 3.3) ||
+        (((std::abs(p.y - 6.0) <= 0.3 && std::abs(q.y - 6.0) <= 0.3) ||
+          (std::abs(p.y) <= 0.3 && std::abs(q.y) <= 0.3)) &&
+           std::abs(p.x) <= 6.3 && std::abs(q.x) <= 6.3))
     {
-        // Changement de repère
-        geometry_msgs::Pose2D p, q;
+        g_walls.landmarks.push_back(p);
+        g_walls.landmarks.push_back(q);
+    }*/
+  }
 
-        double yaw = tf::getYaw(transform.getRotation());
+  std::list<Segment> tmp = landmarksToSegments(g_walls);
+  adjust(g_sgtArray,tmp);
+  gather(g_sgtArray);
 
-        p.x     = segments->landmarks[i].x*cos(yaw) - segments->landmarks[i].y*sin(yaw) + transform.getOrigin().x();
-        p.y     = segments->landmarks[i].x*sin(yaw) + segments->landmarks[i].y*cos(yaw) + transform.getOrigin().y();
-        p.theta = segments->landmarks[i].theta + yaw;
-
-        q.x     = segments->landmarks[i+1].x*cos(yaw) - segments->landmarks[i+1].y*sin(yaw) + transform.getOrigin().x();
-        q.y     = segments->landmarks[i+1].x*sin(yaw) + segments->landmarks[i+1].y*cos(yaw) + transform.getOrigin().y();
-        q.theta = segments->landmarks[i+1].theta + yaw;
-
-        //g_walls.landmarks.push_back(p);
-        //g_walls.landmarks.push_back(q);
-
-        // si le segment est un mur
-
-        if ((((std::abs(p.x + 6.0) <= 0.3 && std::abs(q.x + 6.0) <= 0.3) ||
-              (std::abs(p.x - 6.0) <= 0.3 && std::abs(q.x - 6.0) <= 0.3)) &&
-               std::abs(p.y - 3.0) <= 3.3 && std::abs(q.y - 3.0) <= 3.3) ||
-            (((std::abs(p.y - 6.0) <= 0.3 && std::abs(q.y - 6.0) <= 0.3) ||
-              (std::abs(p.y) <= 0.3 && std::abs(q.y) <= 0.3)) &&
-               std::abs(p.x) <= 6.3 && std::abs(q.x) <= 6.3))
-        {
-            g_walls.landmarks.push_back(p);
-            g_walls.landmarks.push_back(q);
-        }
-    }
+  ros::Publisher pub_segments_global = nh.advertise< deplacement_msg::Landmarks >("objectDetection/segments_global", 1000);
+  pub_segments_global.publish(backToLandmarks(g_sgtArray));
 }
-*/
+#if 0
 void callback(const nav_msgs::OdometryConstPtr& odom, const deplacement_msg::LandmarksConstPtr& segments)
 {
   // Solve all of perception here...
@@ -219,7 +235,7 @@ void callback(const nav_msgs::OdometryConstPtr& odom, const deplacement_msg::Lan
 
     g_walls.landmarks.push_back(p);
     g_walls.landmarks.push_back(q);
-/*
+
     // si le segment est un mur
 
     if ((((std::abs(p.x + 6.0) <= 0.3 && std::abs(q.x + 6.0) <= 0.3) ||
@@ -231,7 +247,7 @@ void callback(const nav_msgs::OdometryConstPtr& odom, const deplacement_msg::Lan
     {
         g_walls.landmarks.push_back(p);
         g_walls.landmarks.push_back(q);
-    }*/
+    }
   }
 
   std::list<Segment> tmp = landmarksToSegments(g_walls);
@@ -241,6 +257,7 @@ void callback(const nav_msgs::OdometryConstPtr& odom, const deplacement_msg::Lan
   ros::Publisher pub_segments_global = nh.advertise< deplacement_msg::Landmarks >("objectDetection/segments_global", 1000);
   pub_segments_global.publish(backToLandmarks(g_sgtArray));
 }
+#endif
 
 int main( int argc, char** argv )
 {
@@ -251,13 +268,13 @@ int main( int argc, char** argv )
     ros::NodeHandle n;
 
     //ros::Subscriber sub_odom     = n.subscribe("objectDetection/new_odom", 1000, odomCallback);
-    //ros::Subscriber sub_segments = n.subscribe("objectDetection/segments", 1000, segmentsCallback);
+    ros::Subscriber sub_segments = n.subscribe("objectDetection/segments", 1000, segmentsCallback);
     // TODO: Ensure that the good topic is subscribed below
     //ros::Subscriber sub_machines = n.subscribe("objectDetection/segments", 1000, machinesCallback);
 
     //ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("objectDetection/landmarks", 1000);
     //ros::Publisher pub_segments_global = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments_global", 1000);
-
+/*
     message_filters::Subscriber<nav_msgs::Odometry> sub_odom(n, "hardware/odom", 100);
     message_filters::Subscriber<deplacement_msg::Landmarks> sub_segments(n, "objectDetection/segments", 100);
 
@@ -265,7 +282,7 @@ int main( int argc, char** argv )
     // ApproximateTime takes a queue size as its constructor argument, hence MySyncPolicy(10)
     Synchronizer<MySyncPolicy> sync(MySyncPolicy(10), sub_odom, sub_segments);
     sync.registerCallback(boost::bind(&callback, _1, _2));
-
+*/
     ///////////////////////////////////////// TO DO ////////////////////////////////
     // Trouve les machines
     //std::vector<Machine> listOfMachines = recognizeMachinesFrom(listOfSegments);
