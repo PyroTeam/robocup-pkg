@@ -38,6 +38,7 @@ public:
 protected:
     void mapCallback(const nav_msgs::OccupancyGrid &grid);
     bool closestReachablePoint(deplacement_msg::ClosestReachablePoint::Request  &req, deplacement_msg::ClosestReachablePoint::Response &res);
+    geometry_msgs::Pose2D checkStartPos(const geometry_msgs::Pose2D &req, double window, const nav_msgs::OccupancyGrid &grid);
     nav_msgs::OccupancyGrid m_grid;
     ros::ServiceServer m_checkStartService;
 };
