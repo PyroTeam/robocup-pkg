@@ -28,8 +28,8 @@ void createEmptyMap(nav_msgs::OccupancyGrid &map,
 int getCell(const nav_msgs::OccupancyGrid &grid, float x, float y);
 
 int getCellValue(const nav_msgs::OccupancyGrid &grid, float x, float y);
-inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p);
-inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &p);
+inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p){return getCellValue(grid, p.x, p.y);}
+inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &p){return getCellValue(grid, p.x, p.y);}
 
 void setCell(nav_msgs::OccupancyGrid &grid, float x, float y, int value);
 void setPixelCell(nav_msgs::OccupancyGrid &grid, unsigned int x, unsigned int y, const int& value);
@@ -41,6 +41,7 @@ geometry_msgs::Pose2D getCellAsPixelCoord(const nav_msgs::OccupancyGrid &grid, c
 
 bool checkRow(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &start, double distance, geometry_msgs::Pose2D &foundPose);
 bool checkColumn(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &start, double distance, geometry_msgs::Pose2D &foundPose);
+bool checkCircle(const geometry_msgs::Pose2D &req, double window, const nav_msgs::OccupancyGrid &grid, geometry_msgs::Pose2D &foundPose);
 
 geometry_msgs::Pose2D topLeft(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &req, double window);
 geometry_msgs::Pose2D bottomLeft(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &req, double window);
