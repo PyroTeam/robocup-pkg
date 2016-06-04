@@ -665,7 +665,7 @@ Visualization Manager:
       Hide Inactive Objects: true
     - Class: rviz/MoveCamera
     - Class: rviz/Select
-    - Class: rviz/FocusCamera∕
+    - Class: rviz/FocusCamera
     - Class: rviz/Measure
     - Class: rviz/SetInitialPose
       Topic: /initialpose

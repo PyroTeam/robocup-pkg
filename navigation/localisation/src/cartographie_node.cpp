@@ -33,7 +33,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
 {
     static ros::NodeHandle nh;
     std::string tf_prefix;
-    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
     if (tf_prefix.size() != 0)
     {
         tf_prefix += "/";

@@ -1,35 +1,34 @@
 /**
- * \file 		common_utils/Parameter.h
+ * \file
  *
- * \brief
+ * \brief		Parameter class
  *
- * \author		Coelen Vincent (vincent.coelen@polytech-lille.net)
- * \date		2015-12-23
- * \copyright	PyroTeam, Polytech-Lille
- * \license
+ * \author      Valentin Vergez (valentin.vergez@gmail.com)
+ * \date        2016-02-20
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  * \version
  */
 
-#ifndef COMMON_UTILS_PARAMETER_H_
-#define COMMON_UTILS_PARAMETER_H_
+#ifndef _COMMON_UTILS__PARAMETER__H_
+#define _COMMON_UTILS__PARAMETER__H_
 
-#include <list>
-#include "shape/LineSegment.h"
-#include "shape/Rectangle.h"
+#include <string>
 
-namespace common_utils {
+#include <ros/ros.h>
 
-std::string execProcess(std::string cmd);
+class Parameter
+{
+public:
+	Parameter(ros::NodeHandle &nh, std::string name, float defaultValue);
+	~Parameter(void);
+	float get(void);
+	float operator()(void);
 
-void getSetOfParam(ros::NodeHandle &nh, const std::string &paramName, std::set<std::string> &paramSet);
+private:
+	ros::NodeHandle m_nh;
+	std::string m_fullName;
+	float m_defaultValue;
+	bool m_useDefault;
+};
 
-int getParameter(ros::NodeHandle &nh, const std::string &paramName, geometry_msgs::Point &p);
-int getParameter(ros::NodeHandle &nh, const std::string &paramName, geometry_msgs::Pose2D &p);
-int getParameter(ros::NodeHandle &nh, const std::string &paramName, occupancy_grid_utils::LineSegment &segment);
-int getParameter(ros::NodeHandle &nh, const std::string &paramName, occupancy_grid_utils::Rectangle &rectangle);
-int getParameter(ros::NodeHandle &nh, const std::string &paramName, std::list<occupancy_grid_utils::LineSegment> &listOfSegments);
-int getParameter(ros::NodeHandle &nh, const std::string &paramName, std::list<occupancy_grid_utils::Rectangle> &listOfRectangles);
-
-} // namespace common_utils
-
-#endif /* COMMON_UTILS_PARAMETER_H_ */
+#endif //_COMMON_UTILS__PARAMETER__H_

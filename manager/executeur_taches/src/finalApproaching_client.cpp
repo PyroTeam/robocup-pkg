@@ -1,7 +1,7 @@
 #include <ros/ros.h>
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/client/terminal_state.h>
-#include <manager_msg/finalApproachingAction.h>
+#include <final_approach_msg/FinalApproachingAction.h>
 
 int main (int argc, char **argv)
 {
@@ -9,7 +9,7 @@ int main (int argc, char **argv)
 
 	// create the action client
 	// true causes the client to spin its own thread
-	actionlib::SimpleActionClient<manager_msg::finalApproachingAction> ac("navigation/finalApproaching", true);
+	actionlib::SimpleActionClient<final_approach_msg::FinalApproachingAction> ac("navigation/finalApproaching", true);
 
 	ROS_INFO("Waiting for action server to start.");
 	// wait for the action server to start
@@ -17,7 +17,7 @@ int main (int argc, char **argv)
 
 	ROS_INFO("Action server started, sending goal.");
 	// send a goal to the action
-	manager_msg::finalApproachingGoal goal;
+	final_approach_msg::FinalApproachingGoal goal;
 	goal.type = 3;
 	goal.side = 100;
 	goal.parameter = 40;

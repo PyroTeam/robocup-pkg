@@ -5,8 +5,7 @@
  *
  * \author      Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date        2015-12-05
- * \copyright   PyroTeam, Polytech-Lille
- * \license
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  * \version
  */
 #ifndef OCCUPANCY_GRID_UTILS_RECTANGLE_H_

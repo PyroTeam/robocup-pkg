@@ -4,7 +4,7 @@
  * \brief       classe serveur pour le générateur de tâches
  * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
  * \date        2015-10-10
- * \copyright   PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef GTSERVERSRV_H
@@ -15,7 +15,7 @@
 #include <cmath>
 #include "manager_msg/order.h"
 #include "manager_msg/activity.h"
-#include "manager_msg/finalApproachingAction.h"
+#include "final_approach_msg/FinalApproachingAction.h"
 
 #include "ExploInfoSubscriber.h"
 #include "Machine.h"
@@ -73,7 +73,7 @@ class GtServerSrv
 		int teamColorOfId(int arTag);
 		int teamColorOfZone(int zone);
 		manager_msg::activity getActivityMsg();
-		manager_msg::finalApproachingAction getFinalAppAction();
+		final_approach_msg::FinalApproachingAction getFinalAppAction();
 		void interpretationZone();
 		void going(geometry_msgs::Pose2D point);
 		geometry_msgs::Pose2D calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone);
@@ -92,7 +92,7 @@ class GtServerSrv
 		float m_y;
 		manager_msg::activity m_msg;
 		std::string m_name;
-		manager_msg::finalApproachingAction m_act;
+		final_approach_msg::FinalApproachingAction m_act;
 		ExploInfoSubscriber *m_ei;
 		LocaSubscriber *m_ls;
     	ros::Publisher m_activity_pub;

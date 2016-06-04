@@ -4,7 +4,7 @@
  * \brief			classe récupérant l etat des robots du topic 
  * \author			Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date			2015-06-23
- * \copyright		PyroTeam, Polytech-Lille
+ * \copyright       2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef ROBOTINFO_H
