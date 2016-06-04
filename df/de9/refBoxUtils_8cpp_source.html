@@ -91,163 +91,163 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../df/de9/refBoxUtils_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d2/dde/refBoxUtils_8h.html">refBoxUtils.h</a>&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../df/de9/refBoxUtils_8cpp.html#a5dab4d27ae0553ee9b40f2c592ce1c20">   15</a></span>&#160;comm_msg::GameState <a class="code" href="../../df/de9/refBoxUtils_8cpp.html#a5dab4d27ae0553ee9b40f2c592ce1c20">llsf2ros_gameState</a>(<span class="keyword">const</span> llsf_msgs::GameState &amp;llsfGameState, llsf_msgs::Team team_color)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    comm_msg::GameState rosGameState;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">switch</span> (llsfGameState.state())</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::INIT:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        rosGameState.state = comm_msg::GameState::INIT;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::WAIT_START:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        rosGameState.state = comm_msg::GameState::WAIT_START;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::RUNNING:</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        rosGameState.state = comm_msg::GameState::RUNNING;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::PAUSED:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        rosGameState.state = comm_msg::GameState::PAUSED;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">switch</span> (llsfGameState.phase())</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::PRE_GAME:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        rosGameState.phase = comm_msg::GameState::PRE_GAME;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::SETUP:</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        rosGameState.phase = comm_msg::GameState::SETUP;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::EXPLORATION:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        rosGameState.phase = comm_msg::GameState::EXPLORATION;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::PRODUCTION:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        rosGameState.phase = comm_msg::GameState::PRODUCTION;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::POST_GAME:</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        rosGameState.phase = comm_msg::GameState::POST_GAME;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    rosGameState.points = ((team_color == <a class="code" href="../../d2/d64/GtServerSrv_8h.html#ad243f93c16bc4c1d3e0a13b84421d760">llsf_msgs::Team::CYAN</a>) ?</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                llsfGameState.points_cyan() : llsfGameState.points_magenta());</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    rosGameState.game_time.sec = llsfGameState.game_time().sec();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    rosGameState.game_time.nsec = llsfGameState.game_time().nsec();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">return</span> rosGameState;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d2/dde/refBoxUtils_8h.html">refBoxUtils.h</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../df/de9/refBoxUtils_8cpp.html#a5dab4d27ae0553ee9b40f2c592ce1c20">   14</a></span>&#160;comm_msg::GameState <a class="code" href="../../df/de9/refBoxUtils_8cpp.html#a5dab4d27ae0553ee9b40f2c592ce1c20">llsf2ros_gameState</a>(<span class="keyword">const</span> llsf_msgs::GameState &amp;llsfGameState, llsf_msgs::Team team_color)</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    comm_msg::GameState rosGameState;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">switch</span> (llsfGameState.state())</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::INIT:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        rosGameState.state = comm_msg::GameState::INIT;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::WAIT_START:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        rosGameState.state = comm_msg::GameState::WAIT_START;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::RUNNING:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        rosGameState.state = comm_msg::GameState::RUNNING;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::PAUSED:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        rosGameState.state = comm_msg::GameState::PAUSED;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    }</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">switch</span> (llsfGameState.phase())</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::PRE_GAME:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        rosGameState.phase = comm_msg::GameState::PRE_GAME;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::SETUP:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        rosGameState.phase = comm_msg::GameState::SETUP;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::EXPLORATION:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        rosGameState.phase = comm_msg::GameState::EXPLORATION;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::PRODUCTION:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        rosGameState.phase = comm_msg::GameState::PRODUCTION;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">case</span> llsf_msgs::GameState::POST_GAME:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        rosGameState.phase = comm_msg::GameState::POST_GAME;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    rosGameState.points = ((team_color == <a class="code" href="../../d3/d68/FinalApproaching_8h.html#ad212354a1f0c6e11ec93ec9ac50a668aaafe71cad474c15ce63b300c470eef8cc">llsf_msgs::Team::CYAN</a>) ?</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                llsfGameState.points_cyan() : llsfGameState.points_magenta());</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    rosGameState.game_time.sec = llsfGameState.game_time().sec();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    rosGameState.game_time.nsec = llsfGameState.game_time().nsec();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">return</span> rosGameState;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../df/de9/refBoxUtils_8cpp.html#a14d7943b70cb998e8b7ef9b858735c43">   66</a></span>&#160;comm_msg::ExplorationInfo <a class="code" href="../../df/de9/refBoxUtils_8cpp.html#a14d7943b70cb998e8b7ef9b858735c43">llsf2ros_explorationInfo</a>(<span class="keyword">const</span> llsf_msgs::ExplorationInfo &amp;llsfExplorationInfo, llsf_msgs::Team team_color)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    comm_msg::ExplorationInfo rosExplorationInfo;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../df/de9/refBoxUtils_8cpp.html#a14d7943b70cb998e8b7ef9b858735c43">   65</a></span>&#160;comm_msg::ExplorationInfo <a class="code" href="../../df/de9/refBoxUtils_8cpp.html#a14d7943b70cb998e8b7ef9b858735c43">llsf2ros_explorationInfo</a>(<span class="keyword">const</span> llsf_msgs::ExplorationInfo &amp;llsfExplorationInfo, llsf_msgs::Team team_color)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;{</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    comm_msg::ExplorationInfo rosExplorationInfo;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; llsfExplorationInfo.signals_size(); ++i)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keyword">const</span> llsf_msgs::ExplorationSignal &amp;es = llsfExplorationInfo.signals(i);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        comm_msg::ExplorationSignal <a class="code" href="../../d7/d92/fake__img__publisher__node_8cpp.html#af5deff54993bb606e67a06d443d3f0cd">signal</a>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; es.lights_size(); ++j)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keyword">const</span> llsf_msgs::LightSpec &amp;lspec = es.lights(j);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            comm_msg::LightSpec light;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            signal.type = es.type();</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            light.color = lspec.color();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            light.state = lspec.state();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            signal.lights.push_back(light);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        rosExplorationInfo.signals.push_back(signal);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; llsfExplorationInfo.zones_size(); ++i)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keyword">const</span> llsf_msgs::ExplorationZone &amp;ez = llsfExplorationInfo.zones(i);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        comm_msg::ExplorationZone eZone;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        eZone.zone = uint8_t(ez.zone());</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        eZone.team_color = uint8_t(ez.team_color());</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        rosExplorationInfo.zones.push_back(eZone);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    }</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordflow">return</span> rosExplorationInfo;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="../../df/de9/refBoxUtils_8cpp.html#a852f643873a7a75e6711f9280696f552">  102</a></span>&#160;comm_msg::MachineInfo <a class="code" href="../../df/de9/refBoxUtils_8cpp.html#a852f643873a7a75e6711f9280696f552">llsf2ros_machineInfo</a>(<span class="keyword">const</span> llsf_msgs::MachineInfo &amp;llsfMachineInfo)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;{</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    comm_msg::MachineInfo rosMachineInfo;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    rosMachineInfo.team_color = uint8_t(llsfMachineInfo.team_color());</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0; i&lt; llsfMachineInfo.machines_size(); ++i)</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keyword">const</span> llsf_msgs::Machine &amp;machine = llsfMachineInfo.machines(i);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        comm_msg::Machine rosMachine;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        rosMachine.name = machine.name();</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        rosMachine.type = machine.type();</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        rosMachine.state = machine.state();</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        rosMachine.team_color = machine.team_color();</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        rosMachine.pose.x = machine.pose().x();</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        rosMachine.pose.y = machine.pose().y();</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        rosMachine.pose.theta = machine.pose().ori();</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        rosMachine.zone = uint8_t(machine.zone());</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="comment">//TODO loadedWith et lights si necessaire</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        rosMachineInfo.machines.push_back(rosMachine);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    }</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordflow">return</span> rosMachineInfo;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="../../df/de9/refBoxUtils_8cpp.html#a0c2fb7f9cb14294bdc285ad8f65189a9">  129</a></span>&#160;comm_msg::OrderInfo <a class="code" href="../../df/de9/refBoxUtils_8cpp.html#a0c2fb7f9cb14294bdc285ad8f65189a9">llsf2ros_orderInfo</a>(<span class="keyword">const</span> llsf_msgs::OrderInfo &amp;llsfOrderInfo)</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;{</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    comm_msg::OrderInfo rosOrderInfo;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0; i&lt;llsfOrderInfo.orders_size(); ++i)</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    {</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keyword">const</span> llsf_msgs::Order &amp;llsfOrder = llsfOrderInfo.orders(i);</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        comm_msg::Order rosOrder;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        rosOrder.id = llsfOrder.id();</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        rosOrder.complexity = llsfOrder.complexity();</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        rosOrder.base_color = llsfOrder.base_color();</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j=0; j &lt; llsfOrder.ring_colors_size(); ++j)</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        {</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            rosOrder.ring_colors.push_back(uint8_t(llsfOrder.ring_colors(j)));</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        }</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        rosOrder.cap_color = llsfOrder.cap_color();</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        rosOrder.quantity_requested = llsfOrder.quantity_requested();</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        rosOrder.quantity_delivered_cyan = llsfOrder.quantity_delivered_cyan();</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        rosOrder.quantity_delivered_magenta = llsfOrder.quantity_delivered_magenta();</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        rosOrder.delivery_period_begin = llsfOrder.delivery_period_begin();</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        rosOrder.delivery_period_end = llsfOrder.delivery_period_end();</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        rosOrder.delivery_gate = llsfOrder.delivery_gate();</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        rosOrderInfo.orders.push_back(rosOrder);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    }</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordflow">return</span> rosOrderInfo;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;}</div>
-<div class="ttc" id="GtServerSrv_8h_html_ad243f93c16bc4c1d3e0a13b84421d760"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html#ad243f93c16bc4c1d3e0a13b84421d760">CYAN</a></div><div class="ttdeci">#define CYAN</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d64/GtServerSrv_8h_source.html#l00058">GtServerSrv.h:58</a></div></div>
-<div class="ttc" id="refBoxUtils_8cpp_html_a14d7943b70cb998e8b7ef9b858735c43"><div class="ttname"><a href="../../df/de9/refBoxUtils_8cpp.html#a14d7943b70cb998e8b7ef9b858735c43">llsf2ros_explorationInfo</a></div><div class="ttdeci">comm_msg::ExplorationInfo llsf2ros_explorationInfo(const llsf_msgs::ExplorationInfo &amp;llsfExplorationInfo, llsf_msgs::Team team_color)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de9/refBoxUtils_8cpp_source.html#l00066">refBoxUtils.cpp:66</a></div></div>
-<div class="ttc" id="refBoxUtils_8cpp_html_a0c2fb7f9cb14294bdc285ad8f65189a9"><div class="ttname"><a href="../../df/de9/refBoxUtils_8cpp.html#a0c2fb7f9cb14294bdc285ad8f65189a9">llsf2ros_orderInfo</a></div><div class="ttdeci">comm_msg::OrderInfo llsf2ros_orderInfo(const llsf_msgs::OrderInfo &amp;llsfOrderInfo)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de9/refBoxUtils_8cpp_source.html#l00129">refBoxUtils.cpp:129</a></div></div>
-<div class="ttc" id="refBoxUtils_8cpp_html_a852f643873a7a75e6711f9280696f552"><div class="ttname"><a href="../../df/de9/refBoxUtils_8cpp.html#a852f643873a7a75e6711f9280696f552">llsf2ros_machineInfo</a></div><div class="ttdeci">comm_msg::MachineInfo llsf2ros_machineInfo(const llsf_msgs::MachineInfo &amp;llsfMachineInfo)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de9/refBoxUtils_8cpp_source.html#l00102">refBoxUtils.cpp:102</a></div></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; llsfExplorationInfo.signals_size(); ++i)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">const</span> llsf_msgs::ExplorationSignal &amp;es = llsfExplorationInfo.signals(i);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        comm_msg::ExplorationSignal <a class="code" href="../../d7/d92/fake__img__publisher__node_8cpp.html#af5deff54993bb606e67a06d443d3f0cd">signal</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; es.lights_size(); ++j)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keyword">const</span> llsf_msgs::LightSpec &amp;lspec = es.lights(j);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            comm_msg::LightSpec light;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            signal.type = es.type();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            light.color = lspec.color();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            light.state = lspec.state();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            signal.lights.push_back(light);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        rosExplorationInfo.signals.push_back(signal);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; llsfExplorationInfo.zones_size(); ++i)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keyword">const</span> llsf_msgs::ExplorationZone &amp;ez = llsfExplorationInfo.zones(i);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        comm_msg::ExplorationZone eZone;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        eZone.zone = uint8_t(ez.zone());</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        eZone.team_color = uint8_t(ez.team_color());</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        rosExplorationInfo.zones.push_back(eZone);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">return</span> rosExplorationInfo;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="../../df/de9/refBoxUtils_8cpp.html#a852f643873a7a75e6711f9280696f552">  101</a></span>&#160;comm_msg::MachineInfo <a class="code" href="../../df/de9/refBoxUtils_8cpp.html#a852f643873a7a75e6711f9280696f552">llsf2ros_machineInfo</a>(<span class="keyword">const</span> llsf_msgs::MachineInfo &amp;llsfMachineInfo)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;{</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    comm_msg::MachineInfo rosMachineInfo;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    rosMachineInfo.team_color = uint8_t(llsfMachineInfo.team_color());</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0; i&lt; llsfMachineInfo.machines_size(); ++i)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keyword">const</span> llsf_msgs::Machine &amp;machine = llsfMachineInfo.machines(i);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        comm_msg::Machine rosMachine;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        rosMachine.name = machine.name();</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        rosMachine.type = machine.type();</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        rosMachine.state = machine.state();</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        rosMachine.team_color = machine.team_color();</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        rosMachine.pose.x = machine.pose().x();</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        rosMachine.pose.y = machine.pose().y();</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        rosMachine.pose.theta = machine.pose().ori();</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        rosMachine.zone = uint8_t(machine.zone());</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="comment">//TODO loadedWith et lights si necessaire</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        rosMachineInfo.machines.push_back(rosMachine);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">return</span> rosMachineInfo;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;}</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="../../df/de9/refBoxUtils_8cpp.html#a0c2fb7f9cb14294bdc285ad8f65189a9">  128</a></span>&#160;comm_msg::OrderInfo <a class="code" href="../../df/de9/refBoxUtils_8cpp.html#a0c2fb7f9cb14294bdc285ad8f65189a9">llsf2ros_orderInfo</a>(<span class="keyword">const</span> llsf_msgs::OrderInfo &amp;llsfOrderInfo)</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;{</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    comm_msg::OrderInfo rosOrderInfo;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0; i&lt;llsfOrderInfo.orders_size(); ++i)</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    {</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keyword">const</span> llsf_msgs::Order &amp;llsfOrder = llsfOrderInfo.orders(i);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        comm_msg::Order rosOrder;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        rosOrder.id = llsfOrder.id();</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        rosOrder.complexity = llsfOrder.complexity();</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        rosOrder.base_color = llsfOrder.base_color();</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j=0; j &lt; llsfOrder.ring_colors_size(); ++j)</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        {</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            rosOrder.ring_colors.push_back(uint8_t(llsfOrder.ring_colors(j)));</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        }</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        rosOrder.cap_color = llsfOrder.cap_color();</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        rosOrder.quantity_requested = llsfOrder.quantity_requested();</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        rosOrder.quantity_delivered_cyan = llsfOrder.quantity_delivered_cyan();</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        rosOrder.quantity_delivered_magenta = llsfOrder.quantity_delivered_magenta();</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        rosOrder.delivery_period_begin = llsfOrder.delivery_period_begin();</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        rosOrder.delivery_period_end = llsfOrder.delivery_period_end();</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        rosOrder.delivery_gate = llsfOrder.delivery_gate();</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        rosOrderInfo.orders.push_back(rosOrder);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    }</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordflow">return</span> rosOrderInfo;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;}</div>
+<div class="ttc" id="FinalApproaching_8h_html_ad212354a1f0c6e11ec93ec9ac50a668aaafe71cad474c15ce63b300c470eef8cc"><div class="ttname"><a href="../../d3/d68/FinalApproaching_8h.html#ad212354a1f0c6e11ec93ec9ac50a668aaafe71cad474c15ce63b300c470eef8cc">CYAN</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d68/FinalApproaching_8h_source.html#l00045">FinalApproaching.h:45</a></div></div>
+<div class="ttc" id="refBoxUtils_8cpp_html_a14d7943b70cb998e8b7ef9b858735c43"><div class="ttname"><a href="../../df/de9/refBoxUtils_8cpp.html#a14d7943b70cb998e8b7ef9b858735c43">llsf2ros_explorationInfo</a></div><div class="ttdeci">comm_msg::ExplorationInfo llsf2ros_explorationInfo(const llsf_msgs::ExplorationInfo &amp;llsfExplorationInfo, llsf_msgs::Team team_color)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de9/refBoxUtils_8cpp_source.html#l00065">refBoxUtils.cpp:65</a></div></div>
+<div class="ttc" id="refBoxUtils_8cpp_html_a0c2fb7f9cb14294bdc285ad8f65189a9"><div class="ttname"><a href="../../df/de9/refBoxUtils_8cpp.html#a0c2fb7f9cb14294bdc285ad8f65189a9">llsf2ros_orderInfo</a></div><div class="ttdeci">comm_msg::OrderInfo llsf2ros_orderInfo(const llsf_msgs::OrderInfo &amp;llsfOrderInfo)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de9/refBoxUtils_8cpp_source.html#l00128">refBoxUtils.cpp:128</a></div></div>
+<div class="ttc" id="refBoxUtils_8cpp_html_a852f643873a7a75e6711f9280696f552"><div class="ttname"><a href="../../df/de9/refBoxUtils_8cpp.html#a852f643873a7a75e6711f9280696f552">llsf2ros_machineInfo</a></div><div class="ttdeci">comm_msg::MachineInfo llsf2ros_machineInfo(const llsf_msgs::MachineInfo &amp;llsfMachineInfo)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de9/refBoxUtils_8cpp_source.html#l00101">refBoxUtils.cpp:101</a></div></div>
 <div class="ttc" id="fake__img__publisher__node_8cpp_html_af5deff54993bb606e67a06d443d3f0cd"><div class="ttname"><a href="../../d7/d92/fake__img__publisher__node_8cpp.html#af5deff54993bb606e67a06d443d3f0cd">signal</a></div><div class="ttdeci">signal</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d92/fake__img__publisher__node_8cpp_source.html#l00012">fake_img_publisher_node.cpp:12</a></div></div>
 <div class="ttc" id="refBoxUtils_8h_html"><div class="ttname"><a href="../../d2/dde/refBoxUtils_8h.html">refBoxUtils.h</a></div></div>
-<div class="ttc" id="refBoxUtils_8cpp_html_a5dab4d27ae0553ee9b40f2c592ce1c20"><div class="ttname"><a href="../../df/de9/refBoxUtils_8cpp.html#a5dab4d27ae0553ee9b40f2c592ce1c20">llsf2ros_gameState</a></div><div class="ttdeci">comm_msg::GameState llsf2ros_gameState(const llsf_msgs::GameState &amp;llsfGameState, llsf_msgs::Team team_color)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de9/refBoxUtils_8cpp_source.html#l00015">refBoxUtils.cpp:15</a></div></div>
+<div class="ttc" id="refBoxUtils_8cpp_html_a5dab4d27ae0553ee9b40f2c592ce1c20"><div class="ttname"><a href="../../df/de9/refBoxUtils_8cpp.html#a5dab4d27ae0553ee9b40f2c592ce1c20">llsf2ros_gameState</a></div><div class="ttdeci">comm_msg::GameState llsf2ros_gameState(const llsf_msgs::GameState &amp;llsfGameState, llsf_msgs::Team team_color)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de9/refBoxUtils_8cpp_source.html#l00014">refBoxUtils.cpp:14</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

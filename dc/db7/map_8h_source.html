@@ -91,43 +91,43 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../dc/db7/map_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#ifndef MAP_H</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define MAP_H</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;nav_msgs/OccupancyGrid.h&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Point.h&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../d7/db0/classMap.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/db0/classMap.html">Map</a></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d7/db0/classMap.html#ac762a9645f51a7db1cbf34bd0181ba57">getCell</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/db0/classMap.html#a82facb5bfb7ca989e13d58850ee442db">drawDisc</a>(nav_msgs::OccupancyGrid &amp;grid, geometry_msgs::Point center);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../d7/db0/classMap.html#a0f5ad0fd4563497b4214038cbca8b582">   30</a></span>&#160;    <a class="code" href="../../d7/db0/classMap.html#a0f5ad0fd4563497b4214038cbca8b582">Map</a>()</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d7/db0/classMap.html#aa403fbe09394ccf39747588f5168e3b2">   34</a></span>&#160;    <a class="code" href="../../d7/db0/classMap.html#aa403fbe09394ccf39747588f5168e3b2">~Map</a>()</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;};</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* MAP_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="classMap_html_ac762a9645f51a7db1cbf34bd0181ba57"><div class="ttname"><a href="../../d7/db0/classMap.html#ac762a9645f51a7db1cbf34bd0181ba57">Map::getCell</a></div><div class="ttdeci">int getCell(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd3/map_8cpp_source.html#l00019">map.cpp:19</a></div></div>
-<div class="ttc" id="classMap_html_a82facb5bfb7ca989e13d58850ee442db"><div class="ttname"><a href="../../d7/db0/classMap.html#a82facb5bfb7ca989e13d58850ee442db">Map::drawDisc</a></div><div class="ttdeci">void drawDisc(nav_msgs::OccupancyGrid &amp;grid, geometry_msgs::Point center)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd3/map_8cpp_source.html#l00046">map.cpp:46</a></div></div>
-<div class="ttc" id="classMap_html_aa403fbe09394ccf39747588f5168e3b2"><div class="ttname"><a href="../../d7/db0/classMap.html#aa403fbe09394ccf39747588f5168e3b2">Map::~Map</a></div><div class="ttdeci">~Map()</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/db7/map_8h_source.html#l00034">map.h:34</a></div></div>
-<div class="ttc" id="classMap_html"><div class="ttname"><a href="../../d7/db0/classMap.html">Map</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/db7/map_8h_source.html#l00023">map.h:23</a></div></div>
-<div class="ttc" id="classMap_html_a0f5ad0fd4563497b4214038cbca8b582"><div class="ttname"><a href="../../d7/db0/classMap.html#a0f5ad0fd4563497b4214038cbca8b582">Map::Map</a></div><div class="ttdeci">Map()</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/db7/map_8h_source.html#l00030">map.h:30</a></div></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#ifndef MAP_H</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define MAP_H</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;nav_msgs/OccupancyGrid.h&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Point.h&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="../../d7/db0/classMap.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/db0/classMap.html">Map</a></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d7/db0/classMap.html#ac762a9645f51a7db1cbf34bd0181ba57">getCell</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/db0/classMap.html#a82facb5bfb7ca989e13d58850ee442db">drawDisc</a>(nav_msgs::OccupancyGrid &amp;grid, geometry_msgs::Point center);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../d7/db0/classMap.html#a0f5ad0fd4563497b4214038cbca8b582">   29</a></span>&#160;    <a class="code" href="../../d7/db0/classMap.html#a0f5ad0fd4563497b4214038cbca8b582">Map</a>()</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d7/db0/classMap.html#aa403fbe09394ccf39747588f5168e3b2">   33</a></span>&#160;    <a class="code" href="../../d7/db0/classMap.html#aa403fbe09394ccf39747588f5168e3b2">~Map</a>()</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* MAP_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="classMap_html_ac762a9645f51a7db1cbf34bd0181ba57"><div class="ttname"><a href="../../d7/db0/classMap.html#ac762a9645f51a7db1cbf34bd0181ba57">Map::getCell</a></div><div class="ttdeci">int getCell(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd3/map_8cpp_source.html#l00018">map.cpp:18</a></div></div>
+<div class="ttc" id="classMap_html_a82facb5bfb7ca989e13d58850ee442db"><div class="ttname"><a href="../../d7/db0/classMap.html#a82facb5bfb7ca989e13d58850ee442db">Map::drawDisc</a></div><div class="ttdeci">void drawDisc(nav_msgs::OccupancyGrid &amp;grid, geometry_msgs::Point center)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd3/map_8cpp_source.html#l00045">map.cpp:45</a></div></div>
+<div class="ttc" id="classMap_html_aa403fbe09394ccf39747588f5168e3b2"><div class="ttname"><a href="../../d7/db0/classMap.html#aa403fbe09394ccf39747588f5168e3b2">Map::~Map</a></div><div class="ttdeci">~Map()</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/db7/map_8h_source.html#l00033">map.h:33</a></div></div>
+<div class="ttc" id="classMap_html"><div class="ttname"><a href="../../d7/db0/classMap.html">Map</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/db7/map_8h_source.html#l00022">map.h:22</a></div></div>
+<div class="ttc" id="classMap_html_a0f5ad0fd4563497b4214038cbca8b582"><div class="ttname"><a href="../../d7/db0/classMap.html#a0f5ad0fd4563497b4214038cbca8b582">Map::Map</a></div><div class="ttdeci">Map()</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/db7/map_8h_source.html#l00029">map.h:29</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

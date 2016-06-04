@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: navigation/approche_finale/src/fa_utils.cpp Source File</title>
+<title>robocup-pkg: navigation/final_approach/src/fa_utils.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -82,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_38722003f1817e0081d21738b24fea49.html">approche_finale</a></li><li class="navelem"><a class="el" href="../../dir_c470810c73ea8647b07f58f7a9add5c8.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_336feb60a69ae201c733df631f5f358c.html">final_approach</a></li><li class="navelem"><a class="el" href="../../dir_0eea8483e168af5b96b085398ee65a4d.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -90,170 +90,67 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="title">fa_utils.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d5/d39/fa__utils_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../df/d24/fa__utils_8h.html">fa_utils.h</a>&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d4/de5/Point_8h.html">Point.h</a>&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Twist.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;approche_finale_msg/plotDataFA.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Point.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose2D.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../d5/d39/fa__utils_8cpp.html#af2f1d7695162f3e8ce8732f108f5e788">   15</a></span>&#160;geometry_msgs::Point <a class="code" href="../../d5/d39/fa__utils_8cpp.html#af2f1d7695162f3e8ce8732f108f5e788">orthoProjection</a>(<a class="code" href="../../dc/d4f/classPoint.html">Point</a> p, geometry_msgs::Pose2D p2d)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordtype">float</span> denom = sqrt(cos(p2d.theta)*cos(p2d.theta)+sin(p2d.theta)*sin(p2d.theta));</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordtype">float</span> num = (p.<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>()-p2d.x)*cos(p2d.theta)+(p.<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>()-p2d.y)*sin(p2d.theta);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordtype">float</span> H = num/denom;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        geometry_msgs::Point <a class="code" href="../../d2/de2/math__functions_8h.html#a15c0b09995b3f41cfe22371a8ae12954">ortho</a>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        ortho.x = (float)(p2d.x + (H/denom)*cos(p2d.theta));</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        ortho.y = (float)(p2d.y + (H/denom)*sin(p2d.theta));</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        ortho.z = 0;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="../../d2/de2/math__functions_8h.html#a15c0b09995b3f41cfe22371a8ae12954">ortho</a>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="../../d5/d39/fa__utils_8cpp.html#ad83617d4280182642bbfee465c6f5c66">   28</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../d5/d39/fa__utils_8cpp.html#ad83617d4280182642bbfee465c6f5c66">distance2points</a>(<a class="code" href="../../dc/d4f/classPoint.html">Point</a> a, <a class="code" href="../../dc/d4f/classPoint.html">Point</a> b){</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">float</span> xa = a.<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">float</span> xb = b.<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">float</span> ya = a.<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>();</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">float</span> yb = b.<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">return</span> sqrt( std::abs(xb-xa)*std::abs(xb-xa) + std::abs(yb-ya)*std::abs(yb-ya) );</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../d5/d39/fa__utils_8cpp.html#a6577080a91fc6f6e418a77e3ef288c19">   36</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../d5/d39/fa__utils_8cpp.html#a6577080a91fc6f6e418a77e3ef288c19">moy</a>(std::list&lt;float&gt; position_y){</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    std::list&lt;float&gt;::iterator it;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">float</span> moyenne = 0;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">for</span>(it=position_y.begin();it!=position_y.end();it++)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        moyenne = moyenne + *it;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    moyenne = moyenne / (float)(position_y.size()) ;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> moyenne;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../d5/d39/fa__utils_8cpp.html#a817f147f5ebf9a9ae1a0b85fd8e70f3d">   47</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d5/d39/fa__utils_8cpp.html#a817f147f5ebf9a9ae1a0b85fd8e70f3d">asservissementAngle</a>(approche_finale_msg::plotDataFA &amp;plotData,ros::Publisher <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a>,<span class="keywordtype">float</span> <a class="code" href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">angle</a>){</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    geometry_msgs::Twist msg;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    plotData.angleErr = std::abs(angle-0.01);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span>(std::abs(angle-0.01) &lt; 0.015)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        msg.angular.z = 0;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        plotData.angleCmd = 0;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        pubMvt.publish(msg);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        msg.angular.z = 0.4*(angle-0.01);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        plotData.angleCmd = 0.4*(angle-0.01);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        pubMvt.publish(msg);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d5/d39/fa__utils_8cpp.html#ae80e1bf66038530e6609acd09276612f">   68</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d5/d39/fa__utils_8cpp.html#ae80e1bf66038530e6609acd09276612f">asservissementPositionY</a>(approche_finale_msg::plotDataFA &amp;plotData,ros::Publisher <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a>, <span class="keywordtype">float</span> goal, <span class="keywordtype">float</span> moyPos, <span class="keywordtype">float</span> yLeft, <span class="keywordtype">float</span> yRight){</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    geometry_msgs::Twist msg;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    msg.angular.z = 0;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">if</span>(yLeft &gt;= 0 &amp;&amp; yRight &gt;= 0)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        ROS_DEBUG(<span class="stringliteral">&quot;Il faut tourner aller a droite&quot;</span>);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        msg.linear.y = 0.25;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        plotData.YErr = 2; <span class="comment">// 2 &gt;&gt; error</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        plotData.YCmd = 0.25;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        pubMvt.publish(msg);        </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">if</span>(yLeft &lt;= 0 &amp;&amp; yRight &lt;= 0)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            ROS_DEBUG(<span class="stringliteral">&quot;Il faut aller a gauche&quot;</span>);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            msg.linear.y = -0.25;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            plotData.YErr = 2; <span class="comment">// 2 &gt;&gt; error</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            plotData.YCmd = -0.25;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            pubMvt.publish(msg);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;deplacement normal&quot;</span>);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            plotData.YErr = std::abs(moyPos - goal);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">if</span>(std::abs(moyPos + goal) &lt; 0.003)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                msg.linear.y = 0;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                plotData.YCmd = 0;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                pubMvt.publish(msg);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                msg.linear.y = 0.025*(moyPos + goal);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                plotData.YCmd = 0.025*(moyPos + goal);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                pubMvt.publish(msg);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="../../d5/d39/fa__utils_8cpp.html#a2dd4eb3fa06e82d42163dc5bce35f724">  114</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d5/d39/fa__utils_8cpp.html#a2dd4eb3fa06e82d42163dc5bce35f724">asservissementPositionX</a>(approche_finale_msg::plotDataFA &amp;plotData,ros::Publisher <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a>, <span class="keywordtype">float</span> <a class="code" href="../../dd/daf/namespacegeometry__utils.html#af0efcbc0c46ca020b7013dfe06f6ea27">distance</a>, <span class="keywordtype">float</span> goal){</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    geometry_msgs::Twist msg;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    msg.linear.y = 0;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    msg.angular.z = 0;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    plotData.XErr = std::abs(distance-goal);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordflow">if</span>(std::abs(distance-goal) &lt; 0.007) </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    {</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        msg.linear.x = 0;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        plotData.XCmd = 0;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        pubMvt.publish(msg);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordflow">return</span> 2;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    }</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordflow">if</span>(std::abs(distance-goal) &lt; 0.04)</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            msg.linear.x = (distance - goal)*0.25;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            plotData.XCmd = (distance - goal)*0.25;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            pubMvt.publish(msg);</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        }</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        {</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            msg.linear.x = (distance - goal)*0.25;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            plotData.XCmd = (distance - goal)*0.25;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            pubMvt.publish(msg);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        }</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    }</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;}</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="ttc" id="namespacegeometry__utils_html_aaefa7120290578f7459a5030c4d9f1b4"><div class="ttname"><a href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">geometry_utils::angle</a></div><div class="ttdeci">double angle(const geometry_msgs::Point &amp;p0)</div></div>
+<a href="../../d5/d39/fa__utils_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../df/d24/fa__utils_8h.html">final_approach/fa_utils.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d4/de5/Point_8h.html">final_approach/Point.h</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;geometry_msgs/Twist.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;geometry_msgs/Point.h&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;geometry_msgs/Pose2D.h&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;final_approach_msg/plotDataFA.h&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// XXX: Make a common lib with PID or look after http://wiki.ros.org/pid and http://wiki.ros.org/lyap_control</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../d5/d39/fa__utils_8cpp.html#af2f1d7695162f3e8ce8732f108f5e788">   20</a></span>&#160;geometry_msgs::Point <a class="code" href="../../d5/d39/fa__utils_8cpp.html#af2f1d7695162f3e8ce8732f108f5e788">orthoProjection</a>(<a class="code" href="../../dc/d4f/classPoint.html">Point</a> p, geometry_msgs::Pose2D p2d)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordtype">float</span> denom = sqrt(cos(p2d.theta)*cos(p2d.theta)+sin(p2d.theta)*sin(p2d.theta));</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordtype">float</span> num = (p.<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>()-p2d.x)*cos(p2d.theta)+(p.<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>()-p2d.y)*sin(p2d.theta);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordtype">float</span> H = num/denom;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        geometry_msgs::Point <a class="code" href="../../d2/de2/math__functions_8h.html#a15c0b09995b3f41cfe22371a8ae12954">ortho</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        ortho.x = (float)(p2d.x + (H/denom)*cos(p2d.theta));</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        ortho.y = (float)(p2d.y + (H/denom)*sin(p2d.theta));</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        ortho.z = 0;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="../../d2/de2/math__functions_8h.html#a15c0b09995b3f41cfe22371a8ae12954">ortho</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d5/d39/fa__utils_8cpp.html#ad83617d4280182642bbfee465c6f5c66">   33</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../d5/d39/fa__utils_8cpp.html#ad83617d4280182642bbfee465c6f5c66">distance2points</a>(<a class="code" href="../../dc/d4f/classPoint.html">Point</a> a, <a class="code" href="../../dc/d4f/classPoint.html">Point</a> b)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">return</span> sqrt(  std::abs(b.<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>() - a.<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>()) * std::abs(b.<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>() - a.<a class="code" href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">getX</a>())</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                + std::abs(b.<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>() - a.<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>()) * std::abs(b.<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>() - a.<a class="code" href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">getY</a>()));</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../d5/d39/fa__utils_8cpp.html#a35a88dc83721b2b6803b13694e158126">   39</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../d5/d39/fa__utils_8cpp.html#a35a88dc83721b2b6803b13694e158126">mean</a>(std::list&lt;float&gt; position_y){</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    std::list&lt;float&gt;::iterator it;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">float</span> moyenne = 0;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">for</span>(it = position_y.begin(); it != position_y.end(); it++)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        moyenne = moyenne + *it;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    moyenne = moyenne / (float)(position_y.size());</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> moyenne;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
 <div class="ttc" id="Point_8h_html"><div class="ttname"><a href="../../d4/de5/Point_8h.html">Point.h</a></div></div>
-<div class="ttc" id="fa__utils_8cpp_html_a2dd4eb3fa06e82d42163dc5bce35f724"><div class="ttname"><a href="../../d5/d39/fa__utils_8cpp.html#a2dd4eb3fa06e82d42163dc5bce35f724">asservissementPositionX</a></div><div class="ttdeci">int asservissementPositionX(approche_finale_msg::plotDataFA &amp;plotData, ros::Publisher pubMvt, float distance, float goal)</div><div class="ttdoc">permet d asservir en x (repere laser) </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d39/fa__utils_8cpp_source.html#l00114">fa_utils.cpp:114</a></div></div>
 <div class="ttc" id="classPoint_html"><div class="ttname"><a href="../../dc/d4f/classPoint.html">Point</a></div><div class="ttdoc">classe représentant un point du laser </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/Point_8h_source.html#l00015">Point.h:15</a></div></div>
-<div class="ttc" id="ar__tag__reader__node_8cpp_html_a5ca66e955ca84bb52ba35aa29aa01283"><div class="ttname"><a href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a></div><div class="ttdeci">ros::Publisher pubMvt</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d88/ar__tag__reader__node_8cpp_source.html#l00006">ar_tag_reader_node.cpp:6</a></div></div>
-<div class="ttc" id="fa__utils_8cpp_html_a817f147f5ebf9a9ae1a0b85fd8e70f3d"><div class="ttname"><a href="../../d5/d39/fa__utils_8cpp.html#a817f147f5ebf9a9ae1a0b85fd8e70f3d">asservissementAngle</a></div><div class="ttdeci">int asservissementAngle(approche_finale_msg::plotDataFA &amp;plotData, ros::Publisher pubMvt, float angle)</div><div class="ttdoc">permet d asservir en angle </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d39/fa__utils_8cpp_source.html#l00047">fa_utils.cpp:47</a></div></div>
-<div class="ttc" id="fa__utils_8cpp_html_ad83617d4280182642bbfee465c6f5c66"><div class="ttname"><a href="../../d5/d39/fa__utils_8cpp.html#ad83617d4280182642bbfee465c6f5c66">distance2points</a></div><div class="ttdeci">float distance2points(Point a, Point b)</div><div class="ttdoc">Calcule la distance en m entre deux points. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d39/fa__utils_8cpp_source.html#l00028">fa_utils.cpp:28</a></div></div>
-<div class="ttc" id="fa__utils_8cpp_html_af2f1d7695162f3e8ce8732f108f5e788"><div class="ttname"><a href="../../d5/d39/fa__utils_8cpp.html#af2f1d7695162f3e8ce8732f108f5e788">orthoProjection</a></div><div class="ttdeci">geometry_msgs::Point orthoProjection(Point p, geometry_msgs::Pose2D p2d)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d39/fa__utils_8cpp_source.html#l00015">fa_utils.cpp:15</a></div></div>
-<div class="ttc" id="classPoint_html_acc27466778cc87a662bba40268c4c0c8"><div class="ttname"><a href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">Point::getX</a></div><div class="ttdeci">float getX()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/Point_8h_source.html#l00024">Point.h:24</a></div></div>
-<div class="ttc" id="fa__utils_8cpp_html_a6577080a91fc6f6e418a77e3ef288c19"><div class="ttname"><a href="../../d5/d39/fa__utils_8cpp.html#a6577080a91fc6f6e418a77e3ef288c19">moy</a></div><div class="ttdeci">float moy(std::list&lt; float &gt; position_y)</div><div class="ttdoc">Fait une moyenne. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d39/fa__utils_8cpp_source.html#l00036">fa_utils.cpp:36</a></div></div>
-<div class="ttc" id="fa__utils_8cpp_html_ae80e1bf66038530e6609acd09276612f"><div class="ttname"><a href="../../d5/d39/fa__utils_8cpp.html#ae80e1bf66038530e6609acd09276612f">asservissementPositionY</a></div><div class="ttdeci">int asservissementPositionY(approche_finale_msg::plotDataFA &amp;plotData, ros::Publisher pubMvt, float goal, float moyPos, float yLeft, float yRight)</div><div class="ttdoc">permet d asservir en y (repere laser) </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d39/fa__utils_8cpp_source.html#l00068">fa_utils.cpp:68</a></div></div>
-<div class="ttc" id="fa__utils_8h_html"><div class="ttname"><a href="../../df/d24/fa__utils_8h.html">fa_utils.h</a></div><div class="ttdoc">ensemble de fonctions nécessaires pour l&#39;approche finale </div></div>
+<div class="ttc" id="fa__utils_8cpp_html_a35a88dc83721b2b6803b13694e158126"><div class="ttname"><a href="../../d5/d39/fa__utils_8cpp.html#a35a88dc83721b2b6803b13694e158126">mean</a></div><div class="ttdeci">float mean(std::list&lt; float &gt; position_y)</div><div class="ttdoc">Fait une moyenne. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d39/fa__utils_8cpp_source.html#l00039">fa_utils.cpp:39</a></div></div>
+<div class="ttc" id="fa__utils_8cpp_html_ad83617d4280182642bbfee465c6f5c66"><div class="ttname"><a href="../../d5/d39/fa__utils_8cpp.html#ad83617d4280182642bbfee465c6f5c66">distance2points</a></div><div class="ttdeci">float distance2points(Point a, Point b)</div><div class="ttdoc">Calcule la distance en m entre deux points. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d39/fa__utils_8cpp_source.html#l00033">fa_utils.cpp:33</a></div></div>
+<div class="ttc" id="fa__utils_8cpp_html_af2f1d7695162f3e8ce8732f108f5e788"><div class="ttname"><a href="../../d5/d39/fa__utils_8cpp.html#af2f1d7695162f3e8ce8732f108f5e788">orthoProjection</a></div><div class="ttdeci">geometry_msgs::Point orthoProjection(Point p, geometry_msgs::Pose2D p2d)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d39/fa__utils_8cpp_source.html#l00020">fa_utils.cpp:20</a></div></div>
+<div class="ttc" id="classPoint_html_acc27466778cc87a662bba40268c4c0c8"><div class="ttname"><a href="../../dc/d4f/classPoint.html#acc27466778cc87a662bba40268c4c0c8">Point::getX</a></div><div class="ttdeci">float getX()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/Point_8h_source.html#l00026">Point.h:26</a></div></div>
+<div class="ttc" id="fa__utils_8h_html"><div class="ttname"><a href="../../df/d24/fa__utils_8h.html">fa_utils.h</a></div></div>
 <div class="ttc" id="math__functions_8h_html_a15c0b09995b3f41cfe22371a8ae12954"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html#a15c0b09995b3f41cfe22371a8ae12954">ortho</a></div><div class="ttdeci">geometry_msgs::Point ortho(const geometry_msgs::Point &amp;a, const Line &amp;d)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d90/math__functions_8cpp_source.html#l00057">math_functions.cpp:57</a></div></div>
-<div class="ttc" id="classPoint_html_a3cccbca94719ddde353cce86ce0e2f64"><div class="ttname"><a href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">Point::getY</a></div><div class="ttdeci">float getY()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/Point_8h_source.html#l00025">Point.h:25</a></div></div>
-<div class="ttc" id="namespacegeometry__utils_html_af0efcbc0c46ca020b7013dfe06f6ea27"><div class="ttname"><a href="../../dd/daf/namespacegeometry__utils.html#af0efcbc0c46ca020b7013dfe06f6ea27">geometry_utils::distance</a></div><div class="ttdeci">double distance(const geometry_msgs::Point &amp;p0, const geometry_msgs::Point &amp;p1)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d0c/geometry__utils_8h_source.html#l00052">geometry_utils.h:52</a></div></div>
+<div class="ttc" id="classPoint_html_a3cccbca94719ddde353cce86ce0e2f64"><div class="ttname"><a href="../../dc/d4f/classPoint.html#a3cccbca94719ddde353cce86ce0e2f64">Point::getY</a></div><div class="ttdeci">float getY()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/Point_8h_source.html#l00027">Point.h:27</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

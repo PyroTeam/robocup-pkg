@@ -91,88 +91,88 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../d5/db5/refBoxComm__node_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/d85/refBoxTransport_8h.html">refBoxTransport.h</a>&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;dispatch.h&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/d01/sendScheduler_8h.html">sendScheduler.h</a>&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d0/d22/refBoxComm_8h.html">refBoxComm.h</a>&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d2/dde/refBoxUtils_8h.html">refBoxUtils.h</a>&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;std_msgs/String.h&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose2D.h&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose.h&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;nav_msgs/Odometry.h&quot;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;comm_msg/GameState.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;comm_msg/ExplorationInfo.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;comm_msg/ReportMachine.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;tf/transform_datatypes.h&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;msgs/BeaconSignal.pb.h&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;msgs/OrderInfo.pb.h&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;msgs/GameState.pb.h&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;msgs/VersionInfo.pb.h&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;msgs/ExplorationInfo.pb.h&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;msgs/MachineInfo.pb.h&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;msgs/MachineReport.pb.h&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;msgs/RobotInfo.pb.h&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;msgs/Team.pb.h&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/d85/refBoxTransport_8h.html">refBoxTransport.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;dispatch.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/d01/sendScheduler_8h.html">sendScheduler.h</a>&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d0/d22/refBoxComm_8h.html">refBoxComm.h</a>&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d2/dde/refBoxUtils_8h.html">refBoxUtils.h</a>&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;std_msgs/String.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose2D.h&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose.h&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;nav_msgs/Odometry.h&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;comm_msg/GameState.h&quot;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;comm_msg/ExplorationInfo.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;comm_msg/ReportMachine.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;tf/transform_datatypes.h&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;msgs/BeaconSignal.pb.h&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;msgs/OrderInfo.pb.h&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;msgs/GameState.pb.h&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;msgs/VersionInfo.pb.h&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;msgs/ExplorationInfo.pb.h&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;msgs/MachineInfo.pb.h&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;msgs/MachineReport.pb.h&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;msgs/RobotInfo.pb.h&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;msgs/Team.pb.h&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d5/db5/refBoxComm__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">   45</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d5/db5/refBoxComm__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">int</span> loopFreq = 50;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    Team team_color;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;refBoxComm&quot;</span>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ros::NodeHandle nh;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">//obtenir la configuration</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    std::string teamName;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    std::string teamColor;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    std::string robotName;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">int</span> robotNumber;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    nh.param&lt;std::string&gt;(<span class="stringliteral">&quot;teamName&quot;</span>,teamName, <span class="stringliteral">&quot;PyroTeam&quot;</span>);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    nh.param&lt;std::string&gt;(<span class="stringliteral">&quot;robotName&quot;</span>, robotName, <span class="stringliteral">&quot;R0&quot;</span>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    nh.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;robotNumber&quot;</span>, robotNumber, 0);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    nh.param&lt;std::string&gt;(<span class="stringliteral">&quot;teamColor&quot;</span>, teamColor, <span class="stringliteral">&quot;cyan&quot;</span>);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    std::shared_ptr&lt;RefBoxTransport&gt; refBoxTPtr(<span class="keyword">new</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html">RefBoxTransport</a>());</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    refBoxTPtr-&gt;init(teamColor);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">// team_color = refBoxTPtr-&gt;get_teamColor();</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="../../dc/d41/classRefBoxComm.html">RefBoxComm</a> refBoxComm(teamName, teamColor, robotName, robotNumber);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    refBoxComm.<a class="code" href="../../dc/d41/classRefBoxComm.html#a54d3542c60ce6416855963a3aa40e829">setTransport</a>(refBoxTPtr);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    ros::Rate loop_rate(loopFreq);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">while</span> (ros::ok() &amp;&amp; !refBoxTPtr-&gt;isExit() )</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment">//refBoxTPtr-&gt;update();</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        ros::spinOnce();    </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        loop_rate.sleep();</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d5/db5/refBoxComm__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">   44</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d5/db5/refBoxComm__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">int</span> loopFreq = 50;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    Team team_color;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;refBoxComm&quot;</span>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    ros::NodeHandle nh;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">//obtenir la configuration</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    std::string teamName;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    std::string teamColor;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    std::string robotName;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">int</span> robotNumber;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    nh.param&lt;std::string&gt;(<span class="stringliteral">&quot;teamName&quot;</span>,teamName, <span class="stringliteral">&quot;PyroTeam&quot;</span>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    nh.param&lt;std::string&gt;(<span class="stringliteral">&quot;robotName&quot;</span>, robotName, <span class="stringliteral">&quot;R0&quot;</span>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    nh.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;robotNumber&quot;</span>, robotNumber, 0);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    nh.param&lt;std::string&gt;(<span class="stringliteral">&quot;teamColor&quot;</span>, teamColor, <span class="stringliteral">&quot;cyan&quot;</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    std::shared_ptr&lt;RefBoxTransport&gt; refBoxTPtr(<span class="keyword">new</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html">RefBoxTransport</a>());</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    refBoxTPtr-&gt;init(teamColor);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// team_color = refBoxTPtr-&gt;get_teamColor();</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="../../dc/d41/classRefBoxComm.html">RefBoxComm</a> refBoxComm(teamName, teamColor, robotName, robotNumber);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    refBoxComm.<a class="code" href="../../dc/d41/classRefBoxComm.html#a54d3542c60ce6416855963a3aa40e829">setTransport</a>(refBoxTPtr);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    ros::Rate loop_rate(loopFreq);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">while</span> (ros::ok() &amp;&amp; !refBoxTPtr-&gt;isExit() )</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment">//refBoxTPtr-&gt;update();</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        ros::spinOnce();    </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        loop_rate.sleep();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
 <div class="ttc" id="refBoxComm_8h_html"><div class="ttname"><a href="../../d0/d22/refBoxComm_8h.html">refBoxComm.h</a></div></div>
 <div class="ttc" id="refBoxTransport_8h_html"><div class="ttname"><a href="../../d1/d85/refBoxTransport_8h.html">refBoxTransport.h</a></div><div class="ttdoc">bibliothèque de gestion de la communication avec la referee Box pour la competition robocup (Logistic...</div></div>
-<div class="ttc" id="classRefBoxTransport_html"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html">RefBoxTransport</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d85/refBoxTransport_8h_source.html#l00050">refBoxTransport.h:50</a></div></div>
-<div class="ttc" id="classRefBoxComm_html"><div class="ttname"><a href="../../dc/d41/classRefBoxComm.html">RefBoxComm</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d22/refBoxComm_8h_source.html#l00047">refBoxComm.h:47</a></div></div>
+<div class="ttc" id="classRefBoxTransport_html"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html">RefBoxTransport</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d85/refBoxTransport_8h_source.html#l00049">refBoxTransport.h:49</a></div></div>
+<div class="ttc" id="classRefBoxComm_html"><div class="ttname"><a href="../../dc/d41/classRefBoxComm.html">RefBoxComm</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d22/refBoxComm_8h_source.html#l00046">refBoxComm.h:46</a></div></div>
 <div class="ttc" id="refBoxUtils_8h_html"><div class="ttname"><a href="../../d2/dde/refBoxUtils_8h.html">refBoxUtils.h</a></div></div>
 <div class="ttc" id="sendScheduler_8h_html"><div class="ttname"><a href="../../dc/d01/sendScheduler_8h.html">sendScheduler.h</a></div></div>
-<div class="ttc" id="refBoxComm__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d5/db5/refBoxComm__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/db5/refBoxComm__node_8cpp_source.html#l00045">refBoxComm_node.cpp:45</a></div></div>
-<div class="ttc" id="classRefBoxComm_html_a54d3542c60ce6416855963a3aa40e829"><div class="ttname"><a href="../../dc/d41/classRefBoxComm.html#a54d3542c60ce6416855963a3aa40e829">RefBoxComm::setTransport</a></div><div class="ttdeci">void setTransport(std::shared_ptr&lt; RefBoxTransport &gt; &amp;refBoxTr)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d93/refBoxComm_8cpp_source.html#l00069">refBoxComm.cpp:69</a></div></div>
+<div class="ttc" id="refBoxComm__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d5/db5/refBoxComm__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/db5/refBoxComm__node_8cpp_source.html#l00044">refBoxComm_node.cpp:44</a></div></div>
+<div class="ttc" id="classRefBoxComm_html_a54d3542c60ce6416855963a3aa40e829"><div class="ttname"><a href="../../dc/d41/classRefBoxComm.html#a54d3542c60ce6416855963a3aa40e829">RefBoxComm::setTransport</a></div><div class="ttdeci">void setTransport(std::shared_ptr&lt; RefBoxTransport &gt; &amp;refBoxTr)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d93/refBoxComm_8cpp_source.html#l00068">refBoxComm.cpp:68</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

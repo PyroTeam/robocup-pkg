@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: navigation/approche_finale/src/simFinalApproach_node.cpp Source File</title>
+<title>robocup-pkg: navigation/final_approach/src/simFinalApproach_node.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -82,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_38722003f1817e0081d21738b24fea49.html">approche_finale</a></li><li class="navelem"><a class="el" href="../../dir_c470810c73ea8647b07f58f7a9add5c8.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_336feb60a69ae201c733df631f5f358c.html">final_approach</a></li><li class="navelem"><a class="el" href="../../dir_0eea8483e168af5b96b085398ee65a4d.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -90,26 +90,28 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="title">simFinalApproach_node.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="../../dc/dd4/simFinalApproach__node_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;actionlib/server/simple_action_server.h&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;manager_msg/finalApproachingAction.h&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d3/d01/SimFinalApproach_8h.html">SimFinalApproach.h</a>&quot;</span></div>
+<a href="../../dc/dd4/simFinalApproach__node_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d3/d01/SimFinalApproach_8h.html">final_approach/SimFinalApproach.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;actionlib/server/simple_action_server.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../dc/dd4/simFinalApproach__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">    6</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../dc/dd4/simFinalApproach__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;simFinalApproach&quot;</span>);</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <a class="code" href="../../df/d47/classSimFinalApproach.html">SimFinalApproach</a> finalApproach(<span class="stringliteral">&quot;navigation/finalApproaching_node&quot;</span>);</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;final_approach_msg/FinalApproachingAction.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="../../dc/dd4/simFinalApproach__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">    8</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../dc/dd4/simFinalApproach__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;simFinalApproach&quot;</span>);</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    ros::spin();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="../../df/d47/classSimFinalApproach.html">SimFinalApproach</a> finalApproach(<span class="stringliteral">&quot;navigation/finalApproaching_node&quot;</span>);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    ros::spin();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
 <div class="ttc" id="SimFinalApproach_8h_html"><div class="ttname"><a href="../../d3/d01/SimFinalApproach_8h.html">SimFinalApproach.h</a></div></div>
 <div class="ttc" id="classSimFinalApproach_html"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html">SimFinalApproach</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d01/SimFinalApproach_8h_source.html#l00018">SimFinalApproach.h:18</a></div></div>
-<div class="ttc" id="simFinalApproach__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../dc/dd4/simFinalApproach__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/dd4/simFinalApproach__node_8cpp_source.html#l00006">simFinalApproach_node.cpp:6</a></div></div>
+<div class="ttc" id="simFinalApproach__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../dc/dd4/simFinalApproach__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/dd4/simFinalApproach__node_8cpp_source.html#l00008">simFinalApproach_node.cpp:8</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

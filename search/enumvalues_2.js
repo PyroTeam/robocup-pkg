@@ -1,9 +1,16 @@
 var searchData=
 [
-  ['periodic',['PERIODIC',['../d0/d25/classRefBoxMessage.html#a68da493d0ec33895bb8f04c58d784afda648cd4b4bef58a45c8844a11855e16c5',1,'RefBoxMessage']]],
-  ['phase_5fexploration',['PHASE_EXPLORATION',['../d2/dde/refBoxUtils_8h.html#a896617de6e1c82953f407789633057d8a1cbec5dd695f3d69e94a1cc69383190f',1,'refBoxUtils.h']]],
-  ['phase_5fpost_5fgame',['PHASE_POST_GAME',['../d2/dde/refBoxUtils_8h.html#a896617de6e1c82953f407789633057d8a37567eca6454022adefc063f8e4ae754',1,'refBoxUtils.h']]],
-  ['phase_5fpre_5fgame',['PHASE_PRE_GAME',['../d2/dde/refBoxUtils_8h.html#a896617de6e1c82953f407789633057d8ac036cc524489e06d2682f4973c858d51',1,'refBoxUtils.h']]],
-  ['phase_5fproduction',['PHASE_PRODUCTION',['../d2/dde/refBoxUtils_8h.html#a896617de6e1c82953f407789633057d8aa6c0080210c2f6f2816514256247e056',1,'refBoxUtils.h']]],
-  ['phase_5fsetup',['PHASE_SETUP',['../d2/dde/refBoxUtils_8h.html#a896617de6e1c82953f407789633057d8ab89f9795c446c5d168fc610d9a2d3897',1,'refBoxUtils.h']]]
+  ['m_5fbs_5fin',['M_BS_IN',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8a055e64dc2fe8d9c33dcec1ed698c2897',1,'FinalApproaching.h']]],
+  ['m_5fbs_5fout',['M_BS_OUT',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8aca8385f033fecf124fe0ec7a9ad1dd1f',1,'FinalApproaching.h']]],
+  ['m_5fcs1_5fin',['M_CS1_IN',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8acfab59b4f39c9d5d38bc441de0207bb3',1,'FinalApproaching.h']]],
+  ['m_5fcs1_5fout',['M_CS1_OUT',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8aa3b8ce7829f457315adad4f1c067a146',1,'FinalApproaching.h']]],
+  ['m_5fcs2_5fin',['M_CS2_IN',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8a77c48f4b8df887474c0ee9c322bca008',1,'FinalApproaching.h']]],
+  ['m_5fcs2_5fout',['M_CS2_OUT',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8a7cb90555917edbfd33e9ac51ac291c77',1,'FinalApproaching.h']]],
+  ['m_5fds_5fin',['M_DS_IN',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8a9d1c9f7800609b23b93bc7b4e068e33b',1,'FinalApproaching.h']]],
+  ['m_5fds_5fout',['M_DS_OUT',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8af96be3dca61e701f6e35682afe990b4f',1,'FinalApproaching.h']]],
+  ['m_5frs1_5fin',['M_RS1_IN',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8a532bcc6240ded3c3911f2427a616cd6d',1,'FinalApproaching.h']]],
+  ['m_5frs1_5fout',['M_RS1_OUT',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8aeeb7697eea2a0ed27fdd9f6c244b605e',1,'FinalApproaching.h']]],
+  ['m_5frs2_5fin',['M_RS2_IN',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8ae24262aac5b6e5554b39ff070a8be3e9',1,'FinalApproaching.h']]],
+  ['m_5frs2_5fout',['M_RS2_OUT',['../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8a5e52a9637bc257208d394f0f9034bccc',1,'FinalApproaching.h']]],
+  ['magenta',['MAGENTA',['../d3/d68/FinalApproaching_8h.html#ad212354a1f0c6e11ec93ec9ac50a668aa56926c820ad72d0977e7ee44d9916e62',1,'FinalApproaching.h']]]
 ];

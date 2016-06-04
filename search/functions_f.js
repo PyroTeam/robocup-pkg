@@ -11,6 +11,7 @@ var searchData=
   ['refboxcomm',['RefBoxComm',['../dc/d41/classRefBoxComm.html#a3bea726aaa6baaef6dda22182b936bdd',1,'RefBoxComm']]],
   ['refboxmessage',['RefBoxMessage',['../d0/d25/classRefBoxMessage.html#acd7af53a0fb350a64602cc884a25e3e9',1,'RefBoxMessage']]],
   ['refboxtransport',['RefBoxTransport',['../d8/d10/classRefBoxTransport.html#aac7325c0d4fa29093f664a9f9580f3df',1,'RefBoxTransport']]],
+  ['refreshparams',['refreshParams',['../d6/d70/classFinalApproaching.html#a924a9d0c9370ee18a91e04eeeccbdb43',1,'FinalApproaching']]],
   ['registermessage',['registerMessage',['../df/d33/classUdpPeer.html#a452f184361c17c7bc6a6b7e27b5329e7',1,'UdpPeer']]],
   ['reporting',['reporting',['../d7/de4/classReportingMachineSrvClient.html#a54e2ccb8e87dfdbecfd0aa0fc4f7bafe',1,'ReportingMachineSrvClient']]],
   ['reportingmachinesrvclient',['ReportingMachineSrvClient',['../d7/de4/classReportingMachineSrvClient.html#a4b4ec2554212a85cec46763f7fdc9445',1,'ReportingMachineSrvClient']]],

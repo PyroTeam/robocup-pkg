@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: navigation/approche_finale/include/approche_finale/fa_utils.h File Reference</title>
+<title>robocup-pkg: navigation/final_approach/include/final_approach/fa_utils.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -82,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_38722003f1817e0081d21738b24fea49.html">approche_finale</a></li><li class="navelem"><a class="el" href="../../dir_915d54cdfe99fc914c0260f39b689415.html">include</a></li><li class="navelem"><a class="el" href="../../dir_87b8a07d3472131f8c29260bf1e693ec.html">approche_finale</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_336feb60a69ae201c733df631f5f358c.html">final_approach</a></li><li class="navelem"><a class="el" href="../../dir_3db92a34ecc89409f8d917eccf93fd26.html">include</a></li><li class="navelem"><a class="el" href="../../dir_b2099c7571d425515e5988657ab3411d.html">final_approach</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -92,15 +92,12 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="title">fa_utils.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>ensemble de fonctions nécessaires pour l'approche finale  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;ros/ros.h&gt;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="../../d4/de5/Point_8h_source.html">final_approach/Point.h</a>&quot;</code><br/>
+<code>#include &lt;ros/ros.h&gt;</code><br/>
+<code>#include &lt;geometry_msgs/Point.h&gt;</code><br/>
+<code>#include &lt;geometry_msgs/Pose2D.h&gt;</code><br/>
+<code>#include &lt;final_approach_msg/plotDataFA.h&gt;</code><br/>
 <code>#include &lt;vector&gt;</code><br/>
-<code>#include &quot;<a class="el" href="../../d4/de5/Point_8h_source.html">Point.h</a>&quot;</code><br/>
-<code>#include &quot;approche_finale_msg/plotDataFA.h&quot;</code><br/>
-<code>#include &quot;geometry_msgs/Point.h&quot;</code><br/>
-<code>#include &quot;geometry_msgs/Pose2D.h&quot;</code><br/>
 </div>
 <p><a href="../../df/d24/fa__utils_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -111,162 +108,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ad83617d4280182642bbfee465c6f5c66"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d24/fa__utils_8h.html#ad83617d4280182642bbfee465c6f5c66">distance2points</a> (<a class="el" href="../../dc/d4f/classPoint.html">Point</a> a, <a class="el" href="../../dc/d4f/classPoint.html">Point</a> b)</td></tr>
 <tr class="memdesc:ad83617d4280182642bbfee465c6f5c66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcule la distance en m entre deux points.  <a href="#ad83617d4280182642bbfee465c6f5c66">More...</a><br/></td></tr>
 <tr class="separator:ad83617d4280182642bbfee465c6f5c66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23e56bfed76fa903ca2a53b27a2131f8"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d24/fa__utils_8h.html#a23e56bfed76fa903ca2a53b27a2131f8">moy</a> (std::list&lt; float &gt; positionY)</td></tr>
-<tr class="memdesc:a23e56bfed76fa903ca2a53b27a2131f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fait une moyenne.  <a href="#a23e56bfed76fa903ca2a53b27a2131f8">More...</a><br/></td></tr>
-<tr class="separator:a23e56bfed76fa903ca2a53b27a2131f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75022b3d10d47f500aefb89f9f31b3f2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d24/fa__utils_8h.html#a75022b3d10d47f500aefb89f9f31b3f2">asservissementAngle</a> (approche_finale_msg::plotDataFA &amp;plotData, ros::Publisher <a class="el" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a>, float moyGradient)</td></tr>
-<tr class="memdesc:a75022b3d10d47f500aefb89f9f31b3f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">permet d asservir en angle  <a href="#a75022b3d10d47f500aefb89f9f31b3f2">More...</a><br/></td></tr>
-<tr class="separator:a75022b3d10d47f500aefb89f9f31b3f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae80e1bf66038530e6609acd09276612f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d24/fa__utils_8h.html#ae80e1bf66038530e6609acd09276612f">asservissementPositionY</a> (approche_finale_msg::plotDataFA &amp;plotData, ros::Publisher <a class="el" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a>, float goal, float moyPos, float yLeft, float yRight)</td></tr>
-<tr class="memdesc:ae80e1bf66038530e6609acd09276612f"><td class="mdescLeft">&#160;</td><td class="mdescRight">permet d asservir en y (repere laser)  <a href="#ae80e1bf66038530e6609acd09276612f">More...</a><br/></td></tr>
-<tr class="separator:ae80e1bf66038530e6609acd09276612f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2dd4eb3fa06e82d42163dc5bce35f724"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d24/fa__utils_8h.html#a2dd4eb3fa06e82d42163dc5bce35f724">asservissementPositionX</a> (approche_finale_msg::plotDataFA &amp;plotData, ros::Publisher <a class="el" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a>, float distance, float goal)</td></tr>
-<tr class="memdesc:a2dd4eb3fa06e82d42163dc5bce35f724"><td class="mdescLeft">&#160;</td><td class="mdescRight">permet d asservir en x (repere laser)  <a href="#a2dd4eb3fa06e82d42163dc5bce35f724">More...</a><br/></td></tr>
-<tr class="separator:a2dd4eb3fa06e82d42163dc5bce35f724"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00f693e94b56e1c508df93ac8dd3edf7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d24/fa__utils_8h.html#a00f693e94b56e1c508df93ac8dd3edf7">mean</a> (std::list&lt; float &gt; positionY)</td></tr>
+<tr class="memdesc:a00f693e94b56e1c508df93ac8dd3edf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fait une moyenne.  <a href="#a00f693e94b56e1c508df93ac8dd3edf7">More...</a><br/></td></tr>
+<tr class="separator:a00f693e94b56e1c508df93ac8dd3edf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ensemble de fonctions nécessaires pour l'approche finale </p>
 <dl class="section author"><dt>Author</dt><dd>Smagghe Cyril (<a href="#" onclick="location.href='mai'+'lto:'+'cyr'+'il'+'.sm'+'ag'+'ghe'+'@p'+'oly'+'te'+'ch-'+'li'+'lle'+'.n'+'et'; return false;">cyril<span style="display: none;">.nosp@m.</span>.sma<span style="display: none;">.nosp@m.</span>gghe@<span style="display: none;">.nosp@m.</span>poly<span style="display: none;">.nosp@m.</span>tech-<span style="display: none;">.nosp@m.</span>lill<span style="display: none;">.nosp@m.</span>e.net</a>) </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2015-04-20 </dd></dl>
-<dl class="section copyright"><dt>Copyright</dt><dd>PyroTeam, Polytech-Lille </dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>2016, Association de Robotique de Polytech Lille All rights reserved </dd></dl>
 
 <p>Definition in file <a class="el" href="../../df/d24/fa__utils_8h_source.html">fa_utils.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a75022b3d10d47f500aefb89f9f31b3f2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int asservissementAngle </td>
-          <td>(</td>
-          <td class="paramtype">approche_finale_msg::plotDataFA &amp;&#160;</td>
-          <td class="paramname"><em>plotData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ros::Publisher&#160;</td>
-          <td class="paramname"><em>pubMvt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>moyGradient</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>permet d asservir en angle </p>
-<dl class="section return"><dt>Returns</dt><dd>etat d avancement de l asservissement </dd></dl>
-
-<p>Definition at line <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html#l00047">47</a> of file <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html">fa_utils.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2dd4eb3fa06e82d42163dc5bce35f724"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int asservissementPositionX </td>
-          <td>(</td>
-          <td class="paramtype">approche_finale_msg::plotDataFA &amp;&#160;</td>
-          <td class="paramname"><em>plotData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ros::Publisher&#160;</td>
-          <td class="paramname"><em>pubMvt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>distance</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>goal</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>permet d asservir en x (repere laser) </p>
-<dl class="section return"><dt>Returns</dt><dd>etat d avancement de l asservissement </dd></dl>
-
-<p>Definition at line <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html#l00114">114</a> of file <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html">fa_utils.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae80e1bf66038530e6609acd09276612f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int asservissementPositionY </td>
-          <td>(</td>
-          <td class="paramtype">approche_finale_msg::plotDataFA &amp;&#160;</td>
-          <td class="paramname"><em>plotData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ros::Publisher&#160;</td>
-          <td class="paramname"><em>pubMvt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>goal</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>moyPos</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>yLeft</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>yRight</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>permet d asservir en y (repere laser) </p>
-<dl class="section return"><dt>Returns</dt><dd>etat d avancement de l asservissement </dd></dl>
-
-<p>Definition at line <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html#l00068">68</a> of file <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html">fa_utils.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="ad83617d4280182642bbfee465c6f5c66"></a>
 <div class="memitem">
 <div class="memproto">
@@ -294,16 +147,16 @@ Functions</h2></td></tr>
 <p>Calcule la distance en m entre deux points. </p>
 <dl class="section return"><dt>Returns</dt><dd>distance en m entre deux points </dd></dl>
 
-<p>Definition at line <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html#l00028">28</a> of file <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html">fa_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html#l00033">33</a> of file <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html">fa_utils.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a23e56bfed76fa903ca2a53b27a2131f8"></a>
+<a class="anchor" id="a00f693e94b56e1c508df93ac8dd3edf7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">float moy </td>
+          <td class="memname">float mean </td>
           <td>(</td>
           <td class="paramtype">std::list&lt; float &gt;&#160;</td>
           <td class="paramname"><em>positionY</em></td><td>)</td>
@@ -315,7 +168,7 @@ Functions</h2></td></tr>
 <p>Fait une moyenne. </p>
 <dl class="section return"><dt>Returns</dt><dd>la valeur moyenne de l'ensemble des flottants passes en parametres </dd></dl>
 
-<p>Definition at line <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html#l00036">36</a> of file <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html">fa_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html#l00039">39</a> of file <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html">fa_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -343,14 +196,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html#l00015">15</a> of file <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html">fa_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html#l00020">20</a> of file <a class="el" href="../../d5/d39/fa__utils_8cpp_source.html">fa_utils.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

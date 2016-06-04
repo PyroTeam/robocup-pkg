@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['signal',['signal',['../d7/d92/fake__img__publisher__node_8cpp.html#af5deff54993bb606e67a06d443d3f0cd',1,'fake_img_publisher_node.cpp']]]
+  ['periodicity',['Periodicity',['../d0/d25/classRefBoxMessage.html#a68da493d0ec33895bb8f04c58d784afd',1,'RefBoxMessage']]]
 ];

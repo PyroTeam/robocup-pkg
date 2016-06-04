@@ -150,7 +150,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="../../dc/dda/classMachine.html#adf98e6451e95ae717b9e4d9cb423aaa5">goTo</a>(this-&gt;<a class="code" href="../../dc/dda/classMachine.html#aaf66eeceebe514cbaa52779a51d9428f">m_entryMachine</a>);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(finalApproachingGoal::CS, finalApproachingGoal::IN, finalApproachingGoal::CONVEYOR);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(FinalApproachingGoal::CS, FinalApproachingGoal::IN, FinalApproachingGoal::CONVEYOR);</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#aab3db5a627c26637726211b14850887c">let</a>();</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">//Communication_RefBox(je veux un cap de couleur &quot;couleur&quot; )</span></div>
@@ -174,7 +174,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment">// while(Communication_RefBox(bs n&#39;a terminé de livrer)) { } ???????</span></div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(finalApproachingGoal::CS, finalApproachingGoal::OUT, finalApproachingGoal::CONVEYOR);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(FinalApproachingGoal::CS, FinalApproachingGoal::OUT, FinalApproachingGoal::CONVEYOR);</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#aebf0ba196da945533bb1c53d9880e66b">take</a>();</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    msg = <a class="code" href="../../dc/dda/classMachine.html#aa32e9c0e307c6e1ddcf0453efd6778a7">msgToGT</a>(n_robot,activity::END,machine,n_order);</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
@@ -190,11 +190,11 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <a class="code" href="../../dc/dda/classMachine.html#adf98e6451e95ae717b9e4d9cb423aaa5">goTo</a>(this-&gt;<a class="code" href="../../dc/dda/classMachine.html#aaf66eeceebe514cbaa52779a51d9428f">m_entryMachine</a>);</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 0) place = finalApproachingGoal::S1;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 1) place = finalApproachingGoal::S2; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 2) place = finalApproachingGoal::S3;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 0) place = FinalApproachingGoal::S1;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 1) place = FinalApproachingGoal::S2; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 2) place = FinalApproachingGoal::S3;</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(finalApproachingGoal::CS,finalApproachingGoal::IN,place);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(FinalApproachingGoal::CS,FinalApproachingGoal::IN,place);</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#aebf0ba196da945533bb1c53d9880e66b">take</a>();</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    msg = <a class="code" href="../../dc/dda/classMachine.html#aa32e9c0e307c6e1ddcf0453efd6778a7">msgToGT</a>(n_robot,activity::END,machine,n_order);</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
@@ -210,11 +210,11 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <a class="code" href="../../dc/dda/classMachine.html#adf98e6451e95ae717b9e4d9cb423aaa5">goTo</a>(this-&gt;<a class="code" href="../../dc/dda/classMachine.html#aaf66eeceebe514cbaa52779a51d9428f">m_entryMachine</a>);</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 0) place = finalApproachingGoal::S1;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 1) place = finalApproachingGoal::S2; </div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 2) place = finalApproachingGoal::S3;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 0) place = FinalApproachingGoal::S1;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 1) place = FinalApproachingGoal::S2; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<span class="keywordtype">id</span> == 2) place = FinalApproachingGoal::S3;</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(finalApproachingGoal::CS,finalApproachingGoal::IN,place);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(FinalApproachingGoal::CS,FinalApproachingGoal::IN,place);</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#aab3db5a627c26637726211b14850887c">let</a>();</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    msg = <a class="code" href="../../dc/dda/classMachine.html#aa32e9c0e307c6e1ddcf0453efd6778a7">msgToGT</a>(n_robot,activity::END,machine,n_order);</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;}</div>
@@ -234,27 +234,27 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordflow">if</span>(m_capID[0] == 1)</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    { </div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        place = finalApproachingGoal::S1;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        place = FinalApproachingGoal::S1;</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        m_capID[0] == 0;</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        m_stockID[0] = 0;</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    }</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(m_capID[1] == 1) </div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    {</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        place = finalApproachingGoal::S2;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        place = FinalApproachingGoal::S2;</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        m_capID[1] == 0;</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        m_stockID[1] = 0;</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    } </div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(m_capID[2] == 1)</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    { </div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        place = finalApproachingGoal::S3;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        place = FinalApproachingGoal::S3;</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        m_capID[2] == 0;</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        m_stockID[2] = 0;</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    }</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(finalApproachingGoal::CS,finalApproachingGoal::IN,finalApproachingGoal::CONVEYOR);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(FinalApproachingGoal::CS,FinalApproachingGoal::IN,FinalApproachingGoal::CONVEYOR);</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#aebf0ba196da945533bb1c53d9880e66b">take</a>();</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(finalApproachingGoal::CS,finalApproachingGoal::IN,finalApproachingGoal::CONVEYOR);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">startFinalAp</a>(FinalApproachingGoal::CS,FinalApproachingGoal::IN,FinalApproachingGoal::CONVEYOR);</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    this-&gt;<a class="code" href="../../dc/dda/classMachine.html#aab3db5a627c26637726211b14850887c">let</a>();</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="comment">//Communication_RefBox( Uncap )</span></div>
@@ -276,21 +276,21 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classCapStation_html_a201ff5a12aa109483fbdcd3090913b50"><div class="ttname"><a href="../../d6/ddd/classCapStation.html#a201ff5a12aa109483fbdcd3090913b50">CapStation::majGrey</a></div><div class="ttdeci">void majGrey(int nbGris)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dae/CapStation_8cpp_source.html#l00044">CapStation.cpp:44</a></div></div>
 <div class="ttc" id="classMachine_html_aa32e9c0e307c6e1ddcf0453efd6778a7"><div class="ttname"><a href="../../dc/dda/classMachine.html#aa32e9c0e307c6e1ddcf0453efd6778a7">Machine::msgToGT</a></div><div class="ttdeci">manager_msg::activity msgToGT(int n_robot, int stateOfOrder, int machine, int n_order)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/df8/manager_2executeur__taches_2src_2Machine_8cpp_source.html#l00057">Machine.cpp:57</a></div></div>
 <div class="ttc" id="classCapStation_html_af521c22b56dfc71577bc33dad7c52366"><div class="ttname"><a href="../../d6/ddd/classCapStation.html#af521c22b56dfc71577bc33dad7c52366">CapStation::getStockage</a></div><div class="ttdeci">int getStockage(int i)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dae/CapStation_8cpp_source.html#l00030">CapStation.cpp:30</a></div></div>
-<div class="ttc" id="classMachine_html_aaf66eeceebe514cbaa52779a51d9428f"><div class="ttname"><a href="../../dc/dda/classMachine.html#aaf66eeceebe514cbaa52779a51d9428f">Machine::m_entryMachine</a></div><div class="ttdeci">geometry_msgs::Pose2D m_entryMachine</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h_source.html#l00034">Machine.h:34</a></div></div>
+<div class="ttc" id="classMachine_html_aaf66eeceebe514cbaa52779a51d9428f"><div class="ttname"><a href="../../dc/dda/classMachine.html#aaf66eeceebe514cbaa52779a51d9428f">Machine::m_entryMachine</a></div><div class="ttdeci">geometry_msgs::Pose2D m_entryMachine</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h_source.html#l00035">Machine.h:35</a></div></div>
 <div class="ttc" id="classMachine_html_aab3db5a627c26637726211b14850887c"><div class="ttname"><a href="../../dc/dda/classMachine.html#aab3db5a627c26637726211b14850887c">Machine::let</a></div><div class="ttdeci">void let()</div><div class="ttdef"><b>Definition:</b> <a href="../../de/df8/manager_2executeur__taches_2src_2Machine_8cpp_source.html#l00086">Machine.cpp:86</a></div></div>
 <div class="ttc" id="classMachine_html_adf98e6451e95ae717b9e4d9cb423aaa5"><div class="ttname"><a href="../../dc/dda/classMachine.html#adf98e6451e95ae717b9e4d9cb423aaa5">Machine::goTo</a></div><div class="ttdeci">void goTo(geometry_msgs::Pose2D pt_dest)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/df8/manager_2executeur__taches_2src_2Machine_8cpp_source.html#l00069">Machine.cpp:69</a></div></div>
 <div class="ttc" id="classCapStation_html_ac837b4101c7439b86b3dbeeed8936490"><div class="ttname"><a href="../../d6/ddd/classCapStation.html#ac837b4101c7439b86b3dbeeed8936490">CapStation::getGreyCap</a></div><div class="ttdeci">int getGreyCap()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dae/CapStation_8cpp_source.html#l00022">CapStation.cpp:22</a></div></div>
 <div class="ttc" id="classCapStation_html_af922effeefda6e3c96c1b55e7e476dad"><div class="ttname"><a href="../../d6/ddd/classCapStation.html#af922effeefda6e3c96c1b55e7e476dad">CapStation::majStockID</a></div><div class="ttdeci">void majStockID(int i, int val)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dae/CapStation_8cpp_source.html#l00035">CapStation.cpp:35</a></div></div>
-<div class="ttc" id="classMachine_html_adf6430b60c7e1cd468d0033e0c71f88d"><div class="ttname"><a href="../../dc/dda/classMachine.html#adf6430b60c7e1cd468d0033e0c71f88d">Machine::m_exitMachine</a></div><div class="ttdeci">geometry_msgs::Pose2D m_exitMachine</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h_source.html#l00035">Machine.h:35</a></div></div>
+<div class="ttc" id="classMachine_html_adf6430b60c7e1cd468d0033e0c71f88d"><div class="ttname"><a href="../../dc/dda/classMachine.html#adf6430b60c7e1cd468d0033e0c71f88d">Machine::m_exitMachine</a></div><div class="ttdeci">geometry_msgs::Pose2D m_exitMachine</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h_source.html#l00036">Machine.h:36</a></div></div>
 <div class="ttc" id="classCapStation_html_a0ed7392727257552e11aa39eaaaed1a8"><div class="ttname"><a href="../../d6/ddd/classCapStation.html#a0ed7392727257552e11aa39eaaaed1a8">CapStation::put_cap</a></div><div class="ttdeci">void put_cap(int color, int n_robot, int n_order, int machine)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dae/CapStation_8cpp_source.html#l00049">CapStation.cpp:49</a></div></div>
-<div class="ttc" id="classMachine_html_aa50932e5c132f331f13577da13050d4f"><div class="ttname"><a href="../../dc/dda/classMachine.html#aa50932e5c132f331f13577da13050d4f">Machine::m_type</a></div><div class="ttdeci">std::string m_type</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h_source.html#l00032">Machine.h:32</a></div></div>
+<div class="ttc" id="classMachine_html_aa50932e5c132f331f13577da13050d4f"><div class="ttname"><a href="../../dc/dda/classMachine.html#aa50932e5c132f331f13577da13050d4f">Machine::m_type</a></div><div class="ttdeci">std::string m_type</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h_source.html#l00033">Machine.h:33</a></div></div>
 <div class="ttc" id="CapStation_8h_html"><div class="ttname"><a href="../../dd/d74/CapStation_8h.html">CapStation.h</a></div></div>
 <div class="ttc" id="classCapStation_html_a3ee748b1649bffe8a75ef2f69230b164"><div class="ttname"><a href="../../d6/ddd/classCapStation.html#a3ee748b1649bffe8a75ef2f69230b164">CapStation::uncap</a></div><div class="ttdeci">void uncap(int color, int n_robot, int n_order, int machine)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dae/CapStation_8cpp_source.html#l00130">CapStation.cpp:130</a></div></div>
 <div class="ttc" id="classMachine_html_a059ef83687939eb920a03fb61e81be1f"><div class="ttname"><a href="../../dc/dda/classMachine.html#a059ef83687939eb920a03fb61e81be1f">Machine::startFinalAp</a></div><div class="ttdeci">void startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/df8/manager_2executeur__taches_2src_2Machine_8cpp_source.html#l00100">Machine.cpp:100</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

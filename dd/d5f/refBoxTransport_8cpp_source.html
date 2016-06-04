@@ -91,282 +91,282 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../dd/d5f/refBoxTransport_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">//#define BOOST_DATE_TIME_POSIX_TIME_STD_CONFIG</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;config/yaml.h&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;protobuf_comm/peer.h&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;utils/system/argparser.h&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;time.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;msgs/BeaconSignal.pb.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;msgs/OrderInfo.pb.h&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;msgs/GameState.pb.h&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;msgs/VersionInfo.pb.h&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;msgs/ExplorationInfo.pb.h&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;msgs/MachineInfo.pb.h&gt;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;msgs/MachineReport.pb.h&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;msgs/RobotInfo.pb.h&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;boost/asio.hpp&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;boost/date_time/posix_time/posix_time.hpp&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;boost/asio/time_traits.hpp&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;boost/date_time.hpp&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/d85/refBoxTransport_8h.html">refBoxTransport.h</a>&quot;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d0/d22/refBoxComm_8h.html">refBoxComm.h</a>&quot;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">//using namespace protobuf_comm;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">using namespace </span>llsf_msgs;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">using namespace </span>fawkes;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> quit = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">static</span> boost::asio::deadline_timer *m_timer;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#aac7325c0d4fa29093f664a9f9580f3df">   50</a></span>&#160;<a class="code" href="../../d8/d10/classRefBoxTransport.html#aac7325c0d4fa29093f664a9f9580f3df">RefBoxTransport::RefBoxTransport</a>()</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    m_timer = NULL;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    m_seq = 0;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    m_peer_public = NULL;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    m_peer_team = NULL;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    m_crypto_setup = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    m_quit = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    m_crypto_key = <span class="stringliteral">&quot;randomkey&quot;</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    m_cipher = <span class="stringliteral">&quot;aes-128-cbc&quot;</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    m_config = NULL;    </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">//#define BOOST_DATE_TIME_POSIX_TIME_STD_CONFIG</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;config/yaml.h&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;protobuf_comm/peer.h&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;utils/system/argparser.h&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;time.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;msgs/BeaconSignal.pb.h&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;msgs/OrderInfo.pb.h&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;msgs/GameState.pb.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;msgs/VersionInfo.pb.h&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;msgs/ExplorationInfo.pb.h&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;msgs/MachineInfo.pb.h&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;msgs/MachineReport.pb.h&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;msgs/RobotInfo.pb.h&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;boost/asio.hpp&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;boost/date_time/posix_time/posix_time.hpp&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;boost/asio/time_traits.hpp&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;boost/date_time.hpp&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/d85/refBoxTransport_8h.html">refBoxTransport.h</a>&quot;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d0/d22/refBoxComm_8h.html">refBoxComm.h</a>&quot;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">//using namespace protobuf_comm;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">using namespace </span>llsf_msgs;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">using namespace </span>fawkes;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> quit = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">static</span> boost::asio::deadline_timer *m_timer;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#aac7325c0d4fa29093f664a9f9580f3df">   49</a></span>&#160;<a class="code" href="../../d8/d10/classRefBoxTransport.html#aac7325c0d4fa29093f664a9f9580f3df">RefBoxTransport::RefBoxTransport</a>()</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    m_timer = NULL;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    m_seq = 0;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    m_peer_public = NULL;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    m_peer_team = NULL;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    m_crypto_setup = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    m_quit = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    m_crypto_key = <span class="stringliteral">&quot;randomkey&quot;</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    m_cipher = <span class="stringliteral">&quot;aes-128-cbc&quot;</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    m_config = NULL;    </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../dd/d5f/refBoxTransport_8cpp.html#a65ab0a8dd0d3c8bf028f7d3ef40dea97">   68</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/d5f/refBoxTransport_8cpp.html#a65ab0a8dd0d3c8bf028f7d3ef40dea97">get_actualTime</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> &amp;sec, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> &amp;nsec)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;{</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">struct </span>timespec actualTime;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    clock_gettime(CLOCK_REALTIME, &amp;actualTime);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    sec = actualTime.tv_sec;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    nsec = actualTime.tv_nsec;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../dd/d5f/refBoxTransport_8cpp.html#a65ab0a8dd0d3c8bf028f7d3ef40dea97">   67</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/d5f/refBoxTransport_8cpp.html#a65ab0a8dd0d3c8bf028f7d3ef40dea97">get_actualTime</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> &amp;sec, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> &amp;nsec)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;{</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">struct </span>timespec actualTime;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    clock_gettime(CLOCK_REALTIME, &amp;actualTime);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    sec = actualTime.tv_sec;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    nsec = actualTime.tv_nsec;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a9d033845871b0de27f81bb608763512c">   79</a></span>&#160;<a class="code" href="../../d8/d10/classRefBoxTransport.html#a9d033845871b0de27f81bb608763512c">RefBoxTransport::~RefBoxTransport</a>()</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;{</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">delete</span> m_peer_team;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">delete</span> m_peer_public;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">delete</span> m_config;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a9d033845871b0de27f81bb608763512c">   78</a></span>&#160;<a class="code" href="../../d8/d10/classRefBoxTransport.html#a9d033845871b0de27f81bb608763512c">RefBoxTransport::~RefBoxTransport</a>()</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;{</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">delete</span> m_peer_team;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">delete</span> m_peer_public;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">delete</span> m_config;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">// Delete all global objects allocated by libprotobuf</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    google::protobuf::ShutdownProtobufLibrary();</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a1858d8f0c60c2e0d9952f32ba09c14cc">   90</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a1858d8f0c60c2e0d9952f32ba09c14cc">RefBoxTransport::init</a>(std::string teamColor)</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;{</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    m_config = <span class="keyword">new</span> llsfrb::YamlConfiguration(CONFDIR);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    m_config-&gt;load(<span class="stringliteral">&quot;config.yaml&quot;</span>);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">//chargement des info du robot</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">if</span> (m_config-&gt;exists(<span class="stringliteral">&quot;/llsfrb/game/team&quot;</span>))</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        m_team_name = m_config-&gt;get_string(<span class="stringliteral">&quot;/llsfrb/game/team&quot;</span>);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    m_team_color = ((teamColor == <span class="stringliteral">&quot;cyan&quot;</span>) ? <a class="code" href="../../d2/d64/GtServerSrv_8h.html#ad243f93c16bc4c1d3e0a13b84421d760">CYAN</a> : <a class="code" href="../../d2/d64/GtServerSrv_8h.html#a6f699060902f800f12aaae150f3a708e">MAGENTA</a>);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="comment">//chargement de la config réseau</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">if</span> (m_config-&gt;exists(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/send-port&quot;</span>)</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            &amp;&amp; m_config-&gt;exists(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/recv-port&quot;</span>))</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        m_peer_public = <span class="keyword">new</span> ProtobufBroadcastPeer(</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                m_config-&gt;get_string(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/host&quot;</span>),</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                m_config-&gt;get_uint(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/recv-port&quot;</span>),</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                m_config-&gt;get_uint(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/send-port&quot;</span>));</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    } </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordflow">else</span> </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        m_peer_public = <span class="keyword">new</span> ProtobufBroadcastPeer(</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                m_config-&gt;get_string(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/host&quot;</span>),</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                m_config-&gt;get_uint(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/port&quot;</span>));</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    MessageRegister &amp; message_register = m_peer_public-&gt;message_register();</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    message_register.add_message_type&lt;BeaconSignal&gt;();</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    message_register.add_message_type&lt;<a class="code" href="../../d0/d67/classOrderInfo.html">OrderInfo</a>&gt;();</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    message_register.add_message_type&lt;<a class="code" href="../../d3/df3/classGameState.html">GameState</a>&gt;();</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    message_register.add_message_type&lt;VersionInfo&gt;();</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    message_register.add_message_type&lt;ExplorationInfo&gt;();</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    message_register.add_message_type&lt;MachineInfo&gt;();</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    message_register.add_message_type&lt;MachineReportInfo&gt;();</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    message_register.add_message_type&lt;<a class="code" href="../../d4/db2/classRobotInfo.html">RobotInfo</a>&gt;();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment">// Delete all global objects allocated by libprotobuf</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    google::protobuf::ShutdownProtobufLibrary();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a1858d8f0c60c2e0d9952f32ba09c14cc">   89</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a1858d8f0c60c2e0d9952f32ba09c14cc">RefBoxTransport::init</a>(std::string teamColor)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;{</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    m_config = <span class="keyword">new</span> llsfrb::YamlConfiguration(CONFDIR);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    m_config-&gt;load(<span class="stringliteral">&quot;config.yaml&quot;</span>);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="comment">//chargement des info du robot</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">if</span> (m_config-&gt;exists(<span class="stringliteral">&quot;/llsfrb/game/team&quot;</span>))</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        m_team_name = m_config-&gt;get_string(<span class="stringliteral">&quot;/llsfrb/game/team&quot;</span>);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    m_team_color = ((teamColor == <span class="stringliteral">&quot;cyan&quot;</span>) ? <a class="code" href="../../d3/d68/FinalApproaching_8h.html#ad212354a1f0c6e11ec93ec9ac50a668aaafe71cad474c15ce63b300c470eef8cc">CYAN</a> : <a class="code" href="../../d3/d68/FinalApproaching_8h.html#ad212354a1f0c6e11ec93ec9ac50a668aa56926c820ad72d0977e7ee44d9916e62">MAGENTA</a>);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">//chargement de la config réseau</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">if</span> (m_config-&gt;exists(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/send-port&quot;</span>)</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            &amp;&amp; m_config-&gt;exists(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/recv-port&quot;</span>))</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        m_peer_public = <span class="keyword">new</span> ProtobufBroadcastPeer(</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                m_config-&gt;get_string(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/host&quot;</span>),</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                m_config-&gt;get_uint(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/recv-port&quot;</span>),</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                m_config-&gt;get_uint(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/send-port&quot;</span>));</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    } </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">else</span> </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        m_peer_public = <span class="keyword">new</span> ProtobufBroadcastPeer(</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                m_config-&gt;get_string(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/host&quot;</span>),</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                m_config-&gt;get_uint(<span class="stringliteral">&quot;/llsfrb/comm/public-peer/port&quot;</span>));</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    MessageRegister &amp; message_register = m_peer_public-&gt;message_register();</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    message_register.add_message_type&lt;BeaconSignal&gt;();</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    message_register.add_message_type&lt;<a class="code" href="../../d0/d67/classOrderInfo.html">OrderInfo</a>&gt;();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    message_register.add_message_type&lt;<a class="code" href="../../d3/df3/classGameState.html">GameState</a>&gt;();</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    message_register.add_message_type&lt;VersionInfo&gt;();</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    message_register.add_message_type&lt;ExplorationInfo&gt;();</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    message_register.add_message_type&lt;MachineInfo&gt;();</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    message_register.add_message_type&lt;MachineReportInfo&gt;();</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    message_register.add_message_type&lt;<a class="code" href="../../d4/db2/classRobotInfo.html">RobotInfo</a>&gt;();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    std::string cfg_prefix = std::string(<span class="stringliteral">&quot;/llsfrb/comm/&quot;</span>)</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            + ((m_team_color == <a class="code" href="../../d2/d64/GtServerSrv_8h.html#ad243f93c16bc4c1d3e0a13b84421d760">CYAN</a>) ? <span class="stringliteral">&quot;cyan&quot;</span> : <span class="stringliteral">&quot;magenta&quot;</span>) + <span class="stringliteral">&quot;-peer/&quot;</span>;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordflow">if</span> (m_config-&gt;exists((cfg_prefix + <span class="stringliteral">&quot;send-port&quot;</span>).c_str())</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            &amp;&amp; m_config-&gt;exists((cfg_prefix + <span class="stringliteral">&quot;recv-port&quot;</span>).c_str())) </div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        m_peer_team = <span class="keyword">new</span> ProtobufBroadcastPeer(</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                m_config-&gt;get_string((cfg_prefix + <span class="stringliteral">&quot;host&quot;</span>).c_str()),</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                m_config-&gt;get_uint((cfg_prefix + <span class="stringliteral">&quot;recv-port&quot;</span>).c_str()),</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                m_config-&gt;get_uint((cfg_prefix + <span class="stringliteral">&quot;send-port&quot;</span>).c_str()),</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                &amp;message_register <span class="comment">/*, crypto_key, cipher*/</span>);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    } </div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordflow">else</span> </div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    {</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        m_peer_team = <span class="keyword">new</span> ProtobufBroadcastPeer(</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                m_config-&gt;get_string((cfg_prefix + <span class="stringliteral">&quot;host&quot;</span>).c_str()),</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                m_config-&gt;get_uint((cfg_prefix + <span class="stringliteral">&quot;port&quot;</span>).c_str()),</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                &amp;message_register<span class="comment">/*, crypto_key, cipher*/</span>);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    std::string cfg_prefix = std::string(<span class="stringliteral">&quot;/llsfrb/comm/&quot;</span>)</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            + ((m_team_color == <a class="code" href="../../d3/d68/FinalApproaching_8h.html#ad212354a1f0c6e11ec93ec9ac50a668aaafe71cad474c15ce63b300c470eef8cc">CYAN</a>) ? <span class="stringliteral">&quot;cyan&quot;</span> : <span class="stringliteral">&quot;magenta&quot;</span>) + <span class="stringliteral">&quot;-peer/&quot;</span>;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">if</span> (m_config-&gt;exists((cfg_prefix + <span class="stringliteral">&quot;send-port&quot;</span>).c_str())</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            &amp;&amp; m_config-&gt;exists((cfg_prefix + <span class="stringliteral">&quot;recv-port&quot;</span>).c_str())) </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        m_peer_team = <span class="keyword">new</span> ProtobufBroadcastPeer(</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                m_config-&gt;get_string((cfg_prefix + <span class="stringliteral">&quot;host&quot;</span>).c_str()),</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                m_config-&gt;get_uint((cfg_prefix + <span class="stringliteral">&quot;recv-port&quot;</span>).c_str()),</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                m_config-&gt;get_uint((cfg_prefix + <span class="stringliteral">&quot;send-port&quot;</span>).c_str()),</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                &amp;message_register <span class="comment">/*, crypto_key, cipher*/</span>);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    } </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">else</span> </div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    {</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        m_peer_team = <span class="keyword">new</span> ProtobufBroadcastPeer(</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                m_config-&gt;get_string((cfg_prefix + <span class="stringliteral">&quot;host&quot;</span>).c_str()),</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                m_config-&gt;get_uint((cfg_prefix + <span class="stringliteral">&quot;port&quot;</span>).c_str()),</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                &amp;message_register<span class="comment">/*, crypto_key, cipher*/</span>);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    }</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    m_peer_public-&gt;signal_received().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#a75975d1eab4c623fa10df2b910715043">RefBoxTransport::handle_message</a>, <span class="keyword">this</span>, _1, _2, _3, _4));</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    m_peer_public-&gt;signal_recv_error().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#a2fe66a694f4e5b70213330ab8de534ba">RefBoxTransport::handle_recv_error</a>, <span class="keyword">this</span>, _1, _2));</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    m_peer_public-&gt;signal_send_error().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#ae9ef6c5709de6f0096b5a37a8af5e554">RefBoxTransport::handle_send_error</a>, <span class="keyword">this</span>, _1));</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    </div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    m_peer_team-&gt;signal_received().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#a75975d1eab4c623fa10df2b910715043">RefBoxTransport::handle_message</a>, <span class="keyword">this</span>, _1, _2, _3, _4));</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    m_peer_team-&gt;signal_recv_error().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#a2fe66a694f4e5b70213330ab8de534ba">RefBoxTransport::handle_recv_error</a>, <span class="keyword">this</span>, _1, _2));</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    m_peer_team-&gt;signal_send_error().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#ae9ef6c5709de6f0096b5a37a8af5e554">RefBoxTransport::handle_send_error</a>, <span class="keyword">this</span>, _1));</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment">#if BOOST_ASIO_VERSION &gt;= 100601</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment">    // Construct a signal set registered for process termination.</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment">    boost::asio::signal_set signals(m_io_service, SIGINT, SIGTERM);</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment">    // Start an asynchronous wait for one of the signals to occur.</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="comment">    signals.async_wait(boost::bind(&amp;RefBoxTransport::signal_handler, this, _1, _2));</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="comment">#endif</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;}</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
-<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a6136c564317f1f258ee39565b96b5fdc">  170</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a6136c564317f1f258ee39565b96b5fdc">RefBoxTransport::startTimer</a>()</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;{</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    m_timer = <span class="keyword">new</span> boost::asio::deadline_timer(m_io_service);</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="comment">//m_timer_-&gt;expires_from_now(boost::posix_time::seconds(2));    </span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="comment">//m_timer_-&gt;expires_from_now(boost::posix_time::time_duration(0,0,2,0));    </span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    m_timer-&gt;expires_at( boost::posix_time::second_clock::local_time() + boost::posix_time::seconds(2));</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="comment">//m_timer_-&gt;async_wait(boost::bind(&amp;RefBoxTransport::handle_timer, this, _1));</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    m_timer-&gt;wait();</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    printf(<span class="stringliteral">&quot;Wait Timer&quot;</span>);</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;}</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
-<div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a043a8625554ebdf6b1c0cc63ef75c2f6">  182</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a043a8625554ebdf6b1c0cc63ef75c2f6">RefBoxTransport::update</a>()</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;{</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    m_io_service.run();</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    m_io_service.reset();</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;}</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
-<div class="line"><a name="l00188"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#abd5e059c53db03d2a7066e49e85a9278">  188</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#abd5e059c53db03d2a7066e49e85a9278">RefBoxTransport::isExit</a>()</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;{</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordflow">return</span> m_quit;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;}</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
-<div class="line"><a name="l00193"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a1ef4812a5daa013694c9ed493009af9a">  193</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a1ef4812a5daa013694c9ed493009af9a">RefBoxTransport::signal_handler</a>(<span class="keyword">const</span> boost::system::error_code&amp; error, <span class="keywordtype">int</span> signum)</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;{</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keywordflow">if</span> (!error) </div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    {</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        quit = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <span class="keywordflow">if</span> (m_timer) </div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        {</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            m_timer-&gt;cancel();</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        }</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    }</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;}</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
-<div class="line"><a name="l00206"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a2fe66a694f4e5b70213330ab8de534ba">  206</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a2fe66a694f4e5b70213330ab8de534ba">RefBoxTransport::handle_recv_error</a>(boost::asio::ip::udp::endpoint &amp;endpoint, std::string msg)</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;{</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    printf(<span class="stringliteral">&quot;Receive error from %s:%u: %s\n&quot;</span>,</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;     endpoint.address().to_string().c_str(), endpoint.port(), msg.c_str());</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;}</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
-<div class="line"><a name="l00212"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#ae9ef6c5709de6f0096b5a37a8af5e554">  212</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#ae9ef6c5709de6f0096b5a37a8af5e554">RefBoxTransport::handle_send_error</a>(std::string msg)</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;{</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    printf(<span class="stringliteral">&quot;Send error: %s\n&quot;</span>, msg.c_str());</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;}</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div>
-<div class="line"><a name="l00217"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a75975d1eab4c623fa10df2b910715043">  217</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a75975d1eab4c623fa10df2b910715043">RefBoxTransport::handle_message</a>(boost::asio::ip::udp::endpoint &amp;sender,</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;           uint16_t component_id, uint16_t msg_type,</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;           std::shared_ptr&lt;google::protobuf::Message&gt; msg)</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;{</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    m_dataMutex.lock();</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    m_peer_public-&gt;signal_received().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#a75975d1eab4c623fa10df2b910715043">RefBoxTransport::handle_message</a>, <span class="keyword">this</span>, _1, _2, _3, _4));</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    m_peer_public-&gt;signal_recv_error().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#a2fe66a694f4e5b70213330ab8de534ba">RefBoxTransport::handle_recv_error</a>, <span class="keyword">this</span>, _1, _2));</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    m_peer_public-&gt;signal_send_error().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#ae9ef6c5709de6f0096b5a37a8af5e554">RefBoxTransport::handle_send_error</a>, <span class="keyword">this</span>, _1));</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    m_peer_team-&gt;signal_received().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#a75975d1eab4c623fa10df2b910715043">RefBoxTransport::handle_message</a>, <span class="keyword">this</span>, _1, _2, _3, _4));</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    m_peer_team-&gt;signal_recv_error().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#a2fe66a694f4e5b70213330ab8de534ba">RefBoxTransport::handle_recv_error</a>, <span class="keyword">this</span>, _1, _2));</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    m_peer_team-&gt;signal_send_error().connect(boost::bind(&amp;<a class="code" href="../../d8/d10/classRefBoxTransport.html#ae9ef6c5709de6f0096b5a37a8af5e554">RefBoxTransport::handle_send_error</a>, <span class="keyword">this</span>, _1));</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment">#if BOOST_ASIO_VERSION &gt;= 100601</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment">    // Construct a signal set registered for process termination.</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment">    boost::asio::signal_set signals(m_io_service, SIGINT, SIGTERM);</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment">    // Start an asynchronous wait for one of the signals to occur.</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment">    signals.async_wait(boost::bind(&amp;RefBoxTransport::signal_handler, this, _1, _2));</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="comment">#endif</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;}</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a6136c564317f1f258ee39565b96b5fdc">  169</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a6136c564317f1f258ee39565b96b5fdc">RefBoxTransport::startTimer</a>()</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;{</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    m_timer = <span class="keyword">new</span> boost::asio::deadline_timer(m_io_service);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="comment">//m_timer_-&gt;expires_from_now(boost::posix_time::seconds(2));    </span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="comment">//m_timer_-&gt;expires_from_now(boost::posix_time::time_duration(0,0,2,0));    </span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    m_timer-&gt;expires_at( boost::posix_time::second_clock::local_time() + boost::posix_time::seconds(2));</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="comment">//m_timer_-&gt;async_wait(boost::bind(&amp;RefBoxTransport::handle_timer, this, _1));</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    m_timer-&gt;wait();</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    printf(<span class="stringliteral">&quot;Wait Timer&quot;</span>);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;}</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
+<div class="line"><a name="l00181"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a043a8625554ebdf6b1c0cc63ef75c2f6">  181</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a043a8625554ebdf6b1c0cc63ef75c2f6">RefBoxTransport::update</a>()</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;{</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    m_io_service.run();</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    m_io_service.reset();</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;}</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#abd5e059c53db03d2a7066e49e85a9278">  187</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#abd5e059c53db03d2a7066e49e85a9278">RefBoxTransport::isExit</a>()</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;{</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordflow">return</span> m_quit;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;}</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
+<div class="line"><a name="l00192"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a1ef4812a5daa013694c9ed493009af9a">  192</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a1ef4812a5daa013694c9ed493009af9a">RefBoxTransport::signal_handler</a>(<span class="keyword">const</span> boost::system::error_code&amp; error, <span class="keywordtype">int</span> signum)</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;{</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordflow">if</span> (!error) </div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    {</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        quit = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <span class="keywordflow">if</span> (m_timer) </div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        {</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            m_timer-&gt;cancel();</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        }</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    }</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;}</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;</div>
+<div class="line"><a name="l00205"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a2fe66a694f4e5b70213330ab8de534ba">  205</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a2fe66a694f4e5b70213330ab8de534ba">RefBoxTransport::handle_recv_error</a>(boost::asio::ip::udp::endpoint &amp;endpoint, std::string msg)</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;{</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    printf(<span class="stringliteral">&quot;Receive error from %s:%u: %s\n&quot;</span>,</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;     endpoint.address().to_string().c_str(), endpoint.port(), msg.c_str());</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;}</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
+<div class="line"><a name="l00211"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#ae9ef6c5709de6f0096b5a37a8af5e554">  211</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#ae9ef6c5709de6f0096b5a37a8af5e554">RefBoxTransport::handle_send_error</a>(std::string msg)</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;{</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    printf(<span class="stringliteral">&quot;Send error: %s\n&quot;</span>, msg.c_str());</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;}</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
+<div class="line"><a name="l00216"></a><span class="lineno"><a class="line" href="../../d8/d10/classRefBoxTransport.html#a75975d1eab4c623fa10df2b910715043">  216</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d10/classRefBoxTransport.html#a75975d1eab4c623fa10df2b910715043">RefBoxTransport::handle_message</a>(boost::asio::ip::udp::endpoint &amp;sender,</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;           uint16_t component_id, uint16_t msg_type,</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;           std::shared_ptr&lt;google::protobuf::Message&gt; msg)</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;{</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    m_dataMutex.lock();</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    </div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    </div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    </div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="comment">//first we test if we need to change connexion to encryption mode</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    std::shared_ptr&lt;GameState&gt; gs;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keywordflow">if</span> ((gs = std::dynamic_pointer_cast&lt;GameState&gt;(msg))) </div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    {</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <span class="keywordflow">if</span> (m_team_name == gs-&gt;team_cyan() || m_team_name == gs-&gt;team_magenta()) </div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        {</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            <span class="keywordflow">if</span> (m_team_name == gs-&gt;team_cyan() &amp;&amp; m_team_color != <a class="code" href="../../d2/d64/GtServerSrv_8h.html#ad243f93c16bc4c1d3e0a13b84421d760">CYAN</a>) </div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            {</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                printf(<span class="stringliteral">&quot;WARNING: sending as magenta, but our team is announced as cyan by refbox!\n&quot;</span>);</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            } </div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (m_team_name == gs-&gt;team_magenta() &amp;&amp; m_team_color != <a class="code" href="../../d2/d64/GtServerSrv_8h.html#a6f699060902f800f12aaae150f3a708e">MAGENTA</a>) </div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            {</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                printf(<span class="stringliteral">&quot;WARNING: sending as cyan, but our team is announced as magenta by refbox!\n&quot;</span>);</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            }</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            <span class="keywordflow">if</span> (!m_crypto_setup) </div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            {</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                m_crypto_setup = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                <span class="keywordflow">try</span> </div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                {</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                    m_crypto_key = m_config-&gt;get_string(</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                            (<span class="stringliteral">&quot;/llsfrb/game/crypto-keys/&quot;</span> + m_team_name).c_str());</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                    <span class="comment">//printf(&quot;Set crypto key to %s (cipher %s)\n&quot;,</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                    <span class="comment">//m_crypto_key.c_str(), m_cipher.c_str());</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                    m_peer_team-&gt;setup_crypto(m_crypto_key, m_cipher);</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                } </div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                <span class="keywordflow">catch</span> (Exception &amp;e) </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                {</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                    printf(<span class="stringliteral">&quot;No encryption key configured for team, not enabling crypto&quot;</span>);</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                }</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            }</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        } </div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (m_crypto_setup) </div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        {</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            printf(<span class="stringliteral">&quot;Our team is not set, training game? Disabling crypto.\n&quot;</span>);</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            m_crypto_setup = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            m_peer_team-&gt;setup_crypto(<span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        }</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    }</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="comment">//then we process messages</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    m_msgDispatch-&gt;Go(*msg);</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    m_dataMutex.unlock();</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;}</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
-<div class="ttc" id="GtServerSrv_8h_html_ad243f93c16bc4c1d3e0a13b84421d760"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html#ad243f93c16bc4c1d3e0a13b84421d760">CYAN</a></div><div class="ttdeci">#define CYAN</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d64/GtServerSrv_8h_source.html#l00058">GtServerSrv.h:58</a></div></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="comment">//first we test if we need to change connexion to encryption mode</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    std::shared_ptr&lt;GameState&gt; gs;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keywordflow">if</span> ((gs = std::dynamic_pointer_cast&lt;GameState&gt;(msg))) </div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    {</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="keywordflow">if</span> (m_team_name == gs-&gt;team_cyan() || m_team_name == gs-&gt;team_magenta()) </div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        {</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            <span class="keywordflow">if</span> (m_team_name == gs-&gt;team_cyan() &amp;&amp; m_team_color != <a class="code" href="../../d3/d68/FinalApproaching_8h.html#ad212354a1f0c6e11ec93ec9ac50a668aaafe71cad474c15ce63b300c470eef8cc">CYAN</a>) </div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            {</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                printf(<span class="stringliteral">&quot;WARNING: sending as magenta, but our team is announced as cyan by refbox!\n&quot;</span>);</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            } </div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (m_team_name == gs-&gt;team_magenta() &amp;&amp; m_team_color != <a class="code" href="../../d3/d68/FinalApproaching_8h.html#ad212354a1f0c6e11ec93ec9ac50a668aa56926c820ad72d0977e7ee44d9916e62">MAGENTA</a>) </div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            {</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                printf(<span class="stringliteral">&quot;WARNING: sending as cyan, but our team is announced as magenta by refbox!\n&quot;</span>);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            }</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            <span class="keywordflow">if</span> (!m_crypto_setup) </div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            {</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                m_crypto_setup = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                <span class="keywordflow">try</span> </div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                {</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                    m_crypto_key = m_config-&gt;get_string(</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                            (<span class="stringliteral">&quot;/llsfrb/game/crypto-keys/&quot;</span> + m_team_name).c_str());</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                    <span class="comment">//printf(&quot;Set crypto key to %s (cipher %s)\n&quot;,</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                    <span class="comment">//m_crypto_key.c_str(), m_cipher.c_str());</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                    m_peer_team-&gt;setup_crypto(m_crypto_key, m_cipher);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                } </div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                <span class="keywordflow">catch</span> (Exception &amp;e) </div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                {</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                    printf(<span class="stringliteral">&quot;No encryption key configured for team, not enabling crypto&quot;</span>);</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                }</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            }</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        } </div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (m_crypto_setup) </div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        {</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            printf(<span class="stringliteral">&quot;Our team is not set, training game? Disabling crypto.\n&quot;</span>);</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            m_crypto_setup = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            m_peer_team-&gt;setup_crypto(<span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        }</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    }</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="comment">//then we process messages</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    m_msgDispatch-&gt;Go(*msg);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    m_dataMutex.unlock();</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;}</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;</div>
 <div class="ttc" id="refBoxComm_8h_html"><div class="ttname"><a href="../../d0/d22/refBoxComm_8h.html">refBoxComm.h</a></div></div>
 <div class="ttc" id="refBoxTransport_8h_html"><div class="ttname"><a href="../../d1/d85/refBoxTransport_8h.html">refBoxTransport.h</a></div><div class="ttdoc">bibliothèque de gestion de la communication avec la referee Box pour la competition robocup (Logistic...</div></div>
 <div class="ttc" id="classRobotInfo_html"><div class="ttname"><a href="../../d4/db2/classRobotInfo.html">RobotInfo</a></div><div class="ttdef"><b>Definition:</b> <a href="../../db/da6/robotInfo_8h_source.html#l00019">robotInfo.h:19</a></div></div>
-<div class="ttc" id="classRefBoxTransport_html_a1ef4812a5daa013694c9ed493009af9a"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a1ef4812a5daa013694c9ed493009af9a">RefBoxTransport::signal_handler</a></div><div class="ttdeci">void signal_handler(const boost::system::error_code &amp;error, int signum)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00193">refBoxTransport.cpp:193</a></div></div>
-<div class="ttc" id="GtServerSrv_8h_html_a6f699060902f800f12aaae150f3a708e"><div class="ttname"><a href="../../d2/d64/GtServerSrv_8h.html#a6f699060902f800f12aaae150f3a708e">MAGENTA</a></div><div class="ttdeci">#define MAGENTA</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d64/GtServerSrv_8h_source.html#l00059">GtServerSrv.h:59</a></div></div>
+<div class="ttc" id="FinalApproaching_8h_html_ad212354a1f0c6e11ec93ec9ac50a668aaafe71cad474c15ce63b300c470eef8cc"><div class="ttname"><a href="../../d3/d68/FinalApproaching_8h.html#ad212354a1f0c6e11ec93ec9ac50a668aaafe71cad474c15ce63b300c470eef8cc">CYAN</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d68/FinalApproaching_8h_source.html#l00045">FinalApproaching.h:45</a></div></div>
+<div class="ttc" id="classRefBoxTransport_html_a1ef4812a5daa013694c9ed493009af9a"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a1ef4812a5daa013694c9ed493009af9a">RefBoxTransport::signal_handler</a></div><div class="ttdeci">void signal_handler(const boost::system::error_code &amp;error, int signum)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00192">refBoxTransport.cpp:192</a></div></div>
 <div class="ttc" id="classOrderInfo_html"><div class="ttname"><a href="../../d0/d67/classOrderInfo.html">OrderInfo</a></div><div class="ttdoc">classe récupérant les ordres de la RefBox </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dfd/orderInfo_8h_source.html#l00019">orderInfo.h:19</a></div></div>
-<div class="ttc" id="classRefBoxTransport_html_aac7325c0d4fa29093f664a9f9580f3df"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#aac7325c0d4fa29093f664a9f9580f3df">RefBoxTransport::RefBoxTransport</a></div><div class="ttdeci">RefBoxTransport()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00050">refBoxTransport.cpp:50</a></div></div>
-<div class="ttc" id="classRefBoxTransport_html_a6136c564317f1f258ee39565b96b5fdc"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a6136c564317f1f258ee39565b96b5fdc">RefBoxTransport::startTimer</a></div><div class="ttdeci">void startTimer()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00170">refBoxTransport.cpp:170</a></div></div>
-<div class="ttc" id="classRefBoxTransport_html_abd5e059c53db03d2a7066e49e85a9278"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#abd5e059c53db03d2a7066e49e85a9278">RefBoxTransport::isExit</a></div><div class="ttdeci">bool isExit()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00188">refBoxTransport.cpp:188</a></div></div>
-<div class="ttc" id="refBoxTransport_8cpp_html_a65ab0a8dd0d3c8bf028f7d3ef40dea97"><div class="ttname"><a href="../../dd/d5f/refBoxTransport_8cpp.html#a65ab0a8dd0d3c8bf028f7d3ef40dea97">get_actualTime</a></div><div class="ttdeci">void get_actualTime(unsigned long &amp;sec, unsigned long &amp;nsec)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00068">refBoxTransport.cpp:68</a></div></div>
-<div class="ttc" id="classRefBoxTransport_html_a9d033845871b0de27f81bb608763512c"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a9d033845871b0de27f81bb608763512c">RefBoxTransport::~RefBoxTransport</a></div><div class="ttdeci">~RefBoxTransport()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00079">refBoxTransport.cpp:79</a></div></div>
-<div class="ttc" id="classRefBoxTransport_html_a1858d8f0c60c2e0d9952f32ba09c14cc"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a1858d8f0c60c2e0d9952f32ba09c14cc">RefBoxTransport::init</a></div><div class="ttdeci">void init(std::string teamColor)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00090">refBoxTransport.cpp:90</a></div></div>
+<div class="ttc" id="classRefBoxTransport_html_aac7325c0d4fa29093f664a9f9580f3df"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#aac7325c0d4fa29093f664a9f9580f3df">RefBoxTransport::RefBoxTransport</a></div><div class="ttdeci">RefBoxTransport()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00049">refBoxTransport.cpp:49</a></div></div>
+<div class="ttc" id="FinalApproaching_8h_html_ad212354a1f0c6e11ec93ec9ac50a668aa56926c820ad72d0977e7ee44d9916e62"><div class="ttname"><a href="../../d3/d68/FinalApproaching_8h.html#ad212354a1f0c6e11ec93ec9ac50a668aa56926c820ad72d0977e7ee44d9916e62">MAGENTA</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d68/FinalApproaching_8h_source.html#l00046">FinalApproaching.h:46</a></div></div>
+<div class="ttc" id="classRefBoxTransport_html_a6136c564317f1f258ee39565b96b5fdc"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a6136c564317f1f258ee39565b96b5fdc">RefBoxTransport::startTimer</a></div><div class="ttdeci">void startTimer()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00169">refBoxTransport.cpp:169</a></div></div>
+<div class="ttc" id="classRefBoxTransport_html_abd5e059c53db03d2a7066e49e85a9278"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#abd5e059c53db03d2a7066e49e85a9278">RefBoxTransport::isExit</a></div><div class="ttdeci">bool isExit()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00187">refBoxTransport.cpp:187</a></div></div>
+<div class="ttc" id="refBoxTransport_8cpp_html_a65ab0a8dd0d3c8bf028f7d3ef40dea97"><div class="ttname"><a href="../../dd/d5f/refBoxTransport_8cpp.html#a65ab0a8dd0d3c8bf028f7d3ef40dea97">get_actualTime</a></div><div class="ttdeci">void get_actualTime(unsigned long &amp;sec, unsigned long &amp;nsec)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00067">refBoxTransport.cpp:67</a></div></div>
+<div class="ttc" id="classRefBoxTransport_html_a9d033845871b0de27f81bb608763512c"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a9d033845871b0de27f81bb608763512c">RefBoxTransport::~RefBoxTransport</a></div><div class="ttdeci">~RefBoxTransport()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00078">refBoxTransport.cpp:78</a></div></div>
+<div class="ttc" id="classRefBoxTransport_html_a1858d8f0c60c2e0d9952f32ba09c14cc"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a1858d8f0c60c2e0d9952f32ba09c14cc">RefBoxTransport::init</a></div><div class="ttdeci">void init(std::string teamColor)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00089">refBoxTransport.cpp:89</a></div></div>
 <div class="ttc" id="classGameState_html"><div class="ttname"><a href="../../d3/df3/classGameState.html">GameState</a></div><div class="ttdoc">classe représentant l&#39;état du jeu </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/db5/gameState_8h_source.html#l00016">gameState.h:16</a></div></div>
-<div class="ttc" id="classRefBoxTransport_html_a2fe66a694f4e5b70213330ab8de534ba"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a2fe66a694f4e5b70213330ab8de534ba">RefBoxTransport::handle_recv_error</a></div><div class="ttdeci">void handle_recv_error(boost::asio::ip::udp::endpoint &amp;endpoint, std::string msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00206">refBoxTransport.cpp:206</a></div></div>
-<div class="ttc" id="classRefBoxTransport_html_a75975d1eab4c623fa10df2b910715043"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a75975d1eab4c623fa10df2b910715043">RefBoxTransport::handle_message</a></div><div class="ttdeci">void handle_message(boost::asio::ip::udp::endpoint &amp;sender, uint16_t component_id, uint16_t msg_type, std::shared_ptr&lt; google::protobuf::Message &gt; msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00217">refBoxTransport.cpp:217</a></div></div>
-<div class="ttc" id="classRefBoxTransport_html_a043a8625554ebdf6b1c0cc63ef75c2f6"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a043a8625554ebdf6b1c0cc63ef75c2f6">RefBoxTransport::update</a></div><div class="ttdeci">void update()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00182">refBoxTransport.cpp:182</a></div></div>
-<div class="ttc" id="classRefBoxTransport_html_ae9ef6c5709de6f0096b5a37a8af5e554"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#ae9ef6c5709de6f0096b5a37a8af5e554">RefBoxTransport::handle_send_error</a></div><div class="ttdeci">void handle_send_error(std::string msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00212">refBoxTransport.cpp:212</a></div></div>
+<div class="ttc" id="classRefBoxTransport_html_a2fe66a694f4e5b70213330ab8de534ba"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a2fe66a694f4e5b70213330ab8de534ba">RefBoxTransport::handle_recv_error</a></div><div class="ttdeci">void handle_recv_error(boost::asio::ip::udp::endpoint &amp;endpoint, std::string msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00205">refBoxTransport.cpp:205</a></div></div>
+<div class="ttc" id="classRefBoxTransport_html_a75975d1eab4c623fa10df2b910715043"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a75975d1eab4c623fa10df2b910715043">RefBoxTransport::handle_message</a></div><div class="ttdeci">void handle_message(boost::asio::ip::udp::endpoint &amp;sender, uint16_t component_id, uint16_t msg_type, std::shared_ptr&lt; google::protobuf::Message &gt; msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00216">refBoxTransport.cpp:216</a></div></div>
+<div class="ttc" id="classRefBoxTransport_html_a043a8625554ebdf6b1c0cc63ef75c2f6"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#a043a8625554ebdf6b1c0cc63ef75c2f6">RefBoxTransport::update</a></div><div class="ttdeci">void update()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00181">refBoxTransport.cpp:181</a></div></div>
+<div class="ttc" id="classRefBoxTransport_html_ae9ef6c5709de6f0096b5a37a8af5e554"><div class="ttname"><a href="../../d8/d10/classRefBoxTransport.html#ae9ef6c5709de6f0096b5a37a8af5e554">RefBoxTransport::handle_send_error</a></div><div class="ttdeci">void handle_send_error(std::string msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5f/refBoxTransport_8cpp_source.html#l00211">refBoxTransport.cpp:211</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

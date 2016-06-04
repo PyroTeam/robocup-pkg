@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: navigation/approche_finale/src/ar_tag_reader_node.cpp Source File</title>
+<title>robocup-pkg: navigation/final_approach/src/ar_tag_reader_node.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -82,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_38722003f1817e0081d21738b24fea49.html">approche_finale</a></li><li class="navelem"><a class="el" href="../../dir_c470810c73ea8647b07f58f7a9add5c8.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_336feb60a69ae201c733df631f5f358c.html">final_approach</a></li><li class="navelem"><a class="el" href="../../dir_0eea8483e168af5b96b085398ee65a4d.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -90,10 +90,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="title">ar_tag_reader_node.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="../../df/d88/ar__tag__reader__node_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;std_msgs/Int16.h&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;ar_track_alvar_msgs/AlvarMarkers.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Twist.h&quot;</span></div>
+<a href="../../df/d88/ar__tag__reader__node_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;std_msgs/Int16.h&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;geometry_msgs/Twist.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;ar_track_alvar_msgs/AlvarMarkers.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
 <div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">    6</a></span>&#160;ros::Publisher <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a>;</div>
 <div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="../../df/d88/ar__tag__reader__node_8cpp.html#a79a982036e5591bf27af7cc2edcd6f4c">    7</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#a79a982036e5591bf27af7cc2edcd6f4c">positionX</a> = 0;</div>
@@ -154,16 +154,15 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    ros::NodeHandle n;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    ros::Rate <a class="code" href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a>(100);</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Subscribe&quot;</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    ros::Subscriber artag_topic = n.subscribe&lt;ar_track_alvar_msgs::AlvarMarkers&gt;(<span class="stringliteral">&quot;computerVision/ar_pose_marker&quot;</span>, 1000, <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#aa4125bc4f704d3677589f957c1463e45">artagCallback</a>);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a> = n.advertise&lt;geometry_msgs::Twist&gt;(<span class="stringliteral">&quot;hardware/cmd_vel&quot;</span>,1000);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    ros::Subscriber artag_topic = n.subscribe&lt;ar_track_alvar_msgs::AlvarMarkers&gt;(<span class="stringliteral">&quot;computerVision/ar_pose_marker&quot;</span>, 1, <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#aa4125bc4f704d3677589f957c1463e45">artagCallback</a>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a> = n.advertise&lt;geometry_msgs::Twist&gt;(<span class="stringliteral">&quot;hardware/cmd_vel&quot;</span>, 1);</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">while</span>(ros::ok())</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        r.sleep();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        ros::spinOnce();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    } </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        r.sleep();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        ros::spinOnce();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  }</div>
 <div class="ttc" id="ar__tag__reader__node_8cpp_html_aa4125bc4f704d3677589f957c1463e45"><div class="ttname"><a href="../../df/d88/ar__tag__reader__node_8cpp.html#aa4125bc4f704d3677589f957c1463e45">artagCallback</a></div><div class="ttdeci">void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d88/ar__tag__reader__node_8cpp_source.html#l00010">ar_tag_reader_node.cpp:10</a></div></div>
 <div class="ttc" id="visualisation_8cpp_html_a4a07afa2d32ef986e4a2fa3e66b5f64f"><div class="ttname"><a href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a></div><div class="ttdeci">geometry_msgs::Pose2D r</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfc/visualisation_8cpp_source.html#l00023">visualisation.cpp:23</a></div></div>
 <div class="ttc" id="ar__tag__reader__node_8cpp_html_a7d1adaf3823d27fc5f19c8536c58e76e"><div class="ttname"><a href="../../df/d88/ar__tag__reader__node_8cpp.html#a7d1adaf3823d27fc5f19c8536c58e76e">positionZ</a></div><div class="ttdeci">float positionZ</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d88/ar__tag__reader__node_8cpp_source.html#l00008">ar_tag_reader_node.cpp:8</a></div></div>
@@ -174,7 +173,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

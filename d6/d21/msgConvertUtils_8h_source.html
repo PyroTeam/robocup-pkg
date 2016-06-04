@@ -91,29 +91,29 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../d6/d21/msgConvertUtils_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#ifndef MSGCONVERTUTILS_H_</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define MSGCONVERTUTILS_H_</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;Activity.pb.h&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;Beacon.pb.h&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d3/d18/encryptUtils_8h.html">encryptUtils.h</a>&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;comm_msg/activity.h&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d21/msgConvertUtils_8h.html#a4df801b083b369fed11ef41b3040a931">rosToProtobuf</a>(<span class="keyword">const</span> boost::shared_ptr&lt;const comm_msg::activity&gt; &amp;msg,</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                   std::shared_ptr&lt;google::protobuf::Message&gt; &amp;proto_msg);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d21/msgConvertUtils_8h.html#a8ccbf45fefc652021d45db46507c29f0">ProtobufToRos</a>(<span class="keyword">const</span> std::shared_ptr&lt;google::protobuf::Message&gt; &amp;proto_msg,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                   <span class="keyword">const</span> boost::shared_ptr&lt;const comm_msg::activity&gt; &amp;msg);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* MSGCONVERTUTILS_H_ */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="msgConvertUtils_8h_html_a4df801b083b369fed11ef41b3040a931"><div class="ttname"><a href="../../d6/d21/msgConvertUtils_8h.html#a4df801b083b369fed11ef41b3040a931">rosToProtobuf</a></div><div class="ttdeci">void rosToProtobuf(const boost::shared_ptr&lt; const comm_msg::activity &gt; &amp;msg, std::shared_ptr&lt; google::protobuf::Message &gt; &amp;proto_msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dab/msgConvertUtils_8cpp_source.html#l00016">msgConvertUtils.cpp:16</a></div></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#ifndef MSGCONVERTUTILS_H_</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define MSGCONVERTUTILS_H_</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;Activity.pb.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;Beacon.pb.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d3/d18/encryptUtils_8h.html">encryptUtils.h</a>&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;comm_msg/activity.h&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d21/msgConvertUtils_8h.html#a4df801b083b369fed11ef41b3040a931">rosToProtobuf</a>(<span class="keyword">const</span> boost::shared_ptr&lt;const comm_msg::activity&gt; &amp;msg,</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                   std::shared_ptr&lt;google::protobuf::Message&gt; &amp;proto_msg);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d21/msgConvertUtils_8h.html#a8ccbf45fefc652021d45db46507c29f0">ProtobufToRos</a>(<span class="keyword">const</span> std::shared_ptr&lt;google::protobuf::Message&gt; &amp;proto_msg,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                   <span class="keyword">const</span> boost::shared_ptr&lt;const comm_msg::activity&gt; &amp;msg);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* MSGCONVERTUTILS_H_ */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="msgConvertUtils_8h_html_a4df801b083b369fed11ef41b3040a931"><div class="ttname"><a href="../../d6/d21/msgConvertUtils_8h.html#a4df801b083b369fed11ef41b3040a931">rosToProtobuf</a></div><div class="ttdeci">void rosToProtobuf(const boost::shared_ptr&lt; const comm_msg::activity &gt; &amp;msg, std::shared_ptr&lt; google::protobuf::Message &gt; &amp;proto_msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dab/msgConvertUtils_8cpp_source.html#l00015">msgConvertUtils.cpp:15</a></div></div>
 <div class="ttc" id="msgConvertUtils_8h_html_a8ccbf45fefc652021d45db46507c29f0"><div class="ttname"><a href="../../d6/d21/msgConvertUtils_8h.html#a8ccbf45fefc652021d45db46507c29f0">ProtobufToRos</a></div><div class="ttdeci">void ProtobufToRos(const std::shared_ptr&lt; google::protobuf::Message &gt; &amp;proto_msg, const boost::shared_ptr&lt; const comm_msg::activity &gt; &amp;msg)</div></div>
 <div class="ttc" id="encryptUtils_8h_html"><div class="ttname"><a href="../../d3/d18/encryptUtils_8h.html">encryptUtils.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

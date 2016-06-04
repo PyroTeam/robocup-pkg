@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: navigation/approche_finale/src/finalApproaching_node.cpp Source File</title>
+<title>robocup-pkg: navigation/final_approach/src/finalApproaching_node.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -82,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_38722003f1817e0081d21738b24fea49.html">approche_finale</a></li><li class="navelem"><a class="el" href="../../dir_c470810c73ea8647b07f58f7a9add5c8.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_2a32cbe4baf7dc2ab0e694a0b4fbf3df.html">navigation</a></li><li class="navelem"><a class="el" href="../../dir_336feb60a69ae201c733df631f5f358c.html">final_approach</a></li><li class="navelem"><a class="el" href="../../dir_0eea8483e168af5b96b085398ee65a4d.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -90,30 +90,31 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="title">finalApproaching_node.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d4/d90/finalApproaching__node_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;actionlib/server/simple_action_server.h&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;manager_msg/finalApproachingAction.h&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d7/df9/finalApproaching_8h.html">finalApproaching.h</a>&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d7/d8d/sharps_8h.html">sharps.h</a>&quot;</span></div>
+<a href="../../d4/d90/finalApproaching__node_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d3/d68/FinalApproaching_8h.html">final_approach/FinalApproaching.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d9/db4/Sharps_8h.html">final_approach/Sharps.h</a>&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;actionlib/server/simple_action_server.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="../../d4/d90/finalApproaching__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">    7</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d4/d90/finalApproaching__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;finalApproaching_node&quot;</span>);</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    ros::NodeHandle n;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    ros::Time::init();</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Waiting a request&quot;</span>);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="comment">//Sharps sharps;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="../../de/da4/classfinalApproaching.html">finalApproaching</a> <a class="code" href="../../de/da4/classfinalApproaching.html">finalApproaching</a>(<span class="stringliteral">&quot;navigation/&quot;</span> + ros::this_node::getName());</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    ros::spin();</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
-<div class="ttc" id="finalApproaching_8h_html"><div class="ttname"><a href="../../d7/df9/finalApproaching_8h.html">finalApproaching.h</a></div></div>
-<div class="ttc" id="sharps_8h_html"><div class="ttname"><a href="../../d7/d8d/sharps_8h.html">sharps.h</a></div></div>
-<div class="ttc" id="classfinalApproaching_html"><div class="ttname"><a href="../../de/da4/classfinalApproaching.html">finalApproaching</a></div><div class="ttdoc">classe principale de l approche finale </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df9/finalApproaching_8h_source.html#l00022">finalApproaching.h:22</a></div></div>
-<div class="ttc" id="finalApproaching__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d4/d90/finalApproaching__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d90/finalApproaching__node_8cpp_source.html#l00007">finalApproaching_node.cpp:7</a></div></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;final_approach_msg/FinalApproachingAction.h&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../d4/d90/finalApproaching__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">    9</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d4/d90/finalApproaching__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;finalApproaching_node&quot;</span>);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    ros::NodeHandle n;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    ros::Time::init();</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Waiting a request&quot;</span>);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="../../d6/d70/classFinalApproaching.html">FinalApproaching</a> finalApproaching(<span class="stringliteral">&quot;navigation/finalApproach&quot;</span>);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    ros::spin();</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
+<div class="ttc" id="FinalApproaching_8h_html"><div class="ttname"><a href="../../d3/d68/FinalApproaching_8h.html">FinalApproaching.h</a></div></div>
+<div class="ttc" id="classFinalApproaching_html"><div class="ttname"><a href="../../d6/d70/classFinalApproaching.html">FinalApproaching</a></div><div class="ttdoc">Classe principale de l&#39;approche finale. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d68/FinalApproaching_8h_source.html#l00096">FinalApproaching.h:96</a></div></div>
+<div class="ttc" id="Sharps_8h_html"><div class="ttname"><a href="../../d9/db4/Sharps_8h.html">Sharps.h</a></div></div>
+<div class="ttc" id="finalApproaching__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d4/d90/finalApproaching__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d90/finalApproaching__node_8cpp_source.html#l00009">finalApproaching_node.cpp:9</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

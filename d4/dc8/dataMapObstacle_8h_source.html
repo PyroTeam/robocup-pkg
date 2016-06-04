@@ -91,76 +91,76 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../d4/dc8/dataMapObstacle_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#ifndef DATAMAPOBSTACLE_H</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DATAMAPOBSTACLE_H</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/PoseStamped.h&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Point.h&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose.h&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;nav_msgs/OccupancyGrid.h&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;sensor_msgs/PointCloud.h&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Point32.h&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../de/d56/classDataMapObstacle.html">   27</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/d56/classDataMapObstacle.html">DataMapObstacle</a></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ros::Subscriber m_grid_sub;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    ros::Publisher m_pointCloud_pub;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">bool</span> m_obstacle;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    geometry_msgs::Point m_pointObstacle;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    nav_msgs::OccupancyGrid m_grid;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">bool</span> m_receiveGrid;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    std::vector&lt;geometry_msgs::Point&gt; m_vectorObstaclePoints;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    std::vector&lt;int&gt; m_vectorObstacle;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    sensor_msgs::PointCloud m_pointCloud;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ros::NodeHandle m_nh;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> gridCallback(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    nav_msgs::OccupancyGrid <a class="code" href="../../de/d56/classDataMapObstacle.html#ab5736289cda0c74689a8cf928f415de0">getGridObstacle</a>();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../de/d56/classDataMapObstacle.html#a706742e511e703355dd803dfc99daf82">getObstacle</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    geometry_msgs::Point <a class="code" href="../../de/d56/classDataMapObstacle.html#a5658df9e658313d9d5c668e5a45d1417">getPointPathObstacle</a>();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    std::vector&lt;geometry_msgs::Point&gt; <a class="code" href="../../de/d56/classDataMapObstacle.html#a865ac1deb8e4c460385d8b0d8c4d298c">getVectorObstacle</a>();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    geometry_msgs::Point <a class="code" href="../../de/d56/classDataMapObstacle.html#ae883bbd3e629213ad5635037e169bae6">getPoint</a>(<span class="keywordtype">int</span> cell, <span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">//void getPointsMap(const nav_msgs::OccupancyGrid &amp;grid);</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../de/d56/classDataMapObstacle.html#a3af9da6dd5d990ab95eb1f87a5474848">getCell</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../de/d56/classDataMapObstacle.html#aac85ca2277385f7a3cd384aae33db639">calculDistance</a>(geometry_msgs::Point point1, geometry_msgs::Point point2);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/d56/classDataMapObstacle.html#ad467f2adaa0260f8bb98b4ab886f0049">calculObstacle</a>(<span class="keyword">const</span> geometry_msgs::Pose &amp;odom, std::vector&lt;geometry_msgs::PoseStamped&gt; &amp;path);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../de/d56/classDataMapObstacle.html#ad5ca05da894575f316a0f1c1ffb19656">   55</a></span>&#160;    <a class="code" href="../../de/d56/classDataMapObstacle.html#ad5ca05da894575f316a0f1c1ffb19656">DataMapObstacle</a>()</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        m_pointCloud_pub = m_nh.advertise&lt;sensor_msgs::PointCloud&gt;(<span class="stringliteral">&quot;objectDetection/pointCloudObstacle&quot;</span>, 1);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        m_grid_sub = m_nh.subscribe(<span class="stringliteral">&quot;objectDetection/gridObstacles&quot;</span>, 1, &amp;DataMapObstacle::gridCallback, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        m_obstacle = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        m_receiveGrid = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../de/d56/classDataMapObstacle.html#a6e167f86afd07e2139e8fd6c3d0ac484">   62</a></span>&#160;    <a class="code" href="../../de/d56/classDataMapObstacle.html#a6e167f86afd07e2139e8fd6c3d0ac484">~DataMapObstacle</a>()</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* DATAMAPOBSTACLE_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="classDataMapObstacle_html_ad5ca05da894575f316a0f1c1ffb19656"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#ad5ca05da894575f316a0f1c1ffb19656">DataMapObstacle::DataMapObstacle</a></div><div class="ttdeci">DataMapObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dc8/dataMapObstacle_8h_source.html#l00055">dataMapObstacle.h:55</a></div></div>
-<div class="ttc" id="classDataMapObstacle_html_a3af9da6dd5d990ab95eb1f87a5474848"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#a3af9da6dd5d990ab95eb1f87a5474848">DataMapObstacle::getCell</a></div><div class="ttdeci">int getCell(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00084">dataMapObstacle.cpp:84</a></div></div>
-<div class="ttc" id="classDataMapObstacle_html_ae883bbd3e629213ad5635037e169bae6"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#ae883bbd3e629213ad5635037e169bae6">DataMapObstacle::getPoint</a></div><div class="ttdeci">geometry_msgs::Point getPoint(int cell, const nav_msgs::OccupancyGrid &amp;grid)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00043">dataMapObstacle.cpp:43</a></div></div>
-<div class="ttc" id="classDataMapObstacle_html_ad467f2adaa0260f8bb98b4ab886f0049"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#ad467f2adaa0260f8bb98b4ab886f0049">DataMapObstacle::calculObstacle</a></div><div class="ttdeci">void calculObstacle(const geometry_msgs::Pose &amp;odom, std::vector&lt; geometry_msgs::PoseStamped &gt; &amp;path)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00101">dataMapObstacle.cpp:101</a></div></div>
-<div class="ttc" id="classDataMapObstacle_html_a6e167f86afd07e2139e8fd6c3d0ac484"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#a6e167f86afd07e2139e8fd6c3d0ac484">DataMapObstacle::~DataMapObstacle</a></div><div class="ttdeci">~DataMapObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dc8/dataMapObstacle_8h_source.html#l00062">dataMapObstacle.h:62</a></div></div>
-<div class="ttc" id="classDataMapObstacle_html_ab5736289cda0c74689a8cf928f415de0"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#ab5736289cda0c74689a8cf928f415de0">DataMapObstacle::getGridObstacle</a></div><div class="ttdeci">nav_msgs::OccupancyGrid getGridObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00018">dataMapObstacle.cpp:18</a></div></div>
-<div class="ttc" id="classDataMapObstacle_html_a5658df9e658313d9d5c668e5a45d1417"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#a5658df9e658313d9d5c668e5a45d1417">DataMapObstacle::getPointPathObstacle</a></div><div class="ttdeci">geometry_msgs::Point getPointPathObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00028">dataMapObstacle.cpp:28</a></div></div>
-<div class="ttc" id="classDataMapObstacle_html"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html">DataMapObstacle</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dc8/dataMapObstacle_8h_source.html#l00027">dataMapObstacle.h:27</a></div></div>
-<div class="ttc" id="classDataMapObstacle_html_aac85ca2277385f7a3cd384aae33db639"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#aac85ca2277385f7a3cd384aae33db639">DataMapObstacle::calculDistance</a></div><div class="ttdeci">float calculDistance(geometry_msgs::Point point1, geometry_msgs::Point point2)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00038">dataMapObstacle.cpp:38</a></div></div>
-<div class="ttc" id="classDataMapObstacle_html_a706742e511e703355dd803dfc99daf82"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#a706742e511e703355dd803dfc99daf82">DataMapObstacle::getObstacle</a></div><div class="ttdeci">bool getObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00023">dataMapObstacle.cpp:23</a></div></div>
-<div class="ttc" id="classDataMapObstacle_html_a865ac1deb8e4c460385d8b0d8c4d298c"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#a865ac1deb8e4c460385d8b0d8c4d298c">DataMapObstacle::getVectorObstacle</a></div><div class="ttdeci">std::vector&lt; geometry_msgs::Point &gt; getVectorObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00033">dataMapObstacle.cpp:33</a></div></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#ifndef DATAMAPOBSTACLE_H</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DATAMAPOBSTACLE_H</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/PoseStamped.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Point.h&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose.h&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;nav_msgs/OccupancyGrid.h&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;sensor_msgs/PointCloud.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Point32.h&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="../../de/d56/classDataMapObstacle.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/d56/classDataMapObstacle.html">DataMapObstacle</a></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    ros::Subscriber m_grid_sub;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ros::Publisher m_pointCloud_pub;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">bool</span> m_obstacle;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    geometry_msgs::Point m_pointObstacle;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    nav_msgs::OccupancyGrid m_grid;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">bool</span> m_receiveGrid;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    std::vector&lt;geometry_msgs::Point&gt; m_vectorObstaclePoints;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    std::vector&lt;int&gt; m_vectorObstacle;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    sensor_msgs::PointCloud m_pointCloud;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    ros::NodeHandle m_nh;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> gridCallback(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    nav_msgs::OccupancyGrid <a class="code" href="../../de/d56/classDataMapObstacle.html#ab5736289cda0c74689a8cf928f415de0">getGridObstacle</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../de/d56/classDataMapObstacle.html#a706742e511e703355dd803dfc99daf82">getObstacle</a>();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    geometry_msgs::Point <a class="code" href="../../de/d56/classDataMapObstacle.html#a5658df9e658313d9d5c668e5a45d1417">getPointPathObstacle</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::vector&lt;geometry_msgs::Point&gt; <a class="code" href="../../de/d56/classDataMapObstacle.html#a865ac1deb8e4c460385d8b0d8c4d298c">getVectorObstacle</a>();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    geometry_msgs::Point <a class="code" href="../../de/d56/classDataMapObstacle.html#ae883bbd3e629213ad5635037e169bae6">getPoint</a>(<span class="keywordtype">int</span> cell, <span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">//void getPointsMap(const nav_msgs::OccupancyGrid &amp;grid);</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../de/d56/classDataMapObstacle.html#a3af9da6dd5d990ab95eb1f87a5474848">getCell</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../de/d56/classDataMapObstacle.html#aac85ca2277385f7a3cd384aae33db639">calculDistance</a>(geometry_msgs::Point point1, geometry_msgs::Point point2);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/d56/classDataMapObstacle.html#ad467f2adaa0260f8bb98b4ab886f0049">calculObstacle</a>(<span class="keyword">const</span> geometry_msgs::Pose &amp;odom, std::vector&lt;geometry_msgs::PoseStamped&gt; &amp;path);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../de/d56/classDataMapObstacle.html#ad5ca05da894575f316a0f1c1ffb19656">   54</a></span>&#160;    <a class="code" href="../../de/d56/classDataMapObstacle.html#ad5ca05da894575f316a0f1c1ffb19656">DataMapObstacle</a>()</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        m_pointCloud_pub = m_nh.advertise&lt;sensor_msgs::PointCloud&gt;(<span class="stringliteral">&quot;objectDetection/pointCloudObstacle&quot;</span>, 1);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        m_grid_sub = m_nh.subscribe(<span class="stringliteral">&quot;objectDetection/gridObstacles&quot;</span>, 1, &amp;DataMapObstacle::gridCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        m_obstacle = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        m_receiveGrid = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../de/d56/classDataMapObstacle.html#a6e167f86afd07e2139e8fd6c3d0ac484">   61</a></span>&#160;    <a class="code" href="../../de/d56/classDataMapObstacle.html#a6e167f86afd07e2139e8fd6c3d0ac484">~DataMapObstacle</a>()</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* DATAMAPOBSTACLE_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="classDataMapObstacle_html_ad5ca05da894575f316a0f1c1ffb19656"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#ad5ca05da894575f316a0f1c1ffb19656">DataMapObstacle::DataMapObstacle</a></div><div class="ttdeci">DataMapObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dc8/dataMapObstacle_8h_source.html#l00054">dataMapObstacle.h:54</a></div></div>
+<div class="ttc" id="classDataMapObstacle_html_a3af9da6dd5d990ab95eb1f87a5474848"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#a3af9da6dd5d990ab95eb1f87a5474848">DataMapObstacle::getCell</a></div><div class="ttdeci">int getCell(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00083">dataMapObstacle.cpp:83</a></div></div>
+<div class="ttc" id="classDataMapObstacle_html_ae883bbd3e629213ad5635037e169bae6"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#ae883bbd3e629213ad5635037e169bae6">DataMapObstacle::getPoint</a></div><div class="ttdeci">geometry_msgs::Point getPoint(int cell, const nav_msgs::OccupancyGrid &amp;grid)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00042">dataMapObstacle.cpp:42</a></div></div>
+<div class="ttc" id="classDataMapObstacle_html_ad467f2adaa0260f8bb98b4ab886f0049"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#ad467f2adaa0260f8bb98b4ab886f0049">DataMapObstacle::calculObstacle</a></div><div class="ttdeci">void calculObstacle(const geometry_msgs::Pose &amp;odom, std::vector&lt; geometry_msgs::PoseStamped &gt; &amp;path)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00100">dataMapObstacle.cpp:100</a></div></div>
+<div class="ttc" id="classDataMapObstacle_html_a6e167f86afd07e2139e8fd6c3d0ac484"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#a6e167f86afd07e2139e8fd6c3d0ac484">DataMapObstacle::~DataMapObstacle</a></div><div class="ttdeci">~DataMapObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dc8/dataMapObstacle_8h_source.html#l00061">dataMapObstacle.h:61</a></div></div>
+<div class="ttc" id="classDataMapObstacle_html_ab5736289cda0c74689a8cf928f415de0"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#ab5736289cda0c74689a8cf928f415de0">DataMapObstacle::getGridObstacle</a></div><div class="ttdeci">nav_msgs::OccupancyGrid getGridObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00017">dataMapObstacle.cpp:17</a></div></div>
+<div class="ttc" id="classDataMapObstacle_html_a5658df9e658313d9d5c668e5a45d1417"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#a5658df9e658313d9d5c668e5a45d1417">DataMapObstacle::getPointPathObstacle</a></div><div class="ttdeci">geometry_msgs::Point getPointPathObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00027">dataMapObstacle.cpp:27</a></div></div>
+<div class="ttc" id="classDataMapObstacle_html"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html">DataMapObstacle</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dc8/dataMapObstacle_8h_source.html#l00026">dataMapObstacle.h:26</a></div></div>
+<div class="ttc" id="classDataMapObstacle_html_aac85ca2277385f7a3cd384aae33db639"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#aac85ca2277385f7a3cd384aae33db639">DataMapObstacle::calculDistance</a></div><div class="ttdeci">float calculDistance(geometry_msgs::Point point1, geometry_msgs::Point point2)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00037">dataMapObstacle.cpp:37</a></div></div>
+<div class="ttc" id="classDataMapObstacle_html_a706742e511e703355dd803dfc99daf82"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#a706742e511e703355dd803dfc99daf82">DataMapObstacle::getObstacle</a></div><div class="ttdeci">bool getObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00022">dataMapObstacle.cpp:22</a></div></div>
+<div class="ttc" id="classDataMapObstacle_html_a865ac1deb8e4c460385d8b0d8c4d298c"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html#a865ac1deb8e4c460385d8b0d8c4d298c">DataMapObstacle::getVectorObstacle</a></div><div class="ttdeci">std::vector&lt; geometry_msgs::Point &gt; getVectorObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/dataMapObstacle_8cpp_source.html#l00032">dataMapObstacle.cpp:32</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

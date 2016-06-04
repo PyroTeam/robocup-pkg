@@ -91,79 +91,79 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../d8/df0/LineSegment_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d9/da8/LineSegment_8h.html">shape/LineSegment.h</a>&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>occupancy_grid_utils {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af07521c5b6ef2a09f93e98a3153531d2">   17</a></span>&#160;<a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af07521c5b6ef2a09f93e98a3153531d2">LineSegment::LineSegment</a>() : <a class="code" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">Shape</a>()</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#aecf75882643276f6bf1d179ffcebbd42">   22</a></span>&#160;<a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af07521c5b6ef2a09f93e98a3153531d2">LineSegment::LineSegment</a>(<span class="keyword">const</span> geometry_msgs::Point &amp;p1, <span class="keyword">const</span> geometry_msgs::Point &amp;p2)</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    : <a class="code" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">Shape</a>(), m_p1(p1), m_p2(p2)</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d9/da8/LineSegment_8h.html">shape/LineSegment.h</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>occupancy_grid_utils {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af07521c5b6ef2a09f93e98a3153531d2">   16</a></span>&#160;<a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af07521c5b6ef2a09f93e98a3153531d2">LineSegment::LineSegment</a>() : <a class="code" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">Shape</a>()</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;}</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#aecf75882643276f6bf1d179ffcebbd42">   21</a></span>&#160;<a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af07521c5b6ef2a09f93e98a3153531d2">LineSegment::LineSegment</a>(<span class="keyword">const</span> geometry_msgs::Point &amp;p1, <span class="keyword">const</span> geometry_msgs::Point &amp;p2)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    : <a class="code" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">Shape</a>(), m_p1(p1), m_p2(p2)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a1e7cbb7ed6eb845e28344b0a45256ff0">   29</a></span>&#160;<a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a1e7cbb7ed6eb845e28344b0a45256ff0">LineSegment::~LineSegment</a>()</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a99c30fe30faf083d8032207ab173a894">   34</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a99c30fe30faf083d8032207ab173a894">LineSegment::draw</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">int</span> max_value)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="comment">//implémentation de l&#39;algorithme de Bresenham</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> epsilon = 1e-5;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    geometry_msgs::Point p1 = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">getCellAsPixelCoord</a>(grid, <a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af864cc34f46190a5a10f1961b98b4689">m_p1</a>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    geometry_msgs::Point p2 = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">getCellAsPixelCoord</a>(grid, <a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#ae7cb18700eee8ea915125bdd0643e7bb">m_p2</a>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">//std::cout &lt;&lt; m_name &lt;&lt; &quot; : (&quot; &lt;&lt; p1.x &lt;&lt; &quot;, &quot; &lt;&lt; p1.y &lt;&lt; &quot;), (&quot; &lt;&lt; p2.x &lt;&lt; &quot;, &quot; &lt;&lt; p2.y &lt;&lt; &quot;)&quot; &lt;&lt; std::endl;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">int</span> x0 = p1.x;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">int</span> y0 = p1.y;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">int</span> x1 = p2.x;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">int</span> y1 = p2.y;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">//http://members.chello.at/easyfilter/bresenham.html</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span> dx =  std::abs(x1-x0), sx = x0&lt;x1 ? 1 : -1;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span> dy = -std::abs(y1-y0), sy = y0&lt;y1 ? 1 : -1;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">int</span> err = dx+dy, e2; <span class="comment">// error value e_xy</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">for</span>(;;){  <span class="comment">// loop</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">setPixelCell</a>(grid, x0, y0, max_value);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">if</span> (x0==x1 &amp;&amp; y0==y1)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        e2 = 2*err;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">if</span> (e2 &gt;= dy)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            err += dy; x0 += sx;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        } <span class="comment">// e_xy+e_x &gt; 0</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> (e2 &lt;= dx)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            err += dx; y0 += sy;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        } <span class="comment">// e_xy+e_y &lt; 0</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// namespace occupancy_grid_utils</span></div>
-<div class="ttc" id="classoccupancy__grid__utils_1_1LineSegment_html_af864cc34f46190a5a10f1961b98b4689"><div class="ttname"><a href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af864cc34f46190a5a10f1961b98b4689">occupancy_grid_utils::LineSegment::m_p1</a></div><div class="ttdeci">geometry_msgs::Point m_p1</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/da8/LineSegment_8h_source.html#l00035">LineSegment.h:35</a></div></div>
-<div class="ttc" id="classoccupancy__grid__utils_1_1LineSegment_html_af07521c5b6ef2a09f93e98a3153531d2"><div class="ttname"><a href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af07521c5b6ef2a09f93e98a3153531d2">occupancy_grid_utils::LineSegment::LineSegment</a></div><div class="ttdeci">LineSegment()</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df0/LineSegment_8cpp_source.html#l00017">LineSegment.cpp:17</a></div></div>
-<div class="ttc" id="classoccupancy__grid__utils_1_1LineSegment_html_a1e7cbb7ed6eb845e28344b0a45256ff0"><div class="ttname"><a href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a1e7cbb7ed6eb845e28344b0a45256ff0">occupancy_grid_utils::LineSegment::~LineSegment</a></div><div class="ttdeci">~LineSegment()</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df0/LineSegment_8cpp_source.html#l00029">LineSegment.cpp:29</a></div></div>
-<div class="ttc" id="classoccupancy__grid__utils_1_1Shape_html"><div class="ttname"><a href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">occupancy_grid_utils::Shape</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d8f/Shape_8h_source.html#l00023">Shape.h:23</a></div></div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a1e7cbb7ed6eb845e28344b0a45256ff0">   28</a></span>&#160;<a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a1e7cbb7ed6eb845e28344b0a45256ff0">LineSegment::~LineSegment</a>()</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a99c30fe30faf083d8032207ab173a894">   33</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a99c30fe30faf083d8032207ab173a894">LineSegment::draw</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">int</span> max_value)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">//implémentation de l&#39;algorithme de Bresenham</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> epsilon = 1e-5;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    geometry_msgs::Point p1 = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">getCellAsPixelCoord</a>(grid, <a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af864cc34f46190a5a10f1961b98b4689">m_p1</a>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    geometry_msgs::Point p2 = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">getCellAsPixelCoord</a>(grid, <a class="code" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#ae7cb18700eee8ea915125bdd0643e7bb">m_p2</a>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">//std::cout &lt;&lt; m_name &lt;&lt; &quot; : (&quot; &lt;&lt; p1.x &lt;&lt; &quot;, &quot; &lt;&lt; p1.y &lt;&lt; &quot;), (&quot; &lt;&lt; p2.x &lt;&lt; &quot;, &quot; &lt;&lt; p2.y &lt;&lt; &quot;)&quot; &lt;&lt; std::endl;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">int</span> x0 = p1.x;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">int</span> y0 = p1.y;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">int</span> x1 = p2.x;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">int</span> y1 = p2.y;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">//http://members.chello.at/easyfilter/bresenham.html</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">int</span> dx =  std::abs(x1-x0), sx = x0&lt;x1 ? 1 : -1;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span> dy = -std::abs(y1-y0), sy = y0&lt;y1 ? 1 : -1;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span> err = dx+dy, e2; <span class="comment">// error value e_xy</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">for</span>(;;){  <span class="comment">// loop</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">setPixelCell</a>(grid, x0, y0, max_value);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span> (x0==x1 &amp;&amp; y0==y1)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        e2 = 2*err;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">if</span> (e2 &gt;= dy)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            err += dy; x0 += sx;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        } <span class="comment">// e_xy+e_x &gt; 0</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">if</span> (e2 &lt;= dx)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            err += dx; y0 += sy;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        } <span class="comment">// e_xy+e_y &lt; 0</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;} <span class="comment">// namespace occupancy_grid_utils</span></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1LineSegment_html_af864cc34f46190a5a10f1961b98b4689"><div class="ttname"><a href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af864cc34f46190a5a10f1961b98b4689">occupancy_grid_utils::LineSegment::m_p1</a></div><div class="ttdeci">geometry_msgs::Point m_p1</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/da8/LineSegment_8h_source.html#l00034">LineSegment.h:34</a></div></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1LineSegment_html_af07521c5b6ef2a09f93e98a3153531d2"><div class="ttname"><a href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#af07521c5b6ef2a09f93e98a3153531d2">occupancy_grid_utils::LineSegment::LineSegment</a></div><div class="ttdeci">LineSegment()</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df0/LineSegment_8cpp_source.html#l00016">LineSegment.cpp:16</a></div></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1LineSegment_html_a1e7cbb7ed6eb845e28344b0a45256ff0"><div class="ttname"><a href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a1e7cbb7ed6eb845e28344b0a45256ff0">occupancy_grid_utils::LineSegment::~LineSegment</a></div><div class="ttdeci">~LineSegment()</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df0/LineSegment_8cpp_source.html#l00028">LineSegment.cpp:28</a></div></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1Shape_html"><div class="ttname"><a href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">occupancy_grid_utils::Shape</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d8f/Shape_8h_source.html#l00022">Shape.h:22</a></div></div>
 <div class="ttc" id="LineSegment_8h_html"><div class="ttname"><a href="../../d9/da8/LineSegment_8h.html">LineSegment.h</a></div></div>
-<div class="ttc" id="classoccupancy__grid__utils_1_1LineSegment_html_a99c30fe30faf083d8032207ab173a894"><div class="ttname"><a href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a99c30fe30faf083d8032207ab173a894">occupancy_grid_utils::LineSegment::draw</a></div><div class="ttdeci">virtual void draw(nav_msgs::OccupancyGrid &amp;grid, int max_value=100) override</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df0/LineSegment_8cpp_source.html#l00034">LineSegment.cpp:34</a></div></div>
-<div class="ttc" id="classoccupancy__grid__utils_1_1LineSegment_html_ae7cb18700eee8ea915125bdd0643e7bb"><div class="ttname"><a href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#ae7cb18700eee8ea915125bdd0643e7bb">occupancy_grid_utils::LineSegment::m_p2</a></div><div class="ttdeci">geometry_msgs::Point m_p2</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/da8/LineSegment_8h_source.html#l00036">LineSegment.h:36</a></div></div>
-<div class="ttc" id="namespaceoccupancy__grid__utils_html_aa3f1bdffc4dd73617cc4a0a686d2931b"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">occupancy_grid_utils::setPixelCell</a></div><div class="ttdeci">void setPixelCell(nav_msgs::OccupancyGrid &amp;grid, unsigned int x, unsigned int y, const int &amp;value)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00204">occupancy_grid_utils.cpp:204</a></div></div>
-<div class="ttc" id="namespaceoccupancy__grid__utils_html_af617c6b254e8deefa6aee397d500bbd8"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">occupancy_grid_utils::getCellAsPixelCoord</a></div><div class="ttdeci">geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00138">occupancy_grid_utils.cpp:138</a></div></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1LineSegment_html_a99c30fe30faf083d8032207ab173a894"><div class="ttname"><a href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a99c30fe30faf083d8032207ab173a894">occupancy_grid_utils::LineSegment::draw</a></div><div class="ttdeci">virtual void draw(nav_msgs::OccupancyGrid &amp;grid, int max_value=100) override</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df0/LineSegment_8cpp_source.html#l00033">LineSegment.cpp:33</a></div></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1LineSegment_html_ae7cb18700eee8ea915125bdd0643e7bb"><div class="ttname"><a href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#ae7cb18700eee8ea915125bdd0643e7bb">occupancy_grid_utils::LineSegment::m_p2</a></div><div class="ttdeci">geometry_msgs::Point m_p2</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/da8/LineSegment_8h_source.html#l00035">LineSegment.h:35</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_aa3f1bdffc4dd73617cc4a0a686d2931b"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">occupancy_grid_utils::setPixelCell</a></div><div class="ttdeci">void setPixelCell(nav_msgs::OccupancyGrid &amp;grid, unsigned int x, unsigned int y, const int &amp;value)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00203">occupancy_grid_utils.cpp:203</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_af617c6b254e8deefa6aee397d500bbd8"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">occupancy_grid_utils::getCellAsPixelCoord</a></div><div class="ttdeci">geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00137">occupancy_grid_utils.cpp:137</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

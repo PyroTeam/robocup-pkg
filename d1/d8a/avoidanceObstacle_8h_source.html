@@ -91,86 +91,86 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../d1/d8a/avoidanceObstacle_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#ifndef AVOIDANCEOBSTACLE_H</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define AVOIDANCEOBSTACLE_H</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d4/dc8/dataMapObstacle_8h.html">dataMapObstacle.h</a>&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dd/d28/trackPath_8h.html">trackPath.h</a>&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;deplacement_msg/TrackPathAction.h&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Point.h&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/PoseStamped.h&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;nav_msgs/Odometry.h&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;nav_msgs/Path.h&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;actionlib/server/simple_action_server.h&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;tf/transform_datatypes.h&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../d4/d7b/classAvoidanceObstacle.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d4/d7b/classAvoidanceObstacle.html">AvoidanceObstacle</a></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">bool</span> m_failure;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">bool</span> m_successAvoidance;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">float</span> m_distPath;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">bool</span> m_almostDone;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    geometry_msgs::Point m_rightObstacle;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    geometry_msgs::Point m_leftObstacle;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    geometry_msgs::Point m_pointArrival;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    geometry_msgs::Twist m_cmdVel;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    nav_msgs::Path m_path;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    std::vector&lt;geometry_msgs::PoseStamped&gt; m_intermediatePath;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ros::Publisher m_cmdVel_pub;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    ros::Publisher m_path_pub;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    ros::NodeHandle m_nh;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../de/d56/classDataMapObstacle.html">DataMapObstacle</a> m_dataMapObstacle;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="../../d6/da1/classTrackPath.html">TrackPath</a> m_trackPath;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">float</span> calculDistance(<span class="keyword">const</span> geometry_msgs::Point &amp;point1, <span class="keyword">const</span> geometry_msgs::Point &amp;point2);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    geometry_msgs::Point calculPointsPath(<span class="keyword">const</span> geometry_msgs::Point &amp;pointD, <span class="keyword">const</span> geometry_msgs::Point &amp;pointA);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    geometry_msgs::Point getPointAwayFromObstacle(<span class="keyword">const</span> std::vector&lt;geometry_msgs::Point&gt; &amp;vectorObstacle, <span class="keyword">const</span> geometry_msgs::Point &amp;odom);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">//float normaliseAngle(float angle);</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">//void track(geometry_msgs::Point point, geometry_msgs::Point pointSuiv, geometry_msgs::Pose odom);</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#ab0eb6d81f9031344f678e641924f6704">avoid</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Pose &amp;odom, std::vector&lt;geometry_msgs::PoseStamped&gt; &amp;path, actionlib::SimpleActionServer&lt;deplacement_msg::TrackPathAction&gt; &amp;as, deplacement_msg::TrackPathFeedback &amp;feedback);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#a3f5a02af7731be286133ac87c16e0f63">resetMode</a>();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#a7390c390b6af808844074c686aa977bd">failure</a>();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#a84d28517b03769f1926a0f54c4d8bc17">successAvoidance</a>();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../d4/d7b/classAvoidanceObstacle.html#a87828d6c1e386f156cfe79c47fefd1be">   63</a></span>&#160;    <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#a87828d6c1e386f156cfe79c47fefd1be">AvoidanceObstacle</a>()</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        m_failure = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        m_successAvoidance = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        m_distPath = 0;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        m_almostDone = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        m_cmdVel_pub = m_nh.advertise&lt;geometry_msgs::Twist&gt;(<span class="stringliteral">&quot;hardware/cmd_vel&quot;</span>, 1);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        m_path_pub = m_nh.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;navigation/intermediatePath&quot;</span>, 1, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../d4/d7b/classAvoidanceObstacle.html#abf2f7b27a0f5b0b745638ec63e395114">   72</a></span>&#160;    <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#abf2f7b27a0f5b0b745638ec63e395114">~AvoidanceObstacle</a>()</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* AVOIDANCEOBSTACLE_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="classAvoidanceObstacle_html"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html">AvoidanceObstacle</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8a/avoidanceObstacle_8h_source.html#l00030">avoidanceObstacle.h:30</a></div></div>
-<div class="ttc" id="classAvoidanceObstacle_html_a7390c390b6af808844074c686aa977bd"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#a7390c390b6af808844074c686aa977bd">AvoidanceObstacle::failure</a></div><div class="ttdeci">bool failure()</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d7a/avoidanceObstacle_8cpp_source.html#l00585">avoidanceObstacle.cpp:585</a></div></div>
-<div class="ttc" id="classAvoidanceObstacle_html_a87828d6c1e386f156cfe79c47fefd1be"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#a87828d6c1e386f156cfe79c47fefd1be">AvoidanceObstacle::AvoidanceObstacle</a></div><div class="ttdeci">AvoidanceObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8a/avoidanceObstacle_8h_source.html#l00063">avoidanceObstacle.h:63</a></div></div>
-<div class="ttc" id="classAvoidanceObstacle_html_a3f5a02af7731be286133ac87c16e0f63"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#a3f5a02af7731be286133ac87c16e0f63">AvoidanceObstacle::resetMode</a></div><div class="ttdeci">void resetMode()</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d7a/avoidanceObstacle_8cpp_source.html#l00579">avoidanceObstacle.cpp:579</a></div></div>
-<div class="ttc" id="classTrackPath_html"><div class="ttname"><a href="../../d6/da1/classTrackPath.html">TrackPath</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d28/trackPath_8h_source.html#l00028">trackPath.h:28</a></div></div>
-<div class="ttc" id="classAvoidanceObstacle_html_abf2f7b27a0f5b0b745638ec63e395114"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#abf2f7b27a0f5b0b745638ec63e395114">AvoidanceObstacle::~AvoidanceObstacle</a></div><div class="ttdeci">~AvoidanceObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8a/avoidanceObstacle_8h_source.html#l00072">avoidanceObstacle.h:72</a></div></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#ifndef AVOIDANCEOBSTACLE_H</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define AVOIDANCEOBSTACLE_H</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d4/dc8/dataMapObstacle_8h.html">dataMapObstacle.h</a>&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dd/d28/trackPath_8h.html">trackPath.h</a>&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;deplacement_msg/TrackPathAction.h&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Point.h&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/PoseStamped.h&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;nav_msgs/Odometry.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;nav_msgs/Path.h&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;actionlib/server/simple_action_server.h&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;tf/transform_datatypes.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../d4/d7b/classAvoidanceObstacle.html">   29</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d4/d7b/classAvoidanceObstacle.html">AvoidanceObstacle</a></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">bool</span> m_failure;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">bool</span> m_successAvoidance;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">float</span> m_distPath;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">bool</span> m_almostDone;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    geometry_msgs::Point m_rightObstacle;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    geometry_msgs::Point m_leftObstacle;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    geometry_msgs::Point m_pointArrival;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    geometry_msgs::Twist m_cmdVel;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    nav_msgs::Path m_path;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    std::vector&lt;geometry_msgs::PoseStamped&gt; m_intermediatePath;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ros::Publisher m_cmdVel_pub;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ros::Publisher m_path_pub;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    ros::NodeHandle m_nh;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="../../de/d56/classDataMapObstacle.html">DataMapObstacle</a> m_dataMapObstacle;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../d6/da1/classTrackPath.html">TrackPath</a> m_trackPath;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">float</span> calculDistance(<span class="keyword">const</span> geometry_msgs::Point &amp;point1, <span class="keyword">const</span> geometry_msgs::Point &amp;point2);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    geometry_msgs::Point calculPointsPath(<span class="keyword">const</span> geometry_msgs::Point &amp;pointD, <span class="keyword">const</span> geometry_msgs::Point &amp;pointA);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    geometry_msgs::Point getPointAwayFromObstacle(<span class="keyword">const</span> std::vector&lt;geometry_msgs::Point&gt; &amp;vectorObstacle, <span class="keyword">const</span> geometry_msgs::Point &amp;odom);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">//float normaliseAngle(float angle);</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">//void track(geometry_msgs::Point point, geometry_msgs::Point pointSuiv, geometry_msgs::Pose odom);</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#ab0eb6d81f9031344f678e641924f6704">avoid</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Pose &amp;odom, std::vector&lt;geometry_msgs::PoseStamped&gt; &amp;path, actionlib::SimpleActionServer&lt;deplacement_msg::TrackPathAction&gt; &amp;as, deplacement_msg::TrackPathFeedback &amp;feedback);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#a3f5a02af7731be286133ac87c16e0f63">resetMode</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#a7390c390b6af808844074c686aa977bd">failure</a>();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#a84d28517b03769f1926a0f54c4d8bc17">successAvoidance</a>();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../d4/d7b/classAvoidanceObstacle.html#a87828d6c1e386f156cfe79c47fefd1be">   62</a></span>&#160;    <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#a87828d6c1e386f156cfe79c47fefd1be">AvoidanceObstacle</a>()</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        m_failure = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        m_successAvoidance = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        m_distPath = 0;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        m_almostDone = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        m_cmdVel_pub = m_nh.advertise&lt;geometry_msgs::Twist&gt;(<span class="stringliteral">&quot;hardware/cmd_vel&quot;</span>, 1);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        m_path_pub = m_nh.advertise&lt;nav_msgs::Path&gt;(<span class="stringliteral">&quot;navigation/intermediatePath&quot;</span>, 1, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../d4/d7b/classAvoidanceObstacle.html#abf2f7b27a0f5b0b745638ec63e395114">   71</a></span>&#160;    <a class="code" href="../../d4/d7b/classAvoidanceObstacle.html#abf2f7b27a0f5b0b745638ec63e395114">~AvoidanceObstacle</a>()</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* AVOIDANCEOBSTACLE_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="classAvoidanceObstacle_html"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html">AvoidanceObstacle</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8a/avoidanceObstacle_8h_source.html#l00029">avoidanceObstacle.h:29</a></div></div>
+<div class="ttc" id="classAvoidanceObstacle_html_a7390c390b6af808844074c686aa977bd"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#a7390c390b6af808844074c686aa977bd">AvoidanceObstacle::failure</a></div><div class="ttdeci">bool failure()</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d7a/avoidanceObstacle_8cpp_source.html#l00584">avoidanceObstacle.cpp:584</a></div></div>
+<div class="ttc" id="classAvoidanceObstacle_html_a87828d6c1e386f156cfe79c47fefd1be"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#a87828d6c1e386f156cfe79c47fefd1be">AvoidanceObstacle::AvoidanceObstacle</a></div><div class="ttdeci">AvoidanceObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8a/avoidanceObstacle_8h_source.html#l00062">avoidanceObstacle.h:62</a></div></div>
+<div class="ttc" id="classAvoidanceObstacle_html_a3f5a02af7731be286133ac87c16e0f63"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#a3f5a02af7731be286133ac87c16e0f63">AvoidanceObstacle::resetMode</a></div><div class="ttdeci">void resetMode()</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d7a/avoidanceObstacle_8cpp_source.html#l00578">avoidanceObstacle.cpp:578</a></div></div>
+<div class="ttc" id="classTrackPath_html"><div class="ttname"><a href="../../d6/da1/classTrackPath.html">TrackPath</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d28/trackPath_8h_source.html#l00027">trackPath.h:27</a></div></div>
+<div class="ttc" id="classAvoidanceObstacle_html_abf2f7b27a0f5b0b745638ec63e395114"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#abf2f7b27a0f5b0b745638ec63e395114">AvoidanceObstacle::~AvoidanceObstacle</a></div><div class="ttdeci">~AvoidanceObstacle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8a/avoidanceObstacle_8h_source.html#l00071">avoidanceObstacle.h:71</a></div></div>
 <div class="ttc" id="trackPath_8h_html"><div class="ttname"><a href="../../dd/d28/trackPath_8h.html">trackPath.h</a></div></div>
-<div class="ttc" id="classAvoidanceObstacle_html_ab0eb6d81f9031344f678e641924f6704"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#ab0eb6d81f9031344f678e641924f6704">AvoidanceObstacle::avoid</a></div><div class="ttdeci">void avoid(const nav_msgs::OccupancyGrid &amp;grid, const geometry_msgs::Pose &amp;odom, std::vector&lt; geometry_msgs::PoseStamped &gt; &amp;path, actionlib::SimpleActionServer&lt; deplacement_msg::TrackPathAction &gt; &amp;as, deplacement_msg::TrackPathFeedback &amp;feedback)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d7a/avoidanceObstacle_8cpp_source.html#l00320">avoidanceObstacle.cpp:320</a></div></div>
-<div class="ttc" id="classDataMapObstacle_html"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html">DataMapObstacle</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dc8/dataMapObstacle_8h_source.html#l00027">dataMapObstacle.h:27</a></div></div>
-<div class="ttc" id="classAvoidanceObstacle_html_a84d28517b03769f1926a0f54c4d8bc17"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#a84d28517b03769f1926a0f54c4d8bc17">AvoidanceObstacle::successAvoidance</a></div><div class="ttdeci">bool successAvoidance()</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d7a/avoidanceObstacle_8cpp_source.html#l00590">avoidanceObstacle.cpp:590</a></div></div>
+<div class="ttc" id="classAvoidanceObstacle_html_ab0eb6d81f9031344f678e641924f6704"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#ab0eb6d81f9031344f678e641924f6704">AvoidanceObstacle::avoid</a></div><div class="ttdeci">void avoid(const nav_msgs::OccupancyGrid &amp;grid, const geometry_msgs::Pose &amp;odom, std::vector&lt; geometry_msgs::PoseStamped &gt; &amp;path, actionlib::SimpleActionServer&lt; deplacement_msg::TrackPathAction &gt; &amp;as, deplacement_msg::TrackPathFeedback &amp;feedback)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d7a/avoidanceObstacle_8cpp_source.html#l00319">avoidanceObstacle.cpp:319</a></div></div>
+<div class="ttc" id="classDataMapObstacle_html"><div class="ttname"><a href="../../de/d56/classDataMapObstacle.html">DataMapObstacle</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dc8/dataMapObstacle_8h_source.html#l00026">dataMapObstacle.h:26</a></div></div>
+<div class="ttc" id="classAvoidanceObstacle_html_a84d28517b03769f1926a0f54c4d8bc17"><div class="ttname"><a href="../../d4/d7b/classAvoidanceObstacle.html#a84d28517b03769f1926a0f54c4d8bc17">AvoidanceObstacle::successAvoidance</a></div><div class="ttdeci">bool successAvoidance()</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d7a/avoidanceObstacle_8cpp_source.html#l00589">avoidanceObstacle.cpp:589</a></div></div>
 <div class="ttc" id="dataMapObstacle_8h_html"><div class="ttname"><a href="../../d4/dc8/dataMapObstacle_8h.html">dataMapObstacle.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

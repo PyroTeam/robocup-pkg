@@ -93,10 +93,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>classe représentant un segment d environ 70 cm  
+<p>Classe représentant un segment d'environ 70 cm.  
  <a href="../../d8/ddc/classSegment.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -112,6 +112,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3557723d5496c5114f2b44750bf3de82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a703fa9cad58c9c62b45bf2af13681cbb"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#a703fa9cad58c9c62b45bf2af13681cbb">getMaxPoint</a> ()</td></tr>
 <tr class="separator:a703fa9cad58c9c62b45bf2af13681cbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29b3e173c78a32e19ae33d29cdb3491a"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#a29b3e173c78a32e19ae33d29cdb3491a">getMiddlePoint</a> ()</td></tr>
+<tr class="separator:a29b3e173c78a32e19ae33d29cdb3491a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc2ea437e59479938f187a4c0cd2a8e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d4f/classPoint.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#abc2ea437e59479938f187a4c0cd2a8e0">getMin</a> ()</td></tr>
 <tr class="separator:abc2ea437e59479938f187a4c0cd2a8e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00f778fd4f16e71b448766430008f8c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d4f/classPoint.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#a00f778fd4f16e71b448766430008f8c1">getMax</a> ()</td></tr>
@@ -128,6 +130,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a138d98a1513ef3eed9a9fbe48c6c0397"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48a016569e184bf3bcff2470fc949089"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#a48a016569e184bf3bcff2470fc949089">getMaxRanges</a> ()</td></tr>
 <tr class="separator:a48a016569e184bf3bcff2470fc949089"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0541c89390f514c305f403765472f704"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#a0541c89390f514c305f403765472f704">isConstructed</a> ()</td></tr>
+<tr class="separator:a0541c89390f514c305f403765472f704"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0daf59af1f55b5d8d25ab377a7c8a18a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#a0daf59af1f55b5d8d25ab377a7c8a18a">setMinPoint</a> (geometry_msgs::Point p)</td></tr>
 <tr class="separator:a0daf59af1f55b5d8d25ab377a7c8a18a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5d2f00b4b29a43127dc2e9e2726c33d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#ac5d2f00b4b29a43127dc2e9e2726c33d">setMaxPoint</a> (geometry_msgs::Point p)</td></tr>
@@ -138,15 +142,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0add5b180cd612a9e5923acc11c58053"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace6403936c19a7d9c1ee66eb86ca2e0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#ace6403936c19a7d9c1ee66eb86ca2e0a">setDistance</a> (float d)</td></tr>
 <tr class="separator:ace6403936c19a7d9c1ee66eb86ca2e0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95e35542b30fb66bfe4d84ac571a0c37"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#a95e35542b30fb66bfe4d84ac571a0c37">linearRegression</a> (std::vector&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt;)</td></tr>
-<tr class="memdesc:a95e35542b30fb66bfe4d84ac571a0c37"><td class="mdescLeft">&#160;</td><td class="mdescRight">effectue un regression lineaire sur le segment  <a href="#a95e35542b30fb66bfe4d84ac571a0c37">More...</a><br/></td></tr>
-<tr class="separator:a95e35542b30fb66bfe4d84ac571a0c37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa960b707e2012825c987fa0c7e0eabd9"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#aa960b707e2012825c987fa0c7e0eabd9">linearRegression</a> (std::vector&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt; pointsVector)</td></tr>
+<tr class="memdesc:aa960b707e2012825c987fa0c7e0eabd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Effectue un regression lineaire sur le segment.  <a href="#aa960b707e2012825c987fa0c7e0eabd9">More...</a><br/></td></tr>
+<tr class="separator:aa960b707e2012825c987fa0c7e0eabd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcb8f239e72a622df0bf4fe1948c1c15"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#afcb8f239e72a622df0bf4fe1948c1c15">nilGradient</a> ()</td></tr>
-<tr class="memdesc:afcb8f239e72a622df0bf4fe1948c1c15"><td class="mdescLeft">&#160;</td><td class="mdescRight">determine si la pente est quasi nulle ou non  <a href="#afcb8f239e72a622df0bf4fe1948c1c15">More...</a><br/></td></tr>
+<tr class="memdesc:afcb8f239e72a622df0bf4fe1948c1c15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine si la pente est quasi nulle ou non.  <a href="#afcb8f239e72a622df0bf4fe1948c1c15">More...</a><br/></td></tr>
 <tr class="separator:afcb8f239e72a622df0bf4fe1948c1c15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98f0f56b46fac6251ee59053a7d24451"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#a98f0f56b46fac6251ee59053a7d24451">distanceLaserSegment</a> (std::vector&lt; float &gt; ranges)</td></tr>
-<tr class="memdesc:a98f0f56b46fac6251ee59053a7d24451"><td class="mdescLeft">&#160;</td><td class="mdescRight">determine la distance entre le segment et le laser  <a href="#a98f0f56b46fac6251ee59053a7d24451">More...</a><br/></td></tr>
-<tr class="separator:a98f0f56b46fac6251ee59053a7d24451"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a978cfc3cae243b0a599e60bda543f051"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#a978cfc3cae243b0a599e60bda543f051">distanceLaserSegment</a> ()</td></tr>
+<tr class="memdesc:a978cfc3cae243b0a599e60bda543f051"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine la distance entre le segment et le laser.  <a href="#a978cfc3cae243b0a599e60bda543f051">More...</a><br/></td></tr>
+<tr class="separator:a978cfc3cae243b0a599e60bda543f051"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11d2ac51dfa979dd026f57e5ae7b845a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#a11d2ac51dfa979dd026f57e5ae7b845a">distanceOrthoLaserSegment</a> ()</td></tr>
+<tr class="memdesc:a11d2ac51dfa979dd026f57e5ae7b845a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine la distance orthogonale (sur axe x laser) entre le segment et le laser.  <a href="#a11d2ac51dfa979dd026f57e5ae7b845a">More...</a><br/></td></tr>
+<tr class="separator:a11d2ac51dfa979dd026f57e5ae7b845a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfe9fc7ffcc7269f961d4b1f6720d1e8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#adfe9fc7ffcc7269f961d4b1f6720d1e8">Segment</a> ()</td></tr>
 <tr class="separator:adfe9fc7ffcc7269f961d4b1f6720d1e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76b45a453304f1f485e3bc2fcad58b59"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/ddc/classSegment.html#a76b45a453304f1f485e3bc2fcad58b59">~Segment</a> ()</td></tr>
@@ -188,12 +195,12 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a66ccf8bacebe2bd1443f931bd0bb0a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>classe représentant un segment d environ 70 cm </p>
+<div class="textblock"><p>Classe représentant un segment d'environ 70 cm. </p>
 <dl class="section author"><dt>Author</dt><dd>Smagghe Cyril (<a href="#" onclick="location.href='mai'+'lto:'+'cyr'+'il'+'.sm'+'ag'+'ghe'+'@p'+'oly'+'te'+'ch-'+'li'+'lle'+'.n'+'et'; return false;">cyril<span style="display: none;">.nosp@m.</span>.sma<span style="display: none;">.nosp@m.</span>gghe@<span style="display: none;">.nosp@m.</span>poly<span style="display: none;">.nosp@m.</span>tech-<span style="display: none;">.nosp@m.</span>lill<span style="display: none;">.nosp@m.</span>e.net</a>) </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2015-05-25 </dd></dl>
-<dl class="section copyright"><dt>Copyright</dt><dd>PyroTeam, Polytech-Lille </dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>2016, Association de Robotique de Polytech Lille All rights reserved </dd></dl>
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00018">18</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00020">20</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="adfe9fc7ffcc7269f961d4b1f6720d1e8"></a>
 <div class="memitem">
@@ -208,7 +215,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html#l00011">11</a> of file <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html#l00014">14</a> of file <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
 
 </div>
 </div>
@@ -242,7 +249,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html#l00013">13</a> of file <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html#l00019">19</a> of file <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
 
 </div>
 </div>
@@ -282,7 +289,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html#l00021">21</a> of file <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html#l00028">28</a> of file <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
 
 </div>
 </div>
@@ -299,7 +306,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html#l00030">30</a> of file <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html#l00038">38</a> of file <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
 
 </div>
 </div>
@@ -352,24 +359,43 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a98f0f56b46fac6251ee59053a7d24451"></a>
+<a class="anchor" id="a978cfc3cae243b0a599e60bda543f051"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">float Segment::distanceLaserSegment </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; float &gt;&#160;</td>
-          <td class="paramname"><em>ranges</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>determine la distance entre le segment et le laser </p>
-<dl class="section return"><dt>Returns</dt><dd>la distanc entre l objet et le laser </dd></dl>
+<p>Determine la distance entre le segment et le laser. </p>
+<dl class="section return"><dt>Returns</dt><dd>la distance entre l'objet et le laser </dd></dl>
 
-<p>Definition at line <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html#l00087">87</a> of file <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html#l00139">139</a> of file <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a11d2ac51dfa979dd026f57e5ae7b845a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Segment::distanceOrthoLaserSegment </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determine la distance orthogonale (sur axe x laser) entre le segment et le laser. </p>
+<dl class="section return"><dt>Returns</dt><dd>la distance entre l'objet et le laser </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html#l00150">150</a> of file <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
 
 </div>
 </div>
@@ -411,7 +437,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00031">31</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00035">35</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -453,7 +479,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00030">30</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00034">34</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -478,7 +504,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00032">32</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00036">36</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -503,7 +529,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00029">29</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00033">33</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -545,7 +571,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00028">28</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00032">32</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -570,7 +596,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00026">26</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00029">29</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -595,7 +621,32 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00034">34</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00038">38</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a29b3e173c78a32e19ae33d29cdb3491a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">geometry_msgs::Point Segment::getMiddlePoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00030">30</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -637,7 +688,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00027">27</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00031">31</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -662,7 +713,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00025">25</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00028">28</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -687,7 +738,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00033">33</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00037">37</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -708,7 +759,32 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a95e35542b30fb66bfe4d84ac571a0c37"></a>
+<a class="anchor" id="a0541c89390f514c305f403765472f704"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Segment::isConstructed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00039">39</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa960b707e2012825c987fa0c7e0eabd9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -716,15 +792,22 @@ Protected Attributes</h2></td></tr>
           <td class="memname">geometry_msgs::Pose2D Segment::linearRegression </td>
           <td>(</td>
           <td class="paramtype">std::vector&lt; <a class="el" href="../../dc/d4f/classPoint.html">Point</a> &gt;&#160;</td>
-          <td class="paramname"><em>tabPoints</em></td><td>)</td>
+          <td class="paramname"><em>pointsVector</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>effectue un regression lineaire sur le segment </p>
+<p>Effectue un regression lineaire sur le segment. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pointsVector</td><td>The points vector</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>{ description_of_the_return_value } </dd></dl>
 
-<p>Definition at line <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html#l00045">45</a> of file <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html#l00053">53</a> of file <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
 
 </div>
 </div>
@@ -741,10 +824,10 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>determine si la pente est quasi nulle ou non </p>
+<p>Determine si la pente est quasi nulle ou non. </p>
 <dl class="section return"><dt>Returns</dt><dd>true si pente nulle sinon false </dd></dl>
 
-<p>Definition at line <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html#l00032">32</a> of file <a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html#l00040">40</a> of file <a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html">Segment.cpp</a>.</p>
 
 </div>
 </div>
@@ -788,7 +871,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00039">39</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00044">44</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -814,7 +897,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00040">40</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00045">45</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -840,7 +923,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00038">38</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00043">43</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -884,7 +967,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00037">37</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00042">42</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -928,7 +1011,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html#l00036">36</a> of file <a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00041">41</a> of file <a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a>.</p>
 
 </div>
 </div>
@@ -1085,13 +1168,13 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>navigation/approche_finale/include/approche_finale/<a class="el" href="../../d7/d97/approche__finale_2include_2approche__finale_2Segment_8h_source.html">Segment.h</a></li>
-<li>navigation/approche_finale/src/<a class="el" href="../../d9/d91/approche__finale_2src_2Segment_8cpp_source.html">Segment.cpp</a></li>
+<li>navigation/final_approach/include/final_approach/<a class="el" href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html">Segment.h</a></li>
+<li>navigation/final_approach/src/<a class="el" href="../../d6/d34/final__approach_2src_2Segment_8cpp_source.html">Segment.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

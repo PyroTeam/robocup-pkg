@@ -91,94 +91,94 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../dd/dea/Graph_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d7/d16/Graph_8h.html">graph/Graph.h</a>&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#ae4c72b8ac4d693c49800a4c7e273654f">   16</a></span>&#160;<a class="code" href="../../d2/d62/classGraph.html#ae4c72b8ac4d693c49800a4c7e273654f">Graph::Graph</a>():m_isInit(false), m_heuristic(nullptr), m_searchAlgo(nullptr), m_isSearchRunning(false)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;}</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a902c5b3eacb66d60752525ab23297a95">   21</a></span>&#160;<a class="code" href="../../d2/d62/classGraph.html#a902c5b3eacb66d60752525ab23297a95">Graph::~Graph</a>()</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a027365f2cf18c26a5b1ad712470d27e7">   32</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d62/classGraph.html#a027365f2cf18c26a5b1ad712470d27e7">Graph::setHeuristic</a>(<span class="keyword">const</span> std::shared_ptr&lt;Heuristic&gt; &amp;heuristic)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">m_isSearchRunning</a>)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        ROS_ERROR(<span class="stringliteral">&quot;Path planning in progress : Unable to modify heuristic&quot;</span>);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="../../d2/d62/classGraph.html#a3352f4ebfce790add940de97787f035a">m_heuristic</a> = heuristic;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a28a3476d45b457f3d886e393b5fee1f0">   48</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d62/classGraph.html#a28a3476d45b457f3d886e393b5fee1f0">Graph::setSearchAlgo</a>(<span class="keyword">const</span> std::shared_ptr&lt;SearchAlgo&gt; &amp;searchAlgo)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">m_isSearchRunning</a>)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        ROS_ERROR(<span class="stringliteral">&quot;Path planning in progress : Unable to modify searchAlgo&quot;</span>);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="../../d2/d62/classGraph.html#a214ba8b7f600e2ecba7e5e11f4e0fa57">m_searchAlgo</a> = searchAlgo;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a99353307b7703c348417e1d87516a887">   66</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="../../d2/d62/classGraph.html#a99353307b7703c348417e1d87516a887">Graph::evaluateHeuristic</a>(<a class="code" href="../../d7/d97/classState.html">State</a> &amp;startState, <a class="code" href="../../d7/d97/classState.html">State</a> &amp;endState)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d2/d62/classGraph.html#a3352f4ebfce790add940de97787f035a">m_heuristic</a>-&gt;evaluate(startState, endState);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a1d2c624600ebb16c38c16799ca7e519d">   78</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d62/classGraph.html#a1d2c624600ebb16c38c16799ca7e519d">Graph::search</a>(std::shared_ptr&lt;State&gt; &amp;startState, std::shared_ptr&lt;State&gt; &amp;endState, <a class="code" href="../../db/dc7/classPath.html">Path</a> &amp;path)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;{</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">m_isSearchRunning</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d62/classGraph.html#af597d62cb6ddc3bca99cbcb1fddedc84">m_isInit</a>)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <a class="code" href="../../d2/d62/classGraph.html#a974bb7852e8240b3fd22be9badcc5153">getClosestNode</a>(startState, startState);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <a class="code" href="../../d2/d62/classGraph.html#a974bb7852e8240b3fd22be9badcc5153">getClosestNode</a>(endState, endState);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <a class="code" href="../../d2/d62/classGraph.html#a214ba8b7f600e2ecba7e5e11f4e0fa57">m_searchAlgo</a>-&gt;search(startState, endState, path);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        ROS_ERROR(<span class="stringliteral">&quot;Tentative de recherche de trajectoire, alors qu&#39;aucune map n&#39;a été reçue.&quot;</span>);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">m_isSearchRunning</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a1b48b7a91129f12de8162144a05c6040">   98</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d62/classGraph.html#a1b48b7a91129f12de8162144a05c6040">Graph::cancelSearch</a>()</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;{</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <a class="code" href="../../d2/d62/classGraph.html#a214ba8b7f600e2ecba7e5e11f4e0fa57">m_searchAlgo</a>-&gt;cancelSearch();</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#afc3bb8bff92b9989abfb78e085182795">  108</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d2/d62/classGraph.html#afc3bb8bff92b9989abfb78e085182795">Graph::isSearchRunning</a>()</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;{</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">m_isSearchRunning</a>;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a974bb7852e8240b3fd22be9badcc5153">  119</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d62/classGraph.html#a974bb7852e8240b3fd22be9badcc5153">Graph::getClosestNode</a>(<span class="keyword">const</span> std::shared_ptr&lt;State&gt; &amp;state, std::shared_ptr&lt;State&gt; &amp;closestState)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    closestState = state;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
-<div class="ttc" id="classGraph_html_afc860519781ef636c0d2e9e76832504f"><div class="ttname"><a href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">Graph::m_isSearchRunning</a></div><div class="ttdeci">std::atomic&lt; bool &gt; m_isSearchRunning</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d16/Graph_8h_source.html#l00055">Graph.h:55</a></div></div>
-<div class="ttc" id="classGraph_html_a99353307b7703c348417e1d87516a887"><div class="ttname"><a href="../../d2/d62/classGraph.html#a99353307b7703c348417e1d87516a887">Graph::evaluateHeuristic</a></div><div class="ttdeci">double evaluateHeuristic(State &amp;startState, State &amp;endState)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00066">Graph.cpp:66</a></div></div>
-<div class="ttc" id="classGraph_html_a214ba8b7f600e2ecba7e5e11f4e0fa57"><div class="ttname"><a href="../../d2/d62/classGraph.html#a214ba8b7f600e2ecba7e5e11f4e0fa57">Graph::m_searchAlgo</a></div><div class="ttdeci">std::shared_ptr&lt; SearchAlgo &gt; m_searchAlgo</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d16/Graph_8h_source.html#l00054">Graph.h:54</a></div></div>
-<div class="ttc" id="classGraph_html_afc3bb8bff92b9989abfb78e085182795"><div class="ttname"><a href="../../d2/d62/classGraph.html#afc3bb8bff92b9989abfb78e085182795">Graph::isSearchRunning</a></div><div class="ttdeci">bool isSearchRunning()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00108">Graph.cpp:108</a></div></div>
-<div class="ttc" id="classGraph_html_a027365f2cf18c26a5b1ad712470d27e7"><div class="ttname"><a href="../../d2/d62/classGraph.html#a027365f2cf18c26a5b1ad712470d27e7">Graph::setHeuristic</a></div><div class="ttdeci">void setHeuristic(const std::shared_ptr&lt; Heuristic &gt; &amp;heuristic)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00032">Graph.cpp:32</a></div></div>
-<div class="ttc" id="classGraph_html_a1b48b7a91129f12de8162144a05c6040"><div class="ttname"><a href="../../d2/d62/classGraph.html#a1b48b7a91129f12de8162144a05c6040">Graph::cancelSearch</a></div><div class="ttdeci">void cancelSearch()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00098">Graph.cpp:98</a></div></div>
-<div class="ttc" id="classPath_html"><div class="ttname"><a href="../../db/dc7/classPath.html">Path</a></div><div class="ttdoc">Classe représentant un chemin calculé à partir d&#39;un algorithme de recherche. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d6f/Path_8h_source.html#l00027">Path.h:27</a></div></div>
-<div class="ttc" id="classState_html"><div class="ttname"><a href="../../d7/d97/classState.html">State</a></div><div class="ttdoc">Classe abstraite contenant un état pour les algorithmes de recherche. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d99/State_8h_source.html#l00028">State.h:28</a></div></div>
-<div class="ttc" id="classGraph_html_a974bb7852e8240b3fd22be9badcc5153"><div class="ttname"><a href="../../d2/d62/classGraph.html#a974bb7852e8240b3fd22be9badcc5153">Graph::getClosestNode</a></div><div class="ttdeci">virtual void getClosestNode(const std::shared_ptr&lt; State &gt; &amp;state, std::shared_ptr&lt; State &gt; &amp;closestState) const </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00119">Graph.cpp:119</a></div></div>
-<div class="ttc" id="classGraph_html_a28a3476d45b457f3d886e393b5fee1f0"><div class="ttname"><a href="../../d2/d62/classGraph.html#a28a3476d45b457f3d886e393b5fee1f0">Graph::setSearchAlgo</a></div><div class="ttdeci">void setSearchAlgo(const std::shared_ptr&lt; SearchAlgo &gt; &amp;searchAlgo)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00048">Graph.cpp:48</a></div></div>
-<div class="ttc" id="classGraph_html_a3352f4ebfce790add940de97787f035a"><div class="ttname"><a href="../../d2/d62/classGraph.html#a3352f4ebfce790add940de97787f035a">Graph::m_heuristic</a></div><div class="ttdeci">std::shared_ptr&lt; Heuristic &gt; m_heuristic</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d16/Graph_8h_source.html#l00053">Graph.h:53</a></div></div>
-<div class="ttc" id="classGraph_html_af597d62cb6ddc3bca99cbcb1fddedc84"><div class="ttname"><a href="../../d2/d62/classGraph.html#af597d62cb6ddc3bca99cbcb1fddedc84">Graph::m_isInit</a></div><div class="ttdeci">bool m_isInit</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d16/Graph_8h_source.html#l00052">Graph.h:52</a></div></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d7/d16/Graph_8h.html">graph/Graph.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#ae4c72b8ac4d693c49800a4c7e273654f">   15</a></span>&#160;<a class="code" href="../../d2/d62/classGraph.html#ae4c72b8ac4d693c49800a4c7e273654f">Graph::Graph</a>():m_isInit(false), m_heuristic(nullptr), m_searchAlgo(nullptr), m_isSearchRunning(false)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;}</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a902c5b3eacb66d60752525ab23297a95">   20</a></span>&#160;<a class="code" href="../../d2/d62/classGraph.html#a902c5b3eacb66d60752525ab23297a95">Graph::~Graph</a>()</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a027365f2cf18c26a5b1ad712470d27e7">   31</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d62/classGraph.html#a027365f2cf18c26a5b1ad712470d27e7">Graph::setHeuristic</a>(<span class="keyword">const</span> std::shared_ptr&lt;Heuristic&gt; &amp;heuristic)</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">m_isSearchRunning</a>)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        ROS_ERROR(<span class="stringliteral">&quot;Path planning in progress : Unable to modify heuristic&quot;</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="../../d2/d62/classGraph.html#a3352f4ebfce790add940de97787f035a">m_heuristic</a> = heuristic;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a28a3476d45b457f3d886e393b5fee1f0">   47</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d62/classGraph.html#a28a3476d45b457f3d886e393b5fee1f0">Graph::setSearchAlgo</a>(<span class="keyword">const</span> std::shared_ptr&lt;SearchAlgo&gt; &amp;searchAlgo)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">m_isSearchRunning</a>)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        ROS_ERROR(<span class="stringliteral">&quot;Path planning in progress : Unable to modify searchAlgo&quot;</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="../../d2/d62/classGraph.html#a214ba8b7f600e2ecba7e5e11f4e0fa57">m_searchAlgo</a> = searchAlgo;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a99353307b7703c348417e1d87516a887">   65</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="../../d2/d62/classGraph.html#a99353307b7703c348417e1d87516a887">Graph::evaluateHeuristic</a>(<a class="code" href="../../d7/d97/classState.html">State</a> &amp;startState, <a class="code" href="../../d7/d97/classState.html">State</a> &amp;endState)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;{</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d2/d62/classGraph.html#a3352f4ebfce790add940de97787f035a">m_heuristic</a>-&gt;evaluate(startState, endState);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a1d2c624600ebb16c38c16799ca7e519d">   77</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d62/classGraph.html#a1d2c624600ebb16c38c16799ca7e519d">Graph::search</a>(std::shared_ptr&lt;State&gt; &amp;startState, std::shared_ptr&lt;State&gt; &amp;endState, <a class="code" href="../../db/dc7/classPath.html">Path</a> &amp;path)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">m_isSearchRunning</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d62/classGraph.html#af597d62cb6ddc3bca99cbcb1fddedc84">m_isInit</a>)</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <a class="code" href="../../d2/d62/classGraph.html#a974bb7852e8240b3fd22be9badcc5153">getClosestNode</a>(startState, startState);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <a class="code" href="../../d2/d62/classGraph.html#a974bb7852e8240b3fd22be9badcc5153">getClosestNode</a>(endState, endState);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <a class="code" href="../../d2/d62/classGraph.html#a214ba8b7f600e2ecba7e5e11f4e0fa57">m_searchAlgo</a>-&gt;search(startState, endState, path);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        ROS_ERROR(<span class="stringliteral">&quot;Tentative de recherche de trajectoire, alors qu&#39;aucune map n&#39;a été reçue.&quot;</span>);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">m_isSearchRunning</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a1b48b7a91129f12de8162144a05c6040">   97</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d62/classGraph.html#a1b48b7a91129f12de8162144a05c6040">Graph::cancelSearch</a>()</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;{</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <a class="code" href="../../d2/d62/classGraph.html#a214ba8b7f600e2ecba7e5e11f4e0fa57">m_searchAlgo</a>-&gt;cancelSearch();</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#afc3bb8bff92b9989abfb78e085182795">  107</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d2/d62/classGraph.html#afc3bb8bff92b9989abfb78e085182795">Graph::isSearchRunning</a>()</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;{</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">m_isSearchRunning</a>;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="../../d2/d62/classGraph.html#a974bb7852e8240b3fd22be9badcc5153">  118</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d62/classGraph.html#a974bb7852e8240b3fd22be9badcc5153">Graph::getClosestNode</a>(<span class="keyword">const</span> std::shared_ptr&lt;State&gt; &amp;state, std::shared_ptr&lt;State&gt; &amp;closestState)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    closestState = state;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
+<div class="ttc" id="classGraph_html_afc860519781ef636c0d2e9e76832504f"><div class="ttname"><a href="../../d2/d62/classGraph.html#afc860519781ef636c0d2e9e76832504f">Graph::m_isSearchRunning</a></div><div class="ttdeci">std::atomic&lt; bool &gt; m_isSearchRunning</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d16/Graph_8h_source.html#l00054">Graph.h:54</a></div></div>
+<div class="ttc" id="classGraph_html_a99353307b7703c348417e1d87516a887"><div class="ttname"><a href="../../d2/d62/classGraph.html#a99353307b7703c348417e1d87516a887">Graph::evaluateHeuristic</a></div><div class="ttdeci">double evaluateHeuristic(State &amp;startState, State &amp;endState)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00065">Graph.cpp:65</a></div></div>
+<div class="ttc" id="classGraph_html_a214ba8b7f600e2ecba7e5e11f4e0fa57"><div class="ttname"><a href="../../d2/d62/classGraph.html#a214ba8b7f600e2ecba7e5e11f4e0fa57">Graph::m_searchAlgo</a></div><div class="ttdeci">std::shared_ptr&lt; SearchAlgo &gt; m_searchAlgo</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d16/Graph_8h_source.html#l00053">Graph.h:53</a></div></div>
+<div class="ttc" id="classGraph_html_afc3bb8bff92b9989abfb78e085182795"><div class="ttname"><a href="../../d2/d62/classGraph.html#afc3bb8bff92b9989abfb78e085182795">Graph::isSearchRunning</a></div><div class="ttdeci">bool isSearchRunning()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00107">Graph.cpp:107</a></div></div>
+<div class="ttc" id="classGraph_html_a027365f2cf18c26a5b1ad712470d27e7"><div class="ttname"><a href="../../d2/d62/classGraph.html#a027365f2cf18c26a5b1ad712470d27e7">Graph::setHeuristic</a></div><div class="ttdeci">void setHeuristic(const std::shared_ptr&lt; Heuristic &gt; &amp;heuristic)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00031">Graph.cpp:31</a></div></div>
+<div class="ttc" id="classGraph_html_a1b48b7a91129f12de8162144a05c6040"><div class="ttname"><a href="../../d2/d62/classGraph.html#a1b48b7a91129f12de8162144a05c6040">Graph::cancelSearch</a></div><div class="ttdeci">void cancelSearch()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00097">Graph.cpp:97</a></div></div>
+<div class="ttc" id="classPath_html"><div class="ttname"><a href="../../db/dc7/classPath.html">Path</a></div><div class="ttdoc">Classe représentant un chemin calculé à partir d&#39;un algorithme de recherche. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d6f/Path_8h_source.html#l00026">Path.h:26</a></div></div>
+<div class="ttc" id="classState_html"><div class="ttname"><a href="../../d7/d97/classState.html">State</a></div><div class="ttdoc">Classe abstraite contenant un état pour les algorithmes de recherche. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d99/State_8h_source.html#l00027">State.h:27</a></div></div>
+<div class="ttc" id="classGraph_html_a974bb7852e8240b3fd22be9badcc5153"><div class="ttname"><a href="../../d2/d62/classGraph.html#a974bb7852e8240b3fd22be9badcc5153">Graph::getClosestNode</a></div><div class="ttdeci">virtual void getClosestNode(const std::shared_ptr&lt; State &gt; &amp;state, std::shared_ptr&lt; State &gt; &amp;closestState) const </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00118">Graph.cpp:118</a></div></div>
+<div class="ttc" id="classGraph_html_a28a3476d45b457f3d886e393b5fee1f0"><div class="ttname"><a href="../../d2/d62/classGraph.html#a28a3476d45b457f3d886e393b5fee1f0">Graph::setSearchAlgo</a></div><div class="ttdeci">void setSearchAlgo(const std::shared_ptr&lt; SearchAlgo &gt; &amp;searchAlgo)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00047">Graph.cpp:47</a></div></div>
+<div class="ttc" id="classGraph_html_a3352f4ebfce790add940de97787f035a"><div class="ttname"><a href="../../d2/d62/classGraph.html#a3352f4ebfce790add940de97787f035a">Graph::m_heuristic</a></div><div class="ttdeci">std::shared_ptr&lt; Heuristic &gt; m_heuristic</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d16/Graph_8h_source.html#l00052">Graph.h:52</a></div></div>
+<div class="ttc" id="classGraph_html_af597d62cb6ddc3bca99cbcb1fddedc84"><div class="ttname"><a href="../../d2/d62/classGraph.html#af597d62cb6ddc3bca99cbcb1fddedc84">Graph::m_isInit</a></div><div class="ttdeci">bool m_isInit</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d16/Graph_8h_source.html#l00051">Graph.h:51</a></div></div>
 <div class="ttc" id="Graph_8h_html"><div class="ttname"><a href="../../d7/d16/Graph_8h.html">Graph.h</a></div></div>
-<div class="ttc" id="classGraph_html_ae4c72b8ac4d693c49800a4c7e273654f"><div class="ttname"><a href="../../d2/d62/classGraph.html#ae4c72b8ac4d693c49800a4c7e273654f">Graph::Graph</a></div><div class="ttdeci">Graph()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00016">Graph.cpp:16</a></div></div>
-<div class="ttc" id="classGraph_html_a1d2c624600ebb16c38c16799ca7e519d"><div class="ttname"><a href="../../d2/d62/classGraph.html#a1d2c624600ebb16c38c16799ca7e519d">Graph::search</a></div><div class="ttdeci">void search(std::shared_ptr&lt; State &gt; &amp;startState, std::shared_ptr&lt; State &gt; &amp;endState, Path &amp;path)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00078">Graph.cpp:78</a></div></div>
-<div class="ttc" id="classGraph_html_a902c5b3eacb66d60752525ab23297a95"><div class="ttname"><a href="../../d2/d62/classGraph.html#a902c5b3eacb66d60752525ab23297a95">Graph::~Graph</a></div><div class="ttdeci">virtual ~Graph()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00021">Graph.cpp:21</a></div></div>
+<div class="ttc" id="classGraph_html_ae4c72b8ac4d693c49800a4c7e273654f"><div class="ttname"><a href="../../d2/d62/classGraph.html#ae4c72b8ac4d693c49800a4c7e273654f">Graph::Graph</a></div><div class="ttdeci">Graph()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00015">Graph.cpp:15</a></div></div>
+<div class="ttc" id="classGraph_html_a1d2c624600ebb16c38c16799ca7e519d"><div class="ttname"><a href="../../d2/d62/classGraph.html#a1d2c624600ebb16c38c16799ca7e519d">Graph::search</a></div><div class="ttdeci">void search(std::shared_ptr&lt; State &gt; &amp;startState, std::shared_ptr&lt; State &gt; &amp;endState, Path &amp;path)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00077">Graph.cpp:77</a></div></div>
+<div class="ttc" id="classGraph_html_a902c5b3eacb66d60752525ab23297a95"><div class="ttname"><a href="../../d2/d62/classGraph.html#a902c5b3eacb66d60752525ab23297a95">Graph::~Graph</a></div><div class="ttdeci">virtual ~Graph()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dea/Graph_8cpp_source.html#l00020">Graph.cpp:20</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2016 10:34:55 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 4 2016 16:09:35 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
