@@ -16,6 +16,7 @@
 #include "occupancy_grid_utils.h"
 #include "Shape.h"
 #include <geometry_msgs/Point.h>
+#include <geometry_msgs/Point32.h>
 #include <geometry_msgs/Pose2D.h>
 #include <nav_msgs/OccupancyGrid.h>
 
@@ -34,6 +35,22 @@ protected:
     geometry_msgs::Point m_center;
     float m_radius;
 };
+
+void drawCirc(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &center, float radius)
+{
+    Circle c(center, radius);
+    c.draw(grid);
+}
+
+void drawCirc(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point32 &center, float radius)
+{
+    geometry_msgs::Point p;
+    p.x = center.x;
+    p.y = center.y;
+    p.z = center.z;
+    Circle c(p, radius);
+    c.draw(grid);
+}
 
 } // namespace occupancy_grid_utils
 
