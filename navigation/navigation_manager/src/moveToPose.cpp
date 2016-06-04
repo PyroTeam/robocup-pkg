@@ -171,6 +171,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
         m_as.publishFeedback(m_feedback);
 
 
+        ROS_INFO("In loop with state [%d]", m_trackPathAction.getResult()->status);
         if (!ros::ok())
         {
             isOk = false;
@@ -180,18 +181,19 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
             isOk = false;
 		//todo cancel path_track
         }
-        else if (m_trackPathAction.getResult()->status == deplacement_msg::MoveToPoseResult::FINISHED)
+        else if (m_trackPathAction.getResult()->status == deplacement_msg::TrackPathResult::STATUS_FINISHED)
         {
             isOk = false;
         }
+        r.sleep();
     }
 
-    if (m_trackPathAction.getResult()->status == deplacement_msg::MoveToPoseResult::FINISHED)
-	{
+    if (m_trackPathAction.getResult()->status == deplacement_msg::TrackPathResult::STATUS_FINISHED)
+	  {
         m_result.result = deplacement_msg::MoveToPoseResult::FINISHED;
     }
     else
-	{
+	  {
         m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
     }
     m_as.setSucceeded(m_result);
@@ -229,7 +231,7 @@ void MoveToPose::DistSensorCallback(const sensor_msgs::PointCloud &sensor)
 {
     m_sharpSensor = sensor;
     for (int i = 0 ; i < 9 ; i++)
-	{
+	  {
   		// ROS_INFO("Données capteur %d : %f %f %f", i, m_sharpSensor.points[i].x, m_sharpSensor.points[i].y, m_sharpSensor.points[i].z);
     }
 }

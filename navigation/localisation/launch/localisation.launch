@@ -1,5 +1,7 @@
 <launch>
 
+  <param name="/use_sim_time" value="true"/>
+
   <group ns="robotino1">
         <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction"/>
         <node pkg="localisation" name="visualisation" type="visualisation"/>

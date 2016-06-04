@@ -20,7 +20,7 @@ public:
 	void setMin(const geometry_msgs::Point &a);
 	void setMax(const geometry_msgs::Point &a);
 	void setPoints(const geometry_msgs::Point &a, const geometry_msgs::Point &b);
-	
+
 	void update();
 	void build(const std::list<geometry_msgs::Point> &points);
 protected:

@@ -45,11 +45,13 @@ int main(int argc, char** argv)
         for (auto &it : listOfModels)
         {
             droites.landmarks.push_back(it.getLine().getPoint());
+            droites.header.stamp = laserData.getTime();
         }
         for (auto &it : listOfSegments)
         {
             segments.landmarks.push_back(pointToPose2D(it.getMin()));
             segments.landmarks.push_back(pointToPose2D(it.getMax()));
+            segments.header.stamp = laserData.getTime();
         }
         // Publish
         pub_segments.publish(segments);

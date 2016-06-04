@@ -22,12 +22,13 @@ public:
 
 	void maj();
 	void calculateCoordMachine(Segment s);
+	
 private:
 	geometry_msgs::Pose2D 	m_centre;
 	double 					m_xSum;
 	double 					m_ySum;
 	double 					m_thetaSum;
-	int 					m_nbActu;
+	int 						m_nbActu;
 	double					m_reliability;
 };
 

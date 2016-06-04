@@ -36,6 +36,11 @@ float laserScan::getAngleInc() const
 	return m_angle_inc;
 }
 
+ros::Time laserScan::getTime() const
+{
+	return m_stamp;
+}
+
 const std::vector<float>& laserScan::getRanges() const
 {
 	return m_ranges;
@@ -88,23 +93,22 @@ void laserScan::PolarToCart ()
 	}
 }
 
-void laserScan::set(const sensor_msgs::LaserScanConstPtr& scan)
+void laserScan::setTime(ros::Time stamp)
 {
-	m_points.clear();
-
-	this->setRangeMin(scan->range_min);
-	this->setRangeMax(scan->range_max);
-	this->setAngleMin(scan->angle_min);
-	this->setAngleMax(scan->angle_max);
-	this->setAngleInc(scan->angle_increment);
-
-	m_ranges=scan->ranges;
-
-	this->PolarToCart();
+	m_stamp = stamp;
 }
 
 void laserScan::laserCallback(const sensor_msgs::LaserScanConstPtr& scan)
 {
-	set(scan);
+	m_points.clear();
+
+	m_range_min = scan->range_min;
+	m_range_max = scan->range_max;
+	m_angle_min = scan->angle_min;
+	m_angle_max = scan->angle_max;
+	m_angle_inc = scan->angle_increment;
+	m_ranges = scan->ranges;
 	m_stamp = scan->header.stamp;
+
+	this->PolarToCart();
 }

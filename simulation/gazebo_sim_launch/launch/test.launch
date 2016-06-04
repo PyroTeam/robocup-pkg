@@ -9,6 +9,8 @@
 		<arg name="debug" value="false"/>
 	</include>
 
+  <env name="ROSCONSOLE_FORMAT" value="[${node}]:${message}"/>
+
 	<!-- Pyro TEAM -->
 	<!-- Team Namespace -->
 	<group ns="PYRO">
