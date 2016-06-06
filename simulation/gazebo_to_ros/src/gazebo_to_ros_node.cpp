@@ -159,7 +159,12 @@ void machineInfoCallback(ModelStatesConstPtr &msg)
 		return;
 
 	g_landmarks.header.stamp = ros::Time::now();
-	g_landmarks.header.frame_id = "map";
+  nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+  if (tf_prefix.size() != 0)
+  {
+      tf_prefix += "/";
+  }
+	g_landmarks.header.frame_id = tf_prefix+"map";
 
 	// go through all machines
 	g_landmarks.landmarks.clear();
