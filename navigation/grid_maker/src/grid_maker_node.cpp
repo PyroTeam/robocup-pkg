@@ -46,7 +46,12 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "map_gen");
     ros::NodeHandle nh;
-
+    std::string tf_prefix;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    if (tf_prefix.size() != 0)
+    {
+        tf_prefix += "/";
+    }
     ros::Publisher map_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid", 1);
     ros::Subscriber sub_poses_machine = nh.subscribe("objectDetection/landmarks", 10, Poses_Machine_Callback);
 
@@ -80,7 +85,8 @@ int main(int argc, char **argv)
     double resolution = 0.05;
     nh.param<double>("field/resolution", resolution, 0.05);
 
-    std::string frame_id = "map";
+    std::string frame_id = tf_prefix+"map";
+    std::cout << "FRAME ID = " << frame_id << std::endl;
     nh.param<std::string>("field/frame_id", frame_id, "map");
 
     nh.param<double>("field/margin", g_margin, 0.3);
@@ -172,7 +178,7 @@ int main(int argc, char **argv)
             modifiers->execute(map);
         }
 
-
+    map.header.frame_id = tf_prefix + "map";
 	 	map_pub.publish(map);
 	 	ros::spinOnce();
 		loop_rate.sleep();

@@ -74,6 +74,12 @@ int main( int argc, char** argv )
   //visualization_msgs::Marker   robot;
 
   ros::NodeHandle n;
+  std::string tf_prefix;
+  n.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+  if (tf_prefix.size() != 0)
+  {
+      tf_prefix += "/";
+  }
 
   ros::Subscriber sub_machines    = n.subscribe("objectDetection/landmarks", 1000, landmarksCallback);
   ros::Subscriber sub_segments    = n.subscribe("objectDetection/segments_global", 100000, segmentsCallback);
@@ -86,7 +92,7 @@ int main( int argc, char** argv )
 
   while (ros::ok())
   {
-    segments.header.frame_id = "map";
+    segments.header.frame_id = tf_prefix +"map";
     segments.header.stamp = g_segments_stamp;
     segments.ns = "visualisation_segments";
     segments.action = visualization_msgs::Marker::ADD;
@@ -100,7 +106,7 @@ int main( int argc, char** argv )
     segments.color.a = 1.0;
     segments.points = tabSegments;
 
-    landmarks.header.frame_id = "map";
+    landmarks.header.frame_id = tf_prefix +"map";
     landmarks.header.stamp = g_landmarks_stamp;
     landmarks.ns = "visualisation_machines";
     landmarks.action = visualization_msgs::Marker::ADD;
@@ -118,7 +124,7 @@ int main( int argc, char** argv )
 
     landmarks.points = tabLandmarks;
 
-    odom_brute.header.frame_id = "map";
+    odom_brute.header.frame_id = tf_prefix +"map";
     odom_brute.header.stamp = ros::Time::now();
     odom_brute.ns = "visualisation_odom";
     odom_brute.action = visualization_msgs::Marker::ADD;

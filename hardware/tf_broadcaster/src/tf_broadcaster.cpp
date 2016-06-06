@@ -20,7 +20,7 @@ void poseCallback(const nav_msgs::Odometry &odom)
 	tf::Quaternion q;
 	q.setRPY(0.0, 0.0, 0.0);
 	transform.setRotation(q);
-	mapToOdom.sendTransform(tf::StampedTransform(transform, odom.header.stamp, "map", tf_prefix+"odom"));
+	mapToOdom.sendTransform(tf::StampedTransform(transform, odom.header.stamp, tf_prefix+"map", tf_prefix+"odom"));
 
 	// Odom to Base Link
 	transform.setOrigin(tf::Vector3(odom.pose.pose.position.x, odom.pose.pose.position.y, 0.0));

@@ -35,7 +35,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     tf::StampedTransform transform;
     try
     {
-        g_tf_listener->lookupTransform("/map", tf_prefix+"laser_link", machines->header.stamp, transform);
+        g_tf_listener->lookupTransform(tf_prefix+"map", tf_prefix+"laser_link", machines->header.stamp, transform);
     }
     catch (tf::TransformException ex)
     {
@@ -97,7 +97,7 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
   tf::StampedTransform transform;
   try
   {
-    g_tf_listener->lookupTransform("/map", tf_prefix+"laser_link", segments->header.stamp, transform);
+    g_tf_listener->lookupTransform(tf_prefix+"map", tf_prefix+"laser_link", segments->header.stamp, transform);
   }
   catch (tf::TransformException ex)
   {

@@ -4,6 +4,8 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Global Options1
+        - /Status1
         - /Map1
         - /PyroTeam1
         - /PyroTeam1/Robotino11
@@ -665,7 +667,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: map
+    Fixed Frame: robotino1/map
     Frame Rate: 30
   Name: root
   Tools:

@@ -51,7 +51,7 @@
 
 		<!-- Load the grid maker -->
 		<rosparam command="load" file="$(find grid_maker)/cfg/field.yaml" />
-		<node pkg="grid_maker" name="grid_maker" type="grid_maker_node"/>
+		<node pkg="grid_maker" name="grid_maker" type="grid_maker_node" output="screen"/>
 		<!-- <node pkg="grid_maker" name="grid_maker" type="construct_map_node"/> -->
 		<!-- <node pkg="grid_maker" name="fake_machines_publisher" type="construct_map_test_simulator"/> -->
 
@@ -64,21 +64,21 @@
 		<!-- Load the path tracker -->
 		<node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py"/>
 
-			<!-- Load the fake final approach -->
-			<node pkg="approche_finale" name="final_approach" type="finalApproaching_node"/>
+		<!-- Load the fake final approach -->
+		<node pkg="approche_finale" name="final_approach" type="finalApproaching_node"/>
 
-			<!-- Load the navigation manager -->
-			<node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" output="screen"/>
-			<node pkg="navigation_manager" name="move_request" type="moveRequest_node.py"/>
+		<!-- Load the navigation manager -->
+		<node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" output="screen"/>
+		<node pkg="navigation_manager" name="move_request" type="moveRequest_node.py"/>
 
-			<!-- Load the refbox comm -->
-			<node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"/>
+		<!-- Load the refbox comm -->
+		<node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"/>
 
-			<!-- Load the manager -->
-			<node pkg="executeur_taches" name="executeur" type="test_exec"/>
-			<node pkg="generateur_taches" name="manager" type="main_node"/>
-		</group>
+		<!-- Load the manager -->
+		<node pkg="executeur_taches" name="executeur" type="test_exec"/>
+		<node pkg="generateur_taches" name="manager" type="main_node"/>
+	</group>
 
-		<!-- Load rviz -->
-		<node pkg="rviz" type="rviz" name="rviz" args="-d $(find gazebo_sim_launch)/others/overview.rviz"/>
-	</launch>
+	<!-- Load rviz -->
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find gazebo_sim_launch)/others/overview.rviz"/>
+</launch>

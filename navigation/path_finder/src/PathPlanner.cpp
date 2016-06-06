@@ -23,10 +23,17 @@ PathPlanner::PathPlanner(const std::shared_ptr<Graph> &graph, std::string name) 
     m_graph(graph),
     m_path_as(m_nh, name, boost::bind(&PathPlanner::generatePathExecute_callback, this, _1), false)
 {
+    std::string tf_prefix;
+    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    if (tf_prefix.size() != 0)
+    {
+        tf_prefix += "/";
+    }
+
     m_pathFound.header.stamp = ros::Time::now();
-    m_pathFound.header.frame_id = "map";
+    m_pathFound.header.frame_id = tf_prefix+"map";
     m_pathSmoothed.header.stamp = ros::Time::now();
-    m_pathSmoothed.header.frame_id = "map";
+    m_pathSmoothed.header.frame_id = tf_prefix+"map";
 
     m_path_as.start();
 
@@ -46,6 +53,12 @@ void PathPlanner::generatePathExecute_callback(const deplacement_msg::GeneratePa
     double weightSmooth = 0.35;
     m_nh.param<double>("navigation/pathFinder/weightData", weightData, 0.45);
     m_nh.param<double>("navigation/pathFinder/weightSmooth", weightSmooth, 0.35);
+    std::string tf_prefix;
+    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    if (tf_prefix.size() != 0)
+    {
+        tf_prefix += "/";
+    }
 
     std::shared_ptr<State> startState(new PointState());
     std::shared_ptr<State> endState(new PointState());
@@ -98,7 +111,7 @@ void PathPlanner::generatePathExecute_callback(const deplacement_msg::GeneratePa
     {
         ROS_INFO_STREAM("Taille chemin = " << path.size());
         m_pathFound.header.stamp = ros::Time::now();
-        m_pathFound.header.frame_id = "map";
+        m_pathFound.header.frame_id = tf_prefix+"map";
         m_pathFound.poses.clear();
         m_pathFound.poses = path.getPoses();
 
@@ -106,7 +119,7 @@ void PathPlanner::generatePathExecute_callback(const deplacement_msg::GeneratePa
         pathS.setSmoothParam(weightData, weightSmooth);
         pathS.smooth();
         m_pathSmoothed.header.stamp = ros::Time::now();
-        m_pathSmoothed.header.frame_id = "map";
+        m_pathSmoothed.header.frame_id = tf_prefix+"map";
         m_pathSmoothed.poses.clear();
         m_pathSmoothed.poses = pathS.getPoses();
 
