@@ -659,9 +659,7 @@ Visualization Manager:
       Marker Topic: /robotino1/rviz/visualization_markers
       Name: Marker
       Namespaces:
-        visualisation_machines: true
-        visualisation_odom: true
-        visualisation_segments: true
+        {}
       Queue Size: 100
       Value: true
   Enabled: true
@@ -687,7 +685,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -0.00500001
+      Angle: -1.02445e-08
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06

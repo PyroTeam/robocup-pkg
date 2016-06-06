@@ -42,6 +42,4 @@ void gatherOneSegmentWithAList(Segment &segment, std::list<Segment> &sgts);
 
 void gather(std::list<Segment> &sgts);
 
-std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments);
-
 #endif

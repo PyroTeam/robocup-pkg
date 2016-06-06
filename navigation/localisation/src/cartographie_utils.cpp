@@ -50,7 +50,7 @@ geometry_msgs::Pose2D getCenter(int zone)
 int machineToArea(geometry_msgs::Pose2D m)
 {
   int zone = getZone(m);
-  if ((zone != 0) && (dist(m,getCenter(zone)) <= 0.6))
+  if ((zone != 0) && (dist(m,getCenter(zone)) <= 0.75))
   {
     return zone;
   }
@@ -261,21 +261,4 @@ void gather(std::list<Segment> &sgts)
     gatherOneSegmentWithAList(*it, sgts);
     ++it;
   }
-}
-
-std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments)
-{
-    std::vector<Machine> tmp;
-
-    for (auto &it : listOfSegments)
-    {
-        if (std::abs(it.getSize() - 0.7) <= 0.05)
-        {
-            Machine m;
-            m.calculateCoordMachine(it);
-            tmp.push_back(m);
-        }
-    }
-
-    return tmp;
 }
