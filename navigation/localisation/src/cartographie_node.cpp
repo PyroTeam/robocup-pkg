@@ -82,9 +82,6 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     }
 
     g_machines = convert(g_mps);
-
-    //ros::Publisher pub_machines = nh.advertise< deplacement_msg::Landmarks >("objectDetection/landmarks", 1000);
-    //pub_machines.publish(g_machines);
 }
 
 void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
@@ -144,9 +141,6 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
   std::list<Segment> tmp = landmarksToSegments(g_walls);
   adjust(g_sgtArray,tmp);
   gather(g_sgtArray);
-
-  //ros::Publisher pub_segments_global = nh.advertise< deplacement_msg::Landmarks >("objectDetection/segments_global", 1000);
-  //pub_segments_global.publish(backToLandmarks(g_sgtArray));
 }
 
 int main( int argc, char** argv )
@@ -157,11 +151,11 @@ int main( int argc, char** argv )
 
     ros::NodeHandle n;
 
-    ros::Subscriber sub_segments = n.subscribe("objectDetection/segments", 1000, segmentsCallback);
-    ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 1000, machinesCallback);
+    ros::Subscriber sub_segments = n.subscribe("objectDetection/segments", 100, segmentsCallback);
+    ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 100, machinesCallback);
 
-    ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("objectDetection/landmarks", 1000);
-    ros::Publisher pub_segments_global = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments_global", 1000);
+    ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("objectDetection/landmarks", 100);
+    ros::Publisher pub_segments_global = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments_global", 100);
 
     ros::Rate loop_rate (10);
     while(n.ok())

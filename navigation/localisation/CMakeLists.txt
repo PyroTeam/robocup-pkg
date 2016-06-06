@@ -130,17 +130,6 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-
-add_executable(
-  testSync
-  src/testSync.cpp)
-set_target_properties(testSync PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(testSync deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
-target_link_libraries(
-  testSync
-  ${catkin_LIBRARIES}
-)
-
 add_executable(
   odometry_correction
   src/odometry_correction_node.cpp)
