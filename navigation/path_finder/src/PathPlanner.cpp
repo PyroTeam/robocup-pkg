@@ -31,9 +31,9 @@ PathPlanner::PathPlanner(const std::shared_ptr<Graph> &graph, std::string name) 
     }
 
     m_pathFound.header.stamp = ros::Time::now();
-    m_pathFound.header.frame_id = tf_prefix+"map";
+    m_pathFound.header.frame_id = "map";
     m_pathSmoothed.header.stamp = ros::Time::now();
-    m_pathSmoothed.header.frame_id = tf_prefix+"map";
+    m_pathSmoothed.header.frame_id = "map";
 
     m_path_as.start();
 
@@ -111,7 +111,7 @@ void PathPlanner::generatePathExecute_callback(const deplacement_msg::GeneratePa
     {
         ROS_INFO_STREAM("Taille chemin = " << path.size());
         m_pathFound.header.stamp = ros::Time::now();
-        m_pathFound.header.frame_id = tf_prefix+"map";
+        m_pathFound.header.frame_id = "map";
         m_pathFound.poses.clear();
         m_pathFound.poses = path.getPoses();
 
@@ -119,7 +119,7 @@ void PathPlanner::generatePathExecute_callback(const deplacement_msg::GeneratePa
         pathS.setSmoothParam(weightData, weightSmooth);
         pathS.smooth();
         m_pathSmoothed.header.stamp = ros::Time::now();
-        m_pathSmoothed.header.frame_id = tf_prefix+"map";
+        m_pathSmoothed.header.frame_id = "map";
         m_pathSmoothed.poses.clear();
         m_pathSmoothed.poses = pathS.getPoses();
 

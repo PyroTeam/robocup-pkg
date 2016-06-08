@@ -12,6 +12,16 @@
 #include "cartographie_utils.h"
 #include "math_functions.h"
 
+#define THRESHOLD_DISTANCE 0.3
+#define THRESHOLD_ANGLE 0.34
+
+#define WALL_TOP 6.0
+#define WALL_BOTTOM 0.0
+#define WALL_LEFT -6.0
+#define WALL_RIGHT 6.0
+
+#define THRESHOLD 0.3
+
 using namespace Eigen;
 
 deplacement_msg::Landmarks g_walls;
@@ -35,7 +45,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     tf::StampedTransform transform;
     try
     {
-        g_tf_listener->lookupTransform(tf_prefix+"map", tf_prefix+"laser_link", machines->header.stamp, transform);
+        g_tf_listener->lookupTransform("map", tf_prefix+"laser_link", machines->header.stamp, transform);
     }
     catch (tf::TransformException ex)
     {
@@ -68,9 +78,9 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
 
         // Moyennage si pas de résultat aberrant ou si 1ère fois
         if (g_mps[zone-1].getNbActu() == 0 ||
-           (std::abs(g_mps[zone-1].getCentre().x - p.x) <= 0.3 &&
-            std::abs(g_mps[zone-1].getCentre().y - p.y) <= 0.3 &&
-            std::abs(g_mps[zone-1].getCentre().theta - p.theta) <= 0.34))
+           (std::abs(g_mps[zone-1].getCentre().x - p.x) <= THRESHOLD_DISTANCE &&
+            std::abs(g_mps[zone-1].getCentre().y - p.y) <= THRESHOLD_DISTANCE &&
+            std::abs(g_mps[zone-1].getCentre().theta - p.theta) <= THRESHOLD_ANGLE))
         {
             g_mps[zone-1].addX(p.x);
             g_mps[zone-1].addY(p.y);
@@ -97,7 +107,7 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
   tf::StampedTransform transform;
   try
   {
-    g_tf_listener->lookupTransform(tf_prefix+"map", tf_prefix+"laser_link", segments->header.stamp, transform);
+    g_tf_listener->lookupTransform("map", tf_prefix+"laser_link", segments->header.stamp, transform);
   }
   catch (tf::TransformException ex)
   {
@@ -126,12 +136,12 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
     q.theta = segments->landmarks[i+1].theta + yaw;
 
     // si le segment est un mur
-    if ((((std::abs(p.x + 6.0) <= 0.3 && std::abs(q.x + 6.0) <= 0.3) ||
-          (std::abs(p.x - 6.0) <= 0.3 && std::abs(q.x - 6.0) <= 0.3)) &&
+    if ((((std::abs(p.x - WALL_LEFT) <= 0.3 && std::abs(q.x - WALL_LEFT) <= 0.3) ||
+          (std::abs(p.x - WALL_RIGHT) <= 0.3 && std::abs(q.x - WALL_RIGHT) <= 0.3)) &&
            std::abs(p.y - 3.0) <= 3.3 && std::abs(q.y - 3.0) <= 3.3) ||
-        (((std::abs(p.y - 6.0) <= 0.3 && std::abs(q.y - 6.0) <= 0.3) ||
-          (std::abs(p.y) <= 0.3 && std::abs(q.y) <= 0.3)) &&
-           std::abs(p.x) <= 6.3 && std::abs(q.x) <= 6.3))
+        (((std::abs(p.y - WALL_TOP) <= 0.3 && std::abs(q.y - WALL_TOP) <= 0.3) ||
+          (std::abs(p.y - WALL_BOTTOM) <= 0.3 && std::abs(q.y - WALL_BOTTOM) <= 0.3)) &&
+           std::abs(p.x) <= WALL_RIGHT + THRESHOLD && std::abs(q.x) <= WALL_RIGHT + THRESHOLD))
     {
         g_walls.landmarks.push_back(p);
         g_walls.landmarks.push_back(q);

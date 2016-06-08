@@ -85,8 +85,7 @@ int main(int argc, char **argv)
     double resolution = 0.05;
     nh.param<double>("field/resolution", resolution, 0.05);
 
-    std::string frame_id = tf_prefix+"map";
-    std::cout << "FRAME ID = " << frame_id << std::endl;
+    std::string frame_id = "map";
     nh.param<std::string>("field/frame_id", frame_id, "map");
 
     nh.param<double>("field/margin", g_margin, 0.3);
@@ -178,7 +177,6 @@ int main(int argc, char **argv)
             modifiers->execute(map);
         }
 
-    map.header.frame_id = tf_prefix + "map";
 	 	map_pub.publish(map);
 	 	ros::spinOnce();
 		loop_rate.sleep();
