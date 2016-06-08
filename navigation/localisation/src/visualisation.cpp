@@ -65,7 +65,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     //m.pose.position.x = it.x;
     //m.pose.position.y = it.y;
     //m.pose.orientation = tf::createQuaternionMsgFromYaw(it.theta);
-    //m.id = getZone(it);
+    //m.id = getArea(it);
     //m.type = visualization_msgs::Marker::POINTS;
 
     //m.lifetime = 0;

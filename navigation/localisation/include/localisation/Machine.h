@@ -14,15 +14,11 @@ public:
 	double getReliability();
 
 	void setCentre(geometry_msgs::Pose2D c);
-	void addX(double x);
-	void addY(double y);
-	void addTheta(double theta);
-	void incNbActu();
-	void setReliability(double rel);
 
-	void maj();
+  void update(const geometry_msgs::Pose2D &p);
 	void calculateCoordMachine(Segment s);
-	
+  bool canBeUpdated(const geometry_msgs::Pose2D &seenMachine);
+
 private:
 	geometry_msgs::Pose2D 	m_centre;
 	double 					m_xSum;

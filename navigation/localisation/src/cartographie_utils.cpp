@@ -2,9 +2,10 @@
 
 using namespace Eigen;
 
-int getZone(geometry_msgs::Pose2D m)
+// Field = 6 m x 12 m
+int getArea(geometry_msgs::Pose2D m)
 {
-  //côté droit
+  // Right side
   if(m.x >= 0 && m.x <= 6 && m.y >= 0 && m.y < 6)
   {
     int w = int(m.x/2);
@@ -12,7 +13,7 @@ int getZone(geometry_msgs::Pose2D m)
 
     return w*4 + h;
   }
-  //côté gauche
+  // Left Side
   else if (m.x >= -6 && m.x < 0 && m.y >= 0 && m.y < 6)
   {
     int w = int(-m.x/2);
@@ -26,22 +27,23 @@ int getZone(geometry_msgs::Pose2D m)
   }
 }
 
-geometry_msgs::Pose2D getCenter(int zone)
+// Area = 2 m x 1.5 m
+geometry_msgs::Pose2D getCenter(int area)
 {
   geometry_msgs::Pose2D c;
 
   // Right side
-  if(zone<=12)
+  if(area<=12)
   {
-    c.x = ((zone-1)/4)*2 + 1;
-    c.y = ((zone-1)%4)*1.5 + 0.75;
+    c.x = ((area-1)/4)*2 + 1;
+    c.y = ((area-1)%4)*1.5 + 0.75;
   }
   // Left side
-  else if (zone<=24)
+  else if (area<=24)
   {
-    zone -=12;
-    c.x = -((zone-1)/4)*2 - 1;
-    c.y = ((zone-1)%4)*1.5 + 0.75;
+    area -=12;
+    c.x = -((area-1)/4)*2 - 1;
+    c.y = ((area-1)%4)*1.5 + 0.75;
   }
 
   return c;
@@ -49,10 +51,10 @@ geometry_msgs::Pose2D getCenter(int zone)
 
 int machineToArea(geometry_msgs::Pose2D m)
 {
-  int zone = getZone(m);
-  if ((zone != 0) && (dist(m,getCenter(zone)) <= 0.75))
+  int area = getArea(m);
+  if ((area != 0) && (dist(m,getCenter(area)) <= 0.75))
   {
-    return zone;
+    return area;
   }
   else
   {
@@ -90,16 +92,24 @@ bool isAlmostTheSame(Segment a, Segment b)
   }
 }
 
+// The aim of the following function is to determine on which segment we will
+// project the other in order to get the best
+// speaking of angle, the best will be the closest angle to the horizontal or vertical direction
+// speaking of size, the best will be the longer
 void projection(Segment &worst, Segment &best)
 {
   geometry_msgs::Point P1, P2;
 
+  // The angle is normalised between 0 and M_PI
+
+  // Vertical way
   if ((std::abs(best.getAngle())  > M_PI/4 &&
        std::abs(best.getAngle())  < 3*M_PI/4 &&
        std::abs(worst.getAngle()) > M_PI/4 &&
        std::abs(worst.getAngle()) < 3*M_PI/4 &&
        std::abs(best.getAngle() - M_PI_2) <= std::abs(worst.getAngle() - M_PI_2)) ||
 
+  // Horizontal ways
       (std::abs(best.getAngle())  < M_PI/4 &&
        std::abs(worst.getAngle()) < M_PI/4 &&
        std::abs(best.getAngle()) <= std::abs(worst.getAngle())) ||
@@ -134,46 +144,59 @@ void projection(Segment &worst, Segment &best)
   }
 }
 
-bool modify(Segment a, Segment &b)
+bool improve(Segment a, Segment &b)
 {
+  // Projection of the worst on the best
   projection(a,b);
 
-  //on passe alors dans le repère local du segment pour déterminer s'il y a chevauchement
+  // We transform the coordinates from global to local frame of the first segment
   geometry_msgs::Point bMin = globalToLocal(b.getMin(), b);
   geometry_msgs::Point bMax = globalToLocal(b.getMax(), b);
   geometry_msgs::Point aMin = globalToLocal(a.getMin(), b);
   geometry_msgs::Point aMax = globalToLocal(a.getMax(), b);
 
   Segment tmp;
+  const double threshold = 0.3;
 
-  if(dist(aMin,aMax) >= 0.5 &&
-     dist(bMin,bMax) >= 0.5 &&
-     (dist(aMin, bMin) <= 0.3 || dist(aMin, bMax) <= 0.3) &&
-     (dist(aMax, bMax) <= 0.3 || dist(aMax, bMin) <= 0.3))
+  // 0.5 is the minimal size for a well detected segment
+  if(dist(aMin,aMax) >= 0.5 && dist(bMin,bMax) >= 0.5 &&
+  // if there is an overlap between the two segments
+     (dist(aMin, bMin) <= threshold || dist(aMin, bMax) <= threshold) &&
+     (dist(aMax, bMax) <= threshold || dist(aMax, bMin) <= threshold))
   {
     if (aMin.x <= bMin.x)
     {
-      tmp.setMin(a.getMin());
-
       if (aMax.x <= bMax.x)
       {
+      //            A    <------------------------>
+      //            B        <----------------------->
+      //            tmp  <--------------------------->
+        tmp.setMin(a.getMin());
         tmp.setMax(b.getMax());
       }
       else
       {
-        tmp.setMax(a.getMax());
+      //            A    <--------------------------->
+      //            B        <--------------------->
+      //            tmp  <--------------------------->
+        tmp = a;
       }
     }
     else
     {
-      tmp.setMin(b.getMin());
-
       if (aMax.x <= bMax.x)
       {
-        tmp.setMax(b.getMax());
+      //            A        <--------------------->
+      //            B    <--------------------------->
+      //            tmp  <--------------------------->
+        tmp = b;
       }
       else
       {
+      //            A        <----------------------->
+      //            B    <------------------------->
+      //            tmp  <--------------------------->
+        tmp.setMin(b.getMin());
         tmp.setMax(a.getMax());
       }
     }
@@ -181,8 +204,8 @@ bool modify(Segment a, Segment &b)
 
   tmp.update();
 
-  if (tmp.getSize() > b.getSize() &&
-      tmp.getSize() > 0.5)
+  // if we improved that segment
+  if (tmp.getSize() > b.getSize())
   {
     b = tmp;
     return true;
@@ -203,7 +226,7 @@ void adjust(std::list<Segment> &segmentsRecorded, std::list<Segment> segmentsSee
 
     for (auto &sgtR : segmentsRecorded)
     {
-      if (isAlmostTheSame(sgtS,sgtR) && modify(sgtS,sgtR))
+      if (isAlmostTheSame(sgtS,sgtR) && improve(sgtS,sgtR))
       {
         nb++;
       }

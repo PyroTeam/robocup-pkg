@@ -39,5 +39,5 @@ void Line::build(geometry_msgs::Pose2D a, geometry_msgs::Pose2D b)
 	p.y = (b.y + a.y)/2;
 	p.theta = (b.y - a.y)/(b.x - a.x);
 
-  	set(p);
+  set(p);
 }

@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "map_gen");
     ros::NodeHandle nh;
     std::string tf_prefix;
-    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
     if (tf_prefix.size() != 0)
     {
         tf_prefix += "/";

@@ -33,7 +33,6 @@ public:
 	void setAngleMin(const float &min);
 	void setAngleMax(const float &max);
 	void setAngleInc(const float &inc);
-	void setTime(ros::Time stamp);
 
 	void laserCallback(const sensor_msgs::LaserScanConstPtr& scan);
 

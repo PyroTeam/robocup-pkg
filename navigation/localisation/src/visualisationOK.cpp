@@ -75,7 +75,7 @@ int main( int argc, char** argv )
 
   ros::NodeHandle n;
   std::string tf_prefix;
-  n.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+  n.param<std::string>("simuRobotNamespace", tf_prefix, "");
   if (tf_prefix.size() != 0)
   {
       tf_prefix += "/";

@@ -4,9 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
-        - /Status1
-        - /Map1
         - /PyroTeam1
         - /PyroTeam1/Robotino11
         - /PyroTeam1/Robotino11/Path1
@@ -661,7 +658,9 @@ Visualization Manager:
       Marker Topic: /robotino1/rviz/visualization_markers
       Name: Marker
       Namespaces:
-        {}
+        visualisation_machines: true
+        visualisation_odom: true
+        visualisation_segments: true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -696,11 +695,11 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 50
-      Scale: 59.8073
+      Scale: 61.9616
       Target Frame: map
       Value: TopDownOrtho (rviz)
-      X: 0.427796
-      Y: 2.36345
+      X: -0.178107
+      Y: 2.67768
     Saved:
       - Angle: 0
         Class: rviz/TopDownOrtho

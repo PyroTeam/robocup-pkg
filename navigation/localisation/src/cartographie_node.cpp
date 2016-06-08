@@ -12,15 +12,6 @@
 #include "cartographie_utils.h"
 #include "math_functions.h"
 
-#define THRESHOLD_DISTANCE 0.3
-#define THRESHOLD_ANGLE 0.34
-
-#define WALL_TOP 6.0
-#define WALL_BOTTOM 0.0
-#define WALL_LEFT -6.0
-#define WALL_RIGHT 6.0
-
-#define THRESHOLD 0.3
 
 using namespace Eigen;
 
@@ -36,7 +27,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
 {
     static ros::NodeHandle nh;
     std::string tf_prefix;
-    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
     if (tf_prefix.size() != 0)
     {
         tf_prefix += "/";
@@ -60,34 +51,24 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     for (auto &it : machines->landmarks)
     {
         // Changement de repère
-        geometry_msgs::Pose2D p;
-        //geometry_msgs::Pose2D p = RobotToGlobal(LaserToRobot(it), g_odomRobot);
+        geometry_msgs::Pose2D center;
 
         double yaw = tf::getYaw(transform.getRotation());
-        p.x     = it.x*cos(yaw) - it.y*sin(yaw) + transform.getOrigin().x();
-        p.y     = it.x*sin(yaw) + it.y*cos(yaw) + transform.getOrigin().y();
-        p.theta = it.theta + yaw;
+        center.x     = it.x*cos(yaw) - it.y*sin(yaw) + transform.getOrigin().x();
+        center.y     = it.x*sin(yaw) + it.y*cos(yaw) + transform.getOrigin().y();
+        center.theta = it.theta + yaw;
 
         // Vérification de la zone
-        int zone = machineToArea(p);
-        //std::cout << "machine en zone " << zone << std::endl;
+        int zone = machineToArea(center);
         if(zone==0)
         {
             continue;
         }
 
         // Moyennage si pas de résultat aberrant ou si 1ère fois
-        if (g_mps[zone-1].getNbActu() == 0 ||
-           (std::abs(g_mps[zone-1].getCentre().x - p.x) <= THRESHOLD_DISTANCE &&
-            std::abs(g_mps[zone-1].getCentre().y - p.y) <= THRESHOLD_DISTANCE &&
-            std::abs(g_mps[zone-1].getCentre().theta - p.theta) <= THRESHOLD_ANGLE))
+        if (g_mps[zone-1].canBeUpdated(center))
         {
-            g_mps[zone-1].addX(p.x);
-            g_mps[zone-1].addY(p.y);
-            g_mps[zone-1].addTheta(p.theta);
-            g_mps[zone-1].incNbActu();
-
-            g_mps[zone-1].maj();
+            g_mps[zone-1].update(center);
         }
     }
 
@@ -98,7 +79,7 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
 {
   static ros::NodeHandle nh;
   std::string tf_prefix;
-  nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+  nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
   if (tf_prefix.size() != 0)
   {
     tf_prefix += "/";
@@ -135,13 +116,11 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
     q.y     = segments->landmarks[i+1].x*sin(yaw) + segments->landmarks[i+1].y*cos(yaw) + transform.getOrigin().y();
     q.theta = segments->landmarks[i+1].theta + yaw;
 
+    Segment seg;
+    seg.setPoints(pose2DToPoint(p), pose2DToPoint(q));
+
     // si le segment est un mur
-    if ((((std::abs(p.x - WALL_LEFT) <= 0.3 && std::abs(q.x - WALL_LEFT) <= 0.3) ||
-          (std::abs(p.x - WALL_RIGHT) <= 0.3 && std::abs(q.x - WALL_RIGHT) <= 0.3)) &&
-           std::abs(p.y - 3.0) <= 3.3 && std::abs(q.y - 3.0) <= 3.3) ||
-        (((std::abs(p.y - WALL_TOP) <= 0.3 && std::abs(q.y - WALL_TOP) <= 0.3) ||
-          (std::abs(p.y - WALL_BOTTOM) <= 0.3 && std::abs(q.y - WALL_BOTTOM) <= 0.3)) &&
-           std::abs(p.x) <= WALL_RIGHT + THRESHOLD && std::abs(q.x) <= WALL_RIGHT + THRESHOLD))
+    if (seg.isAWall())
     {
         g_walls.landmarks.push_back(p);
         g_walls.landmarks.push_back(q);

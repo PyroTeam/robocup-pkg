@@ -20,7 +20,7 @@
 #include <vector>
 #include <cmath>
 
-int getZone(geometry_msgs::Pose2D m);
+int getArea(geometry_msgs::Pose2D m);
 
 geometry_msgs::Pose2D getCenter(int zone);
 
@@ -32,7 +32,7 @@ bool isAlmostTheSame(Segment a, Segment b);
 
 void projection(Segment &worst, Segment &best);
 
-bool modify(Segment a, Segment &b);
+bool improve(Segment a, Segment &b);
 
 void adjust(std::list<Segment> &segmentsRecorded, std::list<Segment> segmentsSeen);
 
@@ -41,5 +41,6 @@ void gatherTwoSegments(Segment &segment_1, Segment segment_2);
 void gatherOneSegmentWithAList(Segment &segment, std::list<Segment> &sgts);
 
 void gather(std::list<Segment> &sgts);
+
 
 #endif

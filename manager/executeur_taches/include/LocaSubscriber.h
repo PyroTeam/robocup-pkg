@@ -27,7 +27,7 @@ class LocaSubscriber
 
 	    /* Méthodes */
 	    void tesCallback(const deplacement_msg::LandmarksConstPtr &msg);
-	    int getZone(float x, float y);
+	    int getArea(float x, float y);
 	    std::vector<geometry_msgs::Pose2D> tab_machine;
 	    std::vector<MPS> m_machine;
 

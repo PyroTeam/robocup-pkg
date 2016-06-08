@@ -24,7 +24,7 @@ PathPlanner::PathPlanner(const std::shared_ptr<Graph> &graph, std::string name) 
     m_path_as(m_nh, name, boost::bind(&PathPlanner::generatePathExecute_callback, this, _1), false)
 {
     std::string tf_prefix;
-    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
     if (tf_prefix.size() != 0)
     {
         tf_prefix += "/";
@@ -54,7 +54,7 @@ void PathPlanner::generatePathExecute_callback(const deplacement_msg::GeneratePa
     m_nh.param<double>("navigation/pathFinder/weightData", weightData, 0.45);
     m_nh.param<double>("navigation/pathFinder/weightSmooth", weightSmooth, 0.35);
     std::string tf_prefix;
-    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
     if (tf_prefix.size() != 0)
     {
         tf_prefix += "/";

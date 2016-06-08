@@ -88,14 +88,9 @@ void laserScan::PolarToCart ()
 	   		geometry_msgs::Point p;
 	   		p.x = m_ranges[i]*cos(double(getAngleMin() + i*getAngleInc()));
 	   		p.y = m_ranges[i]*sin(double(getAngleMin() + i*getAngleInc()));
-			m_points.push_back(p);
+			  m_points.push_back(p);
 		}
 	}
-}
-
-void laserScan::setTime(ros::Time stamp)
-{
-	m_stamp = stamp;
 }
 
 void laserScan::laserCallback(const sensor_msgs::LaserScanConstPtr& scan)

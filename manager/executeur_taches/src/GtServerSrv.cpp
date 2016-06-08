@@ -48,7 +48,7 @@ geometry_msgs::Pose2D GtServerSrv::calculOutPoint(geometry_msgs::Pose2D pt_actue
 	geometry_msgs::Pose2D pt_dest, center;
 	center.x = m_ls->m_machine[zone - 1].x;
 	center.y = m_ls->m_machine[zone - 1].y;
-	center.theta = m_ls->m_machine[zone - 1].theta;;
+	center.theta = m_ls->m_machine[zone - 1].theta;
 	pt_dest.x = 2*center.x - pt_actuel.x;
 	pt_dest.y = 2*center.y - pt_actuel.y;
 	pt_dest.theta = pt_actuel.theta - M_PI;
