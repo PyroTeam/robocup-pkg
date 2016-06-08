@@ -11,7 +11,7 @@ void showHistogram(Mat& img)
 	vector<Mat> hist(nc);       // histogram arrays
 
 	// Initalize histogram arrays
-	for (int i = 0; i < hist.size(); i++)
+	for (size_t i = 0; i < hist.size(); i++)
 		hist[i] = Mat::zeros(1, bins, CV_32SC1);
 
 	// Calculate the histogram of the image

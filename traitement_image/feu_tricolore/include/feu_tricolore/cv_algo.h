@@ -6,22 +6,41 @@
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/image_encodings.h>
+
+/* Les deux bibliothèques nécessaires d'opencv :
+    - cv.h contient les structures et fonctions de manipulation d'images
+    - highgui.h contient les fonctions d'affichage des images
+*/
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <sys/time.h>
+
+#include <iostream>
+#include <stdio.h>
 #include <sstream>
+#include <string>
+#include <math.h>
+#include <vector>
+#include <algorithm>
+#include <sstream>
+#include <sys/time.h>
 
 #include "comm_msg/LightSpec.h"
 #include "trait_im_msg/LightSignal.h"
 #include "std_msgs/String.h"
-
-#include "cv_utils.h"
 
 #include "opencv2/features2d/features2d.hpp"
 // #include "opencv2/nonfree/features2d.hpp"
 
 #include <trait_im_msg/processLightSignalAction.h>
 #include <actionlib/server/simple_action_server.h>
+
+// Perso
+#include "feu_tricolore/display-histogram.h"
+
 
 /*==========  Namespaces  ==========*/
 namespace enc = sensor_msgs::image_encodings;
@@ -83,20 +102,6 @@ private:
     void opening(cv::Mat &imgToProcess, cv::Size size = cv::Size(3,3), int shape = cv::MORPH_RECT);
     void closing(cv::Mat &imgToProcess, cv::Size size = cv::Size(3,3), int shape = cv::MORPH_RECT);
 
-// Parametres du filtrage HSV
-private:
-    int getHSV_max_value();
-    int getHSV_min_value();
-    bool getEnableHSV();
-
-    int getOpeningSize();
-    int getOpeningIterations();
-    bool getEnableOpening();
-
-    int getClosingSize();
-    int getClosingIterations();
-    bool getEnableClosing();
-
 private:
     cv::Mat singleToMultChannels(cv::Mat binary, int numChannels = 3);
     cv::Mat binaryThreshold(cv::Mat imgBgr, char channel);
@@ -116,8 +121,8 @@ private:
     void preemptCB();
     ros::Time beginOfProcessing_;
     int nbImgProcessed_;
-    static const int minNbImgProcessedPerSecond_ = 10;
-    static const float minProcessTimeNeeded_ = 0.5;
+    static constexpr int minNbImgProcessedPerSecond_ = 10;
+    static constexpr float minProcessTimeNeeded_ = 0.5;
     int freakProcessing(std::string detector_str = "GFTT", std::string extractor_str = "BRISK", std::string matcher_str = "BruteForce-Hamming");
     int cascadeProcessing();
 };

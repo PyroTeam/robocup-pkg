@@ -50,7 +50,6 @@ add_executable(
 
 	src/lecture_feu_node.cpp
 	src/cv_algo.cpp
-	src/cv_utils.cpp
 	src/display-histogram.cpp
 )
 add_dependencies(
@@ -60,10 +59,16 @@ add_dependencies(
 )
 target_link_libraries(
 	lecture_feu_node
+
 	${catkin_LIBRARIES}
 	${OpenCV_LIBRARIES}
 )
+set_target_properties(
+	lecture_feu_node
 
+	# PROPERTIES COMPILE_FLAGS "-std=c++11 -Wall -Werror"	# Uniquement en dev sur machine perso, pas en release
+	PROPERTIES COMPILE_FLAGS "-std=c++11 -Wall"
+)
 
 add_executable(sim_light_detection
 	src/simLightDetection_node.cpp
