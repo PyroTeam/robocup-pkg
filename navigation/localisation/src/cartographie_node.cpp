@@ -51,22 +51,13 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     for (auto &it : machines->landmarks)
     {
         // Changement de repère
-        geometry_msgs::Pose2D center;
-
-        double yaw = tf::getYaw(transform.getRotation());
-        center.x     = it.x*cos(yaw) - it.y*sin(yaw) + transform.getOrigin().x();
-        center.y     = it.x*sin(yaw) + it.y*cos(yaw) + transform.getOrigin().y();
-        center.theta = it.theta + yaw;
+        geometry_msgs::Pose2D center = changeFrame(it, transform);
 
         // Vérification de la zone
         int zone = machineToArea(center);
-        if(zone==0)
-        {
-            continue;
-        }
 
-        // Moyennage si pas de résultat aberrant ou si 1ère fois
-        if (g_mps[zone-1].canBeUpdated(center))
+        // Si la machine est bien dans une zone et peut être mise à jour
+        if (zone != 0 && g_mps[zone-1].canBeUpdated(center))
         {
             g_mps[zone-1].update(center);
         }
@@ -103,17 +94,8 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
   for (int i = 0; i < segments->landmarks.size(); i = i+2)
   {
     // Changement de repère
-    geometry_msgs::Pose2D p, q;
-
-    double yaw = tf::getYaw(transform.getRotation());
-
-    p.x     = segments->landmarks[i].x*cos(yaw) - segments->landmarks[i].y*sin(yaw) + transform.getOrigin().x();
-    p.y     = segments->landmarks[i].x*sin(yaw) + segments->landmarks[i].y*cos(yaw) + transform.getOrigin().y();
-    p.theta = segments->landmarks[i].theta + yaw;
-
-    q.x     = segments->landmarks[i+1].x*cos(yaw) - segments->landmarks[i+1].y*sin(yaw) + transform.getOrigin().x();
-    q.y     = segments->landmarks[i+1].x*sin(yaw) + segments->landmarks[i+1].y*cos(yaw) + transform.getOrigin().y();
-    q.theta = segments->landmarks[i+1].theta + yaw;
+    geometry_msgs::Pose2D p = changeFrame(segments->landmarks[i], transform);
+    geometry_msgs::Pose2D q = changeFrame(segments->landmarks[i+1], transform);
 
     Segment seg;
     seg.setPoints(pose2DToPoint(p), pose2DToPoint(q));

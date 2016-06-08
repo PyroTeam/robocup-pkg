@@ -173,6 +173,7 @@ bool improve(Segment a, Segment &b)
       //            tmp  <--------------------------->
         tmp.setMin(a.getMin());
         tmp.setMax(b.getMax());
+        tmp.update();
       }
       else
       {
@@ -198,11 +199,10 @@ bool improve(Segment a, Segment &b)
       //            tmp  <--------------------------->
         tmp.setMin(b.getMin());
         tmp.setMax(a.getMax());
+        tmp.update();
       }
     }
   }
-
-  tmp.update();
 
   // if we improved that segment
   if (tmp.getSize() > b.getSize())
