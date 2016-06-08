@@ -46,51 +46,32 @@ include_directories(
 
 # Declare all cpp executables
 add_executable(
-	lecture_feu_node 
+	lecture_feu_node
+
 	src/lecture_feu_node.cpp
 	src/cv_algo.cpp
 	src/cv_utils.cpp
-  src/display-histogram.cpp
+	src/display-histogram.cpp
 )
 add_dependencies(
-  lecture_feu_node 
-  trait_im_msg_generate_messages_cpp
+	lecture_feu_node
+
+	trait_im_msg_generate_messages_cpp
 )
 target_link_libraries(
-  lecture_feu_node
+	lecture_feu_node
 	${catkin_LIBRARIES}
 	${OpenCV_LIBRARIES}
 )
 
 
-add_executable(sim_light_detection 
+add_executable(sim_light_detection
 	src/simLightDetection_node.cpp
 	src/SimLightDetection.cpp
 )
-add_dependencies(sim_light_detection 
+add_dependencies(sim_light_detection
 	trait_im_msg_gencpp
 )
 target_link_libraries(sim_light_detection
-	${catkin_LIBRARIES}
-)
-
-
-add_executable(
-	fake_img_publisher_node 
-	src/fake_img_publisher_node.cpp
-)
-target_link_libraries(
-	fake_img_publisher_node
-	${catkin_LIBRARIES}
-	${OpenCV_LIBRARIES}
-)
-
-
-add_executable(
-	test_node 
-	src/test_node.cpp
-)
-target_link_libraries(
-  test_node
 	${catkin_LIBRARIES}
 )
