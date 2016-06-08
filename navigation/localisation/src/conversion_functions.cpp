@@ -1,72 +1,26 @@
 #include <Eigen/Dense>
 #include <vector>
 #include <cmath>
+#include <tf/transform_datatypes.h>
+#include <tf/transform_listener.h>
 
 #include "conversion_functions.h"
 
 using namespace Eigen;
 
-geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser)
+geometry_msgs::Pose2D changeFrame(const geometry_msgs::Pose2D &p, const tf::StampedTransform &transform)
 {
-  //matrice de transformation
-  Matrix3d m;
-  m.setZero();
+  geometry_msgs::Pose2D result;
 
-  Vector3d before, after;
+  double yaw = tf::getYaw(transform.getRotation());
+  result.x     = p.x*cos(yaw) - p.y*sin(yaw) + transform.getOrigin().x();
+  result.y     = p.x*sin(yaw) + p.y*cos(yaw) + transform.getOrigin().y();
+  result.theta = p.theta + yaw;
 
-  //translation
-  m(1,2) = 0.1;
-  
-  //rotation
-  Matrix2d rot;
-  rot = Rotation2Dd(M_PI_2);
-  m.topLeftCorner(2,2) = rot;
-  m(2,2) = 1;
-
-  before(0) = PosLaser.x;
-  before(1) = PosLaser.y;
-  before(2) = 1;
-
-  after = m*before;
-
-  geometry_msgs::Pose2D p;
-  p.x     = after(0) ;
-  p.y     = after(1);
-  p.theta = PosLaser.theta + M_PI_2;
-
-  return p;
+  return result;
 }
 
-geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose2D odomRobot)
-{
-  Vector3d before, after;
-  Matrix3d m;
-  m.setZero();
-
-  before(0) = p.x;
-  before(1) = p.y;
-  before(2) = 1;
-
-  //translation
-  m(0,2) = odomRobot.x;
-  m(1,2) = odomRobot.y;
-  //rotation
-  Matrix2d rot;
-  rot = Rotation2Dd(odomRobot.theta - M_PI_2);
-  m.topLeftCorner(2,2) = rot;
-  m(2,2) = 1;
-
-  after = m*before;
-
-  geometry_msgs::Pose2D p2;
-  p2.x     = after(0);
-  p2.y     = after(1);
-  p2.theta = p.theta - M_PI_2;
-
-  return p2;
-}
-
-geometry_msgs::Point globalToLocal(geometry_msgs::Point p, Segment s)
+geometry_msgs::Point globalToLocal(const geometry_msgs::Point &p, const Segment &s)
 {
   Vector3d before, after;
   Matrix3d m;
@@ -95,36 +49,28 @@ geometry_msgs::Point globalToLocal(geometry_msgs::Point p, Segment s)
 }
 
 
-deplacement_msg::Landmarks convert(std::vector<Machine> mps)
+std::vector<geometry_msgs::Pose2D> convert(std::vector<Machine> mps)
 {
-  deplacement_msg::Landmarks tmp;
+  std::vector<geometry_msgs::Pose2D> tmp;
 
   for (auto &it : mps)
   {
     if (it.getNbActu() > 0)
     {
-      tmp.landmarks.push_back(it.getCentre());
+      tmp.push_back(it.getCentre());
     }
   }
 
   return tmp;
 }
 
-std::list<Segment> landmarksToSegments(deplacement_msg::Landmarks tabSegments)
+std::list<Segment> landmarksToSegments(const deplacement_msg::Landmarks &tabSegments)
 {
   std::list<Segment> vect;
   for (int i = 0; i < tabSegments.landmarks.size(); i = i+2)
   {
     Segment s;
-
-    geometry_msgs::Point a, b;
-    a.x = tabSegments.landmarks[i].x;
-    a.y = tabSegments.landmarks[i].y;
-
-    b.x = tabSegments.landmarks[i+1].x;
-    b.y = tabSegments.landmarks[i+1].y;
-
-    s.setPoints(a,b);
+    s.setPoints(pose2DToPoint(tabSegments.landmarks[i]),pose2DToPoint(tabSegments.landmarks[i+1]));
     s.update();
 
     vect.push_back(s);
@@ -133,27 +79,20 @@ std::list<Segment> landmarksToSegments(deplacement_msg::Landmarks tabSegments)
   return vect;
 }
 
-deplacement_msg::Landmarks backToLandmarks(std::list<Segment> vect)
+std::vector<geometry_msgs::Pose2D> backToLandmarks(const std::list<Segment> &vect)
 {
-  deplacement_msg::Landmarks segments;
+  std::vector<geometry_msgs::Pose2D> segments;
 
   for (auto &it : vect)
-  { 
-    geometry_msgs::Pose2D p;
-    p.x = it.getMin().x;
-    p.y = it.getMin().y;
-    p.theta = it.getAngle();
-    segments.landmarks.push_back(p);
-
-    p.x = it.getMax().x;
-    p.y = it.getMax().y;
-    segments.landmarks.push_back(p);
+  {
+    segments.push_back(pointToPose2D(it.getMin(), it.getAngle()));
+    segments.push_back(pointToPose2D(it.getMax(), it.getAngle()));
   }
 
   return segments;
 }
 
-geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point)
+geometry_msgs::Pose2D pointToPose2D(const geometry_msgs::Point &point)
 {
     geometry_msgs::Pose2D pose2d;
     pose2d.x = point.x;
@@ -163,7 +102,17 @@ geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point)
     return pose2d;
 }
 
-geometry_msgs::Point pose2DToPoint(geometry_msgs::Pose2D pose2d)
+geometry_msgs::Pose2D pointToPose2D(const geometry_msgs::Point &point, double angle)
+{
+    geometry_msgs::Pose2D pose2d;
+    pose2d.x = point.x;
+    pose2d.y = point.y;
+    pose2d.theta = angle;
+
+    return pose2d;
+}
+
+geometry_msgs::Point pose2DToPoint(const geometry_msgs::Pose2D &pose2d)
 {
     geometry_msgs::Point point;
     point.x = pose2d.x;

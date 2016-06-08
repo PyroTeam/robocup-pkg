@@ -1,5 +1,5 @@
 <launch>
-  
+
   <env name="ROSCONSOLE_FORMAT" value="[${node}]:${message}"/>
 
 	<!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
@@ -77,8 +77,8 @@
 		<node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"/>
 
 		<!-- Load the manager -->
-		<node pkg="executeur_taches" name="executeur" type="test_exec"/>
-		<node pkg="generateur_taches" name="manager" type="main_node"/>
+		<!--<node pkg="executeur_taches" name="executeur" type="test_exec"/> -->
+		<!--<node pkg="generateur_taches" name="manager" type="main_node"/> -->
 	</group>
 
 	<!-- Load rviz -->

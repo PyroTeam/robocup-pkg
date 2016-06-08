@@ -42,9 +42,9 @@ void Machine::update(const geometry_msgs::Pose2D &p)
   m_thetaSum += p.theta;
   m_nbActu++;
 
-	m_centre.x     = m_xSum/m_nbActu;
-	m_centre.y     = m_ySum/m_nbActu;
-	m_centre.theta = m_thetaSum/m_nbActu;
+  m_centre.x     = m_xSum/double(m_nbActu);
+  m_centre.y     = m_ySum/double(m_nbActu);
+  m_centre.theta = m_thetaSum/double(m_nbActu);
 }
 
 void Machine::calculateCoordMachine(Segment s)

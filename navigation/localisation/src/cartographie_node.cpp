@@ -71,8 +71,6 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
             g_mps[zone-1].update(center);
         }
     }
-
-    g_machines = convert(g_mps);
 }
 
 void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
@@ -96,10 +94,11 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
     return;
   }
 
-  g_walls.landmarks.clear();
   g_walls.header.frame_id=tf_prefix+"laser_link";
   g_walls.header.stamp = segments->header.stamp;
+  g_walls.landmarks.clear();
 
+  std::list<Segment> tmp;
 
   for (int i = 0; i < segments->landmarks.size(); i = i+2)
   {
@@ -118,16 +117,15 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
 
     Segment seg;
     seg.setPoints(pose2DToPoint(p), pose2DToPoint(q));
+    seg.update();
 
     // si le segment est un mur
     if (seg.isAWall())
     {
-        g_walls.landmarks.push_back(p);
-        g_walls.landmarks.push_back(q);
+      tmp.push_back(seg);
     }
   }
 
-  std::list<Segment> tmp = landmarksToSegments(g_walls);
   adjust(g_sgtArray,tmp);
   gather(g_sgtArray);
 }
@@ -143,14 +141,17 @@ int main( int argc, char** argv )
     ros::Subscriber sub_segments = n.subscribe("objectDetection/segments", 100, segmentsCallback);
     ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 100, machinesCallback);
 
-    ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("objectDetection/landmarks", 100);
+    ros::Publisher pub_machines        = n.advertise< deplacement_msg::Landmarks >("objectDetection/landmarks", 100);
     ros::Publisher pub_segments_global = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments_global", 100);
 
     ros::Rate loop_rate (10);
     while(n.ok())
     {
-      pub_machines.publish(convert(g_mps));
-      pub_segments_global.publish(backToLandmarks(g_sgtArray));
+      g_walls.landmarks = backToLandmarks(g_sgtArray);
+      g_machines.landmarks = convert(g_mps);
+
+      pub_machines.publish(g_machines);
+      pub_segments_global.publish(g_walls);
 
       // Spin
       ros::spinOnce();

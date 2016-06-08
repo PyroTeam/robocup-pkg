@@ -4,23 +4,25 @@
 #include "geometry_msgs/Pose2D.h"
 #include "geometry_msgs/Point.h"
 #include "deplacement_msg/Landmarks.h"
+#include <tf/transform_datatypes.h>
+#include <tf/transform_listener.h>
 #include "Segment.h"
 #include "Machine.h"
 
-geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser);
 
-geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose2D odomRobot);
+geometry_msgs::Pose2D changeFrame(const geometry_msgs::Pose2D &p, const tf::StampedTransform &transform);
 
-geometry_msgs::Point globalToLocal(geometry_msgs::Point p, Segment s);
+geometry_msgs::Point globalToLocal(const geometry_msgs::Point &p, const Segment &s);
 
-deplacement_msg::Landmarks convert(std::vector<Machine> mps);
+std::vector<geometry_msgs::Pose2D> convert(std::vector<Machine> mps);
 
-std::list<Segment> landmarksToSegments(deplacement_msg::Landmarks tabSegments);
+std::list<Segment> landmarksToSegments(const deplacement_msg::Landmarks &tabSegments);
 
-deplacement_msg::Landmarks backToLandmarks(std::list<Segment> vect);
+std::vector<geometry_msgs::Pose2D> backToLandmarks(const std::list<Segment> &vect);
 
-geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point);
+geometry_msgs::Pose2D pointToPose2D(const geometry_msgs::Point &point);
+geometry_msgs::Pose2D pointToPose2D(const geometry_msgs::Point &point, double angle);
 
-geometry_msgs::Point pose2DToPoint(geometry_msgs::Pose2D pose2d);
+geometry_msgs::Point pose2DToPoint(const geometry_msgs::Pose2D &pose2d);
 
 #endif

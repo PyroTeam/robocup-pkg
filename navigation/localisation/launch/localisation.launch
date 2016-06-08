@@ -1,12 +1,13 @@
 <launch>
 
-  <param name="/use_sim_time" value="true"/>
+  <param name="use_sim_time" value="true"/>
 
   <group ns="robotino1">
     <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction"/>
     <node pkg="localisation" name="visualisation" type="visualisation"/>
     <node pkg="localisation" name="odometry_correction" type="odometry_correction"/>
     <node pkg="localisation" name="cartographie" type="cartographie" output="screen"/>
+    <!--
     <node pkg="amcl" type="amcl" name="amcl">
      <remap from="harware/scan" to="scan"/>
      <param name="odom_model_type" value="omni"/>
@@ -20,7 +21,7 @@
      <param name="kld_z" value="0.99"/>
      <param name="odom_alpha1" value="0.2"/>
      <param name="odom_alpha2" value="0.2"/>
-     <!-- translation std dev, m -->
+
      <param name="odom_alpha3" value="0.8"/>
      <param name="odom_alpha4" value="0.2"/>
      <param name="laser_z_hit" value="0.5"/>
@@ -31,7 +32,7 @@
      <param name="laser_lambda_short" value="0.1"/>
      <param name="laser_lambda_short" value="0.1"/>
      <param name="laser_model_type" value="likelihood_field"/>
-     <!-- <param name="laser_model_type" value="beam"/> -->
+
      <param name="laser_likelihood_max_dist" value="2.0"/>
      <param name="update_min_d" value="0.2"/>
      <param name="update_min_a" value="0.5"/>
@@ -41,6 +42,7 @@
      <param name="recovery_alpha_slow" value="0.0"/>
      <param name="recovery_alpha_fast" value="0.0"/>
    </node>
+ -->
   </group>
 
 
