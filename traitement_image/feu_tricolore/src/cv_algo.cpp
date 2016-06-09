@@ -6,95 +6,77 @@
 =            Class Definition            =
 ========================================*/
 
-
-bool processed = false;
-Mat imgRef;
-
-
 LectureFeu::LectureFeu()
-:   it_(nh_),
-  as_(nh_, ros::this_node::getName(), false),
-  action_name_(ros::this_node::getName())
+: m_it(m_nh)
+, m_action_name(ros::this_node::getName())
+, m_as(m_nh, ros::this_node::getName(), false)
 {
-    // Ros topics
-    image_sub_ = it_.subscribe("hardware/camera/platform_camera/image_raw", 1, &LectureFeu::imageCb, this);
-    nh_.setParam("computerVision/lightSignalDetection/image_result/list/0_Flux_origine", "/image_raw");
+	// Ros topics
+	m_image_sub = m_it.subscribe("hardware/camera/platform_camera/image_raw", 1, &LectureFeu::imageCb, this);
+	m_nh.setParam("computerVision/lightSignalDetection/image_result/list/0_Flux_origine", "/image_raw");
 
-    output_1_pub_ = it_.advertise("computerVision/lightSignalDetection/img_ouput_1", 1);
-    nh_.setParam("computerVision/lightSignalDetection/image_result/list/1_Ouput", "computerVision/lightSignalDetection/img_ouput_1");
-    output_2_pub_ = it_.advertise("computerVision/lightSignalDetection/img_ouput_2", 1);
-    nh_.setParam("computerVision/lightSignalDetection/image_result/list/2_Output", "computerVision/lightSignalDetection/img_ouput_2");
-    output_3_pub_ = it_.advertise("computerVision/lightSignalDetection/img_ouput_3", 1);
-    nh_.setParam("computerVision/lightSignalDetection/image_result/list/3_Output", "computerVision/lightSignalDetection/img_ouput_3");
-    output_4_pub_ = it_.advertise("computerVision/lightSignalDetection/img_ouput_4", 1);
-    nh_.setParam("computerVision/lightSignalDetection/image_result/list/4_Output", "computerVision/lightSignalDetection/img_ouput_4");
-    output_5_pub_ = it_.advertise("computerVision/lightSignalDetection/img_ouput_5", 1);
-    nh_.setParam("computerVision/lightSignalDetection/image_result/list/5_Output", "computerVision/lightSignalDetection/img_ouput_5");
-    result_pub_ = it_.advertise("computerVision/lightSignalDetection/img_result", 1);
-    nh_.setParam("computerVision/lightSignalDetection/image_result/list/6_Image_resultat", "computerVision/lightSignalDetection/img_result");
+	m_result_pub = m_it.advertise("computerVision/lightSignalDetection/img_result", 1);
+	m_nh.setParam("computerVision/lightSignalDetection/image_result/list/10_Image_resultat", "computerVision/lightSignalDetection/img_result");
 
-    // Images - init _origin, _origin_rbg, _result, etc
-    initMembersImgs();
+	// Init members cv::Mat
+	initMembersImgs();
 
-    // Ros action server
-    as_.registerGoalCallback(boost::bind(&LectureFeu::goalCB, this));
-    as_.registerPreemptCallback(boost::bind(&LectureFeu::preemptCB, this));
-    as_.start();
+	// Ros action server
+	m_as.registerGoalCallback(boost::bind(&LectureFeu::goalCB, this));
+	m_as.registerPreemptCallback(boost::bind(&LectureFeu::preemptCB, this));
+	m_as.start();
 }
 
 void LectureFeu::goalCB()
 {
-    nbImgProcessed_ = 0;
-    red_last_results_=0;
-    yellow_last_results_=0;
-    green_last_results_=0;
+	// TODO: Sligthly change Action definition, and add ROI parameters in it.
+	//
+	// Cela permetra une utilisation plus souple de la détection d'image.
+	// L'executeur de tâche au moment de faire la requête doit immobiliser le robot et ce jusqu'à
+	// ce que la requête soit terminée. Idéalement, le feu devrait toujours être au même endroit dans l'image.
+	// Mais supposons qu'il soit placé différemment sur une machine
+	// ou que le robot soit placé un peu moins précisément qu'attendu.
+	// L'executeur pouvant déteminer où se trouve le feu sur la machine et où se trouve le robot
+	// par rapport à la machine (le tout grâce à l'arTag visible). L'executeur pourra alors demander
+	// une détection de feu avec une ROI plus adapté à l'image réelle du feu.
+
+	// Accept the new goal
+	m_as.acceptNewGoal();
+
+	// Re-init
+	m_nbImgProcessed = 0;
+	m_nbRedTurnedOn = 0;
+	m_nbYellowTurnedOn = 0;
+	m_nbGreenTurnedOn = 0;
 
 
-    // Action Feedback
-    beginOfProcessing_ = ros::Time::now();
-    nbImgProcessed_ = 0;
+	// First Action Feedback
+	m_beginOfProcessing = ros::Time::now();
+	m_nbImgProcessed = 0;
 
-    // accept the new goal
-    as_.acceptNewGoal();
-
-    feedback_.percent_complete = (ros::Time::now()-beginOfProcessing_).toSec() / minProcessTimeNeeded_;
-    as_.publishFeedback(feedback_);
+	m_feedback.percent_complete = (ros::Time::now()-m_beginOfProcessing).toSec() / m_minProcessTimeNeeded;
+	m_as.publishFeedback(m_feedback);
 }
 
 void LectureFeu::preemptCB()
 {
-    ROS_INFO("%s: Preempted", action_name_.c_str());
-    // set the action state to preempted
-    as_.setPreempted();
+	ROS_INFO("%s: Preempted", m_action_name.c_str());
+	m_as.setPreempted();
 
-    // Images
-    _origin.create(240, 320, CV_8UC3);
-    cv::randu(_origin, cv::Scalar(0), cv::Scalar(256));
-    _origin_rgb.create(240, 320, CV_8UC3);
-    cv::randu(_origin_rgb, cv::Scalar(0), cv::Scalar(256));
-    _hsv.create(240, 320, CV_8UC3);
-    cv::randu(_hsv, cv::Scalar(0), cv::Scalar(256));
-    _thesholded.create(240, 320, CV_8UC3);
-    cv::randu(_thesholded, cv::Scalar(0), cv::Scalar(256));
-    _result.create(240, 320, CV_8UC3);
-    cv::randu(_result, cv::Scalar(0), cv::Scalar(256));
+	// Re-init members cv::Mat
+	initMembersImgs();
 }
 
 LectureFeu::~LectureFeu()
 {
-    image_sub_.shutdown();
-    result_pub_.shutdown();
-    output_1_pub_.shutdown();
-    output_2_pub_.shutdown();
-    output_3_pub_.shutdown();
-    output_4_pub_.shutdown();
-    output_5_pub_.shutdown();
+	m_image_sub.shutdown();
+	m_result_pub.shutdown();
 }
 
 bool LectureFeu::ok()
 {
-    cv::waitKey(1);
-    return nh_.ok();
+	cv::waitKey(1);
+	return m_nh.ok();
 }
 
 /**
@@ -105,359 +87,295 @@ bool LectureFeu::ok()
  */
 void LectureFeu::imageCb(const sensor_msgs::ImageConstPtr& msg)
 {
-    // Quit if inactive action server
-    if (!as_.isActive())
-          return;
+	// Quit if inactive action server
+	if (!m_as.isActive())
+		  return;
 
-    // Get image
-    cv_bridge::CvImagePtr cv_ptr;
-    try
-    {
-        cv_ptr = cv_bridge::toCvCopy(msg, enc::BGR8);
-    }
-    catch (cv_bridge::Exception& e)
-    {
-        ROS_ERROR("cv_bridge exception: %s", e.what());
-        return;
-    }
-    cv_ptr->image.copyTo(_origin);
+	// Get image in BGR8
+	// TODO: Add a special parameter for handling bad encoded images, i.e. ignoring camera_info encoding
+	cv_bridge::CvImagePtr cv_ptr;
+	try
+	{
+		cv_ptr = cv_bridge::toCvCopy(msg, enc::BGR8);
+	}
+	catch (cv_bridge::Exception& e)
+	{
+		ROS_ERROR("cv_bridge exception: %s", e.what());
+		return;
+	}
+	cv_ptr->image.copyTo(m_origin);
 
-    // Conversions couleurs
-    cv::cvtColor(_origin,_origin_rgb,CV_BGR2RGB);
+	// TODO: See above : "Add a special parameter for handling bad encoded images, i.e. ignoring camera_info encoding"
+	cv::cvtColor(m_origin,m_origin_rgb,CV_BGR2RGB);
 
-    // Do the processing
-    float timeElapsed = (ros::Time::now()-beginOfProcessing_).toSec();
-    ++nbImgProcessed_;
-    lectureFeu();
+	// Do the processing
+	float timeElapsed = (ros::Time::now()-m_beginOfProcessing).toSec();
+	++m_nbImgProcessed;
+	lectureFeu();
 
-    // Save results
-    red_last_results_+=((red_)?1:0);
-    yellow_last_results_+=((yellow_)?1:0);
-    green_last_results_+=((green_)?1:0);
+	// TODO: Move all below on specific function
+	// Save results
+	m_nbRedTurnedOn+=((m_redTurnedOn)?1:0);
+	m_nbYellowTurnedOn+=((m_yellowTurnedOn)?1:0);
+	m_nbGreenTurnedOn+=((m_greenTurnedOn)?1:0);
 
-    if(timeElapsed >= minProcessTimeNeeded_) {
-        // Action feedback
-        feedback_.percent_complete = 100;
-        feedback_.images_processed = nbImgProcessed_;
-        as_.publishFeedback(feedback_);
+	// TODO: Manage time with topic time
+	if(timeElapsed >= m_minProcessTimeNeeded)
+	{
+		// Action feedback
+		m_feedback.percent_complete = 100;
+		m_feedback.images_processed = m_nbImgProcessed;
+		m_as.publishFeedback(m_feedback);
 
-        // Good result only if we have enough images processed
-        if (nbImgProcessed_/timeElapsed >= minNbImgProcessedPerSecond_) {
-            // Action result
-            comm_msg::LightSpec light;
+		// Good result only if we have enough images processed
+		if (m_nbImgProcessed/timeElapsed >= m_minNbImgProcessedPerSecond)
+		{
+			// Action result
+			comm_msg::LightSpec light;
 
-            light.color = light.RED;
-            if(red_last_results_ > nbImgProcessed_*0.66)
-                light.state = light.ON;
-            else if(red_last_results_ < nbImgProcessed_*0.3)
-                light.state = light.OFF;
-            else
-                light.state = light.BLINK;
-            result_.light_signal.push_back(light);
+			light.color = light.RED;
+			if(m_nbRedTurnedOn > m_nbImgProcessed*0.66)
+				light.state = light.ON;
+			else if(m_nbRedTurnedOn < m_nbImgProcessed*0.3)
+				light.state = light.OFF;
+			else
+				light.state = light.BLINK;
+			m_result.light_signal.push_back(light);
 
-            light.color = light.YELLOW;
-            if(yellow_last_results_ > nbImgProcessed_*0.66)
-                light.state = light.ON;
-            else if(yellow_last_results_ < nbImgProcessed_*0.3)
-                light.state = light.OFF;
-            else
-                light.state = light.BLINK;
-            result_.light_signal.push_back(light);
+			light.color = light.YELLOW;
+			if(m_nbYellowTurnedOn > m_nbImgProcessed*0.66)
+				light.state = light.ON;
+			else if(m_nbYellowTurnedOn < m_nbImgProcessed*0.3)
+				light.state = light.OFF;
+			else
+				light.state = light.BLINK;
+			m_result.light_signal.push_back(light);
 
-            light.color = light.GREEN;
-            if(green_last_results_ > nbImgProcessed_*0.66)
-                light.state = light.ON;
-            else if(green_last_results_ < nbImgProcessed_*0.3)
-                light.state = light.OFF;
-            else
-                light.state = light.BLINK;
-            result_.light_signal.push_back(light);
+			light.color = light.GREEN;
+			if(m_nbGreenTurnedOn > m_nbImgProcessed*0.66)
+				light.state = light.ON;
+			else if(m_nbGreenTurnedOn < m_nbImgProcessed*0.3)
+				light.state = light.OFF;
+			else
+				light.state = light.BLINK;
+			m_result.light_signal.push_back(light);
 
-            // set the action state to succeeded
-            as_.setSucceeded(result_);
-        }
-        else {
-            // Action result - all off because of abortion
-            comm_msg::LightSpec light;
+			// set the action state to succeeded
+			m_as.setSucceeded(m_result);
 
-            light.color = light.RED;
-            light.state = light.OFF;
-            result_.light_signal.push_back(light);
+			return;
+		}
+		// Action result - all off because of abortion
+		comm_msg::LightSpec light;
 
-            light.color = light.YELLOW;
-            light.state = light.OFF;
-            result_.light_signal.push_back(light);
+		light.color = light.RED;
+		light.state = light.OFF;
+		m_result.light_signal.push_back(light);
 
-            light.color = light.GREEN;
-            light.state = light.OFF;
-            result_.light_signal.push_back(light);
+		light.color = light.YELLOW;
+		light.state = light.OFF;
+		m_result.light_signal.push_back(light);
 
-            //set the action state to aborted
-            as_.setAborted(result_);
-        }
-    }
-    else {
-    // Action Feedback
-        feedback_.percent_complete = (timeElapsed*100)/minProcessTimeNeeded_;
-        // feedback_.percent_complete = timeElapsed;
-        feedback_.images_processed = nbImgProcessed_;
-        as_.publishFeedback(feedback_);
-    }
+		light.color = light.GREEN;
+		light.state = light.OFF;
+		m_result.light_signal.push_back(light);
+
+			//set the action state to aborted
+		m_as.setAborted(m_result);
+
+		return;
+	}
+	else {
+	// Action Feedback
+		m_feedback.percent_complete = (timeElapsed*100)/m_minProcessTimeNeeded;
+		// m_feedback.percent_complete = timeElapsed;
+		m_feedback.images_processed = m_nbImgProcessed;
+		m_as.publishFeedback(m_feedback);
+	}
 }
 
 void LectureFeu::initMembersImgs()
 {
-    // Images
-    _origin.create(240, 320, CV_8UC3);
-    cv::randu(_origin, cv::Scalar(0), cv::Scalar(256));
-    _origin_treated.create(240, 320, CV_8UC3);
-    cv::randu(_origin_treated, cv::Scalar(0), cv::Scalar(256));
-    _origin_rgb.create(240, 320, CV_8UC3);
-    cv::randu(_origin_rgb, cv::Scalar(0), cv::Scalar(256));
-    _hsv.create(240, 320, CV_8UC3);
-    cv::randu(_hsv, cv::Scalar(0), cv::Scalar(256));
-    _thesholded.create(240, 320, CV_8UC3);
-    cv::randu(_thesholded, cv::Scalar(0), cv::Scalar(256));
+	// Images
+	m_origin.create(240, 320, CV_8UC3);
+	cv::randu(m_origin, cv::Scalar(0), cv::Scalar(256));
+	m_origin_treated.create(240, 320, CV_8UC3);
+	cv::randu(m_origin_treated, cv::Scalar(0), cv::Scalar(256));
+	m_origin_rgb.create(240, 320, CV_8UC3);
+	cv::randu(m_origin_rgb, cv::Scalar(0), cv::Scalar(256));
+	m_hsv.create(240, 320, CV_8UC3);
+	cv::randu(m_hsv, cv::Scalar(0), cv::Scalar(256));
+	m_thesholded.create(240, 320, CV_8UC3);
+	cv::randu(m_thesholded, cv::Scalar(0), cv::Scalar(256));
 
-    _origin.create(240, 320, CV_8UC3);
-    cv::randu(_origin, cv::Scalar(0), cv::Scalar(256));
-    _output_1.create(240, 320, CV_8UC3);
-    cv::randu(_output_1, cv::Scalar(0), cv::Scalar(256));
-    _output_2.create(240, 320, CV_8UC3);
-    cv::randu(_output_2, cv::Scalar(0), cv::Scalar(256));
-    _output_3.create(240, 320, CV_8UC3);
-    cv::randu(_output_3, cv::Scalar(0), cv::Scalar(256));
-    _output_4.create(240, 320, CV_8UC3);
-    cv::randu(_output_4, cv::Scalar(0), cv::Scalar(256));
-    _output_5.create(240, 320, CV_8UC3);
-    cv::randu(_output_5, cv::Scalar(0), cv::Scalar(256));
-    _result.create(240, 320, CV_8UC3);
-    cv::randu(_result, cv::Scalar(0), cv::Scalar(256));
+	m_origin.create(240, 320, CV_8UC3);
+	cv::randu(m_origin, cv::Scalar(0), cv::Scalar(256));
+	m_output_1.create(240, 320, CV_8UC3);
+	cv::randu(m_output_1, cv::Scalar(0), cv::Scalar(256));
+	m_output_2.create(240, 320, CV_8UC3);
+	cv::randu(m_output_2, cv::Scalar(0), cv::Scalar(256));
+	m_output_3.create(240, 320, CV_8UC3);
+	cv::randu(m_output_3, cv::Scalar(0), cv::Scalar(256));
+	m_output_4.create(240, 320, CV_8UC3);
+	cv::randu(m_output_4, cv::Scalar(0), cv::Scalar(256));
+	m_output_5.create(240, 320, CV_8UC3);
+	cv::randu(m_output_5, cv::Scalar(0), cv::Scalar(256));
+	m_resultimg.create(240, 320, CV_8UC3);
+	cv::randu(m_resultimg, cv::Scalar(0), cv::Scalar(256));
 }
 
 /*==========  Fonctions assurants la detection et la lecture du feu  ==========*/
 void LectureFeu::preTraitement(cv::Mat &imgToProcess)
 {
-// Filtrage
-    cv::blur(imgToProcess, imgToProcess, cv::Size(5,5));
+	// Filtrage
+	cv::blur(imgToProcess, imgToProcess, cv::Size(5,5));
 }
 
 void LectureFeu::traitement(cv::Mat &imgToProcess)
 {
 	// TODO: DO ROI TREATMENT
+	/*
+		cv::Mat image = imread("");
+		cv::Rect region_of_interest = Rect(x, y, w, h);
+		cv::Mat image_roi = image(region_of_interest);
+	*/
 }
 
 void LectureFeu::publishResults(cv::Mat &imgToProcess)
 {
-// Publication des images
-    sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), enc::BGR8, imgToProcess).toImageMsg();
-    result_pub_.publish(msg);
-
-    msg = cv_bridge::CvImage(std_msgs::Header(), enc::BGR8, _output_1).toImageMsg();
-    output_1_pub_.publish(msg);
-
-    msg = cv_bridge::CvImage(std_msgs::Header(), enc::BGR8, _output_2).toImageMsg();
-    output_2_pub_.publish(msg);
-
-    msg = cv_bridge::CvImage(std_msgs::Header(), enc::BGR8, _output_3).toImageMsg();
-    output_3_pub_.publish(msg);
-
-    msg = cv_bridge::CvImage(std_msgs::Header(), enc::BGR8, _output_4).toImageMsg();
-    output_4_pub_.publish(msg);
-
-    msg = cv_bridge::CvImage(std_msgs::Header(), enc::BGR8, _output_5).toImageMsg();
-    output_5_pub_.publish(msg);
+	// Publication des images
+	sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), enc::BGR8, imgToProcess).toImageMsg();
+	m_result_pub.publish(msg);
 }
 
-void LectureFeu::lectureFeu(cv::Mat &imgToProcess)  // NB : il faudrait utiliser les parametres pour l'image à analyser
+void LectureFeu::lectureFeu(cv::Mat &imgToProcess)
 {
-    red_=false;
-    yellow_=false;
-    green_=false;
+	m_redTurnedOn = false;
+	m_yellowTurnedOn = false;
+	m_greenTurnedOn = false;
 
-    preTraitement(imgToProcess);
-    imgToProcess.copyTo(_output_1);
-    traitement(imgToProcess);
-    imgToProcess.copyTo(_output_5);
-    publishResults(imgToProcess);
+	preTraitement(imgToProcess);
+	traitement(imgToProcess);
+	publishResults(imgToProcess);
 }
-
-
-/*==========  Detections Algorithms   ==========*/
-
-
-
 
 
 /*==========  Utils  ==========*/
 
-cv::Mat LectureFeu::singleToMultChannels(cv::Mat binary, int numChannels)
+cv::Mat singleToMultChannels(cv::Mat binary, int numChannels)
 {
-    // Add copies of binary img in a tab
-    cv::Mat binTab[numChannels];
-    for(int i=0;i<numChannels;++i) { binTab[i]=binary; }
+	// Add copies of binary img in a tab
+	std::vector<cv::Mat> binTab(numChannels);
+	for(int i = 0;i<numChannels;++i) { binTab[i] = binary; }
 
-    // Merge them in one img
-    cv::Mat imgMultChannels;
-    cv::merge(binTab, numChannels, imgMultChannels);
+	// Merge them in one img
+	cv::Mat imgMultChannels;
+	cv::merge(binTab, imgMultChannels);
 
-    return imgMultChannels;
+	return imgMultChannels;
 }
 
-cv::Mat LectureFeu::binaryThreshold(cv::Mat imgBgr, char channel)
+
+cv::Mat calcHist(cv::Mat imgToHist, int channel, bool normalize)
 {
-// Environement
-    std::string paramBaseName;
-    std::stringstream paramStream;
-    std::string acceptedChannels("BGRHSV");
-    cv::Mat binary = cv::Mat(imgBgr.rows, imgBgr.cols, CV_8UC(1), Scalar::all(255));
+	if(channel > imgToHist.channels())
+	{
+		ROS_ERROR_STREAM("LectureFeu::calcHist : Requested channel "<<channel<<" on a "
+							<<imgToHist.channels()<<" channel(s) image");
+		return cv::Mat();
+	}
 
-    // Prepare params recuperation
-    if(acceptedChannels.find(channel) == std::string::npos)
-    {
-        ROS_WARN_STREAM("LectureFeu::binaryThreshold : Unknown channel to threshold (Ch "<<channel<<")");
-        return binary;
-    }
-    else
-    {
-        paramStream << "/trait_im/feu_tricolore/tmp/"<<channel<<"/threshold/";
-        paramBaseName = paramStream.str();
-    }
+	// Separate channels
+	std::vector<cv::Mat> channels;
+	cv::split(imgToHist, channels);
 
-    // Recup params
-    bool enabled;
-    int min, max;
-    nh_.param<bool>(paramBaseName+"enabled", enabled, true);
-    nh_.param<int>(paramBaseName+"min", min, 0);
-    nh_.param<int>(paramBaseName+"max", max, 255);
+	// Number of bins
+	int bins = 256;
+	// Initalize histogram arrays
+	cv::Mat hist = Mat::zeros(1, bins, CV_32SC1);
 
-    ROS_INFO_STREAM(enabled << " " << min << " " << max);
+	// Calculate the histogram of the image
+	for (int i = 0; i < imgToHist.rows; i++)
+	{
+		for (int j = 0; j < imgToHist.cols; j++)
+		{
+			uchar val;
 
-// Algo
+			// Ignore black pixels
+			if(imgToHist.at<Vec3b>(i,j)[0] == 0
+				&& imgToHist.at<Vec3b>(i,j)[1] == 0
+				&& imgToHist.at<Vec3b>(i,j)[2] == 0)
+				continue;
+			else
+				val = imgToHist.at<Vec3b>(i,j)[channel];
+			hist.at<float>(val) += 1;
+		}
+	}
 
-    // In case of HSV, convert colors
-    std::string HSV("HSV");
-    cv::Mat imgToProcess;
-    if(HSV.find(channel) != std::string::npos) { cv::cvtColor(imgBgr, imgToProcess, CV_BGR2HSV); }
-    else { imgBgr.copyTo(imgToProcess); }
+	// Normalize
+	if(normalize)
+	{
+		// Search max bin value
+		int hmax;
+		for (int j = 0; j < bins-1; j++)
+			hmax = hist.at<float>(j) > hmax ? hist.at<float>(j) : hmax;
 
-    // Configure threshold
-    int minCh1 = 0,
-        minCh2 = 0,
-        minCh3 = 0;
-    int maxCh1 = 255,
-        maxCh2 = 255,
-        maxCh3 = 255;
-    if(channel == 'H' || channel == 'B') { minCh1=min; maxCh1=max; }
-    if(channel == 'S' || channel == 'G') { minCh2=min; maxCh2=max; }
-    if(channel == 'V' || channel == 'R') { minCh3=min; maxCh3=max; }
+		for (int j = 0; j < bins-1; j++)
+			hist.at<float>(j) /= hmax;
+	}
 
-    // Threshold
-    if(enabled)
-        cv::inRange(imgBgr,cv::Scalar(minCh1,minCh2,minCh3),cv::Scalar(maxCh1,maxCh2,maxCh3),binary);
-    else
-        cv::inRange(imgBgr,cv::Scalar(0,0,0),cv::Scalar(255,255,255),binary);
-
-    return binary;
+	return hist;
 }
 
-cv::Mat LectureFeu::calcHist(cv::Mat imgToHist, int channel, bool normalize)
+
+cv::Mat histToImg(cv::Mat hist)
 {
-    if(channel > imgToHist.channels())
-    {
-        ROS_WARN_STREAM("LectureFeu::calcHist : Requested channel "<<channel<<" on a "<<imgToHist.channels()<<" channel(s) image");
-        return cv::Mat();
-    }
+	// Image for the histogram
+	int histSize = 256;
+	// int histSize = hist.cols;
+	int hist_w = 512; int hist_h = 400;
+	int bin_w = cvRound( (double) hist_w/histSize );
 
-    // Separate channels
-    std::vector<cv::Mat> channels;
-    cv::split(imgToHist, channels);
+	cv::Mat histImage( hist_h, hist_w, CV_8UC3, Scalar( 0,0,0) );
 
-    // Number of bins
-    int bins = 256;
-    // Initalize histogram arrays
-    cv::Mat hist = Mat::zeros(1, bins, CV_32SC1);
+	/// Draw
+	for( int i = 1; i < histSize; i++ )
+	{
+		// // Graduation
+		// if(i%5 == 0)
+		// line( histImage, Point( bin_w*(i), hist_h ) ,
+		//                Point( bin_w*(i), 0 ),
+		//                Scalar( 0, 30, 0), 2, 8, 0  );
+		// if(i%20 == 0)
+		// line( histImage, Point( bin_w*(i), hist_h ) ,
+		//                Point( bin_w*(i), 0 ),
+		//                Scalar( 30, 0, 0), 2, 8, 0  );
 
-    // Calculate the histogram of the image
-    for (int i = 0; i < imgToHist.rows; i++)
-    {
-        for (int j = 0; j < imgToHist.cols; j++)
-        {
-            uchar val;
+		// Espace couleur FEU
+		// TODO: Paramétrer ces plages de couleurs
+		// Rouge
+		if(i < 10 || (i >= 170 && i <= 180))
+		line( histImage, Point( bin_w*(i), hist_h ) ,
+					   Point( bin_w*(i), 0 ),
+					   Scalar( 0, 0, 50), 2, 8, 0  );
+		// Vert
+		if(i < 90 && i >= 70)
+		line( histImage, Point( bin_w*(i), hist_h ) ,
+					   Point( bin_w*(i), 0 ),
+					   Scalar( 0, 50, 0), 2, 8, 0  );
+		// Jaune
+		if(i < 30 && i >= 10)
+		line( histImage, Point( bin_w*(i), hist_h ) ,
+					   Point( bin_w*(i), 0 ),
+					   Scalar( 0, 30, 50), 2, 8, 0  );
 
-            // Ignore black pixels
-            if(imgToHist.at<Vec3b>(i,j)[0] == 0
-                && imgToHist.at<Vec3b>(i,j)[1] == 0
-                && imgToHist.at<Vec3b>(i,j)[2] == 0)
-                continue;
-            else
-                val = imgToHist.at<Vec3b>(i,j)[channel];
-            hist.at<float>(val) += 1;
-        }
-    }
+		// Histo
+		line( histImage, Point( bin_w*(i-1), hist_h - cvRound(hist.at<float>(i-1)*hist_h) ) ,
+					   Point( bin_w*(i), hist_h - cvRound(hist.at<float>(i)*hist_h) ),
+					   Scalar( 200, 200, 200), 2, 8, 0  );
+	}
 
-    // Normalize
-    if(normalize)
-    {
-        // Search max bin value
-        int hmax;
-        for (int j = 0; j < bins-1; j++)
-            hmax = hist.at<float>(j) > hmax ? hist.at<float>(j) : hmax;
-
-        for (int j = 0; j < bins-1; j++)
-            hist.at<float>(j) /= hmax;
-    }
-
-    return hist;
-}
-
-cv::Mat LectureFeu::histToImg(cv::Mat hist)
-{
-    // Image for the histogram
-    int histSize = 256;
-    // int histSize = hist.cols;
-    int hist_w = 512; int hist_h = 400;
-    int bin_w = cvRound( (double) hist_w/histSize );
-
-    cv::Mat histImage( hist_h, hist_w, CV_8UC3, Scalar( 0,0,0) );
-
-    /// Draw
-    for( int i = 1; i < histSize; i++ )
-    {
-        // // Graduation
-        // if(i%5 == 0)
-        // line( histImage, Point( bin_w*(i), hist_h ) ,
-        //                Point( bin_w*(i), 0 ),
-        //                Scalar( 0, 30, 0), 2, 8, 0  );
-        // if(i%20 == 0)
-        // line( histImage, Point( bin_w*(i), hist_h ) ,
-        //                Point( bin_w*(i), 0 ),
-        //                Scalar( 30, 0, 0), 2, 8, 0  );
-
-        // Espace couleur FEU
-        // Rouge
-        if(i<10 || (i>=170 && i<=180))
-        line( histImage, Point( bin_w*(i), hist_h ) ,
-                       Point( bin_w*(i), 0 ),
-                       Scalar( 0, 0, 50), 2, 8, 0  );
-        // Vert
-        if(i<90 && i>=70)
-        line( histImage, Point( bin_w*(i), hist_h ) ,
-                       Point( bin_w*(i), 0 ),
-                       Scalar( 0, 50, 0), 2, 8, 0  );
-        // Jaune
-        if(i<30 && i>=10)
-        line( histImage, Point( bin_w*(i), hist_h ) ,
-                       Point( bin_w*(i), 0 ),
-                       Scalar( 0, 30, 50), 2, 8, 0  );
-
-        // Histo
-        line( histImage, Point( bin_w*(i-1), hist_h - cvRound(hist.at<float>(i-1)*hist_h) ) ,
-                       Point( bin_w*(i), hist_h - cvRound(hist.at<float>(i)*hist_h) ),
-                       Scalar( 200, 200, 200), 2, 8, 0  );
-    }
-
-    return histImage;
+	return histImage;
 }
 
 

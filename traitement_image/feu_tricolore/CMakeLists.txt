@@ -14,6 +14,14 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(OpenCV)
 
+# Use clang++-3.6 if available
+find_program(CLANGPP clang++-3.6 HINTS /usr/local/bin /usr/bin /opt/local/bin)
+if(NOT ${CLANGPP} MATCHES "CLANGPP-NOTFOUND")
+	set(CMAKE_CXX_COMPILER ${CLANGPP})
+endif(NOT ${CLANGPP} MATCHES "CLANGPP-NOTFOUND")
+message(STATUS "Compiler : ${CMAKE_CXX_COMPILER}")
+message(STATUS "Found : ${CLANGPP}")
+
 
 ###################################
 ## catkin specific configuration ##
@@ -66,8 +74,8 @@ target_link_libraries(
 set_target_properties(
 	lecture_feu_node
 
-	# PROPERTIES COMPILE_FLAGS "-std=c++11 -Wall -Werror"	# Uniquement en dev sur machine perso, pas en release
-	PROPERTIES COMPILE_FLAGS "-std=c++11 -Wall"
+	PROPERTIES COMPILE_FLAGS "-std=c++11 -Wall -Werror"	# Uniquement en dev sur machine perso, pas en release
+	# PROPERTIES COMPILE_FLAGS "-std=c++11 -Wall"
 )
 
 add_executable(sim_light_detection
