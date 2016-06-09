@@ -51,24 +51,15 @@
 <!--         <node pkg="localisation" name="odometry_correction" type="odometry_correction_node"/> -->
 
 		<!-- Load the grid maker -->
-		<node pkg="grid_maker" name="grid_maker" type="construct_map_node"/>
+		<node pkg="grid_maker" name="grid_maker" type="grid_maker_node"/>
 		<!-- <node pkg="grid_maker" name="fake_machines_publisher" type="construct_map_test_simulator"/> -->
 
 		<!-- Load the path finder -->
-		<node pkg="pathfinder" name="pathfinder" type="pathfinder_node"/>
+		<node pkg="path_finder" name="path_finder" type="path_finder_node"/>
 		<!-- <node pkg="pathfinder" name="pathfinder" type="pathfinder_node" launch-prefix="xterm -e"/> -->
 
 		<!-- Load the path tracker -->
-		<arg name="debug_pathtracker" value="false" />
-		<param name="navigation/avoidObstacle" value="false" />
-		<node if="$(arg debug_pathtracker)"
-			pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen" launch-prefix="xterm -e gdb -ex run --args"/>
-		<node unless="$(arg debug_pathtracker)"
-			pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node"/>
-		<node if="$(arg debug_pathtracker)"
-			pkg="path_tracker" name="pathtracker" type="path_tracker_node" output="screen" launch-prefix="xterm -e gdb -ex run --args"/>
-		<node unless="$(arg debug_pathtracker)"
-			pkg="path_tracker" name="pathtracker" type="path_tracker_node"/>
+		<node pkg="path_tracker" name="path_tracker" type="path_tracker_node"/>
 
 		<!-- Load the fake final approach -->
 		<node pkg="approche_finale" name="final_approach" type="simFinalApproach_node"/>
@@ -113,5 +104,3 @@
 		<node pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>
 	</group>
 </launch>
-
-
