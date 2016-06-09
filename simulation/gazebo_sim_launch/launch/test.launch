@@ -45,12 +45,11 @@
 				<include file="$(find ar_tag)/launch/alvar_simu.launch"/>
 				<include file="$(find ar_tag)/launch/ar_tag.launch"/>
 
-				<!-- Load the objectDetections nodes -->
-<!--         <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction_node"/>
-		<node pkg="localisation" name="visualisation" type="visualisation"/>
-		<node pkg="localisation" name="machines_publisher" type="Cartographie" output="screen" launch-prefix="xterm -e"/> -->
-		<!-- Needeed for visualisation -->
-		<!--         <node pkg="localisation" name="odometry_correction" type="odometry_correction_node"/> -->
+        <!-- Load the detection and localisation nodes -->
+        <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction"/>
+        <node pkg="localisation" name="visualisation" type="visualisation"/>
+        <node pkg="localisation" name="odometry_correction" type="odometry_correction"/>
+        <node pkg="localisation" name="cartographie" type="cartographie" output="screen"/>
 
 		<!-- Load the grid maker -->
 		<rosparam command="load" file="$(find grid_maker)/cfg/field.yaml" />
@@ -67,16 +66,7 @@
 		<!-- <node pkg="pathfinder" name="pathfinder" type="pathfinder_node" launch-prefix="xterm -e"/> -->
 
 		<!-- Load the path tracker -->
-		<arg name="debug_pathtracker" value="false" />
-		<param name="navigation/avoidObstacle" value="false" />
-		<node if="$(arg debug_pathtracker)"
-			pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen" launch-prefix="xterm -e gdb -ex run --args"/>
-		<node unless="$(arg debug_pathtracker)"
-			pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node"/>
-		<node if="$(arg debug_pathtracker)"
-			pkg="path_tracker" name="pathtracker" type="path_tracker_node" output="screen" launch-prefix="xterm -e gdb -ex run --args"/>
-		<node unless="$(arg debug_pathtracker)"
-			pkg="path_tracker" name="pathtracker" type="path_tracker_node"/>
+		<node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py"/>
 
 			<!-- Load the fake final approach -->
 			<!--<node pkg="approche_finale" name="final_approach" type="simFinalApproach_node"/>-->
