@@ -12,6 +12,7 @@ public:
 	geometry_msgs::Pose2D getCentre();
 	int getNbActu();
 	double getReliability();
+	double getLastError();
 
 	void setCentre(geometry_msgs::Pose2D c);
 
@@ -26,6 +27,7 @@ private:
 	double 					m_thetaSum;
 	int 						m_nbActu;
 	double					m_reliability;
+  double          m_lastError;
 };
 
 #endif

@@ -9,7 +9,7 @@
 #include <limits>
 #include <algorithm>
 
-Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_thetaSum(0.0),m_nbActu(0.0)
+Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_thetaSum(0.0),m_nbActu(0.0),m_lastError(10.0),m_reliability(0.0)
 {
 
 };
@@ -29,6 +29,15 @@ int Machine::getNbActu()
     return m_nbActu;
 }
 
+double Machine::getReliability()
+{
+  return m_reliability;
+}
+double Machine::getLastError()
+{
+  return m_lastError;
+}
+
 void Machine::setCentre(geometry_msgs::Pose2D c)
 {
 	m_centre = c;
@@ -41,6 +50,8 @@ void Machine::update(const geometry_msgs::Pose2D &p)
   m_ySum += p.y;
   m_thetaSum += p.theta;
   m_nbActu++;
+
+  m_lastError = dist(m_centre, p);
 
   m_centre.x     = m_xSum/double(m_nbActu);
   m_centre.y     = m_ySum/double(m_nbActu);
@@ -78,9 +89,9 @@ void Machine::calculateCoordMachine(Segment s)
 
 bool Machine::canBeUpdated(const geometry_msgs::Pose2D &seenMachine)
 {
-  const double threshold = 0.3;
+  const double delta = M_PI/10;
 
-  if (m_nbActu == 0 || (dist(m_centre, seenMachine) <= threshold && std::abs(m_centre.theta - seenMachine.theta) <= M_PI/10))
+  if (m_nbActu == 0 || std::abs(m_centre.theta - seenMachine.theta) <= delta)
   {
     return true;
   }

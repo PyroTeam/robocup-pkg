@@ -3,14 +3,14 @@
 #include "Segment.h"
 #include "cartographie_utils.h"
 #include "math_functions.h"
-
+/*
 const double WALL_TOP = 6.0;
 const double WALL_BOTTOM = 0.0;
 const double WALL_LEFT = -6.0;
 const double WALL_RIGHT = 6.0;
 
 const double THRESHOLD = 0.3;
-
+*/
 Segment::Segment() : m_angle(0.0),m_size(0.0)
 {
 
