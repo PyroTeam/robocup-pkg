@@ -150,35 +150,35 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-add_executable(
-  try
-  src/try.cpp
-  src/cartographie_utils.cpp
-  src/landmarks_detection_utils.cpp
-  src/math_functions.cpp
-  src/conversion_functions.cpp
-  src/LaserScan.cpp
-  src/Line.cpp
-  src/Segment.cpp
-  src/Model.cpp
-  src/Machine.cpp)
-set_target_properties(try PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(try deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
-target_link_libraries(
-  try
-  ${catkin_LIBRARIES}
-)
+#add_executable(
+#  try
+#  src/try.cpp
+#  src/cartographie_utils.cpp
+#  src/landmarks_detection_utils.cpp
+#  src/math_functions.cpp
+#  src/conversion_functions.cpp
+#  src/LaserScan.cpp
+#  src/Line.cpp
+#  src/Segment.cpp
+#  src/Model.cpp
+#  src/Machine.cpp)
+#set_target_properties(try PROPERTIES COMPILE_FLAGS -std=c++0x)
+#add_dependencies(try deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+#target_link_libraries(
+#  try
+#  ${catkin_LIBRARIES}
+#)
 
-add_executable(
-  ekf
-  src/ekf_node.cpp
-  src/Ekf.cpp)
-set_target_properties(ekf PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(ekf deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
-target_link_libraries(
-  ekf
-  ${catkin_LIBRARIES}
-)
+#add_executable(
+#  ekf
+#  src/ekf_node.cpp
+#  src/Ekf.cpp)
+#set_target_properties(ekf PROPERTIES COMPILE_FLAGS -std=c++0x)
+#add_dependencies(ekf deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+#target_link_libraries(
+#  ekf
+#  ${catkin_LIBRARIES}
+#)
 
 add_executable(
   cartographie
@@ -198,15 +198,15 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-add_executable(
-  fake_scan
-  src/fake_scan_node.cpp)
-set_target_properties(fake_scan PROPERTIES COMPILE_FLAGS -std=c++0x)
-add_dependencies(fake_scan deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
-target_link_libraries(
-  fake_scan
-  ${catkin_LIBRARIES}
-)
+#add_executable(
+#  fake_scan
+#  src/fake_scan_node.cpp)
+#set_target_properties(fake_scan PROPERTIES COMPILE_FLAGS -std=c++0x)
+#add_dependencies(fake_scan deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+#target_link_libraries(
+#  fake_scan
+#  ${catkin_LIBRARIES}
+#)
 
 
 #############

@@ -27,8 +27,8 @@ int main(int argc, char** argv)
     ros::Subscriber sub_laser  = n.subscribe("hardware/scan", 1, &laserScan::laserCallback, &laserData);
 
     // Publish found segments and machines
-    ros::Publisher pub_droites  = n.advertise< deplacement_msg::Landmarks >("objectDetection/droites", 1000);
-    ros::Publisher pub_segments = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments", 1000);
+    //ros::Publisher pub_droites  = n.advertise< deplacement_msg::Landmarks >("objectDetection/droites", 1000);
+    //ros::Publisher pub_segments = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments", 1000);
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("objectDetection/machines", 1000);
 
     // Initialisation du random
@@ -48,10 +48,10 @@ int main(int argc, char** argv)
 
         std::vector<Machine> listOfMachines = recognizeMachinesFrom(listOfSegments);
 
-        deplacement_msg::Landmarks droites;
-        deplacement_msg::Landmarks segments;
+        //deplacement_msg::Landmarks droites;
+        //deplacement_msg::Landmarks segments;
         deplacement_msg::Landmarks machines;
-
+/*
         for (auto &it : listOfModels)
         {
             droites.landmarks.push_back(it.getLine().getPoint());
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
             segments.landmarks.push_back(pointToPose2D(it.getMax()));
             segments.header.stamp = laserData.getTime();
             segments.header.frame_id = tf_prefix+"laser_link";
-        }
+        }*/
         for (auto &it : listOfMachines)
         {
             machines.landmarks.push_back(it.getCentre());
@@ -73,8 +73,8 @@ int main(int argc, char** argv)
         }
 
         // Publish
-        pub_segments.publish(segments);
-        pub_droites.publish(droites);
+        //pub_segments.publish(segments);
+        //pub_droites.publish(droites);
         pub_machines.publish(machines);
 
         // Spin

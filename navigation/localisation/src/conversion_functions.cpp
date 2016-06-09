@@ -19,7 +19,7 @@ geometry_msgs::Pose2D changeFrame(const geometry_msgs::Pose2D &p, const tf::Stam
 
   return result;
 }
-
+/*
 geometry_msgs::Point globalToLocal(const geometry_msgs::Point &p, const Segment &s)
 {
   Vector3d before, after;
@@ -47,7 +47,7 @@ geometry_msgs::Point globalToLocal(const geometry_msgs::Point &p, const Segment 
 
   return p2;
 }
-
+*/
 
 std::vector<geometry_msgs::Pose2D> convert(std::vector<Machine> mps)
 {
@@ -63,7 +63,7 @@ std::vector<geometry_msgs::Pose2D> convert(std::vector<Machine> mps)
 
   return tmp;
 }
-
+/*
 std::list<Segment> landmarksToSegments(const deplacement_msg::Landmarks &tabSegments)
 {
   std::list<Segment> vect;
@@ -91,7 +91,7 @@ std::vector<geometry_msgs::Pose2D> backToLandmarks(const std::list<Segment> &vec
 
   return segments;
 }
-
+*/
 geometry_msgs::Pose2D pointToPose2D(const geometry_msgs::Point &point)
 {
     geometry_msgs::Pose2D pose2d;

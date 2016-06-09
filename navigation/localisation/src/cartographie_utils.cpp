@@ -61,7 +61,7 @@ int machineToArea(geometry_msgs::Pose2D m)
     return 0;
   }
 }
-
+/*
 bool isTheSame(Segment a, Segment b)
 {
   if (dist(a.getMin(), b.getMin()) == 0 &&
@@ -285,3 +285,4 @@ void gather(std::list<Segment> &sgts)
     ++it;
   }
 }
+*/
