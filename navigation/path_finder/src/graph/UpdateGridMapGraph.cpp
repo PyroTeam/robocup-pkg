@@ -51,8 +51,8 @@ bool UpdateGridMapGraph::closestReachablePoint(
   res.foundPosition = checkStartPos(req.currentPosition, req.window, m_grid);
   res.found = true;
 
-  ROS_INFO("request: x=%f, y=%f", req.currentPosition.x, req.currentPosition.y);
-  ROS_INFO("sending back response: [x=%f, y=%f]", res.foundPosition.x, res.foundPosition.y);
+  //ROS_INFO("request: x=%f, y=%f", req.currentPosition.x, req.currentPosition.y);
+  //ROS_INFO("sending back response: [x=%f, y=%f]", res.foundPosition.x, res.foundPosition.y);
   return true;
 }
 
