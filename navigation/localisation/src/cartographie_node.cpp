@@ -63,7 +63,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
         }
     }
 }
-
+/*
 void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
 {
   static ros::NodeHandle nh;
@@ -111,7 +111,7 @@ void segmentsCallback(const deplacement_msg::LandmarksConstPtr& segments)
   adjust(g_sgtArray,tmp);
   gather(g_sgtArray);
 }
-
+*/
 int main( int argc, char** argv )
 {
     ros::init(argc, argv, "Cartographie");
@@ -120,20 +120,20 @@ int main( int argc, char** argv )
 
     ros::NodeHandle n;
 
-    ros::Subscriber sub_segments = n.subscribe("objectDetection/segments", 100, segmentsCallback);
+    //ros::Subscriber sub_segments = n.subscribe("objectDetection/segments", 100, segmentsCallback);
     ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 100, machinesCallback);
 
     ros::Publisher pub_machines        = n.advertise< deplacement_msg::Landmarks >("objectDetection/landmarks", 100);
-    ros::Publisher pub_segments_global = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments_global", 100);
+    //ros::Publisher pub_segments_global = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments_global", 100);
 
     ros::Rate loop_rate (10);
     while(n.ok())
     {
-      g_walls.landmarks = backToLandmarks(g_sgtArray);
+      //g_walls.landmarks = backToLandmarks(g_sgtArray);
       g_machines.landmarks = convert(g_mps);
 
       pub_machines.publish(g_machines);
-      pub_segments_global.publish(g_walls);
+      //pub_segments_global.publish(g_walls);
 
       // Spin
       ros::spinOnce();

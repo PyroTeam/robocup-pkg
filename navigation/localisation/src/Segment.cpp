@@ -107,7 +107,7 @@ void Segment::build(const std::list<geometry_msgs::Point> &points){
     std::cout << " correlation  : " << correl << std::endl;
 */
 }
-
+/*
 bool Segment::atTheRight()
 {
   if (std::abs(m_min.x - WALL_RIGHT) <= THRESHOLD &&
@@ -179,3 +179,4 @@ bool Segment::isAWall()
     return false;
   }
 }
+*/

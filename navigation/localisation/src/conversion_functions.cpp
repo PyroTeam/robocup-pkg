@@ -55,7 +55,7 @@ std::vector<geometry_msgs::Pose2D> convert(std::vector<Machine> mps)
 
   for (auto &it : mps)
   {
-    if (it.getNbActu() > 10)
+    if (it.getNbActu() > 0)
     {
       tmp.push_back(it.getCentre());
     }
