@@ -10,7 +10,7 @@ float orientationZ = 0;
 void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg)
 {
 	geometry_msgs::Twist msgTwist;
-	if(msg->markers.size()!=0) 
+	if(msg->markers.size()!=0)
 	{
    		ROS_INFO("I see: [%d]", msg->markers[0].id);
 		float px = msg->markers[0].pose.pose.position.x;
