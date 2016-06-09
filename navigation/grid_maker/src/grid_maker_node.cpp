@@ -36,7 +36,7 @@
 
 void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines);
 std::shared_ptr<occupancy_grid_utils::Shape> g_machinesShape(nullptr);
-float g_margin = 0.3;
+double g_margin = 0.3;
 geometry_msgs::Point g_machineSize;
 const float g_sizeX = 0.7;
 const float g_sizeY = 0.35;
@@ -46,7 +46,12 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "map_gen");
     ros::NodeHandle nh;
-
+    std::string tf_prefix;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
+    if (tf_prefix.size() != 0)
+    {
+        tf_prefix += "/";
+    }
     ros::Publisher map_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid", 1);
     ros::Subscriber sub_poses_machine = nh.subscribe("objectDetection/landmarks", 10, Poses_Machine_Callback);
 
@@ -58,7 +63,7 @@ int main(int argc, char **argv)
 
     //obtenir la configuration
     std::string fieldName;
-    nh.param<std::string>("field/name",fieldName, "robocup");
+    nh.param<std::string>("field/name",fieldName, "robocup_official");
     ROS_INFO_STREAM("Creating Map : " << fieldName);
 
     geometry_msgs::Point size;
@@ -83,7 +88,7 @@ int main(int argc, char **argv)
     std::string frame_id = "map";
     nh.param<std::string>("field/frame_id", frame_id, "map");
 
-    nh.param<float>("field/margin", g_margin, 0.3);
+    nh.param<double>("field/margin", g_margin, 0.3);
 
     //obtenir les murs
     std::list<occupancy_grid_utils::LineSegment> walls;
@@ -171,7 +176,6 @@ int main(int argc, char **argv)
         {
             modifiers->execute(map);
         }
-
 
 	 	map_pub.publish(map);
 	 	ros::spinOnce();

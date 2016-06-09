@@ -1,5 +1,3 @@
 <launch>
-
     <node pkg="ar_tag" name="ar_tag_node" type="ar_tag_srv_node"/>
-
 </launch>

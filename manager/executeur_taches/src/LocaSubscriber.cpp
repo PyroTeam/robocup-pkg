@@ -3,34 +3,34 @@
 
 //std::vector<MPS> machine(24);
 
-LocaSubscriber::LocaSubscriber():machine(24)
+LocaSubscriber::LocaSubscriber():m_machine(24)
 {
 	ros::NodeHandle n;
-	ros::Subscriber sub = n.subscribe("objectDetection/landmarks",1000,&LocaSubscriber::tesCallback, this);
+	m_sub = n.subscribe("objectDetection/landmarks",1000,&LocaSubscriber::tesCallback, this);
 }
 
 LocaSubscriber::~LocaSubscriber(){}
 
-void LocaSubscriber::tesCallback(const manager_msg::LandmarksConstPtr &msg)
+void LocaSubscriber::tesCallback(const deplacement_msg::LandmarksConstPtr &msg)
 {
-	ROS_INFO("I heard the localisation publisher ");
+	ROS_INFO_ONCE("I heard the localisation publisher ");
 
 	tab_machine = msg->landmarks;
 
 	for (int i=0; i< msg->landmarks.size(); i++)
     {
-    	int zone = getZone(msg->landmarks[i].x, msg->landmarks[i].y);
-    	machine[zone-1].x = msg->landmarks[i].x;
-    	machine[zone-1].y = msg->landmarks[i].y;
-    	machine[zone-1].theta = msg->landmarks[i].theta;
-    	machine[zone-1].isHere = true;
-    	machine[zone-1].zone = zone;
-	}  
+    	int zone = getArea(msg->landmarks[i].x, msg->landmarks[i].y);
+    	m_machine[zone-1].x = msg->landmarks[i].x;
+    	m_machine[zone-1].y = msg->landmarks[i].y;
+    	m_machine[zone-1].theta = msg->landmarks[i].theta;
+    	m_machine[zone-1].isHere = true;
+    	m_machine[zone-1].zone = zone;
+	}
 	/*for(int i=0; i<tab_machine.size(); i++){
 		ROS_INFO("x :landmarks[%d] = %f", i,tab_machine[i].x);
 	}*/
 }
-int LocaSubscriber::getZone(float x, float y)
+int LocaSubscriber::getArea(float x, float y)
 {
 	int zone = 0;
 

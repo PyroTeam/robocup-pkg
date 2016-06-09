@@ -3,7 +3,14 @@
 #include "Segment.h"
 #include "cartographie_utils.h"
 #include "math_functions.h"
+/*
+const double WALL_TOP = 6.0;
+const double WALL_BOTTOM = 0.0;
+const double WALL_LEFT = -6.0;
+const double WALL_RIGHT = 6.0;
 
+const double THRESHOLD = 0.3;
+*/
 Segment::Segment() : m_angle(0.0),m_size(0.0)
 {
 
@@ -13,27 +20,27 @@ Segment::~Segment()
 
 }
 
-double Segment::getAngle()
+double Segment::getAngle() const
 {
 	return m_angle;
 }
 
-double Segment::getSize()
+double Segment::getSize() const
 {
 	return m_size;
 }
 
-geometry_msgs::Point Segment::getMin()
+geometry_msgs::Point Segment::getMin() const
 {
 	return m_min;
 }
 
-geometry_msgs::Point Segment::getMax()
+geometry_msgs::Point Segment::getMax() const
 {
 	return m_max;
 }
 
-geometry_msgs::Point Segment::getCenter()
+geometry_msgs::Point Segment::getCenter() const
 {
 	geometry_msgs::Point middle;
 	middle.x = (getMax().x + getMin().x)/2;
@@ -42,7 +49,7 @@ geometry_msgs::Point Segment::getCenter()
 	return middle;
 }
 
-void Segment::setAngle(double theta)
+void Segment::setAngle(const double &theta)
 {
 	m_angle = theta;
 	if (m_angle < 0)
@@ -51,21 +58,21 @@ void Segment::setAngle(double theta)
 	}
 }
 
-void Segment::setSize(double size)
+void Segment::setSize(const double &size)
 {
 	m_size = size;
 }
 
-void Segment::setMin(geometry_msgs::Point a)
+void Segment::setMin(const geometry_msgs::Point &a)
 {
 	m_min = a;
 }
-void Segment::setMax(geometry_msgs::Point a)
+void Segment::setMax(const geometry_msgs::Point &a)
 {
 	m_max = a;
 }
 
-void Segment::setPoints(geometry_msgs::Point a, geometry_msgs::Point b)
+void Segment::setPoints(const geometry_msgs::Point &a, const geometry_msgs::Point &b)
 {
 	m_min = a;
 	m_max = b;
@@ -73,7 +80,7 @@ void Segment::setPoints(geometry_msgs::Point a, geometry_msgs::Point b)
 
 void Segment::update()
 {
-	setAngle(atan((m_max.y-m_min.y)/(m_max.x-m_min.x)));
+	this->setAngle(atan((m_max.y-m_min.y)/(m_max.x-m_min.x)));
 	m_size  = dist(m_min,m_max);
 	m_max.z = m_angle;
 	m_min.z = m_angle;
@@ -100,3 +107,76 @@ void Segment::build(const std::list<geometry_msgs::Point> &points){
     std::cout << " correlation  : " << correl << std::endl;
 */
 }
+/*
+bool Segment::atTheRight()
+{
+  if (std::abs(m_min.x - WALL_RIGHT) <= THRESHOLD &&
+      std::abs(m_max.x - WALL_RIGHT) <= THRESHOLD &&
+      std::abs(m_min.y) <=  WALL_TOP + THRESHOLD &&
+      std::abs(m_max.y) >= WALL_BOTTOM - THRESHOLD)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+bool Segment::atTheLeft()
+{
+  if (std::abs(m_min.x - WALL_LEFT) <= THRESHOLD &&
+      std::abs(m_max.x - WALL_LEFT) <= THRESHOLD &&
+      std::abs(m_min.y) <=  WALL_TOP + THRESHOLD &&
+      std::abs(m_max.y) >= WALL_BOTTOM - THRESHOLD)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+bool Segment::atTheTop()
+{
+  if (std::abs(m_min.y - WALL_TOP) <= THRESHOLD &&
+      std::abs(m_max.y - WALL_TOP) <= THRESHOLD &&
+      std::abs(m_min.x) >= WALL_LEFT - THRESHOLD &&
+      std::abs(m_max.x) <= WALL_RIGHT + THRESHOLD)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+bool Segment::atTheBottom()
+{
+  if (std::abs(m_min.y - WALL_BOTTOM) <= THRESHOLD &&
+      std::abs(m_max.y - WALL_BOTTOM) <= THRESHOLD &&
+      std::abs(m_min.x) >= WALL_LEFT - THRESHOLD &&
+      std::abs(m_max.x) <= WALL_RIGHT + THRESHOLD)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+bool Segment::isAWall()
+{
+  if (this->atTheRight() || this->atTheLeft() || this->atTheTop() || this->atTheBottom())
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+*/

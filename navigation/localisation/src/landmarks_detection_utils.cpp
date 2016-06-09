@@ -49,7 +49,7 @@ Model ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPerti
 
         //on fabrique alors une droite à partir de ces points
         modele_possible.build(a,b);
-        
+
         //pour tous les points
         for (std::list<geometry_msgs::Point>::iterator it = listOfPoints.begin(); it != listOfPoints.end(); ++it)
         {
@@ -109,11 +109,11 @@ std::list<Model> findLines( const std::list<geometry_msgs::Point> &listOfPoints,
     bool                             stopRansac = false;
 
     while (!stopRansac)
-    {   
+    {
         //  ransac(listOfPoints,               n, NbPtPertinent,proba, seuil, NbPts)
         m = ransac(listWithoutPrecModelPoints, 2, NbPtPertinent, 0.99, seuil, NbPts);
 
-        if(m.getPoints().size() > NbPts) 
+        if(m.getPoints().size() > NbPts)
         {
 /*
             std::cout << "j'ai trouvé un modèle de " << m.getIndex().size() << " points" << std::endl;
@@ -144,7 +144,7 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
 
     //pour chaque points dans la liste de points du modèle
     for(std::list<geometry_msgs::Point>::const_iterator it = m.getPoints().cbegin(); it != m.getPoints().cend(); ++it)
-    {   
+    {
         //si les points sont proches
         if (dist(*it, *previousPoint) < seuil)
         {
@@ -152,15 +152,15 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
             tmp.push_back(*it);
         }
         //sinon (si on détecte un seuil important)
-        else 
+        else
         {
             if (dist(tmp.front(), tmp.back()) >= 0.5)
             {
                 //on construit un nouveau segment à partir de la liste enregistrée des points qui sont proches
                 s.build(tmp);
-    
+
                 //on enregistre le segment dans la liste de segments
-                listOfSegments.push_back(s);  
+                listOfSegments.push_back(s);
             }
             //on clear la liste et on l'init avec le dernier point vu
             tmp.clear();
@@ -177,10 +177,10 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
         s.build(tmp);
 
         //on enregistre le segment dans la liste de segments
-        listOfSegments.push_back(s);  
+        listOfSegments.push_back(s);
     }
     tmp.clear();
- 
+
     return listOfSegments;
 }
 
@@ -196,4 +196,21 @@ std::list<Segment> buildSegmentsFromModels(std::list<Model> &listOfModels)
     }
 
     return listOfSegments;
+}
+
+std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments)
+{
+    std::vector<Machine> tmp;
+
+    for (auto &it : listOfSegments)
+    {
+        if (std::abs(it.getSize() - 0.7) <= 0.05)
+        {
+            Machine m;
+            m.calculateCoordMachine(it);
+            tmp.push_back(m);
+        }
+    }
+
+    return tmp;
 }

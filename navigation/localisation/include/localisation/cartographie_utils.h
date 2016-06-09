@@ -1,15 +1,26 @@
 #ifndef CARTOGRAPHIE_H
 #define CARTOGRAPHIE_H
 
-#include "geometry_msgs/Pose2D.h"
-#include "geometry_msgs/Point.h"
-#include "deplacement_msg/Landmarks.h"
+#include <ros/ros.h>
+#include <tf/transform_datatypes.h>
+#include <visualization_msgs/Marker.h>
 #include "Machine.h"
 #include "Segment.h"
+#include "Ekf.h"
+
 #include "landmarks_detection_utils.h"
 #include "conversion_functions.h"
+#include "math_functions.h"
 
-int getZone(geometry_msgs::Pose2D m);
+#include "geometry_msgs/Point.h"
+#include "geometry_msgs/Pose2D.h"
+#include "deplacement_msg/Landmarks.h"
+
+#include <Eigen/Dense>
+#include <vector>
+#include <cmath>
+
+int getArea(geometry_msgs::Pose2D m);
 
 geometry_msgs::Pose2D getCenter(int zone);
 
@@ -21,7 +32,7 @@ bool isAlmostTheSame(Segment a, Segment b);
 
 void projection(Segment &worst, Segment &best);
 
-bool modify(Segment a, Segment &b);
+bool improve(Segment a, Segment &b);
 
 void adjust(std::list<Segment> &segmentsRecorded, std::list<Segment> segmentsSeen);
 
@@ -31,6 +42,5 @@ void gatherOneSegmentWithAList(Segment &segment, std::list<Segment> &sgts);
 
 void gather(std::list<Segment> &sgts);
 
-std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments);
 
 #endif

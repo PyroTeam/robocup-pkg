@@ -49,7 +49,7 @@ def GoalMoveCallback(gMove):
     g_client.wait_for_result(rospy.Duration.from_sec(60.1))
 
     # # Prints out the result of executing the action
-    rospy.loginfo("Result : %f", g_client.get_result().result)
+    #rospy.loginfo("Result : %f", g_client.get_result())
 
 def MoveRequest():
     rospy.init_node('moveRequest_node', anonymous=True)

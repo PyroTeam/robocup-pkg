@@ -101,7 +101,7 @@ int DataMapObstacle::getCell(const nav_msgs::OccupancyGrid &grid, float x, float
 void DataMapObstacle::calculObstacle(const geometry_msgs::Pose &odom, std::vector<geometry_msgs::PoseStamped> &path)
 {
     std::string tf_prefix;
-    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
     if (tf_prefix.size() != 0)
     {
         tf_prefix += "/";

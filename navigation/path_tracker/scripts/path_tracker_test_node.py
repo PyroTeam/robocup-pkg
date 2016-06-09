@@ -119,8 +119,7 @@ class TrackPathAction(object):
         while not g_pathFinished:
             # rospy.loginfo('g_indexTraj : %d' % (g_indexTraj))
             # Fill the feedback
-            self._feedback.percent_complete=g_indexTraj
-            self._feedback.id=0
+            self._feedback.percentComplete=g_indexTraj
 
             # Check that preempt has not been requested by the client
             if self._as.is_preempt_requested():
@@ -132,6 +131,7 @@ class TrackPathAction(object):
 
             # Publish the feedback
             self._as.publish_feedback(self._feedback)
+            rospy.loginfo('After publish')
 
             r.sleep()
 
@@ -145,12 +145,12 @@ class TrackPathAction(object):
     rospy.loginfo('Before Result')
     if success:
       rospy.loginfo('SUCCESS')
-      self._result.result = self._result.FINISHED
+      self._result.status = self._result.STATUS_FINISHED
       rospy.loginfo('%s: Succeeded' % self._action_name)
       self._as.set_succeeded(self._result)
     elif failure:
       rospy.loginfo('FAILURE')
-      self._result.result = self._result.ERROR
+      self._result.status = self._result.ERR_UNKNOWN
       rospy.loginfo('%s: Failed' % self._action_name)
       self._as.set_aborted(self._result)
 
@@ -275,7 +275,7 @@ def callbackOdom(data):
         #orienation finale
         (lastRoll, lastPitch, lastYaw) = euler_from_quaternion_msg(g_path[-1].pose.orientation)
         err = normalizeAngle(lastYaw - pose.theta)
-        if (abs(err) < 0.01):
+        if (abs(err) < 0.05):
             g_pathFinished = True
         else:
             cmdVel_msg.angular.z = g_anglePID.update(err)
