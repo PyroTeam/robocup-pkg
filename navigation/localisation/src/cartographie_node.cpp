@@ -15,11 +15,11 @@
 
 using namespace Eigen;
 
-deplacement_msg::Landmarks g_walls;
+//deplacement_msg::Landmarks g_walls;
 deplacement_msg::Landmarks g_machines;
 
 std::vector<Machine>       g_mps(24);
-std::list<Segment>         g_sgtArray;
+//std::list<Segment>         g_sgtArray;
 
 tf::TransformListener     *g_tf_listener;
 
