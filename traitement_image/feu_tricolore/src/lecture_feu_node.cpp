@@ -4,7 +4,7 @@
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "light_detection");
-    LectureFeu lf;
+    LightDetection lf;
     ros::Rate loop_rate(50);
 
     while (lf.ok())

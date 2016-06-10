@@ -58,6 +58,7 @@ add_executable(
 
 	src/lecture_feu_node.cpp
 	src/cv_algo.cpp
+	src/LightDetection.cpp
 	src/display-histogram.cpp
 )
 add_dependencies(
