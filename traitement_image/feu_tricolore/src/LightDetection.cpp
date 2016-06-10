@@ -95,9 +95,6 @@ void LightDetection::imageCb(const sensor_msgs::ImageConstPtr& msg)
 	}
 	cv_ptr->image.copyTo(m_origin);
 
-	// TODO: See above : "Add a special parameter for handling bad encoded images, i.e. ignoring camera_info encoding"
-	cv::cvtColor(m_origin,m_origin_rgb,CV_BGR2RGB);
-
 	// Do the processing
 	doLightDetection();
 }
@@ -105,31 +102,9 @@ void LightDetection::imageCb(const sensor_msgs::ImageConstPtr& msg)
 void LightDetection::initMembersImgs()
 {
 	// Images
+	// TODO: Gérer la taille des images selon l'image d'entrée
 	m_origin.create(240, 320, CV_8UC3);
 	cv::randu(m_origin, cv::Scalar(0), cv::Scalar(256));
-	m_origin_treated.create(240, 320, CV_8UC3);
-	cv::randu(m_origin_treated, cv::Scalar(0), cv::Scalar(256));
-	m_origin_rgb.create(240, 320, CV_8UC3);
-	cv::randu(m_origin_rgb, cv::Scalar(0), cv::Scalar(256));
-	m_hsv.create(240, 320, CV_8UC3);
-	cv::randu(m_hsv, cv::Scalar(0), cv::Scalar(256));
-	m_thesholded.create(240, 320, CV_8UC3);
-	cv::randu(m_thesholded, cv::Scalar(0), cv::Scalar(256));
-
-	m_origin.create(240, 320, CV_8UC3);
-	cv::randu(m_origin, cv::Scalar(0), cv::Scalar(256));
-	m_output_1.create(240, 320, CV_8UC3);
-	cv::randu(m_output_1, cv::Scalar(0), cv::Scalar(256));
-	m_output_2.create(240, 320, CV_8UC3);
-	cv::randu(m_output_2, cv::Scalar(0), cv::Scalar(256));
-	m_output_3.create(240, 320, CV_8UC3);
-	cv::randu(m_output_3, cv::Scalar(0), cv::Scalar(256));
-	m_output_4.create(240, 320, CV_8UC3);
-	cv::randu(m_output_4, cv::Scalar(0), cv::Scalar(256));
-	m_output_5.create(240, 320, CV_8UC3);
-	cv::randu(m_output_5, cv::Scalar(0), cv::Scalar(256));
-	m_resultimg.create(240, 320, CV_8UC3);
-	cv::randu(m_resultimg, cv::Scalar(0), cv::Scalar(256));
 }
 
 /*==========  Fonctions assurants la detection et la lecture du feu  ==========*/

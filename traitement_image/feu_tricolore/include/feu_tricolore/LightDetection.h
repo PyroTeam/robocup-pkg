@@ -49,8 +49,7 @@ private:
     image_transport::Publisher m_result_pub;
 
     // OpenCV
-    cv::Mat m_origin_treated, m_origin_rgb, m_hsv, m_thesholded;
-    cv::Mat m_origin, m_output_1, m_output_2, m_output_3, m_output_4, m_output_5, m_resultimg;
+    cv::Mat m_origin;
 
     // Signals
     bool m_redTurnedOn, m_yellowTurnedOn, m_greenTurnedOn;
@@ -70,11 +69,8 @@ private:
     void initMembersImgs();
 
 public:
-    void preTraitement() { preTraitement(m_origin); }
     void preTraitement(cv::Mat &imgToProcess);
-    void traitement() { traitement(m_origin_treated); }
     void traitement(cv::Mat &imgToProcess);
-    void publishResultImages() { publishResultImages(m_resultimg); }
     void publishResultImages(cv::Mat &imgToProcess);
 
 private:
