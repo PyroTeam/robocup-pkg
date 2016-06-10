@@ -19,6 +19,21 @@ void ArTagFA::artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& m
 
 	if(!msg->markers.empty())
 	{
+		std::string tf_prefix;
+		m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
+		if (tf_prefix.size() != 0)
+			tf_prefix += "/";
+
+		// Garantie, violemment, que l'on travaille avec les bonnes informations
+		// En l'attente du changement de repère adequat, les positions ARTag doivent être publiées
+		// dans le bon repère, à savoir le repère tower_camera_link du robot
+		//
+		// Je vous l'accorde, c'est du brutal
+		if (msg->markers.front().header.frame_id.compare(tf_prefix+"tower_camera_link") != 0)
+		{
+			assert(!"ARTag markers MUST be published in robotino_ns/tower_camera_link frame");
+		}
+
 		for(int i = 0; i < msg->markers.size(); i++)
 		{
 			arTag_t arTag;
