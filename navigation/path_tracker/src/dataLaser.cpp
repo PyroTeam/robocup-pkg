@@ -37,7 +37,7 @@ void DataLaser::recoverDataLaser()
     }
 
     std::string tf_prefix;
-    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
     if (tf_prefix.size() != 0)
     {
         tf_prefix += "/";
@@ -55,12 +55,12 @@ void DataLaser::recoverDataLaser()
             return;
         }
         m_listener.lookupTransform(tf_prefix+"odom", m_scan.header.frame_id, m_scan.header.stamp, m_transform);
-        //ROS_INFO("Position robot : x = %f, y = %f", m_transform.getOrigin().x(), m_transform.getOrigin().y()); 
+        //ROS_INFO("Position robot : x = %f, y = %f", m_transform.getOrigin().x(), m_transform.getOrigin().y());
         for (int i = 0 ; i < ranges.size() ; i++)
         {
             if (ranges[i] < LASER_RANGE_MAX)
             {
-                //ROS_INFO("Point %d : %f < %f", i, ranges[i], m_scan.range_max); 
+                //ROS_INFO("Point %d : %f < %f", i, ranges[i], m_scan.range_max);
                 float angle = m_scan.angle_min + i * m_scan.angle_increment;
                 float x = ranges[i] * cos(angle);
                 float y = ranges[i] * sin(angle);

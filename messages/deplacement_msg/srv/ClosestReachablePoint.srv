@@ -1,0 +1,9 @@
+# request
+
+geometry_msgs/Pose2D currentPosition
+float32 window
+---
+# response
+
+geometry_msgs/Pose2D foundPosition
+bool found

@@ -4,9 +4,9 @@ field:
     size: [14, 9, 0.0]
     origin: [-7, -2, 0.0]
     resolution: 0.05
-    margin: 0.25
+    margin: 0.35
     gradient:
-        distance: 0.35
+        distance: 0
         minValue: 0
     walls:
         bottom1:
