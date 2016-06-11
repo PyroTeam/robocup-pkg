@@ -10,6 +10,7 @@
 #include "LaserScan.h"
 #include "landmarks_detection_utils.h"
 #include "cartographie_utils.h"
+#include "geometry_utils.h"
 #include "math_functions.h"
 
 deplacement_msg::Landmarks g_machines;
@@ -45,7 +46,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     for (auto &it : machines->landmarks)
     {
         // Changement de repère
-        geometry_msgs::Pose2D center = changeFrame(it, transform);
+        geometry_msgs::Pose2D center = geometry_utils::changeFrame(it, transform);
 
         // Vérification de la zone
         int zone = getArea(center);

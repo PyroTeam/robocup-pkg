@@ -146,7 +146,7 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
     for(std::list<geometry_msgs::Point>::const_iterator it = m.getPoints().cbegin(); it != m.getPoints().cend(); ++it)
     {
         //si les points sont proches
-        if (dist(*it, *previousPoint) < seuil)
+        if (geometry_utils::distance(*it, *previousPoint) < seuil)
         {
             //on sauvegarde ces points dans une liste
             tmp.push_back(*it);
@@ -154,7 +154,7 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
         //sinon (si on détecte un seuil important)
         else
         {
-            if (dist(tmp.front(), tmp.back()) >= 0.5)
+            if (geometry_utils::distance(tmp.front(), tmp.back()) >= 0.5)
             {
                 //on construit un nouveau segment à partir de la liste enregistrée des points qui sont proches
                 s.build(tmp);
@@ -171,7 +171,7 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
 
     //pour le dernier point, le seuil ne pouvant plus être dépassé,
     //on construit le dernier segment et on l'ajoute
-    if (tmp.size() >= 2 && dist(tmp.front(), tmp.back()) >= 0.5)
+    if (tmp.size() >= 2 && geometry_utils::distance(tmp.front(), tmp.back()) >= 0.5)
     {
         //on construit un nouveau segment à partir de la liste enregistrée des points qui sont proches
         s.build(tmp);

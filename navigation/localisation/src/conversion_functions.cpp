@@ -1,24 +1,11 @@
 #include <Eigen/Dense>
 #include <vector>
 #include <cmath>
-#include <tf/transform_datatypes.h>
-#include <tf/transform_listener.h>
 
 #include "conversion_functions.h"
 
 using namespace Eigen;
 
-geometry_msgs::Pose2D changeFrame(const geometry_msgs::Pose2D &p, const tf::StampedTransform &transform)
-{
-  geometry_msgs::Pose2D result;
-
-  double yaw = tf::getYaw(transform.getRotation());
-  result.x     = p.x*cos(yaw) - p.y*sin(yaw) + transform.getOrigin().x();
-  result.y     = p.x*sin(yaw) + p.y*cos(yaw) + transform.getOrigin().y();
-  result.theta = p.theta + yaw;
-
-  return result;
-}
 
 std::vector<geometry_msgs::Pose2D> convert(std::vector<Machine> mps)
 {
