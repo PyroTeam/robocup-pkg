@@ -3,14 +3,7 @@
 #include "Segment.h"
 #include "cartographie_utils.h"
 #include "math_functions.h"
-/*
-const double WALL_TOP = 6.0;
-const double WALL_BOTTOM = 0.0;
-const double WALL_LEFT = -6.0;
-const double WALL_RIGHT = 6.0;
 
-const double THRESHOLD = 0.3;
-*/
 Segment::Segment() : m_angle(0.0),m_size(0.0)
 {
 
@@ -107,76 +100,3 @@ void Segment::build(const std::list<geometry_msgs::Point> &points){
     std::cout << " correlation  : " << correl << std::endl;
 */
 }
-/*
-bool Segment::atTheRight()
-{
-  if (std::abs(m_min.x - WALL_RIGHT) <= THRESHOLD &&
-      std::abs(m_max.x - WALL_RIGHT) <= THRESHOLD &&
-      std::abs(m_min.y) <=  WALL_TOP + THRESHOLD &&
-      std::abs(m_max.y) >= WALL_BOTTOM - THRESHOLD)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
-bool Segment::atTheLeft()
-{
-  if (std::abs(m_min.x - WALL_LEFT) <= THRESHOLD &&
-      std::abs(m_max.x - WALL_LEFT) <= THRESHOLD &&
-      std::abs(m_min.y) <=  WALL_TOP + THRESHOLD &&
-      std::abs(m_max.y) >= WALL_BOTTOM - THRESHOLD)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
-bool Segment::atTheTop()
-{
-  if (std::abs(m_min.y - WALL_TOP) <= THRESHOLD &&
-      std::abs(m_max.y - WALL_TOP) <= THRESHOLD &&
-      std::abs(m_min.x) >= WALL_LEFT - THRESHOLD &&
-      std::abs(m_max.x) <= WALL_RIGHT + THRESHOLD)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
-bool Segment::atTheBottom()
-{
-  if (std::abs(m_min.y - WALL_BOTTOM) <= THRESHOLD &&
-      std::abs(m_max.y - WALL_BOTTOM) <= THRESHOLD &&
-      std::abs(m_min.x) >= WALL_LEFT - THRESHOLD &&
-      std::abs(m_max.x) <= WALL_RIGHT + THRESHOLD)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
-bool Segment::isAWall()
-{
-  if (this->atTheRight() || this->atTheLeft() || this->atTheTop() || this->atTheBottom())
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-*/

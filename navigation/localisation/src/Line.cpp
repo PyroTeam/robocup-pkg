@@ -37,8 +37,7 @@ void Line::build(geometry_msgs::Pose2D a, geometry_msgs::Pose2D b)
 	geometry_msgs::Pose2D p;
 	p.x = (b.x + a.x)/2;
 	p.y = (b.y + a.y)/2;
-  // to be true, this is the slope of the line, not its angle
-	p.theta = (b.y - a.y)/(b.x - a.x);
+	p.theta = atan2(b.y-a.y,b.x-a.x);
 
   set(p);
 }

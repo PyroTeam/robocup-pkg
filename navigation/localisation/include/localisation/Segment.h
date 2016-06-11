@@ -23,14 +23,7 @@ public:
 
 	void update();
 	void build(const std::list<geometry_msgs::Point> &points);
-/*
-  bool atTheRight();
-  bool atTheLeft();
-  bool atTheTop();
-  bool atTheBottom();
 
-  bool isAWall();
-*/
 protected:
 	double			 		m_angle;
 	double 			 		m_size;
