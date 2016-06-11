@@ -61,4 +61,4 @@ add_dependencies(gazebo_to_ros_node
 	trait_im_msg_gencpp
 	deplacement_msg_gencpp
 )
-set_target_properties(gazebo_to_ros_node PROPERTIES COMPILE_FLAGS "-g3")
+#set_target_properties(gazebo_to_ros_node PROPERTIES COMPILE_FLAGS "-g3")
