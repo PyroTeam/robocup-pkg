@@ -424,44 +424,81 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
 		  	case orderRequest::DISCOVER:
 		  	{
+		  		// A partir de zone -> déterminer premier coin zone (plus accessible)
+		  		
+		  		// Se déplacer au premier coin zone
+
+		  		// A partir detection machine -> voir si machine présente
+
+		  		// Si machine NON présente
+		  			// déterminer second coin zone (le plus accessible), avec angle différent du premier
+		  			// NB: en cas de mur, pouvoir déterminer un point légèrement décalé
+
+		  			// Se rendre au second coin zone
+
+		  		// A partir detection machine -> voir si machine présente
+
+		  		// Si machine toujours NON présente, abandon
+
+		  		// Si machine présente, déterminer point devant machine
+		  		// Se rendre au point devant machine
+
+		  		// Récupérer ArTag ID
+
+		  		// Vérifier si OUTPUT (TODO: à vérifier)
+
+		  		// Si NON output
+		  			// Déterminer point devant autre côte de la machine
+
+		  			// Se rendre ou point devant autre côté de la machine
+
+		  			// Récupérer ArTag ID
+
+		  			// Vérifier si OUTPUT, sinon abandonner
+
+		  		// Approche finale, objectif FEU
+
+		  		// Traitement d'image, détection FEU
+
+		  		// Intérprétation type à partir de LightSignal
+
+		  		// Déterminer nom de machine à partir ArTagID ou autres
+
+		  		// Reporter machine
+
+
+
+
+
+
+
+
 				#if 1 == 0 // Sandra's discover code
 				ROS_INFO ("Received discover Order");
 
 				geometry_msgs::Pose2D pt_dest;
 				geometry_msgs::Pose2D pt_actuel;
 
-				if(req.id == 4) // DS CYAN
-				{
-					pt_dest.x = 1.8;
-					pt_dest.y = 4.9;
-					pt_dest.theta = M_PI;
-					going(pt_dest);
-					pt_dest.x = 1.5;
-					pt_dest.y = 4.9;
-				}
-				else if (req.id == 16)  // DS MAGENTA
-				{
-					pt_dest.x = -1.8;
-					pt_dest.y = 4.9;
-					pt_dest.theta = 0;
-					going(pt_dest);
-					pt_dest.x = -1.5;
-					pt_dest.y = 4.9;
-				}
-				else
-				{
-					interpretationZone();
-					pt_dest.x = this->m_x;
-					pt_dest.y = this->m_y;
-					pt_dest.theta = M_PI/4;
-				}
+				// TODO: S'assurer que m_id n'est pas utilisé pour tout et n'importe quoi
+				// TODO: Affecter req.id à m_id avant d'appeler cette fonction
+				interpretationZone();
+				pt_dest.x = this->m_x;
+				pt_dest.y = this->m_y;
+				pt_dest.theta = M_PI/4;
+
+				// Se déplace jusqu'au point
+				// TODO: Gérer cas erreur (timeout)
 				going(pt_dest);
 
 				ROS_INFO ("I went to the asked point successfully ");
 
 				ROS_INFO("Starting exploring the ARTag ");
+				// Fait l'approche finale et récupère l'ID de l'ARTag le plus proche
+				// TODO: Renommer asking
 				asking(pt_dest);
 
+				// TODO: Attention, teamColorOfId peuple déjà m_name
+				// Construit m_name
 				int team_color = teamColorOfId(m_id);
 				if (team_color == CYAN)         m_name = "C-" + m_name;
 				else if(team_color == MAGENTA)  m_name = "M-" + m_name;
@@ -476,6 +513,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				/* phase d'exploration */
 
 				ReportingMachineSrvClient rm_c;
+				// Ici m_id ne représente plus une zone, mais un ARTag id
 				switch(m_id)
 				{
 					case M_BS_IN  :
@@ -486,6 +524,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 						if(m_id == C_BS_OUT || m_id == M_BS_OUT)
 					  	{
 						  	m_msg = m.getBS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::BS,req.id);
+						  	// TODO: Limiter le nombre de moyen d'appeler une approche finale
 						 	m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
 						  	if(m_ei->m_signals.size() != 0)
 						  	{
