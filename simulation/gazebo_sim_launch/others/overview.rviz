@@ -10,6 +10,9 @@ Panels:
         - /OpposingTeam1/Opposing11
         - /OpposingTeam1/Opposing21
         - /OpposingTeam1/Opposing31
+        - /TF1
+        - /TF1/Frames1
+        - /TF1/Tree1
       Splitter Ratio: 0.585062
     Tree Height: 733
   - Class: rviz/Selection
@@ -653,6 +656,7 @@ Visualization Manager:
           Name: Opposing3
       Enabled: false
       Name: OpposingTeam
+<<<<<<< HEAD
     - Class: rviz/Marker
       Enabled: true
       Marker Topic: /robotino1/rviz/visualization_markers
@@ -662,6 +666,41 @@ Visualization Manager:
         visualisation_odom: true
         visualisation_segments: true
       Queue Size: 100
+=======
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        map:
+          Value: true
+        robotino1/base_link:
+          Value: true
+        robotino1/laser_link:
+          Value: false
+        robotino1/odom:
+          Value: true
+        robotino1/platform_camera_link:
+          Value: false
+        robotino1/tower_camera__link:
+          Value: false
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        map:
+          robotino1/odom:
+            robotino1/base_link:
+              robotino1/laser_link:
+                {}
+              robotino1/platform_camera_link:
+                {}
+              robotino1/tower_camera__link:
+                {}
+      Update Interval: 0
+>>>>>>> navigation-devel
       Value: true
   Enabled: true
   Global Options:
@@ -695,7 +734,11 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 50
+<<<<<<< HEAD
       Scale: 61.9616
+=======
+      Scale: 120.099
+>>>>>>> navigation-devel
       Target Frame: map
       Value: TopDownOrtho (rviz)
       X: -0.178107

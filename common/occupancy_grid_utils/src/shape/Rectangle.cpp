@@ -38,6 +38,8 @@ Rectangle::~Rectangle()
 
 void Rectangle::draw(nav_msgs::OccupancyGrid &grid, int max_value)
 {
+    //Code provenant de l'ancien GridMaker
+    
     // Environment
     	// static bool alreadyDone = false;
     	// if(alreadyDone && 0)

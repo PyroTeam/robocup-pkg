@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>navigation_manager</name>
+  <name>grid_localization</name>
   <version>0.0.0</version>
-  <description>The navigation_manager package</description>
+  <description>The grid_localization package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/navigation_manager</url> -->
+  <!-- <url type="website">http://wiki.ros.org/grid_localization</url> -->
 
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->
@@ -40,27 +40,21 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>actionlib</build_depend>
-  <build_depend>deplacement_msg</build_depend>
   <build_depend>geometry_msgs</build_depend>
+  <build_depend>mrpt_localization</build_depend>
+  <build_depend>mrpt_msgs</build_depend>
   <build_depend>nav_msgs</build_depend>
-  <build_depend>robotino_msgs</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>std_msgs</build_depend>
-  <build_depend>sensor_msgs</build_depend>
-  <build_depend>tf</build_depend>
-
-  <run_depend>actionlib</run_depend>
-  <run_depend>deplacement_msg</run_depend>
   <run_depend>geometry_msgs</run_depend>
+  <run_depend>mrpt_localization</run_depend>
+  <run_depend>mrpt_msgs</run_depend>
   <run_depend>nav_msgs</run_depend>
-  <run_depend>robotino_msgs</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
-  <run_depend>sensor_msgs</run_depend>
-  <run_depend>tf</run_depend>
+
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
