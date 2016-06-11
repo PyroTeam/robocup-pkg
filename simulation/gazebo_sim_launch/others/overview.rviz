@@ -11,6 +11,9 @@ Panels:
         - /OpposingTeam1/Opposing11
         - /OpposingTeam1/Opposing21
         - /OpposingTeam1/Opposing31
+        - /TF1
+        - /TF1/Frames1
+        - /TF1/Tree1
       Splitter Ratio: 0.585062
     Tree Height: 314
   - Class: rviz/Selection
@@ -654,6 +657,40 @@ Visualization Manager:
           Name: Opposing3
       Enabled: false
       Name: OpposingTeam
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        map:
+          Value: true
+        robotino1/base_link:
+          Value: true
+        robotino1/laser_link:
+          Value: false
+        robotino1/odom:
+          Value: true
+        robotino1/platform_camera_link:
+          Value: false
+        robotino1/tower_camera__link:
+          Value: false
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        map:
+          robotino1/odom:
+            robotino1/base_link:
+              robotino1/laser_link:
+                {}
+              robotino1/platform_camera_link:
+                {}
+              robotino1/tower_camera__link:
+                {}
+      Update Interval: 0
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -686,7 +723,7 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 50
-      Scale: 95.7419
+      Scale: 120.099
       Target Frame: map
       Value: TopDownOrtho (rviz)
       X: 0
