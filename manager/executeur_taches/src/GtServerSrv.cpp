@@ -680,6 +680,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				geometry_msgs::Pose2D *otherPointPtr = NULL;
 				ReportingMachineSrvClient reportClient;
 
+				// NOTE (Valentin): Selon moi, le générateur devrait envoyer la zone à explorer dans req.parameter et non dans req.id
+				// La ligne ci-dessous est un hack pour que le code de l'executeur soit "conforme" 
 				req.parameter = req.id;
 				ROS_INFO("Order: DISCOVER, zone %d", req.parameter);
 				// Check if valid zone

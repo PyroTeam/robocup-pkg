@@ -37,12 +37,12 @@ class MyElements
 		virtual ~MyElements();
 
 		/* Méthodes */ 
-		BaseStation getBS();
-		RingStation getRS1();
-		RingStation getRS2();
-		CapStation  getCS1();
-		CapStation  getCS2();
-		DeliveryStation getDS();
+		BaseStation& getBS();
+		RingStation& getRS1();
+		RingStation& getRS2();
+		CapStation&  getCS1();
+		CapStation&  getCS2();
+		DeliveryStation& getDS();
 
 };
 

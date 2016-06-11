@@ -28,6 +28,7 @@ class RingStation : public Machine
 
 	/* Constructeur */
 	RingStation();
+	RingStation(int nb);
 
 	/* Déstructeur */
 	virtual ~RingStation();

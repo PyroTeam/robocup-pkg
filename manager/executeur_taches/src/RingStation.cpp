@@ -4,12 +4,20 @@
 
 /* Constructeur */
 RingStation::RingStation()
+: Machine()
 {
+	m_name = "RS";
 	m_type = "RingStation";
 	m_greenRing = 0;
 	m_yellowRing = 0;
 	m_blueRing = 0;
 	m_orangeRing = 0;
+}
+
+RingStation::RingStation(int nb)
+: RingStation()
+{
+	m_name += std::to_string(nb);
 }
 
 /* Destructeur */

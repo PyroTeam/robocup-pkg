@@ -4,7 +4,9 @@
 
 /* Constructeur */
 DeliveryStation::DeliveryStation()
+: Machine()
 {
+	m_name = "DS";
 	m_type = "DeliveryStation";
 }
 

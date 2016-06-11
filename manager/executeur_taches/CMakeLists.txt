@@ -129,6 +129,11 @@ add_executable(
   src/MPS.cpp
 )
 add_dependencies(test_exec manager_msg_gencpp trait_im_msg_gencpp comm_msg_gencpp)
+set_target_properties(
+	test_exec
+
+	PROPERTIES COMPILE_FLAGS "-std=c++11"
+)
 
 add_executable(
   test_publish

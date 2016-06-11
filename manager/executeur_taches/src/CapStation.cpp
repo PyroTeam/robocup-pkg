@@ -4,12 +4,20 @@
 
 /* Constructeur */
 CapStation::CapStation()
+: Machine()
 {
+	m_name = "CS";
 	m_type = "CapStation";
 	m_blackCap = 0;
 	m_greyCap = 0;
 	m_stockID[0] = 1, m_stockID[1] = 1, m_stockID[2] = 1;
 	m_capID[0] = 1, m_capID[1] = 1, m_capID[2] = 1;
+}
+
+CapStation::CapStation(int nb)
+: CapStation()
+{
+	m_name += std::to_string(nb);
 }
 
 /* Destructeur */

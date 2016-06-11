@@ -3,7 +3,9 @@
 
 /* Constructeur */
 BaseStation::BaseStation()
+: Machine()
 {
+	m_name = "BS";
 	m_type = "BaseStation";   
 	m_redBase = 0;
 	m_blackBase = 0;

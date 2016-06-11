@@ -35,6 +35,7 @@ class Machine
 		geometry_msgs::Pose2D m_exitMachine;
 		int zone;
 		bool isHere;
+		std::string m_name;
 
 	public:
 		/* Constructeur */
