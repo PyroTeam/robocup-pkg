@@ -6,7 +6,6 @@
 #include <iostream>
 
 #include <ros/ros.h>
-#include <tf/transform_datatypes.h>
 #include <geometry_msgs/TwistStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <gazsim_msgs/LightSignalDetection.pb.h>
@@ -15,8 +14,6 @@
 #include <deplacement_msg/Landmarks.h>
 #include <gazebo_msgs/ModelStates.h>
 #include <tf/transform_datatypes.h>
-#include <stdlib.h>
-#include <time.h>
 
 double g_x, g_y, g_z;
 /* TODO: Find better solution */
@@ -103,49 +100,35 @@ void cmdVelCallback(const geometry_msgs::TwistConstPtr& msg)
 
 void gpsCallback(ConstPosePtr &msg)
 {
-    static double noiseX, noiseY, noiseTheta;
-    // double nx=0, ny=0, ntheta=0;
-    double nx = 0.05* (double(rand())/double(RAND_MAX) - .55);
-    double ny = 0.05 * (double(rand())/double(RAND_MAX) - .55);
-    double ntheta = 0.01 * (double(rand())/double(RAND_MAX) - .55);
+	ros::NodeHandle nh;
+	std::string tf_prefix;
+	nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+	if (tf_prefix.size() != 0)
+		tf_prefix += "/";
 
-    ros::NodeHandle nh;
-    std::string tf_prefix;
-    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
-    if (tf_prefix.size() != 0)
-        tf_prefix += "/";
+	nav_msgs::Odometry odom_msg;
+	odom_msg.child_frame_id=tf_prefix+"base_link";
+	odom_msg.header.frame_id=tf_prefix+"odom";
+	odom_msg.header.stamp=ros::Time::now();
 
-    nav_msgs::Odometry odom_msg;
-    odom_msg.child_frame_id=tf_prefix+"base_link";
-    odom_msg.header.frame_id=tf_prefix+"odom";
-    odom_msg.header.stamp=ros::Time::now();
+	odom_msg.pose.pose.position.x=msg->position().x();
+	odom_msg.pose.pose.position.y=msg->position().y();
+	odom_msg.pose.pose.position.z=0;
 
-    noiseX+=nx*g_x;
-    noiseY+=ny*g_y;
-    noiseTheta+=ntheta*g_z;
-    ROS_INFO("noiseX : %f", float(noiseX));
-    odom_msg.pose.pose.position.x=msg->position().x()+noiseX;
-    odom_msg.pose.pose.position.y=msg->position().y()+noiseY;
-    odom_msg.pose.pose.position.z=0;
+	odom_msg.pose.pose.orientation.x=msg->orientation().x();
+	odom_msg.pose.pose.orientation.y=msg->orientation().y();
+	odom_msg.pose.pose.orientation.z=msg->orientation().z();
+	odom_msg.pose.pose.orientation.w=msg->orientation().w();
 
-    odom_msg.pose.pose.orientation.x=msg->orientation().x();
-    odom_msg.pose.pose.orientation.y=msg->orientation().y();
-    odom_msg.pose.pose.orientation.z=msg->orientation().z();
-    odom_msg.pose.pose.orientation.w=msg->orientation().w();
-    double yaw = tf::getYaw(odom_msg.pose.pose.orientation) + noiseTheta;
-    odom_msg.pose.pose.orientation = tf::createQuaternionMsgFromYaw(yaw);
+	odom_msg.twist.twist.linear.x=g_x;
+	odom_msg.twist.twist.linear.y=g_y;
+	odom_msg.twist.twist.linear.z=0;
+	odom_msg.twist.twist.angular.x=0;
+	odom_msg.twist.twist.angular.y=0;
+	odom_msg.twist.twist.angular.z=g_z;
 
-
-    odom_msg.twist.twist.linear.x=g_x+nx*g_x;
-    odom_msg.twist.twist.linear.y=g_y+ny*g_y;
-    odom_msg.twist.twist.linear.z=0;
-    odom_msg.twist.twist.angular.x=0;
-    odom_msg.twist.twist.angular.y=0;
-    odom_msg.twist.twist.angular.z=g_z+ntheta*g_z;
-    if (g_init)
-    {
-        g_pubOdom.publish(odom_msg);
-    }
+	if (g_init)
+		g_pubOdom.publish(odom_msg);
 }
 
 
