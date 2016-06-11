@@ -1,0 +1,3 @@
+cloud_filter_chain:
+- type: SimpleCloudLaserFilter
+  name: simple_cloud_filter

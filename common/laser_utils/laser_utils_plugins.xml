@@ -1,0 +1,8 @@
+<library path="lib/liblaser_utils_plugins">
+  <class name="SimpleCloudLaserFilter" type="SimpleCloudLaser"
+          base_class_type="filters::FilterBase<sensor_msgs::PointCloud>">
+    <description>
+      This is a increment filter which works on a stream of PointCloud.
+    </description>
+  </class>
+</library>
