@@ -83,34 +83,6 @@ int getCellValue(const nav_msgs::OccupancyGrid &grid, float x, float y)
 }
 
 /**
- * fonction qui retourne la valeur d'un point fourni en coordonnées métrique
- * dans une OccupancyGrid
- *
- * \param grid la grille
- * \param p point en coordonnées métrique
- *
- * \return valeur du point, 255 si le point n'est pas sur la map
- */
-int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p)
-{
-    return getCellValue(grid, p.x, p.y);
-}
-
-/**
- * fonction qui retourne la valeur d'un point fourni en coordonnées métrique
- * dans une OccupancyGrid
- *
- * \param grid la grille
- * \param p pose en coordonnées métrique
- *
- * \return valeur du point, 255 si le point n'est pas sur la map
- */
-int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &p)
-{
-    return getCellValue(grid, p.x, p.y);
-}
-
-/**
  * fonction qui retourne les coordonnées en pixel d'un point donnée en coordonnées métrique
  *
  * \param grid la grille

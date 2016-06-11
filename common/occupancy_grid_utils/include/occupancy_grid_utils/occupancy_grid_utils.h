@@ -55,9 +55,33 @@ void createEmptyMap(T &map,
 int getCell(const nav_msgs::OccupancyGrid &grid, float x, float y);
 
 int getCellValue(const nav_msgs::OccupancyGrid &grid, float x, float y);
-inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p){return getCellValue(grid, p.x, p.y);}
-inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &p){return getCellValue(grid, p.x, p.y);}
+/**
+ * fonction qui retourne la valeur d'un point fourni en coordonnées métrique
+ * dans une OccupancyGrid
+ *
+ * \param grid la grille
+ * \param p point en coordonnées métrique
+ *
+ * \return valeur du point, 255 si le point n'est pas sur la map
+ */
+inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p)
+{
+    return getCellValue(grid, p.x, p.y);
+}
 
+/**
+ * fonction qui retourne la valeur d'un point fourni en coordonnées métrique
+ * dans une OccupancyGrid
+ *
+ * \param grid la grille
+ * \param p pose en coordonnées métrique
+ *
+ * \return valeur du point, 255 si le point n'est pas sur la map
+ */
+inline int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &p)
+{
+    return getCellValue(grid, p.x, p.y);
+}
 void setCell(nav_msgs::OccupancyGrid &grid, float x, float y, int value);
 void setPixelCell(nav_msgs::OccupancyGrid &grid, unsigned int x, unsigned int y, const int& value);
 void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, const int& value);
