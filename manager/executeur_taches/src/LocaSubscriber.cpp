@@ -15,7 +15,7 @@ void LocaSubscriber::tesCallback(const deplacement_msg::LandmarksConstPtr &msg)
 {
 	ROS_INFO_ONCE("I heard the localisation publisher ");
 
-	tab_machine = msg->landmarks;
+	m_tabMachine = msg->landmarks;
 
 	for (int i=0; i< msg->landmarks.size(); i++)
     {
@@ -26,8 +26,8 @@ void LocaSubscriber::tesCallback(const deplacement_msg::LandmarksConstPtr &msg)
     	m_machine[zone-1].isHere = true;
     	m_machine[zone-1].zone = zone;
 	}
-	/*for(int i=0; i<tab_machine.size(); i++){
-		ROS_INFO("x :landmarks[%d] = %f", i,tab_machine[i].x);
+	/*for(int i=0; i<m_tabMachine.size(); i++){
+		ROS_INFO("x :landmarks[%d] = %f", i,m_tabMachine[i].x);
 	}*/
 }
 int LocaSubscriber::getArea(float x, float y)

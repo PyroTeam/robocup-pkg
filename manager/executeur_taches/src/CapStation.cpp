@@ -7,6 +7,7 @@ CapStation::CapStation()
 : Machine()
 {
 	m_name = "CS";
+	m_faType = finalApproachingGoal::CS;
 	m_type = "CapStation";
 	m_blackCap = 0;
 	m_greyCap = 0;

@@ -10,6 +10,8 @@
 #ifndef MYELEMENTS_H
 #define MYELEMENTS_H
 
+#include "common_utils/types.h"
+
 #include "Machine.h"
 #include "BaseStation.h"
 #include "RingStation.h"
@@ -43,6 +45,7 @@ class MyElements
 		CapStation&  getCS1();
 		CapStation&  getCS2();
 		DeliveryStation& getDS();
+		Machine *getMachineFromTag(int arTag, int teamColor);
 
 };
 

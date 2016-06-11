@@ -7,6 +7,7 @@ DeliveryStation::DeliveryStation()
 : Machine()
 {
 	m_name = "DS";
+	m_faType = finalApproachingGoal::DS;
 	m_type = "DeliveryStation";
 }
 

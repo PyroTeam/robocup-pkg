@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   manager_msg
   comm_msg
   deplacement_msg
+  common_utils
 )
 
 ## System dependencies are found with CMake's conventions
