@@ -27,11 +27,11 @@
 			<param name="simuRobotNamespace" value="robotino1" />
 
 			<!-- Load the gazebo_to_ros node -->
-			<arg name="debug_gazebo_to_tos" value="false" />
+			<arg name="debug_gazebo_to_ros" value="false" />
 			<param name="objectDetection/useSimLandmarks" value="true" />
-			<node if="$(arg debug_gazebo_to_tos)"
+			<node if="$(arg debug_gazebo_to_ros)"
 				pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node" launch-prefix="xterm -e"/>
-			<node unless="$(arg debug_gazebo_to_tos)"
+			<node unless="$(arg debug_gazebo_to_ros)"
 				pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
 
 			<!-- Load the tf_broadcaster node -->
@@ -51,8 +51,24 @@
 				<!-- Needeed for visualisation -->
 		<!--         <node pkg="localisation" name="odometry_correction" type="odometry_correction_node"/> -->
 
+      <node pkg="mrpt_localization" type="mrpt_localization_node" name="mrpt_localization_node" launch-prefix="xterm -e">
+          <param name="ini_file" value="$(find grid_localization)/cfg/pf-localization_pyro.ini"/>
+          <!-- <param name="map_file" value="$(find grid_localization)/cfg/mymap.gridmap"/> -->
+          <param name="odom_frame_id" value="/robotino1/odom"/>
+          <param name="global_frame_id" value="/map"/>
+          <param name="base_frame_id" value="/robotino1/base_link"/>
+          <param name="map_update_skip" value="20"/>
+          <param name="particlecloud_update_skip" value="1"/>
+          <param name="tf_prefix" value=""/>
+          <param name="debug" value="true"/>
+          <param name="gui_mrpt" value="true"/>
+          <param name="sensor_sources" value="hardware/scan"/>
+          <remap from="particlecloud" to="hardware/particlecloud"/>
+      </node>
+
+
 			<!-- Load the grid maker -->
-			<rosparam command="load" file="$(find grid_maker)/cfg/field.yaml" />
+			<rosparam command="load" file="$(find grid_maker)/cfg/field_simulator.yaml" />
 			<node pkg="grid_maker" name="grid_maker" type="grid_maker_node"/>
 		  <!-- 	<node pkg="grid_maker" name="grid_maker" type="construct_map_node"/>-->
 			<!-- <node pkg="grid_maker" name="fake_machines_publisher" type="construct_map_test_simulator"/> -->
@@ -68,8 +84,8 @@
       <!-- <node pkg="path_tracker" name="path_trackerRequest_node" type="path_trackerRequest_node.py" output="screen"/> -->
 
 			<!-- Load the path tracker -->
-      <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" launch-prefix="xterm -e"/>
-      <!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node.py" launch-prefix="xterm -e"/> -->
+      <!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py"/> -->
+      <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py"/>
 
 			<!-- Load the fake final approach -->
 			<node pkg="approche_finale" name="final_approach" type="simFinalApproach_node"/>
@@ -77,7 +93,7 @@
 
 			<!-- Load the navigation manager -->
 			<!-- <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node"/> -->
-			<node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" launch-prefix="xterm -e"/>
+			<node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" output="screen"/>
 			<node pkg="navigation_manager" name="move_request" type="moveRequest_node.py"/>
 			<!-- <node pkg="navigation_manager" name="move_request" type="moveRequest_node.py" launch-prefix="xterm -e"/> -->
 
@@ -90,6 +106,8 @@
 			<!-- <node pkg="generateur_taches" name="manager" type="main_node" launch-prefix="xterm -e"/> -->
 
       <!-- Load rviz -->
-      <node pkg="rviz" type="rviz" name="rviz" args="-d $(find gazebo_sim_launch)/others/overview.rviz"/>
+      <node pkg="rviz" type="rviz" name="rviz" args="-d $(find gazebo_sim_launch)/others/overview.rviz">
+        <remap from="/initialpose" to="/robotino1/initialpose/"/>
+      </node>
 		</group>
 </launch>
