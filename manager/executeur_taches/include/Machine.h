@@ -40,7 +40,7 @@ class Machine
 
 	public:
 		/* Constructeur */
-		Machine();
+		Machine(int teamColor);
 
 		/* Déstructeur */
 		virtual ~Machine();

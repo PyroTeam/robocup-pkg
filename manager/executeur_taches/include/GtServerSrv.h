@@ -42,7 +42,7 @@ class GtServerSrv
 {
 	public:
 		/* Constructeur */
-		GtServerSrv();
+		GtServerSrv(int teamColor);
 
 		/* Déstructeur */
 		virtual  ~GtServerSrv();

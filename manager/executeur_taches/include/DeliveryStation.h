@@ -21,7 +21,7 @@ class DeliveryStation : public Machine
 	public:
 
 		/* Constructeur */
-		DeliveryStation();
+		DeliveryStation(int teamColor);
 
 		/* Déstructeur */  
 		virtual ~DeliveryStation();

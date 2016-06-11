@@ -3,10 +3,10 @@
 #include "RingStation.h"
 
 /* Constructeur */
-RingStation::RingStation()
-: Machine()
+RingStation::RingStation(int teamColor)
+: Machine(teamColor)
 {
-	m_name = "RS";
+	m_name += "RS";
 	m_faType = finalApproachingGoal::RS;
 	m_type = "RingStation";
 	m_greenRing = 0;
@@ -15,8 +15,8 @@ RingStation::RingStation()
 	m_orangeRing = 0;
 }
 
-RingStation::RingStation(int nb)
-: RingStation()
+RingStation::RingStation(int nb, int teamColor)
+: RingStation(teamColor)
 {
 	m_name += std::to_string(nb);
 }

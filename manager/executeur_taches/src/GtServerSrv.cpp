@@ -1,12 +1,11 @@
 #include "GtServerSrv.h"
 
-GtServerSrv::GtServerSrv()
+GtServerSrv::GtServerSrv(int teamColor)
+: m_color(teamColor)
+, m_elements(teamColor)
 {
 	ros::NodeHandle n;
-    std::string teamColor;
 	n.param<int>("robotNumber", m_nbrobot, 0);
-	n.param<std::string>("teamColor", teamColor, "cyan");
-	m_color = (teamColor == "magenta")? MAGENTA: CYAN;
 
 	m_msg.nb_robot = m_nbrobot;
 	m_msg.state = manager_msg::activity::END;
@@ -160,6 +159,7 @@ inline bool getZoneCenter(int zone, double &x, double &y)
 {
 #define ZONE_WIDTH	2.0
 #define ZONE_HEIGHT	1.5
+	bool leftSide = zone > 12;
 
 	if (zone < 1 || zone > 24)
 	{
@@ -170,9 +170,10 @@ inline bool getZoneCenter(int zone, double &x, double &y)
 	}
 
 	// Get zone center
+	zone = (leftSide)? zone-12 : zone;
 	x = ((zone-1)/4)*ZONE_WIDTH + ZONE_WIDTH/2;
 	y = ((zone-1)%4)*ZONE_HEIGHT + ZONE_HEIGHT/2;
-	if (zone > 12)
+	if (leftSide)
 	{
 		x *= -1;
 	}
@@ -506,8 +507,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
 		  	case orderRequest::DISCOVER:
 		  	{
-		  		#define USE_BEST_EXPLO
-		  		#ifdef USE_BEST_EXPLO
 		  		Machine *machine = NULL;
 		  		geometry_msgs::Pose2D firstSidePoint, secondSidePoint;
 		  		int machineSideId = 0;
@@ -516,6 +515,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  		// A partir de zone -> déterminer premier coin zone (plus accessible)
 		  		// TODO: choix judicieux du coin à déterminer
 		  		interpretationZone(req.id, BOTTOM_LEFT);
+		  		ROS_INFO("Point Target BottLeft (%f, %f) theta: %f", m_ptTarget.x, m_ptTarget.y, m_ptTarget.theta);
 		  		// Se déplacer au premier coin zone
 		  		// TODO: gérer les cas d'erreurs de going
 		  		going(m_ptTarget);
@@ -530,6 +530,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  			{
 		  				// TODO: choix judicieux du coin à déterminer
 		  				interpretationZone(req.id, BOTTOM_RIGHT);
+		  				ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_ptTarget.x, m_ptTarget.y, m_ptTarget.theta);
 
 		  				// Se rendre au second coin zone
 						// TODO: gérer les cas d'erreurs de going
@@ -540,7 +541,9 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 			  			if (!knownMachineInZone(req.id))
 			  			{
 			  				// TODO: abandonner le service
-							ROS_ERROR(" There is no machine in this zone, I will let go the request, sorry :/ ");
+							ROS_ERROR("There is no machine in this zone. Abort request");
+							res.accepted = false;
+							break;
 			  			}				  		
 		  			}
 
@@ -548,7 +551,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  		// Si machine présente, déterminer point devant machine
 
 		  		// Calculer les deux points devant la machine
-		  		getSidePoints(req.parameter, firstSidePoint, secondSidePoint);
+		  		getSidePoints(req.id, firstSidePoint, secondSidePoint);
 
 		  		// Se rendre au point devant machine
 		  		// TODO: utiliser le point le plus proche
@@ -578,6 +581,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 					{
 						// TODO: abandonner le service
 						ROS_ERROR("Unable to reach output for this MPS. Abort service");
+						res.accepted = false;
+						break;
 					}
 				}
 
@@ -586,11 +591,14 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				{
 					// TODO: abandonner le service
 					ROS_ERROR("Unable to get correct machine. Abort service");
+					res.accepted = false;
+					break;
 				}
 
 				// Approche finale, objectif FEU
-				FinalApproachingClient fa_c;
-				fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
+				// TODO: Uncomment
+				// FinalApproachingClient fa_c;
+				// fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
 
 		  		// Traitement d'image, détection FEU
 		  		machine->readlights(m_ei->m_lSpec);
@@ -604,335 +612,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  		// Reporter machine
 				reportClient.reporting(machine->getName(), m_ei->type, req.id);
 
-
-
-
-
-
-
-				#endif // USE_BEST_EXPLO
-
-				#ifdef USE_SANDRA_EXPLO // Sandra's discover code
-				ROS_INFO ("Received discover Order");
-
-				geometry_msgs::Pose2D pt_dest;
-				geometry_msgs::Pose2D pt_actuel;
-
-				// TODO: S'assurer que m_id n'est pas utilisé pour tout et n'importe quoi
-				// TODO: Affecter req.id à m_id avant d'appeler cette fonction
-				interpretationZone();
-				pt_dest.x = this->m_x;
-				pt_dest.y = this->m_y;
-				pt_dest.theta = M_PI/4;
-
-				// Se déplace jusqu'au point
-				// TODO: Gérer cas erreur (timeout)
-				going(pt_dest);
-
-				ROS_INFO ("I went to the asked point successfully ");
-
-				ROS_INFO("Starting exploring the ARTag ");
-				// Fait l'approche finale et récupère l'ID de l'ARTag le plus proche
-				// TODO: Renommer asking
-				asking(pt_dest);
-
-				// TODO: Attention, teamColorOfId peuple déjà m_name
-				// Construit m_name
-				int team_color = teamColorOfId(m_id);
-				if (team_color == CYAN)         m_name = "C-" + m_name;
-				else if(team_color == MAGENTA)  m_name = "M-" + m_name;
-
-				if(team_color != this->m_color)
-				{
-					ROS_ERROR("Machine isn't for my team ");
-					res.accepted = false;
-					break;
-				}
-
-				/* phase d'exploration */
-
-				ReportingMachineSrvClient rm_c;
-				// Ici m_id ne représente plus une zone, mais un ARTag id
-				switch(m_id)
-				{
-					case M_BS_IN  :
-					case M_BS_OUT :
-					case C_BS_IN  :
-					case C_BS_OUT :
-
-						if(m_id == C_BS_OUT || m_id == M_BS_OUT)
-					  	{
-						  	m_msg = m_elements.getBS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::BS,req.id);
-						  	// TODO: Limiter le nombre de moyen d'appeler une approche finale
-						 	m_elements.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						  	if(m_ei->m_signals.size() != 0)
-						  	{
-								m_elements.getBS().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-							}
-						}
-						else if (m_id == C_BS_IN || m_id == M_BS_IN)
-						{
-							m_msg = m_elements.getBS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::BS,req.id);
-							pt_actuel = pt_dest;
-							pt_dest = calculOutPoint(pt_actuel, req.id);
-							going(pt_dest);
-							m_elements.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-							if(m_ei->m_signals.size() != 0) 
-							{
-								m_elements.getBS().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-							}
-						}
-						break;
-
-					case M_RS1_OUT :
-					case M_RS1_IN  :
-					case C_RS1_IN  :
-					case C_RS1_OUT :
-					case M_RS2_OUT :
-					case M_RS2_IN  :
-					case C_RS2_IN  :
-					case C_RS2_OUT :
-
-						if(m_id == C_RS1_OUT || m_id == M_RS1_OUT)
-						{
-							m_msg = m_elements.getRS1().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::RS1,req.id);
-							m_elements.getBS().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-							if(m_ei->m_signals.size() != 0) 
-							{
-								m_elements.getRS1().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								m_name = m_name+"1";
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-							}
-						}
-						else if(m_id == C_RS2_OUT || m_id == M_RS2_OUT)
-						{
-							m_msg = m_elements.getRS2().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::RS2,req.id);
-							m_elements.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-							if(m_ei->m_signals.size() != 0) 
-							{
-								m_elements.getRS2().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								m_name = m_name+"2";
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-							}
-						}
-					  	else if(m_id == C_RS1_IN || m_id == M_RS1_IN)
-					  	{
-						   	m_msg = m_elements.getRS1().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::RS1,req.id);
-						   	pt_actuel = pt_dest;
-						   	pt_dest = calculOutPoint(pt_actuel, req.id);
-						   	going(pt_dest);
-						   	m_elements.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						   	if(m_ei->m_signals.size() != 0) 
-						   	{
-							  	m_elements.getRS1().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"1";
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						   	}
-					  	}
-					  	else if(m_id == C_RS2_IN || m_id == M_RS2_IN)
-					  	{
-						   	m_msg = m_elements.getRS2().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::RS2,req.id);
-						   	pt_actuel = pt_dest;
-						   	pt_dest = calculOutPoint(pt_actuel, req.id);
-						   	going(pt_dest);
-						   	m_elements.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						   	if(m_ei->m_signals.size() != 0) 
-						   	{
-							  	m_elements.getRS2().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"2";
-							  	rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						   	}
-					  	}
-						break;
-					case M_CS1_OUT :
-				  	case M_CS1_IN  :
-				  	case C_CS1_IN  :
-				  	case C_CS1_OUT :
-				  	case M_CS2_OUT :
-				  	case M_CS2_IN  :
-				  	case C_CS2_IN  :
-				  	case C_CS2_OUT :
-					  	if(m_id == C_CS1_OUT || m_id == M_CS1_OUT)
-					  	{
-						 	m_msg = m_elements.getCS1().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::CS1,req.id);
-						  	m_elements.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						  	if(m_ei->m_signals.size() != 0) 
-						  	{
-							  	m_elements.getCS1().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"1";
-							  	rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						  	}
-					  	}
-					  	else if(m_id == C_CS2_OUT || m_id == M_CS2_OUT)
-					  	{
-						  	m_msg = m_elements.getCS2().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::CS2,req.id);
-						  	m_elements.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						  	if(m_ei->m_signals.size() != 0) 
-						  	{
-							  	m_elements.getCS2().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"2";
-							  	rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						  	}
-					  	}
-
-					  	else if(m_id == C_CS1_IN || m_id == M_CS1_IN)
-					  	{
-						   	m_msg = m_elements.getCS1().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::CS1,req.id);
-						  	pt_actuel = pt_dest;
-						   	pt_dest = calculOutPoint(pt_actuel, req.id);
-						   	going(pt_dest);
-						   	m_elements.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						   	if(m_ei->m_signals.size() != 0) 
-						   	{
-							  	m_elements.getCS1().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"1";
-							  	rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-							}
-					  	}
-					  	else if(m_id == C_CS2_IN || m_id == M_CS2_IN)
-					  	{
-						   	m_msg = m_elements.getCS2().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::CS2,req.id);
-						   	pt_actuel = pt_dest;
-						   	pt_dest = calculOutPoint(pt_actuel, req.id);
-						   	going(pt_dest);
-						   	m_elements.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						   	if(m_ei->m_signals.size() != 0) 
-						   	{
-							  	m_elements.getCS2().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"2";
-							  	rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						   	}
-					  	}
-						break;
-					case M_DS_IN  :
-					case M_DS_OUT :
-					case C_DS_IN  :
-					case C_DS_OUT :
-					  	if(m_id == C_DS_IN || m_id == M_DS_IN)
-					  	{
-						   	m_msg = m_elements.getDS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::DS,req.id);
-						   	m_elements.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						   	if(m_ei->m_signals.size() != 0) 
-						   	{
-								m_elements.getDS().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						   	}
-					  	}
-					  	else if (m_id == C_DS_OUT || m_id == M_DS_OUT)
-					  	{
-						  	m_msg = m_elements.getDS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::DS,req.id);
-						  	pt_actuel = pt_dest;
-						  	pt_dest = calculOutPoint(pt_actuel, req.id);
-						  	going(pt_dest);
-						  	//m_elements.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						  	if(m_ei->m_signals.size() != 0) 
-						  	{
-								m_elements.getDS().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						  	}
-					  	}
-					  	break;
-				}
-				#endif //  USE_SANDRA_EXPLO
-
-				/*----------  Valentin's discover code  ----------*/
-
-				#ifdef USE_VALENTIN_EXPLO
-				int teamColor = -1;
-				int machineSideId = 0;
-				// std::string machineLight = "";
-				geometry_msgs::Pose2D pose, point1, point2;
-				geometry_msgs::Pose2D *targetPointPtr = NULL;
-				geometry_msgs::Pose2D *otherPointPtr = NULL;
-				ReportingMachineSrvClient reportClient;
-
-				// NOTE (Valentin): Selon moi, le générateur devrait envoyer la zone à explorer dans req.parameter et non dans req.id
-				// La ligne ci-dessous est un hack pour que le code de l'executeur soit "conforme" 
-				req.parameter = req.id;
-				ROS_INFO("Order: DISCOVER, zone %d", req.parameter);
-				// Check if valid zone
-				teamColor = teamColorOfZone(req.parameter);
-				if(teamColor != this->m_color)
-				{
-					ROS_ERROR("Opposing team or unknown team zone #%d", req.parameter);
-					res.accepted = false;
-					break;
-				}
-
-				// Determine if a MPS is known here
-				if ( !knownMachineInZone(req.parameter) )
-				{
-					ROS_ERROR("No MPS known here. Abort");
-					res.accepted = false;
-					break;
-				}
-
-				// Zone discover approach, i.e. determine where the machine is on zone
-				/* NOTE: Not needed if first poc */
-
-				// Do a basic approach on one side
-					// Get machine pose
-				getSidePoints(req.parameter, point1, point2);
-					// Get nearest side
-					// Compute target pose (with orientation)
-				/* TODO: Use real pose */
-				getNearestPoint(pose, point1, point2, &targetPointPtr, &otherPointPtr);
-					// Go to pose
-				going(*targetPointPtr);
-
-				// Get ArTag id once
-				ArTagClienSrv atg;
-				machineSideId = atg.askForId();
-				std::string machineType = "";
-				ROS_INFO("DISCOVER - got artag side id : %d", machineSideId);
-
-				// Detemine if output or input
-				/* NOTE: Not needed if first poc */
-				/* XXX: Check in rulebook if needed */
-
-				// Determine name
-				/* Use more dedicated function */
-				teamColorOfId(machineSideId);
-				ROS_INFO("DISCOVER - got name from id : %s", m_name.c_str());
-
-				// If output
-				/* NOTE: Not needed if first poc */
-					// go to input
-
-					// Get ArTag id
-
-					// Comfirm it's and input or abord
-
-				// Do a final approach on light
-				/* NOTE: Not needed if first poc */
-
-				// Get light signal
-				/* XXX: Use more generic function than a BS machine method */
-				m_elements.getBS().readlights(m_ei->m_lSpec);
-				ROS_INFO("DISCOVER - got light signal");
-
-				// From light, get type
-				m_ei->interpretationFeu();
-				ROS_INFO("DISCOVER - got machine type : %s", m_ei->type.c_str());
-
-				// Report
-				reportClient.reporting(m_name, m_ei->type, req.parameter);
-				ROS_INFO("DISCOVER - reported machine");
-				#endif // USE_VALENTIN_EXPLO
 			} break;
 
 			default:

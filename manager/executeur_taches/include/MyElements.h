@@ -33,7 +33,7 @@ class MyElements
 	public:
 
 		/* Constructeur */    
-		MyElements();
+		MyElements(int teamColor);
 
 		/* Déstructeur */
 		virtual ~MyElements();

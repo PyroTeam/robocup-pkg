@@ -2,10 +2,10 @@
 #include "BaseStation.h"
 
 /* Constructeur */
-BaseStation::BaseStation()
-: Machine()
+BaseStation::BaseStation(int teamColor)
+: Machine(teamColor)
 {
-	m_name = "BS";
+	m_name += "BS";
 	m_faType = finalApproachingGoal::BS;
 	m_type = "BaseStation";   
 	m_redBase = 0;

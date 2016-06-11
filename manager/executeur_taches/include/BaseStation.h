@@ -26,7 +26,7 @@ class BaseStation : public Machine
   	public:
 	
 		/* Constructeur */
-		BaseStation();
+		BaseStation(int teamColor);
 
 		/* Déstructeur */
 		virtual ~BaseStation();

@@ -3,10 +3,10 @@
 #include "DeliveryStation.h"
 
 /* Constructeur */
-DeliveryStation::DeliveryStation()
-: Machine()
+DeliveryStation::DeliveryStation(int teamColor)
+: Machine(teamColor)
 {
-	m_name = "DS";
+	m_name += "DS";
 	m_faType = finalApproachingGoal::DS;
 	m_type = "DeliveryStation";
 }

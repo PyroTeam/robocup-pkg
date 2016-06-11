@@ -5,10 +5,12 @@
 
 #include "Machine.h"
 #include "geometry_msgs/Pose2D.h"
+#include <common_utils/types.h>
 
 /* Constructeur */
-Machine::Machine()
+Machine::Machine(int teamColor)
 {
+	m_name = (teamColor == CYAN)? "C-" : "M-";
 	m_centerMachine.x = 0.0;
 	m_centerMachine.y = 0.0;
 	m_centerMachine.theta = 0.0;

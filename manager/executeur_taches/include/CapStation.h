@@ -27,8 +27,8 @@ class CapStation : public Machine
   	public:
 	
 		/* Constructeur */
-		CapStation();
-		CapStation(int nb);
+		CapStation(int teamColor);
+		CapStation(int nb, int teamColor);
 
 		/* Déstructeur */
 		virtual ~CapStation();

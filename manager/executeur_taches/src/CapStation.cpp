@@ -3,10 +3,10 @@
 #include "CapStation.h"
 
 /* Constructeur */
-CapStation::CapStation()
-: Machine()
+CapStation::CapStation(int teamColor)
+: Machine(teamColor)
 {
-	m_name = "CS";
+	m_name += "CS";
 	m_faType = finalApproachingGoal::CS;
 	m_type = "CapStation";
 	m_blackCap = 0;
@@ -15,8 +15,8 @@ CapStation::CapStation()
 	m_capID[0] = 1, m_capID[1] = 1, m_capID[2] = 1;
 }
 
-CapStation::CapStation(int nb)
-: CapStation()
+CapStation::CapStation(int nb, int teamColor)
+: CapStation(teamColor)
 {
 	m_name += std::to_string(nb);
 }
