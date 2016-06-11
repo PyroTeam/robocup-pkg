@@ -5,13 +5,11 @@
 #include "Segment.h"
 #include "Line.h"
 
-double dist(const geometry_msgs::Point &a, const Line &d);
+#include "geometry_utils.h"
 
+double dist(const geometry_msgs::Point &a, const Line &d);
 double dist(const geometry_msgs::Point &a, const Segment &s);
 
-double dist(const geometry_msgs::Point &a, const geometry_msgs::Point &b);
-
-double dist(const geometry_msgs::Pose2D &c, const geometry_msgs::Pose2D &m);
 
 geometry_msgs::Point middle(const Segment &s);
 

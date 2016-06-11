@@ -13,21 +13,18 @@
 #include <ros/ros.h>
 #include <trait_im_msg/artag.h>
 
-class ArTagClienSrv 
+class ArTagClienSrv
 {
 	public:
 		/* Constructeur */
 		ArTagClienSrv();
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual  ~ArTagClienSrv();
 
 		/* Variables d'instance */
 		int16_t askForId();
 	private:
-		int16_t m_id;	
+		int16_t m_id;
 };
-#endif 
-
-
-
+#endif

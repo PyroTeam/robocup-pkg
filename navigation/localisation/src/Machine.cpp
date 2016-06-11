@@ -2,13 +2,14 @@
 #include "Model.h"
 #include "Segment.h"
 #include "Machine.h"
+#include "math_functions.h"
 
 #include <ctime>
 #include <cmath>
 #include <limits>
 #include <algorithm>
 
-Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_thetaSum(0.0),m_nbActu(0.0)
+Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_thetaSum(0.0),m_nbActu(0.0),m_lastError(10.0),m_reliability(0.0)
 {
 
 };
@@ -30,7 +31,11 @@ int Machine::getNbActu()
 
 double Machine::getReliability()
 {
-    return m_reliability;
+  return m_reliability;
+}
+double Machine::getLastError()
+{
+  return m_lastError;
 }
 
 void Machine::setCentre(geometry_msgs::Pose2D c)
@@ -38,36 +43,19 @@ void Machine::setCentre(geometry_msgs::Pose2D c)
 	m_centre = c;
 }
 
-void Machine::addX(double x)
-{
-	m_xSum += x;
-}
 
-void Machine::addY(double y)
+void Machine::update(const geometry_msgs::Pose2D &p)
 {
-	m_ySum += y;
-}
+  m_xSum += p.x;
+  m_ySum += p.y;
+  m_thetaSum += p.theta;
+  m_nbActu++;
 
-void Machine::addTheta(double theta)
-{
-	m_thetaSum += theta;
-}
+  m_lastError = geometry_utils::distance(m_centre, p);
 
-void Machine::incNbActu()
-{
-	m_nbActu++;
-}
-
-void Machine::setReliability(double rel)
-{
-    m_reliability = rel;
-}
-
-void Machine::maj()
-{
-	m_centre.x     = m_xSum/m_nbActu;
-	m_centre.y     = m_ySum/m_nbActu;
-	m_centre.theta = m_thetaSum/m_nbActu;
+  m_centre.x     = m_xSum/double(m_nbActu);
+  m_centre.y     = m_ySum/double(m_nbActu);
+  m_centre.theta = m_thetaSum/double(m_nbActu);
 }
 
 void Machine::calculateCoordMachine(Segment s)
@@ -96,4 +84,19 @@ void Machine::calculateCoordMachine(Segment s)
         center.theta = angle;
     }
     setCentre(center);
+}
+
+
+bool Machine::canBeUpdated(const geometry_msgs::Pose2D &seenMachine)
+{
+  const double delta = M_PI/10;
+
+  if (m_nbActu == 0 || std::abs(m_centre.theta - seenMachine.theta) <= delta)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }

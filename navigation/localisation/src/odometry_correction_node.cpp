@@ -63,6 +63,8 @@ int main(int argc, char** argv)
     //on va publier l'odométrie corrigée sur /new_odom
     pub_odom = n.advertise<nav_msgs::Odometry>("objectDetection/new_odom", 1000);
 
+    // pour initialiser
+    // ATTENTION si recalage odométrique !
     prec.pose.pose.orientation.x = 0.0;
     prec.pose.pose.orientation.y = 0.0;
     prec.pose.pose.orientation.z = 0.0;

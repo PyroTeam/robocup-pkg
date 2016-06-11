@@ -35,13 +35,13 @@ field:
             end: [5, -1, 0.0]
         left1:
             start: [-6, 0, 0.0]
-            end: [-6, 3, 0.0]
+            end: [-6, 2, 0.0]
         left2:
             start: [-6, 5, 0.0]
             end: [-6, 6, 0.0]
         right1:
             start: [6, 0, 0.0]
-            end: [6, 3, 0.0]
+            end: [6, 2, 0.0]
         right2:
             start: [6, 5, 0.0]
             end: [6, 6, 0.0]

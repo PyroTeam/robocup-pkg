@@ -51,7 +51,12 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "map_gen");
     ros::NodeHandle nh;
-
+    std::string tf_prefix;
+    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
+    if (tf_prefix.size() != 0)
+    {
+        tf_prefix += "/";
+    }
     ros::Publisher map_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid", 1);
     ros::Publisher mapFieldOnly_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid_fieldOnly", 1);
     ros::Publisher mapFieldAndMachines_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid_fieldAndMachines", 1);
@@ -202,8 +207,9 @@ int main(int argc, char **argv)
         {
             modifiers->execute(map);
         }
-        map_pub.publish(map);
 
+
+	 	map_pub.publish(map);
 	 	ros::spinOnce();
 		loop_rate.sleep();
  	}
