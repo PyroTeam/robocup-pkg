@@ -8,9 +8,9 @@ public:
 	Line();
 	~Line();
 
-	geometry_msgs::Pose2D getPoint();
-	double getAngle();
-	double getSlope();
+	geometry_msgs::Pose2D getPoint() const;
+	double getAngle() const;
+	double getSlope() const;
 
 	void set(geometry_msgs::Pose2D p);
 	void build(geometry_msgs::Pose2D a, geometry_msgs::Pose2D b);

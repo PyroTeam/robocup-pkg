@@ -121,9 +121,8 @@ class TrackPathAction(object):
         while not g_pathFinished:
             # rospy.loginfo('g_indexTraj : %d' % (g_indexTraj))
             # Fill the feedback
-            self._feedback.percent_complete=g_indexTraj
-            self._feedback.id=0
-
+            self._feedback.percentComplete=g_indexTraj
+            
             # Check that preempt has not been requested by the client
             if self._as.is_preempt_requested():
                 rospy.loginfo('%s: Preempted' % self._action_name)

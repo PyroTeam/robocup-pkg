@@ -5,25 +5,25 @@
 #include "Segment.h"
 #include "Line.h"
 
-double dist(geometry_msgs::Point a, Line d);
+double dist(const geometry_msgs::Point &a, const Line &d);
 
-double dist(geometry_msgs::Point a, Segment s);
+double dist(const geometry_msgs::Point &a, const Segment &s);
 
-double dist(geometry_msgs::Point a, geometry_msgs::Point b);
+double dist(const geometry_msgs::Point &a, const geometry_msgs::Point &b);
 
-double dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m);
+double dist(const geometry_msgs::Pose2D &c, const geometry_msgs::Pose2D &m);
 
-geometry_msgs::Point middle(Segment s);
+geometry_msgs::Point middle(const Segment &s);
 
-double dist(Segment seg1, Segment seg2);
+double dist(const Segment &seg1, const Segment &seg2);
 
-double angle(Segment a, Segment b);
+double angle(const Segment &a, const Segment &b);
 
-geometry_msgs::Point ortho(geometry_msgs::Point a, Line d);
+geometry_msgs::Point ortho(const geometry_msgs::Point &a, const Line &d);
 
-geometry_msgs::Point ortho(geometry_msgs::Point a, Segment s);
+geometry_msgs::Point ortho(const geometry_msgs::Point &a, const Segment &s);
 
-geometry_msgs::Point ortho(geometry_msgs::Point a, geometry_msgs::Pose2D p);
+geometry_msgs::Point ortho(const geometry_msgs::Point &a, const geometry_msgs::Pose2D &p);
 
 double linReg(const std::list<geometry_msgs::Point> &points, geometry_msgs::Pose2D &p);
 

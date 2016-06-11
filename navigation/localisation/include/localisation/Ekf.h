@@ -1,5 +1,5 @@
-#ifndef EKF_CLASS_H
-#define EKF_CLASS_H
+#ifndef EKF_H
+#define EKF_H
 
 #include "ros/ros.h"
 #include "geometry_msgs/Pose2D.h"
@@ -23,7 +23,8 @@ public:
 
 	//callbacks
 	void odomCallback(const nav_msgs::Odometry& odom);
-	void linesCallback(const deplacement_msg::LandmarksConstPtr& lines);
+	void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines);
+	void machinesSeenCallback(const deplacement_msg::LandmarksConstPtr& machines);
 	void laserCallback(const deplacement_msg::LandmarksConstPtr& laser);
 
 	VectorXd RobotToLaser(VectorXd PosRobot);
@@ -33,7 +34,7 @@ public:
 	geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p);
 	geometry_msgs::Pose2D getCenter(int zone);
 
-	void addLine(geometry_msgs::Pose2D machine);
+	void addMachine(geometry_msgs::Pose2D machine);
 
 	int checkStateVector(geometry_msgs::Pose2D machine);
 	int getArea(geometry_msgs::Pose2D m);
@@ -60,7 +61,6 @@ public:
 	std::vector<int> getAreas();
 	std::vector<geometry_msgs::Pose2D> getScan();
 	std::vector<geometry_msgs::Pose2D> getTabMachines();
-	std::vector<geometry_msgs::Pose2D> getTabLines();
 	
 	void setArea(int i){m_areas.push_back(i);}
 private:
@@ -74,7 +74,6 @@ private:
 	VectorXd m_cmdVel;
 
 	std::vector<geometry_msgs::Pose2D> 	m_landmarksArray;
-	std::vector<geometry_msgs::Pose2D> 	m_linesArray;
 	std::vector<geometry_msgs::Pose2D> 	m_scan;
 	std::vector<int>					m_areas;
 

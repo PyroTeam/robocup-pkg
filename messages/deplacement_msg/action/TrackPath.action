@@ -1,22 +1,30 @@
 # Define the goal
-uint16 id
+
 ---
 # Define the result
-int16 result
+uint16 status
 
-int16 FINISHED=1
-int16 ERROR=2
+uint16 STATUS_UNKNOWN = 1000
+uint16 STATUS_FINISHED = 1001
+uint16 STATUS_CANCELED = 1002
+uint16 STATUS_INTERRUPTED = 1003
+
+uint16 error
+
+uint16 ERR_UNKNOWN = 0
+uint16 ERR_NONE = 1
+uint16 ERR_TRACKING_UNKNOWN = 100
+uint16 ERR_TRACKING_OU_OF_BOUND = 101
+uint16 ARR_AVOIDANCE_UNKNOWN = 200
+
 ---
 # Define a feedback message
-uint8 percent_complete
-uint16 id
-float64 distance_path
-float64 distance_recoil
-time avoidance
-time path
-int16 average_vectors_speed
-int16 mode
+uint8 percentComplete
+duration processingTime
+duration avoidanceTime
+float32 trackPathError
 
-int16 FOLLOW = 1
-int16 AVOID  = 2
-int16 WAIT   = 3
+uint16 mode
+
+uint16 MODE_TRACKPATH = 2001
+uint16 MODE_AVOID  = 2002

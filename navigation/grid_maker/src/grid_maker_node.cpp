@@ -67,7 +67,7 @@ int main(int argc, char **argv)
 
     //obtenir la configuration
     std::string fieldName;
-    nh.param<std::string>("field/name",fieldName, "robocup");
+    nh.param<std::string>("field/name",fieldName, "robocup_official");
     ROS_INFO_STREAM("Creating Map : " << fieldName);
 
     geometry_msgs::Point size;

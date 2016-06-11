@@ -1,6 +1,6 @@
 #include "math_functions.h"
 
-double dist(geometry_msgs::Point a, Line d)
+double dist(const geometry_msgs::Point &a, const Line &d)
 {
     geometry_msgs::Point b;
     b.x = d.getPoint().x;
@@ -15,7 +15,7 @@ double dist(geometry_msgs::Point a, Line d)
     return std::abs(u.x*ba.y - ba.x*u.y) / sqrt(u.x*u.x + u.y*u.y);
 }
 
-double dist(geometry_msgs::Point a, Segment s)
+double dist(const geometry_msgs::Point &a, const Segment &s)
 {
     geometry_msgs::Point b = s.getMin();
     geometry_msgs::Point u;
@@ -28,33 +28,33 @@ double dist(geometry_msgs::Point a, Segment s)
     return std::abs(u.x*ba.y - ba.x*u.y) / sqrt(u.x*u.x + u.y*u.y);
 }
 
-double dist(geometry_msgs::Point a, geometry_msgs::Point b)
+double dist(const geometry_msgs::Point &a, const geometry_msgs::Point &b)
 {
   return sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y));
 }
 
-double dist(geometry_msgs::Point a, geometry_msgs::Pose2D b)
+double dist(const geometry_msgs::Point &a, const geometry_msgs::Pose2D &b)
 {
   return sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y));
 }
 
-double dist(geometry_msgs::Pose2D c, geometry_msgs::Pose2D m)
+double dist(const geometry_msgs::Pose2D &c, const geometry_msgs::Pose2D &m)
 {
   return sqrt((m.x - c.x)*(m.x - c.x) + (m.y - c.y)*(m.y - c.y));
 }
 
-double dist(Segment seg1, Segment seg2)
+double dist(const Segment &seg1, const Segment &seg2)
 {
   double distance = dist(seg1.getCenter(), seg2.getCenter());
   return distance;
 }
 
-double angle(Segment a, Segment b)
+double angle(const Segment &a, const Segment &b)
 {
   return atan((a.getCenter().y-b.getCenter().y)/(a.getCenter().x-b.getCenter().x));
 }
 
-geometry_msgs::Point ortho(geometry_msgs::Point a, Line d)
+geometry_msgs::Point ortho(const geometry_msgs::Point &a, const Line &d)
 {
     double distance = dist(a,d);
     geometry_msgs::Point v;
@@ -70,7 +70,7 @@ geometry_msgs::Point ortho(geometry_msgs::Point a, Line d)
     return p;
 }
 
-geometry_msgs::Point ortho(geometry_msgs::Point a, Segment s)
+geometry_msgs::Point ortho(const geometry_msgs::Point &a, const Segment &s)
 {
     double distance = dist(a,s);
     geometry_msgs::Point v;
@@ -86,7 +86,7 @@ geometry_msgs::Point ortho(geometry_msgs::Point a, Segment s)
     return p;
 }
 
-geometry_msgs::Point ortho(geometry_msgs::Point a, geometry_msgs::Pose2D p)
+geometry_msgs::Point ortho(const geometry_msgs::Point &a, const geometry_msgs::Pose2D &p)
 {
     double distance = dist(a,p);
     geometry_msgs::Point v;

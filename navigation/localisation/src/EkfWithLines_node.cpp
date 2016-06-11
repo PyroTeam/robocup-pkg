@@ -18,7 +18,7 @@ using namespace Eigen;
 
 int main( int argc, char** argv )
 {
-  ros::init(argc, argv, "EKF_node");
+  ros::init(argc, argv, "EkfWithLines_node");
 
   ros::NodeHandle n;
 

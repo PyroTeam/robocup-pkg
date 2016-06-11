@@ -14,6 +14,7 @@
 #include "navigation_manager/moveToPose.h"
 #include <tf/transform_datatypes.h>
 #include "deplacement_msg/GeneratePathAction.h"
+#include "deplacement_msg/ClosestReachablePoint.h"
 
 const int c_timeOutGenePath = 5;
 
@@ -42,10 +43,38 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     genePathAction.waitForServer();
     ROS_INFO("Action server started, sending goal.");
     // send a goal to the action
-    deplacement_msg::GeneratePathGoal genePathGoal;
+    deplacement_msg::GeneratePathGoal genePathGoal;/*
+    //  old silly version with possibly a sad and bad error
     genePathGoal.start.x = m_poseOdom.position.x;
     genePathGoal.start.y = m_poseOdom.position.y;
     genePathGoal.start.theta = tf::getYaw( m_poseOdom.orientation);
+
+*/
+    // Client for asking a reachable start position
+    ros::ServiceClient client = m_nh.serviceClient<deplacement_msg::ClosestReachablePoint>("path_finder_node/ClosestReachablePoint");
+    deplacement_msg::ClosestReachablePoint srv;
+    srv.request.currentPosition.x = m_poseOdom.position.x;
+    srv.request.currentPosition.y = m_poseOdom.position.y;
+    srv.request.currentPosition.theta = tf::getYaw( m_poseOdom.orientation);
+    srv.request.window = 0.5;
+
+    if (client.call(srv))
+    {
+      if (srv.response.found)
+      {
+        ROS_INFO("Found : (%f,%f,%f)", srv.response.foundPosition.x, srv.response.foundPosition.y, srv.response.foundPosition.theta);
+      }
+      else
+      {
+        ROS_INFO("HUMMMMM... ");
+      }
+    }
+    else
+    {
+      ROS_ERROR("Failed to call service ClosestReachablePoint");
+    }
+
+    genePathGoal.start = srv.response.foundPosition;
     genePathGoal.goal =  goal->position_finale;
     genePathGoal.timeout = ros::Duration(10);
     genePathAction.sendGoal(genePathGoal);
@@ -69,7 +98,6 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     m_pathId++;
     ROS_INFO("Path generated! with id : %d", m_pathId);
     deplacement_msg::TrackPathGoal tgoal;
-    tgoal.id = m_lastId;
     m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
                                       boost::bind(&MoveToPose::activeCb, this),
                                       boost::bind(&MoveToPose::feedbackCb, this, _1));
@@ -152,13 +180,13 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
             isOk = false;
 		//todo cancel path_track
         }
-        else if (m_trackPathAction.getResult()->result == deplacement_msg::MoveToPoseResult::FINISHED)
+        else if (m_trackPathAction.getResult()->status == deplacement_msg::MoveToPoseResult::FINISHED)
         {
             isOk = false;
         }
     }
 
-    if (m_trackPathAction.getResult()->result == deplacement_msg::MoveToPoseResult::FINISHED)
+    if (m_trackPathAction.getResult()->status == deplacement_msg::MoveToPoseResult::FINISHED)
 	{
         m_result.result = deplacement_msg::MoveToPoseResult::FINISHED;
     }
@@ -175,7 +203,7 @@ void MoveToPose::doneCb(const actionlib::SimpleClientGoalState& state,
                         const deplacement_msg::TrackPathResultConstPtr& result)
 {
     ROS_INFO("Finished in state [%s]", state.toString().c_str());
-    ROS_INFO("Answer: %d", result->result);
+    ROS_INFO("Answer: %d", result->status);
 }
 
 // Called once when the goal becomes active
@@ -187,8 +215,8 @@ void MoveToPose::activeCb()
 // Called every time feedback is received for the goal
 void MoveToPose::feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& feedback)
 {
-    ROS_INFO("Got Feedback of length %d", feedback->percent_complete);
-    m_pathTrackPercentComplete = feedback->percent_complete;
+    ROS_INFO("Got Feedback of length %d", feedback->percentComplete);
+    m_pathTrackPercentComplete = feedback->percentComplete;
 }
 
 void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom)

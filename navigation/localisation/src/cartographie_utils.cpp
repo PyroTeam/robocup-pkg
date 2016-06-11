@@ -1,17 +1,4 @@
-#include <ros/ros.h>
-#include <tf/transform_datatypes.h>
-#include <visualization_msgs/Marker.h>
-#include "geometry_msgs/Point.h"
-#include "geometry_msgs/Pose2D.h"
-#include "deplacement_msg/Landmarks.h"
 #include "cartographie_utils.h"
-#include "math_functions.h"
-#include "EKF_class.h"
-#include "Machine.h"
-#include "Segment.h"
-#include <Eigen/Dense>
-#include <vector>
-#include <cmath>
 
 using namespace Eigen;
 
