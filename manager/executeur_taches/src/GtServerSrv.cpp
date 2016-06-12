@@ -15,6 +15,7 @@ GtServerSrv::GtServerSrv(int teamColor)
 
 	m_ei = new ExploInfoSubscriber();
 	m_ls = new LocaSubscriber();
+  m_rp = new RobotPoseSubscriber();
 
 	m_activity_pub = n.advertise<manager_msg::activity>("manager/task_exec_state", 50);
 }
@@ -40,8 +41,10 @@ bool GtServerSrv::going(geometry_msgs::Pose2D point)
 				, point.x, point.y, point.theta);
 			point.x -= 0.2;
 			point.y += 0.2;
-   		}
-	}while (stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR);
+   	}
+	}while (stateOfNavigation != deplacement_msg::MoveToPoseResult::FINISHED);
+
+  ROS_INFO("Arrived to the asked point : x: %f; y: %f; theta: %f",point.x,point.y,point.theta);
 }
 
 geometry_msgs::Pose2D GtServerSrv::calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone)
@@ -127,6 +130,7 @@ manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction()
 	return m_act;
 }
 
+
 void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
 #define ZONE_WIDTH	2.0
@@ -135,7 +139,7 @@ void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 	float xOffset = ZONE_WIDTH/2;
 	float yOffset = ZONE_HEIGHT/2;
 
-	if (!common_utils::getZoneCenter(zone, m_ptTarget.x, m_ptTarget.y))
+	if (!common_utils::getZoneCenter(zone, m_explo_target.x, m_explo_target.y))
 	{
 		return;
 	}
@@ -146,21 +150,21 @@ void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 		case BOTTOM_LEFT:
 			yOffset *= -1;
 			xOffset *= -1;
-			m_ptTarget.theta = M_PI/4;
+			m_explo_target.theta = M_PI/4;
 		break;
 
 		case BOTTOM_RIGHT:
 			yOffset *= -1;
-			m_ptTarget.theta = 3*M_PI/4;
+			m_explo_target.theta = 3*M_PI/4;
 		break;
 
 		case TOP_LEFT:
 			xOffset *= -1;
-			m_ptTarget.theta = -M_PI/4;
+			m_explo_target.theta = -M_PI/4;
 		break;
 
 		case TOP_RIGHT:
-			m_ptTarget.theta = -3*M_PI/4;
+			m_explo_target.theta = -3*M_PI/4;
 		break;
 
 		default:
@@ -168,8 +172,8 @@ void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 		break;
 	}
 
-	m_ptTarget.x += xOffset;
-	m_ptTarget.y += yOffset;
+	m_explo_target.x += xOffset;
+	m_explo_target.y += yOffset;
 
 #undef ZONE_WIDTH
 #undef ZONE_WIDTH
@@ -289,12 +293,15 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 	ROS_INFO("Order received");
 	ROS_INFO("Request: nb_order=%d, nb_robot=%d, type=%d, parameter=%d, id=%d"
 		, (int)req.number_order, (int)req.number_robot, (int)req.type, (int)req.parameter, (int)req.id);
+
 	setId(req.id);
+
 	if (req.number_robot == m_nbrobot)
 	{
 	  	res.number_order = req.number_order;
-	  	res.number_robot = m_nbrobot;
-	 	res.id = m_id;
+	  	res.number_robot = req.number_robot;
+	 	  res.id           = req.id;
+
 	  	switch(req.type)   // à rajouter => machine non occupée par un robotino et au départ (on ne sait pas cs1/cs2 et rs1/rs2)
 	  	{
 		  	case orderRequest::TAKE_BASE:
@@ -424,17 +431,17 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 					case orderRequest::BLACK :
 						if(m_elements.getCS1().getBlackCap() != 0)        m_elements.getCS1().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
 						else if(m_elements.getCS2().getBlackCap() != 0)   m_elements.getCS2().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-						break;
+					break;
 					case orderRequest::GREY :
 						if(m_elements.getCS1().getGreyCap() != 0)         m_elements.getCS1().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
 						else if(m_elements.getCS2().getGreyCap() != 0)    m_elements.getCS2().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-						break;
+					break;
 				}
 				break;
 		  	case orderRequest::DESTOCK:
 				if(req.id >= 0 && req.id < 3)
 				{
-					m_elements.getCS1().destock(req.id,m_nbrobot,req.number_order,activity::CS1);
+					  m_elements.getCS1().destock(req.id,m_nbrobot,req.number_order,activity::CS1);
 				   	m_elements.getCS1().majStockID(req.id, 0);
 				}
 				else if(req.id >= 3 && req.id < 6)
@@ -459,10 +466,10 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  		// A partir de zone -> déterminer premier coin zone (plus accessible)
 		  		// TODO: choix judicieux du coin à déterminer
 		  		interpretationZone(req.id, BOTTOM_LEFT);
-		  		ROS_INFO("Point Target BottLeft (%f, %f) theta: %f", m_ptTarget.x, m_ptTarget.y, m_ptTarget.theta);
+		  		ROS_INFO("Point Target BottLeft (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
 		  		// Se déplacer au premier coin zone
 		  		// TODO: gérer les cas d'erreurs de going
-		  		going(m_ptTarget);
+		  		going(m_explo_target);
 
 		  		// A partir detection machine -> voir si machine présente
 		  		// TODO: Modifier les échanges avec la détection des machines
@@ -474,20 +481,20 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 	  			{
 	  				// TODO: choix judicieux du coin à déterminer
 	  				interpretationZone(req.id, BOTTOM_RIGHT);
-	  				ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_ptTarget.x, m_ptTarget.y, m_ptTarget.theta);
+	  				ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
 
 	  				// Se rendre au second coin zone
 						// TODO: gérer les cas d'erreurs de going
-						going(m_ptTarget);
+						going(m_explo_target);
 
 			  		// A partir detection machine -> voir si machine présente
 			  		// Si machine toujours NON présente, abandon
 		  			if (!knownMachineInZone(req.id))
 		  			{
 		  				// TODO: abandonner le service
-						ROS_ERROR("There is no machine in this zone. Abort request");
-						res.accepted = false;
-						break;
+  						ROS_ERROR("There is no machine in this zone. Abort request");
+  						res.accepted = false;
+  						break;
 		  			}
 	  			}
 
@@ -547,14 +554,14 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
   		  		// Traitement d'image, détection FEU
   		  		machine->readlights(m_ei->m_lSpec);
 
-  		  		// Intérprétation type à partir de LightSignal
-  				m_ei->interpretationFeu();
+  		  		// Interprétation type à partir de LightSignal
+  				  m_ei->interpretationFeu();
 
   		  		// Déterminer nom de machine à partir ArTagID ou autres
   		  		// NOTE: Fait dans le constructeur de machine
 
   		  		// Reporter machine
-  				reportClient.reporting(machine->getName(), m_ei->type, req.id);
+  				  reportClient.reporting(machine->getName(), m_ei->type, req.id);
 
   			} break;
 

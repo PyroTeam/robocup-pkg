@@ -28,6 +28,7 @@
 #include "ArTagClientSrv.h"
 #include "ReportingMachineSrvClient.h"
 #include "LocaSubscriber.h"
+#include "RobotPoseSubscriber.h"
 #include "FinalApproachingClient.h"
 
 enum zoneCorner_t
@@ -69,12 +70,15 @@ class GtServerSrv
 		int m_nbrobot;
 		int m_color;
 		int m_id;
-		geometry_msgs::Pose2D m_ptTarget;
+
+		geometry_msgs::Pose2D m_explo_target;
+
 		manager_msg::activity m_msg;
 		std::string m_name;
 		manager_msg::finalApproachingAction m_act;
 		ExploInfoSubscriber *m_ei;
 		LocaSubscriber *m_ls;
+    RobotPoseSubscriber *m_rp;
     ros::Publisher m_activity_pub;
     MyElements m_elements;
 };

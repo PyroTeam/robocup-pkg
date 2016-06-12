@@ -29,7 +29,7 @@
 
 		<!-- Load the gazebo_to_ros node -->
 		<arg name="debug_gazebo_to_tos" value="false" />
-		<param name="objectDetection/useSimLandmarks" value="true" />
+		<param name="objectDetection/useSimLandmarks" value="false" />
 		<node pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
 
 		<!-- Load the tf_broadcaster node -->
@@ -43,10 +43,10 @@
 		<include file="$(find ar_tag)/launch/ar_tag.launch"/>
 
 		<!-- Load the detection and localisation nodes -->
-		<!--<node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction"/>-->
-		<!--<node pkg="localisation" name="visualisation" type="visualisation"/>-->
-		<!--<node pkg="localisation" name="odometry_correction" type="odometry_correction"/>-->
-		<!--<node pkg="localisation" name="cartographie" type="cartographie" output="screen"/>-->
+		<node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction"/>
+		<node pkg="localisation" name="visualisation" type="visualisation"/>
+		<node pkg="localisation" name="odometry_correction" type="odometry_correction"/>
+		<node pkg="localisation" name="cartographie" type="cartographie" output="screen"/>
 
 		<!-- Load the grid maker -->
 		<rosparam command="load" file="$(find grid_maker)/cfg/field.yaml" />
@@ -59,14 +59,14 @@
 		<node pkg="path_finder" name="path_finder_node" type="path_finder_node" output="screen" />
 
 		<!-- Load the path tracker -->
-		<node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" output="screen" />
+		<node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py"  output="screen" />
 
 		<!-- Load the fake final approach -->
 		<node pkg="approche_finale" name="final_approach" type="finalApproaching_node" output="screen" />
 
 		<!-- Load the navigation manager -->
-		<node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" output="screen"/>
-		<node pkg="navigation_manager" name="move_request" type="moveRequest_node.py" output="screen" />
+		<node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" output="screen" />
+		<node pkg="navigation_manager" name="move_request" type="moveRequest_node.py"  output="screen" />
 
 		<!-- Load the refbox comm -->
 		<node pkg="refbox_comm" name="refbox_comm" type="refBoxComm" output="screen"/>
