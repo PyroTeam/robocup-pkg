@@ -454,7 +454,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  		Machine *machine = NULL;
 		  		geometry_msgs::Pose2D firstSidePoint, secondSidePoint;
 		  		int machineSideId = 0;
-				ReportingMachineSrvClient reportClient;
+			  	ReportingMachineSrvClient reportClient;
 
 		  		// A partir de zone -> déterminer premier coin zone (plus accessible)
 		  		// TODO: choix judicieux du coin à déterminer
@@ -468,28 +468,28 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  		// TODO: Modifier les échanges avec la détection des machines
 
 		  		// Si machine NON présente
-		  			// déterminer second coin zone (le plus accessible), avec angle différent du premier
-		  			// NB: en cas de mur, pouvoir déterminer un point légèrement décalé
-		  			if (!knownMachineInZone(req.id))
-		  			{
-		  				// TODO: choix judicieux du coin à déterminer
-		  				interpretationZone(req.id, BOTTOM_RIGHT);
-		  				ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_ptTarget.x, m_ptTarget.y, m_ptTarget.theta);
+	  			// déterminer second coin zone (le plus accessible), avec angle différent du premier
+	  			// NB: en cas de mur, pouvoir déterminer un point légèrement décalé
+	  			if (!knownMachineInZone(req.id))
+	  			{
+	  				// TODO: choix judicieux du coin à déterminer
+	  				interpretationZone(req.id, BOTTOM_RIGHT);
+	  				ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_ptTarget.x, m_ptTarget.y, m_ptTarget.theta);
 
-		  				// Se rendre au second coin zone
+	  				// Se rendre au second coin zone
 						// TODO: gérer les cas d'erreurs de going
 						going(m_ptTarget);
 
-				  		// A partir detection machine -> voir si machine présente
-				  		// Si machine toujours NON présente, abandon
-			  			if (!knownMachineInZone(req.id))
-			  			{
-			  				// TODO: abandonner le service
-							ROS_ERROR("There is no machine in this zone. Abort request");
-							res.accepted = false;
-							break;
-			  			}
+			  		// A partir detection machine -> voir si machine présente
+			  		// Si machine toujours NON présente, abandon
+		  			if (!knownMachineInZone(req.id))
+		  			{
+		  				// TODO: abandonner le service
+						ROS_ERROR("There is no machine in this zone. Abort request");
+						res.accepted = false;
+						break;
 		  			}
+	  			}
 
 
 		  		// Si machine présente, déterminer point devant machine
@@ -505,62 +505,62 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  		// Récupérer ArTag ID
 		  		// TODO: mettre ArTagClient en membre de classe
 		  		ArTagClienSrv atg;
-				machineSideId = atg.askForId();
-				ROS_DEBUG("Got the tag : %d", machineSideId );
+  				machineSideId = atg.askForId();
+  				ROS_DEBUG("Got the tag : %d", machineSideId );
 
 
-				// Vérifier si INPUT (TODO: à vérifier)
-				if(isInput(machineSideId))
-				{
-					// Si OUI
-		  			// Déterminer point devant autre côte de la machine
+  				// Vérifier si INPUT (TODO: à vérifier)
+  				if(isInput(machineSideId))
+  				{
+  					// Si OUI
+  		  			// Déterminer point devant autre côte de la machine
 
-		  			// Se rendre ou point devant autre côté de la machine
-					going(secondSidePoint);
-					// Récupérer ArTag ID
-					machineSideId = atg.askForId();
+  		  			// Se rendre ou point devant autre côté de la machine
+  					going(secondSidePoint);
+  					// Récupérer ArTag ID
+  					machineSideId = atg.askForId();
 
-		  			// Vérifier si INPUT, si OUI abandonner
-		  			if(isInput(machineSideId))
-					{
-						// TODO: abandonner le service
-						ROS_ERROR("Unable to reach output for this MPS. Abort service");
-						res.accepted = false;
-						break;
-					}
-				}
+  		  			// Vérifier si INPUT, si OUI abandonner
+  		  			if(isInput(machineSideId))
+  					{
+  						// TODO: abandonner le service
+  						ROS_ERROR("Unable to reach output for this MPS. Abort service");
+  						res.accepted = false;
+  						break;
+  					}
+  				}
 
-				machine = m_elements.getMachineFromTag(machineSideId, m_color);
-				if (machine == NULL)
-				{
-					// TODO: abandonner le service
-					ROS_ERROR("Unable to get correct machine. Abort service");
-					res.accepted = false;
-					break;
-				}
+  				machine = m_elements.getMachineFromTag(machineSideId, m_color);
+  				if (machine == NULL)
+  				{
+  					// TODO: abandonner le service
+  					ROS_ERROR("Unable to get correct machine. Abort service");
+  					res.accepted = false;
+  					break;
+  				}
 
-				// Approche finale, objectif FEU
-				// TODO: Uncomment
-				// FinalApproachingClient fa_c;
-				// fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
+  				// Approche finale, objectif FEU
+  				// TODO: Uncomment
+  				// FinalApproachingClient fa_c;
+  				// fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
 
-		  		// Traitement d'image, détection FEU
-		  		machine->readlights(m_ei->m_lSpec);
+  		  		// Traitement d'image, détection FEU
+  		  		machine->readlights(m_ei->m_lSpec);
 
-		  		// Intérprétation type à partir de LightSignal
-				m_ei->interpretationFeu();
+  		  		// Intérprétation type à partir de LightSignal
+  				m_ei->interpretationFeu();
 
-		  		// Déterminer nom de machine à partir ArTagID ou autres
-		  		// NOTE: Fait dans le constructeur de machine
+  		  		// Déterminer nom de machine à partir ArTagID ou autres
+  		  		// NOTE: Fait dans le constructeur de machine
 
-		  		// Reporter machine
-				reportClient.reporting(machine->getName(), m_ei->type, req.id);
+  		  		// Reporter machine
+  				reportClient.reporting(machine->getName(), m_ei->type, req.id);
 
-			} break;
+  			} break;
 
-			default:
-				break;
-		}
+  			default:
+  				break;
+  		}
 	  	//if(req.id != 0) ROS_INFO(" DESTOCKAGE à l'endroit d'id = %d", (int) req.id);
 	  	//else ROS_INFO(" NON DESTOCKAGE ");
 	  	m_msg = m_elements.getBS().msgToGT(m_nbrobot,activity::END,activity::NONE,req.id);

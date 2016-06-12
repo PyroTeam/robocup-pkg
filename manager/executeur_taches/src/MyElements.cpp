@@ -3,10 +3,10 @@
 /* Constructeur */
 MyElements::MyElements(int teamColor)
 : m_bs(teamColor)
-, m_rs1(1, teamColor)
-, m_rs2(2, teamColor)
-, m_cs1(1, teamColor)
-, m_cs2(2, teamColor)
+, m_rs1(teamColor, 1)
+, m_rs2(teamColor, 2)
+, m_cs1(teamColor, 1)
+, m_cs2(teamColor, 2)
 , m_ds(teamColor)
 {}
 
