@@ -54,7 +54,7 @@ include_directories(
 
 # Declare all cpp executables
 add_executable(
-	lecture_feu_node
+	light_signal_detection_node
 
 	src/lecture_feu_node.cpp
 	src/cv_algo.cpp
@@ -62,18 +62,18 @@ add_executable(
 	src/display-histogram.cpp
 )
 add_dependencies(
-	lecture_feu_node
+	light_signal_detection_node
 
 	trait_im_msg_generate_messages_cpp
 )
 target_link_libraries(
-	lecture_feu_node
+	light_signal_detection_node
 
 	${catkin_LIBRARIES}
 	${OpenCV_LIBRARIES}
 )
 set_target_properties(
-	lecture_feu_node
+	light_signal_detection_node
 
 	PROPERTIES COMPILE_FLAGS "-std=c++11 -Wall -Werror"	# Uniquement en dev sur machine perso, pas en release
 	# PROPERTIES COMPILE_FLAGS "-std=c++11 -Wall"

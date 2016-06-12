@@ -1,5 +1,5 @@
-#ifndef _TRAIT_IM__LIGHT_DETECTION__H_
-#define _TRAIT_IM__LIGHT_DETECTION__H_
+#ifndef _TRAITEMENT_IMAGE__LIGHT_DETECTION__H_
+#define _TRAITEMENT_IMAGE__LIGHT_DETECTION__H_
 
 
 #include <ros/ros.h>
@@ -91,4 +91,4 @@ private:
 };
 
 
-#endif // _TRAIT_IM__LIGHT_DETECTION__H_
+#endif // _TRAITEMENT_IMAGE__LIGHT_DETECTION__H_

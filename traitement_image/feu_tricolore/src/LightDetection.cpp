@@ -9,12 +9,17 @@ LightDetection::LightDetection()
 , m_action_name(ros::this_node::getName())
 , m_as(m_nh, ros::this_node::getName(), false)
 {
+	// TODO: Paramétrer le topic d'image input ?
+
 	// Ros topics
 	m_image_sub = m_it.subscribe("hardware/camera/platform_camera/image_raw", 1, &LightDetection::imageCb, this);
-	m_nh.setParam("computerVision/lightSignalDetection/image_result/list/0_Flux_origine", "/image_raw");
+	m_nh.setParam("computerVision/lightSignalDetection/image_result/list/0_Flux_origine", m_image_sub.getTopic());
 
 	m_result_pub = m_it.advertise("computerVision/lightSignalDetection/img_result", 1);
-	m_nh.setParam("computerVision/lightSignalDetection/image_result/list/10_Image_resultat", "computerVision/lightSignalDetection/img_result");
+	m_nh.setParam("computerVision/lightSignalDetection/image_result/list/10_Image_resultat", m_result_pub.getTopic());
+
+	ROS_INFO("Will do computer vision on following topic: %s", m_image_sub.getTopic().c_str());
+	ROS_INFO("Will publish results on following topic: %s", m_result_pub.getTopic().c_str());
 
 	// Init members cv::Mat
 	initMembersImgs();
@@ -51,7 +56,7 @@ void LightDetection::goalCB()
 	// First Action Feedback
 	m_beginOfProcessing = ros::Time::now();
 
-	m_feedback.percent_complete = (ros::Time::now()-m_beginOfProcessing).toSec() / m_minProcessTimeNeeded;
+	m_feedback.percent_complete = (ros::Time::now()-m_beginOfProcessing).toSec()*100 / m_minProcessTimeNeeded;
 	m_as.publishFeedback(m_feedback);
 }
 
@@ -79,7 +84,9 @@ void LightDetection::imageCb(const sensor_msgs::ImageConstPtr& msg)
 {
 	// Quit if inactive action server
 	if (!m_as.isActive())
+	{
 		  return;
+	}
 
 	// Get image in BGR8
 	// TODO: Add a special parameter for handling bad encoded images, i.e. ignoring camera_info encoding
@@ -116,6 +123,10 @@ void LightDetection::preTraitement(cv::Mat &imgToProcess)
 
 void LightDetection::traitement(cv::Mat &imgToProcess)
 {
+	constexpr float blinkTolerance = 0.5;
+	constexpr float downBlinkTolerance = blinkTolerance/2;
+	constexpr float topBlinkTolerance = blinkTolerance + downBlinkTolerance;
+
 	float timeElapsed = (ros::Time::now() - m_beginOfProcessing).toSec();
 
 
@@ -146,30 +157,48 @@ void LightDetection::traitement(cv::Mat &imgToProcess)
 			comm_msg::LightSpec light;
 
 			light.color = light.RED;
-			if(m_nbRedTurnedOn > m_nbImgProcessed*0.66)
+			if(m_nbRedTurnedOn > m_nbImgProcessed*topBlinkTolerance)
+			{
 				light.state = light.ON;
-			else if(m_nbRedTurnedOn < m_nbImgProcessed*0.33)
+			}
+			else if(m_nbRedTurnedOn < m_nbImgProcessed*downBlinkTolerance)
+			{
 				light.state = light.OFF;
+			}
 			else
+			{
 				light.state = light.BLINK;
+			}
 			m_result.light_signal.push_back(light);
 
 			light.color = light.YELLOW;
-			if(m_nbYellowTurnedOn > m_nbImgProcessed*0.66)
+			if(m_nbYellowTurnedOn > m_nbImgProcessed*topBlinkTolerance)
+			{
 				light.state = light.ON;
-			else if(m_nbYellowTurnedOn < m_nbImgProcessed*0.33)
+			}
+			else if(m_nbYellowTurnedOn < m_nbImgProcessed*downBlinkTolerance)
+			{
 				light.state = light.OFF;
+			}
 			else
+			{
 				light.state = light.BLINK;
+			}
 			m_result.light_signal.push_back(light);
 
 			light.color = light.GREEN;
-			if(m_nbGreenTurnedOn > m_nbImgProcessed*0.66)
+			if(m_nbGreenTurnedOn > m_nbImgProcessed*topBlinkTolerance)
+			{
 				light.state = light.ON;
-			else if(m_nbGreenTurnedOn < m_nbImgProcessed*0.33)
+			}
+			else if(m_nbGreenTurnedOn < m_nbImgProcessed*downBlinkTolerance)
+			{
 				light.state = light.OFF;
+			}
 			else
+			{
 				light.state = light.BLINK;
+			}
 			m_result.light_signal.push_back(light);
 
 			// Set the action state to succeeded
