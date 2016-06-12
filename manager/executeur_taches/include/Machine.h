@@ -11,11 +11,15 @@
 #define MACHINE_H
 
 #include <string>
+
 #include <ros/ros.h>
 #include <geometry_msgs/Pose2D.h>
-#include "manager_msg/activity.h"
-#include "manager_msg/order.h"
-#include "deplacement_msg/MoveToPoseAction.h"
+
+#include <common_utils/types.h>
+#include <manager_msg/activity.h>
+#include <manager_msg/order.h>
+#include <deplacement_msg/MoveToPoseAction.h>
+
 #include "FeuClientAction.h"
 #include "GripperClientSrv.h"
 #include "FinalApproachingClient.h"
@@ -23,6 +27,7 @@
 #include "NavigationClientAction.h"
 
 using namespace manager_msg;
+using namespace common_utils;
 
 class Machine
 {
@@ -35,10 +40,12 @@ class Machine
 		geometry_msgs::Pose2D m_exitMachine;
 		int zone;
 		bool isHere;
+		std::string m_name;
+		int m_faType;
 
 	public:
 		/* Constructeur */
-		Machine();
+		Machine(int teamColor);
 
 		/* Déstructeur */
 		virtual ~Machine();
@@ -58,6 +65,8 @@ class Machine
 		void let();
 		void readlights(std::vector<comm_msg::LightSpec> &lSpec);
 		void startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter);
+		int getFaType(){ return m_faType; }
+		const char *getName(){ return m_name.c_str(); }
 
 };
 

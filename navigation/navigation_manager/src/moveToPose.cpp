@@ -171,7 +171,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
         m_as.publishFeedback(m_feedback);
 
 
-        ROS_INFO("In loop with state [%d]", m_trackPathAction.getResult()->status);
+        //ROS_INFO("In loop with state [%d]", m_trackPathAction.getResult()->status);
         if (!ros::ok())
         {
             isOk = false;
@@ -205,7 +205,7 @@ void MoveToPose::doneCb(const actionlib::SimpleClientGoalState& state,
                         const deplacement_msg::TrackPathResultConstPtr& result)
 {
     ROS_INFO("Finished in state [%s]", state.toString().c_str());
-    ROS_INFO("Answer: %d", result->status);
+    //ROS_INFO("Answer: %d", result->status);
 }
 
 // Called once when the goal becomes active

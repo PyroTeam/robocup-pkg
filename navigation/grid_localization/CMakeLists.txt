@@ -6,8 +6,8 @@ project(grid_localization)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
-  mrpt_localization
-  mrpt_msgs
+#  mrpt_localization
+#  mrpt_msgs
   nav_msgs
   roscpp
   rospy

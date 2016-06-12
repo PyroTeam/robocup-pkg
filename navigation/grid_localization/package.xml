@@ -41,15 +41,15 @@
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>geometry_msgs</build_depend>
-  <build_depend>mrpt_localization</build_depend>
-  <build_depend>mrpt_msgs</build_depend>
+  <!-- <build_depend>mrpt_localization</build_depend> -->
+  <!-- <build_depend>mrpt_msgs</build_depend> -->
   <build_depend>nav_msgs</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>std_msgs</build_depend>
   <run_depend>geometry_msgs</run_depend>
-  <run_depend>mrpt_localization</run_depend>
-  <run_depend>mrpt_msgs</run_depend>
+  <!-- <run_depend>mrpt_localization</run_depend> -->
+  <!-- <run_depend>mrpt_msgs</run_depend> -->
   <run_depend>nav_msgs</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>

@@ -10,6 +10,8 @@
 #ifndef MYELEMENTS_H
 #define MYELEMENTS_H
 
+#include "common_utils/types.h"
+
 #include "Machine.h"
 #include "BaseStation.h"
 #include "RingStation.h"
@@ -31,18 +33,19 @@ class MyElements
 	public:
 
 		/* Constructeur */    
-		MyElements();
+		MyElements(int teamColor);
 
 		/* Déstructeur */
 		virtual ~MyElements();
 
 		/* Méthodes */ 
-		BaseStation getBS();
-		RingStation getRS1();
-		RingStation getRS2();
-		CapStation  getCS1();
-		CapStation  getCS2();
-		DeliveryStation getDS();
+		BaseStation& getBS();
+		RingStation& getRS1();
+		RingStation& getRS2();
+		CapStation&  getCS1();
+		CapStation&  getCS2();
+		DeliveryStation& getDS();
+		Machine *getMachineFromTag(int arTag, int teamColor);
 
 };
 
