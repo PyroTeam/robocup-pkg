@@ -17,7 +17,7 @@ using namespace manager_msg;
 class RingStation : public Machine
 {
   private:
-	
+
 	/* Variables d'instance */
 	int m_greenRing;
 	int m_yellowRing;
@@ -28,7 +28,7 @@ class RingStation : public Machine
 
 	/* Constructeur */
 	RingStation(int teamColor);
-	RingStation(int nb, int teamColor);
+	RingStation(int teamColor, int nb);
 
 	/* Déstructeur */
 	virtual ~RingStation();
@@ -37,9 +37,9 @@ class RingStation : public Machine
 
 	/* Méthodes */
 	int getGreenRing();
-	int getYellowRing();  
+	int getYellowRing();
 	int getBlueRing();
-	int getOrangeRing(); 
+	int getOrangeRing();
 	void majGreen(int nbVert);
 	void majYellow(int nbJaune);
 	void majBlue(int nbBleu);
@@ -49,4 +49,3 @@ class RingStation : public Machine
 };
 
 #endif
-

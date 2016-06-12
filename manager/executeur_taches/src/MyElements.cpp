@@ -76,7 +76,7 @@ Machine *MyElements::getMachineFromTag(int arTag, int teamColor)
 
 			default:
 				break;
-		}		
+		}
 	}
 
 	if (teamColor == MAGENTA)
@@ -113,5 +113,5 @@ Machine *MyElements::getMachineFromTag(int arTag, int teamColor)
 	}
 
 	ROS_ERROR("Invalid ArTagID for this team/color: %d (teamcolor: %d)", arTag, teamColor);
-	return NULL;
+	return nullptr;
 }

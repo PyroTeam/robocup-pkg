@@ -127,35 +127,6 @@ manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction()
 	return m_act;
 }
 
-void GtServerSrv::interpretationZone()
-{
-	int zone = this->m_id;
-	// Get bottom-right coord of zone
-	m_x = 0;
-	m_y = 0;
-	// Right side
-	if(zone>0 && zone<13) 
-	{
-		m_x = ((zone-1)/4)*2;
-		m_y = ((zone-1)%4)*1.5;
-		m_x+=2;
-	}
-	// Left side
-	else if (zone<=24) 
-	{
-		zone -=12;
-		m_x = -((zone-1)/4)*2 - 2;
-		m_y = ((zone-1)%4)*1.5;
-		m_x+=2;
-	}
-	else 
-	{
-		ROS_ERROR("There is only 23 zones ");
-	}
-	m_x+=0.001;
-	m_y+=0.001;
-}
-
 void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
 #define ZONE_WIDTH	2.0
@@ -196,7 +167,7 @@ void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 			ROS_ERROR("Invalid zone corner");
 		break;
 	}
-	
+
 	m_ptTarget.x += xOffset;
 	m_ptTarget.y += yOffset;
 
@@ -517,7 +488,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 							ROS_ERROR("There is no machine in this zone. Abort request");
 							res.accepted = false;
 							break;
-			  			}				  		
+			  			}
 		  			}
 
 
@@ -537,18 +508,18 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				machineSideId = atg.askForId();
 				ROS_DEBUG("Got the tag : %d", machineSideId );
 
-		  				  
+
 				// Vérifier si INPUT (TODO: à vérifier)
 				if(isInput(machineSideId))
 				{
-					// Si OUI 
+					// Si OUI
 		  			// Déterminer point devant autre côte de la machine
 
 		  			// Se rendre ou point devant autre côté de la machine
 					going(secondSidePoint);
 					// Récupérer ArTag ID
 					machineSideId = atg.askForId();
-		  			
+
 		  			// Vérifier si INPUT, si OUI abandonner
 		  			if(isInput(machineSideId))
 					{

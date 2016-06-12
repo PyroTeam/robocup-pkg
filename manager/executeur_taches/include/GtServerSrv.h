@@ -35,7 +35,7 @@ enum zoneCorner_t
 	BOTTOM_LEFT,
 	BOTTOM_RIGHT,
 	TOP_LEFT,
-	TOP_RIGHT 	
+	TOP_RIGHT
 };
 
 class GtServerSrv
@@ -55,7 +55,6 @@ class GtServerSrv
 		int teamColorOfZone(int zone);
 		manager_msg::activity getActivityMsg();
 		manager_msg::finalApproachingAction getFinalAppAction();
-		void interpretationZone();
 		void interpretationZone(int zone, zoneCorner_t zoneCorner);
 		bool going(geometry_msgs::Pose2D point);
 		geometry_msgs::Pose2D calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone);
@@ -70,16 +69,14 @@ class GtServerSrv
 		int m_nbrobot;
 		int m_color;
 		int m_id;
-		float m_x;
-		float m_y;
 		geometry_msgs::Pose2D m_ptTarget;
 		manager_msg::activity m_msg;
 		std::string m_name;
 		manager_msg::finalApproachingAction m_act;
 		ExploInfoSubscriber *m_ei;
 		LocaSubscriber *m_ls;
-    	ros::Publisher m_activity_pub;
-    	MyElements m_elements;
+    ros::Publisher m_activity_pub;
+    MyElements m_elements;
 };
 
 #endif
