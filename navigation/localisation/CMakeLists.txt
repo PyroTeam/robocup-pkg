@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   message_filters
 	geometry_utils
+	comm_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -89,7 +90,7 @@ find_package(Eigen REQUIRED)
 catkin_package(
    INCLUDE_DIRS include/localisation /usr/include/eigen3
    LIBRARIES localisation
-   CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy sensor_msgs message_runtime geometry_utils
+   CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy sensor_msgs message_runtime geometry_utils comm_msg
 #  DEPENDS system_lib
 )
 

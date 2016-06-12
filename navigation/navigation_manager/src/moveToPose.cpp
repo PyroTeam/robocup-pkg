@@ -95,8 +95,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
 
     sleep(1);
     //path Found
-    m_pathId++;
-    ROS_INFO("Path generated! with id : %d", m_pathId);
+    ROS_INFO("Path generated!");
     deplacement_msg::TrackPathGoal tgoal;
     m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
                                       boost::bind(&MoveToPose::activeCb, this),

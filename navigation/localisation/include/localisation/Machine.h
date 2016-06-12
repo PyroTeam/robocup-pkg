@@ -2,6 +2,8 @@
 #define MACHINE_H
 
 #include "geometry_msgs/Pose2D.h"
+#include "cartographie_utils.h"
+#include "comm_msg/ExplorationMachine.h"
 #include "Segment.h"
 
 class Machine{
@@ -19,6 +21,9 @@ public:
   void update(const geometry_msgs::Pose2D &p);
 	void calculateCoordMachine(Segment s);
   bool canBeUpdated(const geometry_msgs::Pose2D &seenMachine);
+  bool neverSeen();
+  geometry_msgs::Pose2D reversePose();
+  comm_msg::ExplorationMachine msg();
 
 private:
 	geometry_msgs::Pose2D 	m_centre;

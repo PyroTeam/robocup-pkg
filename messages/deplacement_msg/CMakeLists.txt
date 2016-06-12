@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
 	sensor_msgs
   	actionlib
     nav_msgs
+		comm_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -54,6 +55,7 @@ DIRECTORY
 	msg
 FILES
   	Landmarks.msg
+		Machines.msg
     OccupancyGridFloat.msg
 )
 
@@ -78,6 +80,7 @@ generate_messages(
   	geometry_msgs
     actionlib
     nav_msgs
+		comm_msg
 )
 
 ###################################

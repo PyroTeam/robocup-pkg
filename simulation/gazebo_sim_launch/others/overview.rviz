@@ -10,9 +10,6 @@ Panels:
         - /OpposingTeam1/Opposing11
         - /OpposingTeam1/Opposing21
         - /OpposingTeam1/Opposing31
-        - /TF1
-        - /TF1/Frames1
-        - /TF1/Tree1
       Splitter Ratio: 0.585062
     Tree Height: 733
   - Class: rviz/Selection
@@ -662,8 +659,6 @@ Visualization Manager:
       Name: Marker
       Namespaces:
         visualisation_machines: true
-        visualisation_odom: true
-        visualisation_segments: true
       Queue Size: 100
       Value: true
   Enabled: true

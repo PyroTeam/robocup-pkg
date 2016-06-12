@@ -7,13 +7,14 @@
 #include <nav_msgs/Odometry.h>
 
 #include "deplacement_msg/Landmarks.h"
+#include "deplacement_msg/Machines.h"
 #include "LaserScan.h"
 #include "landmarks_detection_utils.h"
 #include "cartographie_utils.h"
 #include "geometry_utils.h"
 #include "math_functions.h"
 
-deplacement_msg::Landmarks g_machines;
+deplacement_msg::Machines g_machines;
 std::vector<Machine>       g_mps(24);
 
 tf::TransformListener     *g_tf_listener;
@@ -56,6 +57,14 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
         {
             g_mps[zone-1].update(center);
         }
+
+        // Ajout reverse
+        geometry_msgs::Pose2D reverse = g_mps[zone-1].reversePose();
+        zone = getArea(reverse);
+        if (zone != 0 && g_mps[zone-1].neverSeen())
+        {
+            g_mps[zone-1].update(reverse);
+        }
     }
 }
 
@@ -69,12 +78,12 @@ int main( int argc, char** argv )
 
     ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 100, machinesCallback);
 
-    ros::Publisher pub_machines        = n.advertise< deplacement_msg::Landmarks >("objectDetection/landmarks", 1);
+    ros::Publisher pub_machines = n.advertise< deplacement_msg::Machines >("objectDetection/landmarks", 1);
 
     ros::Rate loop_rate (10);
     while(n.ok())
     {
-      g_machines.landmarks = convert(g_mps);
+      g_machines.landmarks = convertIntoMsg(g_mps);
 
       pub_machines.publish(g_machines);
 

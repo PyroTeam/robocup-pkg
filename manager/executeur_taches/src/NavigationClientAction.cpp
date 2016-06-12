@@ -1,6 +1,6 @@
 #include "NavigationClientAction.h"
 
-NavigationClientAction::NavigationClientAction() 
+NavigationClientAction::NavigationClientAction()
 {
 }
 
@@ -33,6 +33,6 @@ int NavigationClientAction::goToAPoint(geometry_msgs::Pose2D dest_point)
 		actionlib::SimpleClientGoalState state = client.getState();
 		ROS_INFO("Action finished but FAILED: %s ",state.toString().c_str());
 	}
-	
+
 	return client.getResult()->result;
 }

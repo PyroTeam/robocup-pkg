@@ -50,9 +50,7 @@ bool GtServerSrv::going(geometry_msgs::Pose2D point)
 geometry_msgs::Pose2D GtServerSrv::calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone)
 {
 	geometry_msgs::Pose2D pt_dest, center;
-	center.x = m_ls->m_machine[zone - 1].x;
-	center.y = m_ls->m_machine[zone - 1].y;
-	center.theta = m_ls->m_machine[zone - 1].theta;
+  center = m_ls->m_machine[zone - 1].pose;
 	pt_dest.x = 2*center.x - pt_actuel.x;
 	pt_dest.y = 2*center.y - pt_actuel.y;
 	pt_dest.theta = pt_actuel.theta - M_PI;
@@ -67,9 +65,7 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 	float dy = 0;
 	float dx = 0;
 
-	knownMachinePose.x = m_ls->m_machine[zone - 1].x;
-	knownMachinePose.y = m_ls->m_machine[zone - 1].y;
-	knownMachinePose.theta = m_ls->m_machine[zone - 1].theta;
+  knownMachinePose = m_ls->m_machine[zone - 1].pose;
 	knownMachinePose.theta = fmod(knownMachinePose.theta, M_PI);
 
 	dy = -MARGIN_FROM_CENTER * cos(knownMachinePose.theta);
@@ -426,35 +422,35 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::UNCAP:
-				switch(req.parameter)   // à verifier? chaque CS à des capscat spécifiques
-				{
-					case orderRequest::BLACK :
-						if(m_elements.getCS1().getBlackCap() != 0)        m_elements.getCS1().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
-						else if(m_elements.getCS2().getBlackCap() != 0)   m_elements.getCS2().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-					break;
-					case orderRequest::GREY :
-						if(m_elements.getCS1().getGreyCap() != 0)         m_elements.getCS1().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
-						else if(m_elements.getCS2().getGreyCap() != 0)    m_elements.getCS2().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-					break;
-				}
-				break;
+  				switch(req.parameter)   // à verifier? chaque CS à des capscat spécifiques
+  				{
+  					case orderRequest::BLACK :
+  						if(m_elements.getCS1().getBlackCap() != 0)        m_elements.getCS1().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
+  						else if(m_elements.getCS2().getBlackCap() != 0)   m_elements.getCS2().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
+  					break;
+  					case orderRequest::GREY :
+  						if(m_elements.getCS1().getGreyCap() != 0)         m_elements.getCS1().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
+  						else if(m_elements.getCS2().getGreyCap() != 0)    m_elements.getCS2().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
+  					break;
+  				}
+  				break;
 		  	case orderRequest::DESTOCK:
-				if(req.id >= 0 && req.id < 3)
-				{
-					  m_elements.getCS1().destock(req.id,m_nbrobot,req.number_order,activity::CS1);
-				   	m_elements.getCS1().majStockID(req.id, 0);
-				}
-				else if(req.id >= 3 && req.id < 6)
-				{
-				   	m_elements.getCS2().destock(req.id,m_nbrobot,req.number_order,activity::CS2);
-				   	m_elements.getCS2().majStockID(req.id, 0);
-				}
-				else
-				{
-				  	ROS_ERROR("ERROR: req.id is not between 0 and 5 ");
-				  	res.accepted =false;
-				}
-				break;
+  				if(req.id >= 0 && req.id < 3)
+  				{
+  					  m_elements.getCS1().destock(req.id,m_nbrobot,req.number_order,activity::CS1);
+  				   	m_elements.getCS1().majStockID(req.id, 0);
+  				}
+  				else if(req.id >= 3 && req.id < 6)
+  				{
+  				   	m_elements.getCS2().destock(req.id,m_nbrobot,req.number_order,activity::CS2);
+  				   	m_elements.getCS2().majStockID(req.id, 0);
+  				}
+  				else
+  				{
+  				  	ROS_ERROR("ERROR: req.id is not between 0 and 5 ");
+  				  	res.accepted =false;
+  				}
+  				break;
 
 		  	case orderRequest::DISCOVER:
 		  	{
@@ -479,6 +475,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 	  			// NB: en cas de mur, pouvoir déterminer un point légèrement décalé
 	  			if (!knownMachineInZone(req.id))
 	  			{
+            ROS_INFO("No known Machine in this area");
 	  				// TODO: choix judicieux du coin à déterminer
 	  				interpretationZone(req.id, BOTTOM_RIGHT);
 	  				ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
@@ -538,7 +535,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
   				}
 
   				machine = m_elements.getMachineFromTag(machineSideId, m_color);
-  				if (machine == NULL)
+  				if (machine == nullptr)
   				{
   					// TODO: abandonner le service
   					ROS_ERROR("Unable to get correct machine. Abort service");

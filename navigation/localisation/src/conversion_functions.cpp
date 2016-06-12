@@ -3,9 +3,9 @@
 #include <cmath>
 
 #include "conversion_functions.h"
+#include "comm_msg/ExplorationMachine.h"
 
 using namespace Eigen;
-
 
 std::vector<geometry_msgs::Pose2D> convert(std::vector<Machine> mps)
 {
@@ -16,6 +16,21 @@ std::vector<geometry_msgs::Pose2D> convert(std::vector<Machine> mps)
     if (it.getNbActu() > 0)
     {
       tmp.push_back(it.getCentre());
+    }
+  }
+
+  return tmp;
+}
+
+std::vector<comm_msg::ExplorationMachine> convertIntoMsg(std::vector<Machine> mps)
+{
+  std::vector<comm_msg::ExplorationMachine> tmp;
+
+  for (int i = 0; i < mps.size(); i++)
+  {
+    if (!mps[i].neverSeen())
+    {
+      tmp.push_back(mps[i].msg());
     }
   }
 
