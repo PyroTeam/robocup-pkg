@@ -11,11 +11,15 @@
 #define MACHINE_H
 
 #include <string>
+
 #include <ros/ros.h>
 #include <geometry_msgs/Pose2D.h>
-#include "manager_msg/activity.h"
-#include "manager_msg/order.h"
-#include "deplacement_msg/MoveToPoseAction.h"
+
+#include <common_utils/types.h>
+#include <manager_msg/activity.h>
+#include <manager_msg/order.h>
+#include <deplacement_msg/MoveToPoseAction.h>
+
 #include "FeuClientAction.h"
 #include "GripperClientSrv.h"
 #include "FinalApproachingClient.h"
@@ -23,6 +27,7 @@
 #include "NavigationClientAction.h"
 
 using namespace manager_msg;
+using namespace common_utils;
 
 class Machine
 {

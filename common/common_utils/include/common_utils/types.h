@@ -1,6 +1,8 @@
 #ifndef _COMMON_UTILS__TYPES__H_
 #define _COMMON_UTILS__TYPES__H_
 
+namespace common_utils {
+
 /**
  * \brief      Team color
  */
@@ -41,5 +43,7 @@ enum mpsARTags_T
 	M_DS_IN = 49,
 	M_DS_OUT = 50
 };
+
+} // namespace common_utils
 
 #endif // _COMMON_UTILS__TYPES__H_

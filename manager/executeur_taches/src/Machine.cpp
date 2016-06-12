@@ -5,7 +5,6 @@
 
 #include "Machine.h"
 #include "geometry_msgs/Pose2D.h"
-#include <common_utils/types.h>
 
 /* Constructeur */
 Machine::Machine(int teamColor)

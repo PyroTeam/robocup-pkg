@@ -1,5 +1,7 @@
 #include "GtServerSrv.h"
 
+#include <common_utils/zone.h>
+
 GtServerSrv::GtServerSrv(int teamColor)
 : m_color(teamColor)
 , m_elements(teamColor)
@@ -154,35 +156,6 @@ void GtServerSrv::interpretationZone()
 	m_y+=0.001;
 }
 
-// TODO: Move to common lib 
-inline bool getZoneCenter(int zone, double &x, double &y)
-{
-#define ZONE_WIDTH	2.0
-#define ZONE_HEIGHT	1.5
-	bool leftSide = zone > 12;
-
-	if (zone < 1 || zone > 24)
-	{
-		ROS_ERROR("Wrong zone id, must be 1 to 24");
-		x = 0;
-		y = 0;
-		return false;
-	}
-
-	// Get zone center
-	zone = (leftSide)? zone-12 : zone;
-	x = ((zone-1)/4)*ZONE_WIDTH + ZONE_WIDTH/2;
-	y = ((zone-1)%4)*ZONE_HEIGHT + ZONE_HEIGHT/2;
-	if (leftSide)
-	{
-		x *= -1;
-	}
-
-	return true;
-#undef ZONE_WIDTH
-#undef ZONE_WIDTH
-}
-
 void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
 #define ZONE_WIDTH	2.0
@@ -191,7 +164,7 @@ void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 	float xOffset = ZONE_WIDTH/2;
 	float yOffset = ZONE_HEIGHT/2;
 
-	if (!getZoneCenter(zone, m_ptTarget.x, m_ptTarget.y))
+	if (!common_utils::getZoneCenter(zone, m_ptTarget.x, m_ptTarget.y))
 	{
 		return;
 	}
