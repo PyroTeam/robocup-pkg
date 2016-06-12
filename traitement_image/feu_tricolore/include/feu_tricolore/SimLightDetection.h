@@ -38,7 +38,7 @@ private:
 	void preemptCB();
 
     ros::Time m_beginOfProcessing;
-    static const float m_timeout = 0.5;
+    static const float m_timeout;
 };
 
 /*-----  End of Class Declaration  ------*/

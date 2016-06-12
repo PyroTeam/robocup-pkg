@@ -64,7 +64,7 @@ bool SimLightDetection::ok()
 			// Set the action state to aborted
 			m_result.light_signal.clear();
 			m_as.setAborted(m_result);
-		
+
 		}
 		else
 		{
@@ -78,8 +78,8 @@ bool SimLightDetection::ok()
 }
 
 /*! \brief Closet light signal callback fonction
- * 
- * \details Get the closest light signal sent from simulation 
+ *
+ * \details Get the closest light signal sent from simulation
  *
  * \param[in] msg
  */
@@ -99,3 +99,5 @@ void SimLightDetection::closestLightSignal_callback(const trait_im_msg::LightSig
 		m_as.setSucceeded(m_result);
 	}
 }
+
+const float SimLightDetection::m_timeout = 0.5;
