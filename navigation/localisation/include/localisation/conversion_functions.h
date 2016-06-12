@@ -10,7 +10,6 @@
 #include "Machine.h"
 
 
-geometry_msgs::Pose2D changeFrame(const geometry_msgs::Pose2D &p, const tf::StampedTransform &transform);
 
 geometry_msgs::Point globalToLocal(const geometry_msgs::Point &p, const Segment &s);
 

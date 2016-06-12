@@ -16,22 +16,6 @@
 
 namespace occupancy_grid_utils {
 
-void createEmptyMap(nav_msgs::OccupancyGrid &map, const geometry_msgs::Point &size, const geometry_msgs::Point &origin, const std::string &frame_id, double resolution)
-{
-	map.header.frame_id = frame_id;
-	map.info.origin.position.x = origin.x;
-	map.info.origin.position.y = origin.y;
-	map.info.origin.position.z = 0;
-	map.info.origin.orientation.x = 0;
-	map.info.origin.orientation.y = 0;
-	map.info.origin.orientation.z = 0;
-	map.info.origin.orientation.w = 1;
-	map.info.map_load_time = ros::Time::now();
-	map.info.resolution = resolution;
-	map.info.width = size.x/resolution;
-	map.info.height = size.y/resolution;
-	map.data.assign(map.info.width * map.info.height, 0);
-}
 
 /**
  * fonction qui calcule la position dans le vecteur de donnée d'un OccupancyGrid

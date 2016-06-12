@@ -23,7 +23,7 @@ public:
 	float getAngleMin() const;
 	float getAngleMax() const;
 	float getAngleInc() const;
-	ros::Time getTime() const;
+	const ros::Time& getTime() const;
 
 	const std::vector<float>& getRanges() const;
 	const std::list<geometry_msgs::Point>& getPoints() const;

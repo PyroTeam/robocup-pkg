@@ -51,7 +51,7 @@ void Machine::update(const geometry_msgs::Pose2D &p)
   m_thetaSum += p.theta;
   m_nbActu++;
 
-  m_lastError = dist(m_centre, p);
+  m_lastError = geometry_utils::distance(m_centre, p);
 
   m_centre.x     = m_xSum/double(m_nbActu);
   m_centre.y     = m_ySum/double(m_nbActu);

@@ -114,7 +114,7 @@ include_directories(
 ## Declare a cpp executable
 add_executable(${PROJECT_NAME}_node src/grid_maker_node.cpp)
 
-set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
+set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-O3 -std=c++11")
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

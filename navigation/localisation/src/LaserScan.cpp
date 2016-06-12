@@ -36,7 +36,7 @@ float laserScan::getAngleInc() const
 	return m_angle_inc;
 }
 
-ros::Time laserScan::getTime() const
+const ros::Time& laserScan::getTime() const
 {
 	return m_stamp;
 }
