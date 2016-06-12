@@ -158,7 +158,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">return</span> p2;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../de/d73/conversion__functions_8cpp.html#ac7c41209798322eee14316877214eb88">   69</a></span>&#160;geometry_msgs::Point <a class="code" href="../../de/d73/conversion__functions_8cpp.html#ac7c41209798322eee14316877214eb88">globalToLocal</a>(geometry_msgs::Point p, <a class="code" href="../../d8/ddc/classSegment.html">Segment</a> <a class="code" href="../../de/dcc/cv__utils_8h.html#a339d22b3e442946380f98ed19e320db2">s</a>)</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../de/d73/conversion__functions_8cpp.html#ac7c41209798322eee14316877214eb88">   69</a></span>&#160;geometry_msgs::Point <a class="code" href="../../de/d73/conversion__functions_8cpp.html#ac7c41209798322eee14316877214eb88">globalToLocal</a>(geometry_msgs::Point p, <a class="code" href="../../d8/ddc/classSegment.html">Segment</a> s)</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  Vector3d before, after;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  Matrix3d m;</div>
@@ -207,7 +207,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  std::list&lt;Segment&gt; vect;</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; tabSegments.landmarks.size(); i = i+2)</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  {</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <a class="code" href="../../d8/ddc/classSegment.html">Segment</a> <a class="code" href="../../de/dcc/cv__utils_8h.html#a339d22b3e442946380f98ed19e320db2">s</a>;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <a class="code" href="../../d8/ddc/classSegment.html">Segment</a> s;</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    geometry_msgs::Point a, b;</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    a.x = tabSegments.landmarks[i].x;</div>
@@ -274,7 +274,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="conversion__functions_8cpp_html_a73c79aff3c96e1f19e0a8cc2bfd492e6"><div class="ttname"><a href="../../de/d73/conversion__functions_8cpp.html#a73c79aff3c96e1f19e0a8cc2bfd492e6">pointToPose2D</a></div><div class="ttdeci">geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00156">conversion_functions.cpp:156</a></div></div>
 <div class="ttc" id="classSegment_html"><div class="ttname"><a href="../../d8/ddc/classSegment.html">Segment</a></div><div class="ttdoc">Classe représentant un segment d&#39;environ 70 cm. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00020">Segment.h:20</a></div></div>
 <div class="ttc" id="classSegment_html_aba75dfcad0b1c171701546e1d3b32406"><div class="ttname"><a href="../../d8/ddc/classSegment.html#aba75dfcad0b1c171701546e1d3b32406">Segment::update</a></div><div class="ttdeci">void update()</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d70/localisation_2src_2Segment_8cpp_source.html#l00074">Segment.cpp:74</a></div></div>
-<div class="ttc" id="cv__utils_8h_html_a339d22b3e442946380f98ed19e320db2"><div class="ttname"><a href="../../de/dcc/cv__utils_8h.html#a339d22b3e442946380f98ed19e320db2">s</a></div><div class="ttdeci">int s</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d5c/cv__utils_8cpp_source.html#l00016">cv_utils.cpp:16</a></div></div>
 <div class="ttc" id="conversion__functions_8cpp_html_a0171d6c215d95e4cdd14ea5785dd38a9"><div class="ttname"><a href="../../de/d73/conversion__functions_8cpp.html#a0171d6c215d95e4cdd14ea5785dd38a9">landmarksToSegments</a></div><div class="ttdeci">std::list&lt; Segment &gt; landmarksToSegments(deplacement_msg::Landmarks tabSegments)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00113">conversion_functions.cpp:113</a></div></div>
 <div class="ttc" id="classSegment_html_a22e703954499350c48e2d7066480b50c"><div class="ttname"><a href="../../d8/ddc/classSegment.html#a22e703954499350c48e2d7066480b50c">Segment::setPoints</a></div><div class="ttdeci">void setPoints(const geometry_msgs::Point &amp;a, const geometry_msgs::Point &amp;b)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d70/localisation_2src_2Segment_8cpp_source.html#l00068">Segment.cpp:68</a></div></div>
 <div class="ttc" id="conversion__functions_8cpp_html_a30a8304b1d8c3d4281b3d7dfb0c3d6f4"><div class="ttname"><a href="../../de/d73/conversion__functions_8cpp.html#a30a8304b1d8c3d4281b3d7dfb0c3d6f4">RobotToGlobal</a></div><div class="ttdeci">geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose2D odomRobot)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00040">conversion_functions.cpp:40</a></div></div>
@@ -282,7 +281,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 9 2016 07:29:00 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 16:29:48 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

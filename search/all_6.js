@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['g',['g',['../df/d80/structrgb.html#a1c51cad47a05c797643776f9357a8749',1,'rgb::g()'],['../d0/d5c/cv__utils_8cpp.html#aed9ea78689ecce0b7264c02c7f8a9a54',1,'G():&#160;cv_utils.cpp']]],
   ['g_5finit',['g_init',['../da/dfe/gazebo__to__ros__node_8cpp.html#a40a10fc9d5bddaa56d48233847ba1f2b',1,'gazebo_to_ros_node.cpp']]],
   ['g_5flandmarks',['g_landmarks',['../da/dfe/gazebo__to__ros__node_8cpp.html#afb1076cc08b1f8d524875576b8c56569',1,'gazebo_to_ros_node.cpp']]],
   ['g_5flandmarks_5fstamp',['g_landmarks_stamp',['../d7/dfc/visualisation_8cpp.html#a4235d7de40e122541a8e47c636e43567',1,'g_landmarks_stamp():&#160;visualisation.cpp'],['../d7/d6f/visualisationOK_8cpp.html#a4235d7de40e122541a8e47c636e43567',1,'g_landmarks_stamp():&#160;visualisationOK.cpp']]],
@@ -114,7 +113,6 @@ var searchData=
   ['getnearestpoint',['getNearestPoint',['../d1/d35/classGtServerSrv.html#a7d8650bd652c0d8b0ff105eec8fcb3de',1,'GtServerSrv']]],
   ['getnumberorder',['getNumberOrder',['../d5/d38/classSrvorder.html#a64ebd54068d2aff76a7aa41707561835',1,'Srvorder']]],
   ['getnumberrobot',['getNumberRobot',['../d5/d38/classSrvorder.html#a979d77c62e41f0bf5950eb283f010dc1',1,'Srvorder']]],
-  ['getobjectcolor',['getObjectColor',['../de/dcc/cv__utils_8h.html#a3cc5ea9ac77f122ac380ec8e2d2b5e40',1,'getObjectColor(int event, int x, int y, int flags, void *param=NULL):&#160;cv_utils.cpp'],['../d0/d5c/cv__utils_8cpp.html#addbdbd97b95d177be72cd651b952aec4',1,'getObjectColor(int event, int x, int y, int flags, void *param):&#160;cv_utils.cpp']]],
   ['getobstacle',['getObstacle',['../d1/d75/classSharps.html#a7c819b61f9a88f04851d1459c5703232',1,'Sharps::getObstacle()'],['../de/d56/classDataMapObstacle.html#a706742e511e703355dd803dfc99daf82',1,'DataMapObstacle::getObstacle()']]],
   ['getorangering',['getOrangeRing',['../d0/dd3/classRingStation.html#a7d62cad61db5f9175c34543fde89ea5d',1,'RingStation']]],
   ['getorders',['getOrders',['../d0/d67/classOrderInfo.html#a36fb86c9273e039af16dc2a9b1f9393d',1,'OrderInfo']]],
@@ -195,8 +193,8 @@ var searchData=
   ['gridmapgraph',['GridMapGraph',['../d1/dfa/classGridMapGraph.html',1,'GridMapGraph'],['../d1/dfa/classGridMapGraph.html#ad03fff3f17a16258e714704b400097b2',1,'GridMapGraph::GridMapGraph()']]],
   ['gridmapgraph_2ecpp',['GridMapGraph.cpp',['../de/dc7/GridMapGraph_8cpp.html',1,'']]],
   ['gridmapgraph_2eh',['GridMapGraph.h',['../df/ddd/GridMapGraph_8h.html',1,'']]],
-  ['gridmodifier',['GridModifier',['../da/d62/classoccupancy__grid__utils_1_1GridModifier.html#afa008658146dc02f9834b22a0f0b6d05',1,'occupancy_grid_utils::GridModifier']]],
   ['gridmodifier',['GridModifier',['../da/d62/classoccupancy__grid__utils_1_1GridModifier.html',1,'occupancy_grid_utils']]],
+  ['gridmodifier',['GridModifier',['../da/d62/classoccupancy__grid__utils_1_1GridModifier.html#afa008658146dc02f9834b22a0f0b6d05',1,'occupancy_grid_utils::GridModifier']]],
   ['gridmodifier_2eh',['GridModifier.h',['../df/d49/GridModifier_8h.html',1,'']]],
   ['gripper_5fuppdate',['gripper_uppdate',['../d2/d9c/classGripperClientSrv.html#a3aa330ff9e0e88e8101e9fc811307af9',1,'GripperClientSrv']]],
   ['gripperclientsrv',['GripperClientSrv',['../d2/d9c/classGripperClientSrv.html',1,'GripperClientSrv'],['../d2/d9c/classGripperClientSrv.html#a55eb37c6fefde695b0f8e4d037e20e5a',1,'GripperClientSrv::GripperClientSrv()']]],

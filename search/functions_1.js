@@ -4,7 +4,6 @@ var searchData=
   ['basestation',['BaseStation',['../d2/d4b/classBaseStation.html#a90bfd6fa7e927d53e43e99c35c5bfef5',1,'BaseStation']]],
   ['basicgradientmodifier',['BasicGradientModifier',['../dd/da5/classoccupancy__grid__utils_1_1BasicGradientModifier.html#a8cd3407e3570a8f6912376193b78cd44',1,'occupancy_grid_utils::BasicGradientModifier']]],
   ['begin',['begin',['../db/dc7/classPath.html#ac4c1cfe43acfa51b90bcad2c8e874b38',1,'Path']]],
-  ['binarisation',['binarisation',['../de/dcc/cv__utils_8h.html#abb059808ca7275323c1c2583729d2d88',1,'binarisation(cv::Mat &amp;image, int *nbPixels):&#160;cv_utils.cpp'],['../d0/d5c/cv__utils_8cpp.html#abb059808ca7275323c1c2583729d2d88',1,'binarisation(cv::Mat &amp;image, int *nbPixels):&#160;cv_utils.cpp']]],
   ['blcallback',['blCallback',['../de/d27/classBumperListener.html#a749609b7213e5ecefb1fd9aad29eff50',1,'BumperListener']]],
   ['bring_5fbase_5frs',['bring_base_rs',['../d2/d4b/classBaseStation.html#a360a97d58112752c444ae3a57d6c02cf',1,'BaseStation']]],
   ['build',['build',['../db/d1c/classoccupancy__grid__utils_1_1Line.html#a4a9fcfbf908de5b3c3f1c4d4e5d1102c',1,'occupancy_grid_utils::Line::build()'],['../db/db6/classLine.html#a9c60cbe4081f043aeb6ec5663418dfc5',1,'Line::build()'],['../d6/d18/classModel.html#a589292a0d1e5c53143cd739771e9632e',1,'Model::build()'],['../d8/ddc/classSegment.html#a0cfcb403d7848a045c83946de28a8248',1,'Segment::build()']]],

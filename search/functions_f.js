@@ -20,7 +20,6 @@ var searchData=
   ['resizetofitaspectratio',['resizeToFitAspectRatio',['../da/d8c/classrqt__ft__gui_1_1RatioLayoutedFrame.html#a1ec925336322fac0de85eb22b5b2e2e0',1,'rqt_ft_gui::RatioLayoutedFrame']]],
   ['responsetogt',['responseToGT',['../d1/d35/classGtServerSrv.html#a8251299b9e2a3ebb0a6a366dd6cfa8d0',1,'GtServerSrv']]],
   ['restoresettings',['restoreSettings',['../d6/d5b/classrqt__ft__gui_1_1FtGui.html#acbdfba126f4784489d544efb6ca3c1c6',1,'rqt_ft_gui::FtGui']]],
-  ['rgb2hsv',['rgb2hsv',['../d0/d5c/cv__utils_8cpp.html#aa9504068d05a6b4a9f772dbfa9d0e0ca',1,'cv_utils.cpp']]],
   ['ringstation',['RingStation',['../d0/dd3/classRingStation.html#a3d94a9e85ff7f78b95ea79daabe09d76',1,'RingStation']]],
   ['robot',['Robot',['../de/d78/classRobot.html#a4fc7c70ae20623f05e06f2ecb388b6c4',1,'Robot']]],
   ['robotcallback',['robotCallback',['../d7/dfc/visualisation_8cpp.html#acdc2dba5a2a3304257b4d52e1868a8c9',1,'visualisation.cpp']]],

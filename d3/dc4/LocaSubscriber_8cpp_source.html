@@ -135,9 +135,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="comment">// Anti-division par 0</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">if</span>(y==0) y=1;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a> = (int)(y/1.5)+1;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">int</span> h = (int)(y/1.5)+1;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        zone = w*4 + <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        zone = w*4 + h;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">// Left side</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (x &lt; 0 &amp;&amp; y &gt;= 0) </div>
@@ -146,7 +146,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">// Anti-division par 0</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">if</span>(y==0) y=1;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a> = (int)(y/1.5)+1;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">int</span> h = (int)(y/1.5)+1;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        zone = w*4 + h + 12;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
@@ -163,14 +163,13 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classLocaSubscriber_html_af65482750da6bb767408f8953791469b"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#af65482750da6bb767408f8953791469b">LocaSubscriber::tab_machine</a></div><div class="ttdeci">std::vector&lt; geometry_msgs::Pose2D &gt; tab_machine</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d05/LocaSubscriber_8h_source.html#l00031">LocaSubscriber.h:31</a></div></div>
 <div class="ttc" id="classLocaSubscriber_html_aa2e52fc511fe33edb0163cfd5080a3c0"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#aa2e52fc511fe33edb0163cfd5080a3c0">LocaSubscriber::getZone</a></div><div class="ttdeci">int getZone(float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00033">LocaSubscriber.cpp:33</a></div></div>
 <div class="ttc" id="LocaSubscriber_8h_html"><div class="ttname"><a href="../../d1/d05/LocaSubscriber_8h.html">LocaSubscriber.h</a></div></div>
-<div class="ttc" id="cv__utils_8h_html_a16611451551e3d15916bae723c3f59f7"><div class="ttname"><a href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a></div><div class="ttdeci">int h</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d5c/cv__utils_8cpp_source.html#l00016">cv_utils.cpp:16</a></div></div>
 <div class="ttc" id="MPS_8h_html"><div class="ttname"><a href="../../d0/d4e/MPS_8h.html">MPS.h</a></div></div>
 <div class="ttc" id="classLocaSubscriber_html_a24dcdcf55f90ee357cdc0be41698fd53"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#a24dcdcf55f90ee357cdc0be41698fd53">LocaSubscriber::tesCallback</a></div><div class="ttdeci">void tesCallback(const deplacement_msg::LandmarksConstPtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00014">LocaSubscriber.cpp:14</a></div></div>
 <div class="ttc" id="classLocaSubscriber_html_ad136957367ceecd82cad71932fdc484d"><div class="ttname"><a href="../../d8/d86/classLocaSubscriber.html#ad136957367ceecd82cad71932fdc484d">LocaSubscriber::~LocaSubscriber</a></div><div class="ttdeci">virtual ~LocaSubscriber()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00012">LocaSubscriber.cpp:12</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 9 2016 07:29:00 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 16:29:48 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

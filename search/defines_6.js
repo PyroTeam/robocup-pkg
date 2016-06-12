@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['hsv_5fmax',['HSV_MAX',['../de/dcc/cv__utils_8h.html#ad59e8b6a2a4787641f4543edf1cde585',1,'HSV_MAX():&#160;cv_utils.h'],['../d0/d5c/cv__utils_8cpp.html#ad59e8b6a2a4787641f4543edf1cde585',1,'HSV_MAX():&#160;cv_utils.cpp']]],
-  ['hsv_5fmin',['HSV_MIN',['../de/dcc/cv__utils_8h.html#ab26c7cb579e18875bacc9f7118c3d848',1,'HSV_MIN():&#160;cv_utils.h'],['../d0/d5c/cv__utils_8cpp.html#ab26c7cb579e18875bacc9f7118c3d848',1,'HSV_MIN():&#160;cv_utils.cpp']]]
+  ['nb_5fimage_5fmax',['NB_IMAGE_MAX',['../d7/d92/fake__img__publisher__node_8cpp.html#ab5c1a8038870995c8d8f8d0efc75982a',1,'fake_img_publisher_node.cpp']]],
+  ['nbr_5fmachines',['NBR_MACHINES',['../d9/d28/tabmachine_8h.html#a13bb2f927770a954b595da0396d62c74',1,'tabmachine.h']]]
 ];

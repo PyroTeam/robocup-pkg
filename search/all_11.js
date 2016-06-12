@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['s',['s',['../de/df9/structhsv.html#a3cbdc4bf500068b5c4466c4272114a23',1,'hsv::s()'],['../de/dcc/cv__utils_8h.html#a339d22b3e442946380f98ed19e320db2',1,'s():&#160;cv_utils.cpp'],['../d0/d5c/cv__utils_8cpp.html#a339d22b3e442946380f98ed19e320db2',1,'s():&#160;cv_utils.cpp']]],
   ['s000',['s000',['../d7/d92/fake__img__publisher__node_8cpp.html#af5deff54993bb606e67a06d443d3f0cda1c9456dff954aabe7f1680885b1363d5',1,'fake_img_publisher_node.cpp']]],
   ['s001',['s001',['../d7/d92/fake__img__publisher__node_8cpp.html#af5deff54993bb606e67a06d443d3f0cdad5ae76e16982959ee3fc4f95cfe0fb6d',1,'fake_img_publisher_node.cpp']]],
   ['s010',['s010',['../d7/d92/fake__img__publisher__node_8cpp.html#af5deff54993bb606e67a06d443d3f0cda6d9bb1e7cc7a8d812af98008631dd2f5',1,'fake_img_publisher_node.cpp']]],
@@ -9,8 +8,6 @@ var searchData=
   ['s101',['s101',['../d7/d92/fake__img__publisher__node_8cpp.html#af5deff54993bb606e67a06d443d3f0cda5909c76ebf2112d4b2bfb28c2b5f7ac8',1,'fake_img_publisher_node.cpp']]],
   ['s110',['s110',['../d7/d92/fake__img__publisher__node_8cpp.html#af5deff54993bb606e67a06d443d3f0cda4ec1883740ab3eab5d93dff096dd4e0a',1,'fake_img_publisher_node.cpp']]],
   ['s111',['s111',['../d7/d92/fake__img__publisher__node_8cpp.html#af5deff54993bb606e67a06d443d3f0cda6a803287b0703de7d1101ffb896ce6a7',1,'fake_img_publisher_node.cpp']]],
-  ['s_5fmax',['S_MAX',['../de/dcc/cv__utils_8h.html#a04632c156a04ad172a367f2760582928',1,'S_MAX():&#160;cv_utils.cpp'],['../d0/d5c/cv__utils_8cpp.html#a04632c156a04ad172a367f2760582928',1,'S_MAX():&#160;cv_utils.cpp']]],
-  ['s_5fmin',['S_MIN',['../de/dcc/cv__utils_8h.html#a80970133e7290ddaa15b6d949fc99420',1,'S_MIN():&#160;cv_utils.cpp'],['../d0/d5c/cv__utils_8cpp.html#a80970133e7290ddaa15b6d949fc99420',1,'S_MIN():&#160;cv_utils.cpp']]],
   ['savesettings',['saveSettings',['../d6/d5b/classrqt__ft__gui_1_1FtGui.html#aa1fffd713687bf7f75085974154e0aa2',1,'rqt_ft_gui::FtGui']]],
   ['scan_5fglobal',['scan_global',['../d7/dfc/visualisation_8cpp.html#ac67b0365a8443f0a87b13f3fe9e5df33',1,'visualisation.cpp']]],
   ['search',['search',['../d2/d62/classGraph.html#a1d2c624600ebb16c38c16799ca7e519d',1,'Graph::search()'],['../d9/d5b/classAStarSearch.html#a006f2bb3f57e51266540464f86690b49',1,'AStarSearch::search()'],['../df/d88/classSearchAlgo.html#a6f8513fa5b0c97175f27099415ebab30',1,'SearchAlgo::search()']]],
@@ -128,6 +125,7 @@ var searchData=
   ['simlightdetection_2ecpp',['SimLightDetection.cpp',['../dd/d58/SimLightDetection_8cpp.html',1,'']]],
   ['simlightdetection_2eh',['SimLightDetection.h',['../de/d58/SimLightDetection_8h.html',1,'']]],
   ['simlightdetection_5fnode_2ecpp',['simLightDetection_node.cpp',['../d1/d33/simLightDetection__node_8cpp.html',1,'']]],
+  ['singletomultchannels',['singleToMultChannels',['../d5/d4f/cv__algo_8h.html#a9d4778c02090518f1a6d20a04d10bd5e',1,'singleToMultChannels(cv::Mat binary, int numChannels=3):&#160;cv_algo.cpp'],['../d4/da7/cv__algo_8cpp.html#a95086636bb28bad654450d6755d48053',1,'singleToMultChannels(cv::Mat binary, int numChannels):&#160;cv_algo.cpp']]],
   ['size',['size',['../db/dc7/classPath.html#a0fc21fee4cca5ca64cd694e3e87bd014',1,'Path::size()'],['../d1/dd0/storageChart_8h.html#a70ed59adcb4159ac551058053e649640',1,'SIZE():&#160;storageChart.h']]],
   ['size_5flist',['SIZE_LIST',['../d0/d9d/trackPathAction_8h.html#af03faf42041312c467f09995b96051f7',1,'trackPathAction.h']]],
   ['smooth',['smooth',['../db/dc7/classPath.html#a9011b0277d9ba287e03ed6e5587a229b',1,'Path']]],

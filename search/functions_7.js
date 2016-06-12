@@ -8,5 +8,5 @@ var searchData=
   ['hasartags',['hasArTags',['../db/d22/classArTagFA.html#a7bb3faa9834144d4328b11fcc32093fe',1,'ArTagFA']]],
   ['hash',['hash',['../df/d8f/classAStarState.html#a3b16c345cf1f7103dc40379ddfda71ec',1,'AStarState::hash()'],['../d4/d74/classPointState.html#a41e6c70ce80ba63af2451a17e9904e1f',1,'PointState::hash()'],['../d8/d1a/classPoseState.html#a731f7370c99e938811e97e251c4e7c18',1,'PoseState::hash()'],['../d7/d97/classState.html#a6e87a53491210fa883ad414e2f2ff75c',1,'State::hash()']]],
   ['heuristic',['Heuristic',['../d7/dfa/classHeuristic.html#a3898b13d3d4417734827cc8c29ef271e',1,'Heuristic']]],
-  ['hsv2rgb',['hsv2rgb',['../d0/d5c/cv__utils_8cpp.html#a4a66ca1d47428638881abe32bfd7affc',1,'cv_utils.cpp']]]
+  ['histtoimg',['histToImg',['../d5/d4f/cv__algo_8h.html#a40a105162ac7efaa511cbf1b7257d21b',1,'histToImg(cv::Mat hist):&#160;cv_algo.cpp'],['../d4/da7/cv__algo_8cpp.html#a40a105162ac7efaa511cbf1b7257d21b',1,'histToImg(cv::Mat hist):&#160;cv_algo.cpp']]]
 ];

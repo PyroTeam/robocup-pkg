@@ -130,15 +130,15 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(m.x &gt;= 0 &amp;&amp; m.x &lt;= 6 &amp;&amp; m.y &gt;= 0 &amp;&amp; m.y &lt; 6)</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  {</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">int</span> w = int(m.x/2);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a> = int(m.y/1.5)+1;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">int</span> h = int(m.y/1.5)+1;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> w*4 + <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> w*4 + h;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  }</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">//côté gauche</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (m.x &gt;= -6 &amp;&amp; m.x &lt; 0 &amp;&amp; m.y &gt;= 0 &amp;&amp; m.y &lt; 6)</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">int</span> w = int(-m.x/2);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a> = int(m.y/1.5)+1;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">int</span> h = int(m.y/1.5)+1;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">return</span> w*4 + h + 12;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  }</div>
@@ -540,11 +540,11 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;  <span class="comment">//std::cout &lt;&lt; &quot;H = \n&quot; &lt;&lt; H &lt;&lt; &quot;\n&quot; &lt;&lt;  std::endl;</span></div>
 <div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;</div>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;  <span class="comment">//calcul de R</span></div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;  MatrixXd <a class="code" href="../../d0/d5c/cv__utils_8cpp.html#a5c71a5e59a53413cd6c270266d63b031">R</a>(3,3);</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;  <a class="code" href="../../d0/d5c/cv__utils_8cpp.html#a5c71a5e59a53413cd6c270266d63b031">R</a>.setZero();</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;  <a class="code" href="../../d0/d5c/cv__utils_8cpp.html#a5c71a5e59a53413cd6c270266d63b031">R</a>(0,0) = 0.1;</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;  <a class="code" href="../../d0/d5c/cv__utils_8cpp.html#a5c71a5e59a53413cd6c270266d63b031">R</a>(1,1) = 0.1;</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;  <a class="code" href="../../d0/d5c/cv__utils_8cpp.html#a5c71a5e59a53413cd6c270266d63b031">R</a>(2,2) = 0.1;</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;  MatrixXd R(3,3);</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;  R.setZero();</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;  R(0,0) = 0.1;</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;  R(1,1) = 0.1;</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;  R(2,2) = 0.1;</div>
 <div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;  <span class="comment">//std::cout &lt;&lt; &quot;R = \n&quot; &lt;&lt; R &lt;&lt; &quot;\n&quot; &lt;&lt;  std::endl;</span></div>
 <div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;</div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;  <span class="comment">//calcul de Pm</span></div>
@@ -554,7 +554,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;  <span class="comment">//calcul de Z</span></div>
 <div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;  MatrixXd Z(3,3);</div>
 <div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;  Z.setZero();</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;  Z = H*Pm*H.transpose() + <a class="code" href="../../d0/d5c/cv__utils_8cpp.html#a5c71a5e59a53413cd6c270266d63b031">R</a>;</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;  Z = H*Pm*H.transpose() + R;</div>
 <div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;  <span class="comment">//std::cout &lt;&lt; &quot;Z = \n&quot; &lt;&lt; Z &lt;&lt; &quot;\n&quot; &lt;&lt;  std::endl;</span></div>
 <div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;</div>
 <div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;  <span class="comment">//calcul du gain de Kalman</span></div>
@@ -623,7 +623,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classEKF_html_a045e8275a75ac062862dcb0d5f50449d"><div class="ttname"><a href="../../de/d39/classEKF.html#a045e8275a75ac062862dcb0d5f50449d">EKF::initOdom</a></div><div class="ttdeci">bool initOdom()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00130">Ekf.cpp:130</a></div></div>
 <div class="ttc" id="classEKF_html_a4ca85ec9af6832c53f6fed344f95d216"><div class="ttname"><a href="../../de/d39/classEKF.html#a4ca85ec9af6832c53f6fed344f95d216">EKF::RobotToGlobal</a></div><div class="ttdeci">geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00241">Ekf.cpp:241</a></div></div>
 <div class="ttc" id="classEKF_html_ad7b1139abb55d79fc369db2956bd2dfa"><div class="ttname"><a href="../../de/d39/classEKF.html#ad7b1139abb55d79fc369db2956bd2dfa">EKF::test</a></div><div class="ttdeci">bool test(int area)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00101">Ekf.cpp:101</a></div></div>
-<div class="ttc" id="cv__utils_8cpp_html_a5c71a5e59a53413cd6c270266d63b031"><div class="ttname"><a href="../../d0/d5c/cv__utils_8cpp.html#a5c71a5e59a53413cd6c270266d63b031">R</a></div><div class="ttdeci">#define R</div></div>
 <div class="ttc" id="classEKF_html_a384e3d03039cce1c2d4c84ff3c31e04d"><div class="ttname"><a href="../../de/d39/classEKF.html#a384e3d03039cce1c2d4c84ff3c31e04d">EKF::isFarFromEverything</a></div><div class="ttdeci">bool isFarFromEverything(geometry_msgs::Pose2D p)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00135">Ekf.cpp:135</a></div></div>
 <div class="ttc" id="classEKF_html_ab027ad4f6b055ca59256cb148f28244a"><div class="ttname"><a href="../../de/d39/classEKF.html#ab027ad4f6b055ca59256cb148f28244a">EKF::prediction</a></div><div class="ttdeci">void prediction()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00407">Ekf.cpp:407</a></div></div>
 <div class="ttc" id="classEKF_html_aa28d56ed588fe60be9ca309c44346f23"><div class="ttname"><a href="../../de/d39/classEKF.html#aa28d56ed588fe60be9ca309c44346f23">EKF::getXpredicted</a></div><div class="ttdeci">VectorXd getXpredicted()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00501">Ekf.cpp:501</a></div></div>
@@ -642,7 +641,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classEKF_html_a8d2add7dc83f560817107d4e739e0d39"><div class="ttname"><a href="../../de/d39/classEKF.html#a8d2add7dc83f560817107d4e739e0d39">EKF::updatePprev</a></div><div class="ttdeci">void updatePprev(const MatrixXd &amp;Pm, int i)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00389">Ekf.cpp:389</a></div></div>
 <div class="ttc" id="classEKF_html_a7c173c4a3246093027f9533ee79f747d"><div class="ttname"><a href="../../de/d39/classEKF.html#a7c173c4a3246093027f9533ee79f747d">EKF::machineToArea</a></div><div class="ttdeci">int machineToArea(geometry_msgs::Pose2D m)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00085">Ekf.cpp:85</a></div></div>
 <div class="ttc" id="classEKF_html_a4eef08f86d2966eb9cbd91386ff2c832"><div class="ttname"><a href="../../de/d39/classEKF.html#a4eef08f86d2966eb9cbd91386ff2c832">EKF::buildH2</a></div><div class="ttdeci">MatrixXd buildH2(geometry_msgs::Pose2D p, int size, int i)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00397">Ekf.cpp:397</a></div></div>
-<div class="ttc" id="cv__utils_8h_html_a16611451551e3d15916bae723c3f59f7"><div class="ttname"><a href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a></div><div class="ttdeci">int h</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d5c/cv__utils_8cpp_source.html#l00016">cv_utils.cpp:16</a></div></div>
 <div class="ttc" id="classEKF_html_a98176ab7973beb6369ed56bfa1101f6d"><div class="ttname"><a href="../../de/d39/classEKF.html#a98176ab7973beb6369ed56bfa1101f6d">EKF::laserCallback</a></div><div class="ttdeci">void laserCallback(const deplacement_msg::LandmarksConstPtr &amp;laser)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00166">Ekf.cpp:166</a></div></div>
 <div class="ttc" id="math__functions_8h_html_a53e94fd08016e1a1b2f5e07b5fe1fb14"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html#a53e94fd08016e1a1b2f5e07b5fe1fb14">dist</a></div><div class="ttdeci">double dist(const geometry_msgs::Point &amp;a, const Line &amp;d)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d90/math__functions_8cpp_source.html#l00003">math_functions.cpp:3</a></div></div>
 <div class="ttc" id="classEKF_html_a75b9ed8d2d3dd5145d6b31c69b27a904"><div class="ttname"><a href="../../de/d39/classEKF.html#a75b9ed8d2d3dd5145d6b31c69b27a904">EKF::getXmean</a></div><div class="ttdeci">VectorXd getXmean()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00496">Ekf.cpp:496</a></div></div>
@@ -656,7 +654,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 9 2016 07:29:01 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 16:29:48 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

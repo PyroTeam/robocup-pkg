@@ -15,7 +15,5 @@ var searchData=
   ['correspondanceze_2ecpp',['correspondanceZE.cpp',['../dd/dc4/correspondanceZE_8cpp.html',1,'']]],
   ['correspondanceze_2eh',['correspondanceZE.h',['../da/d18/correspondanceZE_8h.html',1,'']]],
   ['cv_5falgo_2ecpp',['cv_algo.cpp',['../d4/da7/cv__algo_8cpp.html',1,'']]],
-  ['cv_5falgo_2eh',['cv_algo.h',['../d5/d4f/cv__algo_8h.html',1,'']]],
-  ['cv_5futils_2ecpp',['cv_utils.cpp',['../d0/d5c/cv__utils_8cpp.html',1,'']]],
-  ['cv_5futils_2eh',['cv_utils.h',['../de/dcc/cv__utils_8h.html',1,'']]]
+  ['cv_5falgo_2eh',['cv_algo.h',['../d5/d4f/cv__algo_8h.html',1,'']]]
 ];

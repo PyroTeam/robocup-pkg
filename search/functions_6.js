@@ -82,7 +82,6 @@ var searchData=
   ['getnearestpoint',['getNearestPoint',['../d1/d35/classGtServerSrv.html#a7d8650bd652c0d8b0ff105eec8fcb3de',1,'GtServerSrv']]],
   ['getnumberorder',['getNumberOrder',['../d5/d38/classSrvorder.html#a64ebd54068d2aff76a7aa41707561835',1,'Srvorder']]],
   ['getnumberrobot',['getNumberRobot',['../d5/d38/classSrvorder.html#a979d77c62e41f0bf5950eb283f010dc1',1,'Srvorder']]],
-  ['getobjectcolor',['getObjectColor',['../de/dcc/cv__utils_8h.html#a3cc5ea9ac77f122ac380ec8e2d2b5e40',1,'getObjectColor(int event, int x, int y, int flags, void *param=NULL):&#160;cv_utils.cpp'],['../d0/d5c/cv__utils_8cpp.html#addbdbd97b95d177be72cd651b952aec4',1,'getObjectColor(int event, int x, int y, int flags, void *param):&#160;cv_utils.cpp']]],
   ['getobstacle',['getObstacle',['../d1/d75/classSharps.html#a7c819b61f9a88f04851d1459c5703232',1,'Sharps::getObstacle()'],['../de/d56/classDataMapObstacle.html#a706742e511e703355dd803dfc99daf82',1,'DataMapObstacle::getObstacle()']]],
   ['getorangering',['getOrangeRing',['../d0/dd3/classRingStation.html#a7d62cad61db5f9175c34543fde89ea5d',1,'RingStation']]],
   ['getorders',['getOrders',['../d0/d67/classOrderInfo.html#a36fb86c9273e039af16dc2a9b1f9393d',1,'OrderInfo']]],

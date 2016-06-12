@@ -87,9 +87,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">cv_algo.cpp File Reference</div>  </div>
 </div><!--header-->
@@ -98,145 +96,135 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div>
 <p><a href="../../d4/da7/cv__algo_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:ace6a11e892466500d47d1f45f042bc53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/da7/cv__algo_8cpp.html#ace6a11e892466500d47d1f45f042bc53">CHANNEL</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:ace6a11e892466500d47d1f45f042bc53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a11bafaccf4278600d66f5db751bc8e6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/da7/cv__algo_8cpp.html#a11bafaccf4278600d66f5db751bc8e6e">detectAndDisplay</a> (Mat frame)</td></tr>
-<tr class="separator:a11bafaccf4278600d66f5db751bc8e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe9183106fd942324839944b772cc27a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/da7/cv__algo_8cpp.html#abe9183106fd942324839944b772cc27a">cascade_dir</a> (&quot;/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/src/&quot;)</td></tr>
-<tr class="separator:abe9183106fd942324839944b772cc27a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a7a0115d3c31ef3657b197ace2c06496e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/da7/cv__algo_8cpp.html#a7a0115d3c31ef3657b197ace2c06496e">processed</a> = false</td></tr>
-<tr class="separator:a7a0115d3c31ef3657b197ace2c06496e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe7dad7ca1f6dc044283b2d44b8f1511"><td class="memItemLeft" align="right" valign="top">Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/da7/cv__algo_8cpp.html#abe7dad7ca1f6dc044283b2d44b8f1511">imgRef</a></td></tr>
-<tr class="separator:abe7dad7ca1f6dc044283b2d44b8f1511"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa63cfa5660304335bc6d4cb0dc28e1d2"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/da7/cv__algo_8cpp.html#aa63cfa5660304335bc6d4cb0dc28e1d2">cascade_name</a> = <a class="el" href="../../d4/da7/cv__algo_8cpp.html#abe9183106fd942324839944b772cc27a">cascade_dir</a> + &quot;cascade.xml&quot;</td></tr>
-<tr class="separator:aa63cfa5660304335bc6d4cb0dc28e1d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1fcb623f7f28558cc4461e14a2c2c282"><td class="memItemLeft" align="right" valign="top">CascadeClassifier&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/da7/cv__algo_8cpp.html#a1fcb623f7f28558cc4461e14a2c2c282">cascade</a></td></tr>
-<tr class="separator:a1fcb623f7f28558cc4461e14a2c2c282"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95086636bb28bad654450d6755d48053"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/da7/cv__algo_8cpp.html#a95086636bb28bad654450d6755d48053">singleToMultChannels</a> (cv::Mat binary, int numChannels)</td></tr>
+<tr class="memdesc:a95086636bb28bad654450d6755d48053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit une image binaire en image multichannel.  <a href="#a95086636bb28bad654450d6755d48053">More...</a><br/></td></tr>
+<tr class="separator:a95086636bb28bad654450d6755d48053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a221b629efc7fb400960d08c8db932686"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/da7/cv__algo_8cpp.html#a221b629efc7fb400960d08c8db932686">calcHist</a> (cv::Mat imgToHist, int channel, bool normalize)</td></tr>
+<tr class="memdesc:a221b629efc7fb400960d08c8db932686"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcule l'histograme d'un canal d'une image.  <a href="#a221b629efc7fb400960d08c8db932686">More...</a><br/></td></tr>
+<tr class="separator:a221b629efc7fb400960d08c8db932686"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40a105162ac7efaa511cbf1b7257d21b"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/da7/cv__algo_8cpp.html#a40a105162ac7efaa511cbf1b7257d21b">histToImg</a> (cv::Mat hist)</td></tr>
+<tr class="memdesc:a40a105162ac7efaa511cbf1b7257d21b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit un histogramme en image.  <a href="#a40a105162ac7efaa511cbf1b7257d21b">More...</a><br/></td></tr>
+<tr class="separator:a40a105162ac7efaa511cbf1b7257d21b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="ace6a11e892466500d47d1f45f042bc53"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CHANNEL&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="abe9183106fd942324839944b772cc27a"></a>
+<a class="anchor" id="a221b629efc7fb400960d08c8db932686"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string cascade_dir </td>
+          <td class="memname">cv::Mat calcHist </td>
           <td>(</td>
-          <td class="paramtype">&quot;/home/leak/Projets/catkin_ws/src/robocup-pkg/traitement_image/feu_tricolore/src/&quot;&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">cv::Mat&#160;</td>
+          <td class="paramname"><em>imgToHist</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>channel</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalize</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calcule l'histograme d'un canal d'une image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">imgToHist</td><td>L'image dont on veut calculer l'histograme </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">channel</td><td>Le canal de l'image à utiliser </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalize</td><td>Normalise ou non l'histograme</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>L'histogramme calculé </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html#l00021">21</a> of file <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html">cv_algo.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a40a105162ac7efaa511cbf1b7257d21b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cv::Mat histToImg </td>
+          <td>(</td>
+          <td class="paramtype">cv::Mat&#160;</td>
+          <td class="paramname"><em>hist</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Convertit un histogramme en image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">hist</td><td>L'histogramme à convertir</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>L'image représentant l'histograme </dd></dl>
+<p>Draw </p>
+
+<p>Definition at line <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html#l00073">73</a> of file <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html">cv_algo.cpp</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a11bafaccf4278600d66f5db751bc8e6e"></a>
+<a class="anchor" id="a95086636bb28bad654450d6755d48053"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void detectAndDisplay </td>
+          <td class="memname">cv::Mat singleToMultChannels </td>
           <td>(</td>
-          <td class="paramtype">Mat&#160;</td>
-          <td class="paramname"><em>frame</em></td><td>)</td>
+          <td class="paramtype">cv::Mat&#160;</td>
+          <td class="paramname"><em>binary</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numChannels</em> = <code>3</code>&#160;</td>
         </tr>
-      </table>
-</div><div class="memdoc">
-<p>TODO:</p>
-<ul>
-<li>Actionlib</li>
-<li>Thread / actions concurrentes</li>
-<li>Publish only when requested</li>
-</ul>
-<p>detectAndDisplay </p>
-
-<p>Definition at line <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html#l01506">1506</a> of file <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html">cv_algo.cpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="a1fcb623f7f28558cc4461e14a2c2c282"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">CascadeClassifier cascade</td>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html#l00029">29</a> of file <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html">cv_algo.cpp</a>.</p>
+<p>Convertit une image binaire en image multichannel. </p>
+<p>Devient particulièrement utile quand vous voulez faire .... euh ... je ne sais plus quand c'est nécessaire, mais si un jour ça arrive, la fonction est là pour ça !</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">binary</td><td>The binary image </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">numChannels</td><td>The number of desired channels</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The mutlichannel image </dd></dl>
 
-</div>
-</div>
-<a class="anchor" id="aa63cfa5660304335bc6d4cb0dc28e1d2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String cascade_name = <a class="el" href="../../d4/da7/cv__algo_8cpp.html#abe9183106fd942324839944b772cc27a">cascade_dir</a> + &quot;cascade.xml&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html#l00028">28</a> of file <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html">cv_algo.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abe7dad7ca1f6dc044283b2d44b8f1511"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Mat imgRef</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html#l00024">24</a> of file <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html">cv_algo.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7a0115d3c31ef3657b197ace2c06496e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool processed = false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html#l00023">23</a> of file <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html">cv_algo.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html#l00007">7</a> of file <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html">cv_algo.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 9 2016 07:29:01 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 16:29:48 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

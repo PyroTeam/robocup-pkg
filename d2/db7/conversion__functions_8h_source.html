@@ -103,7 +103,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;geometry_msgs::Pose2D <a class="code" href="../../d2/db7/conversion__functions_8h.html#a30a8304b1d8c3d4281b3d7dfb0c3d6f4">RobotToGlobal</a>(geometry_msgs::Pose2D p, geometry_msgs::Pose2D odomRobot);</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;geometry_msgs::Point <a class="code" href="../../d2/db7/conversion__functions_8h.html#ac7c41209798322eee14316877214eb88">globalToLocal</a>(geometry_msgs::Point p, <a class="code" href="../../d8/ddc/classSegment.html">Segment</a> <a class="code" href="../../de/dcc/cv__utils_8h.html#a339d22b3e442946380f98ed19e320db2">s</a>);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;geometry_msgs::Point <a class="code" href="../../d2/db7/conversion__functions_8h.html#ac7c41209798322eee14316877214eb88">globalToLocal</a>(geometry_msgs::Point p, <a class="code" href="../../d8/ddc/classSegment.html">Segment</a> s);</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;deplacement_msg::Landmarks <a class="code" href="../../d2/db7/conversion__functions_8h.html#a3e8e34c66e017ed1328787802ef88352">convert</a>(std::vector&lt;Machine&gt; mps);</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
@@ -124,7 +124,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="conversion__functions_8h_html_a30a8304b1d8c3d4281b3d7dfb0c3d6f4"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html#a30a8304b1d8c3d4281b3d7dfb0c3d6f4">RobotToGlobal</a></div><div class="ttdeci">geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose2D odomRobot)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00040">conversion_functions.cpp:40</a></div></div>
 <div class="ttc" id="conversion__functions_8h_html_a0171d6c215d95e4cdd14ea5785dd38a9"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html#a0171d6c215d95e4cdd14ea5785dd38a9">landmarksToSegments</a></div><div class="ttdeci">std::list&lt; Segment &gt; landmarksToSegments(deplacement_msg::Landmarks tabSegments)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00113">conversion_functions.cpp:113</a></div></div>
 <div class="ttc" id="classSegment_html"><div class="ttname"><a href="../../d8/ddc/classSegment.html">Segment</a></div><div class="ttdoc">Classe représentant un segment d&#39;environ 70 cm. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d13/final__approach_2include_2final__approach_2Segment_8h_source.html#l00020">Segment.h:20</a></div></div>
-<div class="ttc" id="cv__utils_8h_html_a339d22b3e442946380f98ed19e320db2"><div class="ttname"><a href="../../de/dcc/cv__utils_8h.html#a339d22b3e442946380f98ed19e320db2">s</a></div><div class="ttdeci">int s</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d5c/cv__utils_8cpp_source.html#l00016">cv_utils.cpp:16</a></div></div>
 <div class="ttc" id="navigation_2localisation_2include_2localisation_2Machine_8h_html"><div class="ttname"><a href="../../d7/d2e/navigation_2localisation_2include_2localisation_2Machine_8h.html">Machine.h</a></div></div>
 <div class="ttc" id="conversion__functions_8h_html_ac7c41209798322eee14316877214eb88"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html#ac7c41209798322eee14316877214eb88">globalToLocal</a></div><div class="ttdeci">geometry_msgs::Point globalToLocal(geometry_msgs::Point p, Segment s)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00069">conversion_functions.cpp:69</a></div></div>
 <div class="ttc" id="conversion__functions_8h_html_a73c79aff3c96e1f19e0a8cc2bfd492e6"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html#a73c79aff3c96e1f19e0a8cc2bfd492e6">pointToPose2D</a></div><div class="ttdeci">geometry_msgs::Pose2D pointToPose2D(geometry_msgs::Point point)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00156">conversion_functions.cpp:156</a></div></div>
@@ -132,7 +131,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 9 2016 07:29:00 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 16:29:48 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

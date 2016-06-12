@@ -87,38 +87,144 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">cv_algo.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;ros/ros.h&gt;</code><br/>
-<code>#include &lt;image_transport/image_transport.h&gt;</code><br/>
-<code>#include &lt;cv_bridge/cv_bridge.h&gt;</code><br/>
-<code>#include &lt;sensor_msgs/image_encodings.h&gt;</code><br/>
-<code>#include &lt;opencv2/imgproc/imgproc.hpp&gt;</code><br/>
-<code>#include &lt;opencv2/highgui/highgui.hpp&gt;</code><br/>
-<code>#include &lt;sys/time.h&gt;</code><br/>
-<code>#include &lt;sstream&gt;</code><br/>
-<code>#include &quot;comm_msg/LightSpec.h&quot;</code><br/>
-<code>#include &quot;trait_im_msg/LightSignal.h&quot;</code><br/>
-<code>#include &quot;std_msgs/String.h&quot;</code><br/>
-<code>#include &quot;<a class="el" href="../../de/dcc/cv__utils_8h_source.html">cv_utils.h</a>&quot;</code><br/>
-<code>#include &quot;opencv2/features2d/features2d.hpp&quot;</code><br/>
-<code>#include &lt;trait_im_msg/processLightSignalAction.h&gt;</code><br/>
-<code>#include &lt;actionlib/server/simple_action_server.h&gt;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="../../d6/df2/LightDetection_8h_source.html">feu_tricolore/LightDetection.h</a>&quot;</code><br/>
 </div>
 <p><a href="../../d5/d4f/cv__algo_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d89/classLectureFeu.html">LectureFeu</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a9d4778c02090518f1a6d20a04d10bd5e"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d4f/cv__algo_8h.html#a9d4778c02090518f1a6d20a04d10bd5e">singleToMultChannels</a> (cv::Mat binary, int numChannels=3)</td></tr>
+<tr class="memdesc:a9d4778c02090518f1a6d20a04d10bd5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit une image binaire en image multichannel.  <a href="#a9d4778c02090518f1a6d20a04d10bd5e">More...</a><br/></td></tr>
+<tr class="separator:a9d4778c02090518f1a6d20a04d10bd5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd6635df84e5fa9e6f5d90c54d812592"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d4f/cv__algo_8h.html#acd6635df84e5fa9e6f5d90c54d812592">calcHist</a> (cv::Mat imgToHist, int channel=0, bool normalize=true)</td></tr>
+<tr class="memdesc:acd6635df84e5fa9e6f5d90c54d812592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcule l'histograme d'un canal d'une image.  <a href="#acd6635df84e5fa9e6f5d90c54d812592">More...</a><br/></td></tr>
+<tr class="separator:acd6635df84e5fa9e6f5d90c54d812592"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40a105162ac7efaa511cbf1b7257d21b"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d4f/cv__algo_8h.html#a40a105162ac7efaa511cbf1b7257d21b">histToImg</a> (cv::Mat hist)</td></tr>
+<tr class="memdesc:a40a105162ac7efaa511cbf1b7257d21b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit un histogramme en image.  <a href="#a40a105162ac7efaa511cbf1b7257d21b">More...</a><br/></td></tr>
+<tr class="separator:a40a105162ac7efaa511cbf1b7257d21b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="acd6635df84e5fa9e6f5d90c54d812592"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cv::Mat calcHist </td>
+          <td>(</td>
+          <td class="paramtype">cv::Mat&#160;</td>
+          <td class="paramname"><em>imgToHist</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>channel</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalize</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calcule l'histograme d'un canal d'une image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">imgToHist</td><td>L'image dont on veut calculer l'histograme </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">channel</td><td>Le canal de l'image à utiliser </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalize</td><td>Normalise ou non l'histograme</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>L'histogramme calculé </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html#l00021">21</a> of file <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html">cv_algo.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a40a105162ac7efaa511cbf1b7257d21b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cv::Mat histToImg </td>
+          <td>(</td>
+          <td class="paramtype">cv::Mat&#160;</td>
+          <td class="paramname"><em>hist</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convertit un histogramme en image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">hist</td><td>L'histogramme à convertir</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>L'image représentant l'histograme </dd></dl>
+<p>Draw </p>
+
+<p>Definition at line <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html#l00073">73</a> of file <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html">cv_algo.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9d4778c02090518f1a6d20a04d10bd5e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cv::Mat singleToMultChannels </td>
+          <td>(</td>
+          <td class="paramtype">cv::Mat&#160;</td>
+          <td class="paramname"><em>binary</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numChannels</em> = <code>3</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convertit une image binaire en image multichannel. </p>
+<p>Devient particulièrement utile quand vous voulez faire .... euh ... je ne sais plus quand c'est nécessaire, mais si un jour ça arrive, la fonction est là pour ça !</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">binary</td><td>The binary image </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">numChannels</td><td>The number of desired channels</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The mutlichannel image </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html#l00007">7</a> of file <a class="el" href="../../d4/da7/cv__algo_8cpp_source.html">cv_algo.cpp</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 9 2016 07:29:01 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 16:29:48 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

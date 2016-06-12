@@ -95,29 +95,25 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
 <div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="../../df/db1/lecture__feu__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">    4</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../df/db1/lecture__feu__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;lecture_feu&quot;</span>);</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <a class="code" href="../../da/d89/classLectureFeu.html">LectureFeu</a> lf;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;light_detection&quot;</span>);</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <a class="code" href="../../d7/dc8/classLightDetection.html">LightDetection</a> lf;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    ros::Rate loop_rate(50);</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">while</span> (lf.<a class="code" href="../../da/d89/classLectureFeu.html#a049524991feae657978cbf2f332ea305">ok</a>()) </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    {   </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="comment">// Mise a jour des topics et Cie</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordflow">while</span> (lf.<a class="code" href="../../d7/dc8/classLightDetection.html#a929fc349a0aedc83a9ba052dcc07848f">ok</a>())</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    {</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        ros::spinOnce();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="comment">// TODO - Traitement</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="comment">// Pause</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        loop_rate.sleep();</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    }</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
-<div class="ttc" id="classLectureFeu_html"><div class="ttname"><a href="../../da/d89/classLectureFeu.html">LectureFeu</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d4f/cv__algo_8h_source.html#l00033">cv_algo.h:33</a></div></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        loop_rate.sleep();</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    }</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
 <div class="ttc" id="lecture__feu__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../df/db1/lecture__feu__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/db1/lecture__feu__node_8cpp_source.html#l00004">lecture_feu_node.cpp:4</a></div></div>
-<div class="ttc" id="classLectureFeu_html_a049524991feae657978cbf2f332ea305"><div class="ttname"><a href="../../da/d89/classLectureFeu.html#a049524991feae657978cbf2f332ea305">LectureFeu::ok</a></div><div class="ttdeci">bool ok()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/da7/cv__algo_8cpp_source.html#l00114">cv_algo.cpp:114</a></div></div>
 <div class="ttc" id="cv__algo_8h_html"><div class="ttname"><a href="../../d5/d4f/cv__algo_8h.html">cv_algo.h</a></div></div>
+<div class="ttc" id="classLightDetection_html"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html">LightDetection</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/df2/LightDetection_8h_source.html#l00042">LightDetection.h:42</a></div></div>
+<div class="ttc" id="classLightDetection_html_a929fc349a0aedc83a9ba052dcc07848f"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#a929fc349a0aedc83a9ba052dcc07848f">LightDetection::ok</a></div><div class="ttdeci">bool ok()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00078">LightDetection.cpp:78</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 9 2016 07:29:01 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 16:29:48 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

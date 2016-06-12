@@ -100,15 +100,15 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  <span class="keywordflow">if</span>(m.x &gt;= 0 &amp;&amp; m.x &lt;= 6 &amp;&amp; m.y &gt;= 0 &amp;&amp; m.y &lt; 6)</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;  {</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordtype">int</span> w = int(m.x/2);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a> = int(m.y/1.5)+1;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordtype">int</span> h = int(m.y/1.5)+1;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">return</span> w*4 + <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">return</span> w*4 + h;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  }</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="comment">//côté gauche</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (m.x &gt;= -6 &amp;&amp; m.x &lt; 0 &amp;&amp; m.y &gt;= 0 &amp;&amp; m.y &lt; 6)</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  {</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">int</span> w = int(-m.x/2);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a> = int(m.y/1.5)+1;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">int</span> h = int(m.y/1.5)+1;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">return</span> w*4 + h + 12;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  }</div>
@@ -390,7 +390,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="cartographie__utils_8cpp_html_a05899d01dcfaed84883288408199ccbc"><div class="ttname"><a href="../../db/d1e/cartographie__utils_8cpp.html#a05899d01dcfaed84883288408199ccbc">gatherOneSegmentWithAList</a></div><div class="ttdeci">void gatherOneSegmentWithAList(Segment &amp;segment, std::list&lt; Segment &gt; &amp;sgts)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d1e/cartographie__utils_8cpp_source.html#l00233">cartographie_utils.cpp:233</a></div></div>
 <div class="ttc" id="classSegment_html_aba75dfcad0b1c171701546e1d3b32406"><div class="ttname"><a href="../../d8/ddc/classSegment.html#aba75dfcad0b1c171701546e1d3b32406">Segment::update</a></div><div class="ttdeci">void update()</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d70/localisation_2src_2Segment_8cpp_source.html#l00074">Segment.cpp:74</a></div></div>
 <div class="ttc" id="classSegment_html_a4498b4c35e110c654b1f775f2ee0577b"><div class="ttname"><a href="../../d8/ddc/classSegment.html#a4498b4c35e110c654b1f775f2ee0577b">Segment::setMax</a></div><div class="ttdeci">void setMax(const geometry_msgs::Point &amp;a)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d70/localisation_2src_2Segment_8cpp_source.html#l00063">Segment.cpp:63</a></div></div>
-<div class="ttc" id="cv__utils_8h_html_a16611451551e3d15916bae723c3f59f7"><div class="ttname"><a href="../../de/dcc/cv__utils_8h.html#a16611451551e3d15916bae723c3f59f7">h</a></div><div class="ttdeci">int h</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d5c/cv__utils_8cpp_source.html#l00016">cv_utils.cpp:16</a></div></div>
 <div class="ttc" id="math__functions_8h_html_a53e94fd08016e1a1b2f5e07b5fe1fb14"><div class="ttname"><a href="../../d2/de2/math__functions_8h.html#a53e94fd08016e1a1b2f5e07b5fe1fb14">dist</a></div><div class="ttdeci">double dist(const geometry_msgs::Point &amp;a, const Line &amp;d)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d90/math__functions_8cpp_source.html#l00003">math_functions.cpp:3</a></div></div>
 <div class="ttc" id="cartographie__utils_8cpp_html_a19ee0d89a4425379e3249ab5b0c117b6"><div class="ttname"><a href="../../db/d1e/cartographie__utils_8cpp.html#a19ee0d89a4425379e3249ab5b0c117b6">gatherTwoSegments</a></div><div class="ttdeci">void gatherTwoSegments(Segment &amp;segment_1, Segment segment_2)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d1e/cartographie__utils_8cpp_source.html#l00219">cartographie_utils.cpp:219</a></div></div>
 <div class="ttc" id="conversion__functions_8h_html_ac7c41209798322eee14316877214eb88"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html#ac7c41209798322eee14316877214eb88">globalToLocal</a></div><div class="ttdeci">geometry_msgs::Point globalToLocal(geometry_msgs::Point p, Segment s)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00069">conversion_functions.cpp:69</a></div></div>
@@ -402,7 +401,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 9 2016 07:29:00 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 16:29:48 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

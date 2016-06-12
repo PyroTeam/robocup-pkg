@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: Member List</title>
+<title>robocup-pkg: traitement_image/feu_tricolore/include/feu_tricolore/LightDetection.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -40,8 +40,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
-      <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
-      <li><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -62,10 +62,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="../../annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="../../classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="../../hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li><a href="../../functions.html"><span>Class&#160;Members</span></a></li>
+      <li><a href="../../files.html"><span>File&#160;List</span></a></li>
+      <li><a href="../../globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -82,22 +80,52 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_e12b2f30e5ee004db3603f73d84d0197.html">traitement_image</a></li><li class="navelem"><a class="el" href="../../dir_338bc1d0b9462300fdd2612c0b2bc6ac.html">feu_tricolore</a></li><li class="navelem"><a class="el" href="../../dir_a3820998dfd18c63a8d1139610b95752.html">include</a></li><li class="navelem"><a class="el" href="../../dir_3c35b67a0ef697b8f83ba33db71ca0cb.html">feu_tricolore</a></li>  </ul>
+</div>
 </div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
-<div class="title">hsv Member List</div>  </div>
+<div class="title">LightDetection.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>This is the complete list of members for <a class="el" href="../../de/df9/structhsv.html">hsv</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="../../de/df9/structhsv.html#aa27eea5f2a89b941eead7139330d12f4">h</a></td><td class="entry"><a class="el" href="../../de/df9/structhsv.html">hsv</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="../../de/df9/structhsv.html#a3cbdc4bf500068b5c4466c4272114a23">s</a></td><td class="entry"><a class="el" href="../../de/df9/structhsv.html">hsv</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../de/df9/structhsv.html#a572c01d23590231adffe6f9b16df20d3">v</a></td><td class="entry"><a class="el" href="../../de/df9/structhsv.html">hsv</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<div class="textblock"><code>#include &lt;ros/ros.h&gt;</code><br/>
+<code>#include &lt;actionlib/server/simple_action_server.h&gt;</code><br/>
+<code>#include &lt;image_transport/image_transport.h&gt;</code><br/>
+<code>#include &lt;sensor_msgs/image_encodings.h&gt;</code><br/>
+<code>#include &lt;cv_bridge/cv_bridge.h&gt;</code><br/>
+<code>#include &lt;std_msgs/String.h&gt;</code><br/>
+<code>#include &lt;opencv2/imgproc/imgproc.hpp&gt;</code><br/>
+<code>#include &lt;opencv2/highgui/highgui.hpp&gt;</code><br/>
+<code>#include &lt;opencv2/core/core.hpp&gt;</code><br/>
+<code>#include &lt;opencv2/opencv.hpp&gt;</code><br/>
+<code>#include &lt;sys/time.h&gt;</code><br/>
+<code>#include &lt;algorithm&gt;</code><br/>
+<code>#include &lt;iostream&gt;</code><br/>
+<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;sstream&gt;</code><br/>
+<code>#include &lt;string&gt;</code><br/>
+<code>#include &lt;math.h&gt;</code><br/>
+<code>#include &lt;vector&gt;</code><br/>
+<code>#include &lt;trait_im_msg/processLightSignalAction.h&gt;</code><br/>
+<code>#include &lt;trait_im_msg/LightSignal.h&gt;</code><br/>
+<code>#include &lt;comm_msg/LightSpec.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="../../df/d2e/display-histogram_8h_source.html">feu_tricolore/display-histogram.h</a>&quot;</code><br/>
+</div>
+<p><a href="../../d6/df2/LightDetection_8h_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dc8/classLightDetection.html">LightDetection</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 9 2016 07:29:01 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 16:29:48 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

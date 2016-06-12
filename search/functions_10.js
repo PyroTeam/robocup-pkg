@@ -90,6 +90,7 @@ var searchData=
   ['signal_5fhandler',['signal_handler',['../d8/d10/classRefBoxTransport.html#a1ef4812a5daa013694c9ed493009af9a',1,'RefBoxTransport']]],
   ['simfinalapproach',['SimFinalApproach',['../df/d47/classSimFinalApproach.html#a2b1b4b6518b62a3b36f5461d12c0d6a2',1,'SimFinalApproach']]],
   ['simlightdetection',['SimLightDetection',['../d5/d77/classSimLightDetection.html#ad60b188e8942a4f6ceca9cd463b650b2',1,'SimLightDetection']]],
+  ['singletomultchannels',['singleToMultChannels',['../d5/d4f/cv__algo_8h.html#a9d4778c02090518f1a6d20a04d10bd5e',1,'singleToMultChannels(cv::Mat binary, int numChannels=3):&#160;cv_algo.cpp'],['../d4/da7/cv__algo_8cpp.html#a95086636bb28bad654450d6755d48053',1,'singleToMultChannels(cv::Mat binary, int numChannels):&#160;cv_algo.cpp']]],
   ['size',['size',['../db/dc7/classPath.html#a0fc21fee4cca5ca64cd694e3e87bd014',1,'Path']]],
   ['smooth',['smooth',['../db/dc7/classPath.html#a9011b0277d9ba287e03ed6e5587a229b',1,'Path']]],
   ['spawn',['spawn',['../dc/d79/classSendScheduler.html#acb2563b9d995813486f594897514e323',1,'SendScheduler']]],

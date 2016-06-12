@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['calchist',['calcHist',['../d5/d4f/cv__algo_8h.html#acd6635df84e5fa9e6f5d90c54d812592',1,'calcHist(cv::Mat imgToHist, int channel=0, bool normalize=true):&#160;cv_algo.cpp'],['../d4/da7/cv__algo_8cpp.html#a221b629efc7fb400960d08c8db932686',1,'calcHist(cv::Mat imgToHist, int channel, bool normalize):&#160;cv_algo.cpp']]],
   ['calculatecoordmachine',['calculateCoordMachine',['../dc/dda/classMachine.html#ae90294247180adc2a2b5ad5bda87dcdf',1,'Machine']]],
   ['calculdistance',['calculDistance',['../de/d56/classDataMapObstacle.html#aac85ca2277385f7a3cd384aae33db639',1,'DataMapObstacle']]],
   ['calculnorme',['calculNorme',['../df/d7a/avoidanceObstacle_8cpp.html#a063b7bd2fbbdecd61ec9c335581316ca',1,'avoidanceObstacle.cpp']]],
@@ -11,7 +12,6 @@ var searchData=
   ['camerascanvelocity',['cameraScanVelocity',['../d6/d70/classFinalApproaching.html#a0e2df7ca10987254ac1e6b415f959ec2',1,'FinalApproaching']]],
   ['cancelsearch',['cancelSearch',['../d2/d62/classGraph.html#a1b48b7a91129f12de8162144a05c6040',1,'Graph::cancelSearch()'],['../df/d88/classSearchAlgo.html#a8844f28adeb9ce07024cb2b9ab82d61f',1,'SearchAlgo::cancelSearch()']]],
   ['capstation',['CapStation',['../d6/ddd/classCapStation.html#afb14b50ec72549e72979fd178c94ba23',1,'CapStation']]],
-  ['cascade_5fdir',['cascade_dir',['../d4/da7/cv__algo_8cpp.html#abe9183106fd942324839944b772cc27a',1,'cv_algo.cpp']]],
   ['cbegin',['cbegin',['../db/dc7/classPath.html#a6ceddd7206d55eef881fb3c0b87316bc',1,'Path']]],
   ['cend',['cend',['../db/dc7/classPath.html#a0bbbafb07b1af7a8392350e501e7506d',1,'Path']]],
   ['chattercallback',['chatterCallback',['../da/d8c/sendOrder__node_8cpp.html#a22089ac5bb28954b712f4e637b4a4eb4',1,'sendOrder_node.cpp']]],
