@@ -18,11 +18,11 @@ void LocaSubscriber::machinesCallback(const deplacement_msg::MachinesConstPtr &m
 
   for (auto &it : msg->landmarks)
   {
-  	m_machines[it.zone].pose   = it.pose;
-  	m_machines[it.zone].isHere = true;
-  	m_machines[it.zone].zone   = it.zone;
+  	m_machines[it.zone-1].pose   = it.pose;
+  	m_machines[it.zone-1].isHere = true;
+  	m_machines[it.zone-1].zone   = it.zone;
 	}
-
+/*
   for (auto &it : m_machines)
   {
     if (it.isHere)
@@ -30,7 +30,7 @@ void LocaSubscriber::machinesCallback(const deplacement_msg::MachinesConstPtr &m
       ROS_INFO("Machine connue en zone %d", it.zone);
     }
   }
-
+*/
 }
 
 void LocaSubscriber::spin()

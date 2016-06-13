@@ -85,7 +85,7 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 
 bool GtServerSrv::knownMachineInZone(int zone)
 {
-	return m_ls->machines()[zone].isHere;
+	return m_ls->machines()[zone - 1].isHere;
 }
 
 manager_msg::activity GtServerSrv::getActivityMsg()
@@ -344,44 +344,48 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  		int machineSideId = 0;
 			  	ReportingMachineSrvClient reportClient;
 
-		  		// A partir de zone -> déterminer premier coin zone (plus accessible)
-		  		// TODO: choix judicieux du coin à déterminer
-		  		interpretationZone(req.id, BOTTOM_LEFT);
-		  		ROS_INFO("Point Target BottLeft (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
-		  		// Se déplacer au premier coin zone
-		  		// TODO: gérer les cas d'erreurs de going
-		  		going(m_explo_target);
-          m_ls->spin();
+          // si je ne connais pas la machine à cet instant
+          if (!knownMachineInZone(req.id))
+          {
+  		  		// A partir de zone -> déterminer premier coin zone (plus accessible)
+  		  		// TODO: choix judicieux du coin à déterminer
+  		  		interpretationZone(req.id, BOTTOM_LEFT);
 
-		  		// A partir detection machine -> voir si machine présente
-		  		// TODO: Modifier les échanges avec la détection des machines
+  		  		ROS_INFO("Point Target BottLeft (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
 
-		  		// Si machine NON présente
-	  			// déterminer second coin zone (le plus accessible), avec angle différent du premier
-	  			// NB: en cas de mur, pouvoir déterminer un point légèrement décalé
-	  			if (!knownMachineInZone(req.id))
-	  			{
-            ROS_INFO("No known Machine in this area %d", req.id);
-	  				// TODO: choix judicieux du coin à déterminer
-	  				interpretationZone(req.id, BOTTOM_RIGHT);
-	  				ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
-
-	  				// Se rendre au second coin zone
-						// TODO: gérer les cas d'erreurs de going
-						going(m_explo_target);
+            // Se déplacer au premier coin zone
+  		  		// TODO: gérer les cas d'erreurs de going
+  		  		going(m_explo_target);
+            // refresh machines
             m_ls->spin();
 
-			  		// A partir detection machine -> voir si machine présente
-			  		// Si machine toujours NON présente, abandon
-		  			if (!knownMachineInZone(req.id))
-		  			{
-		  				// TODO: abandonner le service
-  						ROS_ERROR("There is no machine in this zone %d. Abort request", req.id);
-  						res.accepted = false;
-  						break;
-		  			}
-	  			}
+  		  		// Si machine NON présente
+  	  			// déterminer second coin zone (le plus accessible), avec angle différent du premier
+  	  			// NB: en cas de mur, pouvoir déterminer un point légèrement décalé
+  	  			if (!knownMachineInZone(req.id))
+  	  			{
+              ROS_INFO("No known Machine in this area %d", req.id);
+  	  				// TODO: choix judicieux du coin à déterminer
+  	  				interpretationZone(req.id, BOTTOM_RIGHT);
+  	  				ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
 
+  	  				// Se rendre au second coin zone
+  						// TODO: gérer les cas d'erreurs de going
+  						going(m_explo_target);
+              // refresh machines
+              m_ls->spin();
+
+  			  		// A partir detection machine -> voir si machine présente
+  			  		// Si machine toujours NON présente, abandon
+  		  			if (!knownMachineInZone(req.id))
+  		  			{
+  		  				// TODO: abandonner le service
+    						ROS_ERROR("There is no machine in this zone %d. Abort request", req.id);
+    						res.accepted = false;
+    						break;
+  		  			}
+  	  			}
+          }
 
 		  		// Si machine présente, déterminer point devant machine
 
@@ -391,6 +395,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  		// Se rendre au point devant machine
 		  		// TODO: utiliser le point le plus proche
 		  		// TODO: gérer les cas d'erreurs de going
+          ROS_INFO("Go in front of the machine");
 		  		going(firstSidePoint);
           m_ls->spin();
 

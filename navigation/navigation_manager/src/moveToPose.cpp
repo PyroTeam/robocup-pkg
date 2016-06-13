@@ -110,7 +110,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     while (isOk)
     {
         obstacleInRange = false;
-        
+
         if(obstacleInRange && pathTrackStatus == RUNNING)
         {
             m_trackPathAction.cancelGoal();
@@ -180,23 +180,10 @@ void MoveToPose::feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& fe
     m_pathTrackPercentComplete = feedback->percentComplete;
 }
 
+
 void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom)
 {
-    geometry_msgs::PoseStamped poseIn;
-    geometry_msgs::PoseStamped poseOut;
-
-    poseIn.header = odom.header;
-    poseIn.pose = odom.pose.pose;
-    try
-    {
-        m_tfListener.transformPose("/map", poseIn, poseOut);
-        m_poseOdom = poseOut.pose;
-    }
-    catch (tf::TransformException ex)
-    {
-        m_poseOdom = poseIn.pose;
-        ROS_ERROR("%s",ex.what());
-    }
+    m_poseOdom = odom.pose.pose;
 }
 
 
