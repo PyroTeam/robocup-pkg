@@ -7,6 +7,4 @@
 
 int getArea(geometry_msgs::Pose2D m);
 
-geometry_msgs::Pose2D getCenter(int zone);
-
 #endif

@@ -24,25 +24,3 @@ int getArea(geometry_msgs::Pose2D m)
     return 0;
   }
 }
-
-// Area = 2 m x 1.5 m
-geometry_msgs::Pose2D getCenter(int area)
-{
-  geometry_msgs::Pose2D c;
-
-  // Right side
-  if(area<=12)
-  {
-    c.x = ((area-1)/4)*2 + 1;
-    c.y = ((area-1)%4)*1.5 + 0.75;
-  }
-  // Left side
-  else if (area<=24)
-  {
-    area -=12;
-    c.x = -((area-1)/4)*2 - 1;
-    c.y = ((area-1)%4)*1.5 + 0.75;
-  }
-
-  return c;
-}

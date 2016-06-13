@@ -45,6 +45,11 @@ geometry_msgs::Pose2D Machine::getExitMachine()
 	return m_exitMachine;
 }
 
+void Machine::majCenter(geometry_msgs::Pose2D point)
+{
+	m_centerMachine = point;
+}
+
 void Machine::majEntry(geometry_msgs::Pose2D point)
 {
 	m_entryMachine = point;

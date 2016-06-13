@@ -58,6 +58,7 @@ class Machine
 		geometry_msgs::Pose2D getEntryMachine();
 		geometry_msgs::Pose2D getExitMachine();
 
+    void majCenter(geometry_msgs::Pose2D point);
 		void majEntry(geometry_msgs::Pose2D point);
 		void majExit(geometry_msgs::Pose2D point);
 

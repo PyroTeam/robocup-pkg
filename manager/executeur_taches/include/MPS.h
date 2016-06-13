@@ -26,7 +26,6 @@ class MPS
 		geometry_msgs::Pose2D pose;
 		int    zone;
 		bool   isHere;
-
 };
 
 #endif
