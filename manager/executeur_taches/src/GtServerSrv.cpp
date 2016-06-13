@@ -37,8 +37,8 @@ bool GtServerSrv::going(geometry_msgs::Pose2D point)
 		if(stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR)
 		{
 			count ++;
-			ROS_WARN("Unable to reach requested point (%f;%f; %f rads). Will try another one"
-				, point.x, point.y, point.theta);
+			ROS_WARN("Unable to reach requested point (%f;%f; %f rads). Will try another one", point.x, point.y, point.theta);
+      // Utilisation du service pathfinder pour rechercher un point libre proche du point demandé
 			point.x -= 0.2;
 			point.y += 0.2;
    	}
@@ -47,17 +47,18 @@ bool GtServerSrv::going(geometry_msgs::Pose2D point)
   ROS_INFO("Arrived to the asked point : x: %f; y: %f; theta: %f",point.x,point.y,point.theta);
 }
 
+// Devrait être une fonction de la classe Machine
 geometry_msgs::Pose2D GtServerSrv::calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone)
 {
 	geometry_msgs::Pose2D pt_dest, center;
-  center = m_ls->m_machine[zone - 1].pose;
+  center = m_ls->machines()[zone - 1].pose;
 	pt_dest.x = 2*center.x - pt_actuel.x;
 	pt_dest.y = 2*center.y - pt_actuel.y;
 	pt_dest.theta = pt_actuel.theta - M_PI;
 	return pt_dest;
 }
 
-/* Valentin's function */
+// Devrait être une fonction de la classe Machine
 void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2)
 {
 #define MARGIN_FROM_CENTER 0.75
@@ -65,7 +66,7 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 	float dy = 0;
 	float dx = 0;
 
-  knownMachinePose = m_ls->m_machine[zone - 1].pose;
+  knownMachinePose = m_ls->machines()[zone - 1].pose;
 	knownMachinePose.theta = fmod(knownMachinePose.theta, M_PI);
 
 	dy = -MARGIN_FROM_CENTER * cos(knownMachinePose.theta);
@@ -84,36 +85,7 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 
 bool GtServerSrv::knownMachineInZone(int zone)
 {
-	return m_ls->m_machine[zone - 1].isHere;
-}
-
-
-void GtServerSrv::getNearestPoint(geometry_msgs::Pose2D &pose
-	, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2
-	, geometry_msgs::Pose2D **targetPointPtr, geometry_msgs::Pose2D **otherPointPtr)
-{
-	/* TODO: Unfake this function (use pose) */
-	*targetPointPtr = &point1;
-	*otherPointPtr = &point2;
-}
-
-void GtServerSrv::asking(geometry_msgs::Pose2D point)
-{
-	int count = 0;
-	int16_t mid;
-	ArTagClienSrv atg;
-	FinalApproachingClient fa_c;
-	do{
-		if(count = 1) {point.y += 1.5; point.theta += M_PI/2;  going(point);}
-		else if(count = 2) {point.x -= 2;   point.theta += M_PI/2;  going(point);}
-		else if(count = 3) {point.y -= 1.5; point.theta += M_PI/2;  going(point);}
-		else if(count = 4) {point.x += 2;   point.theta += M_PI/2;  going(point);}
-		else count = 0;
-		fa_c.starting(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-		mid = atg.askForId();
-		count ++;
-	}while(mid == -1);
-	m_id = mid;
+	return m_ls->machines()[zone].isHere;
 }
 
 manager_msg::activity GtServerSrv::getActivityMsg()
@@ -125,7 +97,6 @@ manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction()
 {
 	return m_act;
 }
-
 
 void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
@@ -175,113 +146,10 @@ void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 #undef ZONE_WIDTH
 }
 
-int GtServerSrv::teamColorOfId(int arTag)
-{
-	int team_color = 0;
-	switch(arTag)
-	{
-		case  C_CS1_IN    :       team_color = CYAN;          m_name = "C-CS1";       break;
-
-		case  C_CS1_OUT   :       team_color = CYAN;          m_name = "C-CS1";       break;
-
-		case  C_CS2_IN    :       team_color = CYAN;          m_name = "C-CS2";       break;
-
-		case  C_CS2_OUT   :       team_color = CYAN;          m_name = "C-CS2";       break;
-
-		case  C_RS1_IN    :       team_color = CYAN;          m_name = "C-RS1";       break;
-
-		case  C_RS1_OUT   :       team_color = CYAN;          m_name = "C-RS1";       break;
-
-		case  C_RS2_IN    :       team_color = CYAN;          m_name = "C-RS2";       break;
-
-		case  C_RS2_OUT   :       team_color = CYAN;          m_name = "C-RS2";       break;
-
-		case  C_BS_IN     :       team_color = CYAN;          m_name = "C-BS";        break;
-
-		case  C_BS_OUT    :       team_color = CYAN;          m_name = "C-BS";        break;
-
-		case  C_DS_IN     :       team_color = CYAN;          m_name = "C-DS";        break;
-
-		case  C_DS_OUT    :       team_color = CYAN;          m_name = "C-DS";        break;
-
-
-		case  M_CS1_IN    :       team_color = MAGENTA;       m_name = "M-CS1";       break;
-
-		case  M_CS1_OUT   :       team_color = MAGENTA;       m_name = "M-CS1";       break;
-
-		case  M_CS2_IN    :       team_color = MAGENTA;       m_name = "M-CS2";       break;
-
-		case  M_CS2_OUT   :       team_color = MAGENTA;       m_name = "M-CS2";       break;
-
-		case  M_RS1_IN    :       team_color = MAGENTA;       m_name = "M-RS1";       break;
-
-		case  M_RS1_OUT   :       team_color = MAGENTA;       m_name = "M-RS1";       break;
-
-		case  M_RS2_IN    :       team_color = MAGENTA;       m_name = "M-RS2";       break;
-
-		case  M_RS2_OUT   :       team_color = MAGENTA;       m_name = "M-RS2";       break;
-
-		case  M_BS_IN     :       team_color = MAGENTA;       m_name = "M-BS";        break;
-
-		case  M_BS_OUT    :       team_color = MAGENTA;       m_name = "M-BS";        break;
-
-		case  M_DS_IN     :       team_color = MAGENTA;       m_name = "M-DS";        break;
-
-		case  M_DS_OUT    :       team_color = MAGENTA;       m_name = "M-DS";        break;
-
-		default           :       team_color = -1;            m_name = "";            break;
-	}
-
-
-	return team_color;
-}
-
 bool GtServerSrv::isInput(int arTag)
 {
 	// Les INPUT sont toujours impairs
 	return arTag%2 == 1;
-}
-
-/**
- * @brief Determine the team of a given zone from ExplorationInfo
- *
- * @param zone target zone
- * @return MAGENTA, CYAN or -1 on error
- */
-int GtServerSrv::teamColorOfZone(int zone)
-{
-#undef CYAN
-#undef MAGENTA
-
-	int team_color = -1;
-
-	if (m_ei->m_zones.empty())
-	{
-		ROS_ERROR("ExplorationInfo zones vector is empty");
-		return -1;
-	}
-
-	for (std::vector<comm_msg::ExplorationZone>::iterator i = m_ei->m_zones.begin(); i != m_ei->m_zones.end(); ++i)
-	{
-		if (i->zone == zone)
-		{
-			switch (i->team_color)
-			{
-				case comm_msg::ExplorationZone::CYAN:       /* FALLTRHOUGH */
-				case comm_msg::ExplorationZone::MAGENTA:
-					team_color = i->team_color;
-					break;
-
-				default:
-					ROS_ERROR("Can't determine the team for zone #%d", zone);
-					team_color= -1;
-					break;
-			}
-			break;
-		}
-	}
-
-	return team_color;
 }
 
 bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::order::Response &res)
@@ -301,22 +169,28 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 	  	switch(req.type)   // à rajouter => machine non occupée par un robotino et au départ (on ne sait pas cs1/cs2 et rs1/rs2)
 	  	{
 		  	case orderRequest::TAKE_BASE:
-				m_elements.getBS().take_base(req.parameter,m_nbrobot,req.number_order);
+            // take base est forcément sur une BS
+            // proposition : m_elements.take_base(req.parameter); + msgToGT en dehors de cette fonction
+				    m_elements.getBS().take_base(req.parameter,m_nbrobot,req.number_order);
 				break;
 		  	case orderRequest::PUT_CAP:
-				switch(req.parameter)
-				{
-					case orderRequest::BLACK :
-						if(m_elements.getCS1().getBlackCap() != 0)        m_elements.getCS1().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
-						else if(m_elements.getCS2().getBlackCap() != 0)   m_elements.getCS2().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-						break;
-					case orderRequest::GREY :
-						if(m_elements.getCS1().getGreyCap() != 0)         m_elements.getCS1().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
-						else if(m_elements.getCS2().getGreyCap() != 0)    m_elements.getCS2().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-						break;
-				}
+          // proposition : m_elements.put_cap(req.parameter); + msgToGT en dehors de cette fonction
+          // TODO: fonction qui retourne la CS correspondant au paramètre de couleur
+  				switch(req.parameter)
+  				{
+  					case orderRequest::BLACK :
+  						if(m_elements.getCS1().getBlackCap() != 0)        m_elements.getCS1().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
+  						else if(m_elements.getCS2().getBlackCap() != 0)   m_elements.getCS2().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
+  						break;
+  					case orderRequest::GREY :
+  						if(m_elements.getCS1().getGreyCap() != 0)         m_elements.getCS1().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
+  						else if(m_elements.getCS2().getGreyCap() != 0)    m_elements.getCS2().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
+  						break;
+  				}
 				break;
 		  	case orderRequest::TAKE_CAP:
+        // proposition : m_elements.take_cap(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la CS correspondant au paramètre de couleur
 			   switch(req.parameter)
 			   {
 					case orderRequest::BLACK :
@@ -330,6 +204,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::PUT_RING:
+        // proposition : m_elements.put_ring(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la RS correspondant au paramètre de couleur
 				switch(req.parameter)
 				{
 					case orderRequest::GREEN :
@@ -351,6 +227,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::TAKE_RING:
+        // proposition : m_elements.take_ring(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la RS correspondant au paramètre de couleur
 				switch(req.parameter)
 				{
 					case orderRequest::GREEN :
@@ -372,6 +250,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::BRING_BASE_RS:
+        // proposition : m_elements.bring_base(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la RS correspondant au paramètre de couleur
 				switch(req.parameter)
 				{
 					case orderRequest::GREEN :
@@ -393,12 +273,15 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::DELIVER:
+        // proposition : m_elements.deliver(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la DS ou la CS la plus proche du robot où il y a un emplacement de stockage libre
 				switch(req.parameter)
 				{
 					case orderRequest::DS :
 						m_elements.getDS().deliverToDS(m_nbrobot,req.number_order);
 						break;
 					case orderRequest::STOCK :
+            // On ne sait pas ce qui est stocké et à quel endroit ?
 						int i = 0;
 						for(i = 0; i<3; i++)
 						{
@@ -422,6 +305,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 				}
 				break;
 		  	case orderRequest::UNCAP:
+        // proposition : m_elements.uncap(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la CS correspondant au paramètre de couleur
   				switch(req.parameter)   // à verifier? chaque CS à des capscat spécifiques
   				{
   					case orderRequest::BLACK :
@@ -466,6 +351,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  		// Se déplacer au premier coin zone
 		  		// TODO: gérer les cas d'erreurs de going
 		  		going(m_explo_target);
+          m_ls->spin();
 
 		  		// A partir detection machine -> voir si machine présente
 		  		// TODO: Modifier les échanges avec la détection des machines
@@ -475,7 +361,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 	  			// NB: en cas de mur, pouvoir déterminer un point légèrement décalé
 	  			if (!knownMachineInZone(req.id))
 	  			{
-            ROS_INFO("No known Machine in this area");
+            ROS_INFO("No known Machine in this area %d", req.id);
 	  				// TODO: choix judicieux du coin à déterminer
 	  				interpretationZone(req.id, BOTTOM_RIGHT);
 	  				ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
@@ -483,13 +369,14 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 	  				// Se rendre au second coin zone
 						// TODO: gérer les cas d'erreurs de going
 						going(m_explo_target);
+            m_ls->spin();
 
 			  		// A partir detection machine -> voir si machine présente
 			  		// Si machine toujours NON présente, abandon
 		  			if (!knownMachineInZone(req.id))
 		  			{
 		  				// TODO: abandonner le service
-  						ROS_ERROR("There is no machine in this zone. Abort request");
+  						ROS_ERROR("There is no machine in this zone %d. Abort request", req.id);
   						res.accepted = false;
   						break;
 		  			}
@@ -505,6 +392,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 		  		// TODO: utiliser le point le plus proche
 		  		// TODO: gérer les cas d'erreurs de going
 		  		going(firstSidePoint);
+          m_ls->spin();
 
 		  		// Récupérer ArTag ID
 		  		// TODO: mettre ArTagClient en membre de classe
@@ -517,10 +405,11 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
   				if(isInput(machineSideId))
   				{
   					// Si OUI
-  		  			// Déterminer point devant autre côte de la machine
+		  			// Déterminer point devant autre côte de la machine
 
-  		  			// Se rendre ou point devant autre côté de la machine
+		  			// Se rendre ou point devant autre côté de la machine
   					going(secondSidePoint);
+            m_ls->spin();
   					// Récupérer ArTag ID
   					machineSideId = atg.askForId();
 
@@ -534,7 +423,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
   					}
   				}
 
-  				machine = m_elements.getMachineFromTag(machineSideId, m_color);
+  				machine = m_elements.getMachineFromTag(machineSideId);
   				if (machine == nullptr)
   				{
   					// TODO: abandonner le service
@@ -549,7 +438,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
   				// fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
 
   		  		// Traitement d'image, détection FEU
-  		  		machine->readlights(m_ei->m_lSpec);
+            FeuClientAction f_c;
+            f_c.lightsStates(m_ei->m_lSpec);
 
   		  		// Interprétation type à partir de LightSignal
   				  m_ei->interpretationFeu();

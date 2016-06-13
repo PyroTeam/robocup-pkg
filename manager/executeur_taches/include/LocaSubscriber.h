@@ -22,14 +22,17 @@ class LocaSubscriber
 		/* Constructeur */
 	 	LocaSubscriber();
 
-	 	/* Déstructeur */
+	 	/* Destructeur */
     virtual  ~LocaSubscriber();
 
     /* Méthodes */
     void machinesCallback(const deplacement_msg::MachinesConstPtr &msg);
-    std::vector<MPS> m_machine;
+    void spin();
+
+    std::vector<MPS> machines(){return m_machines;};
 
 	private:
 		ros::Subscriber m_sub;
+    std::vector<MPS> m_machines;
 };
 #endif

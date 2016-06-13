@@ -22,7 +22,7 @@ class RobotPoseSubscriber
     /* Constructeur */
     RobotPoseSubscriber();
 
-    /* Déstructeur */
+    /* Destructeur */
     virtual  ~RobotPoseSubscriber();
 
     /* Méthodes */

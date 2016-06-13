@@ -12,7 +12,11 @@ public:
 	~Machine();
 
 	geometry_msgs::Pose2D getCentre();
+  geometry_msgs::Pose2D reversePose();
+  comm_msg::ExplorationMachine msg();
+
 	int getNbActu();
+  int color();
 	double getReliability();
 	double getLastError();
 
@@ -20,10 +24,12 @@ public:
 
   void update(const geometry_msgs::Pose2D &p);
 	void calculateCoordMachine(Segment s);
+  void color(int color);
+
   bool canBeUpdated(const geometry_msgs::Pose2D &seenMachine);
   bool neverSeen();
-  geometry_msgs::Pose2D reversePose();
-  comm_msg::ExplorationMachine msg();
+
+
 
 private:
 	geometry_msgs::Pose2D 	m_centre;
@@ -31,6 +37,7 @@ private:
 	double 					m_ySum;
 	double 					m_thetaSum;
 	int 						m_nbActu;
+  int             m_color;
 	double					m_reliability;
   double          m_lastError;
 };

@@ -24,7 +24,7 @@ class FinalApproachingClient
 		/* Constructeur */
 		FinalApproachingClient();
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual  ~FinalApproachingClient();
 
 		/* Méthodes */

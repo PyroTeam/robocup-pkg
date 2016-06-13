@@ -19,7 +19,7 @@ class MPS
 		/* Constructeur */
 		MPS();
 
-		/* Déstructeur */
+		/* Destructeur */
 		~MPS();
 
 		/* Variables d'instance */

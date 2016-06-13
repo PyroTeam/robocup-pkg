@@ -45,7 +45,7 @@ class GtServerSrv
 		/* Constructeur */
 		GtServerSrv(int teamColor);
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual  ~GtServerSrv();
 
 		/* Méthodes */

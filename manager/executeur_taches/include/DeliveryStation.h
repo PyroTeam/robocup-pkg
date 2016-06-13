@@ -23,7 +23,7 @@ class DeliveryStation : public Machine
 		/* Constructeur */
 		DeliveryStation(int teamColor);
 
-		/* Déstructeur */  
+		/* Destructeur */  
 		virtual ~DeliveryStation();
 
 		/* Méthodes */

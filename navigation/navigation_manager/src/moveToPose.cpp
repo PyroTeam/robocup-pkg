@@ -110,47 +110,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     while (isOk)
     {
         obstacleInRange = false;
-        /*if (std::abs(m_sharpSensor.points[0].x) < max && std::abs(m_sharpSensor.points[0].y) < max){
-            obstacleInRange = true;
-        }
-        if (std::abs(m_sharpSensor.points[1].x) < max && std::abs(m_sharpSensor.points[1].y) < max){
-            obstacleInRange = true;
-        }
-        if (std::abs(m_sharpSensor.points[2].x) < max && std::abs(m_sharpSensor.points[2].y) < max){
-            obstacleInRange = true;
-        }
-        if (std::abs(m_sharpSensor.points[7].x) < max && std::abs(m_sharpSensor.points[7].y) < max){
-            obstacleInRange = true;
-        }
-        if (std::abs(m_sharpSensor.points[8].x) < max && std::abs(m_sharpSensor.points[8].y) < max){
-            obstacleInRange = true;
-        }*/
-
-/*
-        if (isInZone(m_sharpSensor.points[0].x, m_sharpSensor.points[0].y, xmin, xmax, ymin, ymax))
-        {
-            obstacleInRange = true;
-        }
-        if (isInZone(m_sharpSensor.points[1].x, m_sharpSensor.points[1].y, xmin, xmax, ymin, ymax))
-        {
-            obstacleInRange = true;
-        }
-        if (isInZone(m_sharpSensor.points[2].x, m_sharpSensor.points[2].y, xmin, xmax, ymin, ymax))
-        {
-            obstacleInRange = true;
-        }
-        if (isInZone(m_sharpSensor.points[7].x, m_sharpSensor.points[7].y, xmin, xmax, ymin, ymax))
-        {
-            obstacleInRange = true;
-        }
-        if (isInZone(m_sharpSensor.points[8].x, m_sharpSensor.points[8].y, xmin, xmax, ymin, ymax))
-        {
-            obstacleInRange = true;
-        }
-
-
-        std::cout << "Obstacle in range :" << obstacleInRange << std::endl;
-*/
+        
         if(obstacleInRange && pathTrackStatus == RUNNING)
         {
             m_trackPathAction.cancelGoal();

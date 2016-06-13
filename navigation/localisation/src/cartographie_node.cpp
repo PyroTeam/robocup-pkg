@@ -13,6 +13,9 @@
 #include "cartographie_utils.h"
 #include "geometry_utils.h"
 #include "math_functions.h"
+#include "comm_msg/ExplorationInfo.h"
+#include "comm_msg/ExplorationSignal.h"
+#include "comm_msg/ExplorationZone.h"
 
 deplacement_msg::Machines g_machines;
 std::vector<Machine>       g_mps(24);
@@ -32,6 +35,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     tf::StampedTransform transform;
     try
     {
+        g_tf_listener->waitForTransform("map",tf_prefix+"laser_link",machines->header.stamp + ros::Duration(0.1),ros::Duration(1.0));
         g_tf_listener->lookupTransform("map", tf_prefix+"laser_link", machines->header.stamp, transform);
     }
     catch (tf::TransformException ex)
@@ -68,6 +72,14 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     }
 }
 
+void zonesCallback(const comm_msg::ExplorationInfo &msg)
+{
+  for (auto &it : msg.zones)
+  {
+    g_mps[it.zone].color(it.team_color);
+  }
+}
+
 int main( int argc, char** argv )
 {
     ros::init(argc, argv, "Cartographie");
@@ -76,7 +88,8 @@ int main( int argc, char** argv )
 
     ros::NodeHandle n;
 
-    ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 100, machinesCallback);
+    ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 1, machinesCallback);
+    ros::Subscriber sub_zones    = n.subscribe("refBoxComm/ExplorationInfo", 1, zonesCallback);
 
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Machines >("objectDetection/landmarks", 1);
 

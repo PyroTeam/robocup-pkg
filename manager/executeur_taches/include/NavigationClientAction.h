@@ -24,7 +24,7 @@ class NavigationClientAction
 		/* Constructeur */
 		NavigationClientAction();
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual  ~NavigationClientAction();
 
 		/* Méthodes */
