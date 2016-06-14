@@ -5,12 +5,12 @@
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/Pose2D.h>
 #include <nav_msgs/Odometry.h>
+#include <common_utils/zone.h>
 
 #include "deplacement_msg/Landmarks.h"
 #include "deplacement_msg/Machines.h"
 #include "LaserScan.h"
 #include "landmarks_detection_utils.h"
-#include "cartographie_utils.h"
 #include "geometry_utils.h"
 #include "math_functions.h"
 #include "comm_msg/ExplorationInfo.h"
@@ -54,7 +54,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
         geometry_msgs::Pose2D center = geometry_utils::changeFrame(it, transform);
 
         // Vérification de la zone
-        int zone = getArea(center);
+        int zone = common_utils::getArea(center);
 
         // Si la machine est bien dans une zone et peut être mise à jour
         if (zone != 0 && g_mps[zone-1].canBeUpdated(center))
@@ -64,7 +64,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
 
         // Ajout reverse
         geometry_msgs::Pose2D reverse = g_mps[zone-1].reversePose();
-        zone = getArea(reverse);
+        zone = common_utils::getArea(reverse);
         if (zone != 0 && g_mps[zone-1].neverSeen())
         {
             g_mps[zone-1].update(reverse);

@@ -2,7 +2,6 @@
 #define MACHINE_H
 
 #include "geometry_msgs/Pose2D.h"
-#include "cartographie_utils.h"
 #include "comm_msg/ExplorationMachine.h"
 #include "Segment.h"
 

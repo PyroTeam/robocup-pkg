@@ -7,7 +7,6 @@
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/Pose2D.h"
 #include "nav_msgs/Odometry.h"
-#include "cartographie_utils.h"
 
 #include <cmath>
 

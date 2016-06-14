@@ -3,6 +3,7 @@
 #include "Segment.h"
 #include "Machine.h"
 #include "math_functions.h"
+#include "common_utils/zone.h"
 
 #include <ctime>
 #include <cmath>
@@ -38,7 +39,7 @@ comm_msg::ExplorationMachine Machine::msg()
 {
   comm_msg::ExplorationMachine tmp;
   tmp.pose = getCentre();
-  tmp.zone = getArea(tmp.pose);
+  tmp.zone = common_utils::getArea(tmp.pose);
   tmp.team_color = color();
 
   return tmp;
