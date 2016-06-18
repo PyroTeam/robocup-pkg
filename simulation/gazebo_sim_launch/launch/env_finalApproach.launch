@@ -67,13 +67,6 @@
 			<remap from="scan" to="hardware/scan" />
 		</node>
 
-		<node name="robotino_camera_node" pkg="robotino_node" type="robotino_camera_node" output="screen">
-			<param name="hostname" value="$(arg hostname)" />
-			<param name="cameraNumber" value="0" />
-			<remap from="image_raw" to="hardware/camera/tower_camera/image_raw" />
-			<remap from="camera_info" to="hardware/camera/tower_camera/camera_info" />
-		</node>
-
 		<!-- Static transforms -->
 		<node pkg="tf" type="static_transform_publisher" name="map_to_odom"
 			args="0 0 0   0 0 0 map odom 100" />
