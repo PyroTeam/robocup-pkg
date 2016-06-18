@@ -18,4 +18,4 @@ navigation:
                 Kd: 0.0
                 threshold: 0.003
         mps:
-            width: 0.700
+            width: 0.685
