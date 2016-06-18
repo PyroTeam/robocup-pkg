@@ -1,4 +1,14 @@
 <launch>
+	<arg name="tf_laser_x" value="0.46.5/2 - 0.14" /><!-- 0.0925 -->
+	<arg name="tf_laser_y" value="0.0" />
+	<arg name="tf_laser_z" value="0.255" />
+	<arg name="tf_towercam_x" value="0.46.5/2 - 0.12" /><!-- 0.1125 -->
+	<arg name="tf_towercam_y" value="-0.015" />
+	<arg name="tf_towercam_z" value="0.55" />
+	<arg name="tf_platformcam_x" value="0.0" />
+	<arg name="tf_platformcam_y" value="0.00" />
+	<arg name="tf_platformcam_z" value="0.90" />
+
 	<!-- Pyro TEAM -->
 	<!-- Team Namespace -->
 	<group ns="PYRO">
@@ -9,7 +19,7 @@
 	</group>
 	<!-- Robotino Pyro 1 -->
 	<group ns="robotino1">
-		<arg name="tf_prefix" value="robotino1"/>
+		<arg name="tf_prefix" value=""/>
 
 		<!-- Params -->
 		<param name="teamName" value="PYRO" />
@@ -18,15 +28,15 @@
 		<param name="robotName" value="R1" />
 		<param name="simuRobotNamespace" value="$(arg tf_prefix)" />
 
-		<param name="hardware/robotDescription/baseLink_to_laserLink/x"  value="0.46.5/2 - 0.14" /><!-- 0.0925 -->
-		<param name="hardware/robotDescription/baseLink_to_laserLink/y"  value="0.0" />
-		<param name="hardware/robotDescription/baseLink_to_laserLink/z"  value="0.255" />
-		<param name="hardware/robotDescription/baseLink_to_towerCameraLink/x"  value="0.46.5/2 - 0.12" /><!-- 0.1125 -->
-		<param name="hardware/robotDescription/baseLink_to_towerCameraLink/y"  value="-0.015" />
-		<param name="hardware/robotDescription/baseLink_to_towerCameraLink/z"  value="0.55" />
-		<param name="hardware/robotDescription/baseLink_to_platformCameraLink/x"  value="0.0" />
-		<param name="hardware/robotDescription/baseLink_to_platformCameraLink/y"  value="0.00" />
-		<param name="hardware/robotDescription/baseLink_to_platformCameraLink/z"  value="0.90" />
+		<param name="hardware/robotDescription/baseLink_to_laserLink/x"  value="$(arg tf_laser_x)" />
+		<param name="hardware/robotDescription/baseLink_to_laserLink/y"  value="$(arg tf_laser_y)" />
+		<param name="hardware/robotDescription/baseLink_to_laserLink/z"  value="$(arg tf_laser_z)" />
+		<param name="hardware/robotDescription/baseLink_to_towerCameraLink/x"  value="$(arg tf_towercam_x)" />
+		<param name="hardware/robotDescription/baseLink_to_towerCameraLink/y"  value="$(arg tf_towercam_y)" />
+		<param name="hardware/robotDescription/baseLink_to_towerCameraLink/z"  value="$(arg tf_towercam_z)" />
+		<param name="hardware/robotDescription/baseLink_to_platformCameraLink/x"  value="$(arg tf_platformcam_x)" />
+		<param name="hardware/robotDescription/baseLink_to_platformCameraLink/y"  value="$(arg tf_platformcam_y)" />
+		<param name="hardware/robotDescription/baseLink_to_platformCameraLink/z"  value="$(arg tf_platformcam_z)" />
 
 		<rosparam file="$(find gazebo_sim_launch)/param/robotino1_navigation.yaml" />
 
@@ -64,8 +74,15 @@
 			<remap from="camera_info" to="hardware/camera/tower_camera/camera_info" />
 		</node>
 
-		<!-- Load the tf_broadcaster node -->
-		<node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node"/>
+		<!-- Static transforms -->
+		<node pkg="tf" type="static_transform_publisher" name="map_to_odom"
+			args="0 0 0   0 0 0 map odom 100" />
+		<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser_link"
+			args="$(arg tf_laser_x) $(arg tf_laser_y) $(arg tf_laser_z)   0 0 0    base_link laser_link 100" />
+		<node pkg="tf" type="static_transform_publisher" name="base_link_to_tower_camera_link"
+		 	args="$(arg tf_towercam_x) $(arg tf_towercam_y) $(arg tf_towercam_z)   -1.57 0 -1.57   base_link tower_camera_link 100" />
+		<node pkg="tf" type="static_transform_publisher" name="base_link_to_platform_camera_link"
+			args="$(arg tf_platformcam_x) $(arg tf_platformcam_y) $(arg tf_platformcam_z)   -1.57 0 -1.57   base_link platform_camera_link 100" />
 
 		<!-- Load ArTag -->
 		<include file="$(find ar_tag)/launch/alvar_simu.launch">
