@@ -148,26 +148,26 @@ class FinalApproaching
   public:
 	FinalApproaching(std::string name)
 		: m_as(m_nh, name, boost::bind(&FinalApproaching::executeCB, this, _1), false), m_actionName(name)
-		, m_laserXPidKp(m_nh, "navigation/finalApproach/laserAsserv/xPid/Kp", 0.25)
-		, m_laserXPidKi(m_nh, "navigation/finalApproach/laserAsserv/xPid/Ki", 0)
-		, m_laserXPidKd(m_nh, "navigation/finalApproach/laserAsserv/xPid/Kd", 0)
-		, m_laserXPidThreshold(m_nh, "navigation/finalApproach/laserAsserv/xPid/threshold", 0.01)
+		, m_laserXPidKp(m_nh, "navigation/FinalApproach/laserAsserv/xPid/Kp", 0.25)
+		, m_laserXPidKi(m_nh, "navigation/FinalApproach/laserAsserv/xPid/Ki", 0)
+		, m_laserXPidKd(m_nh, "navigation/FinalApproach/laserAsserv/xPid/Kd", 0)
+		, m_laserXPidThreshold(m_nh, "navigation/FinalApproach/laserAsserv/xPid/threshold", 0.01)
 
-		, m_laserYPidKp(m_nh, "navigation/finalApproach/laserAsserv/yPid/Kp", 0.075)
-		, m_laserYPidKi(m_nh, "navigation/finalApproach/laserAsserv/yPid/Ki", 0)
-		, m_laserYPidKd(m_nh, "navigation/finalApproach/laserAsserv/yPid/Kd", 0)
-		, m_laserYPidThreshold(m_nh, "navigation/finalApproach/laserAsserv/yPid/threshold", 0.003)
+		, m_laserYPidKp(m_nh, "navigation/FinalApproach/laserAsserv/yPid/Kp", 0.075)
+		, m_laserYPidKi(m_nh, "navigation/FinalApproach/laserAsserv/yPid/Ki", 0)
+		, m_laserYPidKd(m_nh, "navigation/FinalApproach/laserAsserv/yPid/Kd", 0)
+		, m_laserYPidThreshold(m_nh, "navigation/FinalApproach/laserAsserv/yPid/threshold", 0.003)
 
-		, m_laserYawPidKp(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Kp", 0.4)
-		, m_laserYawPidKi(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Ki", 0)
-		, m_laserYawPidKd(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Kd", 0)
-		, m_laserYawPidThreshold(m_nh, "navigation/finalApproach/laserAsserv/yawPid/threshold", 0.003)
+		, m_laserYawPidKp(m_nh, "navigation/FinalApproach/laserAsserv/yawPid/Kp", 0.4)
+		, m_laserYawPidKi(m_nh, "navigation/FinalApproach/laserAsserv/yawPid/Ki", 0)
+		, m_laserYawPidKd(m_nh, "navigation/FinalApproach/laserAsserv/yawPid/Kd", 0)
+		, m_laserYawPidThreshold(m_nh, "navigation/FinalApproach/laserAsserv/yawPid/threshold", 0.003)
 
 		, m_laserXPid(m_laserXPidKp(), m_laserXPidKi(), m_laserXPidKd(), 1.0/g_loopFreq)
 		, m_laserYPid(m_laserYPidKp(), m_laserYPidKi(), m_laserYPidKd(), 1.0/g_loopFreq)
 		, m_laserYawPid(m_laserYawPidKp(), m_laserYawPidKi(), m_laserYawPidKd(), 1.0/g_loopFreq)
 
-		, m_mpsWidth(m_nh, "navigation/finalApproach/mps/width", 0.700)
+		, m_mpsWidth(m_nh, "navigation/FinalApproach/mps/width", 0.700)
 	{
 		refreshParams();
 

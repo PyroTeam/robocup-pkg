@@ -6,7 +6,7 @@ BaseStation::BaseStation(int teamColor)
 : Machine(teamColor)
 {
 	m_name += "BS";
-	m_faType = finalApproachingGoal::BS;
+	m_faType = FinalApproachingGoal::BS;
 	m_type = "BaseStation";   
 	m_redBase = 0;
 	m_blackBase = 0;

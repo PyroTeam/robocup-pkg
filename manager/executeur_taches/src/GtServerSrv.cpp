@@ -542,7 +542,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
   				// Approche finale, objectif FEU
   				// TODO: Uncomment
   				// FinalApproachingClient fa_c;
-  				// fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
+  				// fa_c.starting(machine->getFaType(), FinalApproachingGoal::OUT, FinalApproachingGoal::LIGHT);
 
   		  		// Traitement d'image, détection FEU
   		  		machine->readlights(m_ei->m_lSpec);

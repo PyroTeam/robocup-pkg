@@ -7,7 +7,7 @@ RingStation::RingStation(int teamColor)
 : Machine(teamColor)
 {
 	m_name += "RS";
-	m_faType = finalApproachingGoal::RS;
+	m_faType = FinalApproachingGoal::RS;
 	m_type = "RingStation";
 	m_greenRing = 0;
 	m_yellowRing = 0;

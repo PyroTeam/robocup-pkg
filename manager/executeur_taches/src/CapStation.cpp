@@ -7,7 +7,7 @@ CapStation::CapStation(int teamColor)
 : Machine(teamColor)
 {
 	m_name += "CS";
-	m_faType = finalApproachingGoal::CS;
+	m_faType = FinalApproachingGoal::CS;
 	m_type = "CapStation";
 	m_blackCap = 0;
 	m_greyCap = 0;

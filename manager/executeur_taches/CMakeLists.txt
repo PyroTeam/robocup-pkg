@@ -128,17 +128,18 @@ add_executable(
 )
 add_dependencies(
 	test_exec
-set_target_properties(
-	test_exec
-
-	PROPERTIES COMPILE_FLAGS "-std=c++11"
-)
 
 	manager_msg_gencpp
 	final_approach_msg_gencpp
 	trait_im_msg_gencpp
 	comm_msg_gencpp
 )
+set_target_properties(
+	test_exec
+
+	PROPERTIES COMPILE_FLAGS "-std=c++11"
+)
+
 target_link_libraries(
 	test_exec
 
@@ -164,7 +165,11 @@ target_link_libraries(
 
 	${catkin_LIBRARIES}
 )
+set_target_properties(
+	test_publish
 
+	PROPERTIES COMPILE_FLAGS "-std=c++11"
+)
 
 # Test lights
 add_executable(
