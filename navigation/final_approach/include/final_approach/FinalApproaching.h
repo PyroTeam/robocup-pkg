@@ -138,9 +138,9 @@ class FinalApproaching
 	Parameter m_laserYawPidThreshold;
 
 	// PID
-	Pid m_laserXPid;
-	Pid m_laserYPid;
-	Pid m_laserYawPid;
+	common_utils::Pid m_laserXPid;
+	common_utils::Pid m_laserYPid;
+	common_utils::Pid m_laserYawPid;
 
 	// Some useful infos
 	Parameter m_mpsWidth;

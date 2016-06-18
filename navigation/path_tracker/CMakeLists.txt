@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
     roscpp
     rospy
     tf
+    common_utils
 )
 
 # Use clang++-3.6 if available

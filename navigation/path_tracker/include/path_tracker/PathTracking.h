@@ -24,6 +24,7 @@
 #include <boost/statechart/event.hpp>
 #include <boost/statechart/state_machine.hpp>
 #include <boost/statechart/simple_state.hpp>
+#include <boost/statechart/state.hpp>
 #include <boost/statechart/transition.hpp>
 #include <boost/mpl/list.hpp>
 
@@ -34,13 +35,59 @@ struct EvStart : sc::event<EvStart> {};
 struct EvStop : sc::event<EvStop> {};
 struct EvPause : sc::event<EvPause> {};
 struct EvEndPath : sc::event<EvEndPath> {};
+struct EvReset : sc::event< EvReset > {};
 
 struct StIdle;
 struct StRun;
 struct StPause;
-struct PTmachine : sc::state_machine<PTmachine, StIdle> {};
+struct StActive;
 
-struct StIdle : sc::simple_state<StIdle, PTmachine>
+
+struct PTmachine : sc::state_machine<PTmachine, StActive>
+{
+public:
+    PTmachine():m_behavior(nullptr)
+    {
+
+    }
+
+    void setBehavior(std::shared_ptr<MoveBehavior> &behavior)
+    {
+        m_behavior = behavior;
+    }
+
+    std::shared_ptr<MoveBehavior> & getBehavior()
+    {
+        return m_behavior;
+    }
+private:
+    std::shared_ptr<MoveBehavior> m_behavior;
+
+};
+
+
+struct StActive : sc::state<StActive, PTmachine, StIdle>
+{
+public:
+    typedef sc::transition< EvReset, StActive > reactions;
+
+    StActive(my_context ctx) : sc::state<StActive, PTmachine, StIdle>( ctx )
+    {
+        ROS_INFO("PathTracking: Entering Active State");
+        m_behavior = outermost_context().getBehavior();
+    }
+
+    std::shared_ptr<MoveBehavior> & getBehavior()
+    {
+        return m_behavior;
+    }
+private:
+    std::shared_ptr<MoveBehavior> m_behavior;
+};
+
+
+
+struct StIdle : sc::simple_state<StIdle, StActive>
 {
     typedef sc::transition<EvStart, StRun> reactions;
 
@@ -52,8 +99,10 @@ struct StIdle : sc::simple_state<StIdle, PTmachine>
     {
         ROS_INFO("PathTracking: Leaving Idle State");
     }
+
 };
-struct StRun : sc::simple_state<StRun, PTmachine>
+
+struct StRun : sc::state<StRun, StActive>
 {
     typedef mpl::list<
         sc::transition<EvStart, StRun>,
@@ -62,18 +111,22 @@ struct StRun : sc::simple_state<StRun, PTmachine>
         sc::transition<EvPause, StPause>
         > reactions;
 
-    StRun()
+    StRun(my_context ctx) : sc::state<StRun, StActive>( ctx )
     {
         ROS_INFO("PathTracking: Entering Run State");
+        std::shared_ptr<MoveBehavior> behav = outermost_context().getBehavior();
+        geometry_msgs::Twist twist = behav->generateNewSetPoint();
     }
+
     ~StRun()
     {
         ROS_INFO("PathTracking: Leaving Run State");
     }
+
 };
 
 
-struct StPause : sc::simple_state<StPause, PTmachine>
+struct StPause : sc::simple_state<StPause, StActive>
 {
     typedef mpl::list<
         sc::transition<EvStart, StRun>,
@@ -88,6 +141,7 @@ struct StPause : sc::simple_state<StPause, PTmachine>
     {
         ROS_INFO("PathTracking: Leaving Pause State");
     }
+
 };
 
 

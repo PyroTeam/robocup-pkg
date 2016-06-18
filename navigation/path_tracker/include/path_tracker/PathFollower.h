@@ -13,18 +13,34 @@
 #ifndef PATH_TRACKER_PATHFOLLOWER_H_
 #define PATH_TRACKER_PATHFOLLOWER_H_
 
+#include <memory>
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
+
+#include "common_utils/controller/Controller.h"
 
 class PathFollower
 {
 public:
-    PathFollower();
-    virtual ~PathFollower();
+    PathFollower(std::shared_ptr<common_utils::Controller> controller):
+        m_controller(controller)
+    {
+
+    }
+
+    virtual ~PathFollower()
+    {
+
+    }
+
+    void setController(std::shared_ptr<common_utils::Controller> controller)
+    {
+        m_controller = controller;
+    }
 
     virtual geometry_msgs::Twist generateNewSetPoint() = 0;
 protected:
-
+    std::shared_ptr<common_utils::Controller> m_controller;
 };
 
 #endif /* PATH_TRACKER_PATHFOLLOWER_H_ */

@@ -125,6 +125,7 @@ add_library(common_utils
   src/parameterFunctions.cpp
   src/Parameter.cpp
   src/controller/Pid.cpp
+  src/controller/PidWithAntiWindUp.cpp
 )
 
 ## Add cmake target dependencies of the library
