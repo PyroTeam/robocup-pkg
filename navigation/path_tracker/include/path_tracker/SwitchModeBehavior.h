@@ -22,6 +22,13 @@
 #include "PathFollower.h"
 #include "AvoidObstacle.h"
 
+enum class BehaviorMode_t
+{
+    FOLLOW,
+    AVOID
+};
+
+
 class SwitchModeBehavior : public MoveBehavior
 {
 public:
@@ -31,6 +38,7 @@ public:
     geometry_msgs::Twist generateNewSetPoint() override;
 
 protected:
+    BehaviorMode_t m_mode;
 };
 
 #endif /* PATH_TRACKER_SWITCHMODEBEHAVIOR_H_ */

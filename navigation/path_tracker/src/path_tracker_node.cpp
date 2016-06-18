@@ -21,8 +21,8 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "path_tracker");
     ros::NodeHandle nh;
 
-    //std::shared_ptr<SwitchModeBehavior> behavior(new SwitchModeBehavior());
-    //PathTracking pathTracking("navigation/trackPath", behavior);
+    std::shared_ptr<SwitchModeBehavior> behavior(new SwitchModeBehavior());
+    PathTracking pathTracking("navigation/trackPath", behavior);
 
 
     ros::Rate loop_rate(10);
