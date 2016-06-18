@@ -82,14 +82,14 @@
         <param name="usb_cam_node/camera_frame_id" value="tower_camera_link" />
         <node name="usb_cam_node" pkg="usb_cam" type="usb_cam_node" output="screen" />
 
-        <!-- Un assert dans l'approche finale nous oblige à faire ça -->
+        <!-- Un assert dans l'approche finale nous oblige à retirer tf_prefix et le '/' -->
 		<node pkg="tf" type="static_transform_publisher" name="namespace_workaround"
 			args="0 0 0   0 0 0 tower_camera_link robotino1/tower_camera_link 100" />
 		<include file="$(find ar_tag)/launch/alvar_simu.launch">
 	        <arg name="cam_image_topic" value="usb_cam_node/image_raw" />
 	        <arg name="cam_info_topic" value="usb_cam_node/camera_info" />
         	<arg name="marker_size" value="13.0" />
-			<arg name="output_frame" value="robotino1/tower_camera_link"/>
+			<arg name="output_frame" value="tower_camera_link"/>
 			<arg name="respawn" value="true"/>
 			<arg name="output" value="log"/>
 		</include>
