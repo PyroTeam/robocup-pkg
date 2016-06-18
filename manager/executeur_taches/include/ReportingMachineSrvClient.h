@@ -22,7 +22,7 @@ class ReportingMachineSrvClient
 		/* Constructeur */
 		ReportingMachineSrvClient();
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual  ~ReportingMachineSrvClient();
 		
 		/* Méthodes */

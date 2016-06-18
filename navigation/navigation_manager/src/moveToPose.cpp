@@ -95,8 +95,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
 
     sleep(1);
     //path Found
-    m_pathId++;
-    ROS_INFO("Path generated! with id : %d", m_pathId);
+    ROS_INFO("Path generated!");
     deplacement_msg::TrackPathGoal tgoal;
     m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
                                       boost::bind(&MoveToPose::activeCb, this),
@@ -111,47 +110,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     while (isOk)
     {
         obstacleInRange = false;
-        /*if (std::abs(m_sharpSensor.points[0].x) < max && std::abs(m_sharpSensor.points[0].y) < max){
-            obstacleInRange = true;
-        }
-        if (std::abs(m_sharpSensor.points[1].x) < max && std::abs(m_sharpSensor.points[1].y) < max){
-            obstacleInRange = true;
-        }
-        if (std::abs(m_sharpSensor.points[2].x) < max && std::abs(m_sharpSensor.points[2].y) < max){
-            obstacleInRange = true;
-        }
-        if (std::abs(m_sharpSensor.points[7].x) < max && std::abs(m_sharpSensor.points[7].y) < max){
-            obstacleInRange = true;
-        }
-        if (std::abs(m_sharpSensor.points[8].x) < max && std::abs(m_sharpSensor.points[8].y) < max){
-            obstacleInRange = true;
-        }*/
 
-/*
-        if (isInZone(m_sharpSensor.points[0].x, m_sharpSensor.points[0].y, xmin, xmax, ymin, ymax))
-        {
-            obstacleInRange = true;
-        }
-        if (isInZone(m_sharpSensor.points[1].x, m_sharpSensor.points[1].y, xmin, xmax, ymin, ymax))
-        {
-            obstacleInRange = true;
-        }
-        if (isInZone(m_sharpSensor.points[2].x, m_sharpSensor.points[2].y, xmin, xmax, ymin, ymax))
-        {
-            obstacleInRange = true;
-        }
-        if (isInZone(m_sharpSensor.points[7].x, m_sharpSensor.points[7].y, xmin, xmax, ymin, ymax))
-        {
-            obstacleInRange = true;
-        }
-        if (isInZone(m_sharpSensor.points[8].x, m_sharpSensor.points[8].y, xmin, xmax, ymin, ymax))
-        {
-            obstacleInRange = true;
-        }
-
-
-        std::cout << "Obstacle in range :" << obstacleInRange << std::endl;
-*/
         if(obstacleInRange && pathTrackStatus == RUNNING)
         {
             m_trackPathAction.cancelGoal();
@@ -221,23 +180,10 @@ void MoveToPose::feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& fe
     m_pathTrackPercentComplete = feedback->percentComplete;
 }
 
+
 void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom)
 {
-    geometry_msgs::PoseStamped poseIn;
-    geometry_msgs::PoseStamped poseOut;
-
-    poseIn.header = odom.header;
-    poseIn.pose = odom.pose.pose;
-    try
-    {
-        m_tfListener.transformPose("/map", poseIn, poseOut);
-        m_poseOdom = poseOut.pose;
-    }
-    catch (tf::TransformException ex)
-    {
-        m_poseOdom = poseIn.pose;
-        ROS_ERROR("%s",ex.what());
-    }
+    m_poseOdom = odom.pose.pose;
 }
 
 

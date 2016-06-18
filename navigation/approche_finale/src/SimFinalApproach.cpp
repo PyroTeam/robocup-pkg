@@ -38,10 +38,14 @@ void SimFinalApproach::preemptCB()
 	m_as.setPreempted();
 }
 
-void SimFinalApproach::landmarksCallback(const deplacement_msg::Landmarks::ConstPtr& msg)
+void SimFinalApproach::landmarksCallback(const deplacement_msg::Machines& msg)
 {
 	/* XXX : Maybe this vector could be updated only once, because mps position should not change with mocked detecion */
-	m_mps = msg->landmarks;
+
+  for (auto &it : msg.landmarks)
+  {
+    	m_mps.push_back(it.pose);
+	}
 }
 
 void SimFinalApproach::executeCB(const manager_msg::finalApproachingGoalConstPtr &goal)
@@ -94,7 +98,7 @@ void SimFinalApproach::executeCB(const manager_msg::finalApproachingGoalConstPtr
 	ROS_INFO("%s: Finished", m_actionName.c_str());
 	/* If not preempted */
 	if (m_as.isActive())
-	{		
+	{
 		/* Did we finished the final approach ? */
 		if (succeeded)
 		{
@@ -155,7 +159,7 @@ void SimFinalApproach::executeCB(const manager_msg::finalApproachingGoalConstPtr
 	float positionY=0, gradient=0, ortho=0, moyY=0, moyO=0;
     int j = 0;
     std::list<float> listPositionY, listOrtho;
-    //to get goal action   		  
+    //to get goal action
 	ROS_INFO("%s: Executing, creating SimFinalApproach sequence of type %i with side %i and parameter %i", actionName.c_str(), goal->type, goal->side,goal->parameter);
 	m_type = goal->type;
 	m_side = goal->side;
@@ -181,9 +185,9 @@ void SimFinalApproach::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		if (!as.isActive())
 		{
       		return;
-  		}		
+  		}
 		if(at.getFoundId())
-		{	
+		{
 			k=correspondingId(allPossibleId,at.getId(),at.getDistance());
 		}
 		if(phase == 0)
@@ -196,15 +200,15 @@ void SimFinalApproach::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		phase = phaseDependingOnOrientation(newOrientation,phase);
 		m_pubMvt.publish(msgTwist);
 	}
-	//lock loop with ARTag camera 
+	//lock loop with ARTag camera
 	while(ros::ok() && !bp.getState() && phase!=3 && avancementArTag==0 && obstacle==false)
 	{
 		// make sure that the action hasn't been canceled
 		if (!as.isActive())
 		{
       		return;
-  		}		
-		//if at least one ARTag found	
+  		}
+		//if at least one ARTag found
 		if(at.getFoundId())
 		{
 			px=at.getPositionX();
@@ -226,7 +230,7 @@ void SimFinalApproach::executeCB(const manager_msg::finalApproachingGoalConstPtr
 		if (!as.isActive())
 		{
       		return;
-  		}	
+  		}
 		// if the scan is complete
 		if(ls.getRanges().size() == 513)
 		{
@@ -251,8 +255,8 @@ void SimFinalApproach::executeCB(const manager_msg::finalApproachingGoalConstPtr
 					ROS_INFO("l objet se trouve a environ %f m du bord",positionY);
 					ortho = distanceOrtho(seg, ranges, angleMin, angleInc);
 					ROS_DEBUG("distance orthogonale laser-machine : %f",ortho);
-					
-					//to do an average 
+
+					//to do an average
 					if(j<1)
 					{
 						listPositionY.push_back(positionY);
@@ -268,7 +272,7 @@ void SimFinalApproach::executeCB(const manager_msg::finalApproachingGoalConstPtr
 						moyY = moy(listPositionY);
 						moyO = moy(listOrtho);
 						//to be in front of the machine
-						a = asservissementAngle(plotData,m_pubMvt,gradient);	
+						a = asservissementAngle(plotData,m_pubMvt,gradient);
 						int min = seg.getMinRanges();
 						int max = seg.getMaxRanges();
 						Point gauche(ranges[max],angleMin+(double)min*angleInc);
@@ -287,13 +291,13 @@ void SimFinalApproach::executeCB(const manager_msg::finalApproachingGoalConstPtr
 							{
 								cpt++;
 							}
-						}	
+						}
 						if(a == 1 && cpt >= 200)
 						{
 							//to move on the X axis of the robot
-							c = asservissementPositionX(plotData,m_pubMvt,ortho,objectifX());	
+							c = asservissementPositionX(plotData,m_pubMvt,ortho,objectifX());
 						}
-					}	
+					}
 				}
 				m_plot.publish(plotData);
 				feedback.percent_complete = avancement(a,b,c);
@@ -337,7 +341,7 @@ void SimFinalApproach::executeCB(const manager_msg::finalApproachingGoalConstPtr
 			ROS_WARN("OBSTACLE TROP PROCHE\n");
 			result.state = 2;
 		}
-		success=false;	
+		success=false;
 	}
 	if(success)
 	{

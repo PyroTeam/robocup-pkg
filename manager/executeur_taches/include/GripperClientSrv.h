@@ -21,7 +21,7 @@ class GripperClientSrv
 		/* Constructeur */
 		GripperClientSrv();
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual  ~GripperClientSrv();
 
 		/* Méthodes */

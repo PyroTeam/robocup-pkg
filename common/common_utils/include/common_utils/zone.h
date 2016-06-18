@@ -1,6 +1,9 @@
 #ifndef _COMMON_UTILS__ZONE__H_
 #define _COMMON_UTILS__ZONE__H_
 
+
+#include "geometry_msgs/Pose2D.h"
+
 namespace common_utils {
 
 /**
@@ -40,6 +43,30 @@ inline bool getZoneCenter(int zone, double &x, double &y, float zone_width = 2.0
 	}
 
 	return true;
+}
+
+inline int getArea(const geometry_msgs::Pose2D &m, float zone_width = 2.0, float zone_height = 1.5)
+{
+  // Right side
+  if(m.x >= 0 && m.x <= 6 && m.y >= 0 && m.y < 6)
+  {
+    int w = int(m.x/zone_width);
+    int h = int(m.y/zone_height)+1;
+
+    return w*4 + h;
+  }
+  // Left Side
+  else if (m.x >= -6 && m.x < 0 && m.y >= 0 && m.y < 6)
+  {
+    int w = int(-m.x/zone_width);
+    int h = int(m.y/zone_height)+1;
+
+    return w*4 + h + 12;
+  }
+  else
+  {
+    return 0;
+  }
 }
 
 } // namespace common_utils

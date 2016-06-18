@@ -11,7 +11,7 @@
 #include <gazsim_msgs/LightSignalDetection.pb.h>
 #include <llsf_msgs/MachineInfo.pb.h>
 #include <trait_im_msg/LightSignal.h>
-#include <deplacement_msg/Landmarks.h>
+#include <deplacement_msg/Machines.h>
 #include <gazebo_msgs/ModelStates.h>
 #include <tf/transform_datatypes.h>
 
@@ -21,7 +21,7 @@ bool g_init = false;
 ros::Publisher g_pubOdom;
 ros::Publisher g_pubLightSignal;
 ros::Publisher g_pubMachines;
-deplacement_msg::Landmarks g_landmarks;
+deplacement_msg::Machines g_landmarks;
 
 
 #include <boost/bind.hpp>
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 	gazebo::transport::SubscriberPtr subLightSignal = node->Subscribe("/gazebo/pyro_2015/" +robotName+ "/gazsim/light-signal/", &lightSignalCallback);
 	// Publisher
 	g_pubLightSignal = nh.advertise<trait_im_msg::LightSignal>("hardware/closest_light_signal", 1000);
-	g_pubMachines = nh.advertise<deplacement_msg::Landmarks>("objectDetection/landmarks", 1000, true);
+	g_pubMachines = nh.advertise<deplacement_msg::Machines>("objectDetection/landmarks", 1000, true);
 	g_init = true;
 
 	// Publisher loop...replace with your own code.
@@ -176,12 +176,15 @@ void machineInfoCallback(ModelStatesConstPtr &msg)
 			continue;
 		}
 
-		geometry_msgs::Pose2D pose;
-		pose.x = msg->pose[i].position.x;
-		pose.y = msg->pose[i].position.y;
-		pose.theta = tf::getYaw(msg->pose[i].orientation);
+		geometry_msgs::Pose2D center;
+		center.x = msg->pose[i].position.x;
+		center.y = msg->pose[i].position.y;
+		center.theta = tf::getYaw(msg->pose[i].orientation);
 
-		g_landmarks.landmarks.push_back(pose);
+    comm_msg::ExplorationMachine tmp;
+    tmp.pose = center;
+
+		g_landmarks.landmarks.push_back(tmp);
 	}
 
 	if (g_init)

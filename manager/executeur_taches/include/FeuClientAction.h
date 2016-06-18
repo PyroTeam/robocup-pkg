@@ -24,7 +24,7 @@ class FeuClientAction
 		/* Constructeur */
 		FeuClientAction();
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual  ~FeuClientAction();
 
 		/* Méthodes */

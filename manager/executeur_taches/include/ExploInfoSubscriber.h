@@ -26,7 +26,7 @@ class ExploInfoSubscriber
     /* Constructeur */
     ExploInfoSubscriber();
 
-    /* Déstructeur */
+    /* Destructeur */
     virtual  ~ExploInfoSubscriber();
 
     /* Méthodes */

@@ -11,7 +11,7 @@
 
 // Ours
 #include <manager_msg/finalApproachingAction.h>
-#include <deplacement_msg/Landmarks.h>
+#include <deplacement_msg/Machines.h>
 
 #include "odomFA.h"
 
@@ -21,9 +21,9 @@ class SimFinalApproach
 		SimFinalApproach(std::string name);
 		~SimFinalApproach(void);
 
-		void preemptCB();		
+		void preemptCB();
 		void executeCB(const manager_msg::finalApproachingGoalConstPtr &goal);
-		void landmarksCallback(const deplacement_msg::Landmarks::ConstPtr& msg);
+    void landmarksCallback(const deplacement_msg::Machines& msg);
 
 	private:
 		ros::NodeHandle m_nh;
@@ -41,7 +41,7 @@ class SimFinalApproach
 		ros::Publisher m_markerPub;
 		ros::Publisher m_plot;
 		ros::Subscriber m_landmarksSub;
-		
+
 		/* Order infos */
 		int m_type;
 		int m_side;

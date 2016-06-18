@@ -128,64 +128,59 @@ add_executable(
   src/ArTagClientSrv.cpp
   src/NavigationClientAction.cpp
   src/MPS.cpp
+	src/RobotPoseSubscriber.cpp
 )
 add_dependencies(test_exec manager_msg_gencpp trait_im_msg_gencpp comm_msg_gencpp)
 set_target_properties(
 	test_exec
-
 	PROPERTIES COMPILE_FLAGS "-std=c++11"
 )
 
 add_executable(
   test_publish
-
   src/fake_publisher_node.cpp
 )
 add_dependencies(test_publish manager_msg_gencpp comm_msg_gencpp)
 
 add_executable(
   test_lights
-
   src/fake_light_server_node.cpp
 )
 add_dependencies(test_lights manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
 
 add_executable(
   test_order
-
   src/fake_client_order.cpp
 )
-
 add_dependencies(test_order manager_msg_gencpp comm_msg_gencpp)
 
 
-add_executable(finalApproaching_client src/finalApproaching_client.cpp)
+add_executable(
+  finalApproaching_client
+  src/finalApproaching_client.cpp
+)
 add_dependencies(finalApproaching_client manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
 
 add_executable(
   test_ei
-
   src/fake_publisher_ei.cpp
 )
 add_dependencies(test_ei comm_msg_gencpp)
 
 add_executable(
   test_arTag
-
   src/fake_arTag_server.cpp
 )
 add_dependencies(test_arTag manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
 
 add_executable(
   test_report
-
   src/fake_server_reporting.cpp
 )
 add_dependencies(test_report comm_msg_gencpp)
 
 add_executable(
   test_navigation
-
   src/fake_action_navigation.cpp
 )
 add_dependencies(test_navigation manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)

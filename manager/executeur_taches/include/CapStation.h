@@ -30,7 +30,7 @@ class CapStation : public Machine
 		CapStation(int teamColor);
 		CapStation(int teamColor, int nb);
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual ~CapStation();
 
 		virtual void FonctionVirtuelle();
