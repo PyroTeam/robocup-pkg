@@ -1,46 +1,33 @@
-#include "ros/ros.h"
-#include "path_tracker/trackPathAction.h"
-#include "path_tracker/dataMapObstacle.h"
+/**
+ * \file         path_tracker_node.cpp
+ *
+ * \brief
+ *
+ * \author       Coelen Vincent (vincent.coelen@polytech-lille.net)
+ * \date         2016-06-17
+ * \copyright    2016, Association de Robotique de Polytech Lille All rights reserved
+ * \license
+ * \version
+ */
 
-/*nav_msgs::OccupancyGrid g_grid;
-bool g_receiveGrid = false;
 
-void gridCallback(const nav_msgs::OccupancyGrid &grid)
-{
-    g_grid = grid;
-    g_receiveGrid = true;
-}*/
+#include <ros/ros.h>
+#include "path_tracker/PathTracking.h"
+#include "path_tracker/SwitchModeBehavior.h"
+
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "PathTracker");
+    ros::init(argc, argv, "path_tracker");
     ros::NodeHandle nh;
-    //ros::Subscriber grid_sub = nh.subscribe("objectDetection/gridObstacles", 1000, &gridCallback);
 
-    ros::spinOnce();
-    TrackPathAction pathTrack("navigation/trackPath");
-    //DataMapObstacle map;
+    //std::shared_ptr<SwitchModeBehavior> behavior(new SwitchModeBehavior());
+    //PathTracking pathTracking("navigation/trackPath", behavior);
 
-    /*geometry_msgs::Pose pose;
-    pose.position.x = -2;
-    pose.position.y = 1;
-    pose.position.z = 0;
-    pose.orientation.x = 0;
-    pose.orientation.y = 0;
-    pose.orientation.z = 0;
-    pose.orientation.w = 1;
 
-    geometry_msgs::Point point;
-    point.x = 3;
-    point.y = 1;
-*/
     ros::Rate loop_rate(10);
     while(ros::ok())
     {
-        /*if (g_receiveGrid)
-        {
-            map.calculObstacle(pose, point, map.calculDistance(pose.position, point));
-        }*/
         ros::spinOnce();
         loop_rate.sleep();
     }

@@ -1,4 +1,9 @@
 # Define the goal
+uint16 command
+
+uint16 CMD_START = 10001
+uint16 CMD_STOP = 10002
+uint16 CMD_PAUSE = 10003
 
 ---
 # Define the result
