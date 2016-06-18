@@ -4,7 +4,7 @@
  * \brief       classe pour s'abonner au Topic de la localisation
  * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
  * \date        2015-10-10
- * \copyright   PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef LOCASUBSCRIBER_H

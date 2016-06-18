@@ -73,7 +73,7 @@ void RingStation::put_ring(int color,int n_robot,int n_order,int machine)
 
 	goTo(this->m_entryMachine);
 
-	this->startFinalAp(finalApproachingGoal::RS, finalApproachingGoal::IN, finalApproachingGoal::CONVEYOR);
+	this->startFinalAp(FinalApproachingGoal::RS, FinalApproachingGoal::IN, FinalApproachingGoal::CONVEYOR);
 	this->let();
 
 	//Communication_RefBox(je veux un ring de couleur "couleur" )
@@ -97,7 +97,7 @@ void RingStation::take_ring(int color,int n_robot,int n_order,int machine)
 
 	// while(Communication_RefBox(rs n'a terminé de livrer))
 
-	this->startFinalAp(finalApproachingGoal::RS, finalApproachingGoal::OUT, finalApproachingGoal::CONVEYOR);
+	this->startFinalAp(FinalApproachingGoal::RS, FinalApproachingGoal::OUT, FinalApproachingGoal::CONVEYOR);
 	this->take();
 	msg = msgToGT(n_robot,activity::END,machine,n_order);
 }

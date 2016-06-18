@@ -110,7 +110,7 @@ void GtServerSrv::asking(geometry_msgs::Pose2D point)
 		else if(count = 3) {point.y -= 1.5; point.theta += M_PI/2;  going(point);}
 		else if(count = 4) {point.x += 2;   point.theta += M_PI/2;  going(point);}
 		else count = 0;
-		fa_c.starting(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
+		fa_c.starting(FinalApproachingGoal::BS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
 		mid = atg.askForId();
 		count ++;
 	}while(mid == -1);
@@ -122,7 +122,7 @@ manager_msg::activity GtServerSrv::getActivityMsg()
 	return m_msg;
 }
 
-manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction()
+final_approach_msg::FinalApproachingAction GtServerSrv::getFinalAppAction()
 {
 	return m_act;
 }
