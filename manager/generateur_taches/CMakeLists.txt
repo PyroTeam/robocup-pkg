@@ -134,6 +134,7 @@ add_executable(main_node
   src/orderInfo.cpp
   src/robotInfo.cpp
   src/robot.cpp
+  src/LocaSubscriber.cpp
   src/main_node.cpp)
 target_link_libraries(main_node ${catkin_LIBRARIES} )
 add_dependencies(main_node manager_msg_gencpp comm_msg_gencpp)
