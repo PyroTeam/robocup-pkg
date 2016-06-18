@@ -78,7 +78,8 @@
 			args="$(arg tf_platformcam_x) $(arg tf_platformcam_y) $(arg tf_platformcam_z)   -1.57 0 -1.57   base_link platform_camera_link 100" />
 
 		<!-- Load ArTag -->
-        <param name="/usb_cam_node/video_device" value="/dev/video0" />
+        <param name="usb_cam_node/video_device" value="/dev/video0" />
+        <param name="usb_cam_node/camera_frame_id" value="$(arg tf_prefix)/tower_camera_link" />
         <node name="usb_cam_node" pkg="usb_cam" type="usb_cam_node" output="screen" />
 
 		<include file="$(find ar_tag)/launch/alvar_simu.launch">
