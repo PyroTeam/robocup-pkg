@@ -85,7 +85,40 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 
 bool GtServerSrv::knownMachineInZone(int zone)
 {
+<<<<<<< HEAD
 	return m_ls->machines()[zone - 1].isHere;
+=======
+	return m_ls->m_machine[zone - 1].isHere;
+}
+
+
+void GtServerSrv::getNearestPoint(geometry_msgs::Pose2D &pose
+	, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2
+	, geometry_msgs::Pose2D **targetPointPtr, geometry_msgs::Pose2D **otherPointPtr)
+{
+	/* TODO: Unfake this function (use pose) */
+	*targetPointPtr = &point1;
+	*otherPointPtr = &point2;
+}
+
+void GtServerSrv::asking(geometry_msgs::Pose2D point)
+{
+	int count = 0;
+	int16_t mid;
+	ArTagClienSrv atg;
+	FinalApproachingClient fa_c;
+	do{
+		if(count = 1) {point.y += 1.5; point.theta += M_PI/2;  going(point);}
+		else if(count = 2) {point.x -= 2;   point.theta += M_PI/2;  going(point);}
+		else if(count = 3) {point.y -= 1.5; point.theta += M_PI/2;  going(point);}
+		else if(count = 4) {point.x += 2;   point.theta += M_PI/2;  going(point);}
+		else count = 0;
+		fa_c.starting(FinalApproachingGoal::BS,FinalApproachingGoal::OUT,FinalApproachingGoal::LIGHT);
+		mid = atg.askForId();
+		count ++;
+	}while(mid == -1);
+	m_id = mid;
+>>>>>>> ac5172c1dccb5d4439d83f8620b5727cf21f508e
 }
 
 manager_msg::activity GtServerSrv::getActivityMsg()
@@ -93,7 +126,7 @@ manager_msg::activity GtServerSrv::getActivityMsg()
 	return m_msg;
 }
 
-manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction()
+final_approach_msg::FinalApproachingAction GtServerSrv::getFinalAppAction()
 {
 	return m_act;
 }
@@ -446,10 +479,17 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
             machine->majExit(firstSidePoint);
 
 
+<<<<<<< HEAD
     				// Approche finale, objectif FEU
     				// TODO: Uncomment
     				// FinalApproachingClient fa_c;
     				// fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
+=======
+  				// Approche finale, objectif FEU
+  				// TODO: Uncomment
+  				// FinalApproachingClient fa_c;
+  				// fa_c.starting(machine->getFaType(), FinalApproachingGoal::OUT, FinalApproachingGoal::LIGHT);
+>>>>>>> ac5172c1dccb5d4439d83f8620b5727cf21f508e
 
   		  		// Traitement d'image, détection FEU
             FeuClientAction f_c;

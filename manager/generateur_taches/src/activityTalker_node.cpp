@@ -3,7 +3,7 @@
  * \brief		Programme de test pour simuler l envoi du topic manager_msg::activity
  * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date		2015-04-01
- * \copyright	PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
  
 #include "ros/ros.h"

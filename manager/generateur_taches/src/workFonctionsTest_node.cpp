@@ -3,7 +3,7 @@
  * \brief		Programme de test pour les fonctions de work.cpp
  * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date		2015-04-01
- * \copyright	PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 

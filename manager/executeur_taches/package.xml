@@ -46,6 +46,7 @@
   <build_depend>actionlib</build_depend>
   <build_depend>actionlib_msgs</build_depend>
   <build_depend>manager_msg</build_depend>
+  <build_depend>final_approach_msg</build_depend>
   <build_depend>comm_msg</build_depend>
   <build_depend>deplacement_msg</build_depend>
   <build_depend>common_utils</build_depend>
@@ -55,6 +56,7 @@
   <run_depend>actionlib</run_depend>
   <run_depend>actionlib_msgs</run_depend>
   <run_depend>manager_msg</run_depend>
+  <run_depend>final_approach_msg</run_depend>
   <run_depend>comm_msg</run_depend>
   <run_depend>deplacement_msg</run_depend>
   <run_depend>common_utils</run_depend>

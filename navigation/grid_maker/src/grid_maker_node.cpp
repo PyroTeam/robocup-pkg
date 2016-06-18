@@ -5,8 +5,7 @@
  *
  * \author      Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date        2015-12-05
- * \copyright   PyroTeam, Polytech-Lille
- * \license
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  * \version
  */
 
@@ -23,7 +22,7 @@
 #include "occupancy_grid_utils/grid_modifier/BasicGradientModifier.h"
 #include "occupancy_grid_utils/grid_modifier/FastGradientModifier.h"
 
-#include "common_utils/Parameter.h"
+#include "common_utils/parameterFunctions.h"
 #include "geometry_utils/geometry_utils.h"
 #include "geometry_msgs/Pose2D.h"
 #include "deplacement_msg/Machines.h"
