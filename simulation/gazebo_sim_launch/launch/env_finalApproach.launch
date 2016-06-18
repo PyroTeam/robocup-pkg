@@ -82,8 +82,8 @@
         <node name="usb_cam_node" pkg="usb_cam" type="usb_cam_node" output="screen" />
 
 		<include file="$(find ar_tag)/launch/alvar_simu.launch">
-	        <arg name="cam_image_topic" value="/usb_cam_node/image_raw" />
-	        <arg name="cam_info_topic" value="/usb_cam_node/camera_info" />
+	        <arg name="cam_image_topic" value="usb_cam_node/image_raw" />
+	        <arg name="cam_info_topic" value="usb_cam_node/camera_info" />
         	<arg name="marker_size" value="13.0" />
 			<arg name="output_frame" value="$(arg tf_prefix)/tower_camera_link"/>
 			<arg name="respawn" value="true"/>
