@@ -117,13 +117,14 @@ catkin_package(
 # include_directories(include)
 include_directories(
     include
-    include/common_utils
     ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 add_library(common_utils
+  src/parameterFunctions.cpp
   src/Parameter.cpp
+  src/Pid.cpp
 )
 
 ## Add cmake target dependencies of the library
@@ -143,9 +144,9 @@ set_target_properties(common_utils PROPERTIES COMPILE_FLAGS "-std=c++11")
 # add_dependencies(common_utils_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(common_utils_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(common_utils
+    ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

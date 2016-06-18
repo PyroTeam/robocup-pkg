@@ -5,8 +5,7 @@
  *
  * \author       Tissot Elise (elise.tissot@polytech-lille.net)
  * \date         2015-07-08
- * \copyright    PyroTeam, Polytech-Lille
- * \license
+ * \copyright    2016, Association de Robotique de Polytech Lille All rights reserved
  * \version
  */
 

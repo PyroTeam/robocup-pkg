@@ -49,6 +49,7 @@
   <build_depend>cmake_modules</build_depend>
   <build_depend>deplacement_msg</build_depend>
   <build_depend>tf</build_depend>
+  <build_depend>visualization_msgs</build_depend>
   <build_depend>message_filters</build_depend>
   <build_depend>geometry_utils</build_depend>
 
@@ -60,6 +61,7 @@
   <run_depend>message_runtime</run_depend>
   <run_depend>deplacement_msg</run_depend>
   <run_depend>tf</run_depend>
+  <run_depend>visualization_msgs</run_depend>
   <run_depend>message_filters</run_depend>
   <run_depend>geometry_utils</run_depend>
 
