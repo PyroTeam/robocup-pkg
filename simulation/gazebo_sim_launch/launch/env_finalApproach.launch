@@ -1,13 +1,13 @@
 <launch>
-	<arg name="tf_laser_x" value="$(eval 0.46.5/2 - 0.14)" /><!-- 0.0925 -->
-	<arg name="tf_laser_y" value="$(eval 0.0)" />
-	<arg name="tf_laser_z" value="$(eval 0.255)" />
-	<arg name="tf_towercam_x" value="$(eval 0.46.5/2 - 0.12)" /><!-- 0.1125 -->
-	<arg name="tf_towercam_y" value="$(eval -0.015)" />
-	<arg name="tf_towercam_z" value="$(eval 0.55)" />
-	<arg name="tf_platformcam_x" value="$(eval 0.0)" />
-	<arg name="tf_platformcam_y" value="$(eval 0.00)" />
-	<arg name="tf_platformcam_z" value="$(eval 0.90)" />
+	<arg name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
+	<arg name="tf_laser_y" value="0.0" />
+	<arg name="tf_laser_z" value="0.255" />
+	<arg name="tf_towercam_x" value="0.1125" /><!-- 0.46.5/2 - 0.12 -->
+	<arg name="tf_towercam_y" value="-0.015" />
+	<arg name="tf_towercam_z" value="0.55" />
+	<arg name="tf_platformcam_x" value="0.0" />
+	<arg name="tf_platformcam_y" value="0.00" />
+	<arg name="tf_platformcam_z" value="0.90" />
 
 	<!-- Pyro TEAM -->
 	<!-- Team Namespace -->
