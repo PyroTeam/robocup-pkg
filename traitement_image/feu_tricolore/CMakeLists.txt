@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   image_transport
   cv_bridge
   actionlib
+  common_utils
 )
 
 find_package(OpenCV)
