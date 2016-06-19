@@ -286,7 +286,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 
 		if (angleAsservDone && (asservLaserYOk_cpt < nbAsservLaserYOkNeeded))
 		{
-			yAsservDone = asservissementPositionY(objectifY(), seg.getMiddlePoint().y);
+			yAsservDone = asservissementPositionY(objectifY(), -seg.getMiddlePoint().y);
 			if (yAsservDone)
 			{
 				asservLaserYOk_cpt++;
@@ -401,31 +401,29 @@ int FinalApproaching::avancement(int a, int b, int c)
 
 float FinalApproaching::objectifY()
 {
-
 	/**
-	 * On asservit en fonction de la position de la machine en y dans le repère robot, la logique est spéciale
+	 * Les positions des objectifs sont données pour le côté INPUT d'une machine, y positif à gauche de la machine
 	 */
-	// TODO: A vérifier
 	switch (m_parameter)
 	{
 		case final_approach_msg::FinalApproachingGoal::S1:
-			return -(0.28-0.35);
+			return m_yPoseS1();
 		case final_approach_msg::FinalApproachingGoal::S2:
-			return -(0.175-0.35);
+			return m_yPoseS2();
 		case final_approach_msg::FinalApproachingGoal::S3:
-			return -(0.08-0.35);
+			return m_yPoseS3();
 		case final_approach_msg::FinalApproachingGoal::LANE_RS:
-			return -(0.09-0.35);
+			return m_yPoseLANE_RS();
 		case final_approach_msg::FinalApproachingGoal::LIGHT:
 		case final_approach_msg::FinalApproachingGoal::LIGHT_OLD:
-			return -(0.35-0.35);
+			return m_yPoseLIGHT_OLD();
 		case final_approach_msg::FinalApproachingGoal::CONVEYOR:
-		// TODO: Pourquoi deux mesures différentes ?
+		// Le convoyeur est décentré, selon le côté il sera plutôt à gauche ou plutôt à droite
 			if (m_side == final_approach_msg::FinalApproachingGoal::IN)
-				return -(0.37-0.35);
-			return -(0.315-0.35);
+				return m_yPoseCONVEYOR();
+			return -m_yPoseCONVEYOR();
 		default:
-			ROS_ERROR("Unknown parameter %d", m_parameter);
+			ROS_ERROR_THROTTLE(3.0, "Unknown parameter %d", m_parameter);
 			return 42;
 	}
 }
@@ -1151,7 +1149,7 @@ bool FinalApproaching::asservissementPositionY(float setpoint, float measure)
 	}
 	else
 	{
-		m_msgTwist.linear.y = -m_laserYPid.update(err);
+		m_msgTwist.linear.y = m_laserYPid.update(err);
 		m_plotData.YCmd = m_msgTwist.linear.y;
 		m_pubMvt.publish(m_msgTwist);
 		return false;

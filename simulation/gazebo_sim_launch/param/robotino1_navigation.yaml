@@ -19,3 +19,12 @@ navigation:
                 threshold: 0.005
         mps:
             width: 0.700
+            pose:
+                yAxis:
+                    S1: -0.07
+                    S2: -0.175
+                    S3: -0.27
+                    LANE_RS: -0.26
+                    LIGHT: 0.0
+                    LIGHT_OLD: 0.0
+                    CONVEYOR: 2.25

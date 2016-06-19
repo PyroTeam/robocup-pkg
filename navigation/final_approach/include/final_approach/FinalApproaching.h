@@ -144,6 +144,14 @@ class FinalApproaching
 
 	// Some useful infos
 	Parameter m_mpsWidth;
+	// Les positions sur l'axe y sont renseignée côté INPUT de la machine
+	Parameter m_yPoseS1;
+	Parameter m_yPoseS2;
+	Parameter m_yPoseS3;
+	Parameter m_yPoseLANE_RS;
+	Parameter m_yPoseLIGHT;
+	Parameter m_yPoseLIGHT_OLD;
+	Parameter m_yPoseCONVEYOR;
 
   public:
 	FinalApproaching(std::string name)
@@ -168,6 +176,14 @@ class FinalApproaching
 		, m_laserYawPid(m_laserYawPidKp(), m_laserYawPidKi(), m_laserYawPidKd(), 1.0/g_loopFreq)
 
 		, m_mpsWidth(m_nh, "navigation/finalApproach/mps/width", 0.700)
+
+		, m_yPoseS1(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/S1", -0.07)
+		, m_yPoseS2(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/S2", -0.175)
+		, m_yPoseS3(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/S3", -0.27)
+		, m_yPoseLANE_RS(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/LANE_RS", -0.26)
+		, m_yPoseLIGHT(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/LIGHT", 0.0)
+		, m_yPoseLIGHT_OLD(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/LIGHT_OLD", 0.0)
+		, m_yPoseCONVEYOR(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/CONVEYOR", 2.25)
 	{
 		refreshParams();
 
