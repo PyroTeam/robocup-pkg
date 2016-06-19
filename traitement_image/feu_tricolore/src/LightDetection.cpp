@@ -293,7 +293,7 @@ static void drawSignalOnImg(cv::Mat &img, cv::Rect &roi, int signal)
 	static const cv::Scalar blueColor = cv::Scalar(1.0*maxValue, 0.0*maxValue, 0.0*maxValue);
 
 	constexpr int lineThickness = 5;
-	constexpr int lineOffset = lineThickness - lineThickness/2;
+	constexpr int lineOffset = lineThickness - lineThickness/2 + 2;
 
 	const cv::Scalar *color;
 
@@ -332,7 +332,7 @@ void LightDetection::publishResultImages(cv::Mat &imgResult)
 	static const cv::Scalar redColor = cv::Scalar(0.0*maxValue, 0.0*maxValue, 1.0*maxValue);
 	static const cv::Scalar blackColor = cv::Scalar(0.0*maxValue, 0.0*maxValue, 0.0*maxValue);
 	constexpr int lineThickness = 5;
-	constexpr int lineOffset = lineThickness - lineThickness/2;
+	constexpr int lineOffset = lineThickness - lineThickness/3 + 2;
 
 	// Dessine les ROI sur l'image
 	cv::rectangle(imgResult, m_greenRoi,  greenColor);

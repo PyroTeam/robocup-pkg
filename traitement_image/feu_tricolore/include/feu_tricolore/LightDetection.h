@@ -56,7 +56,7 @@ private:
 	// Signals
 	bool m_redTurnedOn, m_yellowTurnedOn, m_greenTurnedOn;
 	int m_nbRedTurnedOn, m_nbYellowTurnedOn, m_nbGreenTurnedOn;
-	bool m_finalRedSignal, m_finalYellowSignal, m_finalGreenSignal;
+	int m_finalRedSignal, m_finalYellowSignal, m_finalGreenSignal;
 
 public:
 	LightDetection();
