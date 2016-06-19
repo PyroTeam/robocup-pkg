@@ -144,9 +144,6 @@ void LightDetection::traitement(cv::Mat &imgToProcess)
 	constexpr float downBlinkTolerance = blinkTolerance/2;
 	constexpr float topBlinkTolerance = blinkTolerance + downBlinkTolerance;
 	constexpr int hsvValueChannel = 2;
-	constexpr int greenValueThreshold  = 150;  // TODO: Ajouter un paramètre
-	constexpr int yellowValueThreshold = 210;  // TODO: Ajouter un paramètre
-	constexpr int redValueThreshold    = 210;  // TODO: Ajouter un paramètre
 
 	float timeElapsed = (ros::Time::now() - m_beginOfProcessing).toSec();
 
@@ -177,9 +174,9 @@ void LightDetection::traitement(cv::Mat &imgToProcess)
 	float meanYellow = cv::mean(yellowLight).val[hsvValueChannel];
 	float meanRed = cv::mean(redLight).val[hsvValueChannel];
 
-	m_greenTurnedOn = meanGreen > greenValueThreshold;
-	m_yellowTurnedOn = meanYellow > yellowValueThreshold;
-	m_redTurnedOn = meanRed > redValueThreshold;
+	m_greenTurnedOn = meanGreen > m_roiParams.green.threshold();
+	m_yellowTurnedOn = meanYellow > m_roiParams.yellow.threshold();
+	m_redTurnedOn = meanRed > m_roiParams.red.threshold();
 
 	ROS_DEBUG_STREAM_NAMED("roi", "Mean values g: "<<meanGreen<<" y: "<<meanYellow<<" r: "<<meanRed);
 
