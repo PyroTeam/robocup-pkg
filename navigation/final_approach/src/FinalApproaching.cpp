@@ -44,6 +44,10 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	m_parameter = goal->parameter;
 	ROS_INFO("%s: Execute. Start FinalApproach sequence of type %i with side %i and parameter %i",
 	         m_actionName.c_str(), m_type, m_side, m_parameter);
+	if (m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT)
+	{
+		ROS_INFO("FinalApproach got LIGHT parameter, will skip laser regulation");
+	}
 
 	// BumperListener
 	BumperListener bp;
@@ -226,7 +230,8 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	// Asservissement laserScan
 	ROS_INFO("LaserScan Asservissement");
 	firstTimeInLoop = true;
-	while (ros::ok() && !bp.getState() && locateArTagPhase != 3 && avancementArTag == 1 && !xAsservDone && obstacle == false)
+	while (ros::ok() && !bp.getState() && locateArTagPhase != 3 && avancementArTag == 1 && !xAsservDone && obstacle == false
+		&& m_parameter != final_approach_msg::FinalApproachingGoal::LIGHT)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "LaserScan Asservissement - process");
 		firstTimeInLoop = false;
@@ -412,6 +417,7 @@ float FinalApproaching::objectifY()
 		case final_approach_msg::FinalApproachingGoal::LANE_RS:
 			return -(0.09-0.35);
 		case final_approach_msg::FinalApproachingGoal::LIGHT:
+		case final_approach_msg::FinalApproachingGoal::LIGHT_OLD:
 			return -(0.35-0.35);
 		case final_approach_msg::FinalApproachingGoal::CONVEYOR:
 		// TODO: Pourquoi deux mesures différentes ?
@@ -427,7 +433,8 @@ float FinalApproaching::objectifY()
 float FinalApproaching::objectifX()
 {
 	// XXX: Paramétrer selon repère robot, voir repère préhenseur
-	if (m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT)
+	if (	m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT
+		||  m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT_OLD)
 	{
 		return 0.35;
 	}
@@ -933,37 +940,75 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 
 	ROS_DEBUG_NAMED("artag", "asservissementCameraNew - errX: %f | errY: %f | errYaw: %f", errX, errY, errYaw);
 
-	// Asserv en Y
-	if (std::abs(errY) < 0.03)	// 3cm
+	if (m_parameter != final_approach_msg::FinalApproachingGoal::LIGHT)
 	{
-		m_msgTwist.linear.y = 0;
-	}
-	else
-	{
-		finished = false;
-		m_msgTwist.linear.y = 0.75 * errY;
-	}
+		// Asserv en Y
+		if (std::abs(errY) < 0.01)	// 1cm
+		{
+			m_msgTwist.linear.y = 0;
+		}
+		else
+		{
+			finished = false;
+			m_msgTwist.linear.y = 0.75 * errY;
+		}
 
-	// Asserv en X
-	if (std::abs(errX - 0.50) < 0.03) // 3cm
-	{
-		m_msgTwist.linear.x = 0;
-	}
-	else
-	{
-		finished = false;
-		m_msgTwist.linear.x = 0.75 * (errX - 0.50);
-	}
+		// Asserv en X
+		if (std::abs(errX - 0.50) < 0.01) // 1cm
+		{
+			m_msgTwist.linear.x = 0;
+		}
+		else
+		{
+			finished = false;
+			m_msgTwist.linear.x = 0.75 * (errX - 0.50);
+		}
 
-	// Asserv en angle
-	if (std::abs(errYaw) < 0.02) // 0.02 rad -> 1 deg
-	{
-		m_msgTwist.angular.z = 0;
+		// Asserv en angle
+		if (std::abs(errYaw) < 0.01) // 0.01 rad -> 0.5 deg
+		{
+			m_msgTwist.angular.z = 0;
+		}
+		else
+		{
+			finished = false;
+			m_msgTwist.angular.z = 0.5 * errYaw;
+		}
 	}
 	else
 	{
-		finished = false;
-		m_msgTwist.angular.z = 0.5 * errYaw;
+		// Asserv en Y
+		if (std::abs(errY) < 0.03)	// 3cm
+		{
+			m_msgTwist.linear.y = 0;
+		}
+		else
+		{
+			finished = false;
+			m_msgTwist.linear.y = 0.75 * errY;
+		}
+
+		// Asserv en X
+		if (std::abs(errX - 0.50) < 0.03) // 3cm
+		{
+			m_msgTwist.linear.x = 0;
+		}
+		else
+		{
+			finished = false;
+			m_msgTwist.linear.x = 0.75 * (errX - 0.50);
+		}
+
+		// Asserv en angle
+		if (std::abs(errYaw) < 0.02) // 0.02 rad -> 1 deg
+		{
+			m_msgTwist.angular.z = 0;
+		}
+		else
+		{
+			finished = false;
+			m_msgTwist.angular.z = 0.5 * errYaw;
+		}
 	}
 
 	m_pubMvt.publish(m_msgTwist);
