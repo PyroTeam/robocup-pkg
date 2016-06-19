@@ -8,5 +8,6 @@ var searchData=
   ['reportingmachinesrvclient',['ReportingMachineSrvClient',['../d7/de4/classReportingMachineSrvClient.html',1,'']]],
   ['ringstation',['RingStation',['../d0/dd3/classRingStation.html',1,'']]],
   ['robot',['Robot',['../de/d78/classRobot.html',1,'']]],
-  ['robotinfo',['RobotInfo',['../d4/db2/classRobotInfo.html',1,'RobotInfo'],['../db/d01/classrobotInfo.html',1,'robotInfo']]]
+  ['robotinfo',['RobotInfo',['../d4/db2/classRobotInfo.html',1,'RobotInfo'],['../db/d01/classrobotInfo.html',1,'robotInfo']]],
+  ['roiparams',['RoiParams',['../d5/dcf/structRoiParams.html',1,'']]]
 ];

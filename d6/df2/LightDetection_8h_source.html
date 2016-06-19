@@ -127,76 +127,89 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;trait_im_msg/processLightSignalAction.h&gt;</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;trait_im_msg/LightSignal.h&gt;</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;comm_msg/LightSpec.h&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../df/d2e/display-histogram_8h.html">feu_tricolore/display-histogram.h</a>&quot;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../d7/dc8/classLightDetection.html">   42</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/dc8/classLightDetection.html">LightDetection</a></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">// ROS</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    ros::NodeHandle m_nh;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    image_transport::ImageTransport m_it;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    image_transport::Subscriber m_image_sub;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    image_transport::Publisher m_result_pub;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// OpenCV</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    cv::Mat m_origin;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// Signals</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">bool</span> m_redTurnedOn, m_yellowTurnedOn, m_greenTurnedOn;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">int</span> m_nbRedTurnedOn;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">int</span> m_nbYellowTurnedOn;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">int</span> m_nbGreenTurnedOn;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="../../d7/dc8/classLightDetection.html#af07615d72da7d00baba53a232a7a32c5">LightDetection</a>();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="../../d7/dc8/classLightDetection.html#a54c3e0bd588ebe11cfcb9ef1d36060b3">~LightDetection</a>();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d7/dc8/classLightDetection.html#a929fc349a0aedc83a9ba052dcc07848f">ok</a>();</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../d7/dc8/classLightDetection.html#a203b81812d2ca890c6666ad923ea6c33">   64</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dc8/classLightDetection.html#a203b81812d2ca890c6666ad923ea6c33">doLightDetection</a>(){ <a class="code" href="../../d7/dc8/classLightDetection.html#a203b81812d2ca890c6666ad923ea6c33">doLightDetection</a>(m_origin); };</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dc8/classLightDetection.html#a203b81812d2ca890c6666ad923ea6c33">doLightDetection</a>(cv::Mat &amp;imgToProcess);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> imageCb(<span class="keyword">const</span> sensor_msgs::ImageConstPtr&amp; msg);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> initMembersImgs();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dc8/classLightDetection.html#afddee57459b399d60b3b06c495a787f7">preTraitement</a>(cv::Mat &amp;imgToProcess);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dc8/classLightDetection.html#a66d8a610954e5b7192492a769bc3c3b3">traitement</a>(cv::Mat &amp;imgToProcess);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dc8/classLightDetection.html#a22d901f58f60a21521e5bcc9358567a2">publishResultImages</a>(cv::Mat &amp;imgToProcess);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::string m_action_name;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    actionlib::SimpleActionServer&lt;trait_im_msg::processLightSignalAction&gt; m_as;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    trait_im_msg::processLightSignalFeedback m_feedback;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    trait_im_msg::processLightSignalResult m_result;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">void</span> goalCB();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">void</span> preemptCB();</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    ros::Time m_beginOfProcessing;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">int</span> m_nbImgProcessed;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="comment">// TODO: Add parameters</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">int</span> m_minNbImgProcessedPerSecond = 10;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">float</span> m_minProcessTimeNeeded = 0.5;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;};</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">#endif // _TRAITEMENT_IMAGE__LIGHT_DETECTION__H_</span></div>
-<div class="ttc" id="classLightDetection_html_a54c3e0bd588ebe11cfcb9ef1d36060b3"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#a54c3e0bd588ebe11cfcb9ef1d36060b3">LightDetection::~LightDetection</a></div><div class="ttdeci">~LightDetection()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00072">LightDetection.cpp:72</a></div></div>
-<div class="ttc" id="classLightDetection_html"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html">LightDetection</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/df2/LightDetection_8h_source.html#l00042">LightDetection.h:42</a></div></div>
-<div class="ttc" id="classLightDetection_html_afddee57459b399d60b3b06c495a787f7"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#afddee57459b399d60b3b06c495a787f7">LightDetection::preTraitement</a></div><div class="ttdeci">void preTraitement(cv::Mat &amp;imgToProcess)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00118">LightDetection.cpp:118</a></div></div>
-<div class="ttc" id="classLightDetection_html_a22d901f58f60a21521e5bcc9358567a2"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#a22d901f58f60a21521e5bcc9358567a2">LightDetection::publishResultImages</a></div><div class="ttdeci">void publishResultImages(cv::Mat &amp;imgToProcess)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00239">LightDetection.cpp:239</a></div></div>
-<div class="ttc" id="classLightDetection_html_a929fc349a0aedc83a9ba052dcc07848f"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#a929fc349a0aedc83a9ba052dcc07848f">LightDetection::ok</a></div><div class="ttdeci">bool ok()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00078">LightDetection.cpp:78</a></div></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d0/ddd/Parameter_8h.html">common_utils/Parameter.h</a>&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../df/d2e/display-histogram_8h.html">feu_tricolore/display-histogram.h</a>&quot;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d4/d14/RoiParams_8h.html">feu_tricolore/RoiParams.h</a>&quot;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d7/dc8/classLightDetection.html">   44</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/dc8/classLightDetection.html">LightDetection</a></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">// ROS</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    ros::NodeHandle m_nh;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    image_transport::ImageTransport m_it;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    image_transport::Subscriber m_image_sub;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    image_transport::Publisher m_result_pub;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">// OpenCV</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    cv::Mat m_origin;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">// Signals</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> m_redTurnedOn, m_yellowTurnedOn, m_greenTurnedOn;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">int</span> m_nbRedTurnedOn, m_nbYellowTurnedOn, m_nbGreenTurnedOn;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">bool</span> m_finalRedSignal, m_finalYellowSignal, m_finalGreenSignal;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="../../d7/dc8/classLightDetection.html#af07615d72da7d00baba53a232a7a32c5">LightDetection</a>();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="../../d7/dc8/classLightDetection.html#a54c3e0bd588ebe11cfcb9ef1d36060b3">~LightDetection</a>();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d7/dc8/classLightDetection.html#a929fc349a0aedc83a9ba052dcc07848f">ok</a>();</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../d7/dc8/classLightDetection.html#a203b81812d2ca890c6666ad923ea6c33">   65</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dc8/classLightDetection.html#a203b81812d2ca890c6666ad923ea6c33">doLightDetection</a>(){ <a class="code" href="../../d7/dc8/classLightDetection.html#a203b81812d2ca890c6666ad923ea6c33">doLightDetection</a>(m_origin); };</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dc8/classLightDetection.html#a203b81812d2ca890c6666ad923ea6c33">doLightDetection</a>(cv::Mat &amp;imgToProcess);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> imageCb(<span class="keyword">const</span> sensor_msgs::ImageConstPtr&amp; msg);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">void</span> initMembersImgs();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dc8/classLightDetection.html#afddee57459b399d60b3b06c495a787f7">preTraitement</a>(cv::Mat &amp;imgToProcess);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dc8/classLightDetection.html#a66d8a610954e5b7192492a769bc3c3b3">traitement</a>(cv::Mat &amp;imgToProcess);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dc8/classLightDetection.html#a22d901f58f60a21521e5bcc9358567a2">publishResultImages</a>(cv::Mat &amp;imgToProcess);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    std::string m_action_name;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    actionlib::SimpleActionServer&lt;trait_im_msg::processLightSignalAction&gt; m_as;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    trait_im_msg::processLightSignalFeedback m_feedback;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    trait_im_msg::processLightSignalResult m_result;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">void</span> goalCB();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">void</span> preemptCB();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    ros::Time m_beginOfProcessing;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">int</span> m_nbImgProcessed;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="../../dc/dab/classParameter.html">Parameter</a> m_inputColorInverted;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="../../d5/dcf/structRoiParams.html">RoiParams</a> m_roiParams;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    cv::Rect m_greenRoi;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    cv::Rect m_yellowRoi;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    cv::Rect m_redRoi;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    std_msgs::Header m_inputImgHeader;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">// TODO: Add parameters</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">int</span> m_minNbImgProcessedPerSecond = 10;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">float</span> m_minProcessTimeNeeded = 0.5;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;};</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#endif // _TRAITEMENT_IMAGE__LIGHT_DETECTION__H_</span></div>
+<div class="ttc" id="structRoiParams_html"><div class="ttname"><a href="../../d5/dcf/structRoiParams.html">RoiParams</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d14/RoiParams_8h_source.html#l00021">RoiParams.h:21</a></div></div>
+<div class="ttc" id="classLightDetection_html_a54c3e0bd588ebe11cfcb9ef1d36060b3"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#a54c3e0bd588ebe11cfcb9ef1d36060b3">LightDetection::~LightDetection</a></div><div class="ttdeci">~LightDetection()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00074">LightDetection.cpp:74</a></div></div>
+<div class="ttc" id="classLightDetection_html"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html">LightDetection</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/df2/LightDetection_8h_source.html#l00044">LightDetection.h:44</a></div></div>
+<div class="ttc" id="classLightDetection_html_afddee57459b399d60b3b06c495a787f7"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#afddee57459b399d60b3b06c495a787f7">LightDetection::preTraitement</a></div><div class="ttdeci">void preTraitement(cv::Mat &amp;imgToProcess)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00134">LightDetection.cpp:134</a></div></div>
+<div class="ttc" id="Parameter_8h_html"><div class="ttname"><a href="../../d0/ddd/Parameter_8h.html">Parameter.h</a></div><div class="ttdoc">Parameter class. </div></div>
+<div class="ttc" id="classLightDetection_html_a22d901f58f60a21521e5bcc9358567a2"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#a22d901f58f60a21521e5bcc9358567a2">LightDetection::publishResultImages</a></div><div class="ttdeci">void publishResultImages(cv::Mat &amp;imgToProcess)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00325">LightDetection.cpp:325</a></div></div>
+<div class="ttc" id="classLightDetection_html_a929fc349a0aedc83a9ba052dcc07848f"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#a929fc349a0aedc83a9ba052dcc07848f">LightDetection::ok</a></div><div class="ttdeci">bool ok()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00080">LightDetection.cpp:80</a></div></div>
 <div class="ttc" id="display-histogram_8h_html"><div class="ttname"><a href="../../df/d2e/display-histogram_8h.html">display-histogram.h</a></div></div>
+<div class="ttc" id="classParameter_html"><div class="ttname"><a href="../../dc/dab/classParameter.html">Parameter</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddd/Parameter_8h_source.html#l00019">Parameter.h:19</a></div></div>
 <div class="ttc" id="classLightDetection_html_af07615d72da7d00baba53a232a7a32c5"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#af07615d72da7d00baba53a232a7a32c5">LightDetection::LightDetection</a></div><div class="ttdeci">LightDetection()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00007">LightDetection.cpp:7</a></div></div>
-<div class="ttc" id="classLightDetection_html_a203b81812d2ca890c6666ad923ea6c33"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#a203b81812d2ca890c6666ad923ea6c33">LightDetection::doLightDetection</a></div><div class="ttdeci">void doLightDetection()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/df2/LightDetection_8h_source.html#l00064">LightDetection.h:64</a></div></div>
-<div class="ttc" id="classLightDetection_html_a66d8a610954e5b7192492a769bc3c3b3"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#a66d8a610954e5b7192492a769bc3c3b3">LightDetection::traitement</a></div><div class="ttdeci">void traitement(cv::Mat &amp;imgToProcess)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00124">LightDetection.cpp:124</a></div></div>
+<div class="ttc" id="RoiParams_8h_html"><div class="ttname"><a href="../../d4/d14/RoiParams_8h.html">RoiParams.h</a></div></div>
+<div class="ttc" id="classLightDetection_html_a203b81812d2ca890c6666ad923ea6c33"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#a203b81812d2ca890c6666ad923ea6c33">LightDetection::doLightDetection</a></div><div class="ttdeci">void doLightDetection()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/df2/LightDetection_8h_source.html#l00065">LightDetection.h:65</a></div></div>
+<div class="ttc" id="classLightDetection_html_a66d8a610954e5b7192492a769bc3c3b3"><div class="ttname"><a href="../../d7/dc8/classLightDetection.html#a66d8a610954e5b7192492a769bc3c3b3">LightDetection::traitement</a></div><div class="ttdeci">void traitement(cv::Mat &amp;imgToProcess)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d7e/LightDetection_8cpp_source.html#l00140">LightDetection.cpp:140</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 12 2016 16:29:48 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 19 2016 18:37:49 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -57,6 +57,7 @@ var searchData=
   ['_7erefboxtransport',['~RefBoxTransport',['../d8/d10/classRefBoxTransport.html#a9d033845871b0de27f81bb608763512c',1,'RefBoxTransport']]],
   ['_7ereportingmachinesrvclient',['~ReportingMachineSrvClient',['../d7/de4/classReportingMachineSrvClient.html#a14729b756bf2db97e8fc8f4121a3d3e5',1,'ReportingMachineSrvClient']]],
   ['_7eringstation',['~RingStation',['../d0/dd3/classRingStation.html#a679187627457f9abb756841025b343a6',1,'RingStation']]],
+  ['_7eroiparams',['~RoiParams',['../d5/dcf/structRoiParams.html#a0c0704760b66b4733524c2b61619f38f',1,'RoiParams']]],
   ['_7esearchalgo',['~SearchAlgo',['../df/d88/classSearchAlgo.html#aef798e116808aaf0d25aa82c6c610963',1,'SearchAlgo']]],
   ['_7esegment',['~Segment',['../d8/ddc/classSegment.html#a76b45a453304f1f485e3bc2fcad58b59',1,'Segment::~Segment()'],['../d8/ddc/classSegment.html#a76b45a453304f1f485e3bc2fcad58b59',1,'Segment::~Segment()']]],
   ['_7esendscheduler',['~SendScheduler',['../dc/d79/classSendScheduler.html#a5dcb55acd57f2f8642c961c1f15ea94e',1,'SendScheduler']]],
