@@ -295,7 +295,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 
 		if (angleAsservDone && asservLaserYOk_cpt >= nbAsservLaserYOkNeeded)
 		{
-			xAsservDone = asservissementPositionX(objectifX(), seg.distanceOrthoLaserSegment());
+			xAsservDone = asservissementPositionX(objectifX(), -seg.distanceOrthoLaserSegment());
 		}
 
 		// TODO: Utiliser les plotData
@@ -430,13 +430,14 @@ float FinalApproaching::objectifY()
 
 float FinalApproaching::objectifX()
 {
-	// XXX: Paramétrer selon repère robot, voir repère préhenseur
+	// On travail avec un repère machine, orienté comme le repère LASER
+	// à -0.35 le laser se trouve à 35cm de la machine, à -0.16, à 16cm (soit au contact)
 	if (	m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT
 		||  m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT_OLD)
 	{
-		return 0.35;
+		return m_yPoseLIGHT_OLD();
 	}
-	return 0.16;
+	return m_yPoseCONVEYOR();
 }
 
 std::list<std::vector<Point> > FinalApproaching::objectsConstruction(std::vector<float> ranges, float angleMin,
@@ -1166,17 +1167,16 @@ bool FinalApproaching::asservissementPositionX(float setpoint, float measure)
 	m_msgTwist.angular.y = 0;
 	m_msgTwist.angular.z = 0;
 
-	// TODO: Changer de repère et retirer ce '-' sur la commande
 	if(std::abs(err) < m_laserXPidThreshold())
 	{
-		m_msgTwist.linear.x = -m_laserXPid.update(err);
+		m_msgTwist.linear.x = m_laserXPid.update(err);
 		m_plotData.XCmd = m_msgTwist.linear.x;
 		m_pubMvt.publish(m_msgTwist);
 		return true;
 	}
 	else
 	{
-		m_msgTwist.linear.x = -m_laserXPid.update(err);
+		m_msgTwist.linear.x = m_laserXPid.update(err);
 		m_plotData.XCmd = m_msgTwist.linear.x;
 		m_pubMvt.publish(m_msgTwist);
 		return false;

@@ -153,6 +153,9 @@ class FinalApproaching
 	Parameter m_yPoseLIGHT_OLD;
 	Parameter m_yPoseCONVEYOR;
 
+	Parameter m_xPoseLIGHT_OLD;
+	Parameter m_xPoseCONVEYOR;
+
   public:
 	FinalApproaching(std::string name)
 		: m_as(m_nh, name, boost::bind(&FinalApproaching::executeCB, this, _1), false), m_actionName(name)
@@ -184,6 +187,9 @@ class FinalApproaching
 		, m_yPoseLIGHT(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/LIGHT", 0.0)
 		, m_yPoseLIGHT_OLD(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/LIGHT_OLD", 0.0)
 		, m_yPoseCONVEYOR(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/CONVEYOR", 2.25)
+
+		, m_xPoseLIGHT_OLD(m_nh, "navigation/finalApproach/mps/targetPoses/xAxis/LIGHT_OLD", -0.36)
+		, m_xPoseCONVEYOR(m_nh, "navigation/finalApproach/mps/targetPoses/xAxis/CONVEYOR", -0.16)
 	{
 		refreshParams();
 

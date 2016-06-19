@@ -28,3 +28,6 @@ navigation:
                     LIGHT: 0.0
                     LIGHT_OLD: 0.0
                     CONVEYOR: 2.25
+                xAxis:
+                    LIGHT_OLD: -0.34
+                    CONVEYOR: -0.14
