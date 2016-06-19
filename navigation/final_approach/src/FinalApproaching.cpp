@@ -190,13 +190,15 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		// If at least one ARTag found
 		if (at.hasArTags())
 		{
-			px = at.getPositionX();
-			pz = at.getPositionZ();
-			oz = at.getOrientationZ();
-			arTagId_idx = correspondingId(allPossibleId, at.getId(), at.getDistance());
-			ROS_DEBUG("taille de px: %d de pz: %d de oz: %d et valeur de k: %d", (int)px.size(), (int)pz.size(),
-			          (int)oz.size(), arTagId_idx);
-			avancementArTag = FinalApproaching::asservissementCameraNew(at.getArTags()[arTagId_idx]);
+			arTagId_idx = correspondingId(allPossibleId, at.getArTags());
+			if (arTagId_idx != -1)
+			{
+				avancementArTag = FinalApproaching::asservissementCameraNew(at.getArTags()[arTagId_idx]);
+			}
+			else
+			{
+				ROS_WARN_THROTTLE(1.0, "NO Wanted ArTag found. Unable to do camera approach");
+			}
 		}
 		allObstacles = sharps.getObstacle();
 		obstacle = false;  // obstacleDetection(allObstacles, k, oz, pz);
@@ -796,6 +798,7 @@ std::vector<int> FinalApproaching::idWanted(int phase)
 	return tabId;
 }
 
+// TODO: Remove is unused
 int FinalApproaching::correspondingId(std::vector<int> allPossibleId, std::vector<int> arTagId,
                                       std::vector<float> arTagDistance)
 {
@@ -804,7 +807,6 @@ int FinalApproaching::correspondingId(std::vector<int> allPossibleId, std::vecto
 	ids.clear();
 	if (!arTagId.empty())
 	{
-		;
 		// oop to get the good ARTags
 		for (int i = 0; i < allPossibleId.size(); i++)
 		{
@@ -836,6 +838,34 @@ int FinalApproaching::correspondingId(std::vector<int> allPossibleId, std::vecto
 		}
 	}
 	return correspondingId;
+}
+
+int FinalApproaching::correspondingId(std::vector<int> allPossibleId, std::vector<arTag_t> arTags)
+{
+	float tmpDist = FLT_MAX;
+	int arTagIdx = -1;
+	if (!arTags.empty())
+	{
+		for (int i = 0; i < allPossibleId.size(); i++)
+		{
+			for (int k = 0; k < arTags.size(); k++)
+			{
+				ROS_DEBUG_NAMED("investigation", "Possible %d VS Found %d", allPossibleId[i], arTags[k].id);
+				if (allPossibleId[k] == arTags[k].id)
+				{
+					ROS_DEBUG_NAMED("investigation", "Match");
+					if (arTags[k].distance < tmpDist)
+					{
+						tmpDist = arTags[k].distance;
+						arTagIdx = k;
+						ROS_DEBUG_NAMED("investigation", "New minimum: %f for id: %d", tmpDist, arTags[k].id);
+					}
+				}
+			}
+		}
+	}
+
+	return arTagIdx;
 }
 
 int FinalApproaching::asservissementCamera(std::vector<float> px, std::vector<float> pz, std::vector<float> oz, int k,

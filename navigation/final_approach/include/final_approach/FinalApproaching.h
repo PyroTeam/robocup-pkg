@@ -357,6 +357,17 @@ class FinalApproaching
 	int correspondingId(std::vector<int> allPossibleId, std::vector<int> arTagId, std::vector<float> arTagDistance);
 
 	/**
+	 * \brief      récupère l'index du vecteur d'arTags correspondant à l'arTag souhaité le plus
+	 *             proche
+	 *
+	 * \param[in]  allPossibleId  The all possible identifier
+	 * \param[in]  arTags         The artags vector
+	 *
+	 * \return     l'indice du tableau des ids si cela correspond à un id recherché, -1 sinon
+	 */
+	int correspondingId(std::vector<int> allPossibleId, std::vector<arTag_t> arTags);
+
+	/**
 	 * \brief      place le robot à 50cm (par rapport à la caméra) en face
 	 *             de l'artag
 	 *

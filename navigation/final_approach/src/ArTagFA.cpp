@@ -31,6 +31,10 @@ void ArTagFA::artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& m
 		// Je vous l'accorde, c'est du brutal
 		if (msg->markers.front().header.frame_id.compare(tf_prefix+"tower_camera_link") != 0)
 		{
+			// Throttle pour le cas ou NDEBUG est défini. Dans ce cas assert sera bypassé
+			// il faut tout de même avertir de l'erreur et régulièrement pour s'assurer d'être vu
+			ROS_ERROR_THROTTLE(3.0, "WRONG FRAME! "
+				"ARTag markers MUST be published in robotino_ns/tower_camera_link frame");
 			assert(!"ARTag markers MUST be published in robotino_ns/tower_camera_link frame");
 		}
 
