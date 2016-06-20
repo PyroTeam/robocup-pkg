@@ -1,4 +1,20 @@
-EMPTY FILE
-TODO: FILL IT :D !
-
-NAME MUST BE "Logitech-C270"
+image_width: 640
+image_height: 480
+camera_name: Logitech-C270
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [816.6576558563104, 0, 353.5588782888963, 0, 819.3408100886277, 261.9287786636619, 0, 0, 1]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.06196143122429708, 0.2656689170003434, 0.006585928287080801, -2.567730001676047e-05, 0]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [818.1184692382812, 0, 352.4406502580114, 0, 0, 819.2281494140625, 263.4014091071258, 0, 0, 0, 1, 0]
