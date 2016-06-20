@@ -132,7 +132,7 @@
 
 			<!-- Set the port to connect to -->
 			<param unless="$(arg use_udev_symlinks)" name="port" type="string" value="/dev/ttyACM0"/>
-			<param if="$(arg use_udev_symlinks)" name="port" type="string" value="/dev/laserrange"/>
+			<param if="$(arg use_udev_symlinks)" name="port" type="string" value="/dev/laserscan"/>
 
 			<!-- Remplit le champ intensity du sensor_msgs/LaserScan. Pas utile pour nous -->
 			<param name="intensity" type="bool" value="false"/>
@@ -164,7 +164,7 @@
 			<param name="camera_frame_id" value="$(arg tf_prefix)tower_camera_link" />
 			<param name="camera_info_url" value="$(find ar_tag)/cfg/C270_calibration.yaml" />
 			<!-- The camera name. This must match the name in the camera calibration -->
-			<param name="camera_name" value="C270" />
+			<param name="camera_name" value="Logitech-C270" />
 		</node>
 
 
