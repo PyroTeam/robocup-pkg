@@ -164,7 +164,7 @@
 			<param name="camera_frame_id" value="$(arg tf_prefix)tower_camera_link" />
 			<param name="camera_info_url" value="$(find ar_tag)/cfg/C270_calibration.yaml" />
 			<!-- The camera name. This must match the name in the camera calibration -->
-			<param name="camera_name" value="Logitech-C270" />
+			<param name="camera_name" value="C270" />
 		</node>
 
 
