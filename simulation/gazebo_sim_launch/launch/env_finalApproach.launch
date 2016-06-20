@@ -8,9 +8,9 @@
 <launch>
 	<!-- Configurable args -->
 	<!-- TODO: Definitively replace robotino_laserrangefinder_node by hokuyo_node -->
-	<arg name="use_hokuyo_node" default="false" />
+	<arg name="use_hokuyo_node" default="true" />
 	<!-- TODO: Definitively use udev symlink -->
-	<arg name="use_udev_symlinks" default="false" />
+	<arg name="use_udev_symlinks" default="true" />
 	<!-- TODO: Definitively connect the platform camera -->
 	<arg name="tower_cam_connected" default="false" />
 
@@ -116,7 +116,7 @@
 
 
 		<!-- LaserScan -->
-		<node unless="$(arg use_hokuyo_node)" name="robotino_laserrangefinder_node"
+		<node unless="$(arg use_hokuyo_node)" name="robotino_laser_node"
 			  pkg="robotino_node" type="robotino_laserrangefinder_node"
 			  respawn="true" output="screen">
 			<param name="hostname" value="$(arg hostname)" />
@@ -124,7 +124,7 @@
 			<!-- Remap topics -->
 			<remap from="scan" to="hardware/scan" />
 		</node>
-		<node if="$(arg use_hokuyo_node)" name="laser_node" pkg="hokuyo_node" type="hokuyo_node"
+		<node if="$(arg use_hokuyo_node)" name="hokuyo_laser_node" pkg="hokuyo_node" type="hokuyo_node"
 			  respawn="true" output="screen">
 
 			<!-- Starts up slower when true, but timestamps will be accurate. -->
@@ -136,6 +136,8 @@
 
 			<!-- Remplit le champ intensity du sensor_msgs/LaserScan. Pas utile pour nous -->
 			<param name="intensity" type="bool" value="false"/>
+			<!-- Remap topics -->
+			<remap from="scan" to="hardware/scan" />
 		</node>
 
 
