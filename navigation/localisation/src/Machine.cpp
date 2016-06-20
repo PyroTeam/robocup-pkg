@@ -31,14 +31,6 @@ geometry_msgs::Pose2D Machine::reversePose()
   tmp.x = -m_centre.x;
   tmp.y = m_centre.y;
   tmp.theta = M_PI - m_centre.theta;
-  if(tmp.theta > M_PI)
-  {
-    tmp.theta -= M_PI;
-  }
-  else if (tmp.theta < -M_PI)
-  {
-    tmp.theta += M_PI;
-  }
 
   return tmp;
 }
@@ -89,15 +81,6 @@ void Machine::update(const geometry_msgs::Pose2D &p)
   m_centre.x     = m_xSum/double(m_nbActu);
   m_centre.y     = m_ySum/double(m_nbActu);
   m_centre.theta = m_thetaSum/double(m_nbActu);
-
-  if(m_centre.theta > M_PI)
-  {
-    m_centre.theta -= M_PI;
-  }
-  else if (m_centre.theta < -M_PI)
-  {
-    m_centre.theta += M_PI;
-  }
 }
 
 void Machine::calculateCoordMachine(Segment s)
@@ -124,15 +107,6 @@ void Machine::calculateCoordMachine(Segment s)
         center.x = absMilieu + sinus;
         center.y = ordMilieu - cosinus;
         center.theta = angle;
-    }
-
-    if(center.theta > M_PI)
-    {
-      center.theta -= M_PI;
-    }
-    else if (center.theta < -M_PI)
-    {
-      center.theta += M_PI;
     }
 
     setCentre(center);
