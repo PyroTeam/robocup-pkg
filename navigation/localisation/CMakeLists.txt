@@ -18,6 +18,8 @@ find_package(catkin REQUIRED COMPONENTS
 	geometry_utils
 	comm_msg
 	common_utils
+	ar_track_alvar
+	ar_track_alvar_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -91,7 +93,7 @@ find_package(Eigen REQUIRED)
 catkin_package(
    INCLUDE_DIRS include/localisation /usr/include/eigen3
    LIBRARIES localisation
-   CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy sensor_msgs message_runtime geometry_utils comm_msg common_utils
+   CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy sensor_msgs message_runtime geometry_utils comm_msg common_utils ar_track_alvar
 #  DEPENDS system_lib
 )
 

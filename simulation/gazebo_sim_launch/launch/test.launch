@@ -46,7 +46,7 @@
 		<node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction"/>
 		<node pkg="localisation" name="visualisation" type="visualisation"/>
 		<node pkg="localisation" name="odometry_correction" type="odometry_correction"/>
-		<node pkg="localisation" name="cartographie" type="cartographie"/>
+		<node pkg="localisation" name="cartographie" type="cartographie" output="screen"/>
 
 		<!-- Load the grid maker -->
 		<rosparam command="load" file="$(find grid_maker)/cfg/field.yaml" />

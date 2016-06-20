@@ -53,6 +53,8 @@
   <build_depend>geometry_utils</build_depend>
   <build_depend>comm_msg</build_depend>
   <build_depend>common_utils</build_depend>
+  <build_depend>ar_track_alvar</build_depend>
+  <build_depend>ar_track_alvar_msgs</build_depend>  
 
   <run_depend>geometry_msgs</run_depend>
   <run_depend>nav_msgs</run_depend>
@@ -66,6 +68,8 @@
   <run_depend>geometry_utils</run_depend>
   <run_depend>comm_msg</run_depend>
   <run_depend>common_utils</run_depend>
+  <run_depend>ar_track_alvar</run_depend>
+  <run_depend>ar_track_alvar_msgs</run_depend>
 
 
 
