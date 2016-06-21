@@ -136,6 +136,8 @@
 
 			<!-- Remplit le champ intensity du sensor_msgs/LaserScan. Pas utile pour nous -->
 			<param name="intensity" type="bool" value="false"/>
+
+   			<param name="frame_id" type="string" value="$(arg tf_prefix)laser_link" />
 			<!-- Remap topics -->
 			<remap from="scan" to="hardware/scan" />
 		</node>
