@@ -19,7 +19,7 @@ navigation:
                 threshold: 0.005
         mps:
             width: 0.700
-            pose:
+            targetPoses:
                 yAxis:
                     S1: -0.07
                     S2: -0.175
