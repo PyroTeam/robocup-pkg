@@ -180,7 +180,6 @@
 			<arg name="output_frame" value="$(arg tf_prefix)tower_camera_link"/>
 			<arg name="respawn" value="true"/>
 			<arg name="output" value="log"/>
-			<remap from="visualization_marker" to="alvar_markers" />
 		</include>
 	</group>
 </launch>
