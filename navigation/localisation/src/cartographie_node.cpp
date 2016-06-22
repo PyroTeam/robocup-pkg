@@ -122,22 +122,22 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& artags)
     double roll, pitch, yaw;
     m.getRPY(roll, pitch, yaw);
 
-		ROS_INFO("I see: [%d] at (%f,%f) with RPY (%f, %f, %f)", it.id, it.pose.pose.position.x, it.pose.pose.position.y, roll, pitch, yaw);
+		//ROS_INFO("I see: [%d] at (%f,%f) with RPY (%f, %f, %f)", it.id, it.pose.pose.position.x, it.pose.pose.position.y, roll, pitch, yaw);
     for (auto &it2 : g_mps)
     {
       // si l'ar tag est assez proche pour considérer qu'il est celui sur la machine
       // Oui magic number mais ya un moment faut arrêter quoi
       if (geometry_utils::distance(it.pose.pose.position, it2.getCentre()) <= 0.5)
       {
-        ROS_INFO("I detect an AR Tag corresponding to a known machine");
+        //ROS_INFO("I detect an AR Tag corresponding to a known machine");
         // ar tag impair = INPUT
         if (it.id%2 == 1)
         {
-          ROS_INFO("I see an input");
+          //ROS_INFO("I see an input");
         }
         else
         {
-          ROS_INFO("I see an output");
+          //ROS_INFO("I see an output");
         }
       }
     }

@@ -51,7 +51,6 @@ class GtServerSrv
 		/* Méthodes */
 		bool responseToGT(manager_msg::order::Request  &req,manager_msg::order::Response &res);
 		void setId(int id);
-		int teamColorOfId(int arTag);
 		bool isInput(int arTag);
 		int teamColorOfZone(int zone);
 		manager_msg::activity getActivityMsg();

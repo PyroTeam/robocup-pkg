@@ -84,7 +84,7 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 
 bool GtServerSrv::knownMachineInZone(int zone)
 {
-  return m_ls->machines()[zone - 1].isHere;
+  return m_ls->machines()[zone - 1].isHere ;
 }
 
 
@@ -153,67 +153,6 @@ void GtServerSrv::getNearestPoint(geometry_msgs::Pose2D &pose
 
     #undef ZONE_WIDTH
     #undef ZONE_WIDTH
-  }
-
-  int GtServerSrv::teamColorOfId(int arTag)
-  {
-    int team_color = 0;
-    switch(arTag)
-    {
-      case  C_CS1_IN    :       team_color = CYAN;          m_name = "C-CS1";       break;
-
-      case  C_CS1_OUT   :       team_color = CYAN;          m_name = "C-CS1";       break;
-
-      case  C_CS2_IN    :       team_color = CYAN;          m_name = "C-CS2";       break;
-
-      case  C_CS2_OUT   :       team_color = CYAN;          m_name = "C-CS2";       break;
-
-      case  C_RS1_IN    :       team_color = CYAN;          m_name = "C-RS1";       break;
-
-      case  C_RS1_OUT   :       team_color = CYAN;          m_name = "C-RS1";       break;
-
-      case  C_RS2_IN    :       team_color = CYAN;          m_name = "C-RS2";       break;
-
-      case  C_RS2_OUT   :       team_color = CYAN;          m_name = "C-RS2";       break;
-
-      case  C_BS_IN     :       team_color = CYAN;          m_name = "C-BS";        break;
-
-      case  C_BS_OUT    :       team_color = CYAN;          m_name = "C-BS";        break;
-
-      case  C_DS_IN     :       team_color = CYAN;          m_name = "C-DS";        break;
-
-      case  C_DS_OUT    :       team_color = CYAN;          m_name = "C-DS";        break;
-
-
-      case  M_CS1_IN    :       team_color = MAGENTA;       m_name = "M-CS1";       break;
-
-      case  M_CS1_OUT   :       team_color = MAGENTA;       m_name = "M-CS1";       break;
-
-      case  M_CS2_IN    :       team_color = MAGENTA;       m_name = "M-CS2";       break;
-
-      case  M_CS2_OUT   :       team_color = MAGENTA;       m_name = "M-CS2";       break;
-
-      case  M_RS1_IN    :       team_color = MAGENTA;       m_name = "M-RS1";       break;
-
-      case  M_RS1_OUT   :       team_color = MAGENTA;       m_name = "M-RS1";       break;
-
-      case  M_RS2_IN    :       team_color = MAGENTA;       m_name = "M-RS2";       break;
-
-      case  M_RS2_OUT   :       team_color = MAGENTA;       m_name = "M-RS2";       break;
-
-      case  M_BS_IN     :       team_color = MAGENTA;       m_name = "M-BS";        break;
-
-      case  M_BS_OUT    :       team_color = MAGENTA;       m_name = "M-BS";        break;
-
-      case  M_DS_IN     :       team_color = MAGENTA;       m_name = "M-DS";        break;
-
-      case  M_DS_OUT    :       team_color = MAGENTA;       m_name = "M-DS";        break;
-
-      default           :       team_color = -1;            m_name = "";            break;
-    }
-
-
-    return team_color;
   }
 
   bool GtServerSrv::isInput(int arTag)
@@ -416,8 +355,8 @@ void GtServerSrv::getNearestPoint(geometry_msgs::Pose2D &pose
 
           ROS_INFO("Let's explore zone %d", req.id);
 
-          // si je ne connais pas la machine à cet instant
-          if (!knownMachineInZone(req.id))
+          // si on ne connait pas la machine à cet instant et qu'on ne connait pas toutes les machines
+          if (!knownMachineInZone(req.id) && !m_ls->haveAllTheMachines())
           {
             // A partir de zone -> déterminer premier coin zone (plus accessible)
             // TODO: choix judicieux du coin à déterminer
@@ -435,7 +374,7 @@ void GtServerSrv::getNearestPoint(geometry_msgs::Pose2D &pose
             // Si machine NON présente
             // déterminer second coin zone (le plus accessible), avec angle différent du premier
             // NB: en cas de mur, pouvoir déterminer un point légèrement décalé
-            if (!knownMachineInZone(req.id))
+            if (!knownMachineInZone(req.id) && !m_ls->haveAllTheMachines())
             {
               ROS_INFO("No known Machine in this area %d", req.id);
               // TODO: choix judicieux du coin à déterminer
@@ -459,6 +398,20 @@ void GtServerSrv::getNearestPoint(geometry_msgs::Pose2D &pose
                 break;
               }
             }
+            else if (!knownMachineInZone(req.id) && m_ls->haveAllTheMachines())
+            {
+              // TODO: abandonner le service
+              ROS_ERROR("There is definitely no machine in this zone %d. Abort request", req.id);
+              res.accepted = false;
+              break;
+            }
+          }
+          else if (!knownMachineInZone(req.id) && m_ls->haveAllTheMachines())
+          {
+            // TODO: abandonner le service
+            ROS_ERROR("There is definitely no machine in this zone %d. Abort request", req.id);
+            res.accepted = false;
+            break;
           }
 
           // Si machine présente, déterminer point devant machine
@@ -481,7 +434,7 @@ void GtServerSrv::getNearestPoint(geometry_msgs::Pose2D &pose
           machine = m_elements.getMachineFromTag(machineSideId);
           if (machine == nullptr)
           {
-            ROS_ERROR("Unable to get correct machine. Abort service");
+            ROS_ERROR("Unable to get correct AR Tag from this machine. Abort service");
             res.accepted = false;
             break;
           }
@@ -494,7 +447,6 @@ void GtServerSrv::getNearestPoint(geometry_msgs::Pose2D &pose
             // Si OUI
             machine->majEntry(firstSidePoint);
             machine->majExit(secondSidePoint);
-            // Déterminer point devant autre côte de la machine
 
             // Se rendre ou point devant autre côté de la machine
             going(secondSidePoint);
@@ -529,9 +481,6 @@ void GtServerSrv::getNearestPoint(geometry_msgs::Pose2D &pose
 
           // Interprétation type à partir de LightSignal
           m_ei->interpretationFeu();
-
-          // Déterminer nom de machine à partir ArTagID ou autres
-          // NOTE: Fait dans le constructeur de machine
 
           // Reporter machine
           reportClient.reporting(machine->getName(), m_ei->type, req.id);
