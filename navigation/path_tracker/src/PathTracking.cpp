@@ -52,8 +52,47 @@ void PathTracking::executeCB(const deplacement_msg::TrackPathGoalConstPtr &goal)
         break;
     }
 
-    result.status = deplacement_msg::TrackPathResult::STATUS_FINISHED;
-    result.error = deplacement_msg::TrackPathResult::ERR_NONE;
-    m_trackPath_action.setSucceeded(result);
 
+    bool isTrajEnd = false;
+    if (m_ptMachine.state_downcast<const StRun *>() != 0)
+    {
+
+        ros::Rate loopRate(10);//TODO à parametrer
+
+
+        while(ros::ok()
+            && m_ptMachine.state_downcast<const StRun *>() != 0
+            && !m_trackPath_action.isPreemptRequested()
+            && !isTrajEnd)
+        {
+            //
+
+
+            if (m_behavior->isTrajectoryEnd())
+            {
+                m_ptMachine.process_event(EvEndPath());
+            }
+
+            ros::spinOnce();
+            loopRate.sleep();
+        }
+
+        //fin d'action, retourner le résultat
+        if (isTrajEnd)
+        {
+            result.status = deplacement_msg::TrackPathResult::STATUS_FINISHED;
+            result.error = deplacement_msg::TrackPathResult::ERR_NONE;
+            m_trackPath_action.setSucceeded(result);
+        }
+        result.status = deplacement_msg::TrackPathResult::STATUS_FINISHED;
+        result.error = deplacement_msg::TrackPathResult::ERR_UNKNOWN;
+        m_trackPath_action.setAborted(result);
+
+    }
+    else
+    {
+        result.status = deplacement_msg::TrackPathResult::STATUS_FINISHED;
+        result.error = deplacement_msg::TrackPathResult::ERR_NONE;
+        m_trackPath_action.setSucceeded(result);
+    }
 }

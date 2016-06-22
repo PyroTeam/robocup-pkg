@@ -41,7 +41,7 @@ public:
 	void setKi(float Ki) { m_Ki = Ki;};
 	void setKd(float Kd) { m_Kd = Kd;};
 
-private:
+protected:
 	float m_Kp;   // Coeff P
 	float m_Ki;   // Coeff I
 	float m_Kd;   // Coeff D

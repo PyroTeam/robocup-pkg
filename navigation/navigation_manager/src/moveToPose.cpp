@@ -227,16 +227,18 @@ void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom)
 
     poseIn.header = odom.header;
     poseIn.pose = odom.pose.pose;
-    try
-    {
-        m_tfListener.transformPose("/map", poseIn, poseOut);
-        m_poseOdom = poseOut.pose;
-    }
-    catch (tf::TransformException ex)
+
+    if(!m_tfListener.waitForTransform(
+            odom.header.frame_id,
+            "map",
+            odom.header.stamp,
+            ros::Duration(1.0)))
     {
         m_poseOdom = poseIn.pose;
-        ROS_ERROR("%s",ex.what());
+        return;
     }
+    m_tfListener.transformPose("/map", poseIn, poseOut);
+    m_poseOdom = poseOut.pose;
 }
 
 

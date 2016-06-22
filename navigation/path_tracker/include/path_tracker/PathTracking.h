@@ -36,6 +36,7 @@ struct EvStop : sc::event<EvStop> {};
 struct EvPause : sc::event<EvPause> {};
 struct EvEndPath : sc::event<EvEndPath> {};
 struct EvReset : sc::event< EvReset > {};
+struct EvTimer : sc::event< EvTimer > {};
 
 struct StIdle;
 struct StRun;
@@ -81,6 +82,16 @@ public:
     {
         return m_behavior;
     }
+
+    void updateCommand(const EvTimer &evTimer)
+    {
+        //générer la nouvelle commande
+        geometry_msgs::Twist twist = m_behavior->generateNewSetPoint();
+
+        //appliquer la commande
+        //TODO
+    }
+
 private:
     std::shared_ptr<MoveBehavior> m_behavior;
 };
@@ -102,20 +113,19 @@ struct StIdle : sc::simple_state<StIdle, StActive>
 
 };
 
-struct StRun : sc::state<StRun, StActive>
+struct StRun : sc::simple_state<StRun, StActive>
 {
     typedef mpl::list<
         sc::transition<EvStart, StRun>,
         sc::transition<EvStop, StIdle>,
         sc::transition<EvEndPath, StIdle>,
-        sc::transition<EvPause, StPause>
+        sc::transition<EvPause, StPause>,
+        sc::transition<EvTimer, StRun, StActive, &StActive::updateCommand>
         > reactions;
 
-    StRun(my_context ctx) : sc::state<StRun, StActive>( ctx )
+    StRun()
     {
         ROS_INFO("PathTracking: Entering Run State");
-        std::shared_ptr<MoveBehavior> behav = outermost_context().getBehavior();
-        geometry_msgs::Twist twist = behav->generateNewSetPoint();
     }
 
     ~StRun()

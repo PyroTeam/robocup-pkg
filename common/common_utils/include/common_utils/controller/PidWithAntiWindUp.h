@@ -20,12 +20,18 @@ namespace common_utils {
 class PidWithAntiWindUp : public Pid
 {
 public:
-    PidWithAntiWindUp(float Kp, float Ki, float Kd, float T);
+    PidWithAntiWindUp(float Kp, float Ki, float Kd, float T, float lowLim, float highLim, float antiWindUpParam);
 
     virtual ~PidWithAntiWindUp();
 
+    void setLimits(float lowLim, float highLim);
+    void setAntiWindUpParam(float param);
+
     virtual float update(float err) override;
 protected:
+    float m_lowLim;
+    float m_highLim;
+    float m_antiWindUpParam;
 };
 
 } // namespace common_utils

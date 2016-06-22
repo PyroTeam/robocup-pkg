@@ -21,8 +21,9 @@
 class BasicFollower : public PathFollower
 {
 public:
-    BasicFollower(std::shared_ptr<common_utils::Controller> controller):
-        PathFollower(controller)
+    BasicFollower(std::shared_ptr<common_utils::Controller> controllerVel,
+        std::shared_ptr<common_utils::Controller> controllerOri):
+        PathFollower(controllerVel, controllerOri)
     {
 
     }
@@ -31,11 +32,12 @@ public:
 
     }
 
+
     virtual geometry_msgs::Twist generateNewSetPoint() override
     {
         geometry_msgs::Twist twist;
         //TODO:
-        twist.linear.x = m_controller->update(5);
+        twist.linear.x = m_controllerVel->update(5);
         return twist;
 
     }

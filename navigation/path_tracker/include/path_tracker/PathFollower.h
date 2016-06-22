@@ -22,8 +22,11 @@
 class PathFollower
 {
 public:
-    PathFollower(std::shared_ptr<common_utils::Controller> controller):
-        m_controller(controller)
+    PathFollower(std::shared_ptr<common_utils::Controller> controllerVel,
+        std::shared_ptr<common_utils::Controller> controllerOri):
+            m_controllerVel(controllerVel),
+            m_controllerOri(controllerOri),
+            m_trajEnd(true)
     {
 
     }
@@ -33,14 +36,26 @@ public:
 
     }
 
-    void setController(std::shared_ptr<common_utils::Controller> controller)
+    bool isTrajectoryEnd()
     {
-        m_controller = controller;
+        return m_trajEnd;
+    }
+
+
+    void setControllerVel(std::shared_ptr<common_utils::Controller> controller)
+    {
+        m_controllerVel = controller;
+    }
+    void setControllerOri(std::shared_ptr<common_utils::Controller> controller)
+    {
+        m_controllerOri = controller;
     }
 
     virtual geometry_msgs::Twist generateNewSetPoint() = 0;
 protected:
-    std::shared_ptr<common_utils::Controller> m_controller;
+    std::shared_ptr<common_utils::Controller> m_controllerVel;
+    std::shared_ptr<common_utils::Controller> m_controllerOri;
+    bool m_trajEnd;
 };
 
 #endif /* PATH_TRACKER_PATHFOLLOWER_H_ */

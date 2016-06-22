@@ -40,13 +40,20 @@ public:
     {
         m_moveState = newState;
     }
+
     void setPathFollower(std::shared_ptr<PathFollower> pathFollower)
     {
         m_pathFollower = pathFollower;
     }
+
     void setAvoidObstacle(std::shared_ptr<AvoidObstacle> avoidObstacle)
     {
         m_avoidObstacle = avoidObstacle;
+    }
+
+    bool isTrajectoryEnd()
+    {
+        return m_pathFollower->isTrajectoryEnd();
     }
 
     virtual geometry_msgs::Twist generateNewSetPoint() = 0;
