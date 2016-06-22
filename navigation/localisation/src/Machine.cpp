@@ -10,7 +10,7 @@
 #include <limits>
 #include <algorithm>
 
-Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_thetaSum(0.0),m_nbActu(0.0),m_lastError(10.0),m_reliability(0.0)
+Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_nbActu(0.0),m_lastError(10.0),m_reliability(0.0)
 {
 
 };
@@ -30,7 +30,7 @@ geometry_msgs::Pose2D Machine::reversePose()
   geometry_msgs::Pose2D tmp;
   tmp.x = -m_centre.x;
   tmp.y = m_centre.y;
-  tmp.theta = M_PI - m_centre.theta;
+  tmp.theta = geometry_utils::normalizeAngle(M_PI - m_centre.theta);
 
   return tmp;
 }
@@ -71,16 +71,34 @@ void Machine::setCentre(geometry_msgs::Pose2D c)
 
 void Machine::update(const geometry_msgs::Pose2D &p)
 {
-  m_xSum += p.x;
-  m_ySum += p.y;
-  m_thetaSum += p.theta;
-  m_nbActu++;
+  if (neverSeen())
+  {
+    m_centre.x     = p.x;
+    m_centre.y     = p.y;
+    m_centre.theta = geometry_utils::normalizeAngle(p.theta);
 
-  m_lastError = geometry_utils::distance(m_centre, p);
+    m_xSum += p.x;
+    m_ySum += p.y;
+    m_nbActu++;
 
-  m_centre.x     = m_xSum/double(m_nbActu);
-  m_centre.y     = m_ySum/double(m_nbActu);
-  m_centre.theta = m_thetaSum/double(m_nbActu);
+    ROS_ERROR("New Machine");
+  }
+  else if (m_nbActu < 30)
+  {
+    m_xSum += p.x;
+    m_ySum += p.y;
+    m_nbActu++;
+
+    m_centre.x     = m_xSum/double(m_nbActu);
+    m_centre.y     = m_ySum/double(m_nbActu);
+
+    double tmp = geometry_utils::normalizeAngle(p.theta);
+    m_centre.theta = geometry_utils::normalizeAngle((m_centre.theta + tmp)/2);
+
+    m_lastError = geometry_utils::distance(m_centre, p);
+
+    ROS_ERROR("Machine pas encore tres bien connue");
+  }
 }
 
 void Machine::calculateCoordMachine(Segment s)
@@ -117,27 +135,28 @@ void Machine::color(int color)
   m_color = color;
 }
 
-bool Machine::canBeUpdated(const geometry_msgs::Pose2D &seenMachine)
-{
-  const double delta = M_PI/10;
-
-  if (neverSeen() || std::abs(m_centre.theta - seenMachine.theta) <= delta)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
 bool Machine::neverSeen()
 {
   return m_nbActu == 0;
 }
 
-
 bool Machine::orientationOk()
 {
   return m_orientationOK;
+}
+
+void Machine::switchSides()
+{
+  double theta = m_centre.theta;
+
+  if (theta < 0)
+  {
+    theta += M_PI;
+  }
+  else if (theta > 0)
+  {
+    theta -= M_PI;
+  }
+
+  m_centre.theta = geometry_utils::normalizeAngle(theta);
 }

@@ -25,16 +25,15 @@ public:
 	void calculateCoordMachine(Segment s);
   void color(int color);
 
-  bool canBeUpdated(const geometry_msgs::Pose2D &seenMachine);
   bool neverSeen();
   bool orientationOk();
+  void switchSides();
 
 
 private:
 	geometry_msgs::Pose2D 	m_centre;
 	double 					m_xSum;
 	double 					m_ySum;
-	double 					m_thetaSum;
 	int 						m_nbActu;
   int             m_color;
 	double					m_reliability;

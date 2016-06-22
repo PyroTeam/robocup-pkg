@@ -47,15 +47,6 @@ bool GtServerSrv::going(geometry_msgs::Pose2D point)
   //ROS_INFO("Arrived to the asked point : x: %f; y: %f; theta: %f",point.x,point.y,point.theta);
 }
 
-geometry_msgs::Pose2D GtServerSrv::calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone)
-{
-  geometry_msgs::Pose2D pt_dest, center;
-  center = m_ls->machines()[zone - 1].pose;
-  pt_dest.x = 2*center.x - pt_actuel.x;
-  pt_dest.y = 2*center.y - pt_actuel.y;
-  pt_dest.theta = pt_actuel.theta - M_PI;
-  return pt_dest;
-}
 
 /* Valentin's function */
 void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2)
@@ -71,13 +62,13 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
   dy = -MARGIN_FROM_CENTER * cos(knownMachinePose.theta);
   dx = MARGIN_FROM_CENTER * sin(knownMachinePose.theta);
 
-  point1.x = knownMachinePose.x - dx;
-  point1.y = knownMachinePose.y - dy;
-  point1.theta = knownMachinePose.theta - M_PI/2;
+  point1.x = knownMachinePose.x + dx;
+  point1.y = knownMachinePose.y + dy;
+  point1.theta = knownMachinePose.theta + M_PI/2;
 
-  point2.x = knownMachinePose.x + dx;
-  point2.y = knownMachinePose.y + dy;
-  point2.theta = knownMachinePose.theta + M_PI/2;
+  point2.x = knownMachinePose.x - dx;
+  point2.y = knownMachinePose.y - dy;
+  point2.theta = knownMachinePose.theta - M_PI/2;
 
   #undef MARGIN_FROM_CENTER
 }

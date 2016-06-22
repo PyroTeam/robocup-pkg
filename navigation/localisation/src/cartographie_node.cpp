@@ -36,7 +36,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     tf::StampedTransform transform;
     try
     {
-        g_tf_listener->waitForTransform("map",tf_prefix+"laser_link",machines->header.stamp + ros::Duration(0.1),ros::Duration(1.0));
+        g_tf_listener->waitForTransform("map",tf_prefix+"laser_link",machines->header.stamp /*+ ros::Duration(0.1)*/,ros::Duration(1.0));
         g_tf_listener->lookupTransform("map", tf_prefix+"laser_link", machines->header.stamp, transform);
     }
     catch (tf::TransformException ex)
@@ -57,18 +57,18 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
         // Vérification de la zone
         int zone = common_utils::getArea(center);
 
-        // Si la machine est bien dans une zone et peut être mise à jour
-        if (zone != 0 && g_mps[zone-1].canBeUpdated(center))
+        // Si la machine est bien dans une zone
+        if (zone != 0)
         {
             g_mps[zone-1].update(center);
-        }
 
-        // Ajout reverse
-        geometry_msgs::Pose2D reverse = g_mps[zone-1].reversePose();
-        zone = common_utils::getArea(reverse);
-        if (zone != 0 && g_mps[zone-1].neverSeen())
-        {
-            g_mps[zone-1].update(reverse);
+            // Ajout reverse
+            geometry_msgs::Pose2D reverse = g_mps[zone-1].reversePose();
+            zone = common_utils::getArea(reverse);
+            if (zone != 0 && g_mps[zone-1].neverSeen())
+            {
+                g_mps[zone-1].update(reverse);
+            }
         }
     }
 }
@@ -81,9 +81,12 @@ void zonesCallback(const comm_msg::ExplorationInfo &msg)
   }
 }
 
-void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& artags)
+void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
 {
+  std::vector<ar_track_alvar_msgs::AlvarMarker> tmp;
+  tmp = artags.markers;
   // transfo tf de tower_camera_link vers map à faire !
+
   static ros::NodeHandle nh;
   std::string tf_prefix;
   nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
@@ -91,7 +94,7 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& artags)
   {
       tf_prefix += "/";
   }
-
+/*
   tf::StampedTransform transform;
   try
   {
@@ -103,41 +106,39 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& artags)
       ROS_WARN("%s",ex.what());
       return;
   }
-
-  for (auto &it : artags->markers)
+*/
+  for (int i = 0; i < tmp.size(); i++)
   {
-  /*
+    tmp[i].pose.header.frame_id = tmp[i].header.frame_id;
+
     geometry_msgs::PoseStamped pose_map;
     try
     {
-      g_tf_listener->transformPose("map",it.pose,pose_map);
+      g_tf_listener->transformPose("map",tmp[i].pose,pose_map);
     }
     catch( tf::TransformException ex)
     {
       ROS_ERROR("transform exception : %s",ex.what());
     }
-*/
-    tf::Quaternion q(it.pose.pose.orientation.x, it.pose.pose.orientation.y, it.pose.pose.orientation.z, it.pose.pose.orientation.w);
+
+    tf::Quaternion q(pose_map.pose.orientation.x, pose_map.pose.orientation.y, pose_map.pose.orientation.z, pose_map.pose.orientation.w);
     tf::Matrix3x3 m(q);
     double roll, pitch, yaw;
     m.getRPY(roll, pitch, yaw);
 
-		//ROS_INFO("I see: [%d] at (%f,%f) with RPY (%f, %f, %f)", it.id, it.pose.pose.position.x, it.pose.pose.position.y, roll, pitch, yaw);
+		//ROS_INFO("I see: [%d] at (%f,%f) with RPY (%f, %f, %f)", tmp[i].id, pose_map.pose.position.x, pose_map.pose.position.y, roll, pitch, yaw);
     for (auto &it2 : g_mps)
     {
       // si l'ar tag est assez proche pour considérer qu'il est celui sur la machine
       // Oui magic number mais ya un moment faut arrêter quoi
-      if (geometry_utils::distance(it.pose.pose.position, it2.getCentre()) <= 0.5)
+      if (geometry_utils::distance(tmp[i].pose.pose.position, it2.getCentre()) <= 0.5)
       {
         //ROS_INFO("I detect an AR Tag corresponding to a known machine");
         // ar tag impair = INPUT
-        if (it.id%2 == 1)
+        if ((tmp[i].id%2 == 1 && it2.getCentre().theta < 0) ||
+            (tmp[i].id%2 == 0 && it2.getCentre().theta > 0))
         {
-          //ROS_INFO("I see an input");
-        }
-        else
-        {
-          //ROS_INFO("I see an output");
+          //it2.switchSides();
         }
       }
     }
