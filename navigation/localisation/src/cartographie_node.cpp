@@ -91,22 +91,22 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& artags)
   {
       tf_prefix += "/";
   }
-/*
+
   tf::StampedTransform transform;
   try
   {
-      g_tf_listener->waitForTransform("map",tf_prefix+"tower_camera_link",markers->header.stamp + ros::Duration(0.1),ros::Duration(1.0));
-      g_tf_listener->lookupTransform("map", tf_prefix+"tower_camera_link", markers->header.stamp, transform);
+      g_tf_listener->waitForTransform("map",tf_prefix+"tower_camera_link",artags->header.stamp + ros::Duration(0.1),ros::Duration(1.0));
+      g_tf_listener->lookupTransform("map", tf_prefix+"tower_camera_link", artags->header.stamp, transform);
   }
   catch (tf::TransformException ex)
   {
       ROS_WARN("%s",ex.what());
       return;
   }
-*/
-  // AR Tag position is given in the map frame
+
   for (auto &it : artags->markers)
   {
+  /*
     geometry_msgs::PoseStamped pose_map;
     try
     {
@@ -116,7 +116,7 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& artags)
     {
       ROS_ERROR("transform exception : %s",ex.what());
     }
-
+*/
     tf::Quaternion q(it.pose.pose.orientation.x, it.pose.pose.orientation.y, it.pose.pose.orientation.z, it.pose.pose.orientation.w);
     tf::Matrix3x3 m(q);
     double roll, pitch, yaw;

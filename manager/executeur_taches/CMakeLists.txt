@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib_msgs
   actionlib
   manager_msg
+  final_approach_msg
   comm_msg
   deplacement_msg
   common_utils
@@ -102,12 +103,8 @@ include_directories(
   include
 )
 
-## Declare a cpp library
-# add_library(executeur_taches
-#   src/${PROJECT_NAME}/executeur_taches.cpp
-# )
 
-## Declare a cpp executable
+## Executeur de taches
 add_executable(
   test_exec
 
@@ -128,20 +125,25 @@ add_executable(
   src/ArTagClientSrv.cpp
   src/NavigationClientAction.cpp
   src/MPS.cpp
-	src/RobotPoseSubscriber.cpp
+  src/RobotPoseSubscriber.cpp
 )
-add_dependencies(test_exec manager_msg_gencpp trait_im_msg_gencpp comm_msg_gencpp)
-set_target_properties(
+add_dependencies(
 	test_exec
-	PROPERTIES COMPILE_FLAGS "-std=c++11"
+	manager_msg_gencpp
+	final_approach_msg_gencpp
+	trait_im_msg_gencpp
+	comm_msg_gencpp
 )
+set_target_properties(test_exec	PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 add_executable(
-  test_publish
-  src/fake_publisher_node.cpp
+	test_publish
+	src/fake_publisher_node.cpp
 )
-add_dependencies(test_publish manager_msg_gencpp comm_msg_gencpp)
+add_dependencies(test_publish manager_msg_gencpp final_approach_msg_gencpp comm_msg_gencpp)
+set_target_properties(test_publish PROPERTIES COMPILE_FLAGS "-std=c++11")
 
+# Test lights
 add_executable(
   test_lights
   src/fake_light_server_node.cpp
@@ -156,8 +158,8 @@ add_dependencies(test_order manager_msg_gencpp comm_msg_gencpp)
 
 
 add_executable(
-  finalApproaching_client
-  src/finalApproaching_client.cpp
+	finalApproaching_client
+	src/finalApproaching_client.cpp
 )
 add_dependencies(finalApproaching_client manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
 
@@ -255,11 +257,11 @@ target_link_libraries(
 # )
 
 ## Mark cpp header files for installation
- install(DIRECTORY include/${PROJECT_NAME}/
-   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-   FILES_MATCHING PATTERN "*.h"
-   PATTERN ".svn" EXCLUDE
- )
+install(DIRECTORY include/${PROJECT_NAME}/
+	DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+	FILES_MATCHING PATTERN "*.h"
+	PATTERN ".svn" EXCLUDE
+)
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES

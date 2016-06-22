@@ -4,7 +4,7 @@
  * \brief       classe pour les différentes actions d'un robot concernant une machine
  * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
  * \date        2015-10-10
- * \copyright   PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef MACHINE_H
@@ -27,6 +27,7 @@
 #include "NavigationClientAction.h"
 
 using namespace manager_msg;
+using namespace final_approach_msg;
 using namespace common_utils;
 
 class Machine

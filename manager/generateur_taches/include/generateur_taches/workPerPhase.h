@@ -3,7 +3,7 @@
  * \brief		fonctions pour déterminer ce qu'il y a à faire en phase d'exploration et celle de production
  * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date		2015-04-01
- * \copyright	PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef WORKPERPHASE_H

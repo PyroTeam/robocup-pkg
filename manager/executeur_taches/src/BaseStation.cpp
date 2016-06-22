@@ -6,7 +6,7 @@ BaseStation::BaseStation(int teamColor)
 : Machine(teamColor)
 {
 	m_name += "BS";
-	m_faType = finalApproachingGoal::BS;
+	m_faType = FinalApproachingGoal::BS;
 	m_type = "BaseStation";   
 	m_redBase = 0;
 	m_blackBase = 0;
@@ -61,7 +61,7 @@ void BaseStation::take_base(int color,int n_robot,int n_order)
 
 	// while(Communication_RefBox(bs n'a terminé de livrer)) { }
 
-	this->startFinalAp(finalApproachingGoal::BS, finalApproachingGoal::OUT, finalApproachingGoal::CONVEYOR);
+	this->startFinalAp(FinalApproachingGoal::BS, FinalApproachingGoal::OUT, FinalApproachingGoal::CONVEYOR);
 	this->take();
 	msg = msgToGT(n_robot,activity::END,activity::BS,n_order); 
 }
@@ -80,7 +80,7 @@ void BaseStation::bring_base_rs(int color,int n_robot,int n_order,int machine)
 	ROS_INFO("Bringing a Base to a RS"); 
 
 	goTo(this->m_centerMachine);
-	this->startFinalAp(finalApproachingGoal::RS, finalApproachingGoal::IN, finalApproachingGoal::LANE_RS);
+	this->startFinalAp(FinalApproachingGoal::RS, FinalApproachingGoal::IN, FinalApproachingGoal::LANE_RS);
 	this->let();
 	msg = msgToGT(n_robot,activity::END,activity::BS,n_order);
 }

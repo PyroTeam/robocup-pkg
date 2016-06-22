@@ -1,0 +1,17 @@
+computerVision:
+	lightSignalDetection:
+		greenRoi:
+			xmin:
+			xmax:
+			ymin:
+			ymax:
+		yellowRoi:
+			xmin:
+			xmax:
+			ymin:
+			ymax:
+		redRoi:
+			xmin:
+			xmax:
+			ymin:
+			ymax:

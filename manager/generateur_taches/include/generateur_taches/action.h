@@ -4,7 +4,7 @@
  * \brief		classe représentant les infos collectées du topic manager_msg::activity
  * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date		2015-04-01
- * \copyright	PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef ACTION_H

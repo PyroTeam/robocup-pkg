@@ -4,7 +4,7 @@
 
     <include file="$(find executeur_taches)/launch/exec_tache.launch"/>
     <include file="$(find generateur_taches)/launch/gene_tache.launch"/>
-    <include file="$(find approche_finale)/launch/appr_finale.launch"/>
+    <include file="$(find final_approach)/launch/appr_finale.launch"/>
     <include file="$(find grid_maker)/launch/grid_maker.launch"/>
     <include file="$(find path_tracker)/launch/path_tracker.launch"/>
     <include file="$(find pathfinder)/launch/pathFinder.launch"/>

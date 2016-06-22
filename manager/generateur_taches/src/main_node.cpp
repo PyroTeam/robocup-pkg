@@ -3,7 +3,7 @@
  * \brief		Programme principal du générateur de tâches
  * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date		2015-04-30
- * \copyright	PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #include <list>
