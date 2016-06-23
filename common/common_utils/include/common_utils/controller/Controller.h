@@ -28,6 +28,7 @@ public:
     }
 
     virtual float update(float err) = 0;
+    virtual void reset() = 0;
 protected:
 };
 

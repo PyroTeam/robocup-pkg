@@ -74,4 +74,9 @@ float PidWithAntiWindUp::update(float err)
 
 }
 
+void PidWithAntiWindUp::reset()
+{
+    Pid::reset();
+}
+
 } // namespace common_utils

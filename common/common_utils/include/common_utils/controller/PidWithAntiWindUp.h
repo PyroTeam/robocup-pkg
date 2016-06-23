@@ -28,6 +28,7 @@ public:
     void setAntiWindUpParam(float param);
 
     virtual float update(float err) override;
+    virtual void reset() override;
 protected:
     float m_lowLim;
     float m_highLim;

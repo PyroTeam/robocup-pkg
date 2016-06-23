@@ -59,14 +59,12 @@ void PathTracking::executeCB(const deplacement_msg::TrackPathGoalConstPtr &goal)
 
         ros::Rate loopRate(10);//TODO à parametrer
 
-
         while(ros::ok()
             && m_ptMachine.state_downcast<const StRun *>() != 0
             && !m_trackPath_action.isPreemptRequested()
             && !isTrajEnd)
         {
             //
-
 
             if (m_behavior->isTrajectoryEnd())
             {
@@ -84,10 +82,12 @@ void PathTracking::executeCB(const deplacement_msg::TrackPathGoalConstPtr &goal)
             result.error = deplacement_msg::TrackPathResult::ERR_NONE;
             m_trackPath_action.setSucceeded(result);
         }
-        result.status = deplacement_msg::TrackPathResult::STATUS_FINISHED;
-        result.error = deplacement_msg::TrackPathResult::ERR_UNKNOWN;
-        m_trackPath_action.setAborted(result);
-
+        else
+        {
+            result.status = deplacement_msg::TrackPathResult::STATUS_FINISHED;
+            result.error = deplacement_msg::TrackPathResult::ERR_UNKNOWN;
+            m_trackPath_action.setAborted(result);
+        }
     }
     else
     {

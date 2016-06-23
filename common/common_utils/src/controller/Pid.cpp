@@ -29,6 +29,12 @@ float Pid::update(float err)
 	m_err = err;
 
 	return cmd;
-};
+}
+
+void Pid::reset()
+{
+    m_err = 0;
+    m_I = 0;
+}
 
 } // namespace common_utils

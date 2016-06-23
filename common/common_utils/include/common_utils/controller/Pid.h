@@ -36,7 +36,8 @@ public:
 	 *
 	 * \return     La commande
 	 */
-	float update(float err) override;
+	virtual float update(float err) override;
+    virtual void reset() override;
 	void setKp(float Kp) { m_Kp = Kp;};
 	void setKi(float Ki) { m_Ki = Ki;};
 	void setKd(float Kd) { m_Kd = Kd;};

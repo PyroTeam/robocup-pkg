@@ -126,6 +126,7 @@ add_library(common_utils
   src/Parameter.cpp
   src/controller/Pid.cpp
   src/controller/PidWithAntiWindUp.cpp
+  src/RateLimiter.cpp
 )
 
 ## Add cmake target dependencies of the library
