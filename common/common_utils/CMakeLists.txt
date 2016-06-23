@@ -124,7 +124,9 @@ include_directories(
 add_library(common_utils
   src/parameterFunctions.cpp
   src/Parameter.cpp
-  src/Pid.cpp
+  src/controller/Pid.cpp
+  src/controller/PidWithAntiWindUp.cpp
+  src/RateLimiter.cpp
 )
 
 ## Add cmake target dependencies of the library

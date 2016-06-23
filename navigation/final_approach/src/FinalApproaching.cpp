@@ -235,6 +235,9 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	{
 		ROS_INFO_COND(firstTimeInLoop, "LaserScan Asservissement - process");
 		firstTimeInLoop = false;
+		m_feedback.errorX = 0;
+		m_feedback.errorY = 0;
+		m_feedback.errorYaw = 0;
 
 		// Make sure that the action hasn't been canceled
 		if (!m_as.isActive())
@@ -937,6 +940,10 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 	float errY = -target.pose.position.x;  // A corriger une fois les transformations appliquée
 	float errYaw = target.yaw;  // A corriger une fois les transformations appliquée
 
+	m_feedback.errorX = errX;
+	m_feedback.errorY = errY;
+	m_feedback.errorYaw = errYaw;
+
 	ROS_DEBUG_NAMED("artag", "asservissementCameraNew - errX: %f | errY: %f | errYaw: %f", errX, errY, errYaw);
 
 	if (m_parameter != final_approach_msg::FinalApproachingGoal::LIGHT)
@@ -1108,6 +1115,7 @@ bool FinalApproaching::asservissementAngle(float setpoint, float measure)
 {
 	float err = setpoint - measure;
 	m_plotData.angleErr = std::abs(err);
+	m_feedback.errorYaw = err;
 
 	m_msgTwist.angular.x = 0;
 	m_msgTwist.angular.y = 0;
@@ -1135,6 +1143,7 @@ bool FinalApproaching::asservissementPositionY(float setpoint, float measure)
 {
 	float err = setpoint - measure;
 	m_plotData.YErr = std::abs(err);
+	m_feedback.errorY = err;
 
 	m_msgTwist.angular.x = 0;
 	m_msgTwist.angular.y = 0;
@@ -1162,6 +1171,7 @@ bool FinalApproaching::asservissementPositionX(float setpoint, float measure)
 {
 	float err = setpoint - measure;
 	m_plotData.XErr = std::abs(err);
+	m_feedback.errorX = err;
 
 	m_msgTwist.angular.x = 0;
 	m_msgTwist.angular.y = 0;

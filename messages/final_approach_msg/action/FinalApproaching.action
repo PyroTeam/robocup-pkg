@@ -38,3 +38,7 @@ int8 state
 
 #feedback
 int32 percent_complete
+
+float32 errorX
+float32 errorY
+float32 errorYaw
