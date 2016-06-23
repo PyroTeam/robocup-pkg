@@ -1,7 +1,6 @@
 #include "Line.h"
 #include "Model.h"
 #include "Segment.h"
-#include "cartographie_utils.h"
 #include "math_functions.h"
 
 Segment::Segment() : m_angle(0.0),m_size(0.0)

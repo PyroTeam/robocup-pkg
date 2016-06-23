@@ -99,8 +99,8 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-	include
-	${catkin_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
+  include
 )
 
 
@@ -125,190 +125,67 @@ add_executable(
   src/ArTagClientSrv.cpp
   src/NavigationClientAction.cpp
   src/MPS.cpp
+  src/RobotPoseSubscriber.cpp
 )
 add_dependencies(
 	test_exec
-
 	manager_msg_gencpp
 	final_approach_msg_gencpp
 	trait_im_msg_gencpp
 	comm_msg_gencpp
 )
-set_target_properties(
-	test_exec
+set_target_properties(test_exec	PROPERTIES COMPILE_FLAGS "-std=c++11")
 
-	PROPERTIES COMPILE_FLAGS "-std=c++11"
-)
-
-target_link_libraries(
-	test_exec
-
-	${catkin_LIBRARIES}
-)
-
-
-# Tests publish
 add_executable(
-  test_publish
-
-  src/fake_publisher_node.cpp
-)
-add_dependencies(
 	test_publish
-
-	manager_msg_gencpp
-	final_approach_msg_gencpp
-	comm_msg_gencpp
+	src/fake_publisher_node.cpp
 )
-target_link_libraries(
-	test_publish
-
-	${catkin_LIBRARIES}
-)
-set_target_properties(
-	test_publish
-
-	PROPERTIES COMPILE_FLAGS "-std=c++11"
-)
+add_dependencies(test_publish manager_msg_gencpp final_approach_msg_gencpp comm_msg_gencpp)
+set_target_properties(test_publish PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 # Test lights
 add_executable(
   test_lights
-
   src/fake_light_server_node.cpp
 )
-add_dependencies(
-	test_lights
+add_dependencies(test_lights manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
 
-	manager_msg_gencpp
-	final_approach_msg_gencpp
-	comm_msg_gencpp
-	trait_im_msg_gencpp
-)
-target_link_libraries(
-	test_lights
-
-	${catkin_LIBRARIES}
-)
-
-
-# Test orders
 add_executable(
-	test_order
-
-	src/fake_client_order.cpp
+  test_order
+  src/fake_client_order.cpp
 )
-add_dependencies(
-	test_order
-
-	manager_msg_gencpp
-	final_approach_msg_gencpp
-	comm_msg_gencpp
-)
-target_link_libraries(
-	test_order
-
-	${catkin_LIBRARIES}
-)
+add_dependencies(test_order manager_msg_gencpp comm_msg_gencpp)
 
 
-# Test final_approach
 add_executable(
 	finalApproaching_client
-
 	src/finalApproaching_client.cpp
 )
-add_dependencies(
-	finalApproaching_client
+add_dependencies(finalApproaching_client manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
 
-	manager_msg_gencpp
-	final_approach_msg_gencpp
-	comm_msg_gencpp
-	deplacement_msg_gencpp
-)
-target_link_libraries(
-	finalApproaching_client
-
-	${catkin_LIBRARIES}
-)
-
-
-# Test ei (What is ei ???)
 add_executable(
   test_ei
-
   src/fake_publisher_ei.cpp
 )
-add_dependencies(
-	test_ei
+add_dependencies(test_ei comm_msg_gencpp)
 
-	comm_msg_gencpp
-)
-target_link_libraries(
-	test_ei
-
-	${catkin_LIBRARIES}
-)
-
-
-# Test arTag
 add_executable(
   test_arTag
-
   src/fake_arTag_server.cpp
 )
-add_dependencies(
-	test_arTag
+add_dependencies(test_arTag manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
 
-	manager_msg_gencpp
-	final_approach_msg_gencpp
-	comm_msg_gencpp
-	trait_im_msg_gencpp
-)
-target_link_libraries(
-	test_arTag
-
-	${catkin_LIBRARIES}
-)
-
-
-# Test reporter
 add_executable(
   test_report
-
   src/fake_server_reporting.cpp
 )
-add_dependencies(
-	test_report
+add_dependencies(test_report comm_msg_gencpp)
 
-	comm_msg_gencpp
-)
-target_link_libraries(
-	test_report
-
-	${catkin_LIBRARIES}
-)
-
-
-# Test navigation
 add_executable(
   test_navigation
-
   src/fake_action_navigation.cpp
 )
-add_dependencies(
-	test_navigation
-
-	manager_msg_gencpp
-	final_approach_msg_gencpp
-	comm_msg_gencpp
-	deplacement_msg_gencpp
-)
-target_link_libraries(
-	test_navigation
-
-	${catkin_LIBRARIES}
-)
+add_dependencies(test_navigation manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
 
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
@@ -316,10 +193,48 @@ target_link_libraries(
 # add_dependencies(executeur_taches_node executeur_taches_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
+target_link_libraries(
+  test_exec
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_publish
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_lights
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_order
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_ei
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_arTag
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_report
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  test_navigation
+  ${catkin_LIBRARIES}
+)
 #target_link_libraries(
 #  test_topic
 #  ${catkin_LIBRARIES}
 #)
+
+
+target_link_libraries(
+  finalApproaching_client
+  ${catkin_LIBRARIES}
+)
 #############
 ## Install ##
 #############

@@ -12,7 +12,7 @@
 
 using namespace std;
 
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
     ros::init(argc,argv,"executeur_taches");
     ros::NodeHandle n; // création du noeud
@@ -21,8 +21,8 @@ int main(int argc, char **argv)
     ros::Rate loop_rate(1);
 
     std::string teamColorStr;
-	n.param<std::string>("teamColor", teamColorStr, "cyan");
-	int teamColor = (teamColorStr == "magenta")? MAGENTA: CYAN;
+  	n.param<std::string>("teamColor", teamColorStr, "cyan");
+  	int teamColor = (teamColorStr == "magenta")? MAGENTA: CYAN;
 
     /* service reponse au générateur de taches */
     GtServerSrv gtsrv(teamColor);
@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 
     while(ros::ok())
     {
-        // ROS_INFO("I'm READY ! ");
+        //ROS_INFO("I'm READY ! ");
         activite_pub.publish(gtsrv.getActivityMsg());
 
         /* Let's Spin until the end of the world !! */

@@ -48,7 +48,7 @@ class Machine
 		/* Constructeur */
 		Machine(int teamColor);
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual ~Machine();
 
 		virtual void FonctionVirtuelle() = 0;
@@ -58,13 +58,16 @@ class Machine
 		geometry_msgs::Pose2D getCenterMachine();
 		geometry_msgs::Pose2D getEntryMachine();
 		geometry_msgs::Pose2D getExitMachine();
+
+    void majCenter(geometry_msgs::Pose2D point);
 		void majEntry(geometry_msgs::Pose2D point);
 		void majExit(geometry_msgs::Pose2D point);
+
 		manager_msg::activity msgToGT(int n_robot, int stateOfOrder, int machine, int n_order);
+
 		void goTo(geometry_msgs::Pose2D pt_dest);
 		void take();
 		void let();
-		void readlights(std::vector<comm_msg::LightSpec> &lSpec);
 		void startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter);
 		int getFaType(){ return m_faType; }
 		const char *getName(){ return m_name.c_str(); }

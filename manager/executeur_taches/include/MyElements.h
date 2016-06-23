@@ -24,28 +24,30 @@ class MyElements
 
 		/* Variables d'instance*/
 		BaseStation m_bs;
-		RingStation m_rs1; 
+		RingStation m_rs1;
 		RingStation m_rs2;
-		CapStation m_cs1; 
+		CapStation m_cs1;
 		CapStation m_cs2;
-		DeliveryStation m_ds; 
+		DeliveryStation m_ds;
+
+    int m_color;
 
 	public:
 
-		/* Constructeur */    
+		/* Constructeur */
 		MyElements(int teamColor);
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual ~MyElements();
 
-		/* Méthodes */ 
+		/* Méthodes */
 		BaseStation& getBS();
 		RingStation& getRS1();
 		RingStation& getRS2();
 		CapStation&  getCS1();
 		CapStation&  getCS2();
 		DeliveryStation& getDS();
-		Machine *getMachineFromTag(int arTag, int teamColor);
+		Machine *getMachineFromTag(int arTag);
 
 };
 

@@ -3,29 +3,29 @@
 #include <visualization_msgs/Marker.h>
 #include <visualization_msgs/MarkerArray.h>
 #include "deplacement_msg/Landmarks.h"
+#include "deplacement_msg/Machines.h"
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/Pose2D.h"
 #include "nav_msgs/Odometry.h"
-#include "cartographie_utils.h"
 
 #include <cmath>
 
 std::vector<geometry_msgs::Point> tabLandmarks;
 ros::Time g_landmarks_stamp;
 
-void landmarksCallback(const deplacement_msg::LandmarksConstPtr& landmarks){
+void landmarksCallback(const deplacement_msg::MachinesConstPtr& landmarks){
   tabLandmarks.clear();
   g_landmarks_stamp = landmarks->header.stamp;
   for (auto &it : landmarks->landmarks)
   {
     geometry_msgs::Point pointA;
-    pointA.x = it.x + cos(it.theta)*0.35;
-    pointA.y = it.y + sin(it.theta)*0.35;
+    pointA.x = it.pose.x + cos(it.pose.theta)*0.35;
+    pointA.y = it.pose.y + sin(it.pose.theta)*0.35;
     tabLandmarks.push_back(pointA);
 
     geometry_msgs::Point pointB;
-    pointB.x = it.x - cos(it.theta)*0.35;
-    pointB.y = it.y - sin(it.theta)*0.35;
+    pointB.x = it.pose.x - cos(it.pose.theta)*0.35;
+    pointB.y = it.pose.y - sin(it.pose.theta)*0.35;
     tabLandmarks.push_back(pointB);
   }
 }

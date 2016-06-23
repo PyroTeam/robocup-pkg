@@ -25,7 +25,7 @@
 #include "common_utils/parameterFunctions.h"
 #include "geometry_utils/geometry_utils.h"
 #include "geometry_msgs/Pose2D.h"
-#include "deplacement_msg/Landmarks.h"
+#include "deplacement_msg/Machines.h"
 
 #include <set>
 #include <string>
@@ -34,7 +34,7 @@
 #include <cstdio>
 #include <memory>
 
-void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines);
+void Poses_Machine_Callback(const deplacement_msg::MachinesConstPtr &machines);
 bool getMap_service(nav_msgs::GetMap::Request  &req, nav_msgs::GetMap::Response &res);
 
 std::shared_ptr<occupancy_grid_utils::Shape> g_machinesShape(nullptr);
@@ -217,16 +217,16 @@ int main(int argc, char **argv)
 }
 
 
-void Poses_Machine_Callback(const deplacement_msg::LandmarksConstPtr &machines)
+void Poses_Machine_Callback(const deplacement_msg::MachinesConstPtr &machines)
 {
     std::shared_ptr<occupancy_grid_utils::ComposedShape> pShape(new occupancy_grid_utils::ComposedShape);
     std::shared_ptr<occupancy_grid_utils::ComposedShape> pShapeNoMargin(new occupancy_grid_utils::ComposedShape);
 
 	for (int i=0; i< machines->landmarks.size(); i++)
     {
-        std::shared_ptr<occupancy_grid_utils::Shape> rectangle(new occupancy_grid_utils::Rectangle(machines->landmarks[i], g_machineSize, g_margin));
+        std::shared_ptr<occupancy_grid_utils::Shape> rectangle(new occupancy_grid_utils::Rectangle(machines->landmarks[i].pose, g_machineSize, g_margin));
         pShape->add(rectangle);
-        std::shared_ptr<occupancy_grid_utils::Shape> rectangleNoMargin(new occupancy_grid_utils::Rectangle(machines->landmarks[i], g_machineSize, 0));
+        std::shared_ptr<occupancy_grid_utils::Shape> rectangleNoMargin(new occupancy_grid_utils::Rectangle(machines->landmarks[i].pose, g_machineSize, 0));
         pShapeNoMargin->add(rectangleNoMargin);
 	}
     g_machinesShape = pShape;

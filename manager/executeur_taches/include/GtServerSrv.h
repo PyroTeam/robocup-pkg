@@ -28,6 +28,7 @@
 #include "ArTagClientSrv.h"
 #include "ReportingMachineSrvClient.h"
 #include "LocaSubscriber.h"
+#include "RobotPoseSubscriber.h"
 #include "FinalApproachingClient.h"
 
 enum zoneCorner_t
@@ -44,7 +45,7 @@ class GtServerSrv
 		/* Constructeur */
 		GtServerSrv(int teamColor);
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual  ~GtServerSrv();
 
 		/* Méthodes */
@@ -63,18 +64,21 @@ class GtServerSrv
 		void getNearestPoint(geometry_msgs::Pose2D &pose
 			, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2
 			, geometry_msgs::Pose2D **targetPointPtr, geometry_msgs::Pose2D **otherPointPtr);
-		void asking(geometry_msgs::Pose2D point);
+
 	private:
 		/* Variables d'instance */
 		int m_nbrobot;
 		int m_color;
 		int m_id;
-		geometry_msgs::Pose2D m_ptTarget;
+
+		geometry_msgs::Pose2D m_explo_target;
+
 		manager_msg::activity m_msg;
 		std::string m_name;
 		final_approach_msg::FinalApproachingAction m_act;
 		ExploInfoSubscriber *m_ei;
 		LocaSubscriber *m_ls;
+    RobotPoseSubscriber *m_rp;
     ros::Publisher m_activity_pub;
     MyElements m_elements;
 };

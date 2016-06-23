@@ -30,7 +30,7 @@ class RingStation : public Machine
 	RingStation(int teamColor);
 	RingStation(int teamColor, int nb);
 
-	/* Déstructeur */
+	/* Destructeur */
 	virtual ~RingStation();
 
 	virtual void FonctionVirtuelle();
