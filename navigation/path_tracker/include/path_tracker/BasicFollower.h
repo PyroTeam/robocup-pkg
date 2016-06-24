@@ -16,6 +16,7 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 
+#include "common_utils/RateLimiter.h"
 #include "PathFollower.h"
 
 class BasicFollower : public PathFollower
@@ -23,7 +24,8 @@ class BasicFollower : public PathFollower
 public:
     BasicFollower(std::shared_ptr<common_utils::Controller> controllerVel,
         std::shared_ptr<common_utils::Controller> controllerOri):
-        PathFollower(controllerVel, controllerOri)
+        PathFollower(controllerVel, controllerOri),
+        m_speedLimiter(-0.20, 0.2, 1/10.0)//TODO à parametrer
     {
 
     }
@@ -33,15 +35,9 @@ public:
     }
 
 
-    virtual geometry_msgs::Twist generateNewSetPoint() override
-    {
-        geometry_msgs::Twist twist;
-        //TODO:
-        twist.linear.x = m_controllerVel->update(5);
-        return twist;
-
-    }
+    virtual geometry_msgs::Twist generateNewSetPoint() override;
 protected:
+    common_utils::RateLimiter m_speedLimiter;
 
 };
 

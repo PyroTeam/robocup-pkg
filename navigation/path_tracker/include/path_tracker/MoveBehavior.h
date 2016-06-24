@@ -36,6 +36,12 @@ public:
 
     }
 
+    void startTraj()
+    {
+        m_pathFollower->startTraj();
+        //TODO init m_avoidObstacle
+    }
+
     void setState(std::shared_ptr<MoveState> newState)
     {
         m_moveState = newState;

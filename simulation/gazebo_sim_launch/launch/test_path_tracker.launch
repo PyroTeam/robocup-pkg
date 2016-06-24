@@ -41,8 +41,8 @@
         <node pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>
 
         <!-- Load ArTag -->
-        <include file="$(find ar_tag)/launch/alvar_simu.launch"/>
-        <include file="$(find ar_tag)/launch/ar_tag.launch"/>
+        <!-- <include file="$(find ar_tag)/launch/alvar_simu.launch"/> -->
+        <!-- <include file="$(find ar_tag)/launch/ar_tag.launch"/> -->
 
         <!-- Load the objectDetections nodes -->
         <!--         <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction_node"/>
@@ -68,11 +68,11 @@
         <!-- <node pkg="path_tracker" name="path_trackerRequest_node" type="path_trackerRequest_node.py" output="screen"/> -->
 
         <!-- Load the path tracker -->
-        <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" launch-prefix="xterm -e"/>
-        <!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node.py" launch-prefix="xterm -e"/> -->
+        <!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" launch-prefix="xterm -e"/> -->
+        <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" launch-prefix="ddd --args"/>
 
         <!-- Load the fake final approach -->
-        <node pkg="final_approach" name="final_approach" type="simFinalApproach_node"/>
+        <!-- <node pkg="final_approach" name="final_approach" type="simFinalApproach_node"/> -->
         <!-- <node pkg="final_approach" name="final_approach" type="simFinalApproach_node" launch-prefix="xterm -e"/> -->
 
         <!-- Load the navigation manager -->
@@ -86,7 +86,7 @@
 
         <!-- Load the manager -->
         <!-- <node pkg="executeur_taches" name="executeur" type="test_exec"/> -->
-        <node pkg="executeur_taches" name="executeur" type="test_exec" launch-prefix="xterm -e"/>
+        <!-- <node pkg="executeur_taches" name="executeur" type="test_exec" launch-prefix="xterm -e"/> -->
         <!-- <node pkg="generateur_taches" name="manager" type="main_node" launch-prefix="xterm -e"/> -->
 
         <!-- Load rviz -->

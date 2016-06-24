@@ -49,7 +49,7 @@ struct PTmachine : sc::state_machine<PTmachine, StActive>
 public:
     PTmachine():m_behavior(nullptr)
     {
-
+        m_cmdVel_pub = m_nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1);
     }
 
     void setBehavior(std::shared_ptr<MoveBehavior> &behavior)
@@ -61,9 +61,16 @@ public:
     {
         return m_behavior;
     }
+
+    ros::Publisher &getCmdVelPub()
+    {
+        return m_cmdVel_pub;
+    }
+
 private:
     std::shared_ptr<MoveBehavior> m_behavior;
-
+    ros::NodeHandle m_nh;
+    ros::Publisher m_cmdVel_pub;
 };
 
 
@@ -89,8 +96,14 @@ public:
         geometry_msgs::Twist twist = m_behavior->generateNewSetPoint();
 
         //appliquer la commande
-        //TODO
+        outermost_context().getCmdVelPub().publish(twist);
     }
+
+    void startNewPath(const EvStart &evStart)
+    {
+        m_behavior->startTraj();
+    }
+
 
 private:
     std::shared_ptr<MoveBehavior> m_behavior;
@@ -100,7 +113,7 @@ private:
 
 struct StIdle : sc::simple_state<StIdle, StActive>
 {
-    typedef sc::transition<EvStart, StRun> reactions;
+    typedef sc::transition<EvStart, StRun, StActive, &StActive::startNewPath> reactions;
 
     StIdle()
     {
@@ -116,7 +129,7 @@ struct StIdle : sc::simple_state<StIdle, StActive>
 struct StRun : sc::simple_state<StRun, StActive>
 {
     typedef mpl::list<
-        sc::transition<EvStart, StRun>,
+        sc::transition<EvStart, StRun, StActive, &StActive::startNewPath>,
         sc::transition<EvStop, StIdle>,
         sc::transition<EvEndPath, StIdle>,
         sc::transition<EvPause, StPause>,

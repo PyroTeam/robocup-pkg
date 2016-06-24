@@ -47,8 +47,8 @@ int main(int argc, char **argv)
 
 
     //publication des path et pathSmooth pour le debug
-    ros::Publisher path_pub = nh.advertise<nav_msgs::Path>("navigation/path", 1000);
-    ros::Publisher pathSmooth_pub = nh.advertise<nav_msgs::Path>("navigation/pathSmooth", 1000);
+    ros::Publisher path_pub = nh.advertise<nav_msgs::Path>("navigation/path", 1);
+    ros::Publisher pathSmooth_pub = nh.advertise<nav_msgs::Path>("navigation/pathSmooth", 1);
 
     PathPlanner pathPlanner(graph, "navigation/generatePath");
 

@@ -20,7 +20,7 @@ PathTracking::PathTracking(std::string name, const std::shared_ptr<MoveBehavior>
     m_behavior = moveBehavior;
     m_ptMachine.initiate();
     m_ptMachine.setBehavior(m_behavior);
-    //m_ptMachine.process_event(EvStart());
+
     m_trackPath_action.start();
 
 }
@@ -62,7 +62,7 @@ void PathTracking::executeCB(const deplacement_msg::TrackPathGoalConstPtr &goal)
         while(ros::ok()
             && m_ptMachine.state_downcast<const StRun *>() != 0
             && !m_trackPath_action.isPreemptRequested()
-            && !isTrajEnd)
+            && !m_behavior->isTrajectoryEnd())
         {
             //
 

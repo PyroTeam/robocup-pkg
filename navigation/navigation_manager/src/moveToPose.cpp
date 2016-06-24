@@ -193,6 +193,7 @@ void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom)
             odom.header.stamp,
             ros::Duration(1.0)))
     {
+        ROS_ERROR("Unable to get Transform");
         m_poseOdom = poseIn.pose;
         return;
     }
