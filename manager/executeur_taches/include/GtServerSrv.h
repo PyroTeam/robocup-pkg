@@ -59,9 +59,6 @@ class GtServerSrv
 		bool going(geometry_msgs::Pose2D point);
 		void getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2);
 		bool knownMachineInZone(int zone);
-		void getNearestPoint(geometry_msgs::Pose2D &pose
-			, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2
-			, geometry_msgs::Pose2D **targetPointPtr, geometry_msgs::Pose2D **otherPointPtr);
 
 	private:
 		/* Variables d'instance */
