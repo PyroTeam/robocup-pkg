@@ -10,7 +10,7 @@
 #include <limits>
 #include <algorithm>
 
-Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_nbActu(0.0),m_lastError(10.0),m_reliability(0.0)
+Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_nbActu(0.0),m_lastError(std::numeric_limits<int>::max()),m_reliability(std::numeric_limits<int>::max())
 {
 
 };
@@ -39,7 +39,7 @@ comm_msg::ExplorationMachine Machine::msg()
 {
   comm_msg::ExplorationMachine tmp;
   tmp.pose = getCentre();
-  tmp.zone = common_utils::getArea(tmp.pose);
+  tmp.zone = zone();
   tmp.team_color = color();
 
   return tmp;
@@ -53,6 +53,11 @@ int Machine::getNbActu()
 int Machine::color()
 {
     return m_color;
+}
+
+int Machine::zone()
+{
+    return m_zone;
 }
 
 double Machine::getReliability()
@@ -80,10 +85,8 @@ void Machine::update(const geometry_msgs::Pose2D &p)
     m_xSum += p.x;
     m_ySum += p.y;
     m_nbActu++;
-
-    ROS_ERROR("New Machine");
   }
-  else if (m_nbActu < 30)
+  else if (m_nbActu < 10)
   {
     m_xSum += p.x;
     m_ySum += p.y;
@@ -93,11 +96,20 @@ void Machine::update(const geometry_msgs::Pose2D &p)
     m_centre.y     = m_ySum/double(m_nbActu);
 
     double tmp = geometry_utils::normalizeAngle(p.theta);
+    if (std::abs(m_centre.theta - tmp) > M_PI_2)
+    {
+      if (tmp > 0)
+      {
+        tmp -= M_PI;
+      }
+      else
+      {
+        tmp += M_PI;
+      }
+    }
     m_centre.theta = geometry_utils::normalizeAngle((m_centre.theta + tmp)/2);
 
     m_lastError = geometry_utils::distance(m_centre, p);
-
-    ROS_ERROR("Machine pas encore tres bien connue");
   }
 }
 
@@ -135,6 +147,11 @@ void Machine::color(int color)
   m_color = color;
 }
 
+void Machine::zone(int zone)
+{
+  m_zone = zone;
+}
+
 bool Machine::neverSeen()
 {
   return m_nbActu == 0;
@@ -158,5 +175,5 @@ void Machine::switchSides()
     theta -= M_PI;
   }
 
-  m_centre.theta = geometry_utils::normalizeAngle(theta);
+  m_centre.theta = theta;
 }

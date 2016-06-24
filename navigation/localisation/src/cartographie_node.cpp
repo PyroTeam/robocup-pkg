@@ -16,7 +16,6 @@
 #include "ar_track_alvar_msgs/AlvarMarkers.h"
 #include "comm_msg/ExplorationInfo.h"
 #include "comm_msg/ExplorationSignal.h"
-#include "comm_msg/ExplorationZone.h"
 
 deplacement_msg::Machines  g_machines;
 std::vector<Machine>       g_mps(24);
@@ -61,6 +60,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
         if (zone != 0)
         {
             g_mps[zone-1].update(center);
+            g_mps[zone-1].zone(zone);
 
             // Ajout reverse
             geometry_msgs::Pose2D reverse = g_mps[zone-1].reversePose();
@@ -68,24 +68,16 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
             if (zone != 0 && g_mps[zone-1].neverSeen())
             {
                 g_mps[zone-1].update(reverse);
+                g_mps[zone-1].zone(zone);
             }
         }
     }
-}
-
-void zonesCallback(const comm_msg::ExplorationInfo &msg)
-{
-  for (auto &it : msg.zones)
-  {
-    g_mps[it.zone].color(it.team_color);
-  }
 }
 
 void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
 {
   std::vector<ar_track_alvar_msgs::AlvarMarker> tmp;
   tmp = artags.markers;
-  // transfo tf de tower_camera_link vers map à faire !
 
   static ros::NodeHandle nh;
   std::string tf_prefix;
@@ -94,19 +86,7 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
   {
       tf_prefix += "/";
   }
-/*
-  tf::StampedTransform transform;
-  try
-  {
-      g_tf_listener->waitForTransform("map",tf_prefix+"tower_camera_link",artags->header.stamp + ros::Duration(0.1),ros::Duration(1.0));
-      g_tf_listener->lookupTransform("map", tf_prefix+"tower_camera_link", artags->header.stamp, transform);
-  }
-  catch (tf::TransformException ex)
-  {
-      ROS_WARN("%s",ex.what());
-      return;
-  }
-*/
+
   for (int i = 0; i < tmp.size(); i++)
   {
     tmp[i].pose.header.frame_id = tmp[i].header.frame_id;
@@ -114,6 +94,7 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
     geometry_msgs::PoseStamped pose_map;
     try
     {
+      g_tf_listener->waitForTransform("map",tf_prefix+"tower_camera_link",artags.header.stamp,ros::Duration(1.0));
       g_tf_listener->transformPose("map",tmp[i].pose,pose_map);
     }
     catch( tf::TransformException ex)
@@ -121,24 +102,18 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
       ROS_ERROR("transform exception : %s",ex.what());
     }
 
-    tf::Quaternion q(pose_map.pose.orientation.x, pose_map.pose.orientation.y, pose_map.pose.orientation.z, pose_map.pose.orientation.w);
-    tf::Matrix3x3 m(q);
-    double roll, pitch, yaw;
-    m.getRPY(roll, pitch, yaw);
-
-		//ROS_INFO("I see: [%d] at (%f,%f) with RPY (%f, %f, %f)", tmp[i].id, pose_map.pose.position.x, pose_map.pose.position.y, roll, pitch, yaw);
     for (auto &it2 : g_mps)
     {
       // si l'ar tag est assez proche pour considérer qu'il est celui sur la machine
       // Oui magic number mais ya un moment faut arrêter quoi
-      if (geometry_utils::distance(tmp[i].pose.pose.position, it2.getCentre()) <= 0.5)
+      if (!it2.neverSeen() && geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= 0.5)
       {
-        //ROS_INFO("I detect an AR Tag corresponding to a known machine");
         // ar tag impair = INPUT
         if ((tmp[i].id%2 == 1 && it2.getCentre().theta < 0) ||
             (tmp[i].id%2 == 0 && it2.getCentre().theta > 0))
         {
-          //it2.switchSides();
+          ROS_INFO("Switch sides of Machine in zone %d", it2.zone());
+          it2.switchSides();
         }
       }
     }
@@ -154,7 +129,6 @@ int main( int argc, char** argv )
     ros::NodeHandle n;
 
     ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 1, machinesCallback);
-    ros::Subscriber sub_zones    = n.subscribe("refBoxComm/ExplorationInfo", 1, zonesCallback);
     ros::Subscriber sub_artag    = n.subscribe("computerVision/ar_pose_marker", 1, artagCallback);
 
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Machines >("objectDetection/landmarks", 1);

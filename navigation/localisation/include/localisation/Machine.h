@@ -16,6 +16,7 @@ public:
 
 	int getNbActu();
   int color();
+  int zone();
 	double getReliability();
 	double getLastError();
 
@@ -24,6 +25,7 @@ public:
   void update(const geometry_msgs::Pose2D &p);
 	void calculateCoordMachine(Segment s);
   void color(int color);
+  void zone(int zone);
 
   bool neverSeen();
   bool orientationOk();
@@ -36,6 +38,7 @@ private:
 	double 					m_ySum;
 	int 						m_nbActu;
   int             m_color;
+  int             m_zone;
 	double					m_reliability;
   double          m_lastError;
   bool            m_orientationOK;
