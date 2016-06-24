@@ -69,7 +69,7 @@
 
         <!-- Load the path tracker -->
         <!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" launch-prefix="xterm -e"/> -->
-        <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" launch-prefix="ddd --args"/>
+        <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" launch-prefix="xterm -e"/>
 
         <!-- Load the fake final approach -->
         <!-- <node pkg="final_approach" name="final_approach" type="simFinalApproach_node"/> -->

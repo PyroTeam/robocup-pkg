@@ -18,12 +18,12 @@
 
 geometry_msgs::Twist BasicFollower::generateNewSetPoint()
 {
+    ROS_INFO("Generate New Setpoint");
     //vitesse max robotino fixe
     //TODO: à parametrer
     float Vlim = 0.3;
     float VminStatic = 0.05;
     float Vmax = 0.3;
-
 
     geometry_msgs::Twist twist;
     if(m_status != PathFollowerStatus_t::IN_PROGRESS || m_pathSize == 0)
@@ -33,6 +33,7 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
 
     //TODO: obtenir la pose courante dans le repère map
     geometry_msgs::Pose2D pose = m_robotPose.getPose2D();
+    ROS_INFO_STREAM("Current Pose :" << pose);
 
     //chercher le segment le meilleur
     float err = 0.0;
@@ -60,6 +61,7 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
             }
 
             err = (Ry*delta_x - Rx*delta_y) / denom;
+            ROS_INFO("Error : %f", err);
         }
 
         //calcul de l'orienation du segment
@@ -78,6 +80,7 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
             errOri = geometry_utils::normalizeAngle(segmentAngle - pose.theta);
         }
 
+        ROS_INFO("Err Ori : %f", errOri);
         //mise à jour de la consigne d'angle
         twist.angular.z = m_controllerOri->update(errOri);
 
@@ -97,15 +100,20 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
             tmpIndex++;
         }
         float Vmin = VminStatic;
+        ROS_INFO("Vmin : %f, Vmax : %f", Vmin, Vmax);
+        ROS_INFO("dCurrent : %f", dCurrent);
+        ROS_INFO("dWindow : %f", dWindow);
         if (tmpIndex == m_path.poses.size()-1)
         {
+            ROS_INFO("Vlim without sat : %f", (Vmax - Vmin)/dWindow * dCurrent + Vmin);
             Vlim = m_speedLimiter.update((Vmax - Vmin)/dWindow * dCurrent + Vmin);
         }
         else
         {
+            ROS_INFO("2 Vmin : %f, Vmax : %f", Vmin, Vmax);
             Vlim = m_speedLimiter.update(Vmax);
         }
-
+        ROS_INFO("Vlim : %f", Vlim);
         //En repere segment local
         if (std::shared_ptr<common_utils::PidWithAntiWindUp> p = std::dynamic_pointer_cast<common_utils::PidWithAntiWindUp>(m_controllerVel))
         {
@@ -141,7 +149,7 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
         }
     }
 
-
+    ROS_INFO_STREAM("cmd_vel : x=" << twist.linear.x << ", y=" << twist.linear.y << ", theta=" << twist.angular.z);
     return twist;
 
 }

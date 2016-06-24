@@ -11,13 +11,14 @@
  */
 
 #include "common_utils/RateLimiter.h"
+#include <ros/ros.h>
 
 namespace common_utils {
 
 
-RateLimiter::RateLimiter(float low, float up, float T)
+RateLimiter::RateLimiter(float low, float up, float T):m_T(T)
 {
-    void setLimits(float low, float up);
+    setLimits(low, up);
     m_lastSignal = 0.0;
 }
 

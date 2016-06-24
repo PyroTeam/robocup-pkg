@@ -26,8 +26,10 @@ PathFollower::PathFollower(std::shared_ptr<common_utils::Controller> controllerV
 
 void PathFollower::pathCallback(const nav_msgs::Path &path)
 {
+
     if(m_status == PathFollowerStatus_t::START)
     {
+        ROS_INFO("Get Path");
         m_path = path;
         m_pathSize = path.poses.size();
         m_status = PathFollowerStatus_t::IN_PROGRESS;

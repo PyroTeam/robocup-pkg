@@ -18,11 +18,10 @@ PathTracking::PathTracking(std::string name, const std::shared_ptr<MoveBehavior>
 {
 
     m_behavior = moveBehavior;
-    m_ptMachine.initiate();
     m_ptMachine.setBehavior(m_behavior);
+    m_ptMachine.initiate();
 
     m_trackPath_action.start();
-
 }
 
 
@@ -70,6 +69,7 @@ void PathTracking::executeCB(const deplacement_msg::TrackPathGoalConstPtr &goal)
             {
                 m_ptMachine.process_event(EvEndPath());
             }
+            m_ptMachine.process_event(EvTimer());
 
             ros::spinOnce();
             loopRate.sleep();

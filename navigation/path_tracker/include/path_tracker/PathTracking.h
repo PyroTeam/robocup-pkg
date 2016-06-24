@@ -50,11 +50,13 @@ public:
     PTmachine():m_behavior(nullptr)
     {
         m_cmdVel_pub = m_nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1);
+        m_count=0;
     }
 
     void setBehavior(std::shared_ptr<MoveBehavior> &behavior)
     {
         m_behavior = behavior;
+
     }
 
     std::shared_ptr<MoveBehavior> & getBehavior()
@@ -66,8 +68,9 @@ public:
     {
         return m_cmdVel_pub;
     }
-
 private:
+    int m_count;
+
     std::shared_ptr<MoveBehavior> m_behavior;
     ros::NodeHandle m_nh;
     ros::Publisher m_cmdVel_pub;
@@ -79,10 +82,14 @@ struct StActive : sc::state<StActive, PTmachine, StIdle>
 public:
     typedef sc::transition< EvReset, StActive > reactions;
 
-    StActive(my_context ctx) : sc::state<StActive, PTmachine, StIdle>( ctx )
+    StActive(my_context ctx) :
+        sc::state<StActive, PTmachine, StIdle>( ctx ),
+        m_behavior(nullptr)
     {
         ROS_INFO("PathTracking: Entering Active State");
+
         m_behavior = outermost_context().getBehavior();
+
     }
 
     std::shared_ptr<MoveBehavior> & getBehavior()
@@ -101,6 +108,11 @@ public:
 
     void startNewPath(const EvStart &evStart)
     {
+        if (m_behavior == nullptr)
+        {
+            ROS_ERROR("MoveBehavior not initialized");
+            return;
+        }
         m_behavior->startTraj();
     }
 

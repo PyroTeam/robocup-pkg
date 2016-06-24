@@ -38,6 +38,11 @@ public:
 
     void startTraj()
     {
+        if (m_pathFollower == nullptr)
+        {
+            ROS_ERROR("PathFollower not initialized");
+            return;
+        }
         m_pathFollower->startTraj();
         //TODO init m_avoidObstacle
     }
