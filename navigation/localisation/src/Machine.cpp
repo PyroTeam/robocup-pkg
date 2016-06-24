@@ -10,7 +10,7 @@
 #include <limits>
 #include <algorithm>
 
-Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_nbActu(0.0),m_lastError(std::numeric_limits<int>::max()),m_reliability(std::numeric_limits<int>::max())
+Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_nbActu(0.0), m_color(2), m_zone(0), m_lastError(std::numeric_limits<int>::max()), m_orientationOK(false)
 {
 
 };
@@ -60,10 +60,6 @@ int Machine::zone()
     return m_zone;
 }
 
-double Machine::getReliability()
-{
-  return m_reliability;
-}
 double Machine::getLastError()
 {
   return m_lastError;
@@ -96,7 +92,10 @@ void Machine::update(const geometry_msgs::Pose2D &p)
     m_centre.y     = m_ySum/double(m_nbActu);
 
     double tmp = geometry_utils::normalizeAngle(p.theta);
-    if (std::abs(m_centre.theta - tmp) > M_PI_2)
+    double diff = std::abs(m_centre.theta - tmp);
+    // Si l'écart est grand cela signifie que la machine est vue avec le mauvais angle par rapport à celui enregistré
+    // cela est dû à la transformation TF du repère tower_camera_link vers map
+    if (diff > M_PI_2)
     {
       if (tmp > 0)
       {
@@ -109,7 +108,7 @@ void Machine::update(const geometry_msgs::Pose2D &p)
     }
     m_centre.theta = geometry_utils::normalizeAngle((m_centre.theta + tmp)/2);
 
-    m_lastError = geometry_utils::distance(m_centre, p);
+    m_lastError = geometry_utils::distance(m_centre, p) + std::abs(diff);
   }
 }
 
@@ -176,4 +175,5 @@ void Machine::switchSides()
   }
 
   m_centre.theta = theta;
+  m_orientationOK = true;
 }

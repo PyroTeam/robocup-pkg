@@ -39,7 +39,6 @@ private:
 	int 						m_nbActu;
   int             m_color;
   int             m_zone;
-	double					m_reliability;
   double          m_lastError;
   bool            m_orientationOK;
 };

@@ -15,17 +15,16 @@ LocaSubscriber::~LocaSubscriber()
 
 void LocaSubscriber::machinesCallback(const deplacement_msg::MachinesConstPtr &msg)
 {
-	ROS_INFO_ONCE("I heard the localisation publisher ");
-  int count = 0;
+	ROS_INFO_ONCE("I can receive machine positions");
+
   for (auto &it : msg->landmarks)
   {
   	m_machines[it.zone-1].pose   = it.pose;
   	m_machines[it.zone-1].isHere = true;
   	m_machines[it.zone-1].zone   = it.zone;
-    count++;
 	}
 
-  if (count == 12)
+  if (msg->landmarks.size() == 12)
   {
     m_explo_completed = true;
   }

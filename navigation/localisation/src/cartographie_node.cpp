@@ -104,17 +104,16 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
 
     for (auto &it2 : g_mps)
     {
-      // si l'ar tag est assez proche pour considérer qu'il est celui sur la machine
+      // si la machine a déjà été vue au moins une fois et que
+      // l'ar tag est assez proche pour considérer qu'il est bien celui de la machine et que
+      // l'angle n'est pas bon
       // Oui magic number mais ya un moment faut arrêter quoi
-      if (!it2.neverSeen() && geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= 0.5)
+      if (!it2.neverSeen() &&
+          geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= 0.5 &&
+          ((tmp[i].id%2 == 1 && it2.getCentre().theta < 0) || (tmp[i].id%2 == 0 && it2.getCentre().theta > 0)))
       {
-        // ar tag impair = INPUT
-        if ((tmp[i].id%2 == 1 && it2.getCentre().theta < 0) ||
-            (tmp[i].id%2 == 0 && it2.getCentre().theta > 0))
-        {
           ROS_INFO("Switch sides of Machine in zone %d", it2.zone());
           it2.switchSides();
-        }
       }
     }
   }
