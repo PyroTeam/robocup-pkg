@@ -163,17 +163,14 @@ bool Machine::orientationOk()
 
 void Machine::switchSides()
 {
-  double theta = m_centre.theta;
-
-  if (theta < 0)
+  if (m_centre.theta < 0)
   {
-    theta += M_PI;
+    m_centre.theta += M_PI;
   }
-  else if (theta > 0)
+  else
   {
-    theta -= M_PI;
+    m_centre.theta -= M_PI;
   }
 
-  m_centre.theta = theta;
   m_orientationOK = true;
 }

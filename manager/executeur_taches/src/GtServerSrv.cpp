@@ -336,6 +336,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         ROS_INFO("Let's explore zone %d", req.id);
 
+        m_ls->spin();
+
         // si on ne connait pas la machine à cet instant et qu'on ne connait pas toutes les machines
         if (!knownMachineInZone(req.id) && !m_ls->haveAllTheMachines())
         {
@@ -466,6 +468,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         // Reporter machine
         reportClient.reporting(machine->getName(), m_ei->type, req.id);
+        m_ls->spin();
 
       } // end of discover order
       break;

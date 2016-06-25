@@ -108,12 +108,23 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
       // l'ar tag est assez proche pour considérer qu'il est bien celui de la machine et que
       // l'angle n'est pas bon
       // Oui magic number mais ya un moment faut arrêter quoi
-      if (!it2.neverSeen() &&
-          geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= 0.5 &&
-          ((tmp[i].id%2 == 1 && it2.getCentre().theta < 0) || (tmp[i].id%2 == 0 && it2.getCentre().theta > 0)))
+      if (!it2.neverSeen() && !it2.orientationOk() &&
+          geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= 0.5)
       {
-          ROS_INFO("Switch sides of Machine in zone %d", it2.zone());
-          it2.switchSides();
+        if (tmp[i].id%2 == 1 && it2.getCentre().theta < 0 && geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2) < 0)
+        {
+            ROS_ERROR("I see the input of Machine (%f) in zone %d",it2.getCentre().theta, it2.zone());
+            ROS_ERROR("Robot have the yaw = %f", geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)-M_PI/2));
+            it2.switchSides();
+            ROS_INFO("So I switch the angle to %f", it2.getCentre().theta);
+        }
+        else if (tmp[i].id%2 == 0 && it2.getCentre().theta > 0 && geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2) > 0)
+        {
+            ROS_ERROR("I see the output of Machine (%f) in zone %d", it2.getCentre().theta, it2.zone());
+            ROS_ERROR("Robot have the yaw = %f", geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)-M_PI/2));
+            it2.switchSides();
+            ROS_INFO("So I switch the angle to %f", it2.getCentre().theta);
+        }
       }
     }
   }
@@ -132,7 +143,7 @@ int main( int argc, char** argv )
 
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Machines >("objectDetection/landmarks", 1);
 
-    ros::Rate loop_rate (10);
+    ros::Rate loop_rate (30);
     while(n.ok())
     {
       g_machines.landmarks = convertIntoMsg(g_mps);
