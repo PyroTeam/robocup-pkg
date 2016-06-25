@@ -27,7 +27,7 @@ public:
 
   bool canBeUpdated(const geometry_msgs::Pose2D &seenMachine);
   bool neverSeen();
-
+  bool orientationOk();
 
 
 private:
@@ -39,6 +39,7 @@ private:
   int             m_color;
 	double					m_reliability;
   double          m_lastError;
+  bool            m_orientationOK;
 };
 
 #endif

@@ -108,6 +108,7 @@ void Machine::calculateCoordMachine(Segment s)
         center.y = ordMilieu - cosinus;
         center.theta = angle;
     }
+
     setCentre(center);
 }
 
@@ -133,4 +134,10 @@ bool Machine::canBeUpdated(const geometry_msgs::Pose2D &seenMachine)
 bool Machine::neverSeen()
 {
   return m_nbActu == 0;
+}
+
+
+bool Machine::orientationOk()
+{
+  return m_orientationOK;
 }

@@ -8,17 +8,12 @@
 #include <actionlib/server/simple_action_server.h>
 #include <geometry_msgs/Twist.h>
 
-// Ours
-<<<<<<< HEAD:navigation/approche_finale/include/approche_finale/SimFinalApproach.h
-#include <manager_msg/finalApproachingAction.h>
-#include <deplacement_msg/Machines.h>
-=======
-#include <final_approach_msg/FinalApproachingAction.h>
-#include <deplacement_msg/Landmarks.h>
->>>>>>> ac5172c1dccb5d4439d83f8620b5727cf21f508e:navigation/final_approach/include/final_approach/SimFinalApproach.h
-
 // Stl
 #include <vector>
+
+// Ours
+#include <final_approach_msg/FinalApproachingAction.h>
+#include <deplacement_msg/Machines.h>
 
 class SimFinalApproach
 {
@@ -27,13 +22,8 @@ class SimFinalApproach
 		~SimFinalApproach(void);
 
 		void preemptCB();
-<<<<<<< HEAD:navigation/approche_finale/include/approche_finale/SimFinalApproach.h
-		void executeCB(const manager_msg::finalApproachingGoalConstPtr &goal);
-    void landmarksCallback(const deplacement_msg::Machines& msg);
-=======
 		void executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &goal);
-		void landmarksCallback(const deplacement_msg::Landmarks::ConstPtr& msg);
->>>>>>> ac5172c1dccb5d4439d83f8620b5727cf21f508e:navigation/final_approach/include/final_approach/SimFinalApproach.h
+    void landmarksCallback(const deplacement_msg::Machines& msg);
 
 	private:
 		ros::NodeHandle m_nh;
