@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
 	nav_msgs
 	visualization_msgs
 	common_utils
+	tf2
 )
 
 # Use clang++-3.6 if available

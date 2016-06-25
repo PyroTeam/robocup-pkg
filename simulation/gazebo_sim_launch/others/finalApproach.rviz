@@ -25,12 +25,12 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Image
+    SyncSource: LaserScan
 Visualization Manager:
   Class: ""
   Displays:
     - Alpha: 0.5
-      Cell Size: 0.5
+      Cell Size: 0.25
       Class: rviz/Grid
       Color: 160; 160; 164
       Enabled: true
@@ -44,7 +44,7 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 20
+      Plane Cell Count: 50
       Reference Frame: map
       Value: true
     - Class: rviz/Image
@@ -57,6 +57,7 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: raw
+      Unreliable: false
       Value: true
     - Alpha: 0.8
       Autocompute Intensity Bounds: true
@@ -81,23 +82,24 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.05
+      Size (m): 0.01
       Style: Spheres
       Topic: /robotino1/distance_sensors
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: false
       Value: true
     - Angle Tolerance: 0
       Class: rviz/Odometry
-      Color: 255; 255; 255
+      Color: 170; 0; 127
       Enabled: true
       Keep: 1
-      Length: 0.2
+      Length: 0.23
       Name: Odometry
       Position Tolerance: 0
       Topic: /robotino1/hardware/odom
       Value: true
-    - Alpha: 0.3
+    - Alpha: 0.25
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
         Max Value: 1.55049
@@ -106,7 +108,7 @@ Visualization Manager:
       Axis: Y
       Channel Name: intensity
       Class: rviz/LaserScan
-      Color: 255; 0; 0
+      Color: 128; 200; 255
       Color Transformer: FlatColor
       Decay Time: 0.3
       Enabled: true
@@ -123,20 +125,15 @@ Visualization Manager:
       Size (m): 0.01
       Style: Spheres
       Topic: /robotino1/hardware/scan
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: false
       Value: true
     - Class: rviz/TF
       Enabled: true
-      Frame Timeout: 15
+      Frame Timeout: 1
       Frames:
         All Enabled: true
-        ar_marker_0:
-          Value: true
-        ar_marker_1:
-          Value: true
-        ar_marker_128:
-          Value: true
         base_link:
           Value: true
         laser_link:
@@ -145,11 +142,7 @@ Visualization Manager:
           Value: true
         odom:
           Value: true
-        platform_camera_link:
-          Value: true
-        tower_camera_link:
-          Value: true
-      Marker Scale: 0.5
+      Marker Scale: 0.2
       Name: TF
       Show Arrows: true
       Show Axes: true
@@ -160,15 +153,6 @@ Visualization Manager:
             base_link:
               laser_link:
                 {}
-              platform_camera_link:
-                {}
-              tower_camera_link:
-                ar_marker_0:
-                  {}
-                ar_marker_1:
-                  {}
-                ar_marker_128:
-                  {}
       Update Interval: 0
       Value: true
     - Class: rviz/Marker
@@ -176,8 +160,20 @@ Visualization Manager:
       Marker Topic: /robotino1/visualization_marker
       Name: Marker
       Namespaces:
-        {}
+        /robotino1/final_approach: true
       Queue Size: 100
+      Value: true
+    - Class: rviz/Image
+      Enabled: true
+      Image Topic: /robotino1/platform_cam_node/image_raw
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
@@ -202,23 +198,20 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/ThirdPersonFollower
-      Distance: 3.57106
+      Angle: 0
+      Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
-      Focal Point:
-        X: 0.839512
-        Y: -0.855752
-        Z: -1.60932e-06
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.484515
+      Scale: 662.319
       Target Frame: <Fixed Frame>
-      Value: ThirdPersonFollower (rviz)
-      Yaw: 3.81
+      Value: TopDownOrtho (rviz)
+      X: 0.470661
+      Y: 0.0608755
     Saved: ~
 Window Geometry:
   Displays:
@@ -228,7 +221,7 @@ Window Geometry:
   Hide Right Dock: false
   Image:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001e3000002e2fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730000000028000002e2000000dd00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f000002e2fc0200000004fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0049006d0061006700650100000028000000e50000001600fffffffb0000000a005600690065007700730100000113000001f7000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000005ff0000003efc0100000002fb0000000800540069006d00650100000000000005ff000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000004ea000002e200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001e3000002e2fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730000000028000002e2000000dd00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f000002e2fc0200000005fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0049006d0061006700650100000028000000e30000001600fffffffb0000000a0049006d0061006700650100000111000000e20000001600fffffffb0000000a0056006900650077007301000001f900000111000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000005ff0000003efc0100000002fb0000000800540069006d00650100000000000005ff000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000004ea000002e200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:

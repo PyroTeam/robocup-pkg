@@ -84,7 +84,8 @@ enum mpsARTags_e
 enum markerId_e
 {
 	SEGMENT_MARKER_ID,
-	ARTAG_MARKER_ID
+	ARTAG_MARKER_ID,
+	MID_POINT_ID
 };
 
 /**
@@ -124,18 +125,21 @@ class FinalApproaching
 	Parameter m_laserXPidKi;
 	Parameter m_laserXPidKd;
 	Parameter m_laserXPidThreshold;
+	Parameter m_laserXPidNbSuccessNeeded;
 
 	// Laser Y Asserv PID Parameters
 	Parameter m_laserYPidKp;
 	Parameter m_laserYPidKi;
 	Parameter m_laserYPidKd;
 	Parameter m_laserYPidThreshold;
+	Parameter m_laserYPidNbSuccessNeeded;
 
 	// Laser Yaw Asserv PID Parameters
 	Parameter m_laserYawPidKp;
 	Parameter m_laserYawPidKi;
 	Parameter m_laserYawPidKd;
 	Parameter m_laserYawPidThreshold;
+	Parameter m_laserYawPidNbSuccessNeeded;
 
 	// PID
 	common_utils::Pid m_laserXPid;
@@ -144,6 +148,7 @@ class FinalApproaching
 
 	// Some useful infos
 	Parameter m_mpsWidth;
+
 	// Les positions sur l'axe y sont renseignée côté INPUT de la machine
 	Parameter m_yPoseS1;
 	Parameter m_yPoseS2;
@@ -156,6 +161,9 @@ class FinalApproaching
 	Parameter m_xPoseLIGHT_OLD;
 	Parameter m_xPoseCONVEYOR;
 
+	Parameter m_skipAsservCamera;
+	Parameter m_skipAsservLaser;
+
   public:
 	FinalApproaching(std::string name)
 		: m_as(m_nh, name, boost::bind(&FinalApproaching::executeCB, this, _1), false), m_actionName(name)
@@ -163,16 +171,19 @@ class FinalApproaching
 		, m_laserXPidKi(m_nh, "navigation/finalApproach/laserAsserv/xPid/Ki", 0)
 		, m_laserXPidKd(m_nh, "navigation/finalApproach/laserAsserv/xPid/Kd", 0)
 		, m_laserXPidThreshold(m_nh, "navigation/finalApproach/laserAsserv/xPid/threshold", 0.01)
+		, m_laserXPidNbSuccessNeeded(m_nh, "navigation/finalApproach/laserAsserv/xPid/nbSuccessNeeded", 3.0)
 
 		, m_laserYPidKp(m_nh, "navigation/finalApproach/laserAsserv/yPid/Kp", 0.075)
 		, m_laserYPidKi(m_nh, "navigation/finalApproach/laserAsserv/yPid/Ki", 0)
 		, m_laserYPidKd(m_nh, "navigation/finalApproach/laserAsserv/yPid/Kd", 0)
 		, m_laserYPidThreshold(m_nh, "navigation/finalApproach/laserAsserv/yPid/threshold", 0.003)
+		, m_laserYPidNbSuccessNeeded(m_nh, "navigation/finalApproach/laserAsserv/yPid/nbSuccessNeeded", 3.0)
 
 		, m_laserYawPidKp(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Kp", 0.4)
 		, m_laserYawPidKi(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Ki", 0)
 		, m_laserYawPidKd(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Kd", 0)
 		, m_laserYawPidThreshold(m_nh, "navigation/finalApproach/laserAsserv/yawPid/threshold", 0.003)
+		, m_laserYawPidNbSuccessNeeded(m_nh, "navigation/finalApproach/laserAsserv/yawPid/nbSuccessNeeded", 3.0)
 
 		, m_laserXPid(m_laserXPidKp(), m_laserXPidKi(), m_laserXPidKd(), 1.0/g_loopFreq)
 		, m_laserYPid(m_laserYPidKp(), m_laserYPidKi(), m_laserYPidKd(), 1.0/g_loopFreq)
@@ -186,10 +197,13 @@ class FinalApproaching
 		, m_yPoseLANE_RS(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/LANE_RS", -0.26)
 		, m_yPoseLIGHT(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/LIGHT", 0.0)
 		, m_yPoseLIGHT_OLD(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/LIGHT_OLD", 0.0)
-		, m_yPoseCONVEYOR(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/CONVEYOR", 2.25)
+		, m_yPoseCONVEYOR(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/CONVEYOR", 0.0225)
 
 		, m_xPoseLIGHT_OLD(m_nh, "navigation/finalApproach/mps/targetPoses/xAxis/LIGHT_OLD", -0.36)
 		, m_xPoseCONVEYOR(m_nh, "navigation/finalApproach/mps/targetPoses/xAxis/CONVEYOR", -0.16)
+
+		, m_skipAsservCamera(m_nh, "navigation/finalApproach/skipAsservCamera", 0.0)
+		, m_skipAsservLaser(m_nh, "navigation/finalApproach/skipAsservLaser", 0.0)
 	{
 		refreshParams();
 
