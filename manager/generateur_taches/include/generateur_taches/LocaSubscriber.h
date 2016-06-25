@@ -12,29 +12,36 @@
 
 #include <ros/ros.h>
 #include "geometry_msgs/Pose2D.h"
-#include "deplacement_msg/Landmarks.h" 
+#include "deplacement_msg/Machines.h"
+#include "common_utils/zone.h"
 #include <vector>
 #include <list>
+#include <algorithm>
 
-class LocaSubscriber 
+class LocaSubscriber
 {
 	public:
-		/* Constructeur */	
+		/* Constructeur */
 	 	LocaSubscriber(std::list<int> &lst_unkownZones, std::list<int> &lst_exploredZones, std::list<int> &lst_notExploredZones);
 
 	 	/* Déstructeur */
 	    virtual  ~LocaSubscriber();
 
 	    /* Méthodes */
-	    void tesCallback(const deplacement_msg::LandmarksConstPtr &msg);
-	    int getZone(float x, float y);
-
-	    /* Variable d'instance */
+	    void tesCallback(const deplacement_msg::MachinesConstPtr &msg);
+			bool foundInUnkown(int z);
+			bool foundInExplored(int z);
+			bool foundInNotExplored(int z);
+			void pushToExploredList(int z);
+			void removeFromUnkown(int z);
+			void removeFromExplore(int z);
+			void removeFromNotExplored(int z);
+			/* Variable d'instance */
 	   	std::list<int> &m_unkownZones, &m_exploredZones, &m_notExploredZones;
 
 	private:
 		ros::Subscriber m_sub;
-		std::vector<geometry_msgs::Pose2D> m_machinesPose;
+		std::vector<comm_msg::ExplorationMachine> m_machinesPose;
 
 };
-#endif 
+#endif

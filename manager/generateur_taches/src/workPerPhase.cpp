@@ -24,6 +24,7 @@ using namespace std;
 void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &cptOrder, int robot ,int &cptZone,
 							CorrespondanceZE &correspondanceZE){
 	//update_zone(tabMachine,tabRobot); //trouver une maniere efficace d'attribuer aux machines un robot
+	#if 0
 	int cptMachine=0;
 	vector<int> zone = correspondanceZE.getUsefulZone();
 	ROS_INFO("In workInExplorationPhase");
@@ -39,6 +40,48 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
 			tabRobot[robot].setBusy(true);
 		}
 	}
+	#endif
+	if(correspondanceZE.m_exploredZones.size() < 6)
+	{
+		int cptMachine=0;
+		int zone = correspondanceZE.getBestZone();
+
+		ROS_INFO("In workInExplorationPhase");
+
+		Srvorder srvexplo(ros::Time::now(),cptOrder,robot,orderRequest::DISCOVER,orderRequest::NONE,zone);
+		ROS_INFO("Robot %d execute la tache DISCOVER sur la zone %d",robot,zone);
+		cptZone++;
+		cptOrder++;
+		if(srvexplo.getAccepted())
+		{
+			cptMachine++;
+			tabRobot[robot].setBusy(true);
+		}
+
+		bool foundInUnkown = correspondanceZE.m_locaSub.foundInUnkown(zone);
+		bool foundInNotExplored =  correspondanceZE.m_locaSub.foundInNotExplored(zone);
+
+		if(foundInUnkown && !foundInNotExplored)
+		{
+			correspondanceZE.m_locaSub.removeFromUnkown(zone);
+		}
+		else if(foundInNotExplored && !foundInUnkown)
+		{
+			correspondanceZE.m_locaSub.removeFromNotExplored(zone);
+		}
+		else if(foundInUnkown && foundInNotExplored)
+		{
+			ROS_ERROR("/!\\ WARNING : zone %d was founded in m_unkownZones & m_notExploredZones ", zone);
+		}
+
+		bool foundInExplored = correspondanceZE.m_locaSub.foundInExplored(zone);
+		if(foundInExplored)
+		{
+			ROS_ERROR("/!\\ WARNING : exploring zone %d which is already explored",zone);
+		}
+		correspondanceZE.m_locaSub.pushToExploredList(zone);
+	}
+	ROS_INFO("Done exploring");
 }
 
 
