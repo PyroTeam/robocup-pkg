@@ -11,6 +11,9 @@
 #define CORRESPONDANCEZE_H
 
 #include "comm_msg/ExplorationInfo.h"
+#include "geometry_utils/geometry_utils.h"
+#include "common_utils/zone.h"
+#include "geometry_msgs/Pose2D.h"
 #include "LocaSubscriber.h"
 #include <ros/ros.h>
 #include <vector>
@@ -36,13 +39,20 @@ class CorrespondanceZE {
 	std::list<int> m_unkownZones, m_exploredZones, m_notExploredZones;
 	LocaSubscriber m_locaSub;
 
+	struct s_ZoneDistance {
+		int zone;
+		double distance;
+	};
+
 	private:
 
 	ros::NodeHandle m_nh;
 	ros::Subscriber m_correspondanceZESub;
-	std::vector<int> m_usefulZone;
+	std::vector<int> m_usefulZone; // A checker si cette variable est tjs utile
+
 
 
 };
 
+	bool sortOnDistance (CorrespondanceZE::s_ZoneDistance s1,CorrespondanceZE::s_ZoneDistance s2);
 #endif

@@ -46,6 +46,11 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
 		int cptMachine=0;
 		int zone = correspondanceZE.getBestZone();
 
+		if(zone == -1 )
+		{
+			ROS_ERROR("HELP ME! getBestZone() has returned -1, what's wrong?");
+		}
+
 		ROS_INFO("In workInExplorationPhase");
 
 		Srvorder srvexplo(ros::Time::now(),cptOrder,robot,orderRequest::DISCOVER,orderRequest::NONE,zone);

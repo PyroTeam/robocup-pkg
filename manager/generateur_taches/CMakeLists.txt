@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   manager_msg
   common_utils
+  geometry_utils
 )
 
 ## System dependencies are found with CMake's conventions
