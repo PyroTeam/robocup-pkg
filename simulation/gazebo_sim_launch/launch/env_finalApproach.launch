@@ -57,10 +57,10 @@
 		<param unless="$(arg use_tf_prefix)" name="simuRobotNamespace" value="" />
 
 		<!-- Paramètres de l'approche finale -->
-		<rosparam file="$(find gazebo_sim_launch)/param/roi.yaml" />
+		<rosparam file="$(find gazebo_sim_launch)/param/robotino1_navigation.yaml" />
 
 		<!-- Paramètres ddu traitement d'image -->
-		<rosparam file="$(find lecture_feu)/param/robotino1_navigation.yaml" />
+		<rosparam file="$(find lecture_feu)/param/roi.yaml" />
 
 		<!-- Static transforms -->
 		<node pkg="tf" type="static_transform_publisher" name="map_to_odom"
