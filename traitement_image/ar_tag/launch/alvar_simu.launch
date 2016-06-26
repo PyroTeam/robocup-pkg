@@ -11,6 +11,8 @@
         <node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect"
         	respawn="$(arg respawn)" output="$(arg output)"
         	args="$(arg marker_size) $(arg max_new_marker_error) $(arg max_track_error)
-        	$(arg cam_image_topic) $(arg cam_info_topic) $(arg output_frame)" />
+        	$(arg cam_image_topic) $(arg cam_info_topic) $(arg output_frame)" >
+                <remap from="visualization_marker" to="alvar_markers" />
+        </node>
 
 </launch>

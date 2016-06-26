@@ -10,6 +10,10 @@
 #ifndef _COMMON_UTILS__PID__H_
 #define _COMMON_UTILS__PID__H_
 
+#include "Controller.h"
+
+namespace common_utils {
+
 /**
  * \brief      Simple PID
  *
@@ -20,11 +24,11 @@
  *
  * \NOTE: L'ajout de l'anti windup serait un gros plus.
  */
-class Pid
+class Pid : public Controller
 {
 public:
 	Pid(float Kp, float Ki, float Kd, float T);
-	~Pid();
+	virtual ~Pid();
 	/**
 	 * \brief      Calcul la commande à appliquer
 	 *
@@ -32,12 +36,13 @@ public:
 	 *
 	 * \return     La commande
 	 */
-	float update(float err);
+	virtual float update(float err) override;
+    virtual void reset() override;
 	void setKp(float Kp) { m_Kp = Kp;};
 	void setKi(float Ki) { m_Ki = Ki;};
 	void setKd(float Kd) { m_Kd = Kd;};
 
-private:
+protected:
 	float m_Kp;   // Coeff P
 	float m_Ki;   // Coeff I
 	float m_Kd;   // Coeff D
@@ -45,5 +50,7 @@ private:
 	float m_I;    // Intégrale de l'erreur
 	float m_T;    // Période entre deux appels de update
 };
+
+} // namespace common_utils
 
 #endif // _COMMON_UTILS__PID__H_

@@ -45,4 +45,9 @@ int8 state
 int32 percent_complete
 
 # Distance in meters from robot center to machine
-float distance_to_machine
+float32 distance_to_machine
+
+# Asserv errors
+float32 errorX
+float32 errorY
+float32 errorYaw
