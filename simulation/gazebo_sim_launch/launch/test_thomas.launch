@@ -72,7 +72,7 @@
 		<node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"/>
 
 		<!-- Load the manager -->
-		<node pkg="executeur_taches" name="executeur" type="test_exec" output="screen" launch-prefix="gdb -ex run --args" />
+		<node pkg="executeur_taches" name="executeur" type="test_exec" output="screen"/>
 		<node pkg="generateur_taches" name="manager" type="main_node"/>
 
 		<!-- Load the gazebo_to_ros node -->

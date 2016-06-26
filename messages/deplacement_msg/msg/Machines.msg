@@ -1,2 +1,2 @@
 std_msgs/Header         header
-comm_msg/ExplorationMachine[]  landmarks
+deplacement_msg/Machine[]  landmarks

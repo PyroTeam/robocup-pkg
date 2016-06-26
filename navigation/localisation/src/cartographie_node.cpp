@@ -109,21 +109,23 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
       // l'angle n'est pas bon
       // Oui magic number mais ya un moment faut arrêter quoi
       if (!it2.neverSeen() && !it2.orientationOk() &&
-          geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= 0.5)
+          geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= 0.75)
       {
+        ROS_ERROR("I see ID %d corresponding to machine in zone %d", tmp[i].id, it2.zone());
+
         if (tmp[i].id%2 == 1 && it2.getCentre().theta < 0 && geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2) < 0)
         {
-            ROS_ERROR("I see the input of Machine (%f) in zone %d",it2.getCentre().theta, it2.zone());
-            ROS_ERROR("Robot have the yaw = %f", geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)-M_PI/2));
-            it2.switchSides();
-            ROS_INFO("So I switch the angle to %f", it2.getCentre().theta);
+          ROS_ERROR("I see the input of Machine (%f) in zone %d",it2.getCentre().theta, it2.zone());
+          ROS_ERROR("Robot have the yaw = %f", geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)-M_PI/2));
+          it2.switchSides();
+          ROS_INFO("So I switch the angle to %f", it2.getCentre().theta);
         }
         else if (tmp[i].id%2 == 0 && it2.getCentre().theta > 0 && geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2) > 0)
         {
-            ROS_ERROR("I see the output of Machine (%f) in zone %d", it2.getCentre().theta, it2.zone());
-            ROS_ERROR("Robot have the yaw = %f", geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)-M_PI/2));
-            it2.switchSides();
-            ROS_INFO("So I switch the angle to %f", it2.getCentre().theta);
+          ROS_ERROR("I see the output of Machine (%f) in zone %d", it2.getCentre().theta, it2.zone());
+          ROS_ERROR("Robot have the yaw = %f", geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)-M_PI/2));
+          it2.switchSides();
+          ROS_INFO("So I switch the angle to %f", it2.getCentre().theta);
         }
       }
     }

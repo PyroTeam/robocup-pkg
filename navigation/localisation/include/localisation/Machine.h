@@ -2,7 +2,7 @@
 #define MACHINE_H
 
 #include "geometry_msgs/Pose2D.h"
-#include "comm_msg/ExplorationMachine.h"
+#include "deplacement_msg/Machine.h"
 #include "Segment.h"
 
 class Machine{
@@ -12,7 +12,7 @@ public:
 
 	geometry_msgs::Pose2D getCentre();
   geometry_msgs::Pose2D reversePose();
-  comm_msg::ExplorationMachine msg();
+  deplacement_msg::Machine msg();
 
 	int getNbActu();
   int color();
@@ -26,6 +26,7 @@ public:
 	void calculateCoordMachine(Segment s);
   void color(int color);
   void zone(int zone);
+  void orientation(bool ok);
 
   bool neverSeen();
   bool orientationOk();

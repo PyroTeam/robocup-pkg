@@ -58,6 +58,15 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 
   knownMachinePose = m_ls->machines()[zone - 1].pose;
 
+  if (m_ls->machines()[zone - 1].orientationOk)
+  {
+    ROS_ERROR("la machine en zone %d est censee avoir le bon angle !", m_ls->machines()[zone - 1].zone);
+  }
+  else
+  {
+    ROS_ERROR("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone);
+  }
+
   double theta1 = knownMachinePose.theta + M_PI/2;
   dx = MARGIN_FROM_CENTER * cos(theta1);
   dy = MARGIN_FROM_CENTER * sin(theta1);
@@ -376,7 +385,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
             if (!knownMachineInZone(req.id))
             {
               // TODO: abandonner le service
-              ROS_ERROR("There is definitely no machine in this zone %d. Abort request", req.id);
+              ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
               res.accepted = false;
               break;
             }
@@ -384,7 +393,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           else if (!knownMachineInZone(req.id) && m_ls->haveAllTheMachines())
           {
             // TODO: abandonner le service
-            ROS_ERROR("There is definitely no machine in this zone %d. Abort request", req.id);
+            ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
             res.accepted = false;
             break;
           }
@@ -392,7 +401,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         else if (!knownMachineInZone(req.id) && m_ls->haveAllTheMachines())
         {
           // TODO: abandonner le service
-          ROS_ERROR("There is definitely no machine in this zone %d. Abort request", req.id);
+          ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
           res.accepted = false;
           break;
         }
@@ -429,7 +438,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           // Si OUI
           machine->majEntry(firstSidePoint);
           machine->majExit(secondSidePoint);
-          ROS_ERROR("It was a very good travel, but I see now an input, ASSHOLE !");
+          ROS_ERROR("It was a very good travel, but now I see an input, ASSHOLE !");
           ROS_ERROR("The machine has an angle of %f", machine->getCenterMachine().theta);
 
           // Se rendre ou point devant autre côté de la machine

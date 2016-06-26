@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include "conversion_functions.h"
-#include "comm_msg/ExplorationMachine.h"
+#include "deplacement_msg/Machine.h"
 
 using namespace Eigen;
 
@@ -22,9 +22,9 @@ std::vector<geometry_msgs::Pose2D> convert(std::vector<Machine> mps)
   return tmp;
 }
 
-std::vector<comm_msg::ExplorationMachine> convertIntoMsg(std::vector<Machine> mps)
+std::vector<deplacement_msg::Machine> convertIntoMsg(std::vector<Machine> mps)
 {
-  std::vector<comm_msg::ExplorationMachine> tmp;
+  std::vector<deplacement_msg::Machine> tmp;
 
   for (int i = 0; i < mps.size(); i++)
   {

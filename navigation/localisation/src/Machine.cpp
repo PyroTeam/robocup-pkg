@@ -35,12 +35,12 @@ geometry_msgs::Pose2D Machine::reversePose()
   return tmp;
 }
 
-comm_msg::ExplorationMachine Machine::msg()
+deplacement_msg::Machine Machine::msg()
 {
-  comm_msg::ExplorationMachine tmp;
-  tmp.pose = getCentre();
-  tmp.zone = zone();
-  tmp.team_color = color();
+  deplacement_msg::Machine tmp;
+  tmp.pose = m_centre;
+  tmp.zone = m_zone;
+  tmp.orientationOk = m_orientationOK;
 
   return tmp;
 }
@@ -149,6 +149,11 @@ void Machine::color(int color)
 void Machine::zone(int zone)
 {
   m_zone = zone;
+}
+
+void Machine::orientation(bool ok)
+{
+  m_orientationOK = ok;
 }
 
 bool Machine::neverSeen()

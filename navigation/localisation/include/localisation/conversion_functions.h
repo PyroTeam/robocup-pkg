@@ -3,6 +3,7 @@
 
 #include "geometry_msgs/Pose2D.h"
 #include "geometry_msgs/Point.h"
+#include "deplacement_msg/Machines.h"
 #include "deplacement_msg/Landmarks.h"
 #include <tf/transform_datatypes.h>
 #include <tf/transform_listener.h>
@@ -13,7 +14,7 @@
 
 geometry_msgs::Point globalToLocal(const geometry_msgs::Point &p, const Segment &s);
 
-std::vector<comm_msg::ExplorationMachine> convertIntoMsg(std::vector<Machine> mps);
+std::vector<deplacement_msg::Machine> convertIntoMsg(std::vector<Machine> mps);
 std::vector<geometry_msgs::Pose2D> convert(std::vector<Machine> mps);
 
 std::list<Segment> landmarksToSegments(const deplacement_msg::Landmarks &tabSegments);

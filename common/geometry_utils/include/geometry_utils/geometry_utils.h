@@ -134,8 +134,8 @@ inline double normalizeAngle(double angle)
 {
   double newAngle = angle;
 
-  if (newAngle <= -M_PI) newAngle += M_PI;
-  if (newAngle > M_PI) newAngle -= M_PI;
+  if (newAngle <= -M_PI) newAngle += 2*M_PI;
+  if (newAngle > M_PI) newAngle -= 2*M_PI;
 
   return newAngle;
 }

@@ -22,6 +22,7 @@ void LocaSubscriber::machinesCallback(const deplacement_msg::MachinesConstPtr &m
   	m_machines[it.zone-1].pose   = it.pose;
   	m_machines[it.zone-1].isHere = true;
   	m_machines[it.zone-1].zone   = it.zone;
+  	m_machines[it.zone-1].orientationOk   = it.orientationOk;
 	}
 
   if (msg->landmarks.size() == 12)
