@@ -43,7 +43,8 @@ bool sortOnDistance (CorrespondanceZE::s_ZoneDistance s1,CorrespondanceZE::s_Zon
 
 int CorrespondanceZE::getBestZone()
 {
-	geometry_msgs::Pose2D actualPose;
+	common_utils::RobotPoseSubscriber poseSub;
+	geometry_msgs::Pose2D actualPose = poseSub.getPose2D();
 	std::list<s_ZoneDistance> orderedDistance;
 
 	/* Retourner une zone de la liste m_notExploredZones en priorité */
