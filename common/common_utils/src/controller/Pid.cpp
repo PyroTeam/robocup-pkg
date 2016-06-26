@@ -7,10 +7,12 @@
  * \copyright  2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
- #include "common_utils/Pid.h"
+#include "common_utils/controller/Pid.h"
+
+namespace common_utils {
 
 Pid::Pid(float Kp, float Ki, float Kd, float T):
-m_Kp(Kp), m_Ki(Ki), m_Kd(Kd), m_err(0), m_I(0), m_T(T)
+    Controller(), m_Kp(Kp), m_Ki(Ki), m_Kd(Kd), m_err(0), m_I(0), m_T(T)
 {
 }
 
@@ -27,4 +29,12 @@ float Pid::update(float err)
 	m_err = err;
 
 	return cmd;
-};
+}
+
+void Pid::reset()
+{
+    m_err = 0;
+    m_I = 0;
+}
+
+} // namespace common_utils

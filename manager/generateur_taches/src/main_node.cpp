@@ -89,6 +89,7 @@ int main(int argc, char **argv)
 				if(gameState.getPhase() == comm_msg::GameState::EXPLORATION && cptZone<12)
 				{
 					workInExplorationPhase(tabMachine, tabRobot, cptOrder, j, cptZone, correspondanceZE);
+          ROS_WARN("cpt zone = %d; cpt order = %d", cptZone,cptOrder);
 				}
 				if(gameState.getPhase() == comm_msg::GameState::PRODUCTION && !work.empty())
 				{

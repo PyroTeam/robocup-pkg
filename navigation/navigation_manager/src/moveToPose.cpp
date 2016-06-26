@@ -96,6 +96,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     //path Found
     ROS_INFO("Path generated!");
     deplacement_msg::TrackPathGoal tgoal;
+    tgoal.command = deplacement_msg::TrackPathGoal::CMD_START;
     m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
                                       boost::bind(&MoveToPose::activeCb, this),
                                       boost::bind(&MoveToPose::feedbackCb, this, _1));
@@ -179,10 +180,26 @@ void MoveToPose::feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& fe
     m_pathTrackPercentComplete = feedback->percentComplete;
 }
 
-
 void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom)
 {
-    m_poseOdom = odom.pose.pose;
+    geometry_msgs::PoseStamped poseIn;
+    geometry_msgs::PoseStamped poseOut;
+
+    poseIn.header = odom.header;
+    poseIn.pose = odom.pose.pose;
+
+    if(!m_tfListener.waitForTransform(
+            odom.header.frame_id,
+            "map",
+            odom.header.stamp,
+            ros::Duration(1.0)))
+    {
+        ROS_ERROR("Unable to get Transform");
+        m_poseOdom = poseIn.pose;
+        return;
+    }
+    m_tfListener.transformPose("/map", poseIn, poseOut);
+    m_poseOdom = poseOut.pose;
 }
 
 

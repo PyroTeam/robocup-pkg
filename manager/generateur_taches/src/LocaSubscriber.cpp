@@ -13,23 +13,38 @@ LocaSubscriber::LocaSubscriber(std::list<int> &lst_unkownZones, std::list<int> &
 
 LocaSubscriber::~LocaSubscriber(){}
 
-void LocaSubscriber::tesCallback(const deplacement_msg::LandmarksConstPtr &msg)
+void LocaSubscriber::tesCallback(const deplacement_msg::MachinesConstPtr &msg)
 {
 	ROS_INFO_ONCE("I heard the localisation publisher ");
 
 	m_machinesPose = msg->landmarks;
+  if (m_unkownZones.size() != 0)
+  {
+  	for(auto &m : m_machinesPose)
+  	{
+        bool machineFoundInUnknown = false;
+        int zoneID = -1;
+  		  int actualZone = m.zone;
+  			for(auto &uZ : m_unkownZones)
+  			{
+  				if(uZ == actualZone)
+  				{
+            zoneID = uZ;
+            machineFoundInUnknown = true;
+  					bool foundInExp = foundInExplored(zoneID);
+  					bool foundInNotExp = foundInNotExplored(zoneID);
+  					if(!foundInExp && !foundInNotExp)
+  					{
+  						m_notExploredZones.push_back(zoneID);
+  					}
+            break;
+  				}
+  			}
 
-	for(auto &m : m_machinesPose)
-	{
-		int actualZone = getZone(m.x, m.y);
-			for(auto &uZ : m_unkownZones)
-			{
-				if(uZ == actualZone)
-				{
-					m_unkownZones.remove(uZ);
-				}
-			}
-	}
+        if (machineFoundInUnknown)
+            m_unkownZones.remove(zoneID);
+  		}
+    }
 	// for (int i=0; i< msg->landmarks.size(); i++)
 	// {
 	// 	int zone = getZone(msg->landmarks[i].x, msg->landmarks[i].y);
@@ -44,39 +59,38 @@ void LocaSubscriber::tesCallback(const deplacement_msg::LandmarksConstPtr &msg)
 	}*/
 }
 
-int LocaSubscriber::getZone(float x, float y)
+bool LocaSubscriber::foundInUnkown(int z)
 {
-	int zone = 0;
+	return (std::find(m_unkownZones.begin(), m_unkownZones.end(), z) != m_unkownZones.end());
+}
 
-	// Right side
-	if(x >= 0 && y >= 0) 
-	{
-		// Anti-division par 0
-		if(x==0) x=1;
-		int w = (int)(x/2);
+bool LocaSubscriber::foundInExplored(int z)
+{
+	return (std::find(m_exploredZones.begin(), m_exploredZones.end(), z) != m_exploredZones.end());
+}
 
-		// Anti-division par 0
-		if(y==0) y=1;
-		int h = (int)(y/1.5)+1;
+bool LocaSubscriber::foundInNotExplored(int z)
+{
+	return (std::find(m_notExploredZones.begin(), m_notExploredZones.end(), z) != m_notExploredZones.end());
+}
 
-		zone = w*4 + h;
-	}
-	// Left side
-	else if (x < 0 && y >= 0) 
-	{
-		int w = (int)(-x/2);
 
-		// Anti-division par 0
-		if(y==0) y=1;
-		int h = (int)(y/1.5)+1;
+void LocaSubscriber::pushToExploredList(int z)
+{
+	m_exploredZones.push_back(z);
+}
 
-		zone = w*4 + h + 12;
-	}
+void LocaSubscriber::removeFromUnkown(int z)
+{
+	m_unkownZones.remove(z);
+}
 
-	else 
-	{
-		int zone = 0;
-	}
+void LocaSubscriber::removeFromExplore(int z)
+{
+	m_exploredZones.remove(z);
+}
 
-	return zone;
+void LocaSubscriber::removeFromNotExplored(int z)
+{
+	m_notExploredZones.remove(z);
 }

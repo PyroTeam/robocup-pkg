@@ -10,6 +10,7 @@
 	</include>
 
  	<env name="ROSCONSOLE_FORMAT" value="[${node}]:${message}"/>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find generateur_taches)/cfg/custom_rosconsole.conf"/>
 
 	<!-- Pyro TEAM -->
 	<!-- Team Namespace -->
@@ -44,7 +45,7 @@
 		<node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction"/>
 		<node pkg="localisation" name="visualisation" type="visualisation"/>
 		<node pkg="localisation" name="odometry_correction" type="odometry_correction"/>
-		<node pkg="localisation" name="cartographie" type="cartographie" output="screen"/>
+		<node pkg="localisation" name="cartographie" type="cartographie"/>
 
 		<!-- Load the grid maker -->
 		<rosparam command="load" file="$(find grid_maker)/cfg/field.yaml" />
@@ -73,7 +74,7 @@
 
 		<!-- Load the manager -->
 		<node pkg="executeur_taches" name="executeur" type="test_exec" output="screen"/>
-		<node pkg="generateur_taches" name="manager" type="main_node"/>
+		<node pkg="generateur_taches" name="manager" type="main_node" output="screen"/>
 
 		<!-- Load the gazebo_to_ros node -->
 		<node pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
