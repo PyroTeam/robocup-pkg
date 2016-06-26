@@ -44,6 +44,26 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	m_parameter = goal->parameter;
 	ROS_INFO("%s: Execute. Start FinalApproach sequence of type %i with side %i and parameter %i",
 	         m_actionName.c_str(), m_type, m_side, m_parameter);
+
+	if (goal->controlled_approach)
+	{
+		if (std::isnan(m_controlDist))
+		{
+			ROS_ERROR_STREAM("Controlled FA requested without sending any setpoint on "<<m_control.getTopic()<<" topic.");
+			m_result.success = false;
+			m_result.state = final_approach_msg::FinalApproachingResult::INVALID_ORDER;
+			ROS_WARN("%s: Aborted. Invalid order.", m_actionName.c_str());
+			m_as.setAborted();
+			return;
+		}
+
+		m_remotelyControlled = true;
+	}
+	else
+	{
+		m_remotelyControlled = false;
+	}
+
 	if (m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT)
 	{
 		ROS_INFO("FinalApproach got LIGHT parameter, will skip laser regulation");
@@ -138,7 +158,12 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	firstTimeInLoop = true;
 	// TODO: quickfix idWanted
 	std::vector<int> allPossibleId = idWanted(1 /*gameState.getPhase()*/);
-	while (ros::ok() && !bp.getState() && arTagId_idx == -1 && locateArTagPhase != 3 && !m_skipAsservCamera())
+	while (    ros::ok()
+			&& !bp.getState()
+			&& arTagId_idx == -1
+			&& locateArTagPhase != 3
+			&& !m_skipAsservCamera()
+			&& !m_remotelyControlled)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "Locate ArTag - process");
 		firstTimeInLoop = false;
@@ -196,7 +221,13 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	// Asservissement ARTag camera
 	ROS_INFO("ArTag Asservissement");
 	firstTimeInLoop = true;
-	while (ros::ok() && !bp.getState() && locateArTagPhase != 3 && avancementArTag == 0 && obstacle == false && !m_skipAsservCamera())
+	while (    ros::ok()
+			&& !bp.getState()
+			&& locateArTagPhase != 3
+			&& avancementArTag == 0
+			&& obstacle == false
+			&& !m_skipAsservCamera()
+			&& !m_remotelyControlled)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "ArTag Asservissement - process");
 		firstTimeInLoop = false;
@@ -246,7 +277,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		                locateArTagPhase, avancementArTag, obstacle);
 	}
 
-	if (m_skipAsservCamera())
+	if (m_skipAsservCamera() || m_remotelyControlled)
 	{
 		avancementArTag = 1;
 	}
@@ -263,9 +294,14 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	// Asservissement laserScan
 	ROS_INFO("LaserScan Asservissement");
 	firstTimeInLoop = true;
-	while (ros::ok() && !bp.getState() && locateArTagPhase != 3 && avancementArTag == 1 && !laserAsservDone && obstacle == false
-		&& m_parameter != final_approach_msg::FinalApproachingGoal::LIGHT
-		&& !m_skipAsservLaser())
+	while (    ros::ok()
+			&& !bp.getState()
+			&& locateArTagPhase != 3
+			&& avancementArTag == 1
+			&& !laserAsservDone
+			&& obstacle == false
+			&& m_parameter != final_approach_msg::FinalApproachingGoal::LIGHT
+			&& !m_skipAsservLaser())
 	{
 		ROS_INFO_COND(firstTimeInLoop, "LaserScan Asservissement - process");
 		firstTimeInLoop = false;
@@ -321,7 +357,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		m_msgTwist.linear.y = 0.0;
 		m_msgTwist.linear.z = 0.0;
 
-		// XXX: Un moyennage (pas trop dégeu, sur base de repère robot, à grand renfor de tf) des informations d'entrée
+		// XXX: Un moyennage (pas trop dégeu, sur base de repère robot, à grand renforts de tf) des informations d'entrée
 		// pourra s'avérer utile. A voir.
 		angleAsservDone = asservissementAngle(M_PI/2, seg.getAngle());
 		asservLaserYawOk_cpt = angleAsservDone ? ++asservLaserYawOk_cpt : 0;
@@ -396,19 +432,19 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		if (bp.getState())
 		{
 			ROS_WARN("Failure : contact with obstacle\n");
-			m_result.state = 1;
+			m_result.state = final_approach_msg::FinalApproachingResult::OBSTACLE_HIT;
 		}
 
 		if (locateArTagPhase == 3)
 		{
 			ROS_WARN("Failure : no arTag found\n");
-			m_result.state = 3;
+			m_result.state = final_approach_msg::FinalApproachingResult::COMPLETE_SCAN;
 		}
 
 		if (obstacle == true)
 		{
 			ROS_WARN("Failure : an obstacle is too near\n");
-			m_result.state = 2;
+			m_result.state = final_approach_msg::FinalApproachingResult::OBSTACLE_NEAR;
 		}
 
 		success = false;
@@ -417,14 +453,14 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	if (success)
 	{
 		m_result.success = true;
-		m_result.state = 0;
+		m_result.state = final_approach_msg::FinalApproachingResult::UNKNOWN;
 		ROS_INFO("%s: Succeeded", m_actionName.c_str());
 		m_as.setSucceeded(m_result);
 	}
 	else
 	{
 		m_result.success = false;
-		ROS_INFO("%s: Aborted", m_actionName.c_str());
+		ROS_WARN("%s: Aborted", m_actionName.c_str());
 		m_as.setAborted(m_result);
 	}
 
@@ -491,6 +527,13 @@ float FinalApproaching::objectifY()
 
 float FinalApproaching::objectifX()
 {
+	if (m_remotelyControlled)
+	{
+		// TODO: Utiliser TF et la connaissance de la géométrie du robot pour que ce paramètre contrôle bien la distance
+		// gripper <-> machine
+		return -m_controlDist;
+	}
+
 	// On travail avec un repère machine, orienté comme le repère LASER
 	// à -0.35 le laser se trouve à 35cm de la machine, à -0.16, à 16cm (soit au contact)
 	if (	m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT
@@ -1257,6 +1300,9 @@ bool FinalApproaching::asservissementPositionX(float setpoint, float measure)
 	float err = setpoint - measure;
 	m_plotData.XErr = std::abs(err);
 	m_feedback.errorX = err;
+	// TODO: Utiliser TF et la connaissance de la géométrie du robot pour que ce feedback représente bien la distance
+	// gripper <-> machine
+	m_feedback.distance_to_machine = err;
 
 	m_msgTwist.angular.x = 0;
 	m_msgTwist.angular.y = 0;
@@ -1350,7 +1396,7 @@ void FinalApproaching::publishSegmentMarker(LaserScan &ls, Segment &seg)
 	mid_point_marker.pose.orientation.y = 0.0;
 	mid_point_marker.pose.orientation.z = 0.0;
 	mid_point_marker.pose.orientation.w = 1.0;
-	
+
 	m_markerPub.publish(mid_point_marker);
 }
 
