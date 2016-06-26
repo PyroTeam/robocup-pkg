@@ -84,8 +84,9 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 
 bool GtServerSrv::knownMachineInZone(int zone)
 {
-  return m_ls->machines()[zone - 1].isHere ;
+	return m_ls->machines()[zone - 1].isHere;
 }
+
 
 manager_msg::activity GtServerSrv::getActivityMsg()
 {

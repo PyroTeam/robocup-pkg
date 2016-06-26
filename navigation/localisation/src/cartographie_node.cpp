@@ -17,6 +17,8 @@
 #include "comm_msg/ExplorationInfo.h"
 #include "comm_msg/ExplorationSignal.h"
 
+#define CIRCUM_MACHINE_RADIUS 0.35
+
 deplacement_msg::Machines  g_machines;
 std::vector<Machine>       g_mps(24);
 
@@ -92,40 +94,50 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
     tmp[i].pose.header.frame_id = tmp[i].header.frame_id;
 
     geometry_msgs::PoseStamped pose_map;
-    try
+
+    if (g_tf_listener->waitForTransform("map",tf_prefix+"tower_camera_link",artags.header.stamp,ros::Duration(1.0)))
     {
-      g_tf_listener->waitForTransform("map",tf_prefix+"tower_camera_link",artags.header.stamp,ros::Duration(1.0));
       g_tf_listener->transformPose("map",tmp[i].pose,pose_map);
     }
-    catch( tf::TransformException ex)
+    else
     {
-      ROS_ERROR("transform exception : %s",ex.what());
+      ROS_ERROR("TRANSFORM EXCEPTION WITH TRANFORM POSE");
     }
 
     for (auto &it2 : g_mps)
     {
-      // si la machine a déjà été vue au moins une fois et que
-      // l'ar tag est assez proche pour considérer qu'il est bien celui de la machine et que
-      // l'angle n'est pas bon
-      // Oui magic number mais ya un moment faut arrêter quoi
-      if (!it2.neverSeen() && !it2.orientationOk() &&
-          geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= 0.75)
+      // si la machine n'a pas été corrigée en angle et que
+      // l'ar tag est assez proche pour considérer qu'il est bien celui de la machine
+      if (!it2.orientationOk() &&
+          geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= CIRCUM_MACHINE_RADIUS)
       {
-        ROS_ERROR("I see ID %d corresponding to machine in zone %d", tmp[i].id, it2.zone());
+        ROS_ERROR("I see ID %d corresponding to machine (%f) in zone %d having the angle %f", tmp[i].id, it2.getCentre().theta, it2.zone(), geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2));
 
-        if (tmp[i].id%2 == 1 && it2.getCentre().theta < 0 && geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2) < 0)
+        if (tmp[i].id%2 == 1)
         {
-          ROS_ERROR("I see the input of Machine (%f) in zone %d",it2.getCentre().theta, it2.zone());
-          ROS_ERROR("Robot have the yaw = %f", geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)-M_PI/2));
-          it2.switchSides();
-          ROS_INFO("So I switch the angle to %f", it2.getCentre().theta);
+          if (it2.getCentre().theta < 0 && geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2) < 0)
+          {
+            it2.switchSides();
+            ROS_WARN("So I switch the machine angle to %f", it2.getCentre().theta);
+          }
+          else
+          {
+            ROS_WARN("Angle is good :D");
+            it2.orientation(true);
+          }
         }
-        else if (tmp[i].id%2 == 0 && it2.getCentre().theta > 0 && geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2) > 0)
+        else if (tmp[i].id%2 == 0)
         {
-          ROS_ERROR("I see the output of Machine (%f) in zone %d", it2.getCentre().theta, it2.zone());
-          ROS_ERROR("Robot have the yaw = %f", geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)-M_PI/2));
-          it2.switchSides();
-          ROS_INFO("So I switch the angle to %f", it2.getCentre().theta);
+          if (it2.getCentre().theta > 0 && geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2) > 0)
+          {
+            it2.switchSides();
+            ROS_WARN("So I switch the machine angle to %f", it2.getCentre().theta);
+          }
+          else
+          {
+            ROS_WARN("Angle is good :D");
+            it2.orientation(true);
+          }
         }
       }
     }

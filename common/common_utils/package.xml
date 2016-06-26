@@ -45,12 +45,14 @@
   <build_depend>std_msgs</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>occupancy_grid_utils</build_depend>
+  <build_depend>deplacement_msg</build_depend>
 
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>occupancy_grid_utils</run_depend>
+  <run_depend>deplacement_msg</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
