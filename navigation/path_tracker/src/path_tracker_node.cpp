@@ -24,7 +24,7 @@ int main(int argc, char** argv)
 
     //TODO: mettre en paramêtres ROS les paramres des PID
     std::shared_ptr<common_utils::PidWithAntiWindUp> pidVel(new common_utils::PidWithAntiWindUp(0.1, 0, 0, 1/10.0, -10, 10, .1));
-    std::shared_ptr<common_utils::PidWithAntiWindUp> pidOri(new common_utils::PidWithAntiWindUp(1.5, 0, 0, 1/10.0, -1, 1, .1));
+    std::shared_ptr<common_utils::PidWithAntiWindUp> pidOri(new common_utils::PidWithAntiWindUp(1.5, 0.01, 0, 1/10.0, -1, 1, .1));
     std::shared_ptr<BasicFollower> pathFollower(new BasicFollower(pidVel, pidOri));
 
     std::shared_ptr<SwitchModeBehavior> behavior(new SwitchModeBehavior());

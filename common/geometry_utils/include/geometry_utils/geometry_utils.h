@@ -132,6 +132,7 @@ inline double angle(const geometry_msgs::Point &p0, const geometry_msgs::Point &
 
 inline double normalizeAngle(double angle)
 {
+    std::cout << angle << std::endl;
     while (angle > M_PI)
     {
         angle = angle - 2*M_PI;
@@ -140,6 +141,7 @@ inline double normalizeAngle(double angle)
     {
         angle = angle + 2*M_PI;
     }
+    std::cout << angle << std::endl;
     return angle;
 }
 
