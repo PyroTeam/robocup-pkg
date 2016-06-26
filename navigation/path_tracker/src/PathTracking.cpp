@@ -95,15 +95,12 @@ void PathTracking::executeCB(const deplacement_msg::TrackPathGoalConstPtr &goal)
             loopRate.sleep();
         }
 
-        if (m_behavior->isTrajectoryEnd())
-        {
-            isTrajEnd = true;
-            m_ptMachine.process_event(EvEndPath());
-        }
 
         //fin d'action, retourner le résultat
-        if (isTrajEnd)
+        if (m_behavior->isTrajectoryEnd())
         {
+            m_ptMachine.process_event(EvEndPath());
+
             result.status = deplacement_msg::TrackPathResult::STATUS_FINISHED;
             result.error = deplacement_msg::TrackPathResult::ERR_NONE;
             m_trackPath_action.setSucceeded(result);

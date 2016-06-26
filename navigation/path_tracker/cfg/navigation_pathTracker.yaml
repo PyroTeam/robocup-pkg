@@ -15,3 +15,6 @@ navigation:
                 lowLimit: -1
                 upLimit: 1
                 antiWindUp: 0.1
+            SpeedRateLimit:
+                lowLimit: -0.20
+                upLimit: 0.20

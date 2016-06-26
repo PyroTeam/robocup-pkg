@@ -24,7 +24,7 @@ const double ADVANCE_WINDOW = 0.5;
 const float VminStatic = 0.05;
 
 
-geometry_msgs::Twist BasicFollower::generateNewSetPoint()
+geometry_msgs::Twist BasicFollower::generateNewSetpoint()
 {
 
     float Vmax = m_Vmax;
@@ -129,7 +129,7 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
             //arreter robot
             twist.linear.x = 0;
             twist.linear.y = 0;
-            //orienation finale
+            //orientation finale
             float lastYaw = tf::getYaw(m_path.poses.back().pose.orientation);
             float errOrie = geometry_utils::normalizeAngle(lastYaw - pose.theta);
             if (std::abs(errOrie) < EPSILON)
@@ -139,7 +139,6 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
             else
             {
                 twist.angular.z = m_controllerOri->update(errOrie);
-                //twist.angular.z = saturation(cmdVel_msg.angular.z, -1.0, 1.0);
             }
         }
     }

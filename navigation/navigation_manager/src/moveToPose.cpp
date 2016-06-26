@@ -52,9 +52,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     // Client for asking a reachable start position
     ros::ServiceClient client = m_nh.serviceClient<deplacement_msg::ClosestReachablePoint>("path_finder_node/ClosestReachablePoint");
     deplacement_msg::ClosestReachablePoint srv;
-    srv.request.currentPosition.x = m_poseOdom.position.x;
-    srv.request.currentPosition.y = m_poseOdom.position.y;
-    srv.request.currentPosition.theta = tf::getYaw( m_poseOdom.orientation);
+    srv.request.currentPosition = m_robotPose.getPose2D();
     srv.request.window = 0.5;
 
     if (client.call(srv))
@@ -179,29 +177,6 @@ void MoveToPose::feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& fe
     ROS_INFO("Got Feedback of length %d", feedback->percentComplete);
     m_pathTrackPercentComplete = feedback->percentComplete;
 }
-
-void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom)
-{
-    geometry_msgs::PoseStamped poseIn;
-    geometry_msgs::PoseStamped poseOut;
-
-    poseIn.header = odom.header;
-    poseIn.pose = odom.pose.pose;
-
-    if(!m_tfListener.waitForTransform(
-            odom.header.frame_id,
-            "map",
-            odom.header.stamp,
-            ros::Duration(1.0)))
-    {
-        ROS_ERROR("Unable to get Transform");
-        m_poseOdom = poseIn.pose;
-        return;
-    }
-    m_tfListener.transformPose("/map", poseIn, poseOut);
-    m_poseOdom = poseOut.pose;
-}
-
 
 void MoveToPose::DistSensorCallback(const sensor_msgs::PointCloud &sensor)
 {

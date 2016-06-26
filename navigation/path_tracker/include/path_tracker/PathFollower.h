@@ -83,7 +83,7 @@ public:
         m_pathError;
     }
 
-    virtual geometry_msgs::Twist generateNewSetPoint() = 0;
+    virtual geometry_msgs::Twist generateNewSetpoint() = 0;
 
 protected:
     ros::NodeHandle m_nh;

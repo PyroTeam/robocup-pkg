@@ -35,7 +35,7 @@ public:
     SwitchModeBehavior();
     virtual ~SwitchModeBehavior();
 
-    virtual geometry_msgs::Twist generateNewSetPoint() override;
+    virtual geometry_msgs::Twist generateNewSetpoint() override;
 
     BehaviorMode_t getMode()
     {

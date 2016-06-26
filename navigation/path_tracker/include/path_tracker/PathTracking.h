@@ -50,7 +50,6 @@ public:
     PTmachine():m_behavior(nullptr)
     {
         m_cmdVel_pub = m_nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1);
-        m_count=0;
     }
 
     void setBehavior(std::shared_ptr<MoveBehavior> &behavior)
@@ -69,8 +68,6 @@ public:
         return m_cmdVel_pub;
     }
 private:
-    int m_count;
-
     std::shared_ptr<MoveBehavior> m_behavior;
     ros::NodeHandle m_nh;
     ros::Publisher m_cmdVel_pub;
@@ -100,7 +97,7 @@ public:
     void updateCommand(const EvTimer &evTimer)
     {
         //générer la nouvelle commande
-        geometry_msgs::Twist twist = m_behavior->generateNewSetPoint();
+        geometry_msgs::Twist twist = m_behavior->generateNewSetpoint();
 
         //appliquer la commande
         outermost_context().getCmdVelPub().publish(twist);

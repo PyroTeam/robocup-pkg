@@ -63,6 +63,10 @@ int main(int argc, char** argv)
             pidOriAntiWindUp()));
 
     std::shared_ptr<BasicFollower> pathFollower(new BasicFollower(pidVel, pidOri));
+    Parameter speedRateLowLimit(nh, "navigation/PathTracker/Following/SpeedRateLimit/lowLimit", -0.20);
+    Parameter speedRateUpLimit(nh, "navigation/PathTracker/Following/SpeedRateLimit/upLimit", 0.20);
+    pathFollower->setSpeedRateLimits(speedRateLowLimit(), speedRateUpLimit(), 1/loopFreq);
+
 
     std::shared_ptr<SwitchModeBehavior> behavior(new SwitchModeBehavior());
     behavior->setPathFollower(pathFollower);

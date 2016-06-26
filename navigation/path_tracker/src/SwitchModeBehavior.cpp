@@ -22,16 +22,16 @@ SwitchModeBehavior::~SwitchModeBehavior()
 
 }
 
-geometry_msgs::Twist SwitchModeBehavior::generateNewSetPoint()
+geometry_msgs::Twist SwitchModeBehavior::generateNewSetpoint()
 {
-    geometry_msgs::Twist setPoint;
+    geometry_msgs::Twist setpoint;
 
     switch (m_mode)
     {
     case BehaviorMode_t::FOLLOW:
         if (m_pathFollower != nullptr)
         {
-            setPoint = m_pathFollower->generateNewSetPoint();
+            setpoint = m_pathFollower->generateNewSetpoint();
         }
         else
         {
@@ -41,7 +41,7 @@ geometry_msgs::Twist SwitchModeBehavior::generateNewSetPoint()
     case BehaviorMode_t::AVOID:
         if (m_avoidObstacle != nullptr)
         {
-            setPoint = m_avoidObstacle->generateNewSetPoint();
+            setpoint = m_avoidObstacle->generateNewSetpoint();
         }
         else
         {
@@ -53,7 +53,7 @@ geometry_msgs::Twist SwitchModeBehavior::generateNewSetPoint()
         break;
     }
 
-    return setPoint;
+    return setpoint;
 }
 
 float SwitchModeBehavior::getPathError()
@@ -79,7 +79,7 @@ float SwitchModeBehavior::getPathError()
         }
         else
         {
-            ROS_ERROR("In Avoid Obstacle mode, but no adoidObstacle assigned!");
+            ROS_ERROR("In Avoid Obstacle mode, but no avoidObstacle assigned!");
         }
         break;
     default:

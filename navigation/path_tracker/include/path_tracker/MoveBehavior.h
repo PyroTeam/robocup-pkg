@@ -68,7 +68,7 @@ public:
     }
 
     virtual float getPathError() = 0;
-    virtual geometry_msgs::Twist generateNewSetPoint() = 0;
+    virtual geometry_msgs::Twist generateNewSetpoint() = 0;
     virtual float getPercentComplete() = 0;
 protected:
     std::shared_ptr<MoveState> m_moveState;
