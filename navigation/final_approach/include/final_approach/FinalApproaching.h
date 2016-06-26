@@ -27,7 +27,7 @@
 #include <final_approach_msg/FinalApproachingAction.h>
 #include <final_approach_msg/plotDataFA.h>
 #include <common_utils/Parameter.h>
-#include <common_utils/Pid.h>
+#include <common_utils/controller/Pid.h>
 
 #include <vector>
 #include <cmath>
@@ -138,9 +138,9 @@ class FinalApproaching
 	Parameter m_laserYawPidThreshold;
 
 	// PID
-	Pid m_laserXPid;
-	Pid m_laserYPid;
-	Pid m_laserYawPid;
+	common_utils::Pid m_laserXPid;
+	common_utils::Pid m_laserYPid;
+	common_utils::Pid m_laserYawPid;
 
 	// Some useful infos
 	Parameter m_mpsWidth;

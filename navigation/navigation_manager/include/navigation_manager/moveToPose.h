@@ -60,11 +60,11 @@ class MoveToPose
 	    // create messages that are used to published feedback/result
 	    deplacement_msg::MoveToPoseFeedback m_feedback;
 	    deplacement_msg::MoveToPoseResult m_result;
-			tf::TransformListener m_tfListener;
+        tf::TransformListener m_tfListener;
 	public:
 	    MoveToPose(std::string name) : m_as(m_nh, name, boost::bind(&MoveToPose::executeCB, this, _1), false),
 	                                   m_actionName(name), m_trackPathAction("navigation/trackPath", true),
-																		 m_tfListener(m_nh, ros::Duration(5.0))
+									   m_tfListener(m_nh, ros::Duration(5.0))
 	    {
 			m_lastId = 0;
 			m_pathId = 0;

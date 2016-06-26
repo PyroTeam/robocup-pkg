@@ -130,6 +130,21 @@ inline double angle(const geometry_msgs::Point &p0, const geometry_msgs::Point &
     return atan2(p1.y-p0.y, p1.x-p1.x);
 }
 
+inline double normalizeAngle(double angle)
+{
+    std::cout << angle << std::endl;
+    while (angle > M_PI)
+    {
+        angle = angle - 2*M_PI;
+    }
+    while (angle <= -M_PI)
+    {
+        angle = angle + 2*M_PI;
+    }
+    std::cout << angle << std::endl;
+    return angle;
+}
+
 } // namespace geometry_utils
 
 #endif /* GEOMETRY_UTILS_GEOMETRY_UTILS_H_ */

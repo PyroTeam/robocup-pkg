@@ -125,7 +125,6 @@ add_executable(
   src/ArTagClientSrv.cpp
   src/NavigationClientAction.cpp
   src/MPS.cpp
-  src/RobotPoseSubscriber.cpp
 )
 add_dependencies(
 	test_exec
