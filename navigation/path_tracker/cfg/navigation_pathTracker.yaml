@@ -1,0 +1,17 @@
+navigation:
+    PathTracker:
+        Following:
+            pidVel:
+                Kp: 0.1
+                Ki: 0.0
+                Kd: 0.0
+                lowLimit: -10
+                upLimit: 10
+                antiWindUp: 0.1
+            pidOri:
+                Kp: 1.5
+                Ki: 0.01
+                Kd: 0.0
+                lowLimit: -1
+                upLimit: 1
+                antiWindUp: 0.1

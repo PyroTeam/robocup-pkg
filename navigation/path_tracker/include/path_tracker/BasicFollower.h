@@ -38,7 +38,6 @@ public:
     virtual geometry_msgs::Twist generateNewSetPoint() override;
 protected:
     common_utils::RateLimiter m_speedLimiter;
-
 };
 
 #endif /* PATH_TRACKER_BASICFOLLOWER_H_ */

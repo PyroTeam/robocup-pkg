@@ -23,6 +23,7 @@ public:
     virtual ~AvoidObstacle();
 
     virtual geometry_msgs::Twist generateNewSetPoint() = 0;
+    virtual float getPathError() = 0;
 protected:
 
 };

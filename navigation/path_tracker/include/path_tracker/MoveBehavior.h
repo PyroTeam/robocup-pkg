@@ -67,8 +67,9 @@ public:
         return m_pathFollower->isTrajectoryEnd();
     }
 
+    virtual float getPathError() = 0;
     virtual geometry_msgs::Twist generateNewSetPoint() = 0;
-
+    virtual float getPercentComplete() = 0;
 protected:
     std::shared_ptr<MoveState> m_moveState;
     std::shared_ptr<PathFollower> m_pathFollower;

@@ -86,7 +86,7 @@ public:
         sc::state<StActive, PTmachine, StIdle>( ctx ),
         m_behavior(nullptr)
     {
-        ROS_INFO("PathTracking: Entering Active State");
+        ROS_DEBUG("PathTracking: Entering Active State");
 
         m_behavior = outermost_context().getBehavior();
 
@@ -129,11 +129,11 @@ struct StIdle : sc::simple_state<StIdle, StActive>
 
     StIdle()
     {
-        ROS_INFO("PathTracking: Entering Idle State");
+        ROS_DEBUG("PathTracking: Entering Idle State");
     }
     ~StIdle()
     {
-        ROS_INFO("PathTracking: Leaving Idle State");
+        ROS_DEBUG("PathTracking: Leaving Idle State");
     }
 
 };
@@ -150,12 +150,12 @@ struct StRun : sc::simple_state<StRun, StActive>
 
     StRun()
     {
-        ROS_INFO("PathTracking: Entering Run State");
+        ROS_DEBUG("PathTracking: Entering Run State");
     }
 
     ~StRun()
     {
-        ROS_INFO("PathTracking: Leaving Run State");
+        ROS_DEBUG("PathTracking: Leaving Run State");
     }
 
 };
@@ -170,11 +170,11 @@ struct StPause : sc::simple_state<StPause, StActive>
 
     StPause()
     {
-        ROS_INFO("PathTracking: Entering Pause State");
+        ROS_DEBUG("PathTracking: Entering Pause State");
     }
     ~StPause()
     {
-        ROS_INFO("PathTracking: Leaving Pause State");
+        ROS_DEBUG("PathTracking: Leaving Pause State");
     }
 
 };
