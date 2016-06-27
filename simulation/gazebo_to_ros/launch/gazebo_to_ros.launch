@@ -1,6 +1,6 @@
 <launch>
 
     <!-- Load the gazebo_to_ros node -->
-    <node pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"  launch-prefix="ddd --args"/> 
+    <node pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node" /> 
 
 </launch>

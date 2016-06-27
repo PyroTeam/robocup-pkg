@@ -52,9 +52,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     // Client for asking a reachable start position
     ros::ServiceClient client = m_nh.serviceClient<deplacement_msg::ClosestReachablePoint>("path_finder_node/ClosestReachablePoint");
     deplacement_msg::ClosestReachablePoint srv;
-    srv.request.currentPosition.x = m_poseOdom.position.x;
-    srv.request.currentPosition.y = m_poseOdom.position.y;
-    srv.request.currentPosition.theta = tf::getYaw( m_poseOdom.orientation);
+    srv.request.currentPosition = m_robotPose.getPose2D();
     srv.request.window = 0.5;
 
     if (client.call(srv))
@@ -96,6 +94,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     //path Found
     ROS_INFO("Path generated!");
     deplacement_msg::TrackPathGoal tgoal;
+    tgoal.command = deplacement_msg::TrackPathGoal::CMD_START;
     m_trackPathAction.sendGoal(tgoal, boost::bind(&MoveToPose::doneCb, this, _1, _2),
                                       boost::bind(&MoveToPose::activeCb, this),
                                       boost::bind(&MoveToPose::feedbackCb, this, _1));
@@ -178,13 +177,6 @@ void MoveToPose::feedbackCb(const deplacement_msg::TrackPathFeedbackConstPtr& fe
     ROS_INFO("Got Feedback of length %d", feedback->percentComplete);
     m_pathTrackPercentComplete = feedback->percentComplete;
 }
-
-
-void MoveToPose::PoseCallback(const nav_msgs::Odometry &odom)
-{
-    m_poseOdom = odom.pose.pose;
-}
-
 
 void MoveToPose::DistSensorCallback(const sensor_msgs::PointCloud &sensor)
 {

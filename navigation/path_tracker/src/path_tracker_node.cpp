@@ -1,48 +1,84 @@
-#include "ros/ros.h"
-#include "path_tracker/trackPathAction.h"
-#include "path_tracker/dataMapObstacle.h"
+/**
+ * \file         path_tracker_node.cpp
+ *
+ * \brief
+ *
+ * \author       Coelen Vincent (vincent.coelen@polytech-lille.net)
+ * \date         2016-06-17
+ * \copyright    2016, Association de Robotique de Polytech Lille All rights reserved
+ * \license
+ * \version
+ */
 
-/*nav_msgs::OccupancyGrid g_grid;
-bool g_receiveGrid = false;
 
-void gridCallback(const nav_msgs::OccupancyGrid &grid)
-{
-    g_grid = grid;
-    g_receiveGrid = true;
-}*/
+#include <ros/ros.h>
+#include "path_tracker/PathTracking.h"
+#include "path_tracker/SwitchModeBehavior.h"
+#include "path_tracker/BasicFollower.h"
+#include "common_utils/controller/PidWithAntiWindUp.h"
+#include "common_utils/Parameter.h"
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "PathTracker");
+    ros::init(argc, argv, "path_tracker");
     ros::NodeHandle nh;
-    //ros::Subscriber grid_sub = nh.subscribe("objectDetection/gridObstacles", 1000, &gridCallback);
 
-    ros::spinOnce();
-    TrackPathAction pathTrack("navigation/trackPath");
-    //DataMapObstacle map;
+    double loopFreq = 10;
+    ros::Rate loopRate(loopFreq);//TODO parametrer
 
-    /*geometry_msgs::Pose pose;
-    pose.position.x = -2;
-    pose.position.y = 1;
-    pose.position.z = 0;
-    pose.orientation.x = 0;
-    pose.orientation.y = 0;
-    pose.orientation.z = 0;
-    pose.orientation.w = 1;
 
-    geometry_msgs::Point point;
-    point.x = 3;
-    point.y = 1;
-*/
-    ros::Rate loop_rate(10);
+    Parameter pidVelKp(nh, "navigation/PathTracker/Following/pidVel/Kp", 0.1);
+    Parameter pidVelKi(nh, "navigation/PathTracker/Following/pidVel/Ki", 0.0);
+    Parameter pidVelKd(nh, "navigation/PathTracker/Following/pidVel/Kd", 0.0);
+    Parameter pidVelLowLimit(nh, "navigation/PathTracker/Following/pidVel/lowLimit", -10.0);
+    Parameter pidVelUpLimit(nh, "navigation/PathTracker/Following/pidVel/upLimit", 10.0);
+    Parameter pidVelAntiWindUp(nh, "navigation/PathTracker/Following/pidVel/antiWindUp", 0.1);
+
+    std::shared_ptr<common_utils::PidWithAntiWindUp> pidVel(
+        new common_utils::PidWithAntiWindUp(
+            pidVelKp(),
+            pidVelKi(),
+            pidVelKd(),
+            1/loopFreq,
+            pidVelLowLimit(),
+            pidVelUpLimit(),
+            pidVelAntiWindUp()));
+
+    Parameter pidOriKp(nh, "navigation/PathTracker/Following/pidOri/Kp", 1.5);
+    Parameter pidOriKi(nh, "navigation/PathTracker/Following/pidOri/Ki", 0.01);
+    Parameter pidOriKd(nh, "navigation/PathTracker/Following/pidOri/Kd", 0.0);
+    Parameter pidOriLowLimit(nh, "navigation/PathTracker/Following/pidOri/lowLimit", -1.0);
+    Parameter pidOriUpLimit(nh, "navigation/PathTracker/Following/pidOri/upLimit", 1.0);
+    Parameter pidOriAntiWindUp(nh, "navigation/PathTracker/Following/pidOri/antiWindUp", 0.1);
+
+
+    std::shared_ptr<common_utils::PidWithAntiWindUp> pidOri(
+        new common_utils::PidWithAntiWindUp(
+            pidOriKp(),
+            pidOriKi(),
+            pidOriKd(),
+            1/loopFreq,
+            pidOriLowLimit(),
+            pidOriUpLimit(),
+            pidOriAntiWindUp()));
+
+    std::shared_ptr<BasicFollower> pathFollower(new BasicFollower(pidVel, pidOri));
+    Parameter speedRateLowLimit(nh, "navigation/PathTracker/Following/SpeedRateLimit/lowLimit", -0.20);
+    Parameter speedRateUpLimit(nh, "navigation/PathTracker/Following/SpeedRateLimit/upLimit", 0.20);
+    pathFollower->setSpeedRateLimits(speedRateLowLimit(), speedRateUpLimit(), 1/loopFreq);
+
+
+    std::shared_ptr<SwitchModeBehavior> behavior(new SwitchModeBehavior());
+    behavior->setPathFollower(pathFollower);
+
+    PathTracking pathTracking("navigation/trackPath", behavior);
+
+
+
     while(ros::ok())
     {
-        /*if (g_receiveGrid)
-        {
-            map.calculObstacle(pose, point, map.calculDistance(pose.position, point));
-        }*/
         ros::spinOnce();
-        loop_rate.sleep();
+        loopRate.sleep();
     }
     return 0;
 }

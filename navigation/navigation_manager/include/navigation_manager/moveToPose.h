@@ -24,6 +24,7 @@
 #include "nav_msgs/Odometry.h"
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Pose2D.h"
+#include "common_utils/RobotPoseSubscriber.h"
 
 class MoveToPose
 {
@@ -34,9 +35,9 @@ class MoveToPose
 	    ros::Subscriber m_sharpSensorSub;
 
 	    sensor_msgs::PointCloud m_sharpSensor;
-	    int m_lastId;
-	    geometry_msgs::Pose m_poseOdom;
-	    int m_pathId;
+
+        common_utils::RobotPoseSubscriber m_robotPose;
+
 	    int m_pathTrackPercentComplete;
 
 	    enum PathTrackStatus
@@ -60,15 +61,12 @@ class MoveToPose
 	    // create messages that are used to published feedback/result
 	    deplacement_msg::MoveToPoseFeedback m_feedback;
 	    deplacement_msg::MoveToPoseResult m_result;
-			tf::TransformListener m_tfListener;
+        tf::TransformListener m_tfListener;
 	public:
 	    MoveToPose(std::string name) : m_as(m_nh, name, boost::bind(&MoveToPose::executeCB, this, _1), false),
 	                                   m_actionName(name), m_trackPathAction("navigation/trackPath", true),
-																		 m_tfListener(m_nh, ros::Duration(5.0))
+									   m_robotPose("map")
 	    {
-			m_lastId = 0;
-			m_pathId = 0;
-			m_odomSub = m_nh.subscribe("hardware/odom", 1000, &MoveToPose::PoseCallback, this);
 			m_sharpSensorSub = m_nh.subscribe("hardware/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
 			m_as.start();
 	    }
