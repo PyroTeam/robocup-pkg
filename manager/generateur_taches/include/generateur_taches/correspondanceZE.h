@@ -35,7 +35,7 @@ class CorrespondanceZE {
  *				grâce au topic comm_msg::ExplorationInfo
  */
 	void cZECallback(const comm_msg::ExplorationInfo &msg);
-	int getBestZone();
+	int getBestZone(common_utils::RobotPoseSubscriber &poseSub);
 	/* Variable d'instance */
 	std::list<int> m_unkownZones, m_exploredZones, m_notExploredZones;
 	LocaSubscriber m_locaSub;

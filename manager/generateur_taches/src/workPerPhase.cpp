@@ -22,7 +22,7 @@ using namespace manager_msg;
 using namespace std;
 
 void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &cptOrder, int robot ,int &cptZone,
-							CorrespondanceZE &correspondanceZE){
+							CorrespondanceZE &correspondanceZE, 	common_utils::RobotPoseSubscriber &poseSub){
 	//update_zone(tabMachine,tabRobot); //trouver une maniere efficace d'attribuer aux machines un robot
 	#if 0
 	int cptMachine=0;
@@ -51,7 +51,7 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
   }
 	else{
 		int cptMachine=0;
-		int zone = correspondanceZE.getBestZone();
+		int zone = correspondanceZE.getBestZone(poseSub);
     bool foundInExplored = correspondanceZE.m_locaSub.foundInExplored(zone);
 
 		if(zone == -1 )

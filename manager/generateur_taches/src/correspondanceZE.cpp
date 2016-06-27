@@ -42,39 +42,41 @@ std::vector<int> CorrespondanceZE::getUsefulZone(){
 
 bool sortOnDistance (CorrespondanceZE::s_ZoneDistance s1,CorrespondanceZE::s_ZoneDistance s2) { return (s1.distance < s2.distance); }
 
-int CorrespondanceZE::getBestZone()
+int CorrespondanceZE::getBestZone(common_utils::RobotPoseSubscriber &poseSub)
 {
-	common_utils::RobotPoseSubscriber poseSub;
 	geometry_msgs::Pose2D actualPose = poseSub.getPose2D();
 	std::list<s_ZoneDistance> orderedDistance;
 
 	/* Retourner une zone de la liste m_notExploredZones en priorité */
-	for(auto &zone : m_notExploredZones)
-	{
-		double x,y;
-		if(!common_utils::getZoneCenter(zone,x,y))
-		{
-			ROS_ERROR("HELP ME! I can't get the center of the zone %d", zone);
-		}
-		else
-		{
-			geometry_msgs::Pose2D centerZone;
-			centerZone.x = x;
-			centerZone.y = y;
-			s_ZoneDistance tmp_ZD;
-			tmp_ZD.distance = geometry_utils::distance(actualPose,centerZone);
-			tmp_ZD.zone = zone;
-			orderedDistance.push_back(tmp_ZD);
-		}
-	}
+  if (!m_notExploredZones.empty())
+  {
+  	for(auto &zone : m_notExploredZones)
+  	{
+  		double x,y;
+  		if(!common_utils::getZoneCenter(zone,x,y))
+  		{
+  			ROS_ERROR("HELP ME! I can't get the center of the zone %d", zone);
+  		}
+  		else
+  		{
+  			geometry_msgs::Pose2D centerZone;
+  			centerZone.x = x;
+  			centerZone.y = y;
+  			s_ZoneDistance tmp_ZD;
+  			tmp_ZD.distance = geometry_utils::distance(actualPose,centerZone);
+  			tmp_ZD.zone = zone;
+  			orderedDistance.push_back(tmp_ZD);
+  		}
+  	}
 
-	if(!orderedDistance.empty())
-	{
-		orderedDistance.sort(sortOnDistance);
-		return orderedDistance.front().distance;
-	}
+  	if(!orderedDistance.empty())
+  	{
+  		orderedDistance.sort(sortOnDistance);
+  		return orderedDistance.front().zone;
+  	}
 
-	orderedDistance.clear();
+  	orderedDistance.clear();
+  }
 
 	/* Si pas de zone dans m_notExploredZones, on essaie de trouver la zone la plus proche dans la liste m_unkownZones */
 	for(auto &zone : m_unkownZones)
@@ -99,7 +101,7 @@ int CorrespondanceZE::getBestZone()
 	if(!orderedDistance.empty())
 	{
 	  orderedDistance.sort(sortOnDistance);
-		return orderedDistance.front().distance;
+		return orderedDistance.front().zone;
 	}
 
 	return -1;

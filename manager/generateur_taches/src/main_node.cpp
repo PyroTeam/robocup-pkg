@@ -59,6 +59,7 @@ int main(int argc, char **argv)
 	double time = t0;
 	int cptZone = 0;
 	CorrespondanceZE correspondanceZE;
+  common_utils::RobotPoseSubscriber poseSub;
 	OrderInfo orderInfo;
 	std::vector<comm_msg::Order> tabOrders;
 	std::vector<bool> ordersInProcess;
@@ -88,7 +89,7 @@ int main(int argc, char **argv)
 				ROS_DEBUG("Not busy");
 				if(gameState.getPhase() == comm_msg::GameState::EXPLORATION && cptZone<12)
 				{
-					workInExplorationPhase(tabMachine, tabRobot, cptOrder, j, cptZone, correspondanceZE);
+					workInExplorationPhase(tabMachine, tabRobot, cptOrder, j, cptZone, correspondanceZE, poseSub);
           ROS_WARN("cpt zone = %d; cpt order = %d", cptZone,cptOrder);
 				}
 				if(gameState.getPhase() == comm_msg::GameState::PRODUCTION && !work.empty())
