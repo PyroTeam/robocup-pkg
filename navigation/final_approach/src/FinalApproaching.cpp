@@ -927,7 +927,7 @@ int FinalApproaching::correspondingId(std::vector<int> allPossibleId, std::vecto
 			for (int k = 0; k < arTags.size(); k++)
 			{
 				ROS_DEBUG_NAMED("investigation", "Possible %d VS Found %d", allPossibleId[i], arTags[k].id);
-				if (allPossibleId[k] == arTags[k].id)
+				if (allPossibleId[i] == arTags[k].id)
 				{
 					ROS_DEBUG_NAMED("investigation", "Match");
 					if (arTags[k].distance < tmpDist)
