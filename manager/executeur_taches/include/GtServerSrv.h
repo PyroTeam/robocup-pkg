@@ -56,7 +56,7 @@ class GtServerSrv
 		manager_msg::activity getActivityMsg();
 		final_approach_msg::FinalApproachingAction getFinalAppAction();
 		void interpretationZone(int zone, zoneCorner_t zoneCorner);
-		bool going(geometry_msgs::Pose2D point);
+		bool going(const geometry_msgs::Pose2D &point, size_t nbAttempt = 0);
 		void getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2);
 		bool knownMachineInZone(int zone);
 

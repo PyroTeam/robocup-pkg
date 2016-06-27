@@ -27,26 +27,40 @@ void GtServerSrv::setId(int id)
   m_id = id;
 }
 
-bool GtServerSrv::going(geometry_msgs::Pose2D point)
+bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
 {
-  int count = 0, stateOfNavigation;
+  int count = 0, navState;
+  geometry_msgs::Pose2D target = point;
+  double xCenter = 0.0, yCenter = 0.0;
+
+  if (common_utils::getZoneCenter(common_utils::getArea(point), xCenter, yCenter))
+  {
+    ROS_DEBUG("Zone center found");
+  }
+  else
+  {
+    ROS_ERROR("Unable to find zone center");
+  }
+
   do{
-    ROS_INFO("Going to point : x: %f; y: %f; theta: %f",point.x,point.y,point.theta);
+    ROS_INFO("Going to point : x: %f; y: %f; theta: %f",target.x,target.y,target.theta);
     NavigationClientAction n_c;
-    stateOfNavigation = n_c.goToAPoint(point);
-    if(stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR)
+    navState = n_c.goToAPoint(target);
+
+    if(navState == deplacement_msg::MoveToPoseResult::ERROR)
     {
       count ++;
-      //ROS_WARN("Unable to reach requested point (%f;%f; %f rads). Will try another one", point.x, point.y, point.theta);
-      // Utilisation du service pathfinder pour rechercher un point libre proche du point demandé
-      point.x -= 0.2;
-      point.y += 0.2;
+
+      double dx = target.x - xCenter;
+      double dy = target.y - yCenter;
+
+      ROS_WARN("Unable to reach requested point (%f,%f,%f). Will try another one", target.x, target.y, target.theta);
+
+      target.x += 0.2*(dx/std::abs(dx));
+      target.y += 0.2*(dx/std::abs(dy));
     }
-  }while (stateOfNavigation != deplacement_msg::MoveToPoseResult::FINISHED);
-
-  //ROS_INFO("Arrived to the asked point : x: %f; y: %f; theta: %f",point.x,point.y,point.theta);
+  }while (navState != deplacement_msg::MoveToPoseResult::FINISHED && count <= nbAttempt);
 }
-
 
 /* Valentin's function */
 void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2)
@@ -360,7 +374,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
           // Se déplacer au premier coin zone
           // TODO: gérer les cas d'erreurs de going
-          going(m_explo_target);
+          going(m_explo_target, 3);
           // refresh machines
           m_ls->spin();
 
@@ -377,7 +391,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
             // Se rendre au second coin zone
             // TODO: gérer les cas d'erreurs de going
-            going(m_explo_target);
+            going(m_explo_target, 3);
             // refresh machines
             m_ls->spin();
 

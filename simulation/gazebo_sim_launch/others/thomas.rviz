@@ -189,6 +189,28 @@ Visualization Manager:
       Frame Timeout: 1
       Frames:
         All Enabled: true
+        ar_marker_113:
+          Value: true
+        ar_marker_161:
+          Value: true
+        ar_marker_162:
+          Value: true
+        ar_marker_17:
+          Value: true
+        ar_marker_177:
+          Value: true
+        ar_marker_241:
+          Value: true
+        ar_marker_255:
+          Value: true
+        ar_marker_33:
+          Value: true
+        ar_marker_49:
+          Value: true
+        ar_marker_66:
+          Value: true
+        ar_marker_97:
+          Value: true
         map:
           Value: true
         robotino1/base_link:
@@ -215,7 +237,28 @@ Visualization Manager:
               robotino1/platform_camera_link:
                 {}
               robotino1/tower_camera_link:
-                {}
+                ar_marker_113:
+                  {}
+                ar_marker_161:
+                  {}
+                ar_marker_162:
+                  {}
+                ar_marker_17:
+                  {}
+                ar_marker_177:
+                  {}
+                ar_marker_241:
+                  {}
+                ar_marker_255:
+                  {}
+                ar_marker_33:
+                  {}
+                ar_marker_49:
+                  {}
+                ar_marker_66:
+                  {}
+                ar_marker_97:
+                  {}
       Update Interval: 0
       Value: true
     - Class: rviz/Image
