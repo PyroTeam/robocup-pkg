@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
     tf
     common_utils
     geometry_utils
+    occupancy_grid_utils
 )
 
 # Use clang++-3.6 if available
@@ -143,6 +144,8 @@ set_target_properties(grid_obstacles_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++
 
 add_executable(path_tracker_node
     src/path_tracker_node.cpp
+    src/AvoidObstacle.cpp
+    src/BasicAvoidance.cpp
     src/PathFollower.cpp
     src/BasicFollower.cpp
     src/PathTracking.cpp

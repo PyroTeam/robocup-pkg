@@ -56,9 +56,9 @@ int main(int argc, char **argv)
     {
         tf_prefix += "/";
     }
-    ros::Publisher map_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid", 1);
-    ros::Publisher mapFieldOnly_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid_fieldOnly", 1);
-    ros::Publisher mapFieldAndMachines_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid_fieldAndMachines", 1);
+    ros::Publisher map_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid", 1, true);
+    ros::Publisher mapFieldOnly_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid_fieldOnly", 1, true);
+    ros::Publisher mapFieldAndMachines_pub = nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/grid_fieldAndMachines", 1, true);
     ros::ServiceServer getMap_server = nh.advertiseService("static_map", getMap_service);
 
     ros::Subscriber sub_poses_machine = nh.subscribe("objectDetection/landmarks", 10, Poses_Machine_Callback);

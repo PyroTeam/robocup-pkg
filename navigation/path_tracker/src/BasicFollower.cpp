@@ -16,34 +16,38 @@
 #include "common_utils/RateLimiter.h"
 #include "common_utils/controller/PidWithAntiWindUp.h"
 
-geometry_msgs::Twist BasicFollower::generateNewSetPoint()
+const double EPSILON = 0.05;
+const double ADVANCE_WINDOW = 0.5;
+
+//vitesse min robotino fixe
+//TODO: à parametrer
+const float VminStatic = 0.05;
+
+
+geometry_msgs::Twist BasicFollower::generateNewSetpoint()
 {
-    ROS_INFO("Generate New Setpoint");
-    //vitesse max robotino fixe
-    //TODO: à parametrer
-    float Vlim = 0.3;
-    float VminStatic = 0.05;
-    float Vmax = 0.3;
+
+    float Vmax = m_Vmax;
+    float Vlim = m_Vmax;
 
     geometry_msgs::Twist twist;
     if(m_status != PathFollowerStatus_t::IN_PROGRESS || m_pathSize == 0)
     {
+        ROS_INFO("Trajectory pb");
         return twist;
     }
 
-    //TODO: obtenir la pose courante dans le repère map
+    //Obtenir la Pose dans le repère map
     const geometry_msgs::Pose2D &pose = m_robotPose.getPose2D();
-    ROS_INFO_STREAM("Current Pose :" << pose);
 
-    //chercher meilleur le segment
-    float err = 0.0;
+
+    m_pathError = 0;
     float u = 10.0;//valeur supérieure à 1
     float delta_x = 0.0;
     float delta_y = 0.0;
 
     if (m_path.poses.size() > 1)
     {
-
         if(m_currentSegment < m_path.poses.size() - 1)
         {
             // recherche du segment a suivre
@@ -63,7 +67,7 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
                     m_currentSegment++;
                 }
 
-                err = (Ry*delta_x - Rx*delta_y) / denom;
+                m_pathError = (Ry*delta_x - Rx*delta_y) / denom;
             }
 
             //calcul de l'orientation du segment
@@ -73,7 +77,7 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
             float errOri = 0.0;
             if (m_currentSegment >= m_path.poses.size()-2)
             {
-                 //sur le dernier segment on commence a reguler sur l'orientation finale
+                 //sur le dernier segment on commence a asservir sur l'orientation finale
                 float lastYaw = tf::getYaw(m_path.poses.back().pose.orientation);
                 errOri = geometry_utils::normalizeAngle(lastYaw - pose.theta);
             }
@@ -88,7 +92,7 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
             //estimation de la vitesse max
             //parcours du chemin pour calcul amax et damax
             int tmpIndex = m_currentSegment+1;
-            float dWindow = .5;
+            float dWindow = ADVANCE_WINDOW;
             float dCurrent = 0;
             while (tmpIndex < m_path.poses.size()-1 && dCurrent < dWindow)
             {
@@ -112,7 +116,7 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
             {
                 p->setLimits(-Vlim, Vlim);
             }
-            float Vy = m_controllerVel->update(-err);
+            float Vy = m_controllerVel->update(-m_pathError);
 
             float Vx = sqrt(Vlim*Vlim - Vy*Vy);
             //Passer le vecteur (Vx Vy) en repere robot pour appliquer a cmdVel
@@ -126,17 +130,16 @@ geometry_msgs::Twist BasicFollower::generateNewSetPoint()
             //arreter robot
             twist.linear.x = 0;
             twist.linear.y = 0;
-            //orienation finale
+            //orientation finale
             float lastYaw = tf::getYaw(m_path.poses.back().pose.orientation);
             float errOrie = geometry_utils::normalizeAngle(lastYaw - pose.theta);
-            if (std::abs(errOrie) < 0.05)//TODO magic number
+            if (std::abs(errOrie) < EPSILON)
             {
                 m_status = PathFollowerStatus_t::TRAJ_END;
             }
             else
             {
                 twist.angular.z = m_controllerOri->update(errOrie);
-                //twist.angular.z = saturation(cmdVel_msg.angular.z, -1.0, 1.0);
             }
         }
     }

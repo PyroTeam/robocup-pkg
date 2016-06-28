@@ -41,6 +41,7 @@ public:
 
     void startTraj()
     {
+        ROS_INFO("Start a new trajectory");
         m_status = PathFollowerStatus_t::START;
         m_path.poses.clear();
         m_pathSize = 0;
@@ -64,6 +65,11 @@ public:
         }
     }
 
+    int getCurrentSegment()
+    {
+        return m_currentSegment;
+    }
+
     void setControllerVel(std::shared_ptr<common_utils::Controller> controller)
     {
         m_controllerVel = controller;
@@ -73,7 +79,22 @@ public:
         m_controllerOri = controller;
     }
 
-    virtual geometry_msgs::Twist generateNewSetPoint() = 0;
+    void setVmax(double vmax)
+    {
+        m_Vmax = vmax;
+    }
+
+    float getPathError()
+    {
+        m_pathError;
+    }
+
+    nav_msgs::Path *getPath()
+    {
+        return &m_path;
+    }
+
+    virtual geometry_msgs::Twist generateNewSetpoint() = 0;
 
 protected:
     ros::NodeHandle m_nh;
@@ -88,6 +109,9 @@ protected:
     PathFollowerStatus_t m_status;
     int m_pathSize;
     int m_currentSegment;
+
+    double m_Vmax;
+    float m_pathError;
 
     void pathCallback(const nav_msgs::Path &path);
 };

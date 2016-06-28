@@ -132,12 +132,15 @@ inline double angle(const geometry_msgs::Point &p0, const geometry_msgs::Point &
 
 inline double normalizeAngle(double angle)
 {
-  double newAngle = angle;
-
-  if (newAngle <= -M_PI) newAngle += 2*M_PI;
-  if (newAngle > M_PI) newAngle -= 2*M_PI;
-
-  return newAngle;
+    while (angle > M_PI)
+    {
+        angle = angle - 2*M_PI;
+    }
+    while (angle <= -M_PI)
+    {
+        angle = angle + 2*M_PI;
+    }
+    return angle;
 }
 
 } // namespace geometry_utils

@@ -15,7 +15,9 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   sensor_msgs
   occupancy_grid_utils
+  common_utils
   tf
+  topic_tools
 )
 
 ## System dependencies are found with CMake's conventions

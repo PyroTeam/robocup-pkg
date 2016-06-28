@@ -18,9 +18,10 @@ PathFollower::PathFollower(std::shared_ptr<common_utils::Controller> controllerV
         m_robotPose("map"),
         m_controllerVel(controllerVel),
         m_controllerOri(controllerOri),
-        m_status(PathFollowerStatus_t::TRAJ_END)
+        m_status(PathFollowerStatus_t::TRAJ_END),
+        m_Vmax(0.3)
 {
-    m_pathSub = m_nh.subscribe("navigation/pathSmooth",1,  &PathFollower::pathCallback, this);
+    m_pathSub = m_nh.subscribe("navigation/pathSmooth", 1, &PathFollower::pathCallback, this);
 }
 
 

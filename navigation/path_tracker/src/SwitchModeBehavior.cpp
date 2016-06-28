@@ -22,16 +22,21 @@ SwitchModeBehavior::~SwitchModeBehavior()
 
 }
 
-geometry_msgs::Twist SwitchModeBehavior::generateNewSetPoint()
+geometry_msgs::Twist SwitchModeBehavior::generateNewSetpoint()
 {
-    geometry_msgs::Twist setPoint;
-
+    geometry_msgs::Twist setpoint;
     switch (m_mode)
     {
     case BehaviorMode_t::FOLLOW:
         if (m_pathFollower != nullptr)
         {
-            setPoint = m_pathFollower->generateNewSetPoint();
+            setpoint = m_pathFollower->generateNewSetpoint();
+            if(obstacleOnTrajectory(m_maxObstacleDistance, m_obstacleDistance))
+            {
+                ROS_INFO("Obstacle sur la trajectoire");
+                m_mode = BehaviorMode_t::AVOID;
+                m_obstacleUnavoidable = true;//TODO: à supprimer lorsqu'il y aura l'évitement normal
+            }
         }
         else
         {
@@ -41,7 +46,7 @@ geometry_msgs::Twist SwitchModeBehavior::generateNewSetPoint()
     case BehaviorMode_t::AVOID:
         if (m_avoidObstacle != nullptr)
         {
-            setPoint = m_avoidObstacle->generateNewSetPoint();
+            setpoint = m_avoidObstacle->generateNewSetpoint();
         }
         else
         {
@@ -53,5 +58,62 @@ geometry_msgs::Twist SwitchModeBehavior::generateNewSetPoint()
         break;
     }
 
-    return setPoint;
+    return setpoint;
+}
+
+float SwitchModeBehavior::getPathError()
+{
+    float error = 0;
+
+    switch (m_mode)
+    {
+    case BehaviorMode_t::FOLLOW:
+        if (m_pathFollower != nullptr)
+        {
+            error = m_pathFollower->getPathError();
+        }
+        else
+        {
+            ROS_ERROR("In pathFollower mode, but no pathFollower assigned!");
+        }
+        break;
+    case BehaviorMode_t::AVOID:
+        if (m_avoidObstacle != nullptr)
+        {
+            error = m_avoidObstacle->getPathError();
+        }
+        else
+        {
+            ROS_ERROR("In Avoid Obstacle mode, but no avoidObstacle assigned!");
+        }
+        break;
+    default:
+        ROS_ERROR("Wrong mode!");
+        break;
+    }
+
+    return error;
+}
+
+float SwitchModeBehavior::getPercentComplete()
+{
+    float percentComplete=0;
+    //TODO avoidance
+
+    if (m_pathFollower != nullptr)
+    {
+        percentComplete = m_pathFollower->getPercentComplete();
+    }
+    else
+    {
+        ROS_ERROR("In pathFollower mode, but no pathFollower assigned!");
+    }
+
+    return percentComplete;
+}
+
+bool SwitchModeBehavior::obstacleOnTrajectory(float maxDistance, float &obstacleDistance)
+{
+    int currentSegment = m_pathFollower->getCurrentSegment();
+    return m_avoidObstacle->obstacleOnTrajectory(currentSegment, maxDistance, obstacleDistance);
 }

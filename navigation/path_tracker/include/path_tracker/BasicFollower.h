@@ -25,7 +25,7 @@ public:
     BasicFollower(std::shared_ptr<common_utils::Controller> controllerVel,
         std::shared_ptr<common_utils::Controller> controllerOri):
         PathFollower(controllerVel, controllerOri),
-        m_speedLimiter(-0.20, 0.20, 1/10.0)//TODO à parametrer
+        m_speedLimiter(-0.20, 0.20, 1/10.0)
     {
 
     }
@@ -34,11 +34,15 @@ public:
 
     }
 
+    void setSpeedRateLimits(double lowLimit, double highLimit, double T)
+    {
+        common_utils::RateLimiter r(lowLimit, highLimit, T);
+        m_speedLimiter = r;
+    }
 
-    virtual geometry_msgs::Twist generateNewSetPoint() override;
+    virtual geometry_msgs::Twist generateNewSetpoint() override;
 protected:
     common_utils::RateLimiter m_speedLimiter;
-
 };
 
 #endif /* PATH_TRACKER_BASICFOLLOWER_H_ */
