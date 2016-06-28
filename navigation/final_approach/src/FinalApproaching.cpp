@@ -200,6 +200,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	{
 		ROS_INFO_COND(firstTimeInLoop, "ArTag Asservissement - process");
 		firstTimeInLoop = false;
+		std::vector<arTags_t> arTags_tmp = at.getArTags();
 
 		// Make sure that the action hasn't been canceled
 		if (!m_as.isActive())
@@ -210,12 +211,12 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		}
 
 		// If at least one ARTag found
-		if (at.hasArTags())
+		if (!arTags_tmp.empty())
 		{
-			arTagId_idx = correspondingId(allPossibleId, at.getArTags());
+			arTagId_idx = correspondingId(allPossibleId, arTags_tmp);
 			if (arTagId_idx != -1)
 			{
-				avancementArTag = FinalApproaching::asservissementCameraNew(at.getArTags()[arTagId_idx]);
+				avancementArTag = FinalApproaching::asservissementCameraNew(arTags_tmp[arTagId_idx]);
 			}
 			else
 			{
