@@ -107,7 +107,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <code>#include &lt;final_approach_msg/FinalApproachingAction.h&gt;</code><br/>
 <code>#include &lt;final_approach_msg/plotDataFA.h&gt;</code><br/>
 <code>#include &lt;<a class="el" href="../../d0/ddd/Parameter_8h_source.html">common_utils/Parameter.h</a>&gt;</code><br/>
-<code>#include &lt;<a class="el" href="../../d8/da3/Pid_8h_source.html">common_utils/Pid.h</a>&gt;</code><br/>
+<code>#include &lt;<a class="el" href="../../d8/da3/Pid_8h_source.html">common_utils/controller/Pid.h</a>&gt;</code><br/>
 <code>#include &lt;vector&gt;</code><br/>
 <code>#include &lt;cmath&gt;</code><br/>
 </div>
@@ -161,7 +161,8 @@ Enumerations</h2></td></tr>
 <tr class="memdesc:a6d818ffcb0614ec162e72b5a5e6b5db8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="d8/d75/classMPS.html" title="classe pour stocker la position et l&#39;orientation d&#39;une machine ">MPS</a> ARTag identifiers.  <a href="../../d3/d68/FinalApproaching_8h.html#a6d818ffcb0614ec162e72b5a5e6b5db8">More...</a><br/></td></tr>
 <tr class="separator:a6d818ffcb0614ec162e72b5a5e6b5db8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e0ccd336238358a6598e36b231c34f6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d68/FinalApproaching_8h.html#a1e0ccd336238358a6598e36b231c34f6">markerId_e</a> { <a class="el" href="../../d3/d68/FinalApproaching_8h.html#a1e0ccd336238358a6598e36b231c34f6a304ba1277227f6791f82bc7713db5842">SEGMENT_MARKER_ID</a>, 
-<a class="el" href="../../d3/d68/FinalApproaching_8h.html#a1e0ccd336238358a6598e36b231c34f6a7eb1c50e46fe29df0065965fc9debc57">ARTAG_MARKER_ID</a>
+<a class="el" href="../../d3/d68/FinalApproaching_8h.html#a1e0ccd336238358a6598e36b231c34f6a7eb1c50e46fe29df0065965fc9debc57">ARTAG_MARKER_ID</a>, 
+<a class="el" href="../../d3/d68/FinalApproaching_8h.html#a1e0ccd336238358a6598e36b231c34f6a18d76e722eb82f2afe78ee13d5c7b20e">MID_POINT_ID</a>
  }</td></tr>
 <tr class="memdesc:a1e0ccd336238358a6598e36b231c34f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique identifier for markers.  <a href="../../d3/d68/FinalApproaching_8h.html#a1e0ccd336238358a6598e36b231c34f6">More...</a><br/></td></tr>
 <tr class="separator:a1e0ccd336238358a6598e36b231c34f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,6 +188,8 @@ Variables</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="a1e0ccd336238358a6598e36b231c34f6a304ba1277227f6791f82bc7713db5842"></a>SEGMENT_MARKER_ID</em>&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="a1e0ccd336238358a6598e36b231c34f6a7eb1c50e46fe29df0065965fc9debc57"></a>ARTAG_MARKER_ID</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a1e0ccd336238358a6598e36b231c34f6a18d76e722eb82f2afe78ee13d5c7b20e"></a>MID_POINT_ID</em>&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
 
@@ -301,7 +304,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 19 2016 18:37:49 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 28 2016 10:04:25 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

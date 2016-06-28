@@ -82,25 +82,33 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../d8/d65/namespacecommon__utils.html">common_utils</a></li><li class="navelem"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">RateLimiter</a></li>  </ul>
+</div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">Pid Member List</div>  </div>
+<div class="title">common_utils::RateLimiter Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="../../d0/d54/classPid.html">Pid</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">common_utils::RateLimiter</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="../../d0/d54/classPid.html#a89656cebf684d7ace698a455c51cd7f3">Pid</a>(float Kp, float Ki, float Kd, float T)</td><td class="entry"><a class="el" href="../../d0/d54/classPid.html">Pid</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="../../d0/d54/classPid.html#a716e6acbd6b260cc681f4d11bc5007f2">setKd</a>(float Kd)</td><td class="entry"><a class="el" href="../../d0/d54/classPid.html">Pid</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d0/d54/classPid.html#a9f996d96cb8b384f14f5dc766f866628">setKi</a>(float Ki)</td><td class="entry"><a class="el" href="../../d0/d54/classPid.html">Pid</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="../../d0/d54/classPid.html#af0dd402b1ea866db044de6e1a546cca9">setKp</a>(float Kp)</td><td class="entry"><a class="el" href="../../d0/d54/classPid.html">Pid</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d0/d54/classPid.html#a597ecd3d0d949d3017e1c68bcd27ec7a">update</a>(float err)</td><td class="entry"><a class="el" href="../../d0/d54/classPid.html">Pid</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="../../d0/d54/classPid.html#a7cc4e01fa357cc31834f982c7ba81dad">~Pid</a>()</td><td class="entry"><a class="el" href="../../d0/d54/classPid.html">Pid</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html#a0b28ffa2cb1ad46c2f0113aff7b1b851">m_lastSignal</a></td><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">common_utils::RateLimiter</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html#a95c0eb31cd9b127fa07f8f0e8a8f474d">m_lowLimit</a></td><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">common_utils::RateLimiter</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html#af07b309a447a21830570e0cd99e6d928">m_T</a></td><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">common_utils::RateLimiter</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html#acc41c2efeeb7610df49bcc9bf4c941c8">m_upLimit</a></td><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">common_utils::RateLimiter</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html#a94ab5417f510d911581368e291fb0bf6">RateLimiter</a>(float low, float up, float T)</td><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">common_utils::RateLimiter</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html#a90156a928e52a1f8248820a6b060b5ed">reset</a>()</td><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">common_utils::RateLimiter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html#ac031cba17844b6561cfea13bec9ece50">saturation</a>(float signal, float min, float max)</td><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">common_utils::RateLimiter</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html#aed7c38a00f1bca4e28e92571fe34a5e7">setLimits</a>(float low, float up)</td><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">common_utils::RateLimiter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html#a28c7ac237a511bb405392b8ca5d9efc1">update</a>(float signal)</td><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">common_utils::RateLimiter</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html#ae4c7e3e11b4ddebea63e6e7c4b809c99">~RateLimiter</a>()</td><td class="entry"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">common_utils::RateLimiter</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 19 2016 18:37:49 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 28 2016 10:04:25 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

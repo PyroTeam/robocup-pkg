@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['saturation',['saturation',['../d3/d24/classcommon__utils_1_1RateLimiter.html#ac031cba17844b6561cfea13bec9ece50',1,'common_utils::RateLimiter']]],
   ['savesettings',['saveSettings',['../d6/d5b/classrqt__ft__gui_1_1FtGui.html#aa1fffd713687bf7f75085974154e0aa2',1,'rqt_ft_gui::FtGui']]],
   ['search',['search',['../d2/d62/classGraph.html#a1d2c624600ebb16c38c16799ca7e519d',1,'Graph::search()'],['../d9/d5b/classAStarSearch.html#a006f2bb3f57e51266540464f86690b49',1,'AStarSearch::search()'],['../df/d88/classSearchAlgo.html#a6f8513fa5b0c97175f27099415ebab30',1,'SearchAlgo::search()']]],
   ['searchalgo',['SearchAlgo',['../df/d88/classSearchAlgo.html#ab52f10c34baae68a86cd7b3cc41da5bc',1,'SearchAlgo']]],
@@ -16,6 +17,7 @@ var searchData=
   ['setangleinc',['setAngleInc',['../d5/d29/classLaserScan.html#ab82d8673041dc2c8ad13d9c49f583a82',1,'LaserScan::setAngleInc()'],['../d9/d37/classlaserScan.html#a3af4804689633174e0152a62f3889aee',1,'laserScan::setAngleInc()']]],
   ['setanglemax',['setAngleMax',['../d5/d29/classLaserScan.html#abe1507bf765c40180af8b892f6ac139a',1,'LaserScan::setAngleMax()'],['../d9/d37/classlaserScan.html#ab68bcb02b26bfeb71dd878387c6c913a',1,'laserScan::setAngleMax()']]],
   ['setanglemin',['setAngleMin',['../d5/d29/classLaserScan.html#a7d992e8e837107143eae7bbca2d1d16b',1,'LaserScan::setAngleMin()'],['../d9/d37/classlaserScan.html#abdf0dea7ae917e362be66367a0643a22',1,'laserScan::setAngleMin()']]],
+  ['setantiwindupparam',['setAntiWindUpParam',['../d3/dac/classcommon__utils_1_1PidWithAntiWindUp.html#a73d59e7d3b72e5d59ee0dd0a6331a663',1,'common_utils::PidWithAntiWindUp']]],
   ['setarea',['setArea',['../de/d39/classEKF.html#a5e4b2836cef6322cda375aaf59dd1b12',1,'EKF::setArea(int i)'],['../de/d39/classEKF.html#a5e4b2836cef6322cda375aaf59dd1b12',1,'EKF::setArea(int i)']]],
   ['setaspectratio',['setAspectRatio',['../da/d8c/classrqt__ft__gui_1_1RatioLayoutedFrame.html#a4c2fd2513a4dd42454e43279539e82ff',1,'rqt_ft_gui::RatioLayoutedFrame']]],
   ['setbasecolor',['setBaseColor',['../db/d79/classProduct.html#a78f3cd5ce203209ab3068632d263b085',1,'Product']]],
@@ -42,9 +44,10 @@ var searchData=
   ['setinnerframemaximumsize',['setInnerFrameMaximumSize',['../da/d8c/classrqt__ft__gui_1_1RatioLayoutedFrame.html#ab3c0d1a2fa73b0968cfcc29fe1783021',1,'rqt_ft_gui::RatioLayoutedFrame']]],
   ['setinnerframeminimumsize',['setInnerFrameMinimumSize',['../da/d8c/classrqt__ft__gui_1_1RatioLayoutedFrame.html#af035c73f817babc65b8cf7ffa9be5a72',1,'rqt_ft_gui::RatioLayoutedFrame']]],
   ['setinprocess',['setInProcess',['../d6/d9c/classTask.html#ac6f37cb8d72cbf924dcade7c4cadbd65',1,'Task']]],
-  ['setkd',['setKd',['../d0/d54/classPid.html#a716e6acbd6b260cc681f4d11bc5007f2',1,'Pid']]],
-  ['setki',['setKi',['../d0/d54/classPid.html#a9f996d96cb8b384f14f5dc766f866628',1,'Pid']]],
-  ['setkp',['setKp',['../d0/d54/classPid.html#af0dd402b1ea866db044de6e1a546cca9',1,'Pid']]],
+  ['setkd',['setKd',['../d8/d3b/classcommon__utils_1_1Pid.html#a9d27e987bb583d9382b5541514a7087b',1,'common_utils::Pid']]],
+  ['setki',['setKi',['../d8/d3b/classcommon__utils_1_1Pid.html#a7a12a0f668494c5d0e5043129de2a2a0',1,'common_utils::Pid']]],
+  ['setkp',['setKp',['../d8/d3b/classcommon__utils_1_1Pid.html#afe8be62f270054cd46f13b639b658b05',1,'common_utils::Pid']]],
+  ['setlimits',['setLimits',['../d3/dac/classcommon__utils_1_1PidWithAntiWindUp.html#a1db8b2a222f3b7f0fcdc274f8e4fcb23',1,'common_utils::PidWithAntiWindUp::setLimits()'],['../d3/d24/classcommon__utils_1_1RateLimiter.html#aed7c38a00f1bca4e28e92571fe34a5e7',1,'common_utils::RateLimiter::setLimits()']]],
   ['setline',['setLine',['../d6/d18/classModel.html#af35de627329428445daa7f10314c0b75',1,'Model']]],
   ['setmachine',['setMachine',['../de/d78/classRobot.html#ad6ce145a14d8f13d523ec797e4ada28f',1,'Robot']]],
   ['setmachinetime',['setMachineTime',['../d6/d9c/classTask.html#acc5360aa48d7f90e60d5bb498c560c37',1,'Task']]],

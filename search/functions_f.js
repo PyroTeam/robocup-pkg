@@ -1,6 +1,7 @@
 var searchData=
 [
   ['ransac',['ransac',['../d0/d57/landmarks__detection__utils_8h.html#a7da4e9c7452184f0adf0cabe80876382',1,'ransac(std::list&lt; geometry_msgs::Point &gt; &amp;listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts):&#160;landmarks_detection_utils.cpp'],['../d4/df9/landmarks__detection__utils_8cpp.html#a7da4e9c7452184f0adf0cabe80876382',1,'ransac(std::list&lt; geometry_msgs::Point &gt; &amp;listOfPoints, int n, int NbPtPertinent, double proba, double seuil, int NbPts):&#160;landmarks_detection_utils.cpp']]],
+  ['ratelimiter',['RateLimiter',['../d3/d24/classcommon__utils_1_1RateLimiter.html#a94ab5417f510d911581368e291fb0bf6',1,'common_utils::RateLimiter']]],
   ['ratiocalculus',['ratioCalculus',['../d5/d62/work_8h.html#a9639c515be2af22cf902f4b8aa0edadb',1,'ratioCalculus(std::list&lt; std::list&lt; Task &gt; &gt; &amp;work, double time, int robot, bool take[3]):&#160;work.h'],['../d5/d1b/work_8cpp.html#a157e13d49aefdc8449fc2c32232af206',1,'ratioCalculus(list&lt; list&lt; Task &gt; &gt; &amp;work, double time, int robot, bool take[]):&#160;work.cpp']]],
   ['ratiolayoutedframe',['RatioLayoutedFrame',['../da/d8c/classrqt__ft__gui_1_1RatioLayoutedFrame.html#a5fbc4a133e8c184bf096a9cf4a1dfc41',1,'rqt_ft_gui::RatioLayoutedFrame']]],
   ['readlights',['readlights',['../dc/dda/classMachine.html#a1ef2bd2ff6ecee9ed4747121ff712ff0',1,'Machine']]],
@@ -15,6 +16,7 @@ var searchData=
   ['registermessage',['registerMessage',['../df/d33/classUdpPeer.html#a452f184361c17c7bc6a6b7e27b5329e7',1,'UdpPeer']]],
   ['reporting',['reporting',['../d7/de4/classReportingMachineSrvClient.html#a54e2ccb8e87dfdbecfd0aa0fc4f7bafe',1,'ReportingMachineSrvClient']]],
   ['reportingmachinesrvclient',['ReportingMachineSrvClient',['../d7/de4/classReportingMachineSrvClient.html#a4b4ec2554212a85cec46763f7fdc9445',1,'ReportingMachineSrvClient']]],
+  ['reset',['reset',['../d6/de2/classcommon__utils_1_1Controller.html#a996022a4aa5868cfdc6e6fb3830b999f',1,'common_utils::Controller::reset()'],['../d8/d3b/classcommon__utils_1_1Pid.html#a80276d89142783fa919b1a03f93df7ce',1,'common_utils::Pid::reset()'],['../d3/dac/classcommon__utils_1_1PidWithAntiWindUp.html#a4bb2069cc03199d5fdcbfa5a8007e753',1,'common_utils::PidWithAntiWindUp::reset()'],['../d3/d24/classcommon__utils_1_1RateLimiter.html#a90156a928e52a1f8248820a6b060b5ed',1,'common_utils::RateLimiter::reset()']]],
   ['resetmode',['resetMode',['../d4/d7b/classAvoidanceObstacle.html#a3f5a02af7731be286133ac87c16e0f63',1,'AvoidanceObstacle']]],
   ['resetstate',['resetState',['../d6/da1/classTrackPath.html#a4352a10a07102eef9d9d4e9570cc8bd1',1,'TrackPath']]],
   ['resizetofitaspectratio',['resizeToFitAspectRatio',['../da/d8c/classrqt__ft__gui_1_1RatioLayoutedFrame.html#a1ec925336322fac0de85eb22b5b2e2e0',1,'rqt_ft_gui::RatioLayoutedFrame']]],

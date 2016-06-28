@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['ratelimiter',['RateLimiter',['../d3/d24/classcommon__utils_1_1RateLimiter.html',1,'common_utils']]],
   ['ratiolayoutedframe',['RatioLayoutedFrame',['../da/d8c/classrqt__ft__gui_1_1RatioLayoutedFrame.html',1,'rqt_ft_gui']]],
   ['rectangle',['Rectangle',['../df/d56/classoccupancy__grid__utils_1_1Rectangle.html',1,'occupancy_grid_utils']]],
   ['refboxcomm',['RefBoxComm',['../dc/d41/classRefBoxComm.html',1,'']]],

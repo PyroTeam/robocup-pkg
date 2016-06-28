@@ -176,7 +176,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../de/d39/classEKF.html#a7c173c4a3246093027f9533ee79f747d">EKF::machineToArea</a>(geometry_msgs::Pose2D m)</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;{</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordtype">int</span> area = getArea(m);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordtype">int</span> area = <a class="code" href="../../d8/d65/namespacecommon__utils.html#a2c7584b54e4033b1612ecb7c9ab52527">getArea</a>(m);</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="comment">//std::cout &lt;&lt; &quot;machine (&quot; &lt;&lt; m.x &lt;&lt; &quot;,&quot; &lt;&lt; m.y &lt;&lt; &quot;) en area &quot; &lt;&lt; area &lt;&lt; std::endl;</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keywordflow">if</span> ((area != 0) &amp;&amp; (<a class="code" href="../../d2/de2/math__functions_8h.html#a53e94fd08016e1a1b2f5e07b5fe1fb14">dist</a>(m,<a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a764294d358810bb4cddea674b068e0be">getCenter</a>(area)) &lt;= 0.36))</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  {</div>
@@ -629,6 +629,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classEKF_html_a293cc947fe47a60734b59be545d82893"><div class="ttname"><a href="../../de/d39/classEKF.html#a293cc947fe47a60734b59be545d82893">EKF::GlobalToRobot</a></div><div class="ttdeci">VectorXd GlobalToRobot(VectorXd p)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00271">Ekf.cpp:271</a></div></div>
 <div class="ttc" id="classEKF_html_a2bc05717fae9e6bdf0696b4d3198f008"><div class="ttname"><a href="../../de/d39/classEKF.html#a2bc05717fae9e6bdf0696b4d3198f008">EKF::LaserToRobot</a></div><div class="ttdeci">geometry_msgs::Pose2D LaserToRobot(geometry_msgs::Pose2D PosLaser)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00181">Ekf.cpp:181</a></div></div>
 <div class="ttc" id="classEKF_html_ab03ac2d1fcee6bc847a1f23522e619f4"><div class="ttname"><a href="../../de/d39/classEKF.html#ab03ac2d1fcee6bc847a1f23522e619f4">EKF::machinesCallback</a></div><div class="ttdeci">void machinesCallback(const deplacement_msg::LandmarksConstPtr &amp;machines)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00157">Ekf.cpp:157</a></div></div>
+<div class="ttc" id="namespacecommon__utils_html_a2c7584b54e4033b1612ecb7c9ab52527"><div class="ttname"><a href="../../d8/d65/namespacecommon__utils.html#a2c7584b54e4033b1612ecb7c9ab52527">common_utils::getArea</a></div><div class="ttdeci">int getArea(const geometry_msgs::Pose2D &amp;m, float zone_width=2.0, float zone_height=1.5)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d9c/zone_8h_source.html#l00048">zone.h:48</a></div></div>
 <div class="ttc" id="classEKF_html_ae78cc7342fb21d174b47f85f5524ad65"><div class="ttname"><a href="../../de/d39/classEKF.html#ae78cc7342fb21d174b47f85f5524ad65">EKF::RobotToLaser</a></div><div class="ttdeci">VectorXd RobotToLaser(VectorXd PosRobot)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd3/Ekf_8cpp_source.html#l00210">Ekf.cpp:210</a></div></div>
 <div class="ttc" id="classEKF_html_a42aa30250dd3d92a8f31f8c94ea17420"><div class="ttname"><a href="../../de/d39/classEKF.html#a42aa30250dd3d92a8f31f8c94ea17420">EKF::getTabLines</a></div><div class="ttdeci">std::vector&lt; geometry_msgs::Pose2D &gt; getTabLines()</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0c/EkfWithLines_8cpp_source.html#l00521">EkfWithLines.cpp:521</a></div></div>
 <div class="ttc" id="conversion__functions_8h_html_a30a8304b1d8c3d4281b3d7dfb0c3d6f4"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html#a30a8304b1d8c3d4281b3d7dfb0c3d6f4">RobotToGlobal</a></div><div class="ttdeci">geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose2D odomRobot)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00040">conversion_functions.cpp:40</a></div></div>
@@ -654,7 +655,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 19 2016 18:37:49 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 28 2016 10:04:25 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

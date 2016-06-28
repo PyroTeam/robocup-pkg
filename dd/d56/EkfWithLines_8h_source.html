@@ -129,7 +129,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> addLine(geometry_msgs::Pose2D machine);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">int</span> checkStateVector(geometry_msgs::Pose2D machine);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">int</span> getArea(geometry_msgs::Pose2D m);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d8/d65/namespacecommon__utils.html#a2c7584b54e4033b1612ecb7c9ab52527">getArea</a>(geometry_msgs::Pose2D m);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d3/d5c/cartographie__utils_8h.html#a3f0301afaec9aec968a5ca47789f0160">machineToArea</a>(geometry_msgs::Pose2D m);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">bool</span> test(<span class="keywordtype">int</span> area);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">bool</span> initOdom();</div>
@@ -179,6 +179,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="visualisation_8cpp_html_a90fa1a3ae9458679c50a209bade246d9"><div class="ttname"><a href="../../d7/dfc/visualisation_8cpp.html#a90fa1a3ae9458679c50a209bade246d9">laserCallback</a></div><div class="ttdeci">void laserCallback(const deplacement_msg::LandmarksConstPtr &amp;laser)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfc/visualisation_8cpp_source.html#l00123">visualisation.cpp:123</a></div></div>
 <div class="ttc" id="classEKF_html"><div class="ttname"><a href="../../de/d39/classEKF.html">EKF</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/da6/Ekf_8h_source.html#l00017">Ekf.h:17</a></div></div>
+<div class="ttc" id="namespacecommon__utils_html_a2c7584b54e4033b1612ecb7c9ab52527"><div class="ttname"><a href="../../d8/d65/namespacecommon__utils.html#a2c7584b54e4033b1612ecb7c9ab52527">common_utils::getArea</a></div><div class="ttdeci">int getArea(const geometry_msgs::Pose2D &amp;m, float zone_width=2.0, float zone_height=1.5)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d9c/zone_8h_source.html#l00048">zone.h:48</a></div></div>
 <div class="ttc" id="conversion__functions_8h_html_a30a8304b1d8c3d4281b3d7dfb0c3d6f4"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html#a30a8304b1d8c3d4281b3d7dfb0c3d6f4">RobotToGlobal</a></div><div class="ttdeci">geometry_msgs::Pose2D RobotToGlobal(geometry_msgs::Pose2D p, geometry_msgs::Pose2D odomRobot)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d73/conversion__functions_8cpp_source.html#l00040">conversion_functions.cpp:40</a></div></div>
 <div class="ttc" id="cartographie__utils_8h_html_a3f0301afaec9aec968a5ca47789f0160"><div class="ttname"><a href="../../d3/d5c/cartographie__utils_8h.html#a3f0301afaec9aec968a5ca47789f0160">machineToArea</a></div><div class="ttdeci">int machineToArea(geometry_msgs::Pose2D m)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d1e/cartographie__utils_8cpp_source.html#l00050">cartographie_utils.cpp:50</a></div></div>
 <div class="ttc" id="landmarks__detection__utils_8h_html"><div class="ttname"><a href="../../d0/d57/landmarks__detection__utils_8h.html">landmarks_detection_utils.h</a></div></div>
@@ -191,7 +192,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 19 2016 18:37:49 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 28 2016 10:04:25 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

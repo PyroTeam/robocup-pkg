@@ -85,6 +85,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">common_utils Namespace Reference</div>  </div>
@@ -95,6 +96,15 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d9c/classcommon__utils_1_1Chrono.html">Chrono</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classe utilitaire pour mesurer un intervalle de temps.  <a href="../../d9/d9c/classcommon__utils_1_1Chrono.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/classcommon__utils_1_1Controller.html">Controller</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d3b/classcommon__utils_1_1Pid.html">Pid</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simple PID.  <a href="../../d8/d3b/classcommon__utils_1_1Pid.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dac/classcommon__utils_1_1PidWithAntiWindUp.html">PidWithAntiWindUp</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">RateLimiter</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -108,6 +118,48 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a6dc2c238f1a1a80a02d03915704de9af"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="../../d9/d9c/classcommon__utils_1_1Chrono.html">Chrono</a><br class="typebreak"/>
 &lt; std::chrono::steady_clock &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#a6dc2c238f1a1a80a02d03915704de9af">SteadyChrono</a></td></tr>
 <tr class="separator:a6dc2c238f1a1a80a02d03915704de9af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:af799cdeab37fb381dd4da7e2186383ab"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#af799cdeab37fb381dd4da7e2186383ab">team_t</a> { <a class="el" href="../../d8/d65/namespacecommon__utils.html#af799cdeab37fb381dd4da7e2186383aba7e89e408c171924d866725f846718a85">CYAN</a> = 0, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#af799cdeab37fb381dd4da7e2186383aba034cf7201f8dc7e027c6d4fb722b8760">MAGENTA</a> = 1
+ }</td></tr>
+<tr class="memdesc:af799cdeab37fb381dd4da7e2186383ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Team color.  <a href="../../d8/d65/namespacecommon__utils.html#af799cdeab37fb381dd4da7e2186383ab">More...</a><br/></td></tr>
+<tr class="separator:af799cdeab37fb381dd4da7e2186383ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0ba8384eb04071c3ec81e8a6048bcf3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3">mpsARTags_T</a> { <br/>
+&#160;&#160;<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3ac24b82df57640cf3b972812875f47e85">C_CS1_IN</a> = 1, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3ac73dfab39065da8646798272af01b97d">C_CS1_OUT</a> = 2, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3ad4ff601d966d1f99ad0573cdf1a8c172">C_CS2_IN</a> = 17, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a905e131bf627adcc97e8e214bc902fd7">C_CS2_OUT</a> = 18, 
+<br/>
+&#160;&#160;<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3afe25957e2d3e93134a7ccc7cdf5f02eb">C_RS1_IN</a> = 33, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a910b8a7f9416b4861d34a062bc0d2409">C_RS1_OUT</a> = 34, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a65e730f9acc1a388c38f1f861d545fd2">C_RS2_IN</a> = 177, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a7ba08e6c08a4b7d610ac7fa4ae69c5fd">C_RS2_OUT</a> = 178, 
+<br/>
+&#160;&#160;<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a1fce6c06287d649cce354d85933f0e00">C_BS_IN</a> = 65, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a527e4bf513afdf77bb516280801916a3">C_BS_OUT</a> = 66, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3ad15e8103a118db75142790f144044610">C_DS_IN</a> = 81, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3af0c7b3873f8ac89bed3c7b98dd937263">C_DS_OUT</a> = 82, 
+<br/>
+&#160;&#160;<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3ac0b09e97cb22eaf804a075fa338657d3">M_CS1_IN</a> = 97, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3addc1f19fa98ee20b68b367fd1dba271f">M_CS1_OUT</a> = 98, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a802e1d5844c43ce940e309c78ce18427">M_CS2_IN</a> = 113, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a3f773ad7b89733509acca18d1b065cd3">M_CS2_OUT</a> = 114, 
+<br/>
+&#160;&#160;<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a7520633bc93a2e2cc027f1714bc958ee">M_RS1_IN</a> = 129, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3add0c8237af07b084072068d5211a820f">M_RS1_OUT</a> = 130, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3afe3931a95a15aa61dbf6d915ad0cc8e7">M_RS2_IN</a> = 145, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3aef48445687e078b8d726f8839708e991">M_RS2_OUT</a> = 146, 
+<br/>
+&#160;&#160;<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a8aca6f6fec5a085fa3716a163f6d9017">M_BS_IN</a> = 161, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a816cfca8dab2e72a6e68e43f5a300646">M_BS_OUT</a> = 162, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3ab44592c4556bc4e107dfc4e09e0dde04">M_DS_IN</a> = 49, 
+<a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a01f212fc150859e1fd2a6d9d66fac4d3">M_DS_OUT</a> = 50
+<br/>
+ }</td></tr>
+<tr class="memdesc:ac0ba8384eb04071c3ec81e8a6048bcf3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="d8/d75/classMPS.html" title="classe pour stocker la position et l&#39;orientation d&#39;une machine ">MPS</a> ARTag identifiers.  <a href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3">More...</a><br/></td></tr>
+<tr class="separator:ac0ba8384eb04071c3ec81e8a6048bcf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -127,6 +179,11 @@ Functions</h2></td></tr>
 <tr class="separator:a62eacf65799b08d09847c3e7df31e00a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1525d2a72bda6ec68e30fde3d9fa3fff"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#a1525d2a72bda6ec68e30fde3d9fa3fff">getParameter</a> (ros::NodeHandle &amp;nh, const std::string &amp;paramName, std::list&lt; <a class="el" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html">occupancy_grid_utils::Rectangle</a> &gt; &amp;listOfRectangles)</td></tr>
 <tr class="separator:a1525d2a72bda6ec68e30fde3d9fa3fff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17f0bd7b4810dc7e0eca198e95031bba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#a17f0bd7b4810dc7e0eca198e95031bba">getZoneCenter</a> (int zone, double &amp;x, double &amp;y, float zone_width=2.0, float zone_height=1.5)</td></tr>
+<tr class="memdesc:a17f0bd7b4810dc7e0eca198e95031bba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Donne les coordonées (x, y) du centre d'une zone.  <a href="#a17f0bd7b4810dc7e0eca198e95031bba">More...</a><br/></td></tr>
+<tr class="separator:a17f0bd7b4810dc7e0eca198e95031bba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c7584b54e4033b1612ecb7c9ab52527"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#a2c7584b54e4033b1612ecb7c9ab52527">getArea</a> (const geometry_msgs::Pose2D &amp;m, float zone_width=2.0, float zone_height=1.5)</td></tr>
+<tr class="separator:a2c7584b54e4033b1612ecb7c9ab52527"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a class="anchor" id="ac03081e654af5d3ca6720ee139acd967"></a>
@@ -171,6 +228,95 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3">common_utils::mpsARTags_T</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="../../d8/d75/classMPS.html" title="classe pour stocker la position et l&#39;orientation d&#39;une machine ">MPS</a> ARTag identifiers. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3ac24b82df57640cf3b972812875f47e85"></a>C_CS1_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3ac73dfab39065da8646798272af01b97d"></a>C_CS1_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3ad4ff601d966d1f99ad0573cdf1a8c172"></a>C_CS2_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a905e131bf627adcc97e8e214bc902fd7"></a>C_CS2_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3afe25957e2d3e93134a7ccc7cdf5f02eb"></a>C_RS1_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a910b8a7f9416b4861d34a062bc0d2409"></a>C_RS1_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a65e730f9acc1a388c38f1f861d545fd2"></a>C_RS2_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a7ba08e6c08a4b7d610ac7fa4ae69c5fd"></a>C_RS2_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a1fce6c06287d649cce354d85933f0e00"></a>C_BS_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a527e4bf513afdf77bb516280801916a3"></a>C_BS_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3ad15e8103a118db75142790f144044610"></a>C_DS_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3af0c7b3873f8ac89bed3c7b98dd937263"></a>C_DS_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3ac0b09e97cb22eaf804a075fa338657d3"></a>M_CS1_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3addc1f19fa98ee20b68b367fd1dba271f"></a>M_CS1_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a802e1d5844c43ce940e309c78ce18427"></a>M_CS2_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a3f773ad7b89733509acca18d1b065cd3"></a>M_CS2_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a7520633bc93a2e2cc027f1714bc958ee"></a>M_RS1_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3add0c8237af07b084072068d5211a820f"></a>M_RS1_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3afe3931a95a15aa61dbf6d915ad0cc8e7"></a>M_RS2_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3aef48445687e078b8d726f8839708e991"></a>M_RS2_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a8aca6f6fec5a085fa3716a163f6d9017"></a>M_BS_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a816cfca8dab2e72a6e68e43f5a300646"></a>M_BS_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3ab44592c4556bc4e107dfc4e09e0dde04"></a>M_DS_IN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ac0ba8384eb04071c3ec81e8a6048bcf3a01f212fc150859e1fd2a6d9d66fac4d3"></a>M_DS_OUT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="../../d9/d49/types_8h_source.html#l00018">18</a> of file <a class="el" href="../../d9/d49/types_8h_source.html">types.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af799cdeab37fb381dd4da7e2186383ab"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../d8/d65/namespacecommon__utils.html#af799cdeab37fb381dd4da7e2186383ab">common_utils::team_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Team color. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="af799cdeab37fb381dd4da7e2186383aba7e89e408c171924d866725f846718a85"></a>CYAN</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af799cdeab37fb381dd4da7e2186383aba034cf7201f8dc7e027c6d4fb722b8760"></a>MAGENTA</em>&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="../../d9/d49/types_8h_source.html#l00009">9</a> of file <a class="el" href="../../d9/d49/types_8h_source.html">types.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="abe1c5d37aea97a09e1e98c06d6fda86a"></a>
 <div class="memitem">
@@ -195,6 +341,48 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>une chaine de charactère contenant le résultat de la ligne de commande reçu sur la sortie standard </dd></dl>
 
 <p>Definition at line <a class="el" href="../../d2/df6/parameterFunctions_8cpp_source.html#l00026">26</a> of file <a class="el" href="../../d2/df6/parameterFunctions_8cpp_source.html">parameterFunctions.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2c7584b54e4033b1612ecb7c9ab52527"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int common_utils::getArea </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::Pose2D &amp;&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>zone_width</em> = <code>2.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>zone_height</em> = <code>1.5</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../db/d9c/zone_8h_source.html#l00048">48</a> of file <a class="el" href="../../db/d9c/zone_8h_source.html">zone.h</a>.</p>
 
 </div>
 </div>
@@ -499,10 +687,78 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a17f0bd7b4810dc7e0eca198e95031bba"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool common_utils::getZoneCenter </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>zone</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>zone_width</em> = <code>2.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>zone_height</em> = <code>1.5</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Donne les coordonées (x, y) du centre d'une zone. </p>
+<p>Calcul les coordonées du centre d'une zone pour une map de 24 zones. Cette map ayant une configuration simulaire à la Robocup Logistic League 2016. La largeur et la hauteur d'une zone sont paramétrables.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">zone</td><td>The zone (must be 1 to 24) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">x</td><td>x coordinate </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">y</td><td>y coordinate </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">zone_width</td><td>The zone width </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">zone_height</td><td>The zone height</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if success, false otherwise. </dd></dl>
+
+<p>Definition at line <a class="el" href="../../db/d9c/zone_8h_source.html#l00024">24</a> of file <a class="el" href="../../db/d9c/zone_8h_source.html">zone.h</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 19 2016 18:37:49 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 28 2016 10:04:25 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
