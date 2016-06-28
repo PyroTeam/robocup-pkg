@@ -14,6 +14,7 @@
 #include <tf/transform_datatypes.h>
 #include "deplacement_msg/GeneratePathAction.h"
 #include "deplacement_msg/ClosestReachablePoint.h"
+#include "topic_tools/MuxSelect.h"
 
 const int c_timeOutGenePath = 5;
 
@@ -70,6 +71,23 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     {
         ROS_ERROR("Failed to call service ClosestReachablePoint");
     }
+
+    ros::ServiceClient muxClient = m_nh.serviceClient<topic_tools::MuxSelect>("mux/select");
+    topic_tools::MuxSelect muxSrv;
+    muxSrv.request.topic = "objectDetection/grid";
+
+    if (muxClient.call(muxSrv))
+    {
+        ROS_INFO("On utilise la map sans obstacle");
+    }
+    else
+    {
+        ROS_ERROR("Failed to call service MuxSelect");
+    }
+
+    sleep(1);
+
+
 
     genePathGoal.start = srv.response.foundPosition;
     genePathGoal.goal =  goal->position_finale;
@@ -195,8 +213,73 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
                 isOk = false;
                 break;
             case deplacement_msg::TrackPathResult::ERR_AVOIDANCE_UNAVOIDABLE:
-                //TODO:en cas d'erreur d'évitement on regenere un chemin
                 ROS_INFO("Un obstacle impossible à éviter a été detecté");
+                //en cas d'erreur d'évitement on regenere un chemin
+                client = m_nh.serviceClient<deplacement_msg::ClosestReachablePoint>("path_finder_node/ClosestReachablePoint");
+                srv.request.currentPosition = m_robotPose.getPose2D();
+                srv.request.window = 0.5;
+
+                if (client.call(srv))
+                {
+                    if (srv.response.found)
+                    {
+                        ROS_INFO("Found : (%f,%f,%f)", srv.response.foundPosition.x, srv.response.foundPosition.y, srv.response.foundPosition.theta);
+                    }
+                    else
+                    {
+                        ROS_INFO("HUMMMMM... ");
+                    }
+                }
+                else
+                {
+                    ROS_ERROR("Failed to call service ClosestReachablePoint");
+                }
+
+                muxClient = m_nh.serviceClient<topic_tools::MuxSelect>("mux/select");
+                muxSrv.request.topic = "objectDetection/gridObstacles";
+
+
+                if (muxClient.call(muxSrv))
+                {
+                    ROS_INFO("On utilise la map avec obstacle");
+                }
+                else
+                {
+                    ROS_ERROR("Failed to call service MuxSelect");
+                }
+
+                //sleep(1);
+
+                genePathGoal.start = srv.response.foundPosition;
+                genePathGoal.goal =  goal->position_finale;
+                genePathGoal.timeout = ros::Duration(10);
+
+                genePathAction.sendGoal(genePathGoal);
+                //wait for the action to return
+                finished_before_timeout = genePathAction.waitForResult(ros::Duration(30.0));
+
+                if (genePathAction.getResult()->result == deplacement_msg::GeneratePathResult::SUCCESS)
+                {
+                    ROS_INFO("Path finder find a path");
+                }
+                else
+                {
+                    ROS_INFO("Path not found : %d", genePathAction.getResult()->result);
+                    m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
+                    m_as.setAborted(m_result);
+                    return;
+                }
+
+                //sleep(1);
+                //path Found
+                ROS_INFO("Path generated!");
+                m_isPathTrackEnded = false;
+                tgoal.command = deplacement_msg::TrackPathGoal::CMD_START;
+                m_trackPathAction.sendGoal(tgoal,
+                    boost::bind(&MoveToPose::doneCb, this, _1, _2),
+                    boost::bind(&MoveToPose::activeCb, this),
+                    boost::bind(&MoveToPose::feedbackCb, this, _1));
+
                 break;
             case deplacement_msg::TrackPathResult::ERR_AVOIDANCE_UNREACHABLE:
                 //TODO:

@@ -41,6 +41,7 @@ public:
 
     void startTraj()
     {
+        ROS_INFO("Start a new trajectory");
         m_status = PathFollowerStatus_t::START;
         m_path.poses.clear();
         m_pathSize = 0;

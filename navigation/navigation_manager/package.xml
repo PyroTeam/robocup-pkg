@@ -52,6 +52,7 @@
   <build_depend>occupancy_grid_utils</build_depend>
   <build_depend>common_utils</build_depend>
   <build_depend>tf</build_depend>
+  <build_depend>topic_tools</build_depend>
 
   <run_depend>actionlib</run_depend>
   <run_depend>deplacement_msg</run_depend>
@@ -65,7 +66,8 @@
   <run_depend>occupancy_grid_utils</run_depend>
   <run_depend>common_utils</run_depend>
   <run_depend>tf</run_depend>
-
+  <run_depend>topic_tools</run_depend>
+  
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->

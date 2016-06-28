@@ -25,7 +25,6 @@ SwitchModeBehavior::~SwitchModeBehavior()
 geometry_msgs::Twist SwitchModeBehavior::generateNewSetpoint()
 {
     geometry_msgs::Twist setpoint;
-
     switch (m_mode)
     {
     case BehaviorMode_t::FOLLOW:

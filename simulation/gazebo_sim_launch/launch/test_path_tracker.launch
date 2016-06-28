@@ -65,6 +65,8 @@
         <node pkg="path_finder" name="path_finder_node" type="path_finder_node" output="screen"/>
         <!--<node pkg="pathfinder" name="pathfinder" type="pathfinder_node" launch-prefix="xterm -e"/>-->
 
+        <node pkg="topic_tools" name="mux_gridMap" type="mux" args="pathFinder/grid objectDetection/grid objectDetection/gridObstacles"/>
+
         <!-- <node pkg="path_tracker" name="path_trackerRequest_node" type="path_trackerRequest_node.py" output="screen"/> -->
 
         <node pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen"/>

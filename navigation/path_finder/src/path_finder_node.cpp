@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     std::shared_ptr<Heuristic> heuristic(new EuclidianHeuristic());
     std::shared_ptr<Heuristic> heuristicDiag(new DiagonalHeuristic());
     graph->setHeuristic(heuristicDiag);
-    std::shared_ptr<UpdateGraph> updateGraph(new UpdateGridMapGraph("objectDetection/grid", graph));
+    std::shared_ptr<UpdateGraph> updateGraph(new UpdateGridMapGraph("pathFinder/grid", graph));
 
 
     //publication des path et pathSmooth pour le debug

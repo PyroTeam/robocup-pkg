@@ -10,6 +10,7 @@
  */
 
 #include "dataLaser.h"
+#include "occupancy_grid_utils/grid_modifier/FastGradientModifier.h"
 
 /* Constantes */
 #define LASER_RANGE_MAX 5.5
@@ -96,6 +97,14 @@ void DataLaser::recoverDataLaser()
         //ROS_INFO("Point %d ajoute", i);
         m_map.drawDisc(m_grid, m_dataLaser[i]);
     }
+
+    //dégradés
+    double distance = 0.5;
+    m_nh.param<double>("field/gradient/distance", distance, 0.5);
+    int minValue = 0;
+    m_nh.param<int>("field/gradient/minValue", minValue, 0);
+    occupancy_grid_utils::FastGradientModifier gradientModifier(distance, minValue);
+    gradientModifier.execute(m_grid);
 
     m_grid.header.stamp = m_scan.header.stamp;
     m_grid_pub.publish(m_grid);

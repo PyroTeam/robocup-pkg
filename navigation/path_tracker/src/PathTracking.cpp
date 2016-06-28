@@ -77,6 +77,7 @@ void PathTracking::executeCB(const deplacement_msg::TrackPathGoalConstPtr &goal)
             //TODO à nettoyer
             if (std::shared_ptr<SwitchModeBehavior> b = std::dynamic_pointer_cast<SwitchModeBehavior>(m_behavior))
             {
+
                 BehaviorMode_t m = b->getMode();
                 switch (m)
                 {

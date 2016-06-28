@@ -83,7 +83,7 @@ public:
         sc::state<StActive, PTmachine, StIdle>( ctx ),
         m_behavior(nullptr)
     {
-        ROS_DEBUG("PathTracking: Entering Active State");
+        ROS_INFO("PathTracking: Entering Active State");
 
         m_behavior = outermost_context().getBehavior();
 
