@@ -58,7 +58,16 @@
 		<node pkg="path_finder" name="path_finder_node" type="path_finder_node"/>
 
 		<!-- Load the path tracker -->
-		<node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" />
+		<node pkg="topic_tools" name="mux_gridMap" type="mux" args="pathFinder/grid objectDetection/grid objectDetection/gridObstacles"/>
+
+		<!-- <node pkg="path_tracker" name="path_trackerRequest_node" type="path_trackerRequest_node.py" output="screen"/> -->
+
+		<node pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen"/>
+		<!-- Load the path tracker -->
+		<!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" launch-prefix="xterm -e"/> -->
+		<rosparam command="load" file="$(find path_tracker)/cfg/navigation_pathTracker.yaml" />
+		<node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" output="screen"/>
+
 
 			<!-- Load the fake final approach -->
 			<!--<node pkg="final_approach" name="final_approach" type="simFinalApproach_node"/>-->

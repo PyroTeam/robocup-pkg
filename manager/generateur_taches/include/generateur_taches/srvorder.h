@@ -22,6 +22,7 @@ public:
     ~Srvorder();
 
     bool getAccepted(){return m_accepted;}
+    bool getNeedToResendOrder(){return m_needToResendOrder;}
     int getNumberOrder(){return m_numberOrder;}
     int getNumberRobot(){return m_numberRobot;}
     int getId(){return m_id;}
@@ -33,6 +34,7 @@ private:
     manager_msg::order m_srv;
 
     bool m_accepted;
+    bool m_needToResendOrder;
     int m_numberOrder;
     int m_numberRobot;
     int m_id;

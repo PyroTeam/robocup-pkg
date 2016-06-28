@@ -348,6 +348,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
       {
         ROS_ERROR("ERROR: req.id is not between 0 and 5 ");
         res.accepted =false;
+        res.needToResendOrder = true;
       }
       break;
 
@@ -442,6 +443,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         {
           ROS_ERROR("Unable to get correct AR Tag from this machine. Abort service");
           res.accepted = false;
+          res.needToResendOrder = true;
           break;
         }
 
@@ -468,6 +470,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
             // TODO: abandonner le service
             ROS_ERROR("Unable to reach output for this MPS. Abort service");
             res.accepted = false;
+            res.needToResendOrder = true;
             break;
           }
         }
@@ -504,6 +507,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
     //else ROS_INFO(" NON DESTOCKAGE ");
     m_msg = m_elements.getBS().msgToGT(m_nbrobot,activity::END,activity::NONE,req.id);
     res.accepted = true;
+    res.needToResendOrder =  false;
   }
   else
   {
