@@ -33,6 +33,7 @@ geometry_msgs::Twist BasicFollower::generateNewSetpoint()
     geometry_msgs::Twist twist;
     if(m_status != PathFollowerStatus_t::IN_PROGRESS || m_pathSize == 0)
     {
+        ROS_INFO("Trajectory pb");
         return twist;
     }
 
