@@ -1,6 +1,6 @@
 #include "tf_broadcaster/tf_broadcaster.h"
 
-void poseCallback(const nav_msgs::Odometry &odom)
+void poseCallback(const nav_msgs::Odometry &odom, bool onlyOdomToBase)
 {
 	static tf::TransformBroadcaster mapToOdom;
 	static tf::TransformBroadcaster odomToBaseLink;

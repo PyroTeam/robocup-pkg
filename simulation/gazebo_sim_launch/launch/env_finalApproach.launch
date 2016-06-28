@@ -7,13 +7,9 @@
  -->
 <launch>
 	<!-- Configurable args -->
-	<!-- TODO: Definitively replace robotino_laserrangefinder_node by hokuyo_node -->
 	<arg name="use_hokuyo_node" default="true" />
-	<!-- TODO: Definitively use udev symlink -->
 	<arg name="use_udev_symlinks" default="true" />
-	<!-- TODO: Definitively connect the platform camera -->
 	<arg name="tower_cam_connected" default="true" />
-	<!-- TODO: Definitively connect the platform camera -->
 	<arg name="platform_cam_connected" default="true" />
 
 
@@ -21,6 +17,10 @@
 	<arg name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
 	<arg name="tf_laser_y" value="0.0" />
 	<arg name="tf_laser_z" value="0.255" />
+
+	<arg name="tf_gripper_x" value="0.23" />
+	<arg name="tf_gripper_y" value="0.00" />
+	<arg name="tf_gripper_z" value="0.90" />
 
 	<arg name="tf_towercam_x" value="0.1125" /><!-- 0.46.5/2 - 0.12 -->
 	<arg name="tf_towercam_y" value="-0.015" />
@@ -76,6 +76,12 @@
 			args="$(arg tf_laser_x) $(arg tf_laser_y) $(arg tf_laser_z)
 			0 0 0
 			$(arg tf_prefix)base_link $(arg tf_prefix)laser_link   100" />
+
+		<node pkg="tf" type="static_transform_publisher" name="base_link_to_gripper_link"
+			  respawn="true" output="screen"
+			args="$(arg tf_gripper_x) $(arg tf_gripper_y) $(arg tf_gripper_z)
+			0 0 0
+			$(arg tf_prefix)base_link $(arg tf_prefix)gripper_link   100" />
 
 
 		<!-- Robotino node -->

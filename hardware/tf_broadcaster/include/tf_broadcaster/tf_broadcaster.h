@@ -10,6 +10,6 @@
 #include "nav_msgs/Odometry.h"
 
 /*==========  Prototypes  ==========*/
-void poseCallback(const nav_msgs::Odometry& odom);
+void poseCallback(const nav_msgs::Odometry& odom, bool onlyOdomToBase = false);
 
 #endif // _TF_BROADCASTER__TF_BROADCASTER_H_
