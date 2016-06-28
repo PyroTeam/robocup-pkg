@@ -80,18 +80,23 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
 				tabRobot[robot].setBusy(true);
 			}
 
+//			if(srvexplo.getNeedToResendOrder())
+//			{
+					bool foundInUnkown = correspondanceZE.m_locaSub.foundInUnkown(zone);
+					bool foundInNotExplored =  correspondanceZE.m_locaSub.foundInNotExplored(zone);
 
-			bool foundInUnkown = correspondanceZE.m_locaSub.foundInUnkown(zone);
-			bool foundInNotExplored =  correspondanceZE.m_locaSub.foundInNotExplored(zone);
+					if(foundInUnkown/*&& !foundInNotExplored*/)
+					{
+						correspondanceZE.m_locaSub.removeFromUnkown(zone);
+					}
+				/*else*/ if(foundInNotExplored/* && !foundInUnkown*/)
+					{
+						correspondanceZE.m_locaSub.removeFromNotExplored(zone);
+					}
+//			}
 
-			if(foundInUnkown/*&& !foundInNotExplored*/)
-			{
-				correspondanceZE.m_locaSub.removeFromUnkown(zone);
-			}
-		/*else*/ if(foundInNotExplored/* && !foundInUnkown*/)
-			{
-				correspondanceZE.m_locaSub.removeFromNotExplored(zone);
-			}
+
+
 			/*else*/ if(foundInUnkown && foundInNotExplored)
 			{
 				ROS_ERROR("/!\\ WARNING : zone %d was founded in m_unkownZones & m_notExploredZones ", zone);
