@@ -1003,6 +1003,16 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 	constexpr float xDist = 0.50;
 	constexpr float linearKp = 1.0;
 	constexpr float angularKp = 0.50;
+	constexpr float absYOffset = 0.025;
+	float yOffset;
+	if (m_side == final_approach_msg::FinalApproachingGoal::IN)
+	{
+		yOffset = +absYOffset;
+	}
+	else
+	{
+		yOffset = -absYOffset;
+	}
 
 	// XXX: La fonction peut-elle être appelé sans arTag valide ? A vérifier
 
@@ -1013,7 +1023,7 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 	static int yawSuccessJar = jarResetValue;
 
 	float errX = target.pose.position.z - xDist;  // A corriger une fois les transformations appliquée
-	float errY = -target.pose.position.x;  // A corriger une fois les transformations appliquée
+	float errY = yOffset-target.pose.position.x;  // A corriger une fois les transformations appliquée
 	float errYaw = target.yaw;  // A corriger une fois les transformations appliquée
 
 	m_feedback.errorX = errX;
