@@ -28,6 +28,7 @@ var searchData=
   ['comparefloat',['compareFloat',['../d6/da1/classTrackPath.html#a0d7d7cc061b1efdac04df14acdaeb8fe',1,'TrackPath::compareFloat()'],['../df/d7a/avoidanceObstacle_8cpp.html#a7a094d542498ad0b4242846e8d881612',1,'compareFloat():&#160;avoidanceObstacle.cpp']]],
   ['comparepoints',['comparePoints',['../d6/da1/classTrackPath.html#ae7da835cb0fa687f427040e23df8f2a9',1,'TrackPath::comparePoints()'],['../df/d7a/avoidanceObstacle_8cpp.html#aa8a547a327f959d317332e8077dc13ac',1,'comparePoints():&#160;avoidanceObstacle.cpp']]],
   ['composedshape',['ComposedShape',['../d3/d97/classoccupancy__grid__utils_1_1ComposedShape.html#a3b2778f1561621aa22bde3326f596f22',1,'occupancy_grid_utils::ComposedShape']]],
+  ['controlcallback',['controlCallback',['../d6/d70/classFinalApproaching.html#a7408bce6fcb3984797939190d87f7530',1,'FinalApproaching']]],
   ['controller',['Controller',['../d6/de2/classcommon__utils_1_1Controller.html#a44df9ed12e7f9199dbf4758ef3fbbf8d',1,'common_utils::Controller']]],
   ['convert',['convert',['../d2/db7/conversion__functions_8h.html#a3e8e34c66e017ed1328787802ef88352',1,'convert(std::vector&lt; Machine &gt; mps):&#160;conversion_functions.cpp'],['../de/d73/conversion__functions_8cpp.html#a3e8e34c66e017ed1328787802ef88352',1,'convert(std::vector&lt; Machine &gt; mps):&#160;conversion_functions.cpp']]],
   ['correctangle',['correctAngle',['../df/de6/odometry__correction__node_8cpp.html#a9df5f4200f74539003d6b262841eedf2',1,'odometry_correction_node.cpp']]],
