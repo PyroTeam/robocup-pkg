@@ -84,7 +84,8 @@ enum mpsARTags_e
 enum markerId_e
 {
 	SEGMENT_MARKER_ID,
-	ARTAG_MARKER_ID
+	ARTAG_MARKER_ID,
+	MID_POINT_ID
 };
 
 /**
@@ -124,18 +125,21 @@ class FinalApproaching
 	Parameter m_laserXPidKi;
 	Parameter m_laserXPidKd;
 	Parameter m_laserXPidThreshold;
+	Parameter m_laserXPidNbSuccessNeeded;
 
 	// Laser Y Asserv PID Parameters
 	Parameter m_laserYPidKp;
 	Parameter m_laserYPidKi;
 	Parameter m_laserYPidKd;
 	Parameter m_laserYPidThreshold;
+	Parameter m_laserYPidNbSuccessNeeded;
 
 	// Laser Yaw Asserv PID Parameters
 	Parameter m_laserYawPidKp;
 	Parameter m_laserYawPidKi;
 	Parameter m_laserYawPidKd;
 	Parameter m_laserYawPidThreshold;
+	Parameter m_laserYawPidNbSuccessNeeded;
 
 	// PID
 	common_utils::Pid m_laserXPid;
@@ -145,6 +149,21 @@ class FinalApproaching
 	// Some useful infos
 	Parameter m_mpsWidth;
 
+	// Les positions sur l'axe y sont renseignée côté INPUT de la machine
+	Parameter m_yPoseS1;
+	Parameter m_yPoseS2;
+	Parameter m_yPoseS3;
+	Parameter m_yPoseLANE_RS;
+	Parameter m_yPoseLIGHT;
+	Parameter m_yPoseLIGHT_OLD;
+	Parameter m_yPoseCONVEYOR;
+
+	Parameter m_xPoseLIGHT_OLD;
+	Parameter m_xPoseCONVEYOR;
+
+	Parameter m_skipAsservCamera;
+	Parameter m_skipAsservLaser;
+
   public:
 	FinalApproaching(std::string name)
 		: m_as(m_nh, name, boost::bind(&FinalApproaching::executeCB, this, _1), false), m_actionName(name)
@@ -152,22 +171,39 @@ class FinalApproaching
 		, m_laserXPidKi(m_nh, "navigation/FinalApproach/laserAsserv/xPid/Ki", 0)
 		, m_laserXPidKd(m_nh, "navigation/FinalApproach/laserAsserv/xPid/Kd", 0)
 		, m_laserXPidThreshold(m_nh, "navigation/FinalApproach/laserAsserv/xPid/threshold", 0.01)
+		, m_laserXPidNbSuccessNeeded(m_nh, "navigation/finalApproach/laserAsserv/xPid/nbSuccessNeeded", 3.0)
 
 		, m_laserYPidKp(m_nh, "navigation/FinalApproach/laserAsserv/yPid/Kp", 0.075)
 		, m_laserYPidKi(m_nh, "navigation/FinalApproach/laserAsserv/yPid/Ki", 0)
 		, m_laserYPidKd(m_nh, "navigation/FinalApproach/laserAsserv/yPid/Kd", 0)
 		, m_laserYPidThreshold(m_nh, "navigation/FinalApproach/laserAsserv/yPid/threshold", 0.003)
+		, m_laserYPidNbSuccessNeeded(m_nh, "navigation/finalApproach/laserAsserv/yPid/nbSuccessNeeded", 3.0)
 
 		, m_laserYawPidKp(m_nh, "navigation/FinalApproach/laserAsserv/yawPid/Kp", 0.4)
 		, m_laserYawPidKi(m_nh, "navigation/FinalApproach/laserAsserv/yawPid/Ki", 0)
 		, m_laserYawPidKd(m_nh, "navigation/FinalApproach/laserAsserv/yawPid/Kd", 0)
 		, m_laserYawPidThreshold(m_nh, "navigation/FinalApproach/laserAsserv/yawPid/threshold", 0.003)
+		, m_laserYawPidNbSuccessNeeded(m_nh, "navigation/finalApproach/laserAsserv/yawPid/nbSuccessNeeded", 3.0)
 
 		, m_laserXPid(m_laserXPidKp(), m_laserXPidKi(), m_laserXPidKd(), 1.0/g_loopFreq)
 		, m_laserYPid(m_laserYPidKp(), m_laserYPidKi(), m_laserYPidKd(), 1.0/g_loopFreq)
 		, m_laserYawPid(m_laserYawPidKp(), m_laserYawPidKi(), m_laserYawPidKd(), 1.0/g_loopFreq)
 
 		, m_mpsWidth(m_nh, "navigation/FinalApproach/mps/width", 0.700)
+
+		, m_yPoseS1(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/S1", -0.07)
+		, m_yPoseS2(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/S2", -0.175)
+		, m_yPoseS3(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/S3", -0.27)
+		, m_yPoseLANE_RS(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/LANE_RS", -0.26)
+		, m_yPoseLIGHT(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/LIGHT", 0.0)
+		, m_yPoseLIGHT_OLD(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/LIGHT_OLD", 0.0)
+		, m_yPoseCONVEYOR(m_nh, "navigation/finalApproach/mps/targetPoses/yAxis/CONVEYOR", 0.0225)
+
+		, m_xPoseLIGHT_OLD(m_nh, "navigation/finalApproach/mps/targetPoses/xAxis/LIGHT_OLD", -0.36)
+		, m_xPoseCONVEYOR(m_nh, "navigation/finalApproach/mps/targetPoses/xAxis/CONVEYOR", -0.16)
+
+		, m_skipAsservCamera(m_nh, "navigation/finalApproach/skipAsservCamera", 0.0)
+		, m_skipAsservLaser(m_nh, "navigation/finalApproach/skipAsservLaser", 0.0)
 	{
 		refreshParams();
 
@@ -348,13 +384,24 @@ class FinalApproaching
 	 * \brief      vérifie si l'artag vu est l'un des artags recherchés
 	 *
 	 * \param[in]  allPossibleId  The all possible identifier
-	 * \param[in]  arTagId        The archive tag identifier
-	 * \param[in]  arTagDistance  The archive tag distance
+	 * \param[in]  arTagId        The artag identifier
+	 * \param[in]  arTagDistance  The artag distance
 	 *
 	 * \return     l'indice du tableau des ids si cela correspond à un id
 	 *             recherché, -1 sinon
 	 */
 	int correspondingId(std::vector<int> allPossibleId, std::vector<int> arTagId, std::vector<float> arTagDistance);
+
+	/**
+	 * \brief      récupère l'index du vecteur d'arTags correspondant à l'arTag souhaité le plus
+	 *             proche
+	 *
+	 * \param[in]  allPossibleId  The all possible identifier
+	 * \param[in]  arTags         The artags vector
+	 *
+	 * \return     l'indice du tableau des ids si cela correspond à un id recherché, -1 sinon
+	 */
+	int correspondingId(std::vector<int> allPossibleId, std::vector<arTag_t> arTags);
 
 	/**
 	 * \brief      place le robot à 50cm (par rapport à la caméra) en face

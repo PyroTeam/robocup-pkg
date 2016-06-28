@@ -1,16 +1,34 @@
+<!-- env_finalApproach.launch
+
+	 Ce fichier est utilisé pour tester l'Approche Finale. Merci de ne pas le modifier à la légère.
+	 Si des éléments doivent être modifiés pour des besoins ponctuels, merci de rendre le comportement
+	 paramétrables grâce aux arguments configurables en haut du fichier.
+	 Sinon, merci de ne pas commiter vos modifications ...
+ -->
 <launch>
-	<!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
-	<include file="$(find gazebo_ros)/launch/empty_world.launch">
-		<arg name="world_name" value="$(find gazebo_sim_launch)/worlds/field2015_oneRobot_oneMps.world"/>
-		<arg name="paused" value="false"/>
-		<arg name="use_sim_time" value="true"/>
-		<arg name="extra_gazebo_args" default=""/>
-		<arg name="gui" value="false"/>
-		<arg name="headless" value="false"/>
-		<arg name="debug" value="false"/>
-		<arg name="physics" default="ode"/>
-		<arg name="verbose" default="false"/>
-	</include>
+	<!-- Configurable args -->
+	<!-- TODO: Definitively replace robotino_laserrangefinder_node by hokuyo_node -->
+	<arg name="use_hokuyo_node" default="true" />
+	<!-- TODO: Definitively use udev symlink -->
+	<arg name="use_udev_symlinks" default="true" />
+	<!-- TODO: Definitively connect the platform camera -->
+	<arg name="tower_cam_connected" default="true" />
+	<!-- TODO: Definitively connect the platform camera -->
+	<arg name="platform_cam_connected" default="true" />
+
+
+	<!-- Sensors real positions (constant args) -->
+	<arg name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
+	<arg name="tf_laser_y" value="0.0" />
+	<arg name="tf_laser_z" value="0.255" />
+
+	<arg name="tf_towercam_x" value="0.1125" /><!-- 0.46.5/2 - 0.12 -->
+	<arg name="tf_towercam_y" value="-0.015" />
+	<arg name="tf_towercam_z" value="0.55" />
+
+	<arg name="tf_platformcam_x" value="0.0" />
+	<arg name="tf_platformcam_y" value="0.00" />
+	<arg name="tf_platformcam_z" value="0.90" />
 
 
 	<!-- Pyro TEAM -->
@@ -21,47 +39,158 @@
 		<param name="machineLocation/robot3" value="" />
 		<param name="machineLocation/centralizedManager" value="" />
 	</group>
+
+
 	<!-- Robotino Pyro 1 -->
 	<group ns="robotino1">
-		<arg name="tf_prefix" value="robotino1"/>
+		<arg name="use_tf_prefix" value="false"/>
+		<arg name="robotNamespace" value="robotino1"/>
+															<!-- Added slash is MANDATORY -->
+		<arg if="$(arg use_tf_prefix)"     name="tf_prefix" value="$(arg robotNamespace)/"/>
+		<arg unless="$(arg use_tf_prefix)" name="tf_prefix" value=""/>
+
 
 		<!-- Params -->
 		<param name="teamName" value="PYRO" />
 		<param name="teamColor" value="cyan" />
 		<param name="robotNumber" value="1" />
 		<param name="robotName" value="R1" />
-		<param name="simuRobotNamespace" value="$(arg tf_prefix)" />
+		<param if="$(arg use_tf_prefix)"     name="simuRobotNamespace" value="$(arg robotNamespace)" />
+		<param unless="$(arg use_tf_prefix)" name="simuRobotNamespace" value="" />
 
+		<!-- Paramètres de l'approche finale -->
 		<rosparam file="$(find gazebo_sim_launch)/param/robotino1_navigation.yaml" />
 
-		<!-- Robot description -->
-		<param name="robot_description" textfile="$(find robotino_description)/urdf/robotino3_pyro.urdf" />
-		<node if="0" pkg="tf2_ros" type="static_transform_publisher" name="tf_laser_link_broadcaster" args="0.12 0 0.025 0 0 0 base_link laser_link 50" />
+		<!-- Paramètres ddu traitement d'image -->
+		<rosparam file="$(find feu_tricolore)/param/roi.yaml" />
 
-		<!-- Load the gazebo_to_ros node -->
-		<arg name="debug_gazebo_to_tos" value="false" />
-		<param name="objectDetection/useSimLandmarks" value="true" />
-		<node if="$(arg debug_gazebo_to_tos)"
-			pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node" launch-prefix="xterm -e"/>
-		<node unless="$(arg debug_gazebo_to_tos)"
-			pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
+		<!-- Static transforms -->
+		<node pkg="tf" type="static_transform_publisher" name="map_to_odom"
+			  respawn="true" output="screen"
+			args="0 0 0
+			0 0 0
+			map $(arg tf_prefix)odom   100" />
 
-		<!-- Load the tf_broadcaster node -->
-		<node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node"/>
+		<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser_link"
+			  respawn="true" output="screen"
+			args="$(arg tf_laser_x) $(arg tf_laser_y) $(arg tf_laser_z)
+			0 0 0
+			$(arg tf_prefix)base_link $(arg tf_prefix)laser_link   100" />
 
-		<!-- Load the fakeSimLightDetection node -->
-		<node pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>
 
-		<!-- Load ArTag -->
-		<include file="$(find ar_tag)/launch/alvar_simu.launch">
-			<arg name="output_frame" value="$(arg tf_prefix)/tower_camera_link"/>
-			<arg name="respawn" value="true"/>
-			<arg name="output" value="log"/>
-		</include>
+		<!-- Robotino node -->
+		<arg name="hostname" default="127.0.0.1" />
 
-		<include file="$(find ar_tag)/launch/ar_tag.launch"/>
+		<node name="robotino_node" pkg="robotino_node" type="robotino_node"
+			  respawn="true" output="screen">
+			<param name="hostname" value="$(arg hostname)" />
+			<!-- TODO: Vérifier l'utilité de ces valeurs et les augmenter si possible -->
+			<param name="max_linear_vel" value="0.5" />
+			<param name="min_linear_vel" value="0.001" />
+			<param name="max_angular_vel" value="3.0" />
+			<param name="min_angular_vel" value="0.001" />
+			<!-- TODO: Vérifier l'utilité de ces paramètres et les retirer si possible -->
+			<param name="downsample_kinect" value="true" />
+			<param name="leaf_size_kinect" value="0.04" />
+			<remap from="robotino_joint_states" to="joint_states" />
+			<!-- Remap topics -->
+			<remap from="cmd_vel" to="hardware/cmd_vel" />
+			<remap from="bumper" to="hardware/bumper" />
+		</node>
+
+
+		<!-- Odometry -->
+		<node name="robotino_odometry_node" pkg="robotino_node" type="robotino_odometry_node"
+			  respawn="true" output="screen">
+			<param name="hostname" value="$(arg hostname)" />
+			<!-- Remap topics -->
+			<remap from="odom" to="hardware/odom" />
+		</node>
+
+
+		<!-- LaserScan -->
+		<node unless="$(arg use_hokuyo_node)" name="robotino_laser_node"
+			  pkg="robotino_node" type="robotino_laserrangefinder_node"
+			  respawn="true" output="screen">
+			<param name="hostname" value="$(arg hostname)" />
+			<param name="laserRangeFinderNumber" value="0" />
+			<!-- Remap topics -->
+			<remap from="scan" to="hardware/scan" />
+		</node>
+		<node if="$(arg use_hokuyo_node)" name="hokuyo_laser_node" pkg="hokuyo_node" type="hokuyo_node"
+			  respawn="true" output="screen">
+
+			<!-- Starts up slower when true, but timestamps will be accurate. -->
+			<param name="calibrate_time" type="bool" value="true"/>
+
+			<!-- Set the port to connect to -->
+			<param unless="$(arg use_udev_symlinks)" name="port" type="string" value="/dev/ttyACM0"/>
+			<param if="$(arg use_udev_symlinks)" name="port" type="string" value="/dev/laserscan"/>
+
+			<!-- Remplit le champ intensity du sensor_msgs/LaserScan. Pas utile pour nous -->
+			<param name="intensity" type="bool" value="false"/>
+
+   			<param name="frame_id" type="string" value="$(arg tf_prefix)laser_link" />
+			<!-- Remap topics -->
+			<remap from="scan" to="hardware/scan" />
+		</node>
+
+
+		<!-- Platform Camera -->
+		<group if="$(arg platform_cam_connected)">
+			<node pkg="tf" type="static_transform_publisher" name="base_link_to_platform_camera_link"
+				  respawn="true" output="screen"
+				args="$(arg tf_platformcam_x) $(arg tf_platformcam_y) $(arg tf_platformcam_z)
+				-1.57 0 -1.57
+				$(arg tf_prefix)base_link $(arg tf_prefix)platform_camera_link   100" />
+
+			<!-- Light Signal Detection (Cam) -->
+			<node name="platform_cam_node" pkg="usb_cam" type="usb_cam_node" respawn="true" output="screen">
+				<param unless="$(arg use_udev_symlinks)" name="video_device" value="/dev/video1" />
+				<param if="$(arg use_udev_symlinks)" name="video_device" value="/dev/cam_platform" />
+				<param name="camera_frame_id" value="$(arg tf_prefix)platform_camera_link" />
+				<param name="camera_info_url" value="package://ar_tag/cfg/C920_calibration.yaml" />
+				<!-- The camera name. This must match the name in the camera calibration -->
+				<param name="camera_name" value="C920" />
+			</node>
+
+
+			<!-- Light Signal Detection (ComputerVision) -->
+			<node pkg="feu_tricolore" name="lightSignalDetection" type="light_signal_detection_node"
+				  respawn="true" output="screen">
+				<remap from="hardware/camera/platform_camera/image_raw" to="platform_cam_node/image_raw" />
+			</node>
+		</group>
+
+
+		<!-- Tower Camera -->
+		<group if="$(arg tower_cam_connected)">
+			<node pkg="tf" type="static_transform_publisher" name="base_link_to_tower_camera_link"
+				  respawn="true" output="screen"
+				args="$(arg tf_towercam_x) $(arg tf_towercam_y) $(arg tf_towercam_z)
+				-1.57 0 -1.57
+				$(arg tf_prefix)base_link $(arg tf_prefix)tower_camera_link   100" />
+
+			<!-- ArTag (Cam) -->
+			<node name="tower_cam_node" pkg="usb_cam" type="usb_cam_node" respawn="true" output="screen">
+				<param unless="$(arg use_udev_symlinks)" name="video_device" value="/dev/video0" />
+				<param if="$(arg use_udev_symlinks)" name="video_device" value="/dev/cam_tower" />
+				<param name="camera_frame_id" value="$(arg tf_prefix)tower_camera_link" />
+				<param name="camera_info_url" value="package://ar_tag/cfg/C270_calibration.yaml" />
+				<!-- The camera name. This must match the name in the camera calibration -->
+				<param name="camera_name" value="C270" />
+			</node>
+
+
+			<!-- ArTag (ComputerVision) -->
+			<include file="$(find ar_tag)/launch/alvar_simu.launch">
+				<arg name="cam_image_topic" value="tower_cam_node/image_raw" />
+				<arg name="cam_info_topic" value="tower_cam_node/camera_info" />
+				<arg name="marker_size" value="13.0" />
+				<arg name="output_frame" value="$(arg tf_prefix)tower_camera_link"/>
+				<arg name="respawn" value="true"/>
+				<arg name="output" value="log"/>
+			</include>
+		</group>
 	</group>
-
-	<!-- Load rviz -->
-	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find final_approach)/cfg/finalApproach.rviz"/>
 </launch>
