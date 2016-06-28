@@ -23,6 +23,7 @@
 #include <ar_track_alvar_msgs/AlvarMarkers.h>
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/Twist.h>
+#include <std_msgs/Float32.h>
 
 #include <final_approach_msg/FinalApproachingAction.h>
 #include <final_approach_msg/plotDataFA.h>
@@ -115,10 +116,15 @@ class FinalApproaching
 	ros::Publisher m_markerPub;
 	ros::Publisher m_plot;
 
+	// Subscriber
+	ros::Subscriber m_control;
+
 	int m_type;
 	int m_side;
 	int m_parameter;
 	enum team_e m_teamColor;
+	float m_controlDist;
+	bool m_remotelyControlled;
 
 	// Laser X Asserv PID Parameters
 	Parameter m_laserXPidKp;
@@ -204,6 +210,9 @@ class FinalApproaching
 
 		, m_skipAsservCamera(m_nh, "navigation/finalApproach/skipAsservCamera", 0.0)
 		, m_skipAsservLaser(m_nh, "navigation/finalApproach/skipAsservLaser", 0.0)
+
+		, m_controlDist(std::nanf(""))
+		, m_remotelyControlled(false)
 	{
 		refreshParams();
 
@@ -211,6 +220,9 @@ class FinalApproaching
 		m_pubMvt = m_nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1);
 		m_plot = m_nh.advertise<final_approach_msg::plotDataFA>("rosplot/plotDataFA", 1000);
 		m_markerPub = m_nh.advertise<visualization_msgs::Marker>("visualization_marker", 100);
+
+		// Subscribe
+		m_control = m_nh.subscribe("navigation/finalApproachControl", 1, &FinalApproaching::controlCallback, this);
 
 		// Start ActionServer
 		m_as.registerPreemptCallback(boost::bind(&FinalApproaching::preemptCB, this));
@@ -503,6 +515,13 @@ class FinalApproaching
 	 * \param[in]  mpsTheta  The mps theta
 	 */
 	void debugFinalApproachResult(OdomFA &odom, float mpsX = 0, float mpsY = 2.5, float mpsTheta = 0.0);
+
+	/**
+	 * \brief      Controlled Final Approach callback
+	 *
+	 * \param[in]  msg   The message
+	 */
+	void controlCallback(const std_msgs::Float32::ConstPtr& msg) { m_controlDist = msg->data; }
 };
 
 
