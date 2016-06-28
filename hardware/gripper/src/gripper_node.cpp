@@ -8,87 +8,87 @@ bool g_pushed;
 
 enum TakingProcess
 {
-	TURN,
-	PUSH,
-	GO_BACK,
-	UNKOWN
+  TURN,
+  PUSH,
+  GO_BACK,
+  UNKOWN
 };
 
 TakingProcess tp;
 
 void gripperCallback(const gripper_msg::GripperStatus &status)
 {
-	g_turned = status.turn;
-	g_pushed = status.push;
+  g_turned = status.turn;
+  g_pushed = status.push;
 }
 
 bool take(gripper_msg::Take::Request &req)
 {
-	if (req.take)
-	{
-		gripper_msg::SetGripper srv;
-		// msg to be defined
-		approche_finale_msg::Move mv;
+  if (req.take)
+  {
+    gripper_msg::SetGripper srv;
+    // msg to be defined
+    approche_finale_msg::Move mv;
 
-		switch (tp)
-		{
-			case TURN:
-				srv.stateTurn = true;
-				srv.statePush = false;
-				break;
-			case PUSH:
-				srv.stateTurn = true;
-				srv.statePush = true;
-				break;
-			case GO_BACK:
-				mv.distance = -3.0;
-			case UNKOWN:
-				gripperStatus_msg.turn = false;
-				break;
-		}
+    switch (tp)
+    {
+      case TURN:
+        srv.stateTurn = true;
+        srv.statePush = false;
+      break;
+      case PUSH:
+        srv.stateTurn = true;
+        srv.statePush = true;
+      break;
+      case GO_BACK:
+        mv.distance = -1.0;
+      case UNKNOWN:
+        gripperStatus_msg.turn = false;
+      break;
+    }
 
-		if (client.call(srv))
-		{
-			ROS_INFO("State: No problem");
-		}
-		else
-		{
-			ROS_ERROR("Failed to call service gripper turn");
-			return true;
-		}
+    if (client.call(srv))
+    {
+      ROS_INFO("State: No problem");
+    }
+    else
+    {
+      ROS_ERROR("Failed to call service gripper turn");
+      return true;
+    }
 
 
-		// send message to final approach to
-	}
+    // send message to final approach to
+  }
 
-	return true;
+  return true;
 }
 
 int main(int argc, char** argv)
 {
-    ROS_INFO("Starting node gripper_node");
+  ROS_INFO("Starting node gripper_node");
 
-    // Initialisation du noeud ROS
-    ros::init(argc, argv, "gripper_node");
+  // Initialisation du noeud ROS
+  ros::init(argc, argv, "gripper_node");
 
-    ros::NodeHandle n;
-    
-    // Souscription au topic /gripper_status
-    ros::Subscriber sub_gripper  = n.subscribe("hardware/gripper_status", 1000, gripperCallback);
+  ros::NodeHandle n;
 
-    // Connection en tant que client au noeud gripper
-	ros::ServiceClient grip_client = n.serviceClient<gripper_msg::SetGripper>("hardware/gripper_srv");
-	ros::ServiceClient FA_client = n.serviceClient<approche_finale_msg::Move>("hardware/gripper_srv");
+  // Souscription au topic /gripper_status
+  ros::Subscriber sub_gripper  = n.subscribe("hardware/gripper_status", 1000, gripperCallback);
 
-	ros::ServiceServer take 	= n.advertiseService("take", take);
-	ros::ServiceServer release 	= n.advertiseService("release", release);
+  // Connection en tant que client au noeud gripper
+  ros::ServiceClient grip_client = n.serviceClient<gripper_msg::SetGripper>("hardware/gripper_srv");
+  ros::ServiceClient FA_client = n.serviceClient<approche_finale_msg::Move>("hardware/gripper_srv");
 
-	
-    ros::Rate loop_rate(100);
+  ros::ServiceServer take 	= n.advertiseService("take", take);
+  ros::ServiceServer release 	= n.advertiseService("release", release);
 
-    // Spin
-    ros::spin();
-    loop_rate.sleep();
 
-    return 0;
+  ros::Rate loop_rate(100);
+
+  // Spin
+  ros::spin();
+  loop_rate.sleep();
+
+  return 0;
 }
