@@ -200,7 +200,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	{
 		ROS_INFO_COND(firstTimeInLoop, "ArTag Asservissement - process");
 		firstTimeInLoop = false;
-		std::vector<arTags_t> arTags_tmp = at.getArTags();
+		std::vector<arTag_t> arTags_tmp = at.getArTags();
 
 		// Make sure that the action hasn't been canceled
 		if (!m_as.isActive())
