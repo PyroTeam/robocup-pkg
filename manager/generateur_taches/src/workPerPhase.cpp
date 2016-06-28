@@ -50,60 +50,63 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
     ROS_WARN("I've done my job in the exploration phase :D ");
   }
 	else{
-		int cptMachine=0;
-		int zone = correspondanceZE.getBestZone(poseSub);
-    bool foundInExplored = correspondanceZE.m_locaSub.foundInExplored(zone);
+			int cptMachine=0;
+			int zone = correspondanceZE.getBestZone(poseSub);
+	    bool foundInExplored = correspondanceZE.m_locaSub.foundInExplored(zone);
 
-		if(zone == -1 )
-		{
-			ROS_ERROR("HELP ME! getBestZone() has returned -1, what's wrong?");
-      return;
+			if(zone == -1 )
+			{
+				ROS_ERROR("HELP ME! getBestZone() has returned -1, what's wrong?");
+	      return;
+			}
+	    else if(foundInExplored)
+	    {
+	      ROS_ERROR("HELP ME! zone %d is already explored",zone);
+	      return;
+	    }
+
+	    ROS_INFO("----> In workInExplorationPhase <----");
+
+	    ROS_INFO("getBestZone() returned %d", zone);
+
+
+			Srvorder srvexplo(ros::Time::now(),cptOrder,robot,orderRequest::DISCOVER,orderRequest::NONE,zone);
+			ROS_INFO("Robot %d execute la tache DISCOVER sur la zone %d",robot,zone);
+			cptZone++;
+			cptOrder++;
+			if(srvexplo.getAccepted())
+			{
+				cptMachine++;
+				tabRobot[robot].setBusy(true);
+			}
+
+
+			bool foundInUnkown = correspondanceZE.m_locaSub.foundInUnkown(zone);
+			bool foundInNotExplored =  correspondanceZE.m_locaSub.foundInNotExplored(zone);
+
+			if(foundInUnkown/*&& !foundInNotExplored*/)
+			{
+				correspondanceZE.m_locaSub.removeFromUnkown(zone);
+			}
+		/*else*/ if(foundInNotExplored/* && !foundInUnkown*/)
+			{
+				correspondanceZE.m_locaSub.removeFromNotExplored(zone);
+			}
+			/*else*/ if(foundInUnkown && foundInNotExplored)
+			{
+				ROS_ERROR("/!\\ WARNING : zone %d was founded in m_unkownZones & m_notExploredZones ", zone);
+			}
+			else
+			{
+				ROS_ERROR("foundInUnkown = %d, foundInNotExplored = %d", foundInUnkown, foundInNotExplored);
+				ROS_ERROR("unkownSize = %d, notExploredSize = %d, exploredSize = %d ", correspondanceZE.m_locaSub.m_unkownZones.size(), correspondanceZE.m_locaSub.m_notExploredZones.size(), correspondanceZE.m_locaSub.m_exploredZones.size());
+			}
+
+			correspondanceZE.m_locaSub.pushToExploredList(zone);
+
+			ROS_INFO("----> Done exploring this zone <----");
+
 		}
-    else if(foundInExplored)
-    {
-      ROS_ERROR("HELP ME! zone %d is already explored",zone);
-      return;
-    }
-
-    ROS_INFO("----> In workInExplorationPhase <----");
-
-    ROS_INFO("getBestZone() returned %d", zone);
-
-
-		Srvorder srvexplo(ros::Time::now(),cptOrder,robot,orderRequest::DISCOVER,orderRequest::NONE,zone);
-		ROS_INFO("Robot %d execute la tache DISCOVER sur la zone %d",robot,zone);
-		cptZone++;
-		cptOrder++;
-		if(srvexplo.getAccepted())
-		{
-			cptMachine++;
-			tabRobot[robot].setBusy(true);
-		}
-
-		bool foundInUnkown = correspondanceZE.m_locaSub.foundInUnkown(zone);
-		bool foundInNotExplored =  correspondanceZE.m_locaSub.foundInNotExplored(zone);
-
-		if(foundInUnkown/*&& !foundInNotExplored*/)
-		{
-			correspondanceZE.m_locaSub.removeFromUnkown(zone);
-		}
-  /*else*/ if(foundInNotExplored/* && !foundInUnkown*/)
-		{
-			correspondanceZE.m_locaSub.removeFromNotExplored(zone);
-		}
-		/*else*/ if(foundInUnkown && foundInNotExplored)
-		{
-			ROS_ERROR("/!\\ WARNING : zone %d was founded in m_unkownZones & m_notExploredZones ", zone);
-		}
-    else
-    {
-      ROS_ERROR("foundInUnkown = %d, foundInNotExplored = %d", foundInUnkown, foundInNotExplored);
-      ROS_ERROR("unkownSize = %d, notExploredSize = %d, exploredSize = %d ", correspondanceZE.m_locaSub.m_unkownZones.size(), correspondanceZE.m_locaSub.m_notExploredZones.size(), correspondanceZE.m_locaSub.m_exploredZones.size());
-    }
-
-      correspondanceZE.m_locaSub.pushToExploredList(zone);
-	}
-	ROS_INFO("----> Done exploring this zone <----");
 }
 
 
