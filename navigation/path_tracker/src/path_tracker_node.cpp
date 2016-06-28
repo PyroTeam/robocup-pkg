@@ -16,16 +16,57 @@
 #include "path_tracker/SwitchModeBehavior.h"
 #include "path_tracker/BasicFollower.h"
 #include "common_utils/controller/PidWithAntiWindUp.h"
+#include "common_utils/Parameter.h"
 
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "path_tracker");
     ros::NodeHandle nh;
 
-    //TODO: mettre en paramêtres ROS les paramres des PID
-    std::shared_ptr<common_utils::PidWithAntiWindUp> pidVel(new common_utils::PidWithAntiWindUp(0.1, 0, 0, 1/10.0, -10, 10, .1));
-    std::shared_ptr<common_utils::PidWithAntiWindUp> pidOri(new common_utils::PidWithAntiWindUp(1.5, 0.01, 0, 1/10.0, -1, 1, .1));
+    double loopFreq = 10;
+    ros::Rate loopRate(loopFreq);//TODO parametrer
+
+
+    Parameter pidVelKp(nh, "navigation/PathTracker/Following/pidVel/Kp", 0.1);
+    Parameter pidVelKi(nh, "navigation/PathTracker/Following/pidVel/Ki", 0.0);
+    Parameter pidVelKd(nh, "navigation/PathTracker/Following/pidVel/Kd", 0.0);
+    Parameter pidVelLowLimit(nh, "navigation/PathTracker/Following/pidVel/lowLimit", -10.0);
+    Parameter pidVelUpLimit(nh, "navigation/PathTracker/Following/pidVel/upLimit", 10.0);
+    Parameter pidVelAntiWindUp(nh, "navigation/PathTracker/Following/pidVel/antiWindUp", 0.1);
+
+    std::shared_ptr<common_utils::PidWithAntiWindUp> pidVel(
+        new common_utils::PidWithAntiWindUp(
+            pidVelKp(),
+            pidVelKi(),
+            pidVelKd(),
+            1/loopFreq,
+            pidVelLowLimit(),
+            pidVelUpLimit(),
+            pidVelAntiWindUp()));
+
+    Parameter pidOriKp(nh, "navigation/PathTracker/Following/pidOri/Kp", 1.5);
+    Parameter pidOriKi(nh, "navigation/PathTracker/Following/pidOri/Ki", 0.01);
+    Parameter pidOriKd(nh, "navigation/PathTracker/Following/pidOri/Kd", 0.0);
+    Parameter pidOriLowLimit(nh, "navigation/PathTracker/Following/pidOri/lowLimit", -1.0);
+    Parameter pidOriUpLimit(nh, "navigation/PathTracker/Following/pidOri/upLimit", 1.0);
+    Parameter pidOriAntiWindUp(nh, "navigation/PathTracker/Following/pidOri/antiWindUp", 0.1);
+
+
+    std::shared_ptr<common_utils::PidWithAntiWindUp> pidOri(
+        new common_utils::PidWithAntiWindUp(
+            pidOriKp(),
+            pidOriKi(),
+            pidOriKd(),
+            1/loopFreq,
+            pidOriLowLimit(),
+            pidOriUpLimit(),
+            pidOriAntiWindUp()));
+
     std::shared_ptr<BasicFollower> pathFollower(new BasicFollower(pidVel, pidOri));
+    Parameter speedRateLowLimit(nh, "navigation/PathTracker/Following/SpeedRateLimit/lowLimit", -0.20);
+    Parameter speedRateUpLimit(nh, "navigation/PathTracker/Following/SpeedRateLimit/upLimit", 0.20);
+    pathFollower->setSpeedRateLimits(speedRateLowLimit(), speedRateUpLimit(), 1/loopFreq);
+
 
     std::shared_ptr<SwitchModeBehavior> behavior(new SwitchModeBehavior());
     behavior->setPathFollower(pathFollower);
@@ -33,11 +74,11 @@ int main(int argc, char** argv)
     PathTracking pathTracking("navigation/trackPath", behavior);
 
 
-    ros::Rate loop_rate(10);
+
     while(ros::ok())
     {
         ros::spinOnce();
-        loop_rate.sleep();
+        loopRate.sleep();
     }
     return 0;
 }

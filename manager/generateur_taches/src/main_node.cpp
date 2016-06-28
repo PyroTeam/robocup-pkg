@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 		for(int j = 1; j <= 3; j++)
 		{
 			time = ros::Time::now().toSec() - t0;
-			ROS_DEBUG("Time elasped = %d secs",(int)time);
+			ROS_DEBUG("Time elapsed = %d secs",(int)time);
 			action.updateRobot(tabRobot);
 			tabRobotInfo = robotInfo.getRobots();
 			noProblem = robotState(tabRobotInfo,teamColor,j-1,tabRobot);

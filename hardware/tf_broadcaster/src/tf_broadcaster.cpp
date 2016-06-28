@@ -2,7 +2,7 @@
 
 void poseCallback(const nav_msgs::Odometry &odom)
 {
-	static tf::TransformBroadcaster mapToOdom;
+	//static tf::TransformBroadcaster mapToOdom;
 	static tf::TransformBroadcaster odomToBaseLink;
 	static tf::TransformBroadcaster baseLinkToLaserLink;
 	static tf::TransformBroadcaster baseLinkToTowerCameraLink;
@@ -16,11 +16,11 @@ void poseCallback(const nav_msgs::Odometry &odom)
 
 	// Map to odom
 	tf::Transform transform;
-	transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
+	// transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
 	tf::Quaternion q;
-	q.setRPY(0.0, 0.0, 0.0);
-	transform.setRotation(q);
-	mapToOdom.sendTransform(tf::StampedTransform(transform, odom.header.stamp, "map", tf_prefix+"odom"));
+	// q.setRPY(0.0, 0.0, 0.0);
+	// transform.setRotation(q);
+	// mapToOdom.sendTransform(tf::StampedTransform(transform, odom.header.stamp, "map", tf_prefix+"odom"));
 
 	// Odom to Base Link
 	transform.setOrigin(tf::Vector3(odom.pose.pose.position.x, odom.pose.pose.position.y, 0.0));

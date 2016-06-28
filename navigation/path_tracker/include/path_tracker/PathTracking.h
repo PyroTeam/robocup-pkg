@@ -50,7 +50,6 @@ public:
     PTmachine():m_behavior(nullptr)
     {
         m_cmdVel_pub = m_nh.advertise<geometry_msgs::Twist>("hardware/cmd_vel", 1);
-        m_count=0;
     }
 
     void setBehavior(std::shared_ptr<MoveBehavior> &behavior)
@@ -69,8 +68,6 @@ public:
         return m_cmdVel_pub;
     }
 private:
-    int m_count;
-
     std::shared_ptr<MoveBehavior> m_behavior;
     ros::NodeHandle m_nh;
     ros::Publisher m_cmdVel_pub;
@@ -86,7 +83,7 @@ public:
         sc::state<StActive, PTmachine, StIdle>( ctx ),
         m_behavior(nullptr)
     {
-        ROS_INFO("PathTracking: Entering Active State");
+        ROS_DEBUG("PathTracking: Entering Active State");
 
         m_behavior = outermost_context().getBehavior();
 
@@ -100,7 +97,7 @@ public:
     void updateCommand(const EvTimer &evTimer)
     {
         //générer la nouvelle commande
-        geometry_msgs::Twist twist = m_behavior->generateNewSetPoint();
+        geometry_msgs::Twist twist = m_behavior->generateNewSetpoint();
 
         //appliquer la commande
         outermost_context().getCmdVelPub().publish(twist);
@@ -129,11 +126,11 @@ struct StIdle : sc::simple_state<StIdle, StActive>
 
     StIdle()
     {
-        ROS_INFO("PathTracking: Entering Idle State");
+        ROS_DEBUG("PathTracking: Entering Idle State");
     }
     ~StIdle()
     {
-        ROS_INFO("PathTracking: Leaving Idle State");
+        ROS_DEBUG("PathTracking: Leaving Idle State");
     }
 
 };
@@ -150,12 +147,12 @@ struct StRun : sc::simple_state<StRun, StActive>
 
     StRun()
     {
-        ROS_INFO("PathTracking: Entering Run State");
+        ROS_DEBUG("PathTracking: Entering Run State");
     }
 
     ~StRun()
     {
-        ROS_INFO("PathTracking: Leaving Run State");
+        ROS_DEBUG("PathTracking: Leaving Run State");
     }
 
 };
@@ -170,11 +167,11 @@ struct StPause : sc::simple_state<StPause, StActive>
 
     StPause()
     {
-        ROS_INFO("PathTracking: Entering Pause State");
+        ROS_DEBUG("PathTracking: Entering Pause State");
     }
     ~StPause()
     {
-        ROS_INFO("PathTracking: Leaving Pause State");
+        ROS_DEBUG("PathTracking: Leaving Pause State");
     }
 
 };

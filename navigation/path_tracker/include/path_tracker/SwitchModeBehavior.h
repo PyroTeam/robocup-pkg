@@ -35,8 +35,16 @@ public:
     SwitchModeBehavior();
     virtual ~SwitchModeBehavior();
 
-    geometry_msgs::Twist generateNewSetPoint() override;
+    virtual geometry_msgs::Twist generateNewSetpoint() override;
 
+    BehaviorMode_t getMode()
+    {
+        return m_mode;
+    }
+
+    virtual float getPathError() override;
+    virtual float getPercentComplete() override;
+    
 protected:
     BehaviorMode_t m_mode;
 };
