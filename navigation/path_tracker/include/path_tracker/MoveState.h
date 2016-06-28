@@ -25,15 +25,15 @@ public:
     MoveState();
     virtual ~MoveState();
 
-    void setCurrentSetPoint(geometry_msgs::Twist &t);
-    const geometry_msgs::Twist &getPreviousSetPoint();
+    void setCurrentSetpoint(geometry_msgs::Twist &t);
+    const geometry_msgs::Twist &getPreviousSetpoint();
 
     const geometry_msgs::Pose &getPose();
     const geometry_msgs::Pose2D &getPose2D();
 protected:
 
-    geometry_msgs::Twist m_currentSetPoint;
-    geometry_msgs::Twist m_previousSetPoint;
+    geometry_msgs::Twist m_currentSetpoint;
+    geometry_msgs::Twist m_previousSetpoint;
 
     nav_msgs::Odometry m_currentPose;
 };
