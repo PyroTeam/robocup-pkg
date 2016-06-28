@@ -39,6 +39,8 @@ class MoveToPose
         common_utils::RobotPoseSubscriber m_robotPose;
 
 	    int m_pathTrackPercentComplete;
+        deplacement_msg::TrackPathResult m_pathTrackResult;
+        bool m_isPathTrackEnded;
 
 	    enum PathTrackStatus
 	    {
@@ -65,9 +67,9 @@ class MoveToPose
 	public:
 	    MoveToPose(std::string name) : m_as(m_nh, name, boost::bind(&MoveToPose::executeCB, this, _1), false),
 	                                   m_actionName(name), m_trackPathAction("navigation/trackPath", true),
-									   m_robotPose("map")
+									   m_robotPose("map"), m_pathTrackPercentComplete(0), m_isPathTrackEnded(false)
 	    {
-			m_sharpSensorSub = m_nh.subscribe("hardware/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
+			m_sharpSensorSub = m_nh.subscribe("hardware/distance_sensors", 1, &MoveToPose::DistSensorCallback, this);
 			m_as.start();
 	    }
 

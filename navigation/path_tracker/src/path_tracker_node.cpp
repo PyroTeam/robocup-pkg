@@ -15,6 +15,7 @@
 #include "path_tracker/PathTracking.h"
 #include "path_tracker/SwitchModeBehavior.h"
 #include "path_tracker/BasicFollower.h"
+#include "path_tracker/BasicAvoidance.h"
 #include "common_utils/controller/PidWithAntiWindUp.h"
 #include "common_utils/Parameter.h"
 
@@ -67,9 +68,12 @@ int main(int argc, char** argv)
     Parameter speedRateUpLimit(nh, "navigation/PathTracker/Following/SpeedRateLimit/upLimit", 0.20);
     pathFollower->setSpeedRateLimits(speedRateLowLimit(), speedRateUpLimit(), 1/loopFreq);
 
+    std::shared_ptr<BasicAvoidance> avoidObstacle(new BasicAvoidance());
+    avoidObstacle->setThreshObstacle(99);
 
     std::shared_ptr<SwitchModeBehavior> behavior(new SwitchModeBehavior());
     behavior->setPathFollower(pathFollower);
+    behavior->setAvoidObstacle(avoidObstacle);
 
     PathTracking pathTracking("navigation/trackPath", behavior);
 

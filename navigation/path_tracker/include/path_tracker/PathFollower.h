@@ -64,6 +64,11 @@ public:
         }
     }
 
+    int getCurrentSegment()
+    {
+        return m_currentSegment;
+    }
+
     void setControllerVel(std::shared_ptr<common_utils::Controller> controller)
     {
         m_controllerVel = controller;
@@ -81,6 +86,11 @@ public:
     float getPathError()
     {
         m_pathError;
+    }
+
+    nav_msgs::Path *getPath()
+    {
+        return &m_path;
     }
 
     virtual geometry_msgs::Twist generateNewSetpoint() = 0;

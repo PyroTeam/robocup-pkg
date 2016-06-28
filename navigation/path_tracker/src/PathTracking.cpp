@@ -64,7 +64,8 @@ void PathTracking::executeCB(const deplacement_msg::TrackPathGoalConstPtr &goal)
         while(ros::ok()
             && m_ptMachine.state_downcast<const StRun *>() != 0
             && !m_trackPath_action.isPreemptRequested()
-            && !m_behavior->isTrajectoryEnd())
+            && !m_behavior->isTrajectoryEnd()
+            && !m_behavior->isObstacleUnAvoidable())
         {
 
             m_ptMachine.process_event(EvTimer());
@@ -104,6 +105,13 @@ void PathTracking::executeCB(const deplacement_msg::TrackPathGoalConstPtr &goal)
             result.status = deplacement_msg::TrackPathResult::STATUS_FINISHED;
             result.error = deplacement_msg::TrackPathResult::ERR_NONE;
             m_trackPath_action.setSucceeded(result);
+        }
+        else if (m_behavior->isObstacleUnAvoidable())
+        {
+            m_ptMachine.process_event(EvEndPath());
+            result.status = deplacement_msg::TrackPathResult::STATUS_INTERRUPTED;
+            result.error = deplacement_msg::TrackPathResult::ERR_AVOIDANCE_UNAVOIDABLE;
+            m_trackPath_action.setAborted(result);
         }
         else
         {

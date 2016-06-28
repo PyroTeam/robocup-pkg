@@ -99,8 +99,20 @@ public:
         //générer la nouvelle commande
         geometry_msgs::Twist twist = m_behavior->generateNewSetpoint();
 
-        //appliquer la commande
-        outermost_context().getCmdVelPub().publish(twist);
+        //verifier si on a pas un obstacle infranchissable
+        bool obstacleUnAvoidable = m_behavior->isObstacleUnAvoidable();
+        if (obstacleUnAvoidable)
+        {
+            ROS_INFO("Obstacle non evitable detecté");
+            //on stop le robot
+            geometry_msgs::Twist nulltwist;
+            outermost_context().getCmdVelPub().publish(nulltwist);
+        }
+        else
+        {
+            //appliquer la commande
+            outermost_context().getCmdVelPub().publish(twist);
+        }
     }
 
     void startNewPath(const EvStart &evStart)

@@ -32,6 +32,7 @@ void DataLaser::recoverDataLaser()
 {
     if (!m_receiveScan)
     {
+        ROS_DEBUG("Pas de scan laser");
         return;
     }
 
@@ -49,11 +50,12 @@ void DataLaser::recoverDataLaser()
         m_dataLaser.clear();
 	    // m_listener.waitForTransform(tf_prefix+"odom", m_scan.header.frame_id, ros::Time(0), ros::Duration(1));
      //    m_listener.lookupTransform(tf_prefix+"odom", m_scan.header.frame_id, ros::Time(0), m_transform);
-        if (!m_listener.waitForTransform(tf_prefix+"hardware/odom", m_scan.header.frame_id, m_scan.header.stamp, ros::Duration(1)))
+        if (!m_listener.waitForTransform(tf_prefix+"odom", m_scan.header.frame_id, m_scan.header.stamp, ros::Duration(1)))
         {
+            ROS_DEBUG("Pas de transformation");
             return;
         }
-        m_listener.lookupTransform(tf_prefix+"hardware/odom", m_scan.header.frame_id, m_scan.header.stamp, m_transform);
+        m_listener.lookupTransform(tf_prefix+"odom", m_scan.header.frame_id, m_scan.header.stamp, m_transform);
         //ROS_INFO("Position robot : x = %f, y = %f", m_transform.getOrigin().x(), m_transform.getOrigin().y());
         for (int i = 0 ; i < ranges.size() ; i++)
         {
@@ -76,6 +78,7 @@ void DataLaser::recoverDataLaser()
 
     if (!m_receiveGrid)
     {
+        ROS_DEBUG("Pas de grille");
         return;
     }
 
@@ -101,14 +104,14 @@ void DataLaser::recoverDataLaser()
 
 void DataLaser::gridCallback(const nav_msgs::OccupancyGrid &grid)
 {
-    //ROS_INFO("Reception map");
+    ROS_DEBUG("Reception map");
     m_grid = grid;
     m_receiveGrid = true;
 }
 
 void DataLaser::scanCallback(const sensor_msgs::LaserScan &scan)
 {
-    //ROS_INFO("Reception donnees laser");
+    ROS_DEBUG("Reception donnees laser");
     m_scan = scan;
     m_receiveScan = true;
 }
