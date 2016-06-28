@@ -35,7 +35,7 @@ geometry_msgs::Twist SwitchModeBehavior::generateNewSetpoint()
             {
                 ROS_INFO("Obstacle sur la trajectoire");
                 m_mode = BehaviorMode_t::AVOID;
-                m_obstacleUnAvoidable = true;//TODO: à supprimer lorsqu'il y aura l'évitement normal
+                m_obstacleUnavoidable = true;//TODO: à supprimer lorsqu'il y aura l'évitement normal
             }
         }
         else

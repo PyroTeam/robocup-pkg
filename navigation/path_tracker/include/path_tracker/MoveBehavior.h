@@ -28,7 +28,7 @@ public:
         m_moveState(nullptr),
         m_pathFollower(nullptr),
         m_avoidObstacle(nullptr),
-        m_obstacleUnAvoidable(false),
+        m_obstacleUnavoidable(false),
         m_maxObstacleDistance(1.0),
         m_obstacleDistance(0.0)
     {
@@ -46,7 +46,7 @@ public:
             ROS_ERROR("PathFollower not initialized");
             return;
         }
-        m_obstacleUnAvoidable = false;
+        m_obstacleUnavoidable = false;
         m_pathFollower->startTraj();
         //TODO init m_avoidObstacle
     }
@@ -79,9 +79,9 @@ public:
         return m_pathFollower->isTrajectoryEnd();
     }
 
-    bool isObstacleUnAvoidable()
+    bool isObstacleUnavoidable()
     {
-        return m_obstacleUnAvoidable;
+        return m_obstacleUnavoidable;
     }
 
     void setMaxObstacleDistance(float distance)
@@ -101,7 +101,7 @@ protected:
     std::shared_ptr<PathFollower> m_pathFollower;
     std::shared_ptr<AvoidObstacle> m_avoidObstacle;
 
-    bool m_obstacleUnAvoidable;
+    bool m_obstacleUnavoidable;
     float m_maxObstacleDistance;
     float m_obstacleDistance;
 

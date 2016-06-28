@@ -100,8 +100,8 @@ public:
         geometry_msgs::Twist twist = m_behavior->generateNewSetpoint();
 
         //verifier si on a pas un obstacle infranchissable
-        bool obstacleUnAvoidable = m_behavior->isObstacleUnAvoidable();
-        if (obstacleUnAvoidable)
+        bool obstacleUnavoidable = m_behavior->isObstacleUnavoidable();
+        if (obstacleUnavoidable)
         {
             ROS_INFO("Obstacle non evitable detecté");
             //on stop le robot
