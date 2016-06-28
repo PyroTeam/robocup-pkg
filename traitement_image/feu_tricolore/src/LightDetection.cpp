@@ -144,9 +144,6 @@ void LightDetection::traitement(cv::Mat &imgToProcess)
 	constexpr float downBlinkTolerance = blinkTolerance/2;
 	constexpr float topBlinkTolerance = blinkTolerance + downBlinkTolerance;
 	constexpr int hsvValueChannel = 2;
-	constexpr int greenValueThreshold  = 150;  // TODO: Ajouter un paramètre
-	constexpr int yellowValueThreshold = 210;  // TODO: Ajouter un paramètre
-	constexpr int redValueThreshold    = 210;  // TODO: Ajouter un paramètre
 
 	float timeElapsed = (ros::Time::now() - m_beginOfProcessing).toSec();
 
@@ -177,9 +174,9 @@ void LightDetection::traitement(cv::Mat &imgToProcess)
 	float meanYellow = cv::mean(yellowLight).val[hsvValueChannel];
 	float meanRed = cv::mean(redLight).val[hsvValueChannel];
 
-	m_greenTurnedOn = meanGreen > greenValueThreshold;
-	m_yellowTurnedOn = meanYellow > yellowValueThreshold;
-	m_redTurnedOn = meanRed > redValueThreshold;
+	m_greenTurnedOn = meanGreen > m_roiParams.green.threshold();
+	m_yellowTurnedOn = meanYellow > m_roiParams.yellow.threshold();
+	m_redTurnedOn = meanRed > m_roiParams.red.threshold();
 
 	ROS_DEBUG_STREAM_NAMED("roi", "Mean values g: "<<meanGreen<<" y: "<<meanYellow<<" r: "<<meanRed);
 
@@ -293,7 +290,7 @@ static void drawSignalOnImg(cv::Mat &img, cv::Rect &roi, int signal)
 	static const cv::Scalar blueColor = cv::Scalar(1.0*maxValue, 0.0*maxValue, 0.0*maxValue);
 
 	constexpr int lineThickness = 5;
-	constexpr int lineOffset = lineThickness - lineThickness/2;
+	constexpr int lineOffset = lineThickness - lineThickness/2 + 2;
 
 	const cv::Scalar *color;
 
@@ -332,7 +329,7 @@ void LightDetection::publishResultImages(cv::Mat &imgResult)
 	static const cv::Scalar redColor = cv::Scalar(0.0*maxValue, 0.0*maxValue, 1.0*maxValue);
 	static const cv::Scalar blackColor = cv::Scalar(0.0*maxValue, 0.0*maxValue, 0.0*maxValue);
 	constexpr int lineThickness = 5;
-	constexpr int lineOffset = lineThickness - lineThickness/2;
+	constexpr int lineOffset = lineThickness - lineThickness/3 + 2;
 
 	// Dessine les ROI sur l'image
 	cv::rectangle(imgResult, m_greenRoi,  greenColor);
