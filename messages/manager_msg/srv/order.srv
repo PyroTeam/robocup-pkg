@@ -34,7 +34,6 @@ int8 parameter
 int8 id
 ---
 bool accepted
-bool needToResendOrder
 int8 number_order
 int8 number_robot
 int8 id

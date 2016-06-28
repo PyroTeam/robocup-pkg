@@ -33,7 +33,6 @@ private:
     manager_msg::order m_srv;
 
     bool m_accepted;
-    bool m_noProblem;
     int m_numberOrder;
     int m_numberRobot;
     int m_id;

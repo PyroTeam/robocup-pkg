@@ -9,6 +9,7 @@
     <node pkg="localisation" name="cartographie" type="cartographie" output="screen"/>
     <!--
     <node pkg="amcl" type="amcl" name="amcl">
+     <remap from="objectDetection/grid_fieldAndMachines" to="map"
      <remap from="harware/scan" to="scan"/>
      <param name="odom_model_type" value="omni"/>
      <param name="odom_alpha5" value="0.1"/>

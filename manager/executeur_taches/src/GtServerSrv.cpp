@@ -56,8 +56,8 @@ bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
 
       ROS_WARN("Unable to reach requested point (%f,%f,%f). Will try another one", target.x, target.y, target.theta);
 
-      target.x += 0.2*(dx/std::abs(dx));
-      target.y += 0.2*(dx/std::abs(dy));
+      target.x += 0.3*(dx/std::abs(dx));
+      target.y += 0.3*(dx/std::abs(dy));
     }
   }while (navState != deplacement_msg::MoveToPoseResult::FINISHED && count <= nbAttempt);
 }
@@ -348,7 +348,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
       {
         ROS_ERROR("ERROR: req.id is not between 0 and 5 ");
         res.accepted =false;
-        res.needToResendOrder = true;
       }
       break;
 
@@ -443,7 +442,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         {
           ROS_ERROR("Unable to get correct AR Tag from this machine. Abort service");
           res.accepted = false;
-          res.noProblem = false;
           break;
         }
 
@@ -470,7 +468,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
             // TODO: abandonner le service
             ROS_ERROR("Unable to reach output for this MPS. Abort service");
             res.accepted = false;
-            res.noProblem = false;
             break;
           }
         }
