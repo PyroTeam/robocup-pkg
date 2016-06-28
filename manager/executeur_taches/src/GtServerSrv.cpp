@@ -56,8 +56,8 @@ bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
 
       ROS_WARN("Unable to reach requested point (%f,%f,%f). Will try another one", target.x, target.y, target.theta);
 
-      target.x += 0.2*(dx/std::abs(dx));
-      target.y += 0.2*(dx/std::abs(dy));
+      target.x += 0.3*(dx/std::abs(dx));
+      target.y += 0.3*(dx/std::abs(dy));
     }
   }while (navState != deplacement_msg::MoveToPoseResult::FINISHED && count <= nbAttempt);
 }

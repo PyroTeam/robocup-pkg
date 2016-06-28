@@ -18,7 +18,6 @@ CorrespondanceZE::~CorrespondanceZE(){}
 void CorrespondanceZE::cZECallback(const comm_msg::ExplorationInfo &msg){
 	m_usefulZone.clear();
 	m_unkownZones.clear();
-	ROS_INFO("Taille zone msg = %d", int(msg.zones.size()));
 	for(int i=0;i<msg.zones.size();i++){
 		int team=0;
 		std::string teamStr;
