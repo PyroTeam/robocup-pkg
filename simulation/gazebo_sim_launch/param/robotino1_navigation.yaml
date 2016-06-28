@@ -1,21 +1,38 @@
 navigation:
     finalApproach:
+        skipAsservCamera: 0.0
+        skipAsservLaser: 0.0
         arTagAsserv: "empty"
         laserAsserv:
             xPid:
-                Kp: 3.0
+                Kp: 0.3
                 Ki: 0.0
                 Kd: 0.0
-                threshold: 0.10
+                threshold: 0.003
+                nbSuccessNeeded: 5.0
             yPid:
-                Kp: 1.0
-                Ki: 0.1
-                Kd: 0.0
-                threshold: 0.003
-            yawPid:
-                Kp: 0.4
+                Kp: 2
                 Ki: 0.0
                 Kd: 0.0
                 threshold: 0.003
+                nbSuccessNeeded: 5.0
+            yawPid:
+                Kp: 5
+                Ki: 0.0
+                Kd: 0.0
+                threshold: 0.01
+                nbSuccessNeeded: 2.0
         mps:
-            width: 0.685
+            width: 0.700
+            targetPoses:
+                yAxis:
+                    S1: -0.07
+                    S2: -0.175
+                    S3: -0.27
+                    LANE_RS: -0.26
+                    LIGHT: 0.0
+                    LIGHT_OLD: 0.0
+                    CONVEYOR: 0.0225
+                xAxis:
+                    LIGHT_OLD: -0.34
+                    CONVEYOR: -0.155

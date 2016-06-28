@@ -40,7 +40,7 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  
+
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>actionlib_msgs</build_depend>
@@ -52,12 +52,14 @@
   <build_depend>geometry_msgs</build_depend>
   <build_depend>manager_msg</build_depend>
   <build_depend>ar_track_alvar</build_depend>
-  <build_depend>ar_track_alvar_msgs</build_depend>  
+  <build_depend>ar_track_alvar_msgs</build_depend>
   <build_depend>trait_im_msg</build_depend>
   <build_depend>nav_msgs</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <build_depend>common_utils</build_depend>
- 
+  <build_depend>tf2</build_depend>
+  <build_depend>std_msgs</build_depend>
+
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>actionlib_msgs</run_depend>
@@ -74,6 +76,8 @@
   <run_depend>nav_msgs</run_depend>
   <run_depend>visualization_msgs</run_depend>
   <run_depend>common_utils</run_depend>
+  <run_depend>tf2</run_depend>
+  <run_depend>std_msgs</run_depend>
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- You can specify that this package is a metapackage here: -->
