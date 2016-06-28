@@ -14,6 +14,7 @@ void poseCallback(const nav_msgs::Odometry &odom)
 	nh.param<bool>("~onlyOdomToBase", onlyOdomToBase, false);
 
 	tf::Transform transform;
+	tf::Quaternion q;
 
 	// Odom to Base Link
 	transform.setOrigin(tf::Vector3(odom.pose.pose.position.x, odom.pose.pose.position.y, 0.0));
@@ -34,7 +35,6 @@ void poseCallback(const nav_msgs::Odometry &odom)
 
 	// Map to odom
 	transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
-	tf::Quaternion q;
 	q.setRPY(0.0, 0.0, 0.0);
 	transform.setRotation(q);
 	mapToOdom.sendTransform(tf::StampedTransform(transform, odom.header.stamp, "map", tf_prefix+"odom"));
