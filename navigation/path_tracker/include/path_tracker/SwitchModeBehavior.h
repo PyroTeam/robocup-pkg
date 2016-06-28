@@ -42,9 +42,16 @@ public:
         return m_mode;
     }
 
+    virtual void startTraj()
+    {
+        MoveBehavior::startTraj();
+        m_mode = BehaviorMode_t::FOLLOW;
+    }
+
     virtual float getPathError() override;
     virtual float getPercentComplete() override;
-    
+    virtual bool obstacleOnTrajectory(float maxDistance, float &obstacleDistance) override;
+
 protected:
     BehaviorMode_t m_mode;
 };

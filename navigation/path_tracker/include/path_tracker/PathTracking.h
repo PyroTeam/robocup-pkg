@@ -83,7 +83,7 @@ public:
         sc::state<StActive, PTmachine, StIdle>( ctx ),
         m_behavior(nullptr)
     {
-        ROS_DEBUG("PathTracking: Entering Active State");
+        ROS_INFO("PathTracking: Entering Active State");
 
         m_behavior = outermost_context().getBehavior();
 
@@ -99,8 +99,20 @@ public:
         //générer la nouvelle commande
         geometry_msgs::Twist twist = m_behavior->generateNewSetpoint();
 
-        //appliquer la commande
-        outermost_context().getCmdVelPub().publish(twist);
+        //verifier si on a pas un obstacle infranchissable
+        bool obstacleUnavoidable = m_behavior->isObstacleUnavoidable();
+        if (obstacleUnavoidable)
+        {
+            ROS_INFO("Obstacle non evitable detecté");
+            //on stop le robot
+            geometry_msgs::Twist nulltwist;
+            outermost_context().getCmdVelPub().publish(nulltwist);
+        }
+        else
+        {
+            //appliquer la commande
+            outermost_context().getCmdVelPub().publish(twist);
+        }
     }
 
     void startNewPath(const EvStart &evStart)

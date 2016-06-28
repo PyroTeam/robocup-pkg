@@ -25,13 +25,18 @@ SwitchModeBehavior::~SwitchModeBehavior()
 geometry_msgs::Twist SwitchModeBehavior::generateNewSetpoint()
 {
     geometry_msgs::Twist setpoint;
-
     switch (m_mode)
     {
     case BehaviorMode_t::FOLLOW:
         if (m_pathFollower != nullptr)
         {
             setpoint = m_pathFollower->generateNewSetpoint();
+            if(obstacleOnTrajectory(m_maxObstacleDistance, m_obstacleDistance))
+            {
+                ROS_INFO("Obstacle sur la trajectoire");
+                m_mode = BehaviorMode_t::AVOID;
+                m_obstacleUnavoidable = true;//TODO: à supprimer lorsqu'il y aura l'évitement normal
+            }
         }
         else
         {
@@ -105,4 +110,10 @@ float SwitchModeBehavior::getPercentComplete()
     }
 
     return percentComplete;
+}
+
+bool SwitchModeBehavior::obstacleOnTrajectory(float maxDistance, float &obstacleDistance)
+{
+    int currentSegment = m_pathFollower->getCurrentSegment();
+    return m_avoidObstacle->obstacleOnTrajectory(currentSegment, maxDistance, obstacleDistance);
 }
