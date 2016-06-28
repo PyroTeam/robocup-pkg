@@ -396,8 +396,8 @@ class FinalApproaching
 	 * \brief      vérifie si l'artag vu est l'un des artags recherchés
 	 *
 	 * \param[in]  allPossibleId  The all possible identifier
-	 * \param[in]  arTagId        The archive tag identifier
-	 * \param[in]  arTagDistance  The archive tag distance
+	 * \param[in]  arTagId        The artag identifier
+	 * \param[in]  arTagDistance  The artag distance
 	 *
 	 * \return     l'indice du tableau des ids si cela correspond à un id
 	 *             recherché, -1 sinon

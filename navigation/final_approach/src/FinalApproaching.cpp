@@ -360,7 +360,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		// XXX: Un moyennage (pas trop dégeu, sur base de repère robot, à grand renforts de tf) des informations d'entrée
 		// pourra s'avérer utile. A voir.
 		angleAsservDone = asservissementAngle(M_PI/2, seg.getAngle());
-		asservLaserYawOk_cpt = angleAsservDone ? ++asservLaserYawOk_cpt : 0;
+		asservLaserYawOk_cpt = angleAsservDone ? asservLaserYawOk_cpt+1 : 0;
 		if (asservLaserYawOk_cpt >= m_laserYawPidNbSuccessNeeded())
 		{
 			anglePhaseDone = true;
@@ -375,7 +375,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			{
 				yPhaseDone = true;
 			}
-			asservLaserYOk_cpt = yAsservDone ? ++asservLaserYOk_cpt : 0;
+			asservLaserYOk_cpt = yAsservDone ? asservLaserYOk_cpt+1 : 0;
 
 		}
 
@@ -383,7 +383,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		{
 			ROS_WARN("X - OBJ: %f, MEAS: %f", objectifX(), -seg.distanceOrthoLaserSegment());
 			xAsservDone = asservissementPositionX(objectifX(), -seg.distanceOrthoLaserSegment());
-			asservLaserXOk_cpt = xAsservDone ? ++asservLaserXOk_cpt : 0;
+			asservLaserXOk_cpt = xAsservDone ? asservLaserXOk_cpt+1 : 0;
 		}
 
 		laserAsservDone = (	   asservLaserYawOk_cpt >= m_laserYawPidNbSuccessNeeded()
@@ -534,7 +534,7 @@ float FinalApproaching::objectifX()
 		return -m_controlDist;
 	}
 
-	// On travail avec un repère machine, orienté comme le repère LASER
+	// On travaille avec un repère machine, orienté comme le repère LASER
 	// à -0.35 le laser se trouve à 35cm de la machine, à -0.16, à 16cm (soit au contact)
 	if (	m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT
 		||  m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT_OLD)
@@ -917,7 +917,7 @@ std::vector<int> FinalApproaching::idWanted(int phase)
 	return tabId;
 }
 
-// TODO: Remove is unused
+// TODO: Remove if unused
 int FinalApproaching::correspondingId(std::vector<int> allPossibleId, std::vector<int> arTagId,
                                       std::vector<float> arTagDistance)
 {
@@ -970,7 +970,7 @@ int FinalApproaching::correspondingId(std::vector<int> allPossibleId, std::vecto
 			for (int k = 0; k < arTags.size(); k++)
 			{
 				ROS_DEBUG_NAMED("investigation", "Possible %d VS Found %d", allPossibleId[i], arTags[k].id);
-				if (allPossibleId[k] == arTags[k].id)
+				if (allPossibleId[i] == arTags[k].id)
 				{
 					ROS_DEBUG_NAMED("investigation", "Match");
 					if (arTags[k].distance < tmpDist)
@@ -1041,7 +1041,11 @@ int FinalApproaching::asservissementCamera(std::vector<float> px, std::vector<fl
 // TODO: Regler et paramétrer cette phase
 bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 {
-	constexpr int jarResetValue = 3;
+	const int jarResetValue = 3;
+	constexpr float xDist = 0.50;
+	constexpr float linearKp = 0.75;
+	constexpr float angularKp = 0.50;
+
 	// XXX: La fonction peut-elle être appelé sans arTag valide ? A vérifier
 
 
@@ -1050,7 +1054,7 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 	static int ySuccessJar = jarResetValue;
 	static int yawSuccessJar = jarResetValue;
 
-	float errX = target.pose.position.z - 0.50;  // A corriger une fois les transformations appliquée
+	float errX = target.pose.position.z - xDist;  // A corriger une fois les transformations appliquée
 	float errY = -target.pose.position.x;  // A corriger une fois les transformations appliquée
 	float errYaw = target.yaw;  // A corriger une fois les transformations appliquée
 
@@ -1062,8 +1066,11 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 
 	if (m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT)
 	{
+		constexpr float linearThreshold = 0.005;
+		constexpr float angularThreshold = 0.001;
+
 		// Asserv en Y
-		if (std::abs(errY) < 0.005)	// 0.5cm
+		if (std::abs(errY) < linearThreshold)	// 0.5cm
 		{
 			m_msgTwist.linear.y = 0;
 			if (ySuccessJar > 0)
@@ -1073,12 +1080,12 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 		}
 		else
 		{
-			m_msgTwist.linear.y = 0.75 * errY;
+			m_msgTwist.linear.y = linearKp * errY;
 			ySuccessJar = jarResetValue;
 		}
 
 		// Asserv en X
-		if (std::abs(errX) < 0.005) // 0.5cm
+		if (std::abs(errX) < linearThreshold) // 0.5cm
 		{
 			m_msgTwist.linear.x = 0;
 			if (xSuccessJar > 0)
@@ -1088,12 +1095,12 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 		}
 		else
 		{
-			m_msgTwist.linear.x = 0.75 * errX;
+			m_msgTwist.linear.x = linearKp * errX;
 			xSuccessJar = jarResetValue;
 		}
 
 		// Asserv en angle
-		if (std::abs(errYaw) < 0.01) // 0.01 rad -> 0.5 deg
+		if (std::abs(errYaw) < angularThreshold) // 0.01 rad -> 0.5 deg
 		{
 			m_msgTwist.angular.z = 0;
 			if (yawSuccessJar > 0)
@@ -1103,7 +1110,7 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 		}
 		else
 		{
-			m_msgTwist.angular.z = 0.5 * errYaw;
+			m_msgTwist.angular.z = angularKp * errYaw;
 			yawSuccessJar = jarResetValue;
 		}
 
@@ -1111,37 +1118,40 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 	}
 	else
 	{
+		constexpr float linearThreshold = 0.03;
+		constexpr float angularThreshold = 0.02;
+
 		// Asserv en Y
-		if (std::abs(errY) < 0.03)	// 3cm
+		if (std::abs(errY) < linearThreshold)	// 3cm
 		{
 			m_msgTwist.linear.y = 0;
 		}
 		else
 		{
 			finished = false;
-			m_msgTwist.linear.y = 0.75 * errY;
+			m_msgTwist.linear.y = linearKp * errY;
 		}
 
 		// Asserv en X
-		if (std::abs(errX) < 0.03) // 3cm
+		if (std::abs(errX) < linearThreshold) // 3cm
 		{
 			m_msgTwist.linear.x = 0;
 		}
 		else
 		{
 			finished = false;
-			m_msgTwist.linear.x = 0.75 * errX;
+			m_msgTwist.linear.x = linearKp * errX;
 		}
 
 		// Asserv en angle
-		if (std::abs(errYaw) < 0.02) // 0.02 rad -> 1 deg
+		if (std::abs(errYaw) < angularThreshold) // 0.02 rad -> 1 deg
 		{
 			m_msgTwist.angular.z = 0;
 		}
 		else
 		{
 			finished = false;
-			m_msgTwist.angular.z = 0.5 * errYaw;
+			m_msgTwist.angular.z = angularKp * errYaw;
 		}
 	}
 

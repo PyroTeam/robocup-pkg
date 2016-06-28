@@ -61,7 +61,7 @@ float PidWithAntiWindUp::update(float err)
     }
     else if (pidOutTemp <= m_lowLim)
     {
-        pidOut = m_highLim;
+        pidOut = m_lowLim;
         m_I += err * m_T * m_antiWindUpParam;
     }
     else
