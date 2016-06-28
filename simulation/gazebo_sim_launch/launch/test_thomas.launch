@@ -84,7 +84,7 @@
 
     <!-- AMCL -->
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
-     <remap from="map" to="objectDetection/grid_fieldOnly"/>
+     <remap from="map" to="objectDetection/grid_fieldAndMachines"/>
      <remap from="scan" to="hardware/scan"/>
      <remap from="initialpose" to="/initialpose"/>
 
@@ -93,15 +93,18 @@
      <param name="transform_tolerance" value="0.2" />
      <param name="gui_publish_rate" value="10.0"/>
      <param name="laser_max_beams" value="30"/>
+
      <param name="min_particles" value="30"/>
      <param name="max_particles" value="500"/>
+
      <param name="kld_err" value="0.05"/>
      <param name="kld_z" value="0.99"/>
+
      <param name="odom_alpha1" value="0.2"/>
      <param name="odom_alpha2" value="0.2"/>
-
      <param name="odom_alpha3" value="0.8"/>
      <param name="odom_alpha4" value="0.2"/>
+
      <param name="laser_z_hit" value="0.5"/>
      <param name="laser_z_short" value="0.05"/>
      <param name="laser_z_max" value="0.05"/>
@@ -122,6 +125,9 @@
      <param name="odom_frame_id" value="robotino1/odom"/>
      <param name="base_frame_id" value="robotino1/base_link"/>
    </node>
+
+
+   <node pkg="rosservice" type="rosservice" name="global_loc" args="call --wait /robotino1/global_localization "/>
 
 		<!-- Load the fakeSimLightDetection node -->
 		<node pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>

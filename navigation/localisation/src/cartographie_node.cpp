@@ -64,7 +64,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
       int zone = common_utils::getArea(center);
 
       // Si la machine est bien dans une zone
-      if (zone != 0)
+      if (zone != 0 && g_mps[zone-1].isInsideZone(center, zone))
       {
         g_mps[zone-1].update(center);
         g_mps[zone-1].zone(zone);
