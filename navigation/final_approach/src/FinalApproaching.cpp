@@ -1001,7 +1001,7 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 {
 	const int jarResetValue = 3;
 	constexpr float xDist = 0.50;
-	constexpr float linearKp = 0.75;
+	constexpr float linearKp = 1.0;
 	constexpr float angularKp = 0.50;
 
 	// XXX: La fonction peut-elle être appelé sans arTag valide ? A vérifier
@@ -1024,7 +1024,7 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 
 	if (m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT)
 	{
-		constexpr float linearThreshold = 0.005;
+		constexpr float linearThreshold = 0.003;
 		constexpr float angularThreshold = 0.001;
 
 		// Asserv en Y
