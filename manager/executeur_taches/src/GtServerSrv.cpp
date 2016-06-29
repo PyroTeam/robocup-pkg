@@ -338,11 +338,15 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
       {
         m_elements.getCS1().destock(req.id,m_nbrobot,req.number_order,activity::CS1);
         m_elements.getCS1().majStockID(req.id, 0);
+        res.accepted = true;
+        res.needToResendOrder = false;
       }
       else if(req.id >= 3 && req.id < 6)
       {
         m_elements.getCS2().destock(req.id,m_nbrobot,req.number_order,activity::CS2);
         m_elements.getCS2().majStockID(req.id, 0);
+        res.accepted = true;
+        res.needToResendOrder = false;
       }
       else
       {
@@ -362,6 +366,9 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         ROS_INFO("Let's explore zone %d", req.id);
 
         m_ls->spin();
+
+        res.accepted = true;
+        res.needToResendOrder =  false;
 
         // si on ne connait pas la machine à cet instant et qu'on ne connait pas toutes les machines
         if (!knownMachineInZone(req.id) && !m_ls->haveAllTheMachines())
@@ -403,6 +410,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
               // TODO: abandonner le service
               ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
               res.accepted = false;
+              res.needToResendOrder = false;
               break;
             }
           }
@@ -411,6 +419,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
             // TODO: abandonner le service
             ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
             res.accepted = false;
+            res.needToResendOrder = false;
             break;
           }
         }
@@ -419,6 +428,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           // TODO: abandonner le service
           ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
           res.accepted = false;
+          res.needToResendOrder = false;
           break;
         }
 
@@ -506,13 +516,14 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
     //if(req.id != 0) ROS_INFO(" DESTOCKAGE à l'endroit d'id = %d", (int) req.id);
     //else ROS_INFO(" NON DESTOCKAGE ");
     m_msg = m_elements.getBS().msgToGT(m_nbrobot,activity::END,activity::NONE,req.id);
-    res.accepted = true;
-    res.needToResendOrder =  false;
+    // res.accepted = true;
+    // res.needToResendOrder =  false;
   }
   else
   {
     ROS_WARN("Request for another robot");
     res.accepted = false;
+    res.needToResendOrder = true;
   }
 
   /* VERIFICATIONS */
