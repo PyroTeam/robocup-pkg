@@ -45,11 +45,11 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	ROS_INFO("%s: Execute. Start FinalApproach sequence of type %i with side %i and parameter %i",
 	         m_actionName.c_str(), m_type, m_side, m_parameter);
 
-	if (goal->controlled_approach)
+	if (goal->mode == final_approach_msg::FinalApproachingGoal::CONTROLLED_BY_PARAM)
 	{
-		if (std::isnan(m_controlDist))
+		if (std::isnan(goal->control_param))
 		{
-			ROS_ERROR_STREAM("Controlled FA requested without sending any setpoint on "<<m_control.getTopic()<<" topic.");
+			ROS_ERROR_STREAM("Controlled FA requested without sending any param");
 			m_result.success = false;
 			m_result.state = final_approach_msg::FinalApproachingResult::INVALID_ORDER;
 			ROS_WARN("%s: Aborted. Invalid order.", m_actionName.c_str());
@@ -58,6 +58,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		}
 
 		m_remotelyControlled = true;
+    m_controlDist = goal->control_param;
 	}
 	else
 	{

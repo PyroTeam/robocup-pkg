@@ -5,13 +5,14 @@ project(gripper)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  gripper_msg
   roscpp
   rospy
+	genmsg
   std_msgs
   actionlib_msgs
   actionlib
   final_approach_msg
+	gripper_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -84,7 +85,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  CATKIN_DEPENDS gripper_msg roscpp rospy std_msgs roscpp rospy actionlib_msgs actionlib
+  CATKIN_DEPENDS roscpp rospy std_msgs roscpp rospy actionlib_msgs actionlib std_srvs gripper_msg
 )
 
 ###########
@@ -95,6 +96,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+	include/gripper
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -107,6 +109,7 @@ include_directories(
 add_executable(
 	gripper_node
 	src/gripper_node.cpp
+	src/FA_Client.cpp
 )
 
 ## Add cmake target dependencies of the executable/library
@@ -115,13 +118,17 @@ add_dependencies(
 	gripper_node
 	gripper_msg
 	final_approach_msg_gencpp
+  actionlib_msgs
+  actionlib
+	std_srvs
 )
 set_target_properties(gripper_node	PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(gripper_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(
+	 gripper_node
+   ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
@@ -145,12 +152,12 @@ set_target_properties(gripper_node	PROPERTIES COMPILE_FLAGS "-std=c++11")
 # )
 
 ## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
-
+install(
+	DIRECTORY include/${PROJECT_NAME}/
+	DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+	FILES_MATCHING PATTERN "*.h"
+	PATTERN ".svn" EXCLUDE
+)
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
 #   # myfile1

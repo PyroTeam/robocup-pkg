@@ -46,4 +46,8 @@ void SimFinalApproach::landmarksCallback(const deplacement_msg::Machines& msg)
 
 void SimFinalApproach::executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &goal)
 {
+  m_result.success = true;
+  m_result.state = final_approach_msg::FinalApproachingResult::UNKNOWN;
+  ROS_INFO("%s: Succeeded", m_actionName.c_str());
+  m_as.setSucceeded(m_result);
 }

@@ -1,11 +1,11 @@
 #include <ros/ros.h>
+#include <FA_Client.h>
 #include <gripper_msg/SetGripper.h>
 #include <gripper_msg/Grip.h>
 #include <gripper_msg/GripperStatus.h>
 
 gripper_msg::GripperStatus g_gripStatus;
 ros::ServiceClient g_grip_client;
-ros::ServiceClient g_FA_client;
 
 enum class TakingProcess
 {
@@ -38,10 +38,12 @@ void gripperCallback(const gripper_msg::GripperStatus &status)
   }
 }
 
-bool gripper(gripper_msg::GripRequest &req)
+bool gripper(gripper_msg::GripRequest &req,
+             gripper_msg::GripResponse &res)
 {
   gripper_msg::SetGripper grip;
-  approche_finale_msg::Move mv;
+  FA_Client move;
+  int feedback;
 
   // Process to take something
   if (req.cmd = gripper_msg::GripRequest::TAKE)
@@ -59,6 +61,7 @@ bool gripper(gripper_msg::GripRequest &req)
           grip.request.turn = true;
           grip.request.push = false;
           grip.request.open = false;
+          ROS_DEBUG("I am turning the servo to close");
         }
         else
         {
@@ -73,6 +76,7 @@ bool gripper(gripper_msg::GripRequest &req)
           grip.request.turn = true;
           grip.request.push = true;
           grip.request.open = false;
+          ROS_DEBUG("I am pushing the piece");
         }
         else
         {
@@ -96,12 +100,15 @@ bool gripper(gripper_msg::GripRequest &req)
       break;
 
       case ReleasingProcess::BACKWARD:
-        if (g_FA_client.feedback < 100)
+        feedback = move.starting(-2.0);
+
+        if (feedback < 100)
         {
-          mv.cmd = -2.0;
+          ROS_ERROR("FAIL controlled final approaching");
         }
         else
         {
+          ROS_DEBUG("Controlled final approaching SUCCESSFULL (backward)");
           g_rp = ReleasingProcess::RELEASE;
         }
       break;
@@ -113,6 +120,7 @@ bool gripper(gripper_msg::GripRequest &req)
           grip.request.turn = true;
           grip.request.push = false;
           grip.request.open = true;
+          ROS_DEBUG("I am releasing the piece");
         }
         else
         {
@@ -121,12 +129,15 @@ bool gripper(gripper_msg::GripRequest &req)
       break;
 
       case ReleasingProcess::FORWARD:
-        if (g_gripStatus.statusPercentTurn < 100)
+        feedback = move.starting(0.0);
+
+        if (feedback < 100)
         {
-          mv.cmd = 2.0;
+          ROS_ERROR("FAIL controlled final approaching");
         }
         else
         {
+          ROS_DEBUG("Controlled final approaching SUCCESSFULL (forward)");
           g_rp = ReleasingProcess::TURN;
         }
       break;
@@ -137,6 +148,7 @@ bool gripper(gripper_msg::GripRequest &req)
           grip.request.turn = true;
           grip.request.push = false;
           grip.request.open = true;
+          ROS_DEBUG("I am turning the servo to open");
         }
         else
         {
@@ -176,9 +188,8 @@ int main(int argc, char** argv)
 
   // Connection en tant que client au noeud gripper
   g_grip_client = n.serviceClient<gripper_msg::SetGripper>("hardware/low_level/gripper_srv");
-  g_FA_client = n.serviceClient<approche_finale_msg::Move>("hardware/gripper_srv");
 
-  ros::ServiceServer gripper_server 	= n.advertiseService("hardware/high_level/gripper_srv", gripper);
+  ros::ServiceServer gripper_server = n.advertiseService("hardware/high_level/gripper_srv", gripper);
 
 
   ros::Rate loop_rate(30);
