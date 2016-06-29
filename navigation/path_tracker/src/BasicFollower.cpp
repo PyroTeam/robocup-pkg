@@ -15,6 +15,7 @@
 #include "geometry_utils/geometry_utils.h"
 #include "common_utils/RateLimiter.h"
 #include "common_utils/controller/PidWithAntiWindUp.h"
+#include "common_utils/Polynome.h"
 
 const double EPSILON = 0.05;
 const double ADVANCE_WINDOW = 0.5;
@@ -22,6 +23,9 @@ const double ADVANCE_WINDOW = 0.5;
 //vitesse min robotino fixe
 //TODO: à parametrer
 const float VminStatic = 0.05;
+const float VmaxUp = 0.3;
+const float VmaxLow = 0.05;
+const float angleMin = 5.0/180.0 * M_PI;
 
 
 geometry_msgs::Twist BasicFollower::generateNewSetpoint()
@@ -90,6 +94,21 @@ geometry_msgs::Twist BasicFollower::generateNewSetpoint()
             twist.angular.z = m_controllerOri->update(errOri);
 
             //estimation de la vitesse max
+            //On limite la vitesse max si l'ecart d'angle est trop grand
+            if (std::abs(errOri) < angleMin)
+            {
+                Vmax = VmaxUp;
+            }
+            else
+            {
+                common_utils::Polynome<1> droite;
+                float a = (VmaxUp - VmaxLow)/(angleMin - M_PI);
+                droite.setCoeff(1, a);
+                droite.setCoeff(0, VmaxUp - a*angleMin);
+                Vmax = droite.exec(std::abs(errOri));
+            }
+
+
             //parcours du chemin pour calcul amax et damax
             int tmpIndex = m_currentSegment+1;
             float dWindow = ADVANCE_WINDOW;
