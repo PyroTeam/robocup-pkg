@@ -4,11 +4,13 @@
 #include <gripper_msg/GripperStatus.h>
 
 gripper_msg::GripperStatus g_gripStatus;
+ros::ServiceClient g_grip_client;
+ros::ServiceClient g_FA_client;
 
 enum class TakingProcess
 {
   IDLE,
-  GET,
+  TURN,
   PUSH,
   ERROR
 };
@@ -17,9 +19,10 @@ enum class ReleasingProcess
 {
   IDLE,
   BACKWARD,
-  LET,
+  TURN,
   FORWARD,
-  RELEASE
+  RELEASE,
+  ERROR
 };
 
 TakingProcess g_tp = TakingProcess::IDLE;
@@ -35,13 +38,13 @@ void gripperCallback(const gripper_msg::GripperStatus &status)
   }
 }
 
-bool gripper(gripper_msg::Grip::Request &req)
+bool gripper(gripper_msg::GripRequest &req)
 {
   gripper_msg::SetGripper grip;
   approche_finale_msg::Move mv;
 
   // Process to take something
-  if (req.cmd = gripper_msg::Grip::TAKE)
+  if (req.cmd = gripper_msg::GripRequest::TAKE)
   {
     switch (g_tp)
     {
@@ -49,13 +52,13 @@ bool gripper(gripper_msg::Grip::Request &req)
         g_tp = TakingProcess::TURN;
       break;
 
-      case TakingProcess::GET:
+      case TakingProcess::TURN:
         if (g_gripStatus.statusPercentTurn < 100)
         {
           // turn the high servo to get the piece
-          grip.turn = true;
-          grip.push = false;
-          grip.open = false;
+          grip.request.turn = true;
+          grip.request.push = false;
+          grip.request.open = false;
         }
         else
         {
@@ -67,9 +70,9 @@ bool gripper(gripper_msg::Grip::Request &req)
         if (g_gripStatus.statusPercentPush < 100)
         {
           // push the low servo to hold the piece
-          grip.turn = true;
-          grip.push = true;
-          grip.open = false;
+          grip.request.turn = true;
+          grip.request.push = true;
+          grip.request.open = false;
         }
         else
         {
@@ -84,7 +87,7 @@ bool gripper(gripper_msg::Grip::Request &req)
   }
 
   // Process to let something
-  if (req.cmd = gripper_msg::Grip::LET)
+  if (req.cmd = gripper_msg::GripRequest::LET)
   {
     switch (g_rp)
     {
@@ -93,7 +96,7 @@ bool gripper(gripper_msg::Grip::Request &req)
       break;
 
       case ReleasingProcess::BACKWARD:
-        if (FA_client.feedback < 100)
+        if (g_FA_client.feedback < 100)
         {
           mv.cmd = -2.0;
         }
@@ -107,9 +110,9 @@ bool gripper(gripper_msg::Grip::Request &req)
         if (g_gripStatus.statusPercentPush < 100)
         {
           // turn the low servo to release the piece
-          grip.turn = true;
-          grip.push = false;
-          grip.open = true;
+          grip.request.turn = true;
+          grip.request.push = false;
+          grip.request.open = true;
         }
         else
         {
@@ -128,12 +131,12 @@ bool gripper(gripper_msg::Grip::Request &req)
         }
       break;
 
-      case ReleasingProcess::LET:
+      case ReleasingProcess::TURN:
         if (g_gripStatus.statusPercentTurn < 100)
         {
-          grip.turn = true;
-          grip.push = false;
-          grip.open = true;
+          grip.request.turn = true;
+          grip.request.push = false;
+          grip.request.open = true;
         }
         else
         {
@@ -147,7 +150,7 @@ bool gripper(gripper_msg::Grip::Request &req)
     }
   }
 
-  if (grip_client.call(grip))
+  if (g_grip_client.call(grip))
   {
     ROS_INFO("Gripper connected");
   }
@@ -172,8 +175,8 @@ int main(int argc, char** argv)
   ros::Subscriber sub_gripper  = n.subscribe("hardware/gripper_status", 1000, gripperCallback);
 
   // Connection en tant que client au noeud gripper
-  ros::ServiceClient grip_client = n.serviceClient<gripper_msg::SetGripper>("hardware/low_level/gripper_srv");
-  ros::ServiceClient FA_client = n.serviceClient<approche_finale_msg::Move>("hardware/gripper_srv");
+  g_grip_client = n.serviceClient<gripper_msg::SetGripper>("hardware/low_level/gripper_srv");
+  g_FA_client = n.serviceClient<approche_finale_msg::Move>("hardware/gripper_srv");
 
   ros::ServiceServer gripper_server 	= n.advertiseService("hardware/high_level/gripper_srv", gripper);
 
