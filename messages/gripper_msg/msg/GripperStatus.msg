@@ -1,6 +1,6 @@
 time timeStamp
-bool turn
-bool push
 int8 statusPercentPush
 int8 statusPercentTurn
-bool force
+bool forced
+bool moving
+bool error

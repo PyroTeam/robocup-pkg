@@ -4,7 +4,7 @@
 	#include <WProgram.h>
 #endif
 
-#include <Servo.h> 
+#include <Servo.h>
 #include <ros.h>
 #include <gripper_msg/SetGripper.h>
 #include <gripper_msg/GripperStatus.h>
@@ -31,21 +31,20 @@ enum GripperState
 	CLOSED,
 	OPENING,
 	CLOSING,
-	FAULTY,
-	UNKOWN
+	FAULTY
 };
 
-GripperCommand gc_turn, gc_push;
-GripperState gs_turn, gs_push;
+GripperCommand grip_cmd_turn, grip_cmd_push;
+GripperState grip_state_turn, grip_state_push;
 
 #define OPEN_VALUE_TURN	 150
 #define CLOSE_VALUE_TURN  65
-#define OPEN_VALUE_PUSH	 150
-#define CLOSE_VALUE_PUSH  65
+#define OPEN_VALUE_PUSH	 180
+#define CLOSE_VALUE_PUSH  0
 
-int targetTurn = OPEN_VALUE_TURN;
+int targetTurn  = OPEN_VALUE_TURN;
 int currentTurn = OPEN_VALUE_TURN;
-int targetPush = OPEN_VALUE_PUSH;
+int targetPush  = OPEN_VALUE_PUSH;
 int currentPush = OPEN_VALUE_PUSH;
 
 int diffValueTurn = (OPEN_VALUE_TURN - CLOSE_VALUE_TURN);
@@ -56,29 +55,29 @@ int percentTurn = 0;
 int percentPush = 0;
 boolean force = false;
 
-void callback(const gripper_msg::SetGripperRequest & req,
-		    gripper_msg::SetGripperResponse & res)
+void callback(gripper_msg::SetGripperRequest & req,
+		          gripper_msg::SetGripperResponse & res)
 {
-	if (req.stateTurn)
+	if (req.turn && req.open)
 	{
-		gc_turn = OPEN;
+		grip_cmd_turn = OPEN;
 	}
-	else
+	else if (req.turn && !req.open)
 	{
-		gc_turn = CLOSE;
+		grip_cmd_turn = CLOSE;
 	}
 
-	if (req.stateTurn)
+	if (req.push && req.open)
 	{
-		gc_push = OPEN;
+		grip_cmd_push = OPEN;
 	}
-	else
+	else if (req.push && !req.open)
 	{
-		gc_push = CLOSE;
+		grip_cmd_push = CLOSE;
 	}
 }
 
-ros::ServiceServer<gripper_msg::SetGripperRequest, gripper_msg::SetGripperResponse> gripper_server("hardware/gripper_srv", &callback);
+ros::ServiceServer<gripper_msg::SetGripperRequest, gripper_msg::SetGripperResponse> gripper_server("hardware/low_level/gripper_srv", &callback);
 gripper_msg::GripperStatus gripperStatus_msg;
 ros::Publisher gripper_pub("hardware/gripper_status", &gripperStatus_msg);
 
@@ -90,10 +89,10 @@ void setup()
 	servoPush.attach(10);  // attaches the push servo on pin 10 to the servo object
 	servoPush.write(targetPush); //initialize the servo
 
-	gc_turn = NONE;
-	gc_push = NONE;
-	gs_turn = OPENED;
-	gs_push = OPENED;
+	grip_cmd_turn = NONE;
+	grip_cmd_push = NONE;
+	grip_state_turn = OPENED;
+	grip_state_push = OPENED;
 
 	nh.initNode();
 	nh.advertiseService(gripper_server);
@@ -106,35 +105,35 @@ int iterFreq = 0;
 void loop()
 {
 	//updatecmd
-	switch (gc_turn)
+	switch (grip_cmd_turn)
 	{
 	case OPEN:
-		if (gs_turn == CLOSED || gs_turn == CLOSING)
+		if (grip_state_turn == CLOSED || grip_state_turn == CLOSING)
 		{
-			gs_turn = OPENING;
+			grip_state_turn = OPENING;
 			targetTurn = OPEN_VALUE_TURN;
 		}
 		break;
 	case CLOSE:
-		if (force == false && (gs_turn == OPEN || gs_turn == OPENING))
+		if (force == false && (grip_state_turn == OPEN || grip_state_turn == OPENING))
 		{
-			gs_turn = CLOSING;
+			grip_state_turn = CLOSING;
 			targetTurn = CLOSE_VALUE_TURN;
 		}
 		break;
 	case FORCE_OPEN:
-		gs_turn = OPENING;
+		grip_state_turn = OPENING;
 		targetTurn = OPEN_VALUE_TURN;
 		force = true;
 		break;
 	case ENDMVT:
-		if (gs_turn == OPENING)
+		if (grip_state_turn == OPENING)
 		{
-			gs_turn = OPENED;
+			grip_state_turn = OPENED;
 		}
-		else if (gs_turn == CLOSING)
+		else if (grip_state_turn == CLOSING)
 		{
-			gs_turn = CLOSED;
+			grip_state_turn = CLOSED;
 		}
 		break;
 	case UNFORCE:
@@ -146,38 +145,38 @@ void loop()
 	case NONE:
 		break;
 	}
-	gc_turn = NONE;
+	grip_cmd_turn = NONE;
 
 
-	switch (gc_push)
+	switch (grip_cmd_push)
 	{
 	case OPEN:
-		if (gs_push == CLOSED || gs_push == CLOSING)
+		if (grip_state_push == CLOSED || grip_state_push == CLOSING)
 		{
-			gs_push = OPENING;
+			grip_state_push = OPENING;
 			targetPush = OPEN_VALUE_PUSH;
 		}
 		break;
 	case CLOSE:
-		if (force == false && (gs_push == OPEN || gs_push == OPENING))
+		if (force == false && (grip_state_push == OPEN || grip_state_push == OPENING))
 		{
-			gs_push = CLOSING;
+			grip_state_push = CLOSING;
 			targetPush = CLOSE_VALUE_PUSH;
 		}
 		break;
 	case FORCE_OPEN:
-		gs_push = OPENING;
+		grip_state_push = OPENING;
 		targetPush = OPEN_VALUE_PUSH;
 		force = true;
 		break;
 	case ENDMVT:
-		if (gs_push == OPENING)
+		if (grip_state_push == OPENING)
 		{
-			gs_push = OPENED;
+			grip_state_push = OPENED;
 		}
-		else if (gs_push == CLOSING)
+		else if (grip_state_push == CLOSING)
 		{
-			gs_push = CLOSED;
+			grip_state_push = CLOSED;
 		}
 		break;
 	case UNFORCE:
@@ -189,25 +188,21 @@ void loop()
 	case NONE:
 		break;
 	}
-	gc_push = NONE;
+	grip_cmd_push = NONE;
 
 	//update state
-	switch (gs_turn)
+	switch (grip_state_turn)
 	{
-	case OPENED:
-		break;
-	case CLOSED:
-		break;
 	case OPENING:
 		if (currentTurn == targetTurn)
 		{
-			gc_turn = ENDMVT;
+			grip_cmd_turn = ENDMVT;
 		}
-		if (currentTurn < targetTurn)
+		else if (currentTurn < targetTurn)
 		{
 			currentTurn = currentTurn + 1;
 		}
-		if (currentTurn > targetTurn)
+		else // if (currentTurn > targetTurn)
 		{
 			currentTurn = targetTurn;
 		}
@@ -215,41 +210,37 @@ void loop()
 	case CLOSING:
 		if (currentTurn == targetTurn)
 		{
-			gc_turn = ENDMVT;
+			grip_cmd_turn = ENDMVT;
 		}
-		if (currentTurn < targetTurn)
+		else if (currentTurn < targetTurn)
 		{
 			currentTurn = targetTurn;
 		}
-		if (currentTurn > targetTurn)
+		else // if (currentTurn > targetTurn)
 		{
 			currentTurn = currentTurn - 1;
 		}
 		break;
 	case FAULTY:
-		break;
+	case OPENED:
+	case CLOSED:
 	default:
-	case UNKOWN:
 		break;
 	}
 
 
-	switch (gs_push)
+	switch (grip_state_push)
 	{
-	case OPENED:
-		break;
-	case CLOSED:
-		break;
 	case OPENING:
 		if (currentPush == targetPush)
 		{
-			gc_push = ENDMVT;
+			grip_cmd_push = ENDMVT;
 		}
-		if (currentPush < targetPush)
+		else if (currentPush < targetPush)
 		{
 			currentPush = currentPush + 1;
 		}
-		if (currentPush > targetPush)
+		else // if (currentPush > targetPush)
 		{
 			currentPush = targetPush;
 		}
@@ -257,21 +248,21 @@ void loop()
 	case CLOSING:
 		if (currentPush == targetPush)
 		{
-			gc_push = ENDMVT;
+			grip_cmd_push = ENDMVT;
 		}
-		if (currentPush < targetPush)
+		else if (currentPush < targetPush)
 		{
 			currentPush = targetPush;
 		}
-		if (currentPush > targetPush)
+		else // if (currentPush > targetPush)
 		{
 			currentPush = currentPush - 1;
 		}
 		break;
 	case FAULTY:
-		break;
+	case OPENED:
+	case CLOSED:
 	default:
-	case UNKOWN:
 		break;
 	}
 
@@ -284,47 +275,47 @@ void loop()
 	if (!iterFreq)
 	{
 		gripperStatus_msg.timeStamp = nh.now();
-		switch (gs_turn)
+		switch (grip_state_turn)
 		{
-		case OPENED:
-		case CLOSING:
-			gripperStatus_msg.turn = true;
-			break;
-		case CLOSED:
-		case OPENING:
-			gripperStatus_msg.turn = false;
-			break;
-		case FAULTY:
-		default:
-		case UNKOWN:
-			gripperStatus_msg.turn = false;
-			break;
+  		case OPENED:
+      case CLOSED:
+        gripperStatus_msg.moving = false;
+      break;
+
+  		case CLOSING:
+  		case OPENING:
+  			gripperStatus_msg.moving = true;
+  		break;
+
+      case FAULTY:
+        gripperStatus_msg.error = true;
+      break;
 		}
-		switch (gs_push)
-		{
-		case OPENED:
-		case CLOSING:
-			gripperStatus_msg.push = true;
-			break;
-		case CLOSED:
-		case OPENING:
-			gripperStatus_msg.push = false;
-			break;
-		case FAULTY:
-		default:
-		case UNKOWN:
-			gripperStatus_msg.push = false;
-			break;
-		}
+
+		switch (grip_state_push)
+    {
+      case OPENED:
+      case CLOSED:
+        gripperStatus_msg.moving = false;
+      break;
+
+      case CLOSING:
+      case OPENING:
+        gripperStatus_msg.moving = true;
+      break;
+      case FAULTY:
+        gripperStatus_msg.error = true;
+      break;
+    }
+
 		gripperStatus_msg.statusPercentTurn = percentTurn;
 		gripperStatus_msg.statusPercentPush = percentPush;
-		gripperStatus_msg.force = force;
+		gripperStatus_msg.forced = force;
 		gripper_pub.publish(&gripperStatus_msg);
 	}
 	iterFreq = (++iterFreq) % subFreq;
 
 	nh.spinOnce();
-	delay(20);    
+	delay(20);
 
 }
-
