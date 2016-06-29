@@ -4,7 +4,7 @@ void poseCallback(const nav_msgs::Odometry &odom)
 {
 	static tf::TransformBroadcaster odomToBaseLink;
 	static ros::NodeHandle nh;
-    static ros::NodeHandle nhPriv("~");
+  static ros::NodeHandle nhPriv("~");
 	bool onlyOdomToBase;
 
 	std::string tf_prefix;
