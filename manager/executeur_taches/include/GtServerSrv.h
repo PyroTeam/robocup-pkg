@@ -17,6 +17,8 @@
 #include "manager_msg/activity.h"
 #include "final_approach_msg/FinalApproachingAction.h"
 #include "common_utils/types.h"
+#include "common_utils/RobotPoseSubscriber.h"
+#include "geometry_utils/geometry_utils.h"
 
 #include "ExploInfoSubscriber.h"
 #include "Machine.h"
@@ -73,9 +75,11 @@ class GtServerSrv
 		final_approach_msg::FinalApproachingAction m_act;
 		ExploInfoSubscriber *m_ei;
 		LocaSubscriber *m_ls;
-    RobotPoseSubscriber *m_rp;
-    ros::Publisher m_activity_pub;
-    MyElements m_elements;
+        RobotPoseSubscriber *m_rp;
+        ros::Publisher m_activity_pub;
+        MyElements m_elements;
+
+        common_utils::RobotPoseSubscriber m_poseSub;
 };
 
 #endif

@@ -65,35 +65,35 @@ bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
 /* Valentin's function */
 void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2)
 {
-  #define MARGIN_FROM_CENTER 0.75
-  geometry_msgs::Pose2D knownMachinePose;
-  double dy = 0;
-  double dx = 0;
+    #define MARGIN_FROM_CENTER 0.75
+    geometry_msgs::Pose2D knownMachinePose;
+    double dy = 0;
+    double dx = 0;
 
-  knownMachinePose = m_ls->machines()[zone - 1].pose;
+    knownMachinePose = m_ls->machines()[zone - 1].pose;
 
-  if (m_ls->machines()[zone - 1].orientationOk)
-  {
-    ROS_ERROR("la machine en zone %d est censee avoir le bon angle !", m_ls->machines()[zone - 1].zone);
-  }
-  else
-  {
-    ROS_ERROR("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone);
-  }
+    if (m_ls->machines()[zone - 1].orientationOk)
+    {
+        ROS_ERROR("la machine en zone %d est censee avoir le bon angle !", m_ls->machines()[zone - 1].zone);
+    }
+    else
+    {
+        ROS_ERROR("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone);
+    }
 
-  double theta1 = knownMachinePose.theta + M_PI/2;
-  dx = MARGIN_FROM_CENTER * cos(theta1);
-  dy = MARGIN_FROM_CENTER * sin(theta1);
+    double theta1 = knownMachinePose.theta + M_PI/2;
+    dx = MARGIN_FROM_CENTER * cos(theta1);
+    dy = MARGIN_FROM_CENTER * sin(theta1);
 
-  point1.x = knownMachinePose.x + dx;
-  point1.y = knownMachinePose.y + dy;
-  point1.theta = knownMachinePose.theta - M_PI/2;
+    point1.x = knownMachinePose.x + dx;
+    point1.y = knownMachinePose.y + dy;
+    point1.theta = knownMachinePose.theta - M_PI/2;
 
-  point2.x = knownMachinePose.x - dx;
-  point2.y = knownMachinePose.y - dy;
-  point2.theta = knownMachinePose.theta + M_PI/2;
+    point2.x = knownMachinePose.x - dx;
+    point2.y = knownMachinePose.y - dy;
+    point2.theta = knownMachinePose.theta + M_PI/2;
 
-  #undef MARGIN_FROM_CENTER
+    #undef MARGIN_FROM_CENTER
 }
 
 bool GtServerSrv::knownMachineInZone(int zone)
@@ -104,66 +104,66 @@ bool GtServerSrv::knownMachineInZone(int zone)
 
 manager_msg::activity GtServerSrv::getActivityMsg()
 {
-  return m_msg;
+    return m_msg;
 }
 
 final_approach_msg::FinalApproachingAction GtServerSrv::getFinalAppAction()
 {
-  return m_act;
+    return m_act;
 }
 
 void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
-  #define ZONE_WIDTH	2.0
-  #define ZONE_HEIGHT	1.5
+    #define ZONE_WIDTH	2.0
+    #define ZONE_HEIGHT	1.5
 
-  float xOffset = ZONE_WIDTH/2;
-  float yOffset = ZONE_HEIGHT/2;
+    float xOffset = ZONE_WIDTH/2;
+    float yOffset = ZONE_HEIGHT/2;
 
-  if (!common_utils::getZoneCenter(zone, m_explo_target.x, m_explo_target.y))
-  {
-    return;
-  }
+    if (!common_utils::getZoneCenter(zone, m_explo_target.x, m_explo_target.y))
+    {
+        return;
+    }
 
-  // Get corner
-  switch(zoneCorner)
-  {
-    case BOTTOM_LEFT:
-    yOffset *= -1;
-    xOffset *= -1;
-    m_explo_target.theta = M_PI/4;
-    break;
+    // Get corner
+    switch(zoneCorner)
+    {
+        case BOTTOM_LEFT:
+            yOffset *= -1;
+            xOffset *= -1;
+            m_explo_target.theta = M_PI/4;
+        break;
 
-    case BOTTOM_RIGHT:
-    yOffset *= -1;
-    m_explo_target.theta = 3*M_PI/4;
-    break;
+        case BOTTOM_RIGHT:
+            yOffset *= -1;
+            m_explo_target.theta = 3*M_PI/4;
+        break;
 
-    case TOP_LEFT:
-    xOffset *= -1;
-    m_explo_target.theta = -M_PI/4;
-    break;
+        case TOP_LEFT:
+            xOffset *= -1;
+            m_explo_target.theta = -M_PI/4;
+        break;
 
-    case TOP_RIGHT:
-    m_explo_target.theta = -3*M_PI/4;
-    break;
+        case TOP_RIGHT:
+            m_explo_target.theta = -3*M_PI/4;
+        break;
 
-    default:
-    ROS_ERROR("Invalid zone corner");
-    break;
-  }
+        default:
+            ROS_ERROR("Invalid zone corner");
+        break;
+    }
 
-  m_explo_target.x += xOffset;
-  m_explo_target.y += yOffset;
+    m_explo_target.x += xOffset;
+    m_explo_target.y += yOffset;
 
-  #undef ZONE_WIDTH
-  #undef ZONE_WIDTH
+    #undef ZONE_WIDTH
+    #undef ZONE_WIDTH
 }
 
 bool GtServerSrv::isInput(int arTag)
 {
-  // Les INPUT sont toujours impairs
-  return arTag%2 == 1;
+    // Les INPUT sont toujours impairs
+    return arTag%2 == 1;
 }
 
 bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::order::Response &res)
@@ -360,6 +360,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
       {
         Machine *machine = NULL;
         geometry_msgs::Pose2D firstSidePoint, secondSidePoint;
+        geometry_msgs::Pose2D tmpFirstPoint, tmpSecondPoint;
+
         int machineSideId = 0;
         ReportingMachineSrvClient reportClient;
 
@@ -435,10 +437,23 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         // Si machine présente, déterminer point devant machine
 
         // Calculer les deux points devant la machine
-        getSidePoints(req.id, firstSidePoint, secondSidePoint);
+        m_ls->spin();
+        getSidePoints(req.id, tmpFirstPoint, tmpSecondPoint);
+        firstSidePoint = tmpFirstPoint;
+        secondSidePoint = tmpSecondPoint;
 
-        // Se rendre au point devant machine
+        // Se rendre au point devant la machine
         // TODO: utiliser le point le plus proche
+        geometry_msgs::Pose2D actualPose = m_poseSub.getPose2D();
+        double firstDistance = geometry_utils::distance(actualPose,tmpFirstPoint);
+        double secondDistance = geometry_utils::distance(actualPose,tmpSecondPoint);
+
+        if(secondDistance < firstDistance)
+        {
+            firstSidePoint = tmpSecondPoint;
+            secondSidePoint = tmpFirstPoint;
+        }
+
         // TODO: gérer les cas d'erreurs de going
         going(firstSidePoint);
         m_ls->spin();

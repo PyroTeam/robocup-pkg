@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 	double time = t0;
 	int cptZone = 0;
 	CorrespondanceZE correspondanceZE;
-  common_utils::RobotPoseSubscriber poseSub;
+    common_utils::RobotPoseSubscriber poseSub;
 	OrderInfo orderInfo;
 	std::vector<comm_msg::Order> tabOrders;
 	std::vector<bool> ordersInProcess;
