@@ -44,7 +44,7 @@
 		<rosparam file="$(find gazebo_sim_launch)/param/robotino1_navigation.yaml" />
 
 		<!-- Paramètres ddu traitement d'image -->
-		<rosparam file="$(find feu_tricolore)/param/roi.yaml" />
+		<!-- <rosparam file="$(find feu_tricolore)/param/roi.yaml" /> -->
 
 		<!-- Static transforms -->
 		<node pkg="tf" type="static_transform_publisher" name="map_to_odom"
