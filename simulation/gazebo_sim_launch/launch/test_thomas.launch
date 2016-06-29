@@ -109,7 +109,7 @@
 
     <!-- Load the tf_broadcaster node -->
     <node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node">
-      <param name="onlyOdomToBase" value="true">
+      <param name="onlyOdomToBase" value="true"/>
     </node>
 
 
