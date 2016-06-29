@@ -35,20 +35,26 @@
 		<param name="simuRobotNamespace" value="$(arg tf_prefix)" />
 
 		<param name="objectDetection/useSimLandmarks" value="false" />
+	
+		<!-- Load the tf_broadcaster node -->
+		<node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node"/>
 
-		<!-- Load ArTag -->
-		<include file="$(find ar_tag)/launch/alvar_simu.launch">
-			<arg name="output_frame" value="$(arg tf_prefix)/tower_camera_link"/>
-			<arg name="respawn" value="true"/>
-			<arg name="output" value="log"/>
-		</include>
-		<include file="$(find ar_tag)/launch/ar_tag.launch"/>
+		<!-- Load the fakeSimLightDetection node -->
+		<node pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>
+
+				<!-- Load ArTag -->
+				<include file="$(find ar_tag)/launch/alvar_simu.launch">
+					<arg name="output_frame" value="$(arg tf_prefix)/tower_camera_link"/>
+					<arg name="respawn" value="true"/>
+					<arg name="output" value="log"/>
+				</include>
+				<include file="$(find ar_tag)/launch/ar_tag.launch"/>
 
 		<!-- Load the detection and localisation nodes -->
 		<node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction"/>
 		<node pkg="localisation" name="visualisation" type="visualisation"/>
 		<node pkg="localisation" name="odometry_correction" type="odometry_correction"/>
-		<node pkg="localisation" name="cartographie" type="cartographie" output="screen"/>
+		<node pkg="localisation" name="cartographie" type="cartographie"/>
 
 		<!-- Load the grid maker -->
 		<rosparam command="load" file="$(find grid_maker)/cfg/field.yaml" />
@@ -63,7 +69,7 @@
 		<!-- Load the path tracker -->
 		<node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" />
 
-			<!-- Load the fake final approach -->
+	<!-- Load the fake final approach -->
 			<!--<node pkg="final_approach" name="final_approach" type="simFinalApproach_node"/>-->
 			<node pkg="final_approach" name="final_approach" type="finalApproaching_node"/>
 			<!-- <node pkg="final_approach" name="final_approach" type="simFinalApproach_node" launch-prefix="xterm -e"/> -->
@@ -89,6 +95,7 @@
 		<node pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>
 	</group>
 
-	<!-- Load rviz -->
-	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find gazebo_sim_launch)/others/overview.rviz"/>
-</launch>
+		<!-- Load rviz -->
+		<node pkg="rviz" type="rviz" name="rviz" args="-d $(find gazebo_sim_launch)/others/overview.rviz"/>
+	</launch>
+	

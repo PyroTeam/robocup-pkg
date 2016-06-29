@@ -191,53 +191,9 @@ Visualization Manager:
       Frame Timeout: 1
       Frames:
         All Enabled: true
-        ar_marker_1:
-          Value: true
-        ar_marker_113:
-          Value: true
-        ar_marker_129:
-          Value: true
-        ar_marker_130:
-          Value: true
-        ar_marker_146:
-          Value: true
-        ar_marker_161:
-          Value: true
-        ar_marker_162:
-          Value: true
-        ar_marker_177:
-          Value: true
-        ar_marker_178:
-          Value: true
-        ar_marker_2:
-          Value: true
-        ar_marker_240:
-          Value: true
-        ar_marker_242:
-          Value: true
-        ar_marker_255:
-          Value: true
-        ar_marker_34:
-          Value: true
-        ar_marker_50:
-          Value: true
-        ar_marker_52:
-          Value: true
-        ar_marker_65:
-          Value: true
-        ar_marker_68:
-          Value: true
-        ar_marker_82:
-          Value: true
-        ar_marker_96:
-          Value: true
-        ar_marker_98:
-          Value: true
         map:
           Value: true
         robotino1/base_link:
-          Value: true
-        robotino1/gripper_link:
           Value: true
         robotino1/laser_link:
           Value: true
@@ -256,55 +212,12 @@ Visualization Manager:
         map:
           robotino1/odom:
             robotino1/base_link:
-              robotino1/gripper_link:
-                {}
               robotino1/laser_link:
                 {}
               robotino1/platform_camera_link:
                 {}
               robotino1/tower_camera_link:
-                ar_marker_1:
-                  {}
-                ar_marker_113:
-                  {}
-                ar_marker_129:
-                  {}
-                ar_marker_130:
-                  {}
-                ar_marker_146:
-                  {}
-                ar_marker_161:
-                  {}
-                ar_marker_162:
-                  {}
-                ar_marker_177:
-                  {}
-                ar_marker_178:
-                  {}
-                ar_marker_2:
-                  {}
-                ar_marker_240:
-                  {}
-                ar_marker_242:
-                  {}
-                ar_marker_255:
-                  {}
-                ar_marker_34:
-                  {}
-                ar_marker_50:
-                  {}
-                ar_marker_52:
-                  {}
-                ar_marker_65:
-                  {}
-                ar_marker_68:
-                  {}
-                ar_marker_82:
-                  {}
-                ar_marker_96:
-                  {}
-                ar_marker_98:
-                  {}
+                {}
       Update Interval: 0
       Value: true
     - Class: rviz/Image
@@ -365,11 +278,11 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 50
-      Scale: 67.2346
+      Scale: 46.614
       Target Frame: map
       Value: TopDownOrtho (rviz)
-      X: 0.00447063
-      Y: 1.35893
+      X: -1.62222
+      Y: 0.554571
     Saved:
       - Angle: 0
         Class: rviz/TopDownOrtho
