@@ -3,6 +3,7 @@
   <name>gripper_msg</name>
   <version>0.0.0</version>
   <description>The gripper_msg package</description>
+  <maintainer email="th.danel@gmail.com">thomas</maintainer>
   <author email="th.danel@gmail.com">Thomas DANEL</author>
   <license>TODO</license>
 

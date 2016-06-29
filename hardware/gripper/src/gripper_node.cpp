@@ -1,23 +1,23 @@
-#include <ros.h>
+#include <ros/ros.h>
 #include <gripper_msg/SetGripper.h>
 #include <gripper_msg/Grip.h>
 #include <gripper_msg/GripperStatus.h>
 
 gripper_msg::GripperStatus g_gripStatus;
 
-enum TakingProcess
+enum class TakingProcess
 {
   IDLE,
-  TURN,
+  GET,
   PUSH,
   ERROR
 };
 
-enum ReleasingProcess
+enum class ReleasingProcess
 {
   IDLE,
   BACKWARD,
-  TURN,
+  LET,
   FORWARD,
   RELEASE
 };
@@ -45,11 +45,11 @@ bool gripper(gripper_msg::Grip::Request &req)
   {
     switch (g_tp)
     {
-      case IDLE:
+      case TakingProcess::IDLE:
         g_tp = TakingProcess::TURN;
       break;
 
-      case TURN:
+      case TakingProcess::GET:
         if (g_gripStatus.statusPercentTurn < 100)
         {
           // turn the high servo to get the piece
@@ -63,7 +63,7 @@ bool gripper(gripper_msg::Grip::Request &req)
         }
       break;
 
-      case PUSH:
+      case TakingProcess::PUSH:
         if (g_gripStatus.statusPercentPush < 100)
         {
           // push the low servo to hold the piece
@@ -77,7 +77,7 @@ bool gripper(gripper_msg::Grip::Request &req)
         }
       break;
 
-      case ERROR:
+      case TakingProcess::ERROR:
         ROS_ERROR("Error in grip process");
       break;
     }
@@ -88,11 +88,11 @@ bool gripper(gripper_msg::Grip::Request &req)
   {
     switch (g_rp)
     {
-      case IDLE:
+      case ReleasingProcess::IDLE:
         g_rp = ReleasingProcess::BACKWARD;
       break;
 
-      case BACKWARD:
+      case ReleasingProcess::BACKWARD:
         if (FA_client.feedback < 100)
         {
           mv.cmd = -2.0;
@@ -103,7 +103,7 @@ bool gripper(gripper_msg::Grip::Request &req)
         }
       break;
 
-      case RELEASE:
+      case ReleasingProcess::RELEASE:
         if (g_gripStatus.statusPercentPush < 100)
         {
           // turn the low servo to release the piece
@@ -117,7 +117,7 @@ bool gripper(gripper_msg::Grip::Request &req)
         }
       break;
 
-      case FORWARD:
+      case ReleasingProcess::FORWARD:
         if (g_gripStatus.statusPercentTurn < 100)
         {
           mv.cmd = 2.0;
@@ -128,7 +128,7 @@ bool gripper(gripper_msg::Grip::Request &req)
         }
       break;
 
-      case TURN:
+      case ReleasingProcess::LET:
         if (g_gripStatus.statusPercentTurn < 100)
         {
           grip.turn = true;
@@ -141,7 +141,7 @@ bool gripper(gripper_msg::Grip::Request &req)
         }
       break;
 
-      case ERROR:
+      case ReleasingProcess::ERROR:
         ROS_ERROR("Error in grip process");
       break;
     }

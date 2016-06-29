@@ -9,6 +9,9 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  actionlib_msgs
+  actionlib
+  final_approach_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -81,10 +84,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES gripper
-#  CATKIN_DEPENDS gripper_msgs roscpp rospy std_msgs
-#  DEPENDS system_lib
+  CATKIN_DEPENDS gripper_msg roscpp rospy std_msgs roscpp rospy actionlib_msgs actionlib
 )
 
 ###########
@@ -104,11 +104,19 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-# add_executable(gripper_node src/gripper_node.cpp)
+add_executable(
+	gripper_node
+	src/gripper_node.cpp
+)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(gripper_node gripper_generate_messages_cpp)
+add_dependencies(
+	gripper_node
+	gripper_msg
+	final_approach_msg_gencpp
+)
+set_target_properties(gripper_node	PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(gripper_node
