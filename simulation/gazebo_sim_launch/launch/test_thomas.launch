@@ -12,6 +12,23 @@
   <env name="ROSCONSOLE_FORMAT" value="[${node}]:${message}"/>
   <env name="ROSCONSOLE_CONFIG_FILE" value="$(find generateur_taches)/cfg/custom_rosconsole.conf"/>
 
+  <!-- Sensors real positions (constant args) -->
+  <arg name="tf_laser_x" value="0.11 " /><!-- 0.10 + 0.01-->
+  <arg name="tf_laser_y" value="0.0" />
+  <arg name="tf_laser_z" value="0.255" /><!-- 0.235 + 0.0175 -->
+  <arg name="tf_gripper_x" value="0.23" />
+  <arg name="tf_gripper_y" value="0.00" />
+  <arg name="tf_gripper_z" value="0.90" />
+  <arg name="tf_towercam_x" value="0.20" />
+  <arg name="tf_towercam_y" value="0.00" />
+  <arg name="tf_towercam_z" value="0.53" />
+  <arg name="tf_platformcam_x" value="0.0" />
+  <arg name="tf_platformcam_y" value="0.00" />
+  <arg name="tf_platformcam_z" value="0.90" />
+
+  <!-- Others constant args -->
+  <arg name="use_tf_prefix" value="true"/>
+
 	<!-- Root params -->
 	<param name="nbTeam" value="1" />
 	<param name="team1" value="PYRO" />
@@ -28,19 +45,22 @@
   </group>
   <!-- Robotino Pyro 1 -->
   <group ns="robotino1">
-    <arg name="tf_prefix" value="robotino1"/>
+    <arg name="robotNamespace" value="robotino1"/>
+                                                          <!-- Added slash is MANDATORY -->
+    <arg if="$(arg use_tf_prefix)"     name="tf_prefix" value="$(arg robotNamespace)/"/>
+    <arg unless="$(arg use_tf_prefix)" name="tf_prefix" value=""/>
 
     <param name="teamName" value="PYRO" />
     <param name="teamColor" value="magenta" />
     <param name="robotNumber" value="1" />
     <param name="robotName" value="R1" />
-    <param name="simuRobotNamespace" value="$(arg tf_prefix)" />
+    <param name="simuRobotNamespace" value="$(arg robotNamespace)" />
 
     <param name="objectDetection/useSimLandmarks" value="false" />
 
     <!-- Load ArTag -->
     <include file="$(find ar_tag)/launch/alvar_simu.launch">
-      <arg name="output_frame" value="$(arg tf_prefix)/tower_camera_link"/>
+      <arg name="output_frame" value="$(arg tf_prefix)tower_camera_link"/>
       <arg name="respawn" value="true"/>
       <arg name="output" value="log"/>
     </include>
@@ -64,20 +84,14 @@
 
     <!-- Load the path tracker -->
     <node pkg="topic_tools" name="mux_gridMap" type="mux" args="pathFinder/grid objectDetection/grid objectDetection/gridObstacles"/>
-
-    <!-- <node pkg="path_tracker" name="path_trackerRequest_node" type="path_trackerRequest_node.py" output="screen"/> -->
-
     <node pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen"/>
     <!-- Load the path tracker -->
-    <!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" launch-prefix="xterm -e"/> -->
     <rosparam command="load" file="$(find path_tracker)/cfg/navigation_pathTracker.yaml" />
     <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" output="screen"/>
 
 
     <!-- Load the fake final approach -->
-    <!--<node pkg="final_approach" name="final_approach" type="simFinalApproach_node"/>-->
     <node pkg="final_approach" name="final_approach" type="finalApproaching_node"/>
-    <!-- <node pkg="final_approach" name="final_approach" type="simFinalApproach_node" launch-prefix="xterm -e"/> -->
 
     <!-- Load the navigation manager -->
     <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node"/>
@@ -94,7 +108,31 @@
     <node pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
 
     <!-- Load the tf_broadcaster node -->
-    <node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node"/>
+    <node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node">
+      <param name="onlyOdomToBase" value="true">
+    </node>
+
+
+
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser_link" respawn="true" output="screen"
+      args="$(arg tf_laser_x) $(arg tf_laser_y) $(arg tf_laser_z)
+            0 0 0
+            $(arg tf_prefix)base_link $(arg tf_prefix)laser_link   100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_gripper_link" respawn="true" output="screen"
+      args="$(arg tf_gripper_x) $(arg tf_gripper_y) $(arg tf_gripper_z)
+            0 0 0
+            $(arg tf_prefix)base_link $(arg tf_prefix)gripper_link   100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_platform_camera_link" respawn="true" output="screen"
+      args="$(arg tf_platformcam_x) $(arg tf_platformcam_y) $(arg tf_platformcam_z)
+            -1.57 0 -1.57
+            $(arg tf_prefix)base_link $(arg tf_prefix)platform_camera_link   100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_tower_camera_link" respawn="true" output="screen"
+      args="$(arg tf_towercam_x) $(arg tf_towercam_y) $(arg tf_towercam_z)
+            -1.57 0 -1.57
+            $(arg tf_prefix)base_link $(arg tf_prefix)tower_camera_link   100" />
 
     <!-- AMCL -->
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
