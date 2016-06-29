@@ -39,8 +39,9 @@ class Machine
 		geometry_msgs::Pose2D m_centerMachine;
 		geometry_msgs::Pose2D m_entryMachine;
 		geometry_msgs::Pose2D m_exitMachine;
-		int zone;
-		bool isHere;
+		int m_zone;
+		bool m_isHere;
+		bool m_orientationOk;
 		std::string m_name;
 		int m_faType;
 

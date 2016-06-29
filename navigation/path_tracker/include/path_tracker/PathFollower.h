@@ -86,7 +86,7 @@ public:
 
     float getPathError()
     {
-        m_pathError;
+        return m_pathError;
     }
 
     nav_msgs::Path *getPath()

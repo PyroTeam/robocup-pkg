@@ -27,13 +27,13 @@
 /**
  *	\brief		ce qu'il y a à faire en phase d'exploration
  */
-void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &cptOrder, int robot ,int &cptZone, 
-							CorrespondanceZE &correspondanceZE);
+void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &cptOrder, int robot ,int &cptZone,
+							CorrespondanceZE &correspondanceZE, common_utils::RobotPoseSubscriber &poseSub);
 
 /**
  *	\brief		ce qu'il y a à faire en phase de production
  */
 void workInProductionPhase(std::list<std::list<Task> > &work, Machine (&tabMachine)[6], Robot (&tabRobot)[3],
-						   Storage (&tabStock)[6], bool (&take)[3], int &cptOrder, int robot, int (&availableCap)[2], 
+						   Storage (&tabStock)[6], bool (&take)[3], int &cptOrder, int robot, int (&availableCap)[2],
 						   int &storage,std::vector<comm_msg::Order> &tabOrders, double time, std::vector<bool> &ordersInProcess);
 #endif

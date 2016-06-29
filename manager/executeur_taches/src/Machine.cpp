@@ -19,6 +19,8 @@ Machine::Machine(int teamColor)
 	m_exitMachine.x = 0.0;
 	m_exitMachine.y = 0.0;
   m_exitMachine.theta = 0.0;
+
+  m_orientationOk = false;
 }
 
 /* Destructeur */
