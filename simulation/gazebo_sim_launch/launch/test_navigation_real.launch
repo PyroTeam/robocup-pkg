@@ -1,0 +1,128 @@
+
+<launch>
+	<!-- Configurable args -->
+	<arg name="use_hokuyo_node" default="true" />
+	<arg name="use_udev_symlinks" default="true" />
+
+	<!-- Sensors real positions (constant args) -->
+	<arg name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
+	<arg name="tf_laser_y" value="0.0" />
+	<arg name="tf_laser_z" value="0.255" />
+
+	<arg name="tf_gripper_x" value="0.23" />
+	<arg name="tf_gripper_y" value="0.00" />
+	<arg name="tf_gripper_z" value="0.90" />
+
+	<!-- Pyro TEAM -->
+	<!-- Team Namespace -->
+	<group ns="PYRO">
+		<param name="machineLocation/robot1" value="robotino1" />
+		<param name="machineLocation/robot2" value="" />
+		<param name="machineLocation/robot3" value="" />
+		<param name="machineLocation/centralizedManager" value="" />
+	</group>
+
+
+	<!-- Robotino Pyro 1 -->
+	<group ns="robotino1">
+		<arg name="use_tf_prefix" value="false"/>
+		<arg name="robotNamespace" value="robotino1"/>
+															<!-- Added slash is MANDATORY -->
+		<arg if="$(arg use_tf_prefix)"     name="tf_prefix" value="$(arg robotNamespace)/"/>
+		<arg unless="$(arg use_tf_prefix)" name="tf_prefix" value=""/>
+
+
+		<!-- Params -->
+		<param name="teamName" value="PYRO" />
+		<param name="teamColor" value="cyan" />
+		<param name="robotNumber" value="1" />
+		<param name="robotName" value="R1" />
+		<param if="$(arg use_tf_prefix)"     name="simuRobotNamespace" value="$(arg robotNamespace)" />
+		<param unless="$(arg use_tf_prefix)" name="simuRobotNamespace" value="" />
+
+		<!-- Paramètres de l'approche finale -->
+		<rosparam file="$(find gazebo_sim_launch)/param/robotino1_navigation.yaml" />
+
+		<!-- Paramètres ddu traitement d'image -->
+		<rosparam file="$(find feu_tricolore)/param/roi.yaml" />
+
+		<!-- Static transforms -->
+		<node pkg="tf" type="static_transform_publisher" name="map_to_odom"
+			  respawn="true" output="screen"
+			args="0 0 0
+			0 0 0
+			map $(arg tf_prefix)odom   100" />
+
+		<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser_link"
+			  respawn="true" output="screen"
+			args="$(arg tf_laser_x) $(arg tf_laser_y) $(arg tf_laser_z)
+			0 0 0
+			$(arg tf_prefix)base_link $(arg tf_prefix)laser_link   100" />
+
+		<node pkg="tf" type="static_transform_publisher" name="base_link_to_gripper_link"
+			  respawn="true" output="screen"
+			args="$(arg tf_gripper_x) $(arg tf_gripper_y) $(arg tf_gripper_z)
+			0 0 0
+			$(arg tf_prefix)base_link $(arg tf_prefix)gripper_link   100" />
+
+
+		<!-- Robotino node -->
+		<arg name="hostname" default="127.0.0.1" />
+
+		<node name="robotino_node" pkg="robotino_node" type="robotino_node"
+			  respawn="true" output="screen">
+			<param name="hostname" value="$(arg hostname)" />
+			<!-- TODO: Vérifier l'utilité de ces valeurs et les augmenter si possible -->
+			<param name="max_linear_vel" value="0.5" />
+			<param name="min_linear_vel" value="0.001" />
+			<param name="max_angular_vel" value="3.0" />
+			<param name="min_angular_vel" value="0.001" />
+			<!-- TODO: Vérifier l'utilité de ces paramètres et les retirer si possible -->
+			<param name="downsample_kinect" value="true" />
+			<param name="leaf_size_kinect" value="0.04" />
+			<remap from="robotino_joint_states" to="joint_states" />
+			<!-- Remap topics -->
+			<remap from="cmd_vel" to="hardware/cmd_vel" />
+			<remap from="bumper" to="hardware/bumper" />
+		</node>
+
+
+		<!-- Odometry -->
+		<node name="robotino_odometry_node" pkg="robotino_node" type="robotino_odometry_node"
+			  respawn="true" output="screen">
+			<param name="hostname" value="$(arg hostname)" />
+			<!-- Remap topics -->
+			<remap from="odom" to="hardware/odom" />
+		</node>
+
+
+		<!-- LaserScan -->
+		<node unless="$(arg use_hokuyo_node)" name="robotino_laser_node"
+			  pkg="robotino_node" type="robotino_laserrangefinder_node"
+			  respawn="true" output="screen">
+			<param name="hostname" value="$(arg hostname)" />
+			<param name="laserRangeFinderNumber" value="0" />
+			<!-- Remap topics -->
+			<remap from="scan" to="hardware/scan" />
+		</node>
+		<node if="$(arg use_hokuyo_node)" name="hokuyo_laser_node" pkg="hokuyo_node" type="hokuyo_node"
+			  respawn="true" output="screen">
+
+			<!-- Starts up slower when true, but timestamps will be accurate. -->
+			<param name="calibrate_time" type="bool" value="true"/>
+
+			<!-- Set the port to connect to -->
+			<param unless="$(arg use_udev_symlinks)" name="port" type="string" value="/dev/ttyACM0"/>
+			<param if="$(arg use_udev_symlinks)" name="port" type="string" value="/dev/laserscan"/>
+
+			<!-- Remplit le champ intensity du sensor_msgs/LaserScan. Pas utile pour nous -->
+			<param name="intensity" type="bool" value="false"/>
+
+   			<param name="frame_id" type="string" value="$(arg tf_prefix)laser_link" />
+			<!-- Remap topics -->
+			<remap from="scan" to="hardware/scan" />
+		</node>
+
+
+	</group>
+</launch>
