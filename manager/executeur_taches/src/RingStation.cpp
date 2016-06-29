@@ -3,13 +3,22 @@
 #include "RingStation.h"
 
 /* Constructeur */
-RingStation::RingStation()
+RingStation::RingStation(int teamColor)
+: Machine(teamColor)
 {
+	m_name += "RS";
+	m_faType = FinalApproachingGoal::RS;
 	m_type = "RingStation";
 	m_greenRing = 0;
 	m_yellowRing = 0;
 	m_blueRing = 0;
 	m_orangeRing = 0;
+}
+
+RingStation::RingStation(int teamColor, int nb)
+: RingStation(teamColor)
+{
+	m_name += std::to_string(nb);
 }
 
 /* Destructeur */
@@ -59,17 +68,17 @@ void RingStation::put_ring(int color,int n_robot,int n_order,int machine)
 
 	/* TOPIC Générateur de taches : infos sur l'avancement de la tache */
 	manager_msg::activity msg;
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order); 
+	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order);
 	ROS_INFO("Putting a Ring, color : %d", color);
 
 	goTo(this->m_entryMachine);
 
-	this->startFinalAp(finalApproachingGoal::RS, finalApproachingGoal::IN, finalApproachingGoal::CONVEYOR);
+	this->startFinalAp(FinalApproachingGoal::RS, FinalApproachingGoal::IN, FinalApproachingGoal::CONVEYOR);
 	this->let();
 
 	//Communication_RefBox(je veux un ring de couleur "couleur" )
 
-	msg = msgToGT(n_robot,activity::END,machine,n_order); 
+	msg = msgToGT(n_robot,activity::END,machine,n_order);
 }
 
 void RingStation::take_ring(int color,int n_robot,int n_order,int machine)
@@ -79,16 +88,16 @@ void RingStation::take_ring(int color,int n_robot,int n_order,int machine)
 
 	/* TOPIC Générateur de taches : infos sur l'avancement de la tache */
 	manager_msg::activity msg;
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order); 
+	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order);
 	ROS_INFO("Taking a Ring, color : %d", color);
 
-	//Communication_RefBox(give me the product ) 
+	//Communication_RefBox(give me the product )
 
 	goTo(this->m_exitMachine);
 
 	// while(Communication_RefBox(rs n'a terminé de livrer))
 
-	this->startFinalAp(finalApproachingGoal::RS, finalApproachingGoal::OUT, finalApproachingGoal::CONVEYOR);
+	this->startFinalAp(FinalApproachingGoal::RS, FinalApproachingGoal::OUT, FinalApproachingGoal::CONVEYOR);
 	this->take();
 	msg = msgToGT(n_robot,activity::END,machine,n_order);
 }

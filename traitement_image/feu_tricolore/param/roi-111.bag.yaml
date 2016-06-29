@@ -1,0 +1,20 @@
+computerVision:
+  lightSignalDetection:
+    greenRoi:
+      xmin: 0.30
+      xmax: 0.38
+      ymin: 0.53
+      ymax: 0.62
+      threshold: 150
+    yellowRoi:
+      xmin: 0.30
+      xmax: 0.38
+      ymin: 0.45
+      ymax: 0.53
+      threshold: 210
+    redRoi:
+      xmin: 0.30
+      xmax: 0.38
+      ymin: 0.35
+      ymax: 0.44
+      threshold: 210

@@ -3,8 +3,11 @@
 #include "DeliveryStation.h"
 
 /* Constructeur */
-DeliveryStation::DeliveryStation()
+DeliveryStation::DeliveryStation(int teamColor)
+: Machine(teamColor)
 {
+	m_name += "DS";
+	m_faType = FinalApproachingGoal::DS;
 	m_type = "DeliveryStation";
 }
 
@@ -28,7 +31,7 @@ void DeliveryStation::deliverToDS(int n_robot, int n_order)
 
 	goTo(this->m_entryMachine);
 
-	this->startFinalAp(finalApproachingGoal::DS, finalApproachingGoal::IN, finalApproachingGoal::CONVEYOR);
+	this->startFinalAp(FinalApproachingGoal::DS, FinalApproachingGoal::IN, FinalApproachingGoal::CONVEYOR);
 	this->let();
 
 	//Communication_RefBox(je delivre le produit d'ordre n_order )

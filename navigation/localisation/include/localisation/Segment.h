@@ -8,21 +8,22 @@ public:
 	Segment();
 	~Segment();
 
-	double getAngle();
-	double getSize();
+	double getAngle() const;
+	double getSize() const;
 
-	geometry_msgs::Point getMin();
-	geometry_msgs::Point getMax();
-	geometry_msgs::Point getCenter();
+	geometry_msgs::Point getMin() const;
+	geometry_msgs::Point getMax() const;
+	geometry_msgs::Point getCenter() const;
 
-	void setAngle(double theta);
-	void setSize(double size);
-	void setMin(geometry_msgs::Point a);
-	void setMax(geometry_msgs::Point a);
-	void setPoints(geometry_msgs::Point a, geometry_msgs::Point b);
-	
+	void setAngle(const double &theta);
+	void setSize(const double &size);
+	void setMin(const geometry_msgs::Point &a);
+	void setMax(const geometry_msgs::Point &a);
+	void setPoints(const geometry_msgs::Point &a, const geometry_msgs::Point &b);
+
 	void update();
 	void build(const std::list<geometry_msgs::Point> &points);
+
 protected:
 	double			 		m_angle;
 	double 			 		m_size;

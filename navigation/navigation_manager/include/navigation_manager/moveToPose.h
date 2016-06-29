@@ -4,9 +4,9 @@
  * \brief
  *
  * \author       Tissot Elise (elise-tissot@polytech-lille.net)
+ *               Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date         2015-04-23
- * \copyright    PyroTeam, Polytech-Lille
- * \license
+ * \copyright    2016, Association de Robotique de Polytech Lille All rights reserved
  * \version
  */
 
@@ -17,30 +17,30 @@
 #include <actionlib/server/simple_action_server.h>
 #include <actionlib/client/simple_action_client.h>
 #include <sensor_msgs/PointCloud.h>
-
+#include <tf/transform_listener.h>
 #include "deplacement_msg/MoveToPoseAction.h"
 #include "deplacement_msg/TrackPathAction.h"
-#include "pathfinder/GeneratePath.h"
 
 #include "nav_msgs/Odometry.h"
-#include "pathfinder/AstarPath.h"
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Pose2D.h"
+#include "common_utils/RobotPoseSubscriber.h"
 
 class MoveToPose
 {
 	private:
 	    ros::Subscriber m_pathSub;
 	    actionlib::SimpleActionClient<deplacement_msg::TrackPathAction> m_trackPathAction;
-	    ros::ServiceClient m_generatePathClient;
 	    ros::Subscriber m_odomSub;
 	    ros::Subscriber m_sharpSensorSub;
 
 	    sensor_msgs::PointCloud m_sharpSensor;
-	    int m_lastId;
-	    geometry_msgs::Pose m_poseOdom;
-	    int m_pathId;
+
+        common_utils::RobotPoseSubscriber m_robotPose;
+
 	    int m_pathTrackPercentComplete;
+        deplacement_msg::TrackPathResult m_pathTrackResult;
+        bool m_isPathTrackEnded;
 
 	    enum PathTrackStatus
 	    {
@@ -49,7 +49,6 @@ class MoveToPose
 	    };
 
 	    void PoseCallback(const nav_msgs::Odometry &odom);
-	    void PathCallback(const pathfinder::AstarPath &path);
 	    void DistSensorCallback(const sensor_msgs::PointCloud &sensor);
 	    void doneCb(const actionlib::SimpleClientGoalState& state,
 		            const deplacement_msg::TrackPathResultConstPtr& result);
@@ -64,17 +63,13 @@ class MoveToPose
 	    // create messages that are used to published feedback/result
 	    deplacement_msg::MoveToPoseFeedback m_feedback;
 	    deplacement_msg::MoveToPoseResult m_result;
-
+        tf::TransformListener m_tfListener;
 	public:
 	    MoveToPose(std::string name) : m_as(m_nh, name, boost::bind(&MoveToPose::executeCB, this, _1), false),
-	                                   m_actionName(name), m_trackPathAction("navigation/trackPath", true)
+	                                   m_actionName(name), m_trackPathAction("navigation/trackPath", true),
+									   m_robotPose("map"), m_pathTrackPercentComplete(0), m_isPathTrackEnded(false)
 	    {
-			m_lastId = 0;
-			m_pathId = 0;
-			m_odomSub = m_nh.subscribe("hardware/odom", 1000, &MoveToPose::PoseCallback, this);
-			m_pathSub = m_nh.subscribe("navigation/pathFound", 1000, &MoveToPose::PathCallback, this);
-			m_sharpSensorSub = m_nh.subscribe("hardware/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
-			m_generatePathClient = m_nh.serviceClient<pathfinder::GeneratePath>("navigation/generatePath");
+			m_sharpSensorSub = m_nh.subscribe("hardware/distance_sensors", 1, &MoveToPose::DistSensorCallback, this);
 			m_as.start();
 	    }
 

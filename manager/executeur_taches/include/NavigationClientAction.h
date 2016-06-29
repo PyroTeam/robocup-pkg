@@ -4,7 +4,7 @@
  * \brief       classe client pour l'action navigation
  * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
  * \date        2015-10-10
- * \copyright   PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef NAVIGATIONCLIENTACTION_H
@@ -24,7 +24,7 @@ class NavigationClientAction
 		/* Constructeur */
 		NavigationClientAction();
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual  ~NavigationClientAction();
 
 		/* Méthodes */

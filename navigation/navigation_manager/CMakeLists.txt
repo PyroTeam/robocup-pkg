@@ -14,7 +14,10 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   sensor_msgs
-  pathfinder
+  occupancy_grid_utils
+  common_utils
+  tf
+  topic_tools
 )
 
 ## System dependencies are found with CMake's conventions

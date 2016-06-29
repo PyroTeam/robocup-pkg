@@ -62,8 +62,8 @@ fi
 
 ### Refbox
 sudo apt-get --yes --force-yes	install libmodbus-dev protobuf-compiler libprotobuf-dev libprotoc-dev libboost-all-dev \
-										libglibmm-2.4-dev libgtkmm-3.0-dev libncursesw5-dev libyaml-cpp-dev libavahi-client-dev\
-										git libxt-dev libxaw7-dev libncurses5-dev autoconf autogen libtool libyaml-dev
+				libglibmm-2.4-dev libgtkmm-3.0-dev libncursesw5-dev libyaml-cpp-dev libavahi-client-dev \
+				git libxt-dev libxaw7-dev libncurses5-dev autoconf autogen libtool libyaml-dev
 
 ### Protobuf
 sudo apt-get --yes --force-yes	install libprotoc-dev libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler
@@ -110,11 +110,11 @@ git clone https://github.com/PyroTeam/gazebo-rcll.git
 
 sudo sh -c 'echo "" >> /usr/share/gazebo/setup.sh'
 sudo sh -c 'echo "export GAZEBO_RCLL=${HOME}/gazebo-rcll" >> /usr/share/gazebo/setup.sh'
-sudo sh -c 'echo "export GAZEBO_RESOURCE_PATH=$GAZEBO_RESOURCE_PATH:$GAZEBO_RCLL/worlds" >> /usr/share/gazebo/setup.sh'
-sudo sh -c 'echo "export GAZEBO_PLUGIN_PATH=$GAZEBO_PLUGIN_PATH:$GAZEBO_RCLL/plugins/lib/gazebo" >> /usr/share/gazebo/setup.sh'
-sudo sh -c 'echo "export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$GAZEBO_RCLL/models" >> /usr/share/gazebo/setup.sh'
+sudo sh -c 'echo "export GAZEBO_RESOURCE_PATH=\$GAZEBO_RESOURCE_PATH:\$GAZEBO_RCLL/worlds" >> /usr/share/gazebo/setup.sh'
+sudo sh -c 'echo "export GAZEBO_PLUGIN_PATH=\$GAZEBO_PLUGIN_PATH:\$GAZEBO_RCLL/plugins/lib/gazebo" >> /usr/share/gazebo/setup.sh'
+sudo sh -c 'echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:\$GAZEBO_RCLL/models" >> /usr/share/gazebo/setup.sh'
 sudo sh -c 'echo "# To include team specific models, also add for example this line:" >> /usr/share/gazebo/setup.sh'
-sudo sh -c 'echo "export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$GAZEBO_RCLL/models/pyro" >> /usr/share/gazebo/setup.sh'
+sudo sh -c 'echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:\$GAZEBO_RCLL/models/pyro" >> /usr/share/gazebo/setup.sh'
 
 echo "# Gazebo (ROS)" >> ~/.bashrc
 echo "source /usr/share/gazebo/setup.sh" >> ~/.bashrc

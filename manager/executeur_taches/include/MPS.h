@@ -4,27 +4,28 @@
  * \brief       classe pour stocker la position et l'orientation d'une machine
  * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
  * \date        2015-10-10
- * \copyright   PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef MPS_H
 #define MPS_H
+
+#include "geometry_msgs/Pose2D.h"
+
+
 class MPS
 {
 	public:
 		/* Constructeur */
 		MPS();
 
-		/* Déstructeur */
+		/* Destructeur */
 		~MPS();
 
 		/* Variables d'instance */
-		float  x;
-		float  y;
-		float  theta;
+		geometry_msgs::Pose2D pose;
 		int    zone;
 		bool   isHere;
-	
 };
 
 #endif

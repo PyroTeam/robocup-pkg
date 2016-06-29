@@ -6,7 +6,7 @@
 
   <maintainer email="valentin.vergez@gmail.com">Valentin Vergez</maintainer>
 
-  <license>GPLv3</license>
+  <license>TODO</license>
 
   <url type="repository">https://github.com/PyroTeam/robocup-pkg</url>
   <url type="bugtracker">https://github.com/PyroTeam/robocup-pkg/issues</url>
@@ -14,7 +14,7 @@
 
   <author email="valentin.vergez@gmail.com">Valentin Vergez</author>
 
-  
+
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>actionlib</build_depend>
@@ -25,8 +25,10 @@
   <build_depend>robotino_msgs</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
-  <build_depend>pathfinder</build_depend>
   <build_depend>tf</build_depend>
+  <build_depend>common_utils</build_depend>
+  <build_depend>geometry_utils</build_depend>
+  <build_depend>occupancy_grid_utils</build_depend>
 
   <run_depend>actionlib</run_depend>
   <run_depend>deplacement_msg</run_depend>
@@ -36,8 +38,10 @@
   <run_depend>robotino_msgs</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
-  <run_depend>pathfinder</run_depend>
   <run_depend>tf</run_depend>
+  <run_depend>common_utils</run_depend>
+  <run_depend>geometry_utils</run_depend>
+  <run_depend>occupancy_grid_utils</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

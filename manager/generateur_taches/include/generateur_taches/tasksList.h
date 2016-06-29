@@ -3,7 +3,7 @@
  * \brief		fonctions utiles concernant la production d'un produit
  * \author		Smagghe Cyril (cyril.smagghe@polytech-lille.net)
  * \date		2015-04-01
- * \copyright	PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef TASKSLIST_H

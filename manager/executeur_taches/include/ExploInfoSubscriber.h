@@ -4,7 +4,7 @@
  * \brief       classe pour interpréter des données pour la phase d'exploration
  * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
  * \date        2015-10-10
- * \copyright   PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef EXPLOINFOSUBSCRIBER_H
@@ -26,7 +26,7 @@ class ExploInfoSubscriber
     /* Constructeur */
     ExploInfoSubscriber();
 
-    /* Déstructeur */
+    /* Destructeur */
     virtual  ~ExploInfoSubscriber();
 
     /* Méthodes */
@@ -34,7 +34,7 @@ class ExploInfoSubscriber
     void interpretationFeu();
     std::string type;
     uint8_t zone;
-    std::vector<comm_msg::LightSpec> lSpec;
+    std::vector<comm_msg::LightSpec> m_lSpec;
     std::vector<comm_msg::ExplorationSignal>  m_signals;
     std::vector<comm_msg::ExplorationZone>  m_zones;
     ros::Subscriber m_sub;

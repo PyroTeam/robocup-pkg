@@ -4,7 +4,7 @@
  * \brief       classe qui stocke les données de la basestation
  * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
  * \date        2015-10-10
- * \copyright   PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef BASESTATION_H
@@ -26,9 +26,9 @@ class BaseStation : public Machine
   	public:
 	
 		/* Constructeur */
-		BaseStation();
+		BaseStation(int teamColor);
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual ~BaseStation();
 
 		virtual void FonctionVirtuelle();

@@ -1,592 +1,562 @@
 #include "GtServerSrv.h"
 
-GtServerSrv::GtServerSrv()
+#include <common_utils/zone.h>
+
+GtServerSrv::GtServerSrv(int teamColor)
+: m_color(teamColor)
+, m_elements(teamColor)
 {
-	ros::NodeHandle n;
-	n.param<int>("robotNumber",m_nbrobot,0);
-	n.param<int>("teamColor",m_color,CYAN);
+  ros::NodeHandle n;
+  n.param<int>("robotNumber", m_nbrobot, 0);
 
-	m_msg.nb_robot = m_nbrobot;
-	m_msg.state = manager_msg::activity::END;
-	m_msg.machine_used = manager_msg::activity::NONE;
+  m_msg.nb_robot = m_nbrobot;
+  m_msg.state = manager_msg::activity::END;
+  m_msg.machine_used = manager_msg::activity::NONE;
 
-	m_ei = new ExploInfoSubscriber();
-	m_ls = new LocaSubscriber();
+  m_ei = new ExploInfoSubscriber();
+  m_ls = new LocaSubscriber();
+  m_rp = new RobotPoseSubscriber();
+
+  m_activity_pub = n.advertise<manager_msg::activity>("manager/task_exec_state", 50);
 }
 
 GtServerSrv::~GtServerSrv(){}
 
 void GtServerSrv::setId(int id)
 {
-	m_id = id;
+  m_id = id;
 }
 
-void GtServerSrv::going(geometry_msgs::Pose2D point)
+bool GtServerSrv::going(geometry_msgs::Pose2D point)
 {
-   int count = 0, stateOfNavigation;
-   do{
-		ROS_INFO("going to the point : x : %f - y : %f - theta %f",point.x,point.y,point.theta);
-		NavigationClientAction n_c;
-		stateOfNavigation = n_c.goToAPoint(point);
-		if(stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR)
-		{
-			count ++;
-			ROS_INFO("Can't go to the asked point sorry :(.. I will try another one ");
-			point.x -= 0.2;
-			point.y += 0.2;
-   		}
-	}while (stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR);
+  int count = 0, stateOfNavigation;
+  do{
+    ROS_INFO("Going to point : x: %f; y: %f; theta: %f",point.x,point.y,point.theta);
+    NavigationClientAction n_c;
+    stateOfNavigation = n_c.goToAPoint(point);
+    if(stateOfNavigation == deplacement_msg::MoveToPoseResult::ERROR)
+    {
+      count ++;
+      //ROS_WARN("Unable to reach requested point (%f;%f; %f rads). Will try another one", point.x, point.y, point.theta);
+      // Utilisation du service pathfinder pour rechercher un point libre proche du point demandé
+      point.x -= 0.2;
+      point.y += 0.2;
+    }
+  }while (stateOfNavigation != deplacement_msg::MoveToPoseResult::FINISHED);
+
+  //ROS_INFO("Arrived to the asked point : x: %f; y: %f; theta: %f",point.x,point.y,point.theta);
 }
 
 geometry_msgs::Pose2D GtServerSrv::calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone)
 {
-	geometry_msgs::Pose2D pt_dest, center;
-	center.x = m_ls->machine[zone - 1].x;
-	center.y = m_ls->machine[zone - 1].y;
-	center.theta = m_ls->machine[zone - 1].theta;;
-	pt_dest.x = 2*center.x - pt_actuel.x;
-	pt_dest.y = 2*center.y - pt_actuel.y;
-	pt_dest.theta = pt_actuel.theta - M_PI;
-	return pt_dest;
+  geometry_msgs::Pose2D pt_dest, center;
+  center = m_ls->machines()[zone - 1].pose;
+  pt_dest.x = 2*center.x - pt_actuel.x;
+  pt_dest.y = 2*center.y - pt_actuel.y;
+  pt_dest.theta = pt_actuel.theta - M_PI;
+  return pt_dest;
 }
 
-void GtServerSrv::asking(geometry_msgs::Pose2D point)
+/* Valentin's function */
+void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2)
 {
-	int count = 0;
-	int16_t mid;
-	ArTagClienSrv atg;
-	FinalApproachingClient fa_c;
-	do{
-		if(count = 1) {point.y += 1.5; point.theta += M_PI/2;  going(point);}
-		else if(count = 2) {point.x -= 2;   point.theta += M_PI/2;  going(point);}
-		else if(count = 3) {point.y -= 1.5; point.theta += M_PI/2;  going(point);}
-		else if(count = 4) {point.x += 2;   point.theta += M_PI/2;  going(point);}
-		else count = 0;
-		fa_c.starting(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-		mid = atg.askForId();
-		count ++;
-	}while(mid == -1);
-	m_id = mid;
+  #define MARGIN_FROM_CENTER 0.75
+  geometry_msgs::Pose2D knownMachinePose;
+  float dy = 0;
+  float dx = 0;
+
+  knownMachinePose = m_ls->machines()[zone - 1].pose;
+  knownMachinePose.theta = fmod(knownMachinePose.theta, M_PI);
+
+  dy = -MARGIN_FROM_CENTER * cos(knownMachinePose.theta);
+  dx = MARGIN_FROM_CENTER * sin(knownMachinePose.theta);
+
+  point1.x = knownMachinePose.x - dx;
+  point1.y = knownMachinePose.y - dy;
+  point1.theta = knownMachinePose.theta - M_PI/2;
+
+  point2.x = knownMachinePose.x + dx;
+  point2.y = knownMachinePose.y + dy;
+  point2.theta = knownMachinePose.theta + M_PI/2;
+
+  #undef MARGIN_FROM_CENTER
 }
 
-manager_msg::activity GtServerSrv::getActivityMsg()
+bool GtServerSrv::knownMachineInZone(int zone)
 {
-	return m_msg;
+  return m_ls->machines()[zone - 1].isHere;
 }
 
-manager_msg::finalApproachingAction GtServerSrv::getFinalAppAction()
-{
-	return m_act;
-}
 
-void GtServerSrv::interpretationZone()
-{
-	int zone = this->m_id;
-	// Get bottom-right coord of zone
-	m_x = 0;
-	m_y = 0;
-	// Right side
-	if(zone>0 && zone<13) 
-	{
-		m_x = ((zone-1)/4)*2;
-		m_y = ((zone-1)%4)*1.5;
-		m_x+=2;
-	}
-	// Left side
-	else if (zone<=24) 
-	{
-		zone -=12;
-		m_x = -((zone-1)/4)*2 - 2;
-		m_y = ((zone-1)%4)*1.5;
-		m_x+=2;
-	}
-	else 
-	{
-		ROS_ERROR("There is only 23 zones ");
-	}
-	m_x+=0.001;
-	m_y+=0.001;
-}
+void GtServerSrv::getNearestPoint(geometry_msgs::Pose2D &pose
+  , geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2
+  , geometry_msgs::Pose2D **targetPointPtr, geometry_msgs::Pose2D **otherPointPtr)
+  {
+    /* TODO: Unfake this function (use pose) */
+    *targetPointPtr = &point1;
+    *otherPointPtr = &point2;
+  }
 
-int GtServerSrv::teamColorOfId(int arTag)
-{
-	int team_color = 0;
-	switch(arTag) 
-	{
-		case  C_CS1_IN    :       team_color = CYAN;       m_name = "CS";      break;
+  manager_msg::activity GtServerSrv::getActivityMsg()
+  {
+    return m_msg;
+  }
 
-		case  C_CS1_OUT   :       team_color = CYAN;       m_name = "CS";      break;
+  final_approach_msg::FinalApproachingAction GtServerSrv::getFinalAppAction()
+  {
+    return m_act;
+  }
 
-		case  C_CS2_IN    :       team_color = CYAN;       m_name = "CS";      break;
+  void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
+  {
+    #define ZONE_WIDTH	2.0
+    #define ZONE_HEIGHT	1.5
 
-		case  C_CS2_OUT   :       team_color = CYAN;       m_name = "CS";      break;
+    float xOffset = ZONE_WIDTH/2;
+    float yOffset = ZONE_HEIGHT/2;
 
-		case  C_RS1_IN    :       team_color = CYAN;       m_name = "RS";      break;
+    if (!common_utils::getZoneCenter(zone, m_explo_target.x, m_explo_target.y))
+    {
+      return;
+    }
 
-		case  C_RS1_OUT   :       team_color = CYAN;       m_name = "RS";      break;
+    // Get corner
+    switch(zoneCorner)
+    {
+      case BOTTOM_LEFT:
+      yOffset *= -1;
+      xOffset *= -1;
+      m_explo_target.theta = M_PI/4;
+      break;
 
-		case  C_RS2_IN    :       team_color = CYAN;       m_name = "RS";      break;
+      case BOTTOM_RIGHT:
+      yOffset *= -1;
+      m_explo_target.theta = 3*M_PI/4;
+      break;
 
-		case  C_RS2_OUT   :       team_color = CYAN;       m_name = "RS";      break;
+      case TOP_LEFT:
+      xOffset *= -1;
+      m_explo_target.theta = -M_PI/4;
+      break;
 
-		case  C_BS_IN     :       team_color = CYAN;       m_name = "BS";      break;
+      case TOP_RIGHT:
+      m_explo_target.theta = -3*M_PI/4;
+      break;
 
-		case  C_BS_OUT    :       team_color = CYAN;       m_name = "BS";      break;
+      default:
+      ROS_ERROR("Invalid zone corner");
+      break;
+    }
 
-		case  C_DS_IN     :       team_color = CYAN;       m_name = "DS";      break;
+    m_explo_target.x += xOffset;
+    m_explo_target.y += yOffset;
 
-		case  C_DS_OUT    :       team_color = CYAN;       m_name = "DS";      break;
+    #undef ZONE_WIDTH
+    #undef ZONE_WIDTH
+  }
+
+  int GtServerSrv::teamColorOfId(int arTag)
+  {
+    int team_color = 0;
+    switch(arTag)
+    {
+      case  C_CS1_IN    :       team_color = CYAN;          m_name = "C-CS1";       break;
+
+      case  C_CS1_OUT   :       team_color = CYAN;          m_name = "C-CS1";       break;
+
+      case  C_CS2_IN    :       team_color = CYAN;          m_name = "C-CS2";       break;
+
+      case  C_CS2_OUT   :       team_color = CYAN;          m_name = "C-CS2";       break;
+
+      case  C_RS1_IN    :       team_color = CYAN;          m_name = "C-RS1";       break;
+
+      case  C_RS1_OUT   :       team_color = CYAN;          m_name = "C-RS1";       break;
+
+      case  C_RS2_IN    :       team_color = CYAN;          m_name = "C-RS2";       break;
+
+      case  C_RS2_OUT   :       team_color = CYAN;          m_name = "C-RS2";       break;
+
+      case  C_BS_IN     :       team_color = CYAN;          m_name = "C-BS";        break;
+
+      case  C_BS_OUT    :       team_color = CYAN;          m_name = "C-BS";        break;
+
+      case  C_DS_IN     :       team_color = CYAN;          m_name = "C-DS";        break;
+
+      case  C_DS_OUT    :       team_color = CYAN;          m_name = "C-DS";        break;
 
 
-		case  M_CS1_IN    :       team_color = MAGENTA;    m_name = "CS";      break;
+      case  M_CS1_IN    :       team_color = MAGENTA;       m_name = "M-CS1";       break;
 
-		case  M_CS1_OUT   :       team_color = MAGENTA;    m_name = "CS";      break;
+      case  M_CS1_OUT   :       team_color = MAGENTA;       m_name = "M-CS1";       break;
 
-		case  M_CS2_IN    :       team_color = MAGENTA;    m_name = "CS";      break;
+      case  M_CS2_IN    :       team_color = MAGENTA;       m_name = "M-CS2";       break;
 
-		case  M_CS2_OUT   :       team_color = MAGENTA;    m_name = "CS";      break;
+      case  M_CS2_OUT   :       team_color = MAGENTA;       m_name = "M-CS2";       break;
 
-		case  M_RS1_IN    :       team_color = MAGENTA;    m_name = "RS";      break;
+      case  M_RS1_IN    :       team_color = MAGENTA;       m_name = "M-RS1";       break;
 
-		case  M_RS1_OUT   :       team_color = MAGENTA;    m_name = "RS";      break;
+      case  M_RS1_OUT   :       team_color = MAGENTA;       m_name = "M-RS1";       break;
 
-		case  M_RS2_IN    :       team_color = MAGENTA;    m_name = "RS";      break;
+      case  M_RS2_IN    :       team_color = MAGENTA;       m_name = "M-RS2";       break;
 
-		case  M_RS2_OUT   :       team_color = MAGENTA;    m_name = "RS";      break;
+      case  M_RS2_OUT   :       team_color = MAGENTA;       m_name = "M-RS2";       break;
 
-		case  M_BS_IN     :       team_color = MAGENTA;    m_name = "BS";      break;
+      case  M_BS_IN     :       team_color = MAGENTA;       m_name = "M-BS";        break;
 
-		case  M_BS_OUT    :       team_color = MAGENTA;    m_name = "BS";      break;
+      case  M_BS_OUT    :       team_color = MAGENTA;       m_name = "M-BS";        break;
 
-		case  M_DS_IN     :       team_color = MAGENTA;    m_name = "DS";      break;
+      case  M_DS_IN     :       team_color = MAGENTA;       m_name = "M-DS";        break;
 
-		case  M_DS_OUT    :       team_color = MAGENTA;    m_name = "DS";      break;
+      case  M_DS_OUT    :       team_color = MAGENTA;       m_name = "M-DS";        break;
 
-		default:      team_color = -1;     break;
-	}
-	return team_color;
-}
+      default           :       team_color = -1;            m_name = "";            break;
+    }
 
-bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::order::Response &res)
-{
-	ROS_INFO("No problem, I received the order ");
-	setId(req.id);
-	if (req.number_robot == m_nbrobot)
-	{
-	  	res.number_order = req.number_order;
-	  	res.number_robot = m_nbrobot;
-	 	res.id = m_id;
-	  	MyElements m;
-	  	switch(req.type)   // à rajouter => machine non occupée par un robotino et au départ (on ne sait pas cs1/cs2 et rs1/rs2)
-	  	{ 
-		  	case orderRequest::TAKE_BASE:
-				m.getBS().take_base(req.parameter,m_nbrobot,req.number_order);
-				break;
-		  	case orderRequest::PUT_CAP:
-				switch(req.parameter)
-				{
-					case orderRequest::BLACK :
-						if(m.getCS1().getBlackCap() != 0)        m.getCS1().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
-						else if(m.getCS2().getBlackCap() != 0)   m.getCS2().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-						break;
-					case orderRequest::GREY :
-						if(m.getCS1().getGreyCap() != 0)         m.getCS1().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
-						else if(m.getCS2().getGreyCap() != 0)    m.getCS2().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-						break;
-				}
-				break;
-		  	case orderRequest::TAKE_CAP:
-			   switch(req.parameter)
-			   {
-					case orderRequest::BLACK :
-						if(m.getCS1().getBlackCap() != 0)        m.getCS1().take_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
-						else if(m.getCS2().getBlackCap() != 0)   m.getCS2().take_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-						break;
-					case orderRequest::GREY :
-						if(m.getCS1().getGreyCap() != 0)         m.getCS1().take_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
-						else if(m.getCS2().getGreyCap() != 0)    m.getCS2().take_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-						break;
-				}
-				break;
-		  	case orderRequest::PUT_RING:
-				switch(req.parameter)
-				{
-					case orderRequest::GREEN :
-						if(m.getRS1().getGreenRing() != 0)       m.getRS1().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getGreenRing() != 0)  m.getRS2().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-					case orderRequest::YELLOW :
-						if(m.getRS1().getYellowRing() != 0)      m.getRS1().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getYellowRing() != 0) m.getRS2().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-					case orderRequest::BLUE :
-						if(m.getRS1().getBlueRing() != 0)        m.getRS1().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getBlueRing() != 0)   m.getRS2().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-					case orderRequest::ORANGE :
-						if(m.getRS1().getOrangeRing() != 0)      m.getRS1().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getOrangeRing() != 0) m.getRS2().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-				}
-				break;
-		  	case orderRequest::TAKE_RING:
-				switch(req.parameter)
-				{
-					case orderRequest::GREEN :
-						if(m.getRS1().getGreenRing() != 0)       m.getRS1().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getGreenRing() != 0)  m.getRS2().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-					case orderRequest::YELLOW :
-						if(m.getRS1().getYellowRing() != 0)      m.getRS1().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getYellowRing() != 0) m.getRS2().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-					case orderRequest::BLUE :
-						if(m.getRS1().getBlueRing() != 0)        m.getRS1().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getBlueRing() != 0)   m.getRS2().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-					case orderRequest::ORANGE :
-						if(m.getRS1().getOrangeRing() != 0)      m.getRS1().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getOrangeRing() != 0) m.getRS2().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-				}
-				break;
-		  	case orderRequest::BRING_BASE_RS:
-				switch(req.parameter)
-				{
-					case orderRequest::GREEN :
-						if(m.getRS1().getGreenRing() != 0)       m.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getGreenRing() != 0)  m.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-					case orderRequest::YELLOW :
-						if(m.getRS1().getYellowRing() != 0)      m.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getYellowRing() != 0) m.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-					case orderRequest::BLUE :
-						if(m.getRS1().getBlueRing() != 0)        m.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getBlueRing() != 0)   m.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-					case orderRequest::ORANGE :
-						if(m.getRS1().getOrangeRing() != 0)      m.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS1);
-						else if(m.getRS2().getOrangeRing() != 0) m.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS2);
-						break;
-				}
-				break;
-		  	case orderRequest::DELIVER:
-				switch(req.parameter)
-				{
-					case orderRequest::DS :
-						m.getDS().deliverToDS(m_nbrobot,req.number_order);
-						break;
-					case orderRequest::STOCK :
-						int i = 0;
-						for(i = 0; i<3; i++)
-						{
-							if(m.getCS1().getStockage(i) ==0 )
-							{
-								m.getCS1().stock(i,m_nbrobot,req.number_order,activity::CS1);
-								m.getCS1().majStockID(i,1);
-								break;
-							}
-							else if(m.getCS2().getStockage(i+3) ==0 )
-							{
-								m.getCS2().stock(i+3,m_nbrobot,req.number_order,activity::CS1);
-								m.getCS2().majStockID(i+3,1);
-								break;
-							}
-							else
-							{
-								if(i == 3 ) ROS_INFO(" ERROR : no more place to stock ");
-							}
-						}
-				}
-				break;
-		  	case orderRequest::UNCAP:
-				switch(req.parameter)   // à verifier? chaque CS à des capscat spécifiques
-				{
-					case orderRequest::BLACK :
-						if(m.getCS1().getBlackCap() != 0)        m.getCS1().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
-						else if(m.getCS2().getBlackCap() != 0)   m.getCS2().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-						break;
-					case orderRequest::GREY :
-						if(m.getCS1().getGreyCap() != 0)         m.getCS1().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
-						else if(m.getCS2().getGreyCap() != 0)    m.getCS2().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
-						break;
-				}
-				break;
-		  	case orderRequest::DESTOCK:
-				if(req.id >= 0 && req.id < 3)
-				{
-					m.getCS1().destock(req.id,m_nbrobot,req.number_order,activity::CS1);
-				   	m.getCS1().majStockID(req.id, 0);
-				}
-				else if(req.id >= 3 && req.id < 6)
-				{
-				   	m.getCS2().destock(req.id,m_nbrobot,req.number_order,activity::CS2);
-				   	m.getCS2().majStockID(req.id, 0);
-				}
-				else 
-				{
-				  	ROS_ERROR("ERROR : req.id is not between 0 and 5 ");
-				  	res.accepted =false;
-				}
-				break;
-		  	case orderRequest::DISCOVER:
 
-				ROS_INFO ("Received discover Order");
+    return team_color;
+  }
 
-				geometry_msgs::Pose2D pt_dest;
-				geometry_msgs::Pose2D pt_actuel;
+  bool GtServerSrv::isInput(int arTag)
+  {
+    // Les INPUT sont toujours impairs
+    return arTag%2 == 1;
+  }
 
-				if(req.id == 4) // DS CYAN
-				{ 
-					pt_dest.x = 1.8;
-					pt_dest.y = 4.9;
-					pt_dest.theta = M_PI;
-					going(pt_dest);
-					pt_dest.x = 1.5;
-					pt_dest.y = 4.9;
-				}
-				else if (req.id == 16)  // DS MAGENTA
-				{  
-					pt_dest.x = -1.8;
-					pt_dest.y = 4.9;
-					pt_dest.theta = 0;
-					going(pt_dest);
-					pt_dest.x = -1.5;
-					pt_dest.y = 4.9;
-				}
-				else 
-				{
-					interpretationZone();
-					pt_dest.x = this->m_x;
-					pt_dest.y = this->m_y;
-					pt_dest.theta = M_PI/4;
-				}
-				going(pt_dest);
+  bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::order::Response &res)
+  {
+    ROS_INFO("Order received");
+    ROS_INFO("Request: nb_order=%d, nb_robot=%d, type=%d, parameter=%d, id=%d"
+    , (int)req.number_order, (int)req.number_robot, (int)req.type, (int)req.parameter, (int)req.id);
 
-				ROS_INFO ("I went to the asked point successfully ");
+    setId(req.id);
 
-				ROS_INFO(" Starting exploring the ARTag ");
-				asking(pt_dest);
+    if (req.number_robot == m_nbrobot)
+    {
+      res.number_order = req.number_order;
+      res.number_robot = req.number_robot;
+      res.id           = req.id;
 
-				int team_color = teamColorOfId(m_id);
-				if (team_color == CYAN)         m_name = "C-" + m_name;
-				else if(team_color == MAGENTA)  m_name = "M-" + m_name;
+      switch(req.type)   // à rajouter => machine non occupée par un robotino et au départ (on ne sait pas cs1/cs2 et rs1/rs2)
+      {
+        case orderRequest::TAKE_BASE:
+        // take base est forcément sur une BS
+        // proposition : m_elements.take_base(req.parameter); + msgToGT en dehors de cette fonction
+        m_elements.getBS().take_base(req.parameter,m_nbrobot,req.number_order);
+        break;
+        case orderRequest::PUT_CAP:
+        // proposition : m_elements.put_cap(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la CS correspondant au paramètre de couleur
+        switch(req.parameter)
+        {
+          case orderRequest::BLACK :
+          if(m_elements.getCS1().getBlackCap() != 0)        m_elements.getCS1().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
+          else if(m_elements.getCS2().getBlackCap() != 0)   m_elements.getCS2().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
+          break;
+          case orderRequest::GREY :
+          if(m_elements.getCS1().getGreyCap() != 0)         m_elements.getCS1().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
+          else if(m_elements.getCS2().getGreyCap() != 0)    m_elements.getCS2().put_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
+          break;
+        }
+        break;
+        case orderRequest::TAKE_CAP:
+        // proposition : m_elements.take_cap(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la CS correspondant au paramètre de couleur
+        switch(req.parameter)
+        {
+          case orderRequest::BLACK :
+          if(m_elements.getCS1().getBlackCap() != 0)        m_elements.getCS1().take_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
+          else if(m_elements.getCS2().getBlackCap() != 0)   m_elements.getCS2().take_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
+          break;
+          case orderRequest::GREY :
+          if(m_elements.getCS1().getGreyCap() != 0)         m_elements.getCS1().take_cap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
+          else if(m_elements.getCS2().getGreyCap() != 0)    m_elements.getCS2().take_cap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
+          break;
+        }
+        break;
+        case orderRequest::PUT_RING:
+        // proposition : m_elements.put_ring(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la RS correspondant au paramètre de couleur
+        switch(req.parameter)
+        {
+          case orderRequest::GREEN :
+          if(m_elements.getRS1().getGreenRing() != 0)       m_elements.getRS1().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getGreenRing() != 0)  m_elements.getRS2().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+          case orderRequest::YELLOW :
+          if(m_elements.getRS1().getYellowRing() != 0)      m_elements.getRS1().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getYellowRing() != 0) m_elements.getRS2().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+          case orderRequest::BLUE :
+          if(m_elements.getRS1().getBlueRing() != 0)        m_elements.getRS1().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getBlueRing() != 0)   m_elements.getRS2().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+          case orderRequest::ORANGE :
+          if(m_elements.getRS1().getOrangeRing() != 0)      m_elements.getRS1().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getOrangeRing() != 0) m_elements.getRS2().put_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+        }
+        break;
+        case orderRequest::TAKE_RING:
+        // proposition : m_elements.take_ring(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la RS correspondant au paramètre de couleur
+        switch(req.parameter)
+        {
+          case orderRequest::GREEN :
+          if(m_elements.getRS1().getGreenRing() != 0)       m_elements.getRS1().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getGreenRing() != 0)  m_elements.getRS2().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+          case orderRequest::YELLOW :
+          if(m_elements.getRS1().getYellowRing() != 0)      m_elements.getRS1().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getYellowRing() != 0) m_elements.getRS2().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+          case orderRequest::BLUE :
+          if(m_elements.getRS1().getBlueRing() != 0)        m_elements.getRS1().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getBlueRing() != 0)   m_elements.getRS2().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+          case orderRequest::ORANGE :
+          if(m_elements.getRS1().getOrangeRing() != 0)      m_elements.getRS1().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getOrangeRing() != 0) m_elements.getRS2().take_ring(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+        }
+        break;
+        case orderRequest::BRING_BASE_RS:
+        // proposition : m_elements.bring_base(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la RS correspondant au paramètre de couleur
+        switch(req.parameter)
+        {
+          case orderRequest::GREEN :
+          if(m_elements.getRS1().getGreenRing() != 0)       m_elements.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getGreenRing() != 0)  m_elements.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+          case orderRequest::YELLOW :
+          if(m_elements.getRS1().getYellowRing() != 0)      m_elements.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getYellowRing() != 0) m_elements.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+          case orderRequest::BLUE :
+          if(m_elements.getRS1().getBlueRing() != 0)        m_elements.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getBlueRing() != 0)   m_elements.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+          case orderRequest::ORANGE :
+          if(m_elements.getRS1().getOrangeRing() != 0)      m_elements.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS1);
+          else if(m_elements.getRS2().getOrangeRing() != 0) m_elements.getBS().bring_base_rs(req.parameter,m_nbrobot,req.number_order,activity::RS2);
+          break;
+        }
+        break;
+        case orderRequest::DELIVER:
+        // proposition : m_elements.deliver(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la DS ou la CS la plus proche du robot où il y a un emplacement de stockage libre
+        switch(req.parameter)
+        {
+          case orderRequest::DS :
+          m_elements.getDS().deliverToDS(m_nbrobot,req.number_order);
+          break;
+          case orderRequest::STOCK :
+          // On ne sait pas ce qui est stocké et à quel endroit ?
+          int i = 0;
+          for(i = 0; i<3; i++)
+          {
+            if(m_elements.getCS1().getStockage(i) ==0 )
+            {
+              m_elements.getCS1().stock(i,m_nbrobot,req.number_order,activity::CS1);
+              m_elements.getCS1().majStockID(i,1);
+              break;
+            }
+            else if(m_elements.getCS2().getStockage(i+3) ==0 )
+            {
+              m_elements.getCS2().stock(i+3,m_nbrobot,req.number_order,activity::CS1);
+              m_elements.getCS2().majStockID(i+3,1);
+              break;
+            }
+            else
+            {
+              if(i == 3 ) ROS_ERROR("ERROR: no more place to stock ");
+            }
+          }
+        }
+        break;
+        case orderRequest::UNCAP:
+        // proposition : m_elements.uncap(req.parameter); + msgToGT en dehors de cette fonction
+        // TODO: fonction qui retourne la CS correspondant au paramètre de couleur
+        switch(req.parameter)   // à verifier? chaque CS à des capscat spécifiques
+        {
+          case orderRequest::BLACK :
+          if(m_elements.getCS1().getBlackCap() != 0)        m_elements.getCS1().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
+          else if(m_elements.getCS2().getBlackCap() != 0)   m_elements.getCS2().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
+          break;
+          case orderRequest::GREY :
+          if(m_elements.getCS1().getGreyCap() != 0)         m_elements.getCS1().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS1);
+          else if(m_elements.getCS2().getGreyCap() != 0)    m_elements.getCS2().uncap(req.parameter,m_nbrobot,req.number_order,activity::CS2);
+          break;
+        }
+        break;
+        case orderRequest::DESTOCK:
+        if(req.id >= 0 && req.id < 3)
+        {
+          m_elements.getCS1().destock(req.id,m_nbrobot,req.number_order,activity::CS1);
+          m_elements.getCS1().majStockID(req.id, 0);
+        }
+        else if(req.id >= 3 && req.id < 6)
+        {
+          m_elements.getCS2().destock(req.id,m_nbrobot,req.number_order,activity::CS2);
+          m_elements.getCS2().majStockID(req.id, 0);
+        }
+        else
+        {
+          ROS_ERROR("ERROR: req.id is not between 0 and 5 ");
+          res.accepted =false;
+        }
+        break;
 
-				if(team_color != this->m_color)
-				{
-					ROS_ERROR(" Machine isn't for my team ");
-					res.accepted = false;
-					break;
-				}
+        case orderRequest::DISCOVER:
+        {
+          Machine *machine = NULL;
+          geometry_msgs::Pose2D firstSidePoint, secondSidePoint;
+          int machineSideId = 0;
+          ReportingMachineSrvClient reportClient;
 
-				/* phase d'exploration */
+          ROS_INFO("Let's explore zone %d", req.id);
 
-				ReportingMachineSrvClient rm_c;
-				switch(m_id){
-					case M_BS_IN  :
-					case M_BS_OUT :
-					case C_BS_IN  :
-					case C_BS_OUT :
+          // si je ne connais pas la machine à cet instant
+          if (!knownMachineInZone(req.id))
+          {
+            // A partir de zone -> déterminer premier coin zone (plus accessible)
+            // TODO: choix judicieux du coin à déterminer
+            interpretationZone(req.id, BOTTOM_LEFT);
 
-						if(m_id == C_BS_OUT || m_id == M_BS_OUT)
-					  	{
-						  	m_msg = m.getBS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::BS,req.id);
-						 	m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						  	if(m_ei->m_signals.size() != 0) 
-						  	{
-								m.getBS().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-							}
-						}
-						else if (m_id == C_BS_IN || m_id == M_BS_IN)
-						{
-							m_msg = m.getBS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::BS,req.id);
-							pt_actuel = pt_dest;
-							pt_dest = calculOutPoint(pt_actuel, req.id);
-							going(pt_dest);
-							m.getBS().startFinalAp(finalApproachingGoal::BS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-							if(m_ei->m_signals.size() != 0) 
-							{
-								m.getBS().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-							}
-						}
-						break;
+            //ROS_INFO("Point Target Bottom Left (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
+            ROS_INFO("Point Target Bottom Left");
 
-					case M_RS1_OUT :
-					case M_RS1_IN  :
-					case C_RS1_IN  :
-					case C_RS1_OUT :
-					case M_RS2_OUT :
-					case M_RS2_IN  :
-					case C_RS2_IN  :
-					case C_RS2_OUT :
+            // Se déplacer au premier coin zone
+            // TODO: gérer les cas d'erreurs de going
+            going(m_explo_target);
+            // refresh machines
+            m_ls->spin();
 
-						if(m_id == C_RS1_OUT || m_id == M_RS1_OUT)
-						{
-							m_msg = m.getRS1().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::RS1,req.id);
-							m.getBS().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-							if(m_ei->m_signals.size() != 0) 
-							{
-								m.getRS1().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								m_name = m_name+"1";
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-							}
-						}
-						else if(m_id == C_RS2_OUT || m_id == M_RS2_OUT)
-						{
-							m_msg = m.getRS2().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::RS2,req.id);
-							m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-							if(m_ei->m_signals.size() != 0) 
-							{
-								m.getRS2().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								m_name = m_name+"2";
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-							}
-						}
-					  	else if(m_id == C_RS1_IN || m_id == M_RS1_IN)
-					  	{
-						   	m_msg = m.getRS1().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::RS1,req.id);
-						   	pt_actuel = pt_dest;
-						   	pt_dest = calculOutPoint(pt_actuel, req.id);
-						   	going(pt_dest);
-						   	m.getRS1().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						   	if(m_ei->m_signals.size() != 0) 
-						   	{
-							  	m.getRS1().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"1";
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						   	}
-					  	}
-					  	else if(m_id == C_RS2_IN || m_id == M_RS2_IN)
-					  	{
-						   	m_msg = m.getRS2().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::RS2,req.id);
-						   	pt_actuel = pt_dest;
-						   	pt_dest = calculOutPoint(pt_actuel, req.id);
-						   	going(pt_dest);
-						   	m.getRS2().startFinalAp(finalApproachingGoal::RS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						   	if(m_ei->m_signals.size() != 0) 
-						   	{
-							  	m.getRS2().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"2";
-							  	rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						   	}
-					  	}
-						break;
-					case M_CS1_OUT :
-				  	case M_CS1_IN  :
-				  	case C_CS1_IN  :
-				  	case C_CS1_OUT :
-				  	case M_CS2_OUT :
-				  	case M_CS2_IN  :
-				  	case C_CS2_IN  :
-				  	case C_CS2_OUT :
-					  	if(m_id == C_CS1_OUT || m_id == M_CS1_OUT)
-					  	{
-						 	m_msg = m.getCS1().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::CS1,req.id);
-						  	m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						  	if(m_ei->m_signals.size() != 0) 
-						  	{
-							  	m.getCS1().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"1";
-							  	rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						  	}
-					  	}
-					  	else if(m_id == C_CS2_OUT || m_id == M_CS2_OUT)
-					  	{
-						  	m_msg = m.getCS2().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::CS2,req.id);
-						  	m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						  	if(m_ei->m_signals.size() != 0) 
-						  	{
-							  	m.getCS2().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"2";
-							  	rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						  	}
-					  	}
+            // Si machine NON présente
+            // déterminer second coin zone (le plus accessible), avec angle différent du premier
+            // NB: en cas de mur, pouvoir déterminer un point légèrement décalé
+            if (!knownMachineInZone(req.id))
+            {
+              ROS_INFO("No known Machine in this area %d", req.id);
+              // TODO: choix judicieux du coin à déterminer
+              interpretationZone(req.id, BOTTOM_RIGHT);
+              //ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
+              ROS_INFO("Point Target Bottom Right");
 
-					  	else if(m_id == C_CS1_IN || m_id == M_CS1_IN)
-					  	{
-						   	m_msg = m.getCS1().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::CS1,req.id);
-						  	pt_actuel = pt_dest;
-						   	pt_dest = calculOutPoint(pt_actuel, req.id);
-						   	going(pt_dest);
-						   	m.getCS1().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						   	if(m_ei->m_signals.size() != 0) 
-						   	{
-							  	m.getCS1().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"1";
-							  	rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-							}
-					  	}
-					  	else if(m_id == C_CS2_IN || m_id == M_CS2_IN)
-					  	{
-						   	m_msg = m.getCS2().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::CS2,req.id);
-						   	pt_actuel = pt_dest;
-						   	pt_dest = calculOutPoint(pt_actuel, req.id);
-						   	going(pt_dest);
-						   	m.getCS2().startFinalAp(finalApproachingGoal::CS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						   	if(m_ei->m_signals.size() != 0) 
-						   	{
-							  	m.getCS2().readlights(m_ei->lSpec);
-							  	m_ei->interpretationFeu();
-							  	m_name = m_name+"2";
-							  	rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						   	}
-					  	}
-						break;
-					case M_DS_IN  :
-					case M_DS_OUT :
-					case C_DS_IN  :
-					case C_DS_OUT :
-					  	if(m_id == C_DS_IN || m_id == M_DS_IN)
-					  	{
-						   	m_msg = m.getDS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::DS,req.id);
-						   	m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						   	if(m_ei->m_signals.size() != 0) 
-						   	{
-								m.getDS().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						   	}
-					  	}
-					  	else if (m_id == C_DS_OUT || m_id == M_DS_OUT)
-					  	{
-						  	m_msg = m.getDS().msgToGT(m_nbrobot,activity::IN_PROGRESS,activity::DS,req.id);
-						  	pt_actuel = pt_dest;
-						  	pt_dest = calculOutPoint(pt_actuel, req.id);
-						  	going(pt_dest);
-						  	//m.getDS().startFinalAp(finalApproachingGoal::DS,finalApproachingGoal::OUT,finalApproachingGoal::LIGHT);
-						  	if(m_ei->m_signals.size() != 0) 
-						  	{
-								m.getDS().readlights(m_ei->lSpec);
-								m_ei->interpretationFeu();
-								rm_c.reporting(m_name, m_ei->type,/*m_id*/req.id);
-						  	}
-					  	}
-					  	break;
-				}
-				break;
-		}	
-	  	//if(req.id != 0) ROS_INFO(" DESTOCKAGE à l'endroit d'id = %d", (int) req.id);
-	  	//else ROS_INFO(" NON DESTOCKAGE ");
-	  	m_msg = m.getBS().msgToGT(m_nbrobot,activity::END,activity::NONE,req.id);
-	  	res.accepted = true;
-	}
-	else res.accepted = false;
+              // Se rendre au second coin zone
+              // TODO: gérer les cas d'erreurs de going
+              going(m_explo_target);
+              // refresh machines
+              m_ls->spin();
 
-	/* VERIFICATIONS */
-	ROS_INFO("request: nb_order=%d, m_nbrobot=%d, type=%d, parameter=%d, id=%d", (int)req.number_order, (int)req.number_robot, (int)req.type, (int)req.parameter, (int)req.id);
-	ROS_INFO("sending back response: nb_order=[%d], m_nbrobot=[%d]", (int)res.number_order, (int)res.number_robot);
+              // A partir detection machine -> voir si machine présente
+              // Si machine toujours NON présente, abandon
+              if (!knownMachineInZone(req.id))
+              {
+                // TODO: abandonner le service
+                ROS_ERROR("There is definitely no machine in this zone %d. Abort request", req.id);
+                res.accepted = false;
+                break;
+              }
+            }
+          }
 
-return true;
-}
+          // Si machine présente, déterminer point devant machine
+
+          // Calculer les deux points devant la machine
+          getSidePoints(req.id, firstSidePoint, secondSidePoint);
+
+          // Se rendre au point devant machine
+          // TODO: utiliser le point le plus proche
+          // TODO: gérer les cas d'erreurs de going
+          //ROS_INFO("Go in front of the machine");
+          going(firstSidePoint);
+          m_ls->spin();
+
+          // Récupérer ArTag ID
+          // TODO: mettre ArTagClient en membre de classe
+          ArTagClienSrv atg;
+          machineSideId = atg.askForId();
+
+          machine = m_elements.getMachineFromTag(machineSideId);
+          if (machine == nullptr)
+          {
+            ROS_ERROR("Unable to get correct machine. Abort service");
+            res.accepted = false;
+            break;
+          }
+
+          machine->majCenter(m_ls->machines()[req.id - 1].pose);
+
+          // Vérifier si INPUT (TODO: à vérifier)
+          if(isInput(machineSideId))
+          {
+            // Si OUI
+            machine->majEntry(firstSidePoint);
+            machine->majExit(secondSidePoint);
+            // Déterminer point devant autre côte de la machine
+
+            // Se rendre ou point devant autre côté de la machine
+            going(secondSidePoint);
+            m_ls->spin();
+            // Récupérer ArTag ID
+            machineSideId = atg.askForId();
+
+            // Vérifier si INPUT, si OUI abandonner
+            if(isInput(machineSideId))
+            {
+              // TODO: abandonner le service
+              ROS_ERROR("Unable to reach output for this MPS. Abort service");
+              res.accepted = false;
+              break;
+            }
+          }
+          else
+          {
+            machine->majEntry(secondSidePoint);
+            machine->majExit(firstSidePoint);
+          }
+
+
+          // Approche finale, objectif FEU
+          // TODO: Uncomment
+          // FinalApproachingClient fa_c;
+          // fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
+
+          // Traitement d'image, détection FEU
+          FeuClientAction f_c;
+          f_c.lightsStates(m_ei->m_lSpec);
+
+          // Interprétation type à partir de LightSignal
+          m_ei->interpretationFeu();
+
+          // Déterminer nom de machine à partir ArTagID ou autres
+          // NOTE: Fait dans le constructeur de machine
+
+          // Reporter machine
+          reportClient.reporting(machine->getName(), m_ei->type, req.id);
+
+        } // end of discover order
+        break;
+
+        default:
+        break;
+      }
+      //if(req.id != 0) ROS_INFO(" DESTOCKAGE à l'endroit d'id = %d", (int) req.id);
+      //else ROS_INFO(" NON DESTOCKAGE ");
+      m_msg = m_elements.getBS().msgToGT(m_nbrobot,activity::END,activity::NONE,req.id);
+      res.accepted = true;
+    }
+    else
+    {
+      ROS_WARN("Request for another robot");
+      res.accepted = false;
+    }
+
+    /* VERIFICATIONS */
+    ROS_INFO("Requested (reminder): nb_order=%d, nb_robot=%d, type=%d, parameter=%d, id=%d"
+    , (int)req.number_order, (int)req.number_robot, (int)req.type, (int)req.parameter, (int)req.id);
+    ROS_INFO("Response: nb_order=%d, nb_robot=%d", (int)res.number_order, (int)res.number_robot);
+
+    return true;
+  }

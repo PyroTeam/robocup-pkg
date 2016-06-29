@@ -4,7 +4,7 @@
  * \brief       classe qui stocke les données de la deliverystation
  * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
  * \date        2015-10-10
- * \copyright   PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef DELIVERYSTATION_H
@@ -21,9 +21,9 @@ class DeliveryStation : public Machine
 	public:
 
 		/* Constructeur */
-		DeliveryStation();
+		DeliveryStation(int teamColor);
 
-		/* Déstructeur */  
+		/* Destructeur */  
 		virtual ~DeliveryStation();
 
 		/* Méthodes */

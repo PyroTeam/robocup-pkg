@@ -1,6 +1,6 @@
 #include "NavigationClientAction.h"
 
-NavigationClientAction::NavigationClientAction() 
+NavigationClientAction::NavigationClientAction()
 {
 }
 
@@ -21,7 +21,7 @@ int NavigationClientAction::goToAPoint(geometry_msgs::Pose2D dest_point)
 	client.sendGoal(goal);
 
 	//wait for the action to return
-	bool finished_before_timeout = client.waitForResult(ros::Duration(30.0));
+	bool finished_before_timeout = client.waitForResult(ros::Duration(60.0));
 
 	if(finished_before_timeout)
 	{
@@ -33,6 +33,6 @@ int NavigationClientAction::goToAPoint(geometry_msgs::Pose2D dest_point)
 		actionlib::SimpleClientGoalState state = client.getState();
 		ROS_INFO("Action finished but FAILED: %s ",state.toString().c_str());
 	}
-	
+
 	return client.getResult()->result;
 }

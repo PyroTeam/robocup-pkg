@@ -5,8 +5,7 @@
  *
  * \author      Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date        2015-12-05
- * \copyright   PyroTeam, Polytech-Lille
- * \license
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  * \version
  */
 
@@ -38,6 +37,8 @@ Rectangle::~Rectangle()
 
 void Rectangle::draw(nav_msgs::OccupancyGrid &grid, int max_value)
 {
+    //Code provenant de l'ancien GridMaker
+    
     // Environment
     	// static bool alreadyDone = false;
     	// if(alreadyDone && 0)

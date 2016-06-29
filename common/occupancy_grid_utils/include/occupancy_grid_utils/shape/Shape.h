@@ -5,8 +5,7 @@
  *
  * \author      Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date        2015-12-05
- * \copyright   PyroTeam, Polytech-Lille
- * \license
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  * \version
  */
 #ifndef OCCUPANCY_GRID_UTILS_SHAPE_H_
@@ -17,6 +16,7 @@
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Pose2D.h>
 #include <nav_msgs/OccupancyGrid.h>
+#include "deplacement_msg/OccupancyGridFloat.h"
 
 namespace occupancy_grid_utils {
 
@@ -30,6 +30,7 @@ public:
     inline const std::string &getName() const;
 
     virtual void draw(nav_msgs::OccupancyGrid &grid, int max_value=100) = 0;
+    virtual void draw(deplacement_msg::OccupancyGridFloat &grid, int max_value=100){} // TODO factoriser ce code
 protected:
     std::string m_name;
 };

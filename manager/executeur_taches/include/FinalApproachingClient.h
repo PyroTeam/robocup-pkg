@@ -4,7 +4,7 @@
  * \brief       classe client pour l'approche finale
  * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
  * \date        2015-10-10
- * \copyright   PyroTeam, Polytech-Lille
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
 #ifndef FINALAPPROACHINGCLIENT_H
@@ -15,7 +15,7 @@
 #include <actionlib/client/terminal_state.h>
 //#include <cstdint>
 
-#include <manager_msg/finalApproachingAction.h>
+#include <final_approach_msg/FinalApproachingAction.h>
 
 
 class FinalApproachingClient
@@ -24,7 +24,7 @@ class FinalApproachingClient
 		/* Constructeur */
 		FinalApproachingClient();
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual  ~FinalApproachingClient();
 
 		/* Méthodes */

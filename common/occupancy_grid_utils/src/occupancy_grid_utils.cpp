@@ -5,8 +5,7 @@
  *
  * \author      Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date        2015-11-21
- * \copyright   PyroTeam, Polytech-Lille
- * \license
+ * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  * \version
  */
 
@@ -16,22 +15,6 @@
 
 namespace occupancy_grid_utils {
 
-void createEmptyMap(nav_msgs::OccupancyGrid &map, const geometry_msgs::Point &size, const geometry_msgs::Point &origin, const std::string &frame_id, double resolution)
-{
-	map.header.frame_id = frame_id;
-	map.info.origin.position.x = origin.x;
-	map.info.origin.position.y = origin.y;
-	map.info.origin.position.z = 0;
-	map.info.origin.orientation.x = 0;
-	map.info.origin.orientation.y = 0;
-	map.info.origin.orientation.z = 0;
-	map.info.origin.orientation.w = 1;
-	map.info.map_load_time = ros::Time::now();
-	map.info.resolution = resolution;
-	map.info.width = size.x/resolution;
-	map.info.height = size.y/resolution;
-	map.data.assign(map.info.width * map.info.height, 0);
-}
 
 /**
  * fonction qui calcule la position dans le vecteur de donnée d'un OccupancyGrid
@@ -99,34 +82,6 @@ int getCellValue(const nav_msgs::OccupancyGrid &grid, float x, float y)
 }
 
 /**
- * fonction qui retourne la valeur d'un point fourni en coordonnées métrique
- * dans une OccupancyGrid
- *
- * \param grid la grille
- * \param p point en coordonnées métrique
- *
- * \return valeur du point, 255 si le point n'est pas sur la map
- */
-int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p)
-{
-    return getCellValue(grid, p.x, p.y);
-}
-
-/**
- * fonction qui retourne la valeur d'un point fourni en coordonnées métrique
- * dans une OccupancyGrid
- *
- * \param grid la grille
- * \param p pose en coordonnées métrique
- *
- * \return valeur du point, 255 si le point n'est pas sur la map
- */
-int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &p)
-{
-    return getCellValue(grid, p.x, p.y);
-}
-
-/**
  * fonction qui retourne les coordonnées en pixel d'un point donnée en coordonnées métrique
  *
  * \param grid la grille
@@ -135,7 +90,7 @@ int getCellValue(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2
  *
  * \return point en coordonnées pixel
  */
-geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, float x, float y)
+geometry_msgs::Point getCellAsPixelCoord(const nav_msgs::OccupancyGrid &grid, float x, float y)
 {
 
 	//TODO redondance de code à regler avec la fonction getCell
@@ -172,10 +127,23 @@ geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, float x,
  *
  * \return point en coordonnées pixel
  */
-geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p)
+geometry_msgs::Point getCellAsPixelCoord(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p)
 {
 	return getCellAsPixelCoord(grid, p.x, p.y);
 }
+
+
+geometry_msgs::Pose2D getCellAsPixelCoord(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &pose2d)
+{
+	geometry_msgs::Point pt = getCellAsPixelCoord(grid, float(pose2d.x), float(pose2d.y));
+	geometry_msgs::Pose2D result;
+	result.x = pt.x;
+	result.y = pt.y;
+	result.theta = pose2d.theta;
+
+	return result;
+}
+
 
 /**
  * fonction qui modifie la valeur d'une cellule de la grille
@@ -237,5 +205,103 @@ void setPixelCell(nav_msgs::OccupancyGrid &grid, const geometry_msgs::Point &p, 
 {
 	setPixelCell(grid, p.x, p.y, value);
 }
+
+bool checkRow(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &start, double distance, geometry_msgs::Pose2D &foundPose)
+{
+	bool found = false;
+	double traveledDistance = 0.0;
+	geometry_msgs::Pose2D tmp = start;
+
+	while (!found && traveledDistance <= distance)
+	{
+		if (getCellValue(grid, tmp) < 100)
+		{
+			found = true;
+			foundPose = tmp;
+			continue;
+		}
+		traveledDistance += grid.info.resolution;
+		tmp.x += grid.info.resolution;
+	}
+
+	return found;
+}
+
+
+bool checkColumn(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &start, double distance, geometry_msgs::Pose2D &foundPose)
+{
+	bool found = false;
+	double traveledDistance = 0.0;
+	geometry_msgs::Pose2D tmp = start;
+
+	while (!found && traveledDistance <= distance)
+	{
+		if (getCellValue(grid, tmp) < 100)
+		{
+			found = true;
+			foundPose = tmp;
+			continue;
+		}
+		traveledDistance += grid.info.resolution;
+		tmp.y -= grid.info.resolution;
+	}
+
+	return found;
+}
+
+bool checkCircle(const geometry_msgs::Pose2D &req, double window, const nav_msgs::OccupancyGrid &grid, geometry_msgs::Pose2D &foundPose)
+{
+	bool found = false;
+
+	if (checkRow(grid, topLeft(grid, req, window), window, foundPose))
+	{
+		found = true;
+	}
+	else if (checkRow(grid, bottomLeft(grid, req, window), window, foundPose))
+	{
+		found = true;
+	}
+	else if (checkColumn(grid, topLeft(grid, req, window), window, foundPose))
+	{
+		found = true;
+	}
+	else if (checkColumn(grid, topRight(grid, req, window), window, foundPose))
+	{
+		found = true;
+	}
+
+	return found;
+}
+
+geometry_msgs::Pose2D topLeft(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &req, double window)
+{
+	geometry_msgs::Pose2D tmp;
+	tmp.x = req.x - (window/grid.info.resolution)*grid.info.resolution;
+	tmp.y = req.y + (window/grid.info.resolution)*grid.info.resolution;
+	tmp.theta = req.theta;
+
+	return tmp;
+}
+
+geometry_msgs::Pose2D bottomLeft(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &req, double window)
+{
+	geometry_msgs::Pose2D tmp;
+	tmp.x = req.x - (window/grid.info.resolution)*grid.info.resolution;
+	tmp.y = req.y - (window/grid.info.resolution)*grid.info.resolution;
+	tmp.theta = req.theta;
+
+	return tmp;
+}
+
+geometry_msgs::Pose2D topRight(const nav_msgs::OccupancyGrid &grid, const geometry_msgs::Pose2D &req, double window)
+{
+	geometry_msgs::Pose2D tmp;
+	tmp.x = req.x + (window/grid.info.resolution)*grid.info.resolution;
+	tmp.y = req.y + (window/grid.info.resolution)*grid.info.resolution;
+	tmp.theta = req.theta;
+
+	return tmp;
+}
+
 
 } // namespace occupancy_grid_utils
