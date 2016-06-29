@@ -56,6 +56,7 @@ bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
 
       ROS_WARN("Unable to reach requested point (%f,%f,%f). Will try another one", target.x, target.y, target.theta);
 
+      // on décale de 30 cm la position demandée vers le centre de la machine
       target.x += 0.3*(dx/std::abs(dx));
       target.y += 0.3*(dx/std::abs(dy));
     }
@@ -375,6 +376,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
           // Se déplacer au premier coin zone
           // TODO: gérer les cas d'erreurs de going
+          // on redemande au maximume 3 fois en cas de collision avec un mur
           going(m_explo_target, 3);
           // refresh machines
           m_ls->spin();
@@ -455,8 +457,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           // Si OUI
           machine->majEntry(firstSidePoint);
           machine->majExit(secondSidePoint);
-          ROS_ERROR("It was a very good travel, but now I see an input, ASSHOLE !");
-          ROS_ERROR("The machine has an angle of %f", machine->getCenterMachine().theta);
+          ROS_ERROR("I see an input of a machine with the angle %f", machine->getCenterMachine().theta);
 
           // Se rendre ou point devant autre côté de la machine
           going(secondSidePoint);
