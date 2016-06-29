@@ -54,6 +54,8 @@ void ExploInfoSubscriber::interpretationFeu()
     if(i==3) break;
     j++;
   }
+  ROS_INFO_NAMED("interpretationFeu", "i:%d j:%d size:%d", i, j, int( m_signals.size()));
+  ROS_INFO_NAMED("interpretationFeu", "type: %s", m_signals[j].type.c_str());
   this->type = m_signals[j].type;
   for(i = 0 ; i < m_lSpec.size() ; i++)
   {

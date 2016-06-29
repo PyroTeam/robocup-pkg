@@ -150,15 +150,28 @@ add_executable(
 add_dependencies(test_lights manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
 
 add_executable(
-  test_order
-  src/fake_client_order.cpp
+	test_order
+
+	src/fake_client_order.cpp
 )
-add_dependencies(test_order manager_msg_gencpp comm_msg_gencpp)
+add_dependencies(
+	test_order
+
+	manager_msg_gencpp
+	final_approach_msg_gencpp
+	comm_msg_gencpp
+)
+target_link_libraries(
+	test_order
+
+	${catkin_LIBRARIES}
+)
 
 
+# Test final_approach
 add_executable(
-	finalApproaching_client
-	src/finalApproaching_client.cpp
+  finalApproaching_client
+  src/finalApproaching_client.cpp
 )
 add_dependencies(finalApproaching_client manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
 

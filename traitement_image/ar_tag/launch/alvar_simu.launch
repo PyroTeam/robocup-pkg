@@ -7,11 +7,13 @@
         <arg name="output_frame" default="tower_camera_link" />
         <arg name="output" default="screen" />
         <arg name="respawn" default="false" />
+        <arg name="marker_topic" default="computerVision/ar_pose_marker" />
 
         <node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect"
         	respawn="$(arg respawn)" output="$(arg output)"
         	args="$(arg marker_size) $(arg max_new_marker_error) $(arg max_track_error)
         	$(arg cam_image_topic) $(arg cam_info_topic) $(arg output_frame)" >
+          <remap from="ar_pose_marker" to="$(arg marker_topic)" />
         </node>
 
 </launch>

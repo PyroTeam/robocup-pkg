@@ -42,7 +42,7 @@ public:
         return m_mode;
     }
 
-    virtual void startTraj()
+    virtual void startTraj() override
     {
         MoveBehavior::startTraj();
         m_mode = BehaviorMode_t::FOLLOW;

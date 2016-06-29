@@ -51,19 +51,14 @@ class GtServerSrv
 		/* Méthodes */
 		bool responseToGT(manager_msg::order::Request  &req,manager_msg::order::Response &res);
 		void setId(int id);
-		int teamColorOfId(int arTag);
 		bool isInput(int arTag);
 		int teamColorOfZone(int zone);
 		manager_msg::activity getActivityMsg();
 		final_approach_msg::FinalApproachingAction getFinalAppAction();
 		void interpretationZone(int zone, zoneCorner_t zoneCorner);
-		bool going(geometry_msgs::Pose2D point);
-		geometry_msgs::Pose2D calculOutPoint(geometry_msgs::Pose2D pt_actuel, int zone);
+		bool going(const geometry_msgs::Pose2D &point, size_t nbAttempt = 0);
 		void getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2);
 		bool knownMachineInZone(int zone);
-		void getNearestPoint(geometry_msgs::Pose2D &pose
-			, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2
-			, geometry_msgs::Pose2D **targetPointPtr, geometry_msgs::Pose2D **otherPointPtr);
 
 	private:
 		/* Variables d'instance */
