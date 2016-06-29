@@ -27,6 +27,15 @@ void GtServerSrv::setId(int id)
   m_id = id;
 }
 
+bool GtServerSrv::machineIsDs(int id)
+{
+  if(id == C_DS_IN || id == C_DS_OUT || id == M_DS_IN || id == M_DS_OUT)
+  {
+    return true;
+  }
+  return false;
+}
+
 bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
 {
   int count = 0, navState;
@@ -445,7 +454,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         secondSidePoint = tmpSecondPoint;
 
         // Se rendre au point devant la machine
-        // TODO: utiliser le point le plus proche
+        // utiliser le point le plus proche
         geometry_msgs::Pose2D actualPose = m_poseSub.getPose2D();
         double firstDistance = geometry_utils::distance(actualPose,tmpFirstPoint);
         double secondDistance = geometry_utils::distance(actualPose,tmpSecondPoint);
@@ -477,7 +486,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         machine->majCenter(m_ls->machines()[req.id - 1].pose);
 
         // Vérifier si INPUT (TODO: à vérifier)
-        if(isInput(machineSideId))
+        if(isInput(machineSideId) && !machineIsDs(machineSideId))
         {
           // Si OUI
           machine->majEntry(firstSidePoint);
