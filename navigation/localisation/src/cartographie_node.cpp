@@ -19,6 +19,7 @@
 #include "comm_msg/ExplorationSignal.h"
 
 #define CIRCUM_MACHINE_RADIUS 0.35
+#define ACCEPTANCE_THRESHOLD 0.1
 
 deplacement_msg::Machines  g_machines;
 std::vector<Machine>       g_mps(24);
@@ -37,7 +38,11 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     tf_prefix += "/";
   }
 
-  if (g_pose.pose.covariance[0] <= 0.1 && g_pose.pose.covariance[1] <= 0.1 && g_pose.pose.covariance[6] <= 0.1 && g_pose.pose.covariance[7] <= 0.1)
+  // si la localisation donne une position du robot assez précise
+  if (g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
+      g_pose.pose.covariance[1] <= ACCEPTANCE_THRESHOLD &&
+      g_pose.pose.covariance[6] <= ACCEPTANCE_THRESHOLD &&
+      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD)
   {
     tf::StampedTransform transform;
     try
@@ -64,7 +69,7 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
       int zone = common_utils::getArea(center);
 
       // Si la machine est bien dans une zone
-      if (zone != 0)
+      if (zone != 0 && g_mps[zone-1].isInsideZone(center, zone))
       {
         g_mps[zone-1].update(center);
         g_mps[zone-1].zone(zone);
@@ -95,7 +100,11 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
     tf_prefix += "/";
   }
 
-  if (g_pose.pose.covariance[0] <= 0.1 && g_pose.pose.covariance[1] <= 0.1 && g_pose.pose.covariance[6] <= 0.1 && g_pose.pose.covariance[7] <= 0.1)
+  // si la localisation donne une position du robot assez précise
+  if (g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
+      g_pose.pose.covariance[1] <= ACCEPTANCE_THRESHOLD &&
+      g_pose.pose.covariance[6] <= ACCEPTANCE_THRESHOLD &&
+      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD)
   {
     for (int i = 0; i < tmp.size(); i++)
     {

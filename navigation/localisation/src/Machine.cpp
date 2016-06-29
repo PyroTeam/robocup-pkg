@@ -179,3 +179,18 @@ void Machine::switchSides()
 
   m_orientationOK = true;
 }
+
+bool Machine::isInsideZone(const geometry_msgs::Pose2D &pose, int zone, float zone_width, float zone_height, float mps_width)
+{
+  geometry_msgs::Pose2D center;
+  common_utils::getZoneCenter(zone, center.x, center.y);
+
+  if ((std::abs(center.x - pose.x) <= (zone_width-mps_width)/2) && (std::abs(center.y - pose.y) <= (zone_height-mps_width)/2))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}

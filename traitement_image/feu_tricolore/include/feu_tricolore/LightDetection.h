@@ -12,8 +12,8 @@
 
 
 /* Les deux bibliothèques nécessaires d'opencv :
-    - cv.h contient les structures et fonctions de manipulation d'images
-    - highgui.h contient les fonctions d'affichage des images
+	- cv.h contient les structures et fonctions de manipulation d'images
+	- highgui.h contient les fonctions d'affichage des images
 */
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -35,59 +35,68 @@
 #include <trait_im_msg/processLightSignalAction.h>
 #include <trait_im_msg/LightSignal.h>
 #include <comm_msg/LightSpec.h>
+#include <common_utils/Parameter.h>
 
 #include "feu_tricolore/display-histogram.h"
+#include "feu_tricolore/RoiParams.h"
 
 
 class LightDetection
 {
 private:
-    // ROS
-    ros::NodeHandle m_nh;
-    image_transport::ImageTransport m_it;
-    image_transport::Subscriber m_image_sub;
-    image_transport::Publisher m_result_pub;
+	// ROS
+	ros::NodeHandle m_nh;
+	image_transport::ImageTransport m_it;
+	image_transport::Subscriber m_image_sub;
+	image_transport::Publisher m_result_pub;
 
-    // OpenCV
-    cv::Mat m_origin;
+	// OpenCV
+	cv::Mat m_origin;
 
-    // Signals
-    bool m_redTurnedOn, m_yellowTurnedOn, m_greenTurnedOn;
-    int m_nbRedTurnedOn;
-    int m_nbYellowTurnedOn;
-    int m_nbGreenTurnedOn;
-
-public:
-    LightDetection();
-    ~LightDetection();
-    bool ok();
-    void doLightDetection(){ doLightDetection(m_origin); };
-    void doLightDetection(cv::Mat &imgToProcess);
-
-private:
-    void imageCb(const sensor_msgs::ImageConstPtr& msg);
-    void initMembersImgs();
+	// Signals
+	bool m_redTurnedOn, m_yellowTurnedOn, m_greenTurnedOn;
+	int m_nbRedTurnedOn, m_nbYellowTurnedOn, m_nbGreenTurnedOn;
+	int m_finalRedSignal, m_finalYellowSignal, m_finalGreenSignal;
 
 public:
-    void preTraitement(cv::Mat &imgToProcess);
-    void traitement(cv::Mat &imgToProcess);
-    void publishResultImages(cv::Mat &imgToProcess);
+	LightDetection();
+	~LightDetection();
+	bool ok();
+	void doLightDetection(){ doLightDetection(m_origin); };
+	void doLightDetection(cv::Mat &imgToProcess);
 
 private:
-    std::string m_action_name;
+	void imageCb(const sensor_msgs::ImageConstPtr& msg);
+	void initMembersImgs();
 
-    actionlib::SimpleActionServer<trait_im_msg::processLightSignalAction> m_as;
-    trait_im_msg::processLightSignalFeedback m_feedback;
-    trait_im_msg::processLightSignalResult m_result;
-    void goalCB();
-    void preemptCB();
+public:
+	void preTraitement(cv::Mat &imgToProcess);
+	void traitement(cv::Mat &imgToProcess);
+	void publishResultImages(cv::Mat &imgToProcess);
 
-    ros::Time m_beginOfProcessing;
-    int m_nbImgProcessed;
+private:
+	std::string m_action_name;
 
-    // TODO: Add parameters
-    static constexpr int m_minNbImgProcessedPerSecond = 10;
-    static constexpr float m_minProcessTimeNeeded = 0.5;
+	actionlib::SimpleActionServer<trait_im_msg::processLightSignalAction> m_as;
+	trait_im_msg::processLightSignalFeedback m_feedback;
+	trait_im_msg::processLightSignalResult m_result;
+	void goalCB();
+	void preemptCB();
+
+	ros::Time m_beginOfProcessing;
+	int m_nbImgProcessed;
+
+	Parameter m_inputColorInverted;
+	RoiParams m_roiParams;
+	cv::Rect m_greenRoi;
+	cv::Rect m_yellowRoi;
+	cv::Rect m_redRoi;
+
+	std_msgs::Header m_inputImgHeader;
+
+	// TODO: Add parameters
+	static constexpr int m_minNbImgProcessedPerSecond = 10;
+	static constexpr float m_minProcessTimeNeeded = 0.5;
 };
 
 

@@ -1,0 +1,17 @@
+<launch>
+	<arg name="bagfile" default="001" />
+
+	<env name="ROSCONSOLE_FORMAT" value="[${logger}]:${message}"/>
+	<env name="ROSCONSOLE_CONFIG_FILE" value="$(find feu_tricolore)/cfg/custom_rosconsole.conf"/>
+
+	<rosparam file="$(find feu_tricolore)/param/roi-$(arg bagfile).bag.yaml" />
+	<param name="/computerVision/lightSignalDetection/inputColorInverted" value="1.0" />
+
+	<node pkg="rosbag" name="bag_playback" type="play"
+		  args="$(find feu_tricolore)/bagfiles/$(arg bagfile).bag --quiet --clock --loop"
+		  output="screen"/>
+	<node pkg="feu_tricolore" name="light_signal_detection" type="light_signal_detection_node"
+		  args="hardware/camera/platform_camera/image_raw:=image_raw" output="screen"/>
+<!-- 	<node pkg="actionlib" name="lightsignaldetection_axclient" type="axclient.py"
+		  args="/light_signal_detection" output="screen"/> -->
+</launch>

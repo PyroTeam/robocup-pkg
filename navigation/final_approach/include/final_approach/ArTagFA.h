@@ -16,6 +16,7 @@
 #include <geometry_msgs/Pose.h>
 
 #include <vector>
+#include <mutex>
 
 typedef struct arTag_s
 {
@@ -61,6 +62,7 @@ class ArTagFA
 		std::string m_frame;
 		ros::Time m_stamp;
 		std::vector<arTag_t> m_arTags;
+		std::mutex m_mutex;
 };
 
 #endif // _FINAL_APPROACH__ARTAGFA__H_

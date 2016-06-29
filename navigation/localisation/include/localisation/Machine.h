@@ -31,6 +31,7 @@ public:
   bool neverSeen();
   bool orientationOk();
   void switchSides();
+  bool isInsideZone(const geometry_msgs::Pose2D &pose, int zone, float zone_width = 2.0, float zone_height = 1.5, float mps_width = 0.35);
 
 
 private:

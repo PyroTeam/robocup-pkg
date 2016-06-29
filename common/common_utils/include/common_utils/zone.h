@@ -27,7 +27,7 @@ inline bool getZoneCenter(int zone, double &x, double &y, float zone_width = 2.0
 
 	if (zone < 1 || zone > 24)
 	{
-		ROS_ERROR("Wrong zone id, must be 1 to 24");
+		ROS_ERROR("Wrong zone [%d], must be 1 to 24", zone);
 		x = 0;
 		y = 0;
 		return false;
