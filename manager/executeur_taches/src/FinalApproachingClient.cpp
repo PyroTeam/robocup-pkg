@@ -21,17 +21,17 @@ void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, in
 	client.sendGoal(goal);
 
 	//wait for the action to return
-	bool finished_before_timeout = client.waitForResult(ros::Duration(30.0));
+	bool finished_before_timeout = client.waitForResult(ros::Duration(7.0));
 
 	if(finished_before_timeout)
 	{
 		actionlib::SimpleClientGoalState state = client.getState();
 		ROS_INFO("Action finished : %s ",state.toString().c_str());
-        client.cancelGoal();
 
 	}
 	else
 	{
 		ROS_INFO("Action didn't finish before the time out");
+        client.cancelGoal();
 	}
 }
