@@ -97,11 +97,11 @@
 
 		<!-- Params -->
 		<param name="teamName" value="Pyro" />
-		<param name="teamColor" value="magenta" />
+		<param name="teamColor" value="cyan" />
 		<param name="robotNumber" value="1" />
 		<param name="robotName" value="R1" />
-		<param name="simuRobotNamespace" value="$(arg robotNamespace)" />
-
+		<param if="$(arg sim)" name="simuRobotNamespace" value="$(arg robotNamespace)" />
+		<param unless="$(arg sim)" name="simuRobotNamespace" value="" />
 
         <group > <!-- name="BASE"  Odom Cmd_Vel & co -->
     		<!-- Robotino node -->
