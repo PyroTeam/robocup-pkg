@@ -518,8 +518,16 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         // Approche finale, objectif FEU
         // TODO: Uncomment
-        // FinalApproachingClient fa_c;
-        // fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
+         FinalApproachingClient fa_c;
+         machineSideId = atg.askForId();
+         if(machineIsDs(machineSideId))
+         {
+             fa_c.starting(machine->getFaType(), FinalApproachingGoal::IN, FinalApproachingGoal::LIGHT);
+         }
+         else
+         {
+             fa_c.starting(machine->getFaType(), FinalApproachingGoal::OUT, FinalApproachingGoal::LIGHT);
+         }
 
         // Traitement d'image, détection FEU
         FeuClientAction f_c;
