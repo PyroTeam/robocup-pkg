@@ -46,6 +46,7 @@ public:
         {
             result = result*value + coeff;
         }
+        return result;
     }
 
 protected:
