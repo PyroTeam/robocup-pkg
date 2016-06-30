@@ -27,8 +27,7 @@ void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, in
 	{
 		actionlib::SimpleClientGoalState state = client.getState();
 		ROS_INFO("Action finished : %s ",state.toString().c_str());
-        client.cancelGoal();
-
+    client.cancelGoal();
 	}
 	else
 	{

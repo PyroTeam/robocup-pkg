@@ -44,6 +44,24 @@ enum mpsARTags_T
 	M_DS_OUT = 50
 };
 
+inline bool ArTagExists(int id)
+{
+  if (id == static_cast<int>(C_CS1_IN)|| id == static_cast<int>(C_CS1_OUT) || id == static_cast<int>(C_CS2_IN)|| id == static_cast<int>(C_CS2_OUT) ||
+      id == static_cast<int>(C_RS1_IN)|| id == static_cast<int>(C_RS1_OUT) || id == static_cast<int>(C_RS2_IN)|| id == static_cast<int>(C_RS2_OUT) ||
+      id == static_cast<int>(C_BS_IN) || id == static_cast<int>(C_BS_OUT)  || id == static_cast<int>(C_DS_IN )|| id == static_cast<int>(C_DS_OUT ) ||
+
+      id == static_cast<int>(M_CS1_IN)|| id == static_cast<int>(M_CS1_OUT) || id == static_cast<int>(M_CS2_IN)|| id == static_cast<int>(M_CS2_OUT) ||
+      id == static_cast<int>(M_RS1_IN)|| id == static_cast<int>(M_RS1_OUT) || id == static_cast<int>(M_RS2_IN)|| id == static_cast<int>(M_RS2_OUT) ||
+      id == static_cast<int>(M_BS_IN) || id == static_cast<int>(M_BS_OUT ) || id == static_cast<int>(M_DS_IN )|| id == static_cast<int>(M_DS_OUT))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
 } // namespace common_utils
 
 #endif // _COMMON_UTILS__TYPES__H_

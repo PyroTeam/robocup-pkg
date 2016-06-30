@@ -7,6 +7,7 @@
 #include "final_approach/OdomFA.h"
 #include "final_approach/Sharps.h"
 #include "final_approach/GameStateFA.h"
+#include "common_utils/types.h"
 
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
@@ -56,6 +57,8 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			m_as.setAborted();
 			return;
 		}
+
+    ROS_INFO("Well in a controlled approach way");
 
 		m_remotelyControlled = true;
 	}
@@ -119,13 +122,15 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		// Make sure that the action hasn't been canceled
 		if (!m_as.isActive())
 		{
-			ROS_INFO("Action canceled during wait infos looop");
+			ROS_INFO("Action canceled during wait infos loop");
 			stopRobot();
 			return;
 		}
 
 		if (odom.getTurn())  // Make sure mandatory data are received at least once
-			break;
+    {
+      break;
+    }
 
 
 		// TODO: Utiliser les plotData
@@ -140,9 +145,13 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		loopRate.sleep();
 	}
 	if (!firstTimeInLoop)
-		ROS_INFO("Wait sensors infos - DONE");
+  {
+    ROS_INFO("Wait sensors infos - DONE");
+  }
 	else
-		ROS_WARN("Wait sensors infos - SKIPPED");
+  {
+    ROS_WARN("Wait sensors infos - SKIPPED");
+  }
 
 
 
@@ -171,7 +180,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		// Make sure that the action hasn't been canceled
 		if (!m_as.isActive())
 		{
-			ROS_INFO("Action canceled during ArTag search looop");
+			ROS_INFO("Action cancelled during ArTag search loop");
 			stopRobot();
 			return;
 		}
@@ -180,7 +189,19 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		{
 			// TODO: Make sure it works
 			arTagId_idx = correspondingId(allPossibleId, at.getId(), at.getDistance());
+      if (!common_utils::ArTagExists(arTagId_idx))
+      {
+        m_result.state = final_approach_msg::FinalApproachingResult::INVALID_AR_TAG;
+        m_result.success = false;
+        m_as.setAborted(m_result);
+      }
 		}
+    else
+    {
+      m_result.state = final_approach_msg::FinalApproachingResult::NO_AR_TAG;
+      m_result.success = false;
+      m_as.setAborted(m_result);
+    }
 
 		if (locateArTagPhase == 0)
 		{
@@ -245,15 +266,25 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		if (!arTags_tmp.empty())
 		{
 			arTagId_idx = correspondingId(allPossibleId, arTags_tmp);
-			if (arTagId_idx != -1)
+			if (common_utils::ArTagExists(arTagId_idx))
 			{
 				avancementArTag = FinalApproaching::asservissementCameraNew(arTags_tmp[arTagId_idx]);
 			}
 			else
 			{
+        m_result.state = final_approach_msg::FinalApproachingResult::INVALID_AR_TAG;
+        m_result.success = false;
+        m_as.setAborted(m_result);
+
 				ROS_WARN_THROTTLE(1.0, "NO Wanted ArTag found. Unable to do camera approach");
 			}
 		}
+    else
+    {
+      m_result.state = final_approach_msg::FinalApproachingResult::NO_AR_TAG;
+      m_result.success = false;
+      m_as.setAborted(m_result);
+    }
 		allObstacles = sharps.getObstacle();
 		obstacle = false;  // obstacleDetection(allObstacles, k, oz, pz);
 
@@ -270,7 +301,9 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		loopRate.sleep();
 	}
 	if (!firstTimeInLoop)
-		ROS_INFO("ArTag Asservissement - DONE");
+  {
+    ROS_INFO("ArTag Asservissement - DONE");
+  }
 	else
 	{
 		ROS_WARN("ArTag Asservissement - SKIPPED");
@@ -830,29 +863,43 @@ float FinalApproaching::positionYLaser(Segment s, std::vector<float> ranges, flo
 }
 
 // XXX: A retirer / corriger. L'approche finale n'a pas à gérer ce genre de choses
+// Ca peut servir à l'executeur
 std::vector<int> FinalApproaching::idWanted(int phase)
 {
 	std::vector<int> tabId;
 	// Exploration phase
-	if (phase == 0)
+	if (phase == 1)
 	{
 		switch (m_teamColor)
 		{
 		case CYAN:
-			tabId.push_back(C_CS1_OUT);
+			tabId.push_back(C_CS1_IN);
+  		tabId.push_back(C_CS1_OUT);
+			tabId.push_back(C_CS2_IN);
 			tabId.push_back(C_CS2_OUT);
+      tabId.push_back(C_RS1_IN);
 			tabId.push_back(C_RS1_OUT);
+      tabId.push_back(C_RS2_IN);
 			tabId.push_back(C_RS2_OUT);
+			tabId.push_back(C_BS_IN);
 			tabId.push_back(C_BS_OUT);
 			tabId.push_back(C_DS_IN);
+			tabId.push_back(C_DS_OUT);
 			break;
 		case MAGENTA:
-			tabId.push_back(M_CS1_OUT);
+			tabId.push_back(M_CS1_IN);
+  		tabId.push_back(M_CS1_OUT);
+			tabId.push_back(M_CS2_IN);
 			tabId.push_back(M_CS2_OUT);
+      tabId.push_back(M_RS1_IN);
 			tabId.push_back(M_RS1_OUT);
+      tabId.push_back(M_RS2_IN);
 			tabId.push_back(M_RS2_OUT);
+			tabId.push_back(M_BS_IN);
 			tabId.push_back(M_BS_OUT);
 			tabId.push_back(M_DS_IN);
+			tabId.push_back(M_DS_OUT);
+
 			break;
 		}
 	}
@@ -1432,6 +1479,7 @@ void FinalApproaching::debugFinalApproachResult(OdomFA &odom, float mpsX, float 
 	float goalX = mpsX - objectifX()*cosMps + objectifY()*sinMps;
 	float goalYaw = mpsTheta;
 
+  // XXX: -0.11 ???
 	errX = std::abs(goalX - x) - 0.11;  // Prise en compte de la position laser
 	errY = std::abs(goalY - y);
 	errYaw = std::abs(goalYaw - yaw);
