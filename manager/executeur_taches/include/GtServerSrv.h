@@ -17,6 +17,8 @@
 #include "manager_msg/activity.h"
 #include "final_approach_msg/FinalApproachingAction.h"
 #include "common_utils/types.h"
+#include "common_utils/RobotPoseSubscriber.h"
+#include "geometry_utils/geometry_utils.h"
 
 #include "ExploInfoSubscriber.h"
 #include "Machine.h"
@@ -59,6 +61,7 @@ class GtServerSrv
 		bool going(const geometry_msgs::Pose2D &point, size_t nbAttempt = 0);
 		void getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2);
 		bool knownMachineInZone(int zone);
+		bool machineIsDs(int id);
 
 	private:
 		/* Variables d'instance */
@@ -76,6 +79,8 @@ class GtServerSrv
     RobotPoseSubscriber *m_rp;
     ros::Publisher m_activity_pub;
     MyElements m_elements;
+
+    common_utils::RobotPoseSubscriber m_poseSub;
 };
 
 #endif
