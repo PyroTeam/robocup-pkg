@@ -126,9 +126,10 @@ void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
     #define ZONE_WIDTH	2.0
     #define ZONE_HEIGHT	1.5
+    const float offset = 0.01;
 
-    float xOffset = ZONE_WIDTH/2;
-    float yOffset = ZONE_HEIGHT/2;
+    float xOffset = ZONE_WIDTH/2-offset;
+    float yOffset = ZONE_HEIGHT/2-offset;
 
     if (!common_utils::getZoneCenter(zone, m_explo_target.x, m_explo_target.y))
     {
