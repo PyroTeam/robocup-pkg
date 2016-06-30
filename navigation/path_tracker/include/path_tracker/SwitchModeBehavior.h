@@ -21,11 +21,13 @@
 #include "MoveBehavior.h"
 #include "PathFollower.h"
 #include "AvoidObstacle.h"
+#include <ros/time.h>
 
 enum class BehaviorMode_t
 {
     FOLLOW,
-    AVOID
+    AVOID,
+    COLLISION
 };
 
 
@@ -54,6 +56,8 @@ public:
 
 protected:
     BehaviorMode_t m_mode;
+    ros::Time m_beginCollision;
+
 };
 
 #endif /* PATH_TRACKER_SWITCHMODEBEHAVIOR_H_ */
