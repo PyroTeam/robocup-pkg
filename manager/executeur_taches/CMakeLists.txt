@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   comm_msg
   deplacement_msg
   common_utils
+  geometry_utils
 )
 
 ## System dependencies are found with CMake's conventions
