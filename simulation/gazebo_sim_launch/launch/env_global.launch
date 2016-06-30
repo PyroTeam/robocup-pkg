@@ -13,25 +13,43 @@
     <arg name="use_mrpt" default="false" />
 
 	<!-- Sensors real positions (constant args) -->
-		<arg name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
-		<arg name="tf_laser_y" value="0.0" />
-		<arg name="tf_laser_z" value="0.255" />
+	<arg unless="$(arg sim)" name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
+	<arg unless="$(arg sim)" name="tf_laser_y" value="0.0" />
+	<arg unless="$(arg sim)" name="tf_laser_z" value="0.255" />
 
-		<arg name="tf_gripper_x" value="0.23" />
-		<arg name="tf_gripper_y" value="0.00" />
-		<arg name="tf_gripper_z" value="0.90" />
+	<arg unless="$(arg sim)" name="tf_gripper_x" value="0.23" />
+	<arg unless="$(arg sim)" name="tf_gripper_y" value="0.00" />
+	<arg unless="$(arg sim)" name="tf_gripper_z" value="0.90" />
 
-		<arg name="tf_towercam_x" value="0.1125" /><!-- 0.46.5/2 - 0.12 -->
-		<arg name="tf_towercam_y" value="-0.015" />
-		<arg name="tf_towercam_z" value="0.55" />
+	<arg unless="$(arg sim)" name="tf_towercam_x" value="0.1125" /><!-- 0.46.5/2 - 0.12 -->
+	<arg unless="$(arg sim)" name="tf_towercam_y" value="-0.015" />
+	<arg unless="$(arg sim)" name="tf_towercam_z" value="0.55" />
 
-		<arg name="tf_platformcam_x" value="0.0" />
-		<arg name="tf_platformcam_y" value="0.00" />
-		<arg name="tf_platformcam_z" value="0.90" />
+	<arg unless="$(arg sim)" name="tf_platformcam_x" value="0.0" />
+	<arg unless="$(arg sim)" name="tf_platformcam_y" value="0.00" />
+	<arg unless="$(arg sim)" name="tf_platformcam_z" value="0.90" />
+
+    <!-- Simulated real positions (constant args) -->
+	<arg if="$(arg sim)" name="tf_laser_x" value="0.11 " /><!--  0.10+0.01-->
+	<arg if="$(arg sim)" name="tf_laser_y" value="0.0" />
+	<arg if="$(arg sim)" name="tf_laser_z" value="0.255" /><!-- 0.235+0.0175 -->
+
+	<arg if="$(arg sim)" name="tf_gripper_x" value="0.23" />
+	<arg if="$(arg sim)" name="tf_gripper_y" value="0.00" />
+	<arg if="$(arg sim)" name="tf_gripper_z" value="0.90" />
+
+	<arg if="$(arg sim)" name="tf_towercam_x" value="0.20" />
+	<arg if="$(arg sim)" name="tf_towercam_y" value="0.0" />
+	<arg if="$(arg sim)" name="tf_towercam_z" value="0.53" />
+
+	<arg if="$(arg sim)" name="tf_platformcam_x" value="0.0" />
+	<arg if="$(arg sim)" name="tf_platformcam_y" value="0.0" />
+	<arg if="$(arg sim)" name="tf_platformcam_z" value="0.90" />
 
 
 
 	<!-- Others constant args -->
+    <!-- TODO: Use tf_prefix. Vérifier que tout n'est pas buggé -->
 	<arg if="$(arg sim)" name="use_tf_prefix" value="true"/>
 	<arg unless="$(arg sim)" name="use_tf_prefix" value="false"/>
 
@@ -42,7 +60,7 @@
 
 	<!-- Gazebo -->
 	<include if="$(arg sim)" file="$(find gazebo_ros)/launch/empty_world.launch">
-		<arg name="world_name" value="$(find gazebo_sim_launch)/worlds/field2015_oneRobot_oneMps.world"/>
+		<arg name="world_name" value="$(find gazebo_sim_launch)/worlds/field2015_sixRobots.world"/>
 		<arg name="paused" value="false"/>
 		<arg name="use_sim_time" value="true"/>
 		<arg name="extra_gazebo_args" default=""/>
@@ -82,9 +100,7 @@
 		<param name="teamColor" value="magenta" />
 		<param name="robotNumber" value="1" />
 		<param name="robotName" value="R1" />
-		<param if="$(arg use_tf_prefix)"     name="simuRobotNamespace" value="$(arg robotNamespace)" />
-		<param unless="$(arg use_tf_prefix)" name="simuRobotNamespace" value="" />
-
+		<param name="simuRobotNamespace" value="$(arg robotNamespace)" />
 
 
         <group > <!-- name="BASE"  Odom Cmd_Vel & co -->
@@ -261,7 +277,9 @@
             <node pkg="localisation" name="cartographie" type="cartographie" respawn="true" output="screen"/>
 
             <!-- Load the grid maker -->
-            <rosparam command="load" file="$(find grid_maker)/cfg/field.yaml" />
+            <!-- TODO: Vérifier les fichiers de conf utilisés -->
+            <rosparam if="$(arg sim)" command="load" file="$(find grid_maker)/cfg/field_simulator.yaml" />
+            <rosparam unless="$(arg sim)" command="load" file="$(find grid_maker)/cfg/fieldRoboCup2016.yaml" />
             <node pkg="grid_maker" name="grid_maker" type="grid_maker_node" respawn="true" output="screen"/>
 
             <!-- AMCL -->
