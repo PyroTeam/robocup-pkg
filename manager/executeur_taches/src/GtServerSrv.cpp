@@ -126,7 +126,7 @@ void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
     #define ZONE_WIDTH	2.0
     #define ZONE_HEIGHT	1.5
-    const float offset = 0.01;
+    const float offset = 0.11;
 
     float xOffset = ZONE_WIDTH/2-offset;
     float yOffset = ZONE_HEIGHT/2-offset;
