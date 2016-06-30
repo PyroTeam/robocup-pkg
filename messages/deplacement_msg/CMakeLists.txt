@@ -55,6 +55,7 @@ DIRECTORY
 	msg
 FILES
   	Landmarks.msg
+		Machine.msg
 		Machines.msg
     OccupancyGridFloat.msg
 )
