@@ -11,7 +11,7 @@
 	<arg name="use_udev_symlinks" default="true" />
 	<arg name="tower_cam_connected" default="true" />
 	<arg name="platform_cam_connected" default="true" />
-	<arg name="lsd_brightness" default="20" />
+	<arg name="lsd_brightness" default="10" />
 
 	<!-- Sensors real positions (constant args) -->
 	<arg name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->

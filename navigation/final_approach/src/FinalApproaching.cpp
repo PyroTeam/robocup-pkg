@@ -1049,11 +1049,11 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 	float yOffset;
 	if (m_side == final_approach_msg::FinalApproachingGoal::IN)
 	{
-		yOffset = +absYOffset;
+		yOffset = -absYOffset;
 	}
 	else
 	{
-		yOffset = -absYOffset;
+		yOffset = +absYOffset;
 	}
 
 	// XXX: La fonction peut-elle être appelé sans arTag valide ? A vérifier
