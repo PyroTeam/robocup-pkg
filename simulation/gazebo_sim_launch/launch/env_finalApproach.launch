@@ -11,7 +11,7 @@
 	<arg name="use_udev_symlinks" default="true" />
 	<arg name="tower_cam_connected" default="true" />
 	<arg name="platform_cam_connected" default="true" />
-
+	<arg name="lsd_brightness" default="10" />
 
 	<!-- Sensors real positions (constant args) -->
 	<arg name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
@@ -156,6 +156,7 @@
 				<param if="$(arg use_udev_symlinks)" name="video_device" value="/dev/cam_platform" />
 				<param name="camera_frame_id" value="$(arg tf_prefix)platform_camera_link" />
 				<param name="camera_info_url" value="package://ar_tag/cfg/C920_calibration.yaml" />
+				<param name="brightness" value="$(arg lsd_brightness)" />
 				<!-- The camera name. This must match the name in the camera calibration -->
 				<param name="camera_name" value="C920" />
 			</node>
