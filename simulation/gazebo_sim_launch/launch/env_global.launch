@@ -13,7 +13,6 @@
     <arg name="use_mrpt" default="false" />
 
 	<!-- Sensors real positions (constant args) -->
-	<group if="$(arg sim)" >
 		<arg name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
 		<arg name="tf_laser_y" value="0.0" />
 		<arg name="tf_laser_z" value="0.255" />
@@ -29,29 +28,12 @@
 		<arg name="tf_platformcam_x" value="0.0" />
 		<arg name="tf_platformcam_y" value="0.00" />
 		<arg name="tf_platformcam_z" value="0.90" />
-	</group>
-	<group unless="$(arg sim)" >
-		<arg name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
-		<arg name="tf_laser_y" value="0.0" />
-		<arg name="tf_laser_z" value="0.255" />
 
-		<arg name="tf_gripper_x" value="0.23" />
-		<arg name="tf_gripper_y" value="0.00" />
-		<arg name="tf_gripper_z" value="0.90" />
-
-		<arg name="tf_towercam_x" value="0.1125" /><!-- 0.46.5/2 - 0.12 -->
-		<arg name="tf_towercam_y" value="-0.015" />
-		<arg name="tf_towercam_z" value="0.55" />
-
-		<arg name="tf_platformcam_x" value="0.0" />
-		<arg name="tf_platformcam_y" value="0.00" />
-		<arg name="tf_platformcam_z" value="0.90" />
-	</group>
 
 
 	<!-- Others constant args -->
-	<arg if="$(arg sim)" name="use_tf_prefix" value="false"/>
-	<arg unless="$(arg sim)" name="use_tf_prefix" value="true"/>
+	<arg if="$(arg sim)" name="use_tf_prefix" value="true"/>
+	<arg unless="$(arg sim)" name="use_tf_prefix" value="false"/>
 
 
 	<!-- ROSCONSOLE Config -->
@@ -74,12 +56,12 @@
 
 	<!-- Root params -->
 	<param name="nbTeam" value="1" />
-	<param name="team1" value="PYRO" />
+	<param name="team1" value="Pyro" />
 	<param name="team2" value="" />
 
 	<!-- Pyro TEAM -->
 	<!-- Team Namespace -->
-	<group ns="PYRO">
+	<group ns="Pyro">
 		<param name="nbRobot" value="1" />
 		<param name="machineLocation/robot1" value="robotino1" />
 		<param name="machineLocation/robot2" value="" />
@@ -96,8 +78,8 @@
 		<arg unless="$(arg use_tf_prefix)" name="tf_prefix" value=""/>
 
 		<!-- Params -->
-		<param name="teamName" value="PYRO" />
-		<param name="teamColor" value="cyan" />
+		<param name="teamName" value="Pyro" />
+		<param name="teamColor" value="magenta" />
 		<param name="robotNumber" value="1" />
 		<param name="robotName" value="R1" />
 		<param if="$(arg use_tf_prefix)"     name="simuRobotNamespace" value="$(arg robotNamespace)" />
@@ -105,7 +87,7 @@
 
 
 
-        <group name="BASE" > <!-- Odom Cmd_Vel & co -->
+        <group > <!-- name="BASE"  Odom Cmd_Vel & co -->
     		<!-- Robotino node -->
     		<arg unless="$(arg sim)"
                  name="hostname" default="127.0.0.1" />
@@ -169,8 +151,7 @@
     			<param name="calibrate_time" type="bool" value="true"/>
 
     			<!-- Set the port to connect to -->
-    			<param unless="$(arg use_udev_symlinks)" name="port" type="string" value="/dev/ttyACM0"/>
-    			<param if="$(arg use_udev_symlinks)" name="port" type="string" value="/dev/laserscan"/>
+    			<param name="port" type="string" value="/dev/laserscan"/>
 
     			<!-- Remplit le champ intensity du sensor_msgs/LaserScan. Pas utile pour nous -->
     			<param name="intensity" type="bool" value="false"/>
@@ -191,8 +172,7 @@
             <node unless="$(arg sim)"
                   name="platform_cam_node" pkg="usb_cam" type="usb_cam_node"
                   respawn="true" output="screen">
-                <param unless="$(arg use_udev_symlinks)" name="video_device" value="/dev/video1" />
-                <param if="$(arg use_udev_symlinks)" name="video_device" value="/dev/cam_platform" />
+                <param name="video_device" value="/dev/cam_platform" />
                 <param name="camera_frame_id" value="$(arg tf_prefix)platform_camera_link" />
                 <param name="camera_info_url" value="package://ar_tag/cfg/C920_calibration.yaml" />
                 <!-- The camera name. This must match the name in the camera calibration -->
@@ -210,8 +190,7 @@
     		<node unless="$(arg sim)"
     			  name="tower_cam_node" pkg="usb_cam" type="usb_cam_node"
     			  respawn="true" output="screen">
-    			<param unless="$(arg use_udev_symlinks)" name="video_device" value="/dev/video0" />
-    			<param if="$(arg use_udev_symlinks)" name="video_device" value="/dev/cam_tower" />
+    			<param name="video_device" value="/dev/cam_tower" />
     			<param name="camera_frame_id" value="$(arg tf_prefix)tower_camera_link" />
     			<param name="camera_info_url" value="package://ar_tag/cfg/C270_calibration.yaml" />
     			<!-- The camera name. This must match the name in the camera calibration -->
@@ -220,7 +199,7 @@
         </group>
 
 
-        <group name="COMPUTER_VISION" > <!-- Alvar et ArTag -->
+        <group > <!-- name="COMPUTER_VISION" Alvar et ArTag -->
 
             <!-- Paramètres du traitement d'image -->
             <rosparam file="$(find feu_tricolore)/param/roi.yaml" />
@@ -246,7 +225,7 @@
             <include file="$(find ar_tag)/launch/ar_tag.launch"/>
         </group>
 
-        <group name="NAVIGATION" > <!-- Alvar et ArTag -->
+        <group  > <!-- name="NAVIGATION" Alvar et ArTag -->
                 <!-- Load the navigation manager -->
                 <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" respawn="true" output="screen"/>
                 <node if="$(arg sim)" pkg="navigation_manager" name="move_request" type="moveRequest_node.py" />
@@ -269,12 +248,12 @@
 
         		<!-- Load the final approach -->
         		<node pkg="final_approach" name="final_approach" type="finalApproaching_node"
-        			  output="screen" launch-prefix="$(arg prefix)" >
+        			  output="screen" >
                       <remap from="ar_pose_marker" to="computerVision/ar_pose_marker" />
                 </node>
         </group>
 
-        <group name="LOCALISATION" > <!-- Detection machine et localisation -->
+        <group > <!-- name="LOCALISATION" Detection machine et localisation -->
             <!-- Load the detection and localisation nodes -->
             <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction" respawn="true" output="screen"/>
             <node pkg="localisation" name="visualisation" type="visualisation" respawn="true" output="screen"/>
@@ -329,6 +308,8 @@
               <param name="base_frame_id" value="robotino1/base_link"/>
             </node>
 
+            <node if="$(arg use_amcl)" pkg="localisation" type="initpose.sh" name="initpose" args="Pyro 1"/>
+
     		<!-- Static transforms -->
     		<node unless="$(arg use_amcl)"
                   pkg="tf" type="static_transform_publisher" name="map_to_odom"
@@ -336,17 +317,15 @@
                   args="0 0 0
     			  0 0 0
     			  map $(arg tf_prefix)odom   100" />
-
-            <node pkg="localisation" type="initpose.sh" name="initpose" args="PYRO 1"/>
         </group>
 
-        <group name="MANAGER" > <!-- Executeur et Generateur-->
+        <group  > <!--name="MANAGER" Executeur et Generateur-->
             <!-- Load the manager -->
             <node pkg="executeur_taches" name="executeur" type="test_exec" respawn="true" output="screen"/>
             <node pkg="generateur_taches" name="manager" type="main_node" respawn="true" output="screen"/>
         </group>
 
-        <group name="COM" > <!-- Executeur et Generateur-->
+        <group > <!-- name="COM"  Executeur et Generateur-->
             <!-- Load the refbox comm -->
             <node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"
                   respawn="true" output="screen"/>

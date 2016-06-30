@@ -6,7 +6,7 @@ FinalApproachingClient::~FinalApproachingClient(){}
 
 void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, int8_t machineParameter)
 {
-	actionlib::SimpleActionClient<final_approach_msg::FinalApproachingAction> client("navigation/finalApproaching_node",true);
+	actionlib::SimpleActionClient<final_approach_msg::FinalApproachingAction> client("navigation/FinalApproach",true);
 
 	ROS_INFO("Waiting for fa action Server to start");
 
