@@ -181,7 +181,7 @@ void machineInfoCallback(ModelStatesConstPtr &msg)
 		center.y = msg->pose[i].position.y;
 		center.theta = tf::getYaw(msg->pose[i].orientation);
 
-    comm_msg::ExplorationMachine tmp;
+    deplacement_msg::Machine tmp;
     tmp.pose = center;
 
 		g_landmarks.landmarks.push_back(tmp);

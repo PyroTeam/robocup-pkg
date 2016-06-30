@@ -4,6 +4,7 @@ void poseCallback(const nav_msgs::Odometry &odom)
 {
 	static tf::TransformBroadcaster odomToBaseLink;
 	static ros::NodeHandle nh;
+  static ros::NodeHandle nhPriv("~");
 	bool onlyOdomToBase;
 
 	std::string tf_prefix;
@@ -11,7 +12,14 @@ void poseCallback(const nav_msgs::Odometry &odom)
 	if (tf_prefix.size() != 0)
 		tf_prefix += "/";
 
-	nh.param<bool>("~onlyOdomToBase", onlyOdomToBase, false);
+    if (nhPriv.hasParam("onlyOdomToBase"))
+    {
+        nhPriv.getParam("onlyOdomToBase", onlyOdomToBase);
+    }
+    else
+    {
+        onlyOdomToBase = false;
+    }
 
 	tf::Transform transform;
 	tf::Quaternion q;
