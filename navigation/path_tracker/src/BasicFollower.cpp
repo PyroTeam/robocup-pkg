@@ -23,7 +23,7 @@ const double ADVANCE_WINDOW = 0.8;
 //vitesse min robotino fixe
 //TODO: à parametrer
 const float VminStatic = 0.05;
-const float VmaxUp = 0.5;
+const float VmaxUp = 0.3;
 const float VmaxLow = 0.05;
 const float angleMin = 5.0/180.0 * M_PI;
 

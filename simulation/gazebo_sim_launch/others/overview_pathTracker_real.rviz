@@ -663,6 +663,13 @@ Visualization Manager:
         {}
       Queue Size: 100
       Value: true
+    - Arrow Length: 0.3
+      Class: rviz/PoseArray
+      Color: 255; 25; 0
+      Enabled: true
+      Name: PoseArray
+      Topic: /robotino1/particlecloud
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -695,11 +702,11 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 50
-      Scale: 74.415
+      Scale: 77.5143
       Target Frame: map
       Value: TopDownOrtho (rviz)
-      X: -0.178107
-      Y: 2.67768
+      X: -1.21711
+      Y: 1.37893
     Saved:
       - Angle: 0
         Class: rviz/TopDownOrtho
