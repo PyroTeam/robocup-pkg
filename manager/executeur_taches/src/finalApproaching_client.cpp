@@ -5,11 +5,11 @@
 
 int main (int argc, char **argv)
 {
-	ros::init(argc, argv, "test_finalApproaching");
+	ros::init(argc, argv, "test_FinalApproaching");
 
 	// create the action client
 	// true causes the client to spin its own thread
-	actionlib::SimpleActionClient<final_approach_msg::FinalApproachingAction> ac("navigation/finalApproaching", true);
+	actionlib::SimpleActionClient<final_approach_msg::FinalApproachingAction> ac("navigation/FinalApproaching", true);
 
 	ROS_INFO("Waiting for action server to start.");
 	// wait for the action server to start

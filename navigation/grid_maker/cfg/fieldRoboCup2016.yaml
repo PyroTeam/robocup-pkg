@@ -1,0 +1,78 @@
+field:
+    name: robocup_2016_official
+    frame_id: map
+    size: [14, 9, 0.0]
+    origin: [-7, -2, 0.0]
+    resolution: 0.05
+    margin: 0.25
+    gradient:
+        distance: 0.35
+        minValue: 0
+    walls:
+        bottom1:
+            start: [-5.93, 0, 0.0]
+            end: [-3.70, 0, 0.0]
+        bottom2:
+            start: [-2.735, 0, 0.0]
+            end: [-0.435, 0, 0.0]
+        bottom3:
+            start: [0.465, 0, 0.0]
+            end: [2.775, 0, 0.0]
+        bottom4:
+            start: [3.785, 0, 0.0]
+            end: [5.84, 0, 0.0]
+
+        entryMagenta1:
+            start: [-2.735, 0, 0.0]
+            end: [-2.7355, -1.12, 0.0]
+        entryMagenta2:
+            start: [-2.735, -1.12, 0.0]
+            end: [-5.93, -1.12, 0.0]
+
+        entryCyan1:
+            start: [2.775, 0, 0.0]
+            end: [2.775, -1.12, 0.0]
+        entryCyan2:
+            start: [2.775, -1.12, 0.0]
+            end: [5.96, -1.12, 0.0]
+
+        left1:
+            start: [-5.93, 0, 0.0]
+            end: [-5.93, 3.42, 0.0]
+        left2:
+            start: [-5.93, 4.88, 0.0]
+            end: [-5.93, 6, 0.0]
+
+        right1:
+            start: [5.84, 0, 0.0]
+            end: [5.84, 3.42, 0.0]
+        right2:
+            start: [5.84, 4.88, 0.0]
+            end: [5.84, 6, 0.0]
+
+        top1:
+            start: [-5.93, 6, 0.0]
+            end: [-3.69, 6, 0.0]
+        top2:
+            start: [-2.43, 6, 0.0]
+            end: [2.05, 6, 0.0]
+        top3:
+            start: [3.6, 6, 0.0]
+            end: [5.84, 6, 0.0]
+
+    forbidden_zones:
+        top:
+            pose: [0, 6.5, 0]
+            size: [14, 1, 0.0]
+        left:
+            pose: [-6.47, 3, 0]
+            size: [1.07, 8.1, 0.0]
+        right:
+            pose: [6.5, 3, 0]
+            size: [1, 8.1, 0.0]
+        bottom1:
+            pose: [0, -1.6, 0]
+            size: [14, 1, 0.0]
+        bottom2:
+            pose: [-0.15, -0.55, 0]
+            size: [5.9, 1.1, 0.0]

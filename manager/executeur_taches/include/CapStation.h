@@ -17,28 +17,29 @@ using namespace manager_msg;
 class CapStation : public Machine
 {
   	private:
-	
+
 		/* Variables d'instance*/
 		int m_blackCap;
 		int m_greyCap;
 		int m_stockID[3];
 		int m_capID[3];
-	  
-  	public:
-	
-		/* Constructeur */
-		CapStation();
 
-		/* Déstructeur */
+  	public:
+
+		/* Constructeur */
+		CapStation(int teamColor);
+		CapStation(int teamColor, int nb);
+
+		/* Destructeur */
 		virtual ~CapStation();
 
 		virtual void FonctionVirtuelle();
 
 		/* Méthodes */
 		int getGreyCap();
-		int getBlackCap();  
+		int getBlackCap();
 		int getStockage(int i);
-		void majStockID(int i, int val); 
+		void majStockID(int i, int val);
 		void majBlack(int nbNoir);
 		void majGrey(int nbGris);
 		void put_cap(int color, int n_robot, int n_order, int machine);
@@ -49,4 +50,3 @@ class CapStation : public Machine
 };
 
 #endif
-

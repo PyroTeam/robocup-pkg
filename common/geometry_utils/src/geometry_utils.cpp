@@ -10,6 +10,8 @@
  */
 
 #include "geometry_utils.h"
+#include <tf/transform_datatypes.h>
+#include <tf/transform_listener.h>
 
 
 namespace geometry_utils {
@@ -28,6 +30,19 @@ geometry_msgs::Point midPoint(const geometry_msgs::Point &p0, const geometry_msg
     m.y = (p0.y+p1.y)/2.0;
     m.z = (p0.z+p1.z)/2.0;
     return m;
+}
+
+
+geometry_msgs::Pose2D changeFrame(const geometry_msgs::Pose2D &p, const tf::StampedTransform &transform)
+{
+  geometry_msgs::Pose2D result;
+
+  double yaw = tf::getYaw(transform.getRotation());
+  result.x     = p.x*cos(yaw) - p.y*sin(yaw) + transform.getOrigin().x();
+  result.y     = p.x*sin(yaw) + p.y*cos(yaw) + transform.getOrigin().y();
+  result.theta = p.theta + yaw;
+
+  return result;
 }
 
 } // namespace geometry_utils

@@ -4,7 +4,7 @@
   <version>0.0.0</version>
   <description>The localisation package</description>
 
-  <!-- One maintainer tag required, multiple allowed, one person per tag --> 
+  <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
   <maintainer email="tdanel@todo.todo">tdanel</maintainer>
@@ -50,7 +50,13 @@
   <build_depend>deplacement_msg</build_depend>
   <build_depend>tf</build_depend>
   <build_depend>visualization_msgs</build_depend>
-  
+  <build_depend>message_filters</build_depend>
+  <build_depend>geometry_utils</build_depend>
+  <build_depend>comm_msg</build_depend>
+  <build_depend>common_utils</build_depend>
+  <build_depend>ar_track_alvar</build_depend>
+  <build_depend>ar_track_alvar_msgs</build_depend>  
+
   <run_depend>geometry_msgs</run_depend>
   <run_depend>nav_msgs</run_depend>
   <run_depend>roscpp</run_depend>
@@ -60,7 +66,13 @@
   <run_depend>deplacement_msg</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>visualization_msgs</run_depend>
-  
+  <run_depend>message_filters</run_depend>
+  <run_depend>geometry_utils</run_depend>
+  <run_depend>comm_msg</run_depend>
+  <run_depend>common_utils</run_depend>
+  <run_depend>ar_track_alvar</run_depend>
+  <run_depend>ar_track_alvar_msgs</run_depend>
+
 
 
 

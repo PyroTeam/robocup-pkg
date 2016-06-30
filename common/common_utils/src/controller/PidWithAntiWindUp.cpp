@@ -10,6 +10,7 @@
  * \version
  */
 
+#include <ros/ros.h>
 #include "common_utils/controller/PidWithAntiWindUp.h"
 
 namespace common_utils {
@@ -66,6 +67,7 @@ float PidWithAntiWindUp::update(float err)
     }
     else
     {
+        pidOut = pidOutTemp;
         m_I += err * m_T;
     }
 

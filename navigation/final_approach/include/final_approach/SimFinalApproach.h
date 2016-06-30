@@ -8,12 +8,12 @@
 #include <actionlib/server/simple_action_server.h>
 #include <geometry_msgs/Twist.h>
 
-// Ours
-#include <final_approach_msg/FinalApproachingAction.h>
-#include <deplacement_msg/Landmarks.h>
-
 // Stl
 #include <vector>
+
+// Ours
+#include <final_approach_msg/FinalApproachingAction.h>
+#include <deplacement_msg/Machines.h>
 
 class SimFinalApproach
 {
@@ -23,7 +23,7 @@ class SimFinalApproach
 
 		void preemptCB();
 		void executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &goal);
-		void landmarksCallback(const deplacement_msg::Landmarks::ConstPtr& msg);
+    void landmarksCallback(const deplacement_msg::Machines& msg);
 
 	private:
 		ros::NodeHandle m_nh;

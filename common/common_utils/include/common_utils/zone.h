@@ -21,13 +21,13 @@ namespace common_utils {
  *
  * \return     true if success, false otherwise.
  */
-inline bool getZoneCenter(int zone, double &x, double &y, float zone_width = 2.0, float zone_height = 1.5)
+inline bool getZoneCenter(int zone, double &x, double &y, float zone_width = 1.96, float zone_height = 1.5)
 {
 	bool leftSide = zone > 12;
 
 	if (zone < 1 || zone > 24)
 	{
-		ROS_ERROR("Wrong zone id, must be 1 to 24");
+		ROS_ERROR("Wrong zone [%d], must be 1 to 24", zone);
 		x = 0;
 		y = 0;
 		return false;
@@ -45,15 +45,17 @@ inline bool getZoneCenter(int zone, double &x, double &y, float zone_width = 2.0
 	return true;
 }
 
-inline int getArea(const geometry_msgs::Pose2D &m, float zone_width = 2.0, float zone_height = 1.5)
+inline int getArea(const geometry_msgs::Pose2D &m, float zone_width = 1.96, float zone_height = 1.5)
 {
+  int area = 0;
+
   // Right side
   if(m.x >= 0 && m.x <= 6 && m.y >= 0 && m.y < 6)
   {
     int w = int(m.x/zone_width);
     int h = int(m.y/zone_height)+1;
 
-    return w*4 + h;
+    area =  w*4 + h;
   }
   // Left Side
   else if (m.x >= -6 && m.x < 0 && m.y >= 0 && m.y < 6)
@@ -61,12 +63,10 @@ inline int getArea(const geometry_msgs::Pose2D &m, float zone_width = 2.0, float
     int w = int(-m.x/zone_width);
     int h = int(m.y/zone_height)+1;
 
-    return w*4 + h + 12;
+    area =  w*4 + h + 12;
   }
-  else
-  {
-    return 0;
-  }
+
+  return area;
 }
 
 } // namespace common_utils

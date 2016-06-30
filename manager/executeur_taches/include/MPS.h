@@ -9,22 +9,24 @@
 
 #ifndef MPS_H
 #define MPS_H
+
+#include "geometry_msgs/Pose2D.h"
+
+
 class MPS
 {
 	public:
 		/* Constructeur */
 		MPS();
 
-		/* Déstructeur */
+		/* Destructeur */
 		~MPS();
 
 		/* Variables d'instance */
-		float  x;
-		float  y;
-		float  theta;
+		geometry_msgs::Pose2D pose;
 		int    zone;
 		bool   isHere;
-	
+		bool   orientationOk;
 };
 
 #endif

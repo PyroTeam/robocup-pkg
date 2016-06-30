@@ -231,6 +231,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	{
 		ROS_INFO_COND(firstTimeInLoop, "ArTag Asservissement - process");
 		firstTimeInLoop = false;
+		std::vector<arTag_t> arTags_tmp = at.getArTags();
 
 		// Make sure that the action hasn't been canceled
 		if (!m_as.isActive())
@@ -241,12 +242,12 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		}
 
 		// If at least one ARTag found
-		if (at.hasArTags())
+		if (!arTags_tmp.empty())
 		{
-			arTagId_idx = correspondingId(allPossibleId, at.getArTags());
+			arTagId_idx = correspondingId(allPossibleId, arTags_tmp);
 			if (arTagId_idx != -1)
 			{
-				avancementArTag = FinalApproaching::asservissementCameraNew(at.getArTags()[arTagId_idx]);
+				avancementArTag = FinalApproaching::asservissementCameraNew(arTags_tmp[arTagId_idx]);
 			}
 			else
 			{
@@ -1041,21 +1042,30 @@ int FinalApproaching::asservissementCamera(std::vector<float> px, std::vector<fl
 // TODO: Regler et paramétrer cette phase
 bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 {
-	const int jarResetValue = 3;
 	constexpr float xDist = 0.50;
-	constexpr float linearKp = 0.75;
+	constexpr float linearKp = 1.0;
 	constexpr float angularKp = 0.50;
+	constexpr float absYOffset = 0.025;
+	float yOffset;
+	if (m_side == final_approach_msg::FinalApproachingGoal::IN)
+	{
+		yOffset = -absYOffset;
+	}
+	else
+	{
+		yOffset = +absYOffset;
+	}
 
 	// XXX: La fonction peut-elle être appelé sans arTag valide ? A vérifier
 
 
 	bool finished = true;
-	static int xSuccessJar = jarResetValue;
-	static int ySuccessJar = jarResetValue;
-	static int yawSuccessJar = jarResetValue;
+	int xSuccessJar = m_camXPidNbSuccessNeeded();
+	int ySuccessJar = m_camYPidNbSuccessNeeded();
+	int yawSuccessJar = m_camYawPidNbSuccessNeeded();
 
 	float errX = target.pose.position.z - xDist;  // A corriger une fois les transformations appliquée
-	float errY = -target.pose.position.x;  // A corriger une fois les transformations appliquée
+	float errY = yOffset-target.pose.position.x;  // A corriger une fois les transformations appliquée
 	float errYaw = target.yaw;  // A corriger une fois les transformations appliquée
 
 	m_feedback.errorX = errX;
@@ -1066,11 +1076,8 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 
 	if (m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT)
 	{
-		constexpr float linearThreshold = 0.005;
-		constexpr float angularThreshold = 0.001;
-
 		// Asserv en Y
-		if (std::abs(errY) < linearThreshold)	// 0.5cm
+		if (std::abs(errY) < m_camYPidThreshold())	// 0.5cm
 		{
 			m_msgTwist.linear.y = 0;
 			if (ySuccessJar > 0)
@@ -1080,12 +1087,12 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 		}
 		else
 		{
-			m_msgTwist.linear.y = linearKp * errY;
-			ySuccessJar = jarResetValue;
+			m_msgTwist.linear.y = m_camYPidKp() * errY;
+			ySuccessJar = m_camYPidNbSuccessNeeded();
 		}
 
 		// Asserv en X
-		if (std::abs(errX) < linearThreshold) // 0.5cm
+		if (std::abs(errX) < m_camXPidThreshold()) // 0.5cm
 		{
 			m_msgTwist.linear.x = 0;
 			if (xSuccessJar > 0)
@@ -1095,12 +1102,12 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 		}
 		else
 		{
-			m_msgTwist.linear.x = linearKp * errX;
-			xSuccessJar = jarResetValue;
+			m_msgTwist.linear.x = m_camXPidKp() * errX;
+			xSuccessJar = m_camXPidNbSuccessNeeded();
 		}
 
 		// Asserv en angle
-		if (std::abs(errYaw) < angularThreshold) // 0.01 rad -> 0.5 deg
+		if (std::abs(errYaw) < m_camYawPidThreshold()) // 0.01 rad -> 0.5 deg
 		{
 			m_msgTwist.angular.z = 0;
 			if (yawSuccessJar > 0)
@@ -1110,8 +1117,8 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 		}
 		else
 		{
-			m_msgTwist.angular.z = angularKp * errYaw;
-			yawSuccessJar = jarResetValue;
+			m_msgTwist.angular.z = m_camYawPidKp() * errYaw;
+			yawSuccessJar = m_camYawPidNbSuccessNeeded();
 		}
 
 		finished =(xSuccessJar + ySuccessJar + yawSuccessJar) == 0;

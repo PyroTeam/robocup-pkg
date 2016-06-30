@@ -10,6 +10,7 @@
  */
 
 #include "dataLaser.h"
+#include "occupancy_grid_utils/grid_modifier/FastGradientModifier.h"
 
 /* Constantes */
 #define LASER_RANGE_MAX 5.5
@@ -32,11 +33,12 @@ void DataLaser::recoverDataLaser()
 {
     if (!m_receiveScan)
     {
+        ROS_DEBUG("Pas de scan laser");
         return;
     }
 
     std::string tf_prefix;
-    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");;
+    m_nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
     if (tf_prefix.size() != 0)
     {
         tf_prefix += "/";
@@ -49,17 +51,18 @@ void DataLaser::recoverDataLaser()
         m_dataLaser.clear();
 	    // m_listener.waitForTransform(tf_prefix+"odom", m_scan.header.frame_id, ros::Time(0), ros::Duration(1));
      //    m_listener.lookupTransform(tf_prefix+"odom", m_scan.header.frame_id, ros::Time(0), m_transform);
-        if (!m_listener.waitForTransform(tf_prefix+"odom", m_scan.header.frame_id, m_scan.header.stamp, ros::Duration(1)))
+        if (!m_listener.waitForTransform(m_grid.header.frame_id, m_scan.header.frame_id, m_scan.header.stamp, ros::Duration(1)))
         {
+            ROS_DEBUG("Pas de transformation");
             return;
         }
-        m_listener.lookupTransform(tf_prefix+"odom", m_scan.header.frame_id, m_scan.header.stamp, m_transform);
-        //ROS_INFO("Position robot : x = %f, y = %f", m_transform.getOrigin().x(), m_transform.getOrigin().y()); 
+        m_listener.lookupTransform(m_grid.header.frame_id, m_scan.header.frame_id, m_scan.header.stamp, m_transform);
+        //ROS_INFO("Position robot : x = %f, y = %f", m_transform.getOrigin().x(), m_transform.getOrigin().y());
         for (int i = 0 ; i < ranges.size() ; i++)
         {
             if (ranges[i] < LASER_RANGE_MAX)
             {
-                //ROS_INFO("Point %d : %f < %f", i, ranges[i], m_scan.range_max); 
+                //ROS_INFO("Point %d : %f < %f", i, ranges[i], m_scan.range_max);
                 float angle = m_scan.angle_min + i * m_scan.angle_increment;
                 float x = ranges[i] * cos(angle);
                 float y = ranges[i] * sin(angle);
@@ -76,6 +79,7 @@ void DataLaser::recoverDataLaser()
 
     if (!m_receiveGrid)
     {
+        ROS_DEBUG("Pas de grille");
         return;
     }
 
@@ -94,6 +98,14 @@ void DataLaser::recoverDataLaser()
         m_map.drawDisc(m_grid, m_dataLaser[i]);
     }
 
+    //dégradés
+    double distance = 0.5;
+    m_nh.param<double>("field/gradient/distance", distance, 0.5);
+    int minValue = 0;
+    m_nh.param<int>("field/gradient/minValue", minValue, 0);
+    occupancy_grid_utils::FastGradientModifier gradientModifier(distance, minValue);
+    gradientModifier.execute(m_grid);
+
     m_grid.header.stamp = m_scan.header.stamp;
     m_grid_pub.publish(m_grid);
     //ROS_INFO("Map obstacles publiee");
@@ -101,14 +113,14 @@ void DataLaser::recoverDataLaser()
 
 void DataLaser::gridCallback(const nav_msgs::OccupancyGrid &grid)
 {
-    //ROS_INFO("Reception map");
+    ROS_DEBUG("Reception map");
     m_grid = grid;
     m_receiveGrid = true;
 }
 
 void DataLaser::scanCallback(const sensor_msgs::LaserScan &scan)
 {
-    //ROS_INFO("Reception donnees laser");
+    ROS_DEBUG("Reception donnees laser");
     m_scan = scan;
     m_receiveScan = true;
 }

@@ -1,7 +1,6 @@
 #include "Line.h"
 #include "Model.h"
 #include "Segment.h"
-#include "cartographie_utils.h"
 #include "math_functions.h"
 
 Segment::Segment() : m_angle(0.0),m_size(0.0)
@@ -74,7 +73,7 @@ void Segment::setPoints(const geometry_msgs::Point &a, const geometry_msgs::Poin
 void Segment::update()
 {
 	this->setAngle(atan((m_max.y-m_min.y)/(m_max.x-m_min.x)));
-	m_size  = dist(m_min,m_max);
+	m_size  = geometry_utils::distance(m_min,m_max);
 	m_max.z = m_angle;
 	m_min.z = m_angle;
 }

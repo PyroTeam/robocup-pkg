@@ -17,6 +17,8 @@
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Pose2D.h>
 #include <nav_msgs/Path.h>
+#include <tf/transform_datatypes.h>
+#include <tf/transform_listener.h>
 
 namespace geometry_utils {
 
@@ -44,6 +46,8 @@ inline double distance(const nav_msgs::Path &path, const geometry_msgs::Pose &p0
 inline double distance(const nav_msgs::Path &path, const geometry_msgs::Pose2D &p0);
 
 geometry_msgs::Point midPoint(const geometry_msgs::Point &p0, const geometry_msgs::Point &p1);
+
+geometry_msgs::Pose2D changeFrame(const geometry_msgs::Pose2D &p, const tf::StampedTransform &transform);
 
 inline double angle(const geometry_msgs::Point &p0);
 
@@ -124,6 +128,19 @@ inline double distance(const geometry_msgs::Pose2D &p0, const nav_msgs::Path &pa
 inline double angle(const geometry_msgs::Point &p0, const geometry_msgs::Point &p1)
 {
     return atan2(p1.y-p0.y, p1.x-p1.x);
+}
+
+inline double normalizeAngle(double angle)
+{
+    while (angle > M_PI)
+    {
+        angle = angle - 2*M_PI;
+    }
+    while (angle <= -M_PI)
+    {
+        angle = angle + 2*M_PI;
+    }
+    return angle;
 }
 
 } // namespace geometry_utils

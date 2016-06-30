@@ -8,6 +8,8 @@
 
 void ArTagFA::artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg)
 {
+	std::lock_guard<std::mutex> lock(m_mutex);
+
 	// Cleanup
 	m_foundId = false;
 	m_id.clear();
@@ -114,6 +116,8 @@ ArTagFA::ArTagFA()
 
 std::vector<int> ArTagFA::getId()
 {
+	std::lock_guard<std::mutex> lock(m_mutex);
+
 	if(m_id.empty())
 	{
 		ROS_INFO("m_id.size() = %d",(int)m_id.size());
@@ -127,6 +131,8 @@ std::vector<int> ArTagFA::getId()
 
 std::vector<float> ArTagFA::getPositionX()
 {
+	std::lock_guard<std::mutex> lock(m_mutex);
+
 	if(m_positionX.empty())
 	{
 		ROS_INFO("m_positionX.size(): %d",(int)m_positionX.size());
@@ -140,6 +146,8 @@ std::vector<float> ArTagFA::getPositionX()
 
 std::vector<float> ArTagFA::getPositionZ()
 {
+	std::lock_guard<std::mutex> lock(m_mutex);
+
 	if(m_positionZ.empty())
 	{
 		ROS_INFO("m_positionZ.size(): %d",(int)m_positionZ.size());
@@ -153,6 +161,8 @@ std::vector<float> ArTagFA::getPositionZ()
 
 std::vector<float> ArTagFA::getOrientationZ()
 {
+	std::lock_guard<std::mutex> lock(m_mutex);
+
 	if(m_orientationZ.empty())
 	{
 		ROS_INFO("m_orientationZ.size(): %d",(int)m_orientationZ.size());
@@ -166,6 +176,8 @@ std::vector<float> ArTagFA::getOrientationZ()
 
 std::vector<float> ArTagFA::getDistance()
 {
+	std::lock_guard<std::mutex> lock(m_mutex);
+
 	if(m_distance.empty())
 	{
 		ROS_INFO("m_distance.size() = %d",(int)m_distance.size());
@@ -179,6 +191,8 @@ std::vector<float> ArTagFA::getDistance()
 
 std::vector<arTag_t> ArTagFA::getArTags()
 {
+	std::lock_guard<std::mutex> lock(m_mutex);
+	
 	if(m_arTags.empty())
 	{
 		ROS_WARN_NAMED("artag", "Requested empty arTags vector");

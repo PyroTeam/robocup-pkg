@@ -28,24 +28,9 @@ double dist(const geometry_msgs::Point &a, const Segment &s)
     return std::abs(u.x*ba.y - ba.x*u.y) / sqrt(u.x*u.x + u.y*u.y);
 }
 
-double dist(const geometry_msgs::Point &a, const geometry_msgs::Point &b)
-{
-  return sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y));
-}
-
-double dist(const geometry_msgs::Point &a, const geometry_msgs::Pose2D &b)
-{
-  return sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y));
-}
-
-double dist(const geometry_msgs::Pose2D &c, const geometry_msgs::Pose2D &m)
-{
-  return sqrt((m.x - c.x)*(m.x - c.x) + (m.y - c.y)*(m.y - c.y));
-}
-
 double dist(const Segment &seg1, const Segment &seg2)
 {
-  double distance = dist(seg1.getCenter(), seg2.getCenter());
+  double distance = geometry_utils::distance(seg1.getCenter(), seg2.getCenter());
   return distance;
 }
 
@@ -88,7 +73,7 @@ geometry_msgs::Point ortho(const geometry_msgs::Point &a, const Segment &s)
 
 geometry_msgs::Point ortho(const geometry_msgs::Point &a, const geometry_msgs::Pose2D &p)
 {
-    double distance = dist(a,p);
+    double distance = geometry_utils::distance(a,p);
     geometry_msgs::Point v;
     v.x = cos(p.theta);
     v.y = sin(p.theta);
