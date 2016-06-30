@@ -187,10 +187,28 @@ void LightDetection::traitement(cv::Mat &imgToProcess)
 	cv::Mat yellowLight = hsv(m_yellowRoi);
 	cv::Mat redLight = hsv(m_redRoi);
 
+
 	// Get mean value (luminosity) for each ROI and compare against configurable threshold
-	float meanGreen = cv::mean(greenLight).val[hsvValueChannel];
-	float meanYellow = cv::mean(yellowLight).val[hsvValueChannel];
-	float meanRed = cv::mean(redLight).val[hsvValueChannel];
+	float meanGreen;
+	float meanYellow;
+	float meanRed;
+
+	// TODO: Méthode bourrin, pas de check d'existence (garde la valeur si n'exite pas) à améliorer
+	bool mixedAllChannels = true;
+	m_nh.getParamCached("computerVision/lightSignalDetection/mixedAllChannels", mixedAllChannels);
+		ROS_DEBUG_STREAM_NAMED("roi", "MIXED CHANNELS : "<<(mixedAllChannels?"YES":"NO"));
+	if (mixedAllChannels)
+	{
+		meanGreen = (cv::mean(greenLight).val[0]+cv::mean(greenLight).val[1]+cv::mean(greenLight).val[2])/3;
+		meanYellow = (cv::mean(yellowLight).val[0]+cv::mean(yellowLight).val[1]+cv::mean(yellowLight).val[2])/3;
+		meanRed = (cv::mean(redLight).val[0]+cv::mean(redLight).val[1]+cv::mean(redLight).val[2])/3;
+	}
+	else
+	{
+		meanGreen = cv::mean(greenLight).val[hsvValueChannel];
+		meanYellow = cv::mean(yellowLight).val[hsvValueChannel];
+		meanRed = cv::mean(redLight).val[hsvValueChannel];
+	}
 
 
 	// TODO: Méthode bourrin, pas de check d'existence (garde la valeur si n'exite pas) à améliorer
