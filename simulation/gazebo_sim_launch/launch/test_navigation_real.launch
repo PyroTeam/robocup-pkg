@@ -25,6 +25,14 @@
 
 	<!-- Robotino Pyro 1 -->
 	<group ns="robotino1">
+
+        <machine name="vincent" address="vincent-pyroteam" user="vincent"
+            env-loader="/home/vincent/catkin_ws/src/robocup-pkg/config/vincent-env.sh" />
+
+        <machine name="robotino" address="robotino" user="robotino"
+            env-loader="/home/robotino/catkin_ws/src/robocup-pkg/config/robotino-env.sh" />
+
+
 		<arg name="use_tf_prefix" value="false"/>
 		<arg name="robotNamespace" value="robotino1"/>
 															<!-- Added slash is MANDATORY -->
@@ -50,30 +58,30 @@
 		<node pkg="tf" type="static_transform_publisher" name="map_to_odom"
 			  respawn="true" output="screen"
 			args="0 0 0
-			0 0 0
-			map $(arg tf_prefix)odom   100" />
+			1.57 0 0
+			map $(arg tf_prefix)odom   100"  machine="robotino"/>
 
 		<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser_link"
 			  respawn="true" output="screen"
 			args="$(arg tf_laser_x) $(arg tf_laser_y) $(arg tf_laser_z)
 			0 0 0
-			$(arg tf_prefix)base_link $(arg tf_prefix)laser_link   100" />
+			$(arg tf_prefix)base_link $(arg tf_prefix)laser_link   100"  machine="robotino"/>
 
 		<node pkg="tf" type="static_transform_publisher" name="base_link_to_gripper_link"
 			  respawn="true" output="screen"
 			args="$(arg tf_gripper_x) $(arg tf_gripper_y) $(arg tf_gripper_z)
 			0 0 0
-			$(arg tf_prefix)base_link $(arg tf_prefix)gripper_link   100" />
+			$(arg tf_prefix)base_link $(arg tf_prefix)gripper_link   100"  machine="robotino"/>
 
 
 		<!-- Robotino node -->
 		<arg name="hostname" default="127.0.0.1" />
 
 		<node name="robotino_node" pkg="robotino_node" type="robotino_node"
-			  respawn="true" output="screen">
+			  respawn="true" output="screen"  machine="robotino">
 			<param name="hostname" value="$(arg hostname)" />
 			<!-- TODO: Vérifier l'utilité de ces valeurs et les augmenter si possible -->
-			<param name="max_linear_vel" value="0.5" />
+			<param name="max_linear_vel" value="0.50" />
 			<param name="min_linear_vel" value="0.001" />
 			<param name="max_angular_vel" value="3.0" />
 			<param name="min_angular_vel" value="0.001" />
@@ -89,7 +97,7 @@
 
 		<!-- Odometry -->
 		<node name="robotino_odometry_node" pkg="robotino_node" type="robotino_odometry_node"
-			  respawn="true" output="screen">
+			  respawn="true" output="screen" machine="robotino">
 			<param name="hostname" value="$(arg hostname)" />
 			<!-- Remap topics -->
 			<remap from="odom" to="hardware/odom" />
@@ -99,14 +107,14 @@
 		<!-- LaserScan -->
 		<node unless="$(arg use_hokuyo_node)" name="robotino_laser_node"
 			  pkg="robotino_node" type="robotino_laserrangefinder_node"
-			  respawn="true" output="screen">
+			  respawn="true" output="screen" machine="robotino">
 			<param name="hostname" value="$(arg hostname)" />
 			<param name="laserRangeFinderNumber" value="0" />
 			<!-- Remap topics -->
 			<remap from="scan" to="hardware/scan" />
 		</node>
 		<node if="$(arg use_hokuyo_node)" name="hokuyo_laser_node" pkg="hokuyo_node" type="hokuyo_node"
-			  respawn="true" output="screen">
+			  respawn="true" output="screen" machine="robotino">
 
 			<!-- Starts up slower when true, but timestamps will be accurate. -->
 			<param name="calibrate_time" type="bool" value="true"/>
@@ -123,21 +131,25 @@
 			<remap from="scan" to="hardware/scan" />
 		</node>
 
+        <rosparam command="load" file="$(find grid_maker)/cfg/fieldRoboCup2016.yaml" />
+        <node pkg="grid_maker" name="grid_maker" type="grid_maker_node" machine="robotino"/>
+
+
         <param name="navigation/pathFinder/aStarTieBreaking" value="true" />
         <param name="navigation/pathFinder/weightData" value="0.45" />
         <param name="navigation/pathFinder/weightSmooth" value="0.35" />
-        <node pkg="path_finder" name="path_finder_node" type="path_finder_node" output="screen"/>
+        <node pkg="path_finder" name="path_finder_node" type="path_finder_node" output="screen" machine="robotino"/>
         <!--<node pkg="pathfinder" name="pathfinder" type="pathfinder_node" launch-prefix="xterm -e"/>-->
 
-        <node pkg="topic_tools" name="mux_gridMap" type="mux" args="pathFinder/grid objectDetection/grid objectDetection/gridObstacles"/>
+        <node pkg="topic_tools" name="mux_gridMap" type="mux" args="pathFinder/grid objectDetection/grid objectDetection/gridObstacles" machine="robotino"/>
 
         <!-- <node pkg="path_tracker" name="path_trackerRequest_node" type="path_trackerRequest_node.py" output="screen"/> -->
 
-        <node pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen"/>
+        <node pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" output="screen" machine="robotino"/>
         <!-- Load the path tracker -->
         <!-- <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py" launch-prefix="xterm -e"/> -->
         <rosparam command="load" file="$(find path_tracker)/cfg/navigation_pathTracker.yaml" />
-        <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" output="screen"/>
+        <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" output="screen" machine="robotino"/>
 
         <!-- Load the fake final approach -->
         <!-- <node pkg="final_approach" name="final_approach" type="simFinalApproach_node"/> -->
@@ -145,10 +157,10 @@
 
         <!-- Load the navigation manager -->
         <!-- <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node"/> -->
-        <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" launch-prefix="xterm -e"/>
-        <node pkg="navigation_manager" name="move_request" type="moveRequest_node.py"/>
+        <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" output="screen" machine="robotino"/>
+        <node pkg="navigation_manager" name="move_request" type="moveRequest_node.py" machine="robotino"/>
         <!-- <node pkg="navigation_manager" name="move_request" type="moveRequest_node.py" launch-prefix="xterm -e"/> -->
 
-
+        <node pkg="rviz" type="rviz" name="rviz" args="-d $(find gazebo_sim_launch)/others/overview_pathTracker_real.rviz" machine="vincent"/>
 	</group>
 </launch>

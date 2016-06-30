@@ -16,6 +16,8 @@
 #include <memory>
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
+#include <std_msgs/Bool.h>
+#include <ros/time.h>
 
 #include "MoveState.h"
 #include "PathFollower.h"
@@ -25,13 +27,16 @@ class MoveBehavior
 {
 public:
     MoveBehavior():
+        m_nh(),
         m_moveState(nullptr),
         m_pathFollower(nullptr),
         m_avoidObstacle(nullptr),
         m_obstacleUnavoidable(false),
         m_maxObstacleDistance(1.0),
-        m_obstacleDistance(0.0)
+        m_obstacleDistance(0.0),
+        m_bumper(false)
     {
+        m_bumperSub = m_nh.subscribe("hardware/bumper", 1, &MoveBehavior::bumperCallback, this);
     }
 
     virtual ~MoveBehavior()
@@ -94,8 +99,11 @@ public:
     virtual float getPercentComplete() = 0;
     virtual bool obstacleOnTrajectory(float maxDistance, float &obstacleDistance) = 0;
 protected:
-    ros::Subscriber m_pathSub;
-    nav_msgs::Path m_path;
+    ros::NodeHandle m_nh;
+    //ros::Subscriber m_pathSub;
+    //nav_msgs::Path m_path;
+    ros::Subscriber m_bumperSub;
+    bool m_bumper;
 
     std::shared_ptr<MoveState> m_moveState;
     std::shared_ptr<PathFollower> m_pathFollower;
@@ -105,7 +113,11 @@ protected:
     float m_maxObstacleDistance;
     float m_obstacleDistance;
 
-    void pathCallback(const nav_msgs::Path &path);
+    void bumperCallback(const std_msgs::Bool &bumper)
+    {
+        m_bumper = bumper.data;
+    }
+    //void pathCallback(const nav_msgs::Path &path);
 };
 
 #endif /* PATH_TRACKER_MOVEBEHAVIOR_H_ */
