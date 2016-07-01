@@ -250,6 +250,9 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		m_msgTwist.linear.x = 0.0;
 		m_msgTwist.linear.y = 0.0;
 		m_msgTwist.linear.z = 0.0;
+		m_msgTwist.angular.x = 0.0;
+		m_msgTwist.angular.y = 0.0;
+		m_msgTwist.angular.z = 0.0;
 
 		// If at least one ARTag found
 		if (!arTags_tmp.empty())
@@ -383,6 +386,9 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		m_msgTwist.linear.x = 0.0;
 		m_msgTwist.linear.y = 0.0;
 		m_msgTwist.linear.z = 0.0;
+		m_msgTwist.angular.x = 0.0;
+		m_msgTwist.angular.y = 0.0;
+		m_msgTwist.angular.z = 0.0;
 
 		// XXX: Un moyennage (pas trop dégeu, sur base de repère robot, à grand renforts de tf) des informations d'entrée
 		// pourra s'avérer utile. A voir.
