@@ -124,7 +124,7 @@ final_approach_msg::FinalApproachingAction GtServerSrv::getFinalAppAction()
 
 void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
-    #define ZONE_WIDTH	2.0
+    #define ZONE_WIDTH	1.96
     #define ZONE_HEIGHT	1.5
     const float offset = 0.11;
 
