@@ -52,7 +52,7 @@ geometry_msgs::Pose2D machineToMapFrame(const geometry_msgs::Pose2D &p, const ge
   double yaw = poseMachine.theta;
   result.x     = p.x*cos(yaw) - p.y*sin(yaw) + poseMachine.x;
   result.y     = p.x*sin(yaw) + p.y*cos(yaw) + poseMachine.y;
-  result.theta = p.theta + yaw;
+  result.theta = normalizeAngle(p.theta + yaw);
 
   return result;
 }
