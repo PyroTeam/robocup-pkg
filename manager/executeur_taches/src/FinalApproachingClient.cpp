@@ -1,6 +1,8 @@
 #include "FinalApproachingClient.h"
 
-FinalApproachingClient::FinalApproachingClient() {}
+FinalApproachingClient::FinalApproachingClient() {
+    m_success = false;
+}
 
 FinalApproachingClient::~FinalApproachingClient(){}
 
@@ -26,6 +28,7 @@ void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, in
 	if(finished_before_timeout)
 	{
 		actionlib::SimpleClientGoalState state = client.getState();
+        m_success = client.getResult()->success;
 		ROS_INFO("Action finished : %s ",state.toString().c_str());
 
 	}
@@ -33,5 +36,11 @@ void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, in
 	{
 		ROS_INFO("Action didn't finish before the time out");
         client.cancelGoal();
+        m_success = true;
 	}
+}
+
+bool FinalApproachingClient::getSuccess()
+{
+    return m_success;
 }

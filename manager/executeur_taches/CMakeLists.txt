@@ -171,10 +171,10 @@ target_link_libraries(
 
 # Test final_approach
 add_executable(
-  finalApproaching_client
-  src/finalApproaching_client.cpp
+  fake_finalApproachingClient
+  src/fake_finalApproachingClient.cpp
 )
-add_dependencies(finalApproaching_client manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
+add_dependencies(fake_finalApproachingClient manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
 
 add_executable(
   test_ei
@@ -245,7 +245,7 @@ target_link_libraries(
 
 
 target_link_libraries(
-  finalApproaching_client
+  fake_finalApproachingClient
   ${catkin_LIBRARIES}
 )
 #############
