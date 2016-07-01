@@ -91,6 +91,10 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
         ROS_ERROR("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone);
     }
 
+    double xMachineFrame = 0.0, yMachineFrame = 0.75;
+
+    double x = 
+
     double theta1 = knownMachinePose.theta + M_PI/2;
     dx = MARGIN_FROM_CENTER * cos(theta1);
     dy = MARGIN_FROM_CENTER * sin(theta1);
