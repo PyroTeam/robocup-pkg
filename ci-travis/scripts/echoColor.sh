@@ -35,7 +35,7 @@ function echoC
 	    ;;
 	*)
 		START=$END
-		;
+		;;
 	esac
 	echo -e "$START$str$END"
 }
