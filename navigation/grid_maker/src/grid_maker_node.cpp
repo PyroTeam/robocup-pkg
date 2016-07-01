@@ -46,6 +46,8 @@ const float g_sizeY = 0.35;
 nav_msgs::OccupancyGrid mapLocalisation;
 nav_msgs::OccupancyGrid mapLocalisationWithMachine;
 
+const int FORBIDZONE_VALUE = 100;
+
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "map_gen");
@@ -163,7 +165,7 @@ int main(int argc, char **argv)
     }
     for (auto forbidZone : forbidZones)
     {
-        forbidZone.draw(map, 75);
+        forbidZone.draw(map, FORBIDZONE_VALUE);
     }
     // ROS Loop
     while(ros::ok())
@@ -196,7 +198,7 @@ int main(int argc, char **argv)
         }
         for (auto forbidZone : forbidZones)
         {
-            forbidZone.draw(map, 75);
+            forbidZone.draw(map, FORBIDZONE_VALUE);
         }
         if (g_machinesShape != nullptr)
         {
