@@ -60,14 +60,14 @@ bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
     {
       count ++;
 
-      double dx = target.x - xCenter;
-      double dy = target.y - yCenter;
+      double dx = xCenter - target.x;
+      double dy = yCenter - target.y;
 
       ROS_WARN("Unable to reach requested point (%f,%f,%f). Will try another one", target.x, target.y, target.theta);
 
       // on décale de 30 cm la position demandée vers le centre de la machine
       target.x += 0.3*(dx/std::abs(dx));
-      target.y += 0.3*(dx/std::abs(dy));
+      target.y += 0.3*(dy/std::abs(dy));
     }
   }while (navState != deplacement_msg::MoveToPoseResult::FINISHED && count <= nbAttempt);
 }
