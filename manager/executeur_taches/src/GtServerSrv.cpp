@@ -530,15 +530,19 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
              fa_c.starting(machine->getFaType(), FinalApproachingGoal::OUT, FinalApproachingGoal::LIGHT);
          }
 
-        // Traitement d'image, détection FEU
-        FeuClientAction f_c;
-        f_c.lightsStates(m_ei->m_lSpec);
+         if(fa_c.getSuccess())
+         {
+             // Traitement d'image, détection FEU
+             FeuClientAction f_c;
+             f_c.lightsStates(m_ei->m_lSpec);
 
-        // Interprétation type à partir de LightSignal
-        m_ei->interpretationFeu();
+             // Interprétation type à partir de LightSignal
+             m_ei->interpretationFeu();
 
-        // Reporter machine
-        reportClient.reporting(machine->getName(), m_ei->type, req.id);
+             // Reporter machine
+             reportClient.reporting(machine->getName(), m_ei->type, req.id);
+         }
+
         m_ls->spin();
 
       } // end of discover order
