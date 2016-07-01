@@ -561,6 +561,11 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
              // Reporter machine
              reportClient.reporting(machine->getName(), m_ei->type, req.id);
          }
+         else
+         {
+             // Reporter machine avec feu vide
+             reportClient.reporting(machine->getName(), "", req.id);
+         }
 
         m_ls->spin();
 
