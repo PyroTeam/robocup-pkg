@@ -23,7 +23,7 @@
 
 deplacement_msg::Machines  g_machines;
 std::vector<Machine>       g_mps(24);
-geometry_msgs::PoseWithCovarianceStamped g_pose;
+//geometry_msgs::PoseWithCovarianceStamped g_pose;
 
 
 tf::TransformListener     *g_tf_listener;
@@ -39,10 +39,10 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
   }
 
   // si la localisation donne une position du robot assez précise
-  if (g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
+  if (true/*g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
       g_pose.pose.covariance[1] <= ACCEPTANCE_THRESHOLD &&
       g_pose.pose.covariance[6] <= ACCEPTANCE_THRESHOLD &&
-      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD)
+      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD*/)
   {
     tf::StampedTransform transform;
     try
@@ -101,10 +101,10 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
   }
 
   // si la localisation donne une position du robot assez précise
-  if (g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
+  if (true/*g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
       g_pose.pose.covariance[1] <= ACCEPTANCE_THRESHOLD &&
       g_pose.pose.covariance[6] <= ACCEPTANCE_THRESHOLD &&
-      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD)
+      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD*/)
   {
     for (int i = 0; i < tmp.size(); i++)
     {
@@ -160,11 +160,11 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
     }
   }
 }
-
+/*
 void poseCallback(const geometry_msgs::PoseWithCovarianceStamped& pose)
 {
   g_pose = pose;
-}
+}*/
 
 int main( int argc, char** argv )
 {
@@ -176,7 +176,7 @@ int main( int argc, char** argv )
 
   ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 1, machinesCallback);
   ros::Subscriber sub_artag    = n.subscribe("computerVision/ar_pose_marker", 1, artagCallback);
-  ros::Subscriber sub_pose     = n.subscribe("amcl_pose", 1, poseCallback);
+  //ros::Subscriber sub_pose     = n.subscribe("amcl_pose", 1, poseCallback);
 
   ros::Publisher pub_machines = n.advertise< deplacement_msg::Machines >("objectDetection/landmarks", 1);
 

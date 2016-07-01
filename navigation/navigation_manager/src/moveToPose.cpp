@@ -163,7 +163,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
             isOk = false;
             //TODO: cancel path_track
         }
-        else if(cptTimeout == 6)
+        else if(cptTimeout == 3)
         {
             isOk = false;
         }
@@ -313,7 +313,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     }
     m_as.setSucceeded(m_result);
 
-    
+
 }
 
 // Called once when the goal completes

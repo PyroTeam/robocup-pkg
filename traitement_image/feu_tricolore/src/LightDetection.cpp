@@ -6,8 +6,8 @@ namespace enc = sensor_msgs::image_encodings;
 
 LightDetection::LightDetection()
 : m_it(m_nh)
-, m_action_name(ros::this_node::getName())
-, m_as(m_nh, ros::this_node::getName(), false)
+, m_action_name("computerVision/lecture_feu")
+, m_as(m_nh, m_action_name, false)
 , m_inputColorInverted(m_nh, "computerVision/lightSignalDetection/inputColorInverted", false)
 , m_roiParams(m_nh)
 {
@@ -167,7 +167,7 @@ void LightDetection::traitement(cv::Mat &imgToProcess)
 	// TODO: Méthode bourrin, pas de check d'existence (garde la valeur si n'exite pas) à améliorer
 	m_nh.getParamCached("computerVision/lightSignalDetection/useChannel", hsvValueChannel);
 		ROS_DEBUG_STREAM_NAMED("roi", "USE CHANNEL "<<hsvValueChannel);
-	
+
 
 	// Get CV Regions of interest
 	m_greenRoi = Rect(   std::floor(m_roiParams.green.xmin()*hsv.cols)
@@ -219,7 +219,7 @@ void LightDetection::traitement(cv::Mat &imgToProcess)
 	{
 		m_greenTurnedOn = meanGreen < m_roiParams.green.threshold();
 		m_yellowTurnedOn = meanYellow < m_roiParams.yellow.threshold();
-		m_redTurnedOn = meanRed < m_roiParams.red.threshold();	
+		m_redTurnedOn = meanRed < m_roiParams.red.threshold();
 	}
 	else
 	{

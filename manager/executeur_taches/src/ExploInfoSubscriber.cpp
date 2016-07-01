@@ -27,7 +27,7 @@ void ExploInfoSubscriber::interpretationFeu()
     if(m_lSpec[i].color == light.YELLOW) y_state = m_lSpec[i].state;
     if(m_lSpec[i].color == light.GREEN)  g_state = m_lSpec[i].state;
   }
-
+  bool found = false;
   j=0;
   while(j<m_signals.size())
   {
@@ -51,15 +51,28 @@ void ExploInfoSubscriber::interpretationFeu()
         else break;
       }
     }
-    if(i==3) break;
+    if(i==3)
+    {
+        found = true;
+        break;
+    }
     j++;
   }
+  if (!found)
+  {
+      this->type = "";
+      ROS_ERROR("Signal not found");
+      return;
+  }
+
   ROS_INFO_NAMED("interpretationFeu", "i:%d j:%d size:%d", i, j, int( m_signals.size()));
   ROS_INFO_NAMED("interpretationFeu", "type: %s", m_signals[j].type.c_str());
   this->type = m_signals[j].type;
+
   for(i = 0 ; i < m_lSpec.size() ; i++)
   {
     ROS_INFO("color : %d , state : %d",m_lSpec[i].color,m_lSpec[i].state);
   }
   ROS_INFO("type : %s", this->type.c_str());
+
 }

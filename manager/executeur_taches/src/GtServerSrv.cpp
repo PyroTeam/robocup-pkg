@@ -72,12 +72,14 @@ bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
   }while (navState != deplacement_msg::MoveToPoseResult::FINISHED && count <= nbAttempt);
 }
 
+/* Valentin's function */
 void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2)
 {
     // si l'angle est OK, le premier point renvoyé est la sortie
     #define MARGIN_FROM_CENTER 0.75
 
     geometry_msgs::Pose2D knownMachinePose;
+
     knownMachinePose = m_ls->machines()[zone - 1].pose;
 
     geometry_msgs::Pose2D input, output;
@@ -99,7 +101,6 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 
     point1 = geometry_utils::machineToMapFrame(output, knownMachinePose);
     point2 = geometry_utils::machineToMapFrame(input, knownMachinePose);
-
 
     #undef MARGIN_FROM_CENTER
 }
@@ -124,9 +125,10 @@ void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
     #define ZONE_WIDTH	1.96
     #define ZONE_HEIGHT	1.5
+    const float offset = 0.11;
 
-    float xOffset = ZONE_WIDTH/2;
-    float yOffset = ZONE_HEIGHT/2;
+    float xOffset = ZONE_WIDTH/2-offset;
+    float yOffset = ZONE_HEIGHT/2-offset;
 
     if (!common_utils::getZoneCenter(zone, m_explo_target.x, m_explo_target.y))
     {
@@ -536,8 +538,16 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         // Approche finale, objectif FEU
         // TODO: Uncomment
-        FinalApproachingClient fa_c;
-        fa_c.starting(machine->getFaType(), FinalApproachingGoal::OUT, FinalApproachingGoal::LIGHT);
+         FinalApproachingClient fa_c;
+         machineSideId = atg.askForId();
+         if(machineIsDs(machineSideId))
+         {
+             fa_c.starting(machine->getFaType(), FinalApproachingGoal::IN, FinalApproachingGoal::LIGHT);
+         }
+         else
+         {
+             fa_c.starting(machine->getFaType(), FinalApproachingGoal::OUT, FinalApproachingGoal::LIGHT);
+         }
 
         // Traitement d'image, détection FEU
         FeuClientAction f_c;
