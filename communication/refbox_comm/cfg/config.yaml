@@ -39,10 +39,10 @@ llsfrb:
       recv-port: !udp-port 4447
 
   game:
-    team: Pyro
-    color: magenta
+    team: PYRO
+    color: cyan
     robot_number: 1
     robot_name: R1
 
     crypto-keys:
-      Pyro : randomkey
+      PYRO : B4C9a
