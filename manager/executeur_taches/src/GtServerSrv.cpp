@@ -70,6 +70,8 @@ bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
       target.y += 0.3*(dy/std::abs(dy));
     }
   }while (navState != deplacement_msg::MoveToPoseResult::FINISHED && count <= nbAttempt);
+
+  return (count <= nbAttempt);
 }
 
 /* Valentin's function */
@@ -395,7 +397,12 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           // Se déplacer au premier coin zone
           // TODO: gérer les cas d'erreurs de going
           // on redemande au maximume 3 fois en cas de collision avec un mur
-          going(m_explo_target, 3);
+          if (!going(m_explo_target, 3))
+          {
+              res.accepted = false;
+              res.needToResendOrder = true;
+              break;
+          }
           // refresh machines
           m_ls->spin();
 
@@ -412,7 +419,12 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
             // Se rendre au second coin zone
             // TODO: gérer les cas d'erreurs de going
-            going(m_explo_target, 3);
+            if (!going(m_explo_target, 3))
+            {
+                res.accepted = false;
+                res.needToResendOrder = true;
+                break;
+            }
             // refresh machines
             m_ls->spin();
 
@@ -486,7 +498,14 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         }
 
         // TODO: gérer les cas d'erreurs de going
-        going(firstSidePoint);
+        // Trois tentatives
+        if (!going(firstSidePoint, 3))
+        {
+            res.accepted = false;
+            res.needToResendOrder = true;
+            break;
+        }
+
         m_ls->spin();
 
         // Récupérer ArTag ID
@@ -514,7 +533,13 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           ROS_ERROR("I see an input of a machine with the angle %f", machine->getCenterMachine().theta);
 
           // Se rendre ou point devant autre côté de la machine
-          going(secondSidePoint);
+          // Trois tentatives
+         if (!going(secondSidePoint, 3))
+         {
+             res.accepted = false;
+             res.needToResendOrder = true;
+             break;
+         }
           m_ls->spin();
           // Récupérer ArTag ID
           machineSideId = atg.askForId();

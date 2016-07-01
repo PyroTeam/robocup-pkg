@@ -88,7 +88,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	std::vector<float> oz = at.getOrientationZ();
 	std::vector<float> arTagDistance = at.getDistance();
 	std::vector<arTag_t> arTags = at.getArTags();
-	// max 0.5s, NB: g_loopFreq donne le nombre d'iterations en une seconde 
+	// max 0.5s, NB: g_loopFreq donne le nombre d'iterations en une seconde
 	constexpr int threshCptLostArTags = g_loopFreq / 2;
 	int cptLostArTags = 0;
 	bool arTagDefinitelyLost = false;
@@ -270,10 +270,10 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			avancementArTag = FinalApproaching::asservissementCameraNew(arTags_tmp[arTagId_idx]);
 		}
 		else
-		{				
+		{
 			if (++cptLostArTags >= threshCptLostArTags)
 			{
-				ROS_EROR("ArTag lost definitely, abort");
+				ROS_ERROR("ArTag lost definitely, abort");
 				arTagDefinitelyLost = true;
 			}
 			else
