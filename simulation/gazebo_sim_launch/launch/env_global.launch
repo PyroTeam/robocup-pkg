@@ -8,7 +8,7 @@
  -->
 <launch>
 	<!-- Configurable args -->
-	<arg name="sim" default="false" />
+	  <arg name="sim" default="false" />
     <arg name="use_amcl" default="false" />
     <arg name="use_mrpt" default="false" />
 
