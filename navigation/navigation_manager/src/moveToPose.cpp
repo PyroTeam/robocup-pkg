@@ -174,7 +174,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
             isOk = false;
             //TODO: cancel path_track
         }
-        else if(cptTimeout == 6)
+        else if(cptTimeout == 3)
         {
             isOk = false;
         }
