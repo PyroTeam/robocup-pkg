@@ -124,11 +124,12 @@ final_approach_msg::FinalApproachingAction GtServerSrv::getFinalAppAction()
 
 void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
-    #define ZONE_WIDTH	2.0
+    #define ZONE_WIDTH	1.96
     #define ZONE_HEIGHT	1.5
+    const float offset = 0.11;
 
-    float xOffset = ZONE_WIDTH/2;
-    float yOffset = ZONE_HEIGHT/2;
+    float xOffset = ZONE_WIDTH/2-offset;
+    float yOffset = ZONE_HEIGHT/2-offset;
 
     if (!common_utils::getZoneCenter(zone, m_explo_target.x, m_explo_target.y))
     {
@@ -518,18 +519,30 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         // Approche finale, objectif FEU
         // TODO: Uncomment
-        // FinalApproachingClient fa_c;
-        // fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
+         FinalApproachingClient fa_c;
+         machineSideId = atg.askForId();
+         if(machineIsDs(machineSideId))
+         {
+             fa_c.starting(machine->getFaType(), FinalApproachingGoal::IN, FinalApproachingGoal::LIGHT);
+         }
+         else
+         {
+             fa_c.starting(machine->getFaType(), FinalApproachingGoal::OUT, FinalApproachingGoal::LIGHT);
+         }
 
-        // Traitement d'image, détection FEU
-        FeuClientAction f_c;
-        f_c.lightsStates(m_ei->m_lSpec);
+         if(fa_c.getSuccess())
+         {
+             // Traitement d'image, détection FEU
+             FeuClientAction f_c;
+             f_c.lightsStates(m_ei->m_lSpec);
 
-        // Interprétation type à partir de LightSignal
-        m_ei->interpretationFeu();
+             // Interprétation type à partir de LightSignal
+             m_ei->interpretationFeu();
 
-        // Reporter machine
-        reportClient.reporting(machine->getName(), m_ei->type, req.id);
+             // Reporter machine
+             reportClient.reporting(machine->getName(), m_ei->type, req.id);
+         }
+
         m_ls->spin();
 
       } // end of discover order

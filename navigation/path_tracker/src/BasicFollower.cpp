@@ -162,6 +162,11 @@ geometry_msgs::Twist BasicFollower::generateNewSetpoint()
             }
         }
     }
+    else
+    {
+        m_status = PathFollowerStatus_t::TRAJ_END;
+    }
+
     return twist;
 
 }
