@@ -45,7 +45,7 @@ inline bool getZoneCenter(int zone, double &x, double &y, float zone_width = 2.0
 	return true;
 }
 
-inline int getArea(const geometry_msgs::Pose2D &m, float zone_width = 2.0, float zone_height = 1.5)
+inline int getArea(const geometry_msgs::Pose2D &m, float zone_width = 1.96, float zone_height = 1.5)
 {
   int area = 0;
 

@@ -48,6 +48,7 @@ inline double distance(const nav_msgs::Path &path, const geometry_msgs::Pose2D &
 geometry_msgs::Point midPoint(const geometry_msgs::Point &p0, const geometry_msgs::Point &p1);
 
 geometry_msgs::Pose2D changeFrame(const geometry_msgs::Pose2D &p, const tf::StampedTransform &transform);
+geometry_msgs::Pose2D machineToMapFrame(const geometry_msgs::Pose2D &p, const geometry_msgs::Pose2D &poseMachine);
 
 inline double angle(const geometry_msgs::Point &p0);
 

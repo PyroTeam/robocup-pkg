@@ -72,40 +72,34 @@ bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
   }while (navState != deplacement_msg::MoveToPoseResult::FINISHED && count <= nbAttempt);
 }
 
-/* Valentin's function */
 void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2)
 {
+    // si l'angle est OK, le premier point renvoyé est la sortie
     #define MARGIN_FROM_CENTER 0.75
-    geometry_msgs::Pose2D knownMachinePose;
-    double dy = 0;
-    double dx = 0;
 
+    geometry_msgs::Pose2D knownMachinePose;
     knownMachinePose = m_ls->machines()[zone - 1].pose;
+
+    geometry_msgs::Pose2D input, output;
+    input.x      = 0.0;
+    input.y      = -MARGIN_FROM_CENTER;
+    input.theta  = M_PI_2;
+    output.x     = 0.0;
+    output.y     = MARGIN_FROM_CENTER;
+    output.theta = -M_PI_2;
 
     if (m_ls->machines()[zone - 1].orientationOk)
     {
-        ROS_ERROR("la machine en zone %d est censee avoir le bon angle !", m_ls->machines()[zone - 1].zone);
+        ROS_WARN("la machine en zone %d est censee avoir le bon angle !", m_ls->machines()[zone - 1].zone);
     }
     else
     {
-        ROS_ERROR("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone);
+        ROS_WARN("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone);
     }
 
-    double xMachineFrame = 0.0, yMachineFrame = 0.75;
+    point1 = geometry_utils::machineToMapFrame(output, knownMachinePose);
+    point2 = geometry_utils::machineToMapFrame(input, knownMachinePose);
 
-    double x = 
-
-    double theta1 = knownMachinePose.theta + M_PI/2;
-    dx = MARGIN_FROM_CENTER * cos(theta1);
-    dy = MARGIN_FROM_CENTER * sin(theta1);
-
-    point1.x = knownMachinePose.x + dx;
-    point1.y = knownMachinePose.y + dy;
-    point1.theta = knownMachinePose.theta - M_PI/2;
-
-    point2.x = knownMachinePose.x - dx;
-    point2.y = knownMachinePose.y - dy;
-    point2.theta = knownMachinePose.theta + M_PI/2;
 
     #undef MARGIN_FROM_CENTER
 }
@@ -128,7 +122,7 @@ final_approach_msg::FinalApproachingAction GtServerSrv::getFinalAppAction()
 
 void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
-    #define ZONE_WIDTH	2.0
+    #define ZONE_WIDTH	1.96
     #define ZONE_HEIGHT	1.5
 
     float xOffset = ZONE_WIDTH/2;
@@ -459,14 +453,34 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         // Se rendre au point devant la machine
         // utiliser le point le plus proche
-        geometry_msgs::Pose2D actualPose = m_poseSub.getPose2D();
-        double firstDistance = geometry_utils::distance(actualPose,tmpFirstPoint);
-        double secondDistance = geometry_utils::distance(actualPose,tmpSecondPoint);
 
-        if(secondDistance < firstDistance)
+        // Si l'orientation de la machine est bonne, on choisit le premier point,
+        // qui est la sortie de la machine (sauf pour la DS)
+        if (m_ls->machines()[req.id-1].orientationOk)
         {
+          if (!machineIsDs(machineSideId))
+          {
+            firstSidePoint = tmpFirstPoint;
+            secondSidePoint = tmpSecondPoint;
+          }
+          else
+          {
             firstSidePoint = tmpSecondPoint;
             secondSidePoint = tmpFirstPoint;
+          }
+        }
+        // Sinon on se dirige vers le point le plus proche
+        else
+        {
+          geometry_msgs::Pose2D actualPose = m_poseSub.getPose2D();
+          double firstDistance = geometry_utils::distance(actualPose,tmpFirstPoint);
+          double secondDistance = geometry_utils::distance(actualPose,tmpSecondPoint);
+
+          if(secondDistance < firstDistance)
+          {
+              firstSidePoint = tmpSecondPoint;
+              secondSidePoint = tmpFirstPoint;
+          }
         }
 
         // TODO: gérer les cas d'erreurs de going
@@ -522,8 +536,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         // Approche finale, objectif FEU
         // TODO: Uncomment
-        // FinalApproachingClient fa_c;
-        // fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
+        FinalApproachingClient fa_c;
+        fa_c.starting(machine->getFaType(), FinalApproachingGoal::OUT, FinalApproachingGoal::LIGHT);
 
         // Traitement d'image, détection FEU
         FeuClientAction f_c;
