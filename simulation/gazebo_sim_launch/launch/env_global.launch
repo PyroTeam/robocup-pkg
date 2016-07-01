@@ -266,7 +266,7 @@
 
         		<!-- Load the final approach -->
         		<node pkg="final_approach" name="final_approach" type="finalApproaching_node"
-        			  output="screen" >
+                      respawn="true" output="screen" >
                       <remap from="ar_pose_marker" to="computerVision/ar_pose_marker" />
                 </node>
         </group>
