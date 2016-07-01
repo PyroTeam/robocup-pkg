@@ -23,7 +23,7 @@
 #include "comm_msg/MachineInfo.h"
 #include "comm_msg/MachineReportInfo.h"
 #include "comm_msg/OrderInfo.h"
-
+#include "comm_msg/RobotInfo.h"
 
 
 #include <msgs/BeaconSignal.pb.h>
@@ -50,7 +50,7 @@ comm_msg::GameState llsf2ros_gameState(const llsf_msgs::GameState &llsfGameState
 comm_msg::ExplorationInfo llsf2ros_explorationInfo(const llsf_msgs::ExplorationInfo &llsfExplorationInfo, llsf_msgs::Team team_color);
 comm_msg::MachineInfo llsf2ros_machineInfo(const llsf_msgs::MachineInfo &llsfMachineInfo);
 comm_msg::OrderInfo llsf2ros_orderInfo(const llsf_msgs::OrderInfo &llsfOrderInfo);
-
+comm_msg::RobotInfo llsf2ros_robotInfo(const llsf_msgs::RobotInfo &llsfRobotInfo);
 
 
 #endif /* REFBOXUTILS_H_ */

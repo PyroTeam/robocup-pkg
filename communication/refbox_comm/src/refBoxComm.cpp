@@ -29,16 +29,17 @@ RefBoxComm::RefBoxComm(std::string teamName, std::string teamColor, std::string 
 	m_status.gamePhase = PHASE_PRE_GAME;
 
     //initialisation des composants ROS
-    m_gameState_pub = m_nh.advertise<comm_msg::GameState>("refBoxComm/GameState", 1000);
-    m_explorationInfo_pub = m_nh.advertise<comm_msg::ExplorationInfo>("refBoxComm/ExplorationInfo", 1000);
-    m_machineReportInfo_pub = m_nh.advertise<comm_msg::MachineReportInfo>("refBoxComm/ReportedMachines", 1000);
-    m_orderInfo_pub = m_nh.advertise<comm_msg::OrderInfo>("refBoxComm/OrderInfo", 1000);
-    m_machineInfo_pub = m_nh.advertise<comm_msg::MachineInfo>("refBoxComm/MachineInfo", 1000);
+    m_gameState_pub = m_nh.advertise<comm_msg::GameState>("refBoxComm/GameState", 1);
+    m_explorationInfo_pub = m_nh.advertise<comm_msg::ExplorationInfo>("refBoxComm/ExplorationInfo", 1);
+    m_machineReportInfo_pub = m_nh.advertise<comm_msg::MachineReportInfo>("refBoxComm/ReportedMachines", 1);
+    m_orderInfo_pub = m_nh.advertise<comm_msg::OrderInfo>("refBoxComm/OrderInfo", 1);
+    m_machineInfo_pub = m_nh.advertise<comm_msg::MachineInfo>("refBoxComm/MachineInfo", 1);
+    m_robotInfo_pub = m_nh.advertise<comm_msg::RobotInfo>("refBoxComm/RobotInfo", 1);
 
     m_reportMachineService = m_nh.advertiseService("refBoxComm/ReportMachine", &RefBoxComm::ReportMachineSrv, this);
     m_prepareMachineService =  m_nh.advertiseService("refBoxComm/PrepareMachine", &RefBoxComm::PrepareMachineSrv, this);
 
-    m_pose_sub = m_nh.subscribe("hardware/odom", 1000, &RefBoxComm::PoseCallback, this);
+    m_pose_sub = m_nh.subscribe("hardware/odom", 1, &RefBoxComm::PoseCallback, this);
 
     //lancement de l'ordonnanceur de messages
     m_sendScheduler.spawn();
@@ -446,6 +447,8 @@ bool RefBoxComm::fireRobotInfo(protoMsg &m)
                 last_seen_ago, r.maintenance_cycles(), r.maintenance_time_remaining());
     }
 
+    comm_msg::RobotInfo rosRobotInfo = llsf2ros_robotInfo(ri);
+    m_robotInfo_pub.publish(rosRobotInfo);
 
 	return true;
 }
