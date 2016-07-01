@@ -257,19 +257,20 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		// If at least one ARTag found
 		if (!arTags_tmp.empty())
 		{
-			cptLostArTags = 0;
 			arTagId_idx = correspondingId(allPossibleId, arTags_tmp);
-			if (arTagId_idx != -1)
-			{
-				avancementArTag = FinalApproaching::asservissementCameraNew(arTags_tmp[arTagId_idx]);
-			}
-			else
-			{
-				ROS_WARN_THROTTLE(1.0, "NO Wanted ArTag found. Unable to do camera approach");
-			}
 		}
 		else
 		{
+			arTagId_idx = -1;
+		}
+
+		if (arTagId_idx != -1)
+		{
+			cptLostArTags = 0;
+			avancementArTag = FinalApproaching::asservissementCameraNew(arTags_tmp[arTagId_idx]);
+		}
+		else
+		{				
 			if (++cptLostArTags >= threshCptLostArTags)
 			{
 				ROS_EROR("ArTag lost definitely, abort");
@@ -280,8 +281,8 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 				ROS_WARN("ArTag lost, will retry %d time%s", threshCptLostArTags-cptLostArTags
 					, (threshCptLostArTags-cptLostArTags > 1)?"s":"");
 			}
-
 		}
+
 		allObstacles = sharps.getObstacle();
 		obstacle = false;  // obstacleDetection(allObstacles, k, oz, pz);
 
