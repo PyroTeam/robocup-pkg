@@ -97,6 +97,17 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     //wait for the action to return
     bool finished_before_timeout = genePathAction.waitForResult(ros::Duration(30.0));
 
+    if(finished_before_timeout)
+    {
+        actionlib::SimpleClientGoalState state = genePathAction.getState();
+        ROS_INFO("Action finished : %s ",state.toString().c_str());
+    }
+    else
+    {
+        ROS_INFO("Action didn't finish before the time out");
+        genePathAction.cancelGoal();
+    }
+
     if (genePathAction.getResult()->result == deplacement_msg::GeneratePathResult::SUCCESS)
     {
         ROS_INFO("Path finder find a path");
@@ -263,6 +274,17 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
                 //wait for the action to return
                 finished_before_timeout = genePathAction.waitForResult(ros::Duration(30.0));
 
+                if(finished_before_timeout)
+                {
+                    actionlib::SimpleClientGoalState state = genePathAction.getState();
+                    ROS_INFO("Action finished : %s ",state.toString().c_str());
+                }
+                else
+                {
+                    ROS_INFO("Action didn't finish before the time out");
+                    genePathAction.cancelGoal();
+                }
+
                 if (genePathAction.getResult()->result == deplacement_msg::GeneratePathResult::SUCCESS)
                 {
                     ROS_INFO("Path finder find a path");
@@ -313,7 +335,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     }
     m_as.setSucceeded(m_result);
 
-    
+
 }
 
 // Called once when the goal completes
