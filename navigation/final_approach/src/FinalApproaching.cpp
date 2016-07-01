@@ -88,6 +88,10 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	std::vector<float> oz = at.getOrientationZ();
 	std::vector<float> arTagDistance = at.getDistance();
 	std::vector<arTag_t> arTags = at.getArTags();
+	// max 0.5s, NB: g_loopFreq donne le nombre d'iterations en une seconde 
+	constexpr int threshCptLostArTags = g_loopFreq / 2;
+	int cptLostArTags = 0;
+	bool arTagDefinitelyLost = false;
 
 	// Sharps
 	Sharps sharps;
@@ -225,9 +229,10 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			&& !bp.getState()
 			&& locateArTagPhase != 3
 			&& avancementArTag == 0
-			&& obstacle == false
+			&& !obstacle
 			&& !m_skipAsservCamera()
-			&& !m_remotelyControlled)
+			&& !m_remotelyControlled
+			&& !arTagDefinitelyLost)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "ArTag Asservissement - process");
 		firstTimeInLoop = false;
@@ -241,19 +246,43 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			return;
 		}
 
+		// Reset velocities
+		m_msgTwist.linear.x = 0.0;
+		m_msgTwist.linear.y = 0.0;
+		m_msgTwist.linear.z = 0.0;
+		m_msgTwist.angular.x = 0.0;
+		m_msgTwist.angular.y = 0.0;
+		m_msgTwist.angular.z = 0.0;
+
 		// If at least one ARTag found
 		if (!arTags_tmp.empty())
 		{
 			arTagId_idx = correspondingId(allPossibleId, arTags_tmp);
-			if (arTagId_idx != -1)
+		}
+		else
+		{
+			arTagId_idx = -1;
+		}
+
+		if (arTagId_idx != -1)
+		{
+			cptLostArTags = 0;
+			avancementArTag = FinalApproaching::asservissementCameraNew(arTags_tmp[arTagId_idx]);
+		}
+		else
+		{				
+			if (++cptLostArTags >= threshCptLostArTags)
 			{
-				avancementArTag = FinalApproaching::asservissementCameraNew(arTags_tmp[arTagId_idx]);
+				ROS_EROR("ArTag lost definitely, abort");
+				arTagDefinitelyLost = true;
 			}
 			else
 			{
-				ROS_WARN_THROTTLE(1.0, "NO Wanted ArTag found. Unable to do camera approach");
+				ROS_WARN("ArTag lost, will retry %d time%s", threshCptLostArTags-cptLostArTags
+					, (threshCptLostArTags-cptLostArTags > 1)?"s":"");
 			}
 		}
+
 		allObstacles = sharps.getObstacle();
 		obstacle = false;  // obstacleDetection(allObstacles, k, oz, pz);
 
@@ -300,9 +329,10 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			&& locateArTagPhase != 3
 			&& avancementArTag == 1
 			&& !laserAsservDone
-			&& obstacle == false
+			&& !obstacle
 			&& m_parameter != final_approach_msg::FinalApproachingGoal::LIGHT
-			&& !m_skipAsservLaser())
+			&& !m_skipAsservLaser()
+			&& !arTagDefinitelyLost)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "LaserScan Asservissement - process");
 		firstTimeInLoop = false;
@@ -357,6 +387,9 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		m_msgTwist.linear.x = 0.0;
 		m_msgTwist.linear.y = 0.0;
 		m_msgTwist.linear.z = 0.0;
+		m_msgTwist.angular.x = 0.0;
+		m_msgTwist.angular.y = 0.0;
+		m_msgTwist.angular.z = 0.0;
 
 		// XXX: Un moyennage (pas trop dégeu, sur base de repère robot, à grand renforts de tf) des informations d'entrée
 		// pourra s'avérer utile. A voir.
@@ -426,7 +459,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	m_as.publishFeedback(m_feedback);
 
 	// If any problem
-	if (bp.getState() || locateArTagPhase == 3 || obstacle == true)
+	if (bp.getState() || locateArTagPhase == 3 || obstacle || arTagDefinitelyLost)
 	{
 		ROS_WARN("FinalApproach ended with some failures\n");
 
@@ -442,10 +475,15 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			m_result.state = final_approach_msg::FinalApproachingResult::COMPLETE_SCAN;
 		}
 
-		if (obstacle == true)
+		if (obstacle)
 		{
 			ROS_WARN("Failure : an obstacle is too near\n");
 			m_result.state = final_approach_msg::FinalApproachingResult::OBSTACLE_NEAR;
+		}
+
+		if (arTagDefinitelyLost)
+		{
+			m_result.state = final_approach_msg::FinalApproachingResult::ARTAG_LOST;
 		}
 
 		success = false;
@@ -1230,7 +1268,7 @@ bool FinalApproaching::obstacleDetection(std::vector<bool> allObstacles, int k, 
 	}
 	for (int i = 0; i < allObstacles.size(); i++)
 	{
-		if (allObstacles[i] == true)
+		if (allObstacles[i])
 		{
 			obstacle = true;
 		}
