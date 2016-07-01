@@ -35,5 +35,6 @@ void FeuClientAction::lightsStates(std::vector<comm_msg::LightSpec> &lightSpec)
 	else
 	{
 		ROS_INFO("Action didn't finish before the time out");
+        client.cancelGoal();
 	}
 }
