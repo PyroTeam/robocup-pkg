@@ -15,10 +15,18 @@
     <arg name="use_mrpt" default="false" />
     <arg name="workaround" default="true" />
     <arg name="use_viz_markers" default="false" />
+    <!-- Le laser peut se trouver sur la tour ou sur la base, la transformation sera différente -->
+    <arg name="laser_on_base" default="false" />
 
 
 	<!-- Sensors real positions (constant args) -->
-	<arg unless="$(arg sim)" name="tf_laser_x" value="0.0563" /><!-- 0.46.5/2 - 0.14-->
+    <!-- Laser on base -->
+	<arg if="$(arg laser_on_base)" name="laser_x_on_base_or_tower" value="0.0925" /><!-- 0.46.5/2 - 0.14-->
+    <!-- Laser on tower -->
+    <arg unless="$(arg laser_on_base)" name="laser_x_on_base_or_tower" value="0.0563" />
+
+
+	<arg unless="$(arg sim)" name="tf_laser_x" value="$(arg laser_x_on_base_or_tower)" />
 	<arg unless="$(arg sim)" name="tf_laser_y" value="0.0" />
 	<arg unless="$(arg sim)" name="tf_laser_z" value="0.255" />
 
