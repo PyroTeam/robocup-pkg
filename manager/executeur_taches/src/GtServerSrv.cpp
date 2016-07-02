@@ -498,16 +498,6 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           }
         }
 
-        // TODO: gérer les cas d'erreurs de going
-        if (!going(firstSidePoint))
-        {
-            res.accepted = false;
-            res.needToResendOrder = true;
-            break;
-        }
-
-        m_ls->spin();
-
         // TODO: Le going ci-dessus peut avoir demandé un déplacement très
         // long et qui plus est sur une machine que l'on n'avait jamais
         // réellement vue (mirroring de machines). 
@@ -516,6 +506,17 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         // TODO: A decomenter pour tester et / ou integrer
         bool use_workaround = false;
         m_nh.getParamCached("/workaround", use_workaround);
+
+        // TODO: gérer les cas d'erreurs de going
+        // Ne pas abort si on utilise le workaround, il faut réessayer un nouveau side point
+        if (!going(firstSidePoint) && !use_workaround)
+        {
+            res.accepted = false;
+            res.needToResendOrder = true;
+            break;
+        }
+
+        m_ls->spin();
         if (use_workaround)
         {
           ROS_WARN_ONCE("Exec Task workaround currently in use !!!");
