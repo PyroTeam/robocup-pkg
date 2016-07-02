@@ -273,7 +273,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		{				
 			if (++cptLostArTags >= threshCptLostArTags)
 			{
-				ROS_EROR("ArTag lost definitely, abort");
+				ROS_ERROR("ArTag lost definitely, abort");
 				arTagDefinitelyLost = true;
 			}
 			else
