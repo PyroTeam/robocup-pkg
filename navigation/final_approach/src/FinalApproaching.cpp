@@ -45,24 +45,37 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	ROS_INFO("%s: Execute. Start FinalApproach sequence of type %i with side %i and parameter %i",
 	         m_actionName.c_str(), m_type, m_side, m_parameter);
 
-	if (goal->mode == final_approach_msg::FinalApproachingGoal::CONTROLLED_BY_PARAM)
+	m_mode  = goal->mode;
+	switch(m_mode)
 	{
-		if (std::isnan(goal->control_param))
-		{
-			ROS_ERROR_STREAM("Controlled FA requested without sending any param");
-			m_result.success = false;
-			m_result.state = final_approach_msg::FinalApproachingResult::INVALID_ORDER;
-			ROS_WARN("%s: Aborted. Invalid order.", m_actionName.c_str());
-			m_as.setAborted();
-			return;
-		}
+		case final_approach_msg::FinalApproachingGoal::CONTROLLED_BY_TOPIC:
+			ROS_INFO("Controlled by topic FA requested");
+			if (std::isnan(goal->control_param))
+			{
+				ROS_ERROR_STREAM("Controlled by topic FA requested without sending any setpoint on topic (topic:"<< m_control.getTopic() <<")");
+				m_result.success = false;
+				m_result.state = final_approach_msg::FinalApproachingResult::INVALID_ORDER;
+				ROS_WARN("%s: Aborted. Invalid order.", m_actionName.c_str());
+				m_as.setAborted();
+				return;
+			}
 
-		m_remotelyControlled = true;
-    m_controlDist = goal->control_param;
-	}
-	else
-	{
-		m_remotelyControlled = false;
+			m_Controlled = true;
+		break;
+
+		case final_approach_msg::FinalApproachingGoal::CONTROLLED_BY_PARAM:
+			ROS_INFO("Controlled by param FA requested");
+			m_Controlled = false;
+			m_controlParamDist = goal->control_param;
+		break;
+
+		default:
+			ROS_WARN("FA requested with invalid mode (mode:%d), will fallback on DEFAULT(mode:%d)"
+				, goal->mode, final_approach_msg::FinalApproachingGoal::DEFAULT);
+		case final_approach_msg::FinalApproachingGoal::DEFAULT:
+			ROS_INFO("Standard FA requested");
+			m_Controlled = false;
+		break;
 	}
 
 	if (m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT)
@@ -168,7 +181,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			&& arTagId_idx == -1
 			&& locateArTagPhase != 3
 			&& !m_skipAsservCamera()
-			&& !m_remotelyControlled)
+			&& !m_Controlled)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "Locate ArTag - process");
 		firstTimeInLoop = false;
@@ -232,7 +245,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			&& avancementArTag == 0
 			&& !obstacle
 			&& !m_skipAsservCamera()
-			&& !m_remotelyControlled
+			&& !m_Controlled
 			&& !arTagDefinitelyLost)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "ArTag Asservissement - process");
@@ -308,7 +321,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		                locateArTagPhase, avancementArTag, obstacle);
 	}
 
-	if (m_skipAsservCamera() || m_remotelyControlled)
+	if (m_skipAsservCamera() || m_Controlled)
 	{
 		avancementArTag = 1;
 	}
@@ -567,11 +580,23 @@ float FinalApproaching::objectifY()
 
 float FinalApproaching::objectifX()
 {
-	if (m_remotelyControlled)
+	if (m_Controlled)
 	{
 		// TODO: Utiliser TF et la connaissance de la géométrie du robot pour que ce paramètre contrôle bien la distance
 		// gripper <-> machine
-		return -m_controlDist;
+		if (m_mode == final_approach_msg::FinalApproachingGoal::CONTROLLED_BY_PARAM)
+		{
+			return m_controlParamDist + m_xPoseCONVEYOR();
+		}
+		else if (m_mode == final_approach_msg::FinalApproachingGoal::CONTROLLED_BY_TOPIC)
+		{
+			return m_controlTopicDist + m_xPoseCONVEYOR();
+		}
+		else
+		{
+			ROS_WARN_THROTTLE(1.0, "FA is in controlled mode, but actual mode (mode:%d) is unknowm. Will fallback on 10cm distance", m_mode);
+			return -10;
+		}
 	}
 
 	// On travaille avec un repère machine, orienté comme le repère LASER

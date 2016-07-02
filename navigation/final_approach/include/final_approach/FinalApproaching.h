@@ -123,8 +123,10 @@ class FinalApproaching
 	int m_side;
 	int m_parameter;
 	enum team_e m_teamColor;
-	float m_controlDist;
-	bool m_remotelyControlled;
+	float m_controlTopicDist;
+	float m_controlParamDist;
+	bool m_Controlled;
+	uint8_t m_mode;
 
 	// Laser X Asserv PID Parameters
 	Parameter m_laserXPidKp;
@@ -251,8 +253,8 @@ class FinalApproaching
 		, m_skipAsservCamera(m_nh, "navigation/finalApproach/skipAsservCamera", 0.0)
 		, m_skipAsservLaser(m_nh, "navigation/finalApproach/skipAsservLaser", 0.0)
 
-		, m_controlDist(std::nanf(""))
-		, m_remotelyControlled(false)
+		, m_controlTopicDist(std::nanf(""))
+		, m_Controlled(false)
 	{
 		refreshParams();
 
@@ -561,7 +563,10 @@ class FinalApproaching
 	 *
 	 * \param[in]  msg   The message
 	 */
-	void controlCallback(const std_msgs::Float32::ConstPtr& msg) { m_controlDist = msg->data; }
+	void controlCallback(const std_msgs::Float32::ConstPtr& msg)
+	{
+		m_controlTopicDist = msg->data;
+	}
 };
 
 
