@@ -15,6 +15,7 @@
 #include <actionlib/client/terminal_state.h>
 //#include <cstdint>
 
+#include <common_utils/Parameter.h>
 #include <final_approach_msg/FinalApproachingAction.h>
 
 
@@ -32,5 +33,7 @@ class FinalApproachingClient
         bool getSuccess();
     private:
         bool m_success;
+        Parameter m_globalTimeout;
+		Parameter m_lightAsservTimeout;
 };
 #endif
