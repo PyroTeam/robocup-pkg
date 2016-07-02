@@ -500,7 +500,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         // TODO: Le going ci-dessus peut avoir demandé un déplacement très
         // long et qui plus est sur une machine que l'on n'avait jamais
-        // réellement vue (mirroring de machines). 
+        // réellement vue (mirroring de machines).
         // Il est donc possible et probable qu'on ne soit pas face à la machine
         // Il est nécéssaire de refaire la procédure de going dans ce cas
         // TODO: A decomenter pour tester et / ou integrer
@@ -581,6 +581,14 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         // TODO: mettre ArTagClient en membre de classe
         ArTagClienSrv atg;
         machineSideId = atg.askForId();
+        for(int i=0; i < 3 ; ++i)
+        {
+            if(!common_utils::exists(machineSideId))
+            {
+                usleep(100000);
+                machineSideId = atg.askForId();
+            }
+        }
 
         machine = m_elements.getMachineFromTag(machineSideId);
         if (machine == nullptr)
@@ -611,6 +619,14 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           m_ls->spin();
           // Récupérer ArTag ID
           machineSideId = atg.askForId();
+          for(int i=0; i < 3 ; ++i)
+          {
+              if(!common_utils::exists(machineSideId))
+              {
+                  usleep(100000);
+                  machineSideId = atg.askForId();
+              }
+          }
 
           // Vérifier si INPUT, si OUI abandonner
           if(isInput(machineSideId))
@@ -633,6 +649,15 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         // TODO: Uncomment
          FinalApproachingClient fa_c;
          machineSideId = atg.askForId();
+         for(int i=0; i < 3 ; ++i)
+         {
+             if(!common_utils::exists(machineSideId))
+             {
+                 usleep(100000);
+                 machineSideId = atg.askForId();
+             }
+         }
+         
          if(machineIsDs(machineSideId))
          {
              fa_c.starting(machine->getFaType(), FinalApproachingGoal::IN, FinalApproachingGoal::LIGHT);
