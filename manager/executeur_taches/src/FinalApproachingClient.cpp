@@ -1,7 +1,11 @@
 #include "FinalApproachingClient.h"
 
-FinalApproachingClient::FinalApproachingClient() {
-    m_success = false;
+FinalApproachingClient::FinalApproachingClient()
+: m_nh()
+, m_globalTimeout(m_nh, "navigation/finalApproach/globalTimeout", 15.0)
+, m_lightAsservTimeout(m_nh, "navigation/finalApproach/lightAsservTimeout", 7.0)
+, m_success(false)
+{
 }
 
 FinalApproachingClient::~FinalApproachingClient(){}
@@ -23,7 +27,7 @@ void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, in
 	client.sendGoal(goal);
 
 	//wait for the action to return
-	bool finished_before_timeout = client.waitForResult(ros::Duration(7.0));
+	bool finished_before_timeout = client.waitForResult(ros::Duration(m_globalTimeout()));
 
 	if(finished_before_timeout)
 	{
@@ -34,7 +38,7 @@ void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, in
 	}
 	else
 	{
-		ROS_INFO("Action didn't finish before the time out");
+		ROS_WARN("FinalApproach aborted due to timeout. Will continue");
         client.cancelGoal();
         m_success = true;
 	}

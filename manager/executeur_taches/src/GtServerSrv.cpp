@@ -3,7 +3,8 @@
 #include <common_utils/zone.h>
 
 GtServerSrv::GtServerSrv(int teamColor)
-: m_color(teamColor)
+: m_nh()
+, m_color(teamColor)
 , m_elements(teamColor)
 {
   ros::NodeHandle n;
@@ -498,8 +499,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         }
 
         // TODO: gérer les cas d'erreurs de going
-        // Trois tentatives
-        if (!going(firstSidePoint, 3))
+        if (!going(firstSidePoint))
         {
             res.accepted = false;
             res.needToResendOrder = true;
@@ -507,6 +507,74 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         }
 
         m_ls->spin();
+
+        // TODO: Le going ci-dessus peut avoir demandé un déplacement très
+        // long et qui plus est sur une machine que l'on n'avait jamais
+        // réellement vue (mirroring de machines). 
+        // Il est donc possible et probable qu'on ne soit pas face à la machine
+        // Il est nécéssaire de refaire la procédure de going dans ce cas
+        // TODO: A decomenter pour tester et / ou integrer
+        bool use_workaround = false;
+        m_nh.getParamCached("/workaround", use_workaround);
+        if (use_workaround)
+        {
+          ROS_WARN_ONCE("Exec Task workaround currently in use !!!");
+          const float sidePointsMargin = 0.06; // 6cm
+          geometry_msgs::Pose2D oldTmpFirstPoint = tmpFirstPoint;
+          getSidePoints(req.id, tmpFirstPoint, tmpSecondPoint);
+          float dist = geometry_utils::distance(tmpFirstPoint, oldTmpFirstPoint);
+          if (dist > sidePointsMargin)
+          {
+            ROS_WARN("Robot was too badly placed, maybe after a swapped exploration. (Error: %f m). Will retry once.", dist);
+
+            firstSidePoint = tmpFirstPoint;
+            secondSidePoint = tmpSecondPoint;
+
+          // Se rendre au point devant la machine
+          // utiliser le point le plus proche
+
+          // Si l'orientation de la machine est bonne, on choisit le premier point,
+          // qui est la sortie de la machine (sauf pour la DS)
+            if (m_ls->machines()[req.id-1].orientationOk)
+            {
+              if (!machineIsDs(machineSideId))
+              {
+                firstSidePoint = tmpFirstPoint;
+                secondSidePoint = tmpSecondPoint;
+              }
+              else
+              {
+                firstSidePoint = tmpSecondPoint;
+                secondSidePoint = tmpFirstPoint;
+              }
+            }
+          // Sinon on se dirige vers le point le plus proche
+            else
+            {
+              geometry_msgs::Pose2D actualPose = m_poseSub.getPose2D();
+              double firstDistance = geometry_utils::distance(actualPose,tmpFirstPoint);
+              double secondDistance = geometry_utils::distance(actualPose,tmpSecondPoint);
+
+              if(secondDistance < firstDistance)
+              {
+                firstSidePoint = tmpSecondPoint;
+                secondSidePoint = tmpFirstPoint;
+              }
+            }
+
+          // TODO: gérer les cas d'erreurs de going
+            if (!going(firstSidePoint))
+            {
+              res.accepted = false;
+              res.needToResendOrder = true;
+              break;
+            }
+
+            m_ls->spin();
+
+          }
+        }
+
 
         // Récupérer ArTag ID
         // TODO: mettre ArTagClient en membre de classe
@@ -533,8 +601,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           ROS_ERROR("I see an input of a machine with the angle %f", machine->getCenterMachine().theta);
 
           // Se rendre ou point devant autre côté de la machine
-          // Trois tentatives
-         if (!going(secondSidePoint, 3))
+         if (!going(secondSidePoint))
          {
              res.accepted = false;
              res.needToResendOrder = true;

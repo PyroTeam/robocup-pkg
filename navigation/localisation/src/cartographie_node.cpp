@@ -87,6 +87,11 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
   }
 }
 
+static bool isInput(int id)
+{
+  return id%2 == 1;
+}
+
 void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
 {
   std::vector<ar_track_alvar_msgs::AlvarMarker> tmp;
@@ -158,15 +163,16 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
 #endif
 
           // Angle machine modulo PI
-          double angleMachine = geometry_utils::normalizeAngle(it2.getCentre().theta, 0.0, M_PI);
+          double angleMachine = geometry_utils::normalizeAngle(it2.getCentre().theta, 0.0, 2*M_PI);
+          it2.setTheta(angleMachine);
           // Angle artag modulo 2 PI
           double angleARTag = geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation), 0.0, 2*M_PI);
-          // ecart absolu en angle
-          double diff = std::abs(angleMachine - angleARTag);
+          // ecart en angle
+          double diff = angleMachine - angleARTag;
           // normalisation [0, 2 PI]
           double norm = geometry_utils::normalizeAngle(diff, 0.0, 2*M_PI);
 
-          if (tmp[i].id%2 == 1)
+          if (isInput(tmp[i].id))
           {
             if (norm < M_PI_2)
             {
@@ -181,15 +187,15 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
           }
           else
           {
-            if (norm < M_PI_2)
-            {
-              it2.switchSides();
-              ROS_WARN("So I switch the machine angle to %f", it2.getCentre().theta);
-            }
-            else
+            if (norm > M_PI_2)
             {
               ROS_DEBUG("Angle is good :D");
               it2.orientation(true);
+            }
+            else
+            {
+              it2.switchSides();
+              ROS_WARN("So I switch the machine angle to %f", it2.getCentre().theta);
             }
           }
         }

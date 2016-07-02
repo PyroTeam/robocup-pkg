@@ -64,6 +64,7 @@ class GtServerSrv
 		bool machineIsDs(int id);
 
 	private:
+		ros::NodeHandle m_nh;
 		/* Variables d'instance */
 		int m_nbrobot;
 		int m_color;

@@ -1,5 +1,7 @@
 navigation:
     finalApproach:
+        globalTimeout: 10.0
+        lightAsservTimeout: 7.0
         skipAsservCamera: 0.0
         skipAsservLaser: 0.0
         arTagAsserv: "empty"

@@ -7,10 +7,15 @@
 	 Sinon, merci de ne pas commiter vos modifications ...
  -->
 <launch>
+
+    <env name="ROSCONSOLE_CONFIG_FILE" value="$(find gazebo_sim_launch)/cfg/custom_rosconsole.conf"/>
 	<!-- Configurable args -->
-	  <arg name="sim" default="false" />
+    <arg name="sim" default="false" />
     <arg name="use_amcl" default="false" />
     <arg name="use_mrpt" default="false" />
+    <arg name="workaround" default="true" />
+    <arg name="use_viz_markers" default="false" />
+
 
 	<!-- Sensors real positions (constant args) -->
 	<arg unless="$(arg sim)" name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
@@ -73,6 +78,7 @@
 
 
 	<!-- Root params -->
+  <param name="/workaround" value="$(arg workaround)" />
 	<param name="nbTeam" value="1" />
 	<param name="team1" value="Pyro" />
 	<param name="team2" value="" />
@@ -110,7 +116,7 @@
 
     		<node unless="$(arg sim)"
                   name="robotino_node" pkg="robotino_node" type="robotino_node"
-    			  respawn="true" output="screen">
+    			  respawn="true" output="log">
     			<param name="hostname" value="$(arg hostname)" />
     			<!-- TODO: Vérifier l'utilité de ces valeurs et les augmenter si possible -->
     			<param name="max_linear_vel" value="0.5" />
@@ -139,7 +145,7 @@
 
             <!-- Gripper transform -->
     		<node pkg="tf" type="static_transform_publisher" name="base_link_to_gripper_link"
-    			  respawn="true" output="screen"
+    			  respawn="true" output="log"
                   args="$(arg tf_gripper_x) $(arg tf_gripper_y) $(arg tf_gripper_z)
     			  0 0 0
     			  $(arg tf_prefix)base_link $(arg tf_prefix)gripper_link   100" />
@@ -147,7 +153,7 @@
     		<!-- Odometry -->
     		<node unless="$(arg sim)"
                   name="robotino_odometry_node" pkg="robotino_node" type="robotino_odometry_node"
-    			  respawn="true" output="screen">
+    			  respawn="true" output="log">
     			<param name="hostname" value="$(arg hostname)" />
     			<!-- Remap topics -->
     			<remap from="odom" to="hardware/odom" />
@@ -155,13 +161,13 @@
 
     		<!-- LaserScan -->
     		<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser_link"
-    			  respawn="true" output="screen"
+    			  respawn="true" output="log"
                   args="$(arg tf_laser_x) $(arg tf_laser_y) $(arg tf_laser_z)
     			  0 0 0
     			  $(arg tf_prefix)base_link $(arg tf_prefix)laser_link   100" />
 
     		<node unless="$(arg sim)" name="hokuyo_laser_node" pkg="hokuyo_node" type="hokuyo_node"
-    			  respawn="true" output="screen">
+    			  respawn="true" output="log">
 
     			<!-- Starts up slower when true, but timestamps will be accurate. -->
     			<param name="calibrate_time" type="bool" value="true"/>
@@ -179,7 +185,7 @@
 
             <!-- Platform Camera -->
             <node pkg="tf" type="static_transform_publisher" name="base_link_to_platform_camera_link"
-                  respawn="true" output="screen"
+                  respawn="true" output="log"
                   args="$(arg tf_platformcam_x) $(arg tf_platformcam_y) $(arg tf_platformcam_z)
                 -1.57 0 -1.57
                 $(arg tf_prefix)base_link $(arg tf_prefix)platform_camera_link   100" />
@@ -187,7 +193,7 @@
             <!-- Light Signal Detection (Cam) -->
             <node unless="$(arg sim)"
                   name="platform_cam_node" pkg="usb_cam" type="usb_cam_node"
-                  respawn="true" output="screen">
+                  respawn="true" output="log">
                 <param name="video_device" value="/dev/cam_platform" />
                 <param name="camera_frame_id" value="$(arg tf_prefix)platform_camera_link" />
                 <param name="camera_info_url" value="package://ar_tag/cfg/C920_calibration.yaml" />
@@ -197,7 +203,7 @@
 
     		<!-- Tower Camera -->
     		<node pkg="tf" type="static_transform_publisher" name="base_link_to_tower_camera_link"
-    			  respawn="true" output="screen"
+    			  respawn="true" output="log"
     		      args="$(arg tf_towercam_x) $(arg tf_towercam_y) $(arg tf_towercam_z)
     			-1.57 0 -1.57
     			$(arg tf_prefix)base_link $(arg tf_prefix)tower_camera_link   100" />
@@ -205,7 +211,7 @@
     		<!-- ArTag (Cam) -->
     		<node unless="$(arg sim)"
     			  name="tower_cam_node" pkg="usb_cam" type="usb_cam_node"
-    			  respawn="true" output="screen">
+    			  respawn="true" output="log">
     			<param name="video_device" value="/dev/cam_tower" />
     			<param name="camera_frame_id" value="$(arg tf_prefix)tower_camera_link" />
     			<param name="camera_info_url" value="package://ar_tag/cfg/C270_calibration.yaml" />
@@ -223,7 +229,7 @@
     		<!-- Light Signal Detection (ComputerVision) -->
     		<node unless="$(arg sim)"
     			  pkg="feu_tricolore" name="lightSignalDetection" type="light_signal_detection_node"
-    			  respawn="true" output="screen">
+    			  respawn="true" output="log">
     			<remap from="hardware/camera/platform_camera/image_raw" to="platform_cam_node/image_raw" />
     		</node>
     		<node if="$(arg sim)" pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>
@@ -245,48 +251,48 @@
 
         <group  > <!-- name="NAVIGATION" Alvar et ArTag -->
                 <!-- Load the navigation manager -->
-                <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" respawn="true" output="screen"/>
+                <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" respawn="true" output="log"/>
                 <node if="$(arg sim)" pkg="navigation_manager" name="move_request" type="moveRequest_node.py" />
 
                 <!-- Load the path finder -->
                 <param name="navigation/pathFinder/aStarTieBreaking" value="true" />
                 <param name="navigation/pathFinder/weightData" value="0.45" />
                 <param name="navigation/pathFinder/weightSmooth" value="0.35" />
-                <node pkg="path_finder" name="path_finder_node" type="path_finder_node" respawn="true" output="screen"/>
+                <node pkg="path_finder" name="path_finder_node" type="path_finder_node" respawn="true" output="log"/>
 
                 <!-- Load the path tracker -->
-                <node pkg="topic_tools" name="mux_gridMap" type="mux" args="pathFinder/grid objectDetection/grid objectDetection/gridObstacles" respawn="true" output="screen"/>
-                <node pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" respawn="true" output="screen"/>
+                <node pkg="topic_tools" name="mux_gridMap" type="mux" args="pathFinder/grid objectDetection/grid objectDetection/gridObstacles" respawn="true" output="log"/>
+                <node pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" respawn="true" output="log"/>
                 <!-- Load the path tracker -->
                 <rosparam command="load" file="$(find path_tracker)/cfg/navigation_pathTracker.yaml" />
-                <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" respawn="true" output="screen"/>
+                <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" respawn="true" output="log"/>
 
         		<!-- Paramètres de l'approche finale -->
         		<rosparam file="$(find gazebo_sim_launch)/param/robotino1_navigation.yaml" />
 
         		<!-- Load the final approach -->
         		<node pkg="final_approach" name="final_approach" type="finalApproaching_node"
-                      respawn="true" output="screen" >
+                      respawn="true" output="log" >
                       <remap from="ar_pose_marker" to="computerVision/ar_pose_marker" />
                 </node>
         </group>
 
         <group > <!-- name="LOCALISATION" Detection machine et localisation -->
             <!-- Load the detection and localisation nodes -->
-            <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction" respawn="true" output="screen"/>
-            <node pkg="localisation" name="visualisation" type="visualisation" respawn="true" output="screen"/>
-            <node pkg="localisation" name="odometry_correction" type="odometry_correction" respawn="true" output="screen"/>
-            <node pkg="localisation" name="cartographie" type="cartographie" respawn="true" output="screen"/>
+            <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction" respawn="true" output="log"/>
+            <node if="$(arg use_viz_markers)" pkg="localisation" name="visualisation" type="visualisation" respawn="true" output="log"/>
+            <node pkg="localisation" name="odometry_correction" type="odometry_correction" respawn="true" output="log"/>
+            <node pkg="localisation" name="cartographie" type="cartographie" respawn="true" output="log"/>
 
             <!-- Load the grid maker -->
             <!-- TODO: Vérifier les fichiers de conf utilisés -->
             <rosparam if="$(arg sim)" command="load" file="$(find grid_maker)/cfg/field_simulator.yaml" />
             <rosparam unless="$(arg sim)" command="load" file="$(find grid_maker)/cfg/fieldRoboCup2016.yaml" />
-            <node pkg="grid_maker" name="grid_maker" type="grid_maker_node" respawn="true" output="screen"/>
+            <node pkg="grid_maker" name="grid_maker" type="grid_maker_node" respawn="true" output="log"/>
 
             <!-- AMCL -->
             <node if="$(arg use_amcl)"
-                  pkg="amcl" type="amcl" name="amcl" respawn="true" output="screen">
+                  pkg="amcl" type="amcl" name="amcl" respawn="true" output="log">
               <remap from="map" to="objectDetection/grid_fieldAndMachines"/>
               <remap from="scan" to="hardware/scan"/>
 
@@ -333,7 +339,7 @@
     		<!-- Static transforms -->
     		<node unless="$(arg use_amcl)"
                   pkg="tf" type="static_transform_publisher" name="map_to_odom"
-    			  respawn="true" output="screen"
+    			  respawn="true" output="log"
                   args="0 0 0
     			  0 0 0
     			  map $(arg tf_prefix)odom   100" />
@@ -341,14 +347,14 @@
 
         <group  > <!--name="MANAGER" Executeur et Generateur-->
             <!-- Load the manager -->
-            <node pkg="executeur_taches" name="executeur" type="test_exec" respawn="true" output="screen"/>
-            <node pkg="generateur_taches" name="manager" type="main_node" respawn="true" output="screen"/>
+            <node pkg="executeur_taches" name="executeur" type="test_exec" respawn="true" output="log"/>
+            <node pkg="generateur_taches" name="manager" type="main_node" respawn="true" output="log"/>
         </group>
 
         <group > <!-- name="COM"  Executeur et Generateur-->
             <!-- Load the refbox comm -->
             <node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"
-                  respawn="true" output="screen"/>
+                  respawn="true" output="log"/>
         </group>
     </group>
 
