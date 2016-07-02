@@ -45,24 +45,37 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	ROS_INFO("%s: Execute. Start FinalApproach sequence of type %i with side %i and parameter %i",
 	         m_actionName.c_str(), m_type, m_side, m_parameter);
 
-	if (goal->mode == final_approach_msg::FinalApproachingGoal::CONTROLLED_BY_PARAM)
+	m_mode  = goal->mode;
+	switch(m_mode)
 	{
-		if (std::isnan(goal->control_param))
-		{
-			ROS_ERROR_STREAM("Controlled FA requested without sending any param");
-			m_result.success = false;
-			m_result.state = final_approach_msg::FinalApproachingResult::INVALID_ORDER;
-			ROS_WARN("%s: Aborted. Invalid order.", m_actionName.c_str());
-			m_as.setAborted();
-			return;
-		}
+		case final_approach_msg::FinalApproachingGoal::CONTROLLED_BY_TOPIC:
+			ROS_INFO("Controlled by topic FA requested");
+			if (std::isnan(goal->control_param))
+			{
+				ROS_ERROR_STREAM("Controlled by topic FA requested without sending any setpoint on topic (topic:"<< m_control.getTopic() <<")");
+				m_result.success = false;
+				m_result.state = final_approach_msg::FinalApproachingResult::INVALID_ORDER;
+				ROS_WARN("%s: Aborted. Invalid order.", m_actionName.c_str());
+				m_as.setAborted();
+				return;
+			}
 
-		m_remotelyControlled = true;
-    m_controlDist = goal->control_param;
-	}
-	else
-	{
-		m_remotelyControlled = false;
+			m_Controlled = true;
+		break;
+
+		case final_approach_msg::FinalApproachingGoal::CONTROLLED_BY_PARAM:
+			ROS_INFO("Controlled by param FA requested");
+			m_Controlled = false;
+			m_controlParamDist = goal->control_param;
+		break;
+
+		default:
+			ROS_WARN("FA requested with invalid mode (mode:%d), will fallback on DEFAULT(mode:%d)"
+				, goal->mode, final_approach_msg::FinalApproachingGoal::DEFAULT);
+		case final_approach_msg::FinalApproachingGoal::DEFAULT:
+			ROS_INFO("Standard FA requested");
+			m_Controlled = false;
+		break;
 	}
 
 	if (m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT)
@@ -89,6 +102,10 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	std::vector<float> oz = at.getOrientationZ();
 	std::vector<float> arTagDistance = at.getDistance();
 	std::vector<arTag_t> arTags = at.getArTags();
+	// max 0.5s, NB: g_loopFreq donne le nombre d'iterations en une seconde
+	constexpr int threshCptLostArTags = g_loopFreq / 2;
+	int cptLostArTags = 0;
+	bool arTagDefinitelyLost = false;
 
 	// Sharps
 	Sharps sharps;
@@ -164,7 +181,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			&& arTagId_idx == -1
 			&& locateArTagPhase != 3
 			&& !m_skipAsservCamera()
-			&& !m_remotelyControlled)
+			&& !m_Controlled)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "Locate ArTag - process");
 		firstTimeInLoop = false;
@@ -226,9 +243,10 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			&& !bp.getState()
 			&& locateArTagPhase != 3
 			&& avancementArTag == 0
-			&& obstacle == false
+			&& !obstacle
 			&& !m_skipAsservCamera()
-			&& !m_remotelyControlled)
+			&& !m_Controlled
+			&& !arTagDefinitelyLost)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "ArTag Asservissement - process");
 		firstTimeInLoop = false;
@@ -242,19 +260,43 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			return;
 		}
 
+		// Reset velocities
+		m_msgTwist.linear.x = 0.0;
+		m_msgTwist.linear.y = 0.0;
+		m_msgTwist.linear.z = 0.0;
+		m_msgTwist.angular.x = 0.0;
+		m_msgTwist.angular.y = 0.0;
+		m_msgTwist.angular.z = 0.0;
+
 		// If at least one ARTag found
 		if (!arTags_tmp.empty())
 		{
 			arTagId_idx = correspondingId(allPossibleId, arTags_tmp);
-			if (arTagId_idx != -1)
+		}
+		else
+		{
+			arTagId_idx = -1;
+		}
+
+		if (arTagId_idx != -1)
+		{
+			cptLostArTags = 0;
+			avancementArTag = FinalApproaching::asservissementCameraNew(arTags_tmp[arTagId_idx]);
+		}
+		else
+		{
+			if (++cptLostArTags >= threshCptLostArTags)
 			{
-				avancementArTag = FinalApproaching::asservissementCameraNew(arTags_tmp[arTagId_idx]);
+				ROS_ERROR("ArTag lost definitely, abort");
+				arTagDefinitelyLost = true;
 			}
 			else
 			{
-				ROS_WARN_THROTTLE(1.0, "NO Wanted ArTag found. Unable to do camera approach");
+				ROS_WARN("ArTag lost, will retry %d time%s", threshCptLostArTags-cptLostArTags
+					, (threshCptLostArTags-cptLostArTags > 1)?"s":"");
 			}
 		}
+
 		allObstacles = sharps.getObstacle();
 		obstacle = false;  // obstacleDetection(allObstacles, k, oz, pz);
 
@@ -279,7 +321,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		                locateArTagPhase, avancementArTag, obstacle);
 	}
 
-	if (m_skipAsservCamera() || m_remotelyControlled)
+	if (m_skipAsservCamera() || m_Controlled)
 	{
 		avancementArTag = 1;
 	}
@@ -301,9 +343,10 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			&& locateArTagPhase != 3
 			&& avancementArTag == 1
 			&& !laserAsservDone
-			&& obstacle == false
+			&& !obstacle
 			&& m_parameter != final_approach_msg::FinalApproachingGoal::LIGHT
-			&& !m_skipAsservLaser())
+			&& !m_skipAsservLaser()
+			&& !arTagDefinitelyLost)
 	{
 		ROS_INFO_COND(firstTimeInLoop, "LaserScan Asservissement - process");
 		firstTimeInLoop = false;
@@ -358,6 +401,9 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		m_msgTwist.linear.x = 0.0;
 		m_msgTwist.linear.y = 0.0;
 		m_msgTwist.linear.z = 0.0;
+		m_msgTwist.angular.x = 0.0;
+		m_msgTwist.angular.y = 0.0;
+		m_msgTwist.angular.z = 0.0;
 
 		// XXX: Un moyennage (pas trop dégeu, sur base de repère robot, à grand renforts de tf) des informations d'entrée
 		// pourra s'avérer utile. A voir.
@@ -427,7 +473,7 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	m_as.publishFeedback(m_feedback);
 
 	// If any problem
-	if (bp.getState() || locateArTagPhase == 3 || obstacle == true)
+	if (bp.getState() || locateArTagPhase == 3 || obstacle || arTagDefinitelyLost)
 	{
 		ROS_WARN("FinalApproach ended with some failures\n");
 
@@ -443,10 +489,15 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 			m_result.state = final_approach_msg::FinalApproachingResult::COMPLETE_SCAN;
 		}
 
-		if (obstacle == true)
+		if (obstacle)
 		{
 			ROS_WARN("Failure : an obstacle is too near\n");
 			m_result.state = final_approach_msg::FinalApproachingResult::OBSTACLE_NEAR;
+		}
+
+		if (arTagDefinitelyLost)
+		{
+			m_result.state = final_approach_msg::FinalApproachingResult::ARTAG_LOST;
 		}
 
 		success = false;
@@ -529,11 +580,23 @@ float FinalApproaching::objectifY()
 
 float FinalApproaching::objectifX()
 {
-	if (m_remotelyControlled)
+	if (m_Controlled)
 	{
 		// TODO: Utiliser TF et la connaissance de la géométrie du robot pour que ce paramètre contrôle bien la distance
 		// gripper <-> machine
-		return -m_controlDist;
+		if (m_mode == final_approach_msg::FinalApproachingGoal::CONTROLLED_BY_PARAM)
+		{
+			return m_controlParamDist + m_xPoseCONVEYOR();
+		}
+		else if (m_mode == final_approach_msg::FinalApproachingGoal::CONTROLLED_BY_TOPIC)
+		{
+			return m_controlTopicDist + m_xPoseCONVEYOR();
+		}
+		else
+		{
+			ROS_WARN_THROTTLE(1.0, "FA is in controlled mode, but actual mode (mode:%d) is unknowm. Will fallback on 10cm distance", m_mode);
+			return -10;
+		}
 	}
 
 	// On travaille avec un repère machine, orienté comme le repère LASER
@@ -1043,7 +1106,6 @@ int FinalApproaching::asservissementCamera(std::vector<float> px, std::vector<fl
 // TODO: Regler et paramétrer cette phase
 bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 {
-	const int jarResetValue = 3;
 	constexpr float xDist = 0.50;
 	constexpr float linearKp = 1.0;
 	constexpr float angularKp = 0.50;
@@ -1051,20 +1113,20 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 	float yOffset;
 	if (m_side == final_approach_msg::FinalApproachingGoal::IN)
 	{
-		yOffset = +absYOffset;
+		yOffset = -absYOffset;
 	}
 	else
 	{
-		yOffset = -absYOffset;
+		yOffset = +absYOffset;
 	}
 
 	// XXX: La fonction peut-elle être appelé sans arTag valide ? A vérifier
 
 
 	bool finished = true;
-	static int xSuccessJar = jarResetValue;
-	static int ySuccessJar = jarResetValue;
-	static int yawSuccessJar = jarResetValue;
+	int xSuccessJar = m_camXPidNbSuccessNeeded();
+	int ySuccessJar = m_camYPidNbSuccessNeeded();
+	int yawSuccessJar = m_camYawPidNbSuccessNeeded();
 
 	float errX = target.pose.position.z - xDist;  // A corriger une fois les transformations appliquée
 	float errY = yOffset-target.pose.position.x;  // A corriger une fois les transformations appliquée
@@ -1078,11 +1140,8 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 
 	if (m_parameter == final_approach_msg::FinalApproachingGoal::LIGHT)
 	{
-		constexpr float linearThreshold = 0.003;
-		constexpr float angularThreshold = 0.001;
-
 		// Asserv en Y
-		if (std::abs(errY) < linearThreshold)	// 0.5cm
+		if (std::abs(errY) < m_camYPidThreshold())	// 0.5cm
 		{
 			m_msgTwist.linear.y = 0;
 			if (ySuccessJar > 0)
@@ -1092,12 +1151,12 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 		}
 		else
 		{
-			m_msgTwist.linear.y = linearKp * errY;
-			ySuccessJar = jarResetValue;
+			m_msgTwist.linear.y = m_camYPidKp() * errY;
+			ySuccessJar = m_camYPidNbSuccessNeeded();
 		}
 
 		// Asserv en X
-		if (std::abs(errX) < linearThreshold) // 0.5cm
+		if (std::abs(errX) < m_camXPidThreshold()) // 0.5cm
 		{
 			m_msgTwist.linear.x = 0;
 			if (xSuccessJar > 0)
@@ -1107,12 +1166,12 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 		}
 		else
 		{
-			m_msgTwist.linear.x = linearKp * errX;
-			xSuccessJar = jarResetValue;
+			m_msgTwist.linear.x = m_camXPidKp() * errX;
+			xSuccessJar = m_camXPidNbSuccessNeeded();
 		}
 
 		// Asserv en angle
-		if (std::abs(errYaw) < angularThreshold) // 0.01 rad -> 0.5 deg
+		if (std::abs(errYaw) < m_camYawPidThreshold()) // 0.01 rad -> 0.5 deg
 		{
 			m_msgTwist.angular.z = 0;
 			if (yawSuccessJar > 0)
@@ -1122,8 +1181,8 @@ bool FinalApproaching::asservissementCameraNew(const arTag_t &target)
 		}
 		else
 		{
-			m_msgTwist.angular.z = angularKp * errYaw;
-			yawSuccessJar = jarResetValue;
+			m_msgTwist.angular.z = m_camYawPidKp() * errYaw;
+			yawSuccessJar = m_camYawPidNbSuccessNeeded();
 		}
 
 		finished =(xSuccessJar + ySuccessJar + yawSuccessJar) == 0;
@@ -1235,7 +1294,7 @@ bool FinalApproaching::obstacleDetection(std::vector<bool> allObstacles, int k, 
 	}
 	for (int i = 0; i < allObstacles.size(); i++)
 	{
-		if (allObstacles[i] == true)
+		if (allObstacles[i])
 		{
 			obstacle = true;
 		}

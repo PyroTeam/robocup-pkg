@@ -23,7 +23,7 @@
 
 deplacement_msg::Machines  g_machines;
 std::vector<Machine>       g_mps(24);
-geometry_msgs::PoseWithCovarianceStamped g_pose;
+//geometry_msgs::PoseWithCovarianceStamped g_pose;
 
 
 tf::TransformListener     *g_tf_listener;
@@ -39,10 +39,10 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
   }
 
   // si la localisation donne une position du robot assez précise
-  if (g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
+  if (true/*g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
       g_pose.pose.covariance[1] <= ACCEPTANCE_THRESHOLD &&
       g_pose.pose.covariance[6] <= ACCEPTANCE_THRESHOLD &&
-      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD)
+      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD*/)
   {
     tf::StampedTransform transform;
     try
@@ -87,6 +87,11 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
   }
 }
 
+static bool isInput(int id)
+{
+  return id%2 == 1;
+}
+
 void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
 {
   std::vector<ar_track_alvar_msgs::AlvarMarker> tmp;
@@ -101,10 +106,10 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
   }
 
   // si la localisation donne une position du robot assez précise
-  if (g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
+  if (true/*g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
       g_pose.pose.covariance[1] <= ACCEPTANCE_THRESHOLD &&
       g_pose.pose.covariance[6] <= ACCEPTANCE_THRESHOLD &&
-      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD)
+      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD*/)
   {
     for (int i = 0; i < tmp.size(); i++)
     {
@@ -128,7 +133,7 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
         geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= CIRCUM_MACHINE_RADIUS)
         {
           ROS_ERROR("I see ID %d corresponding to machine (%f) in zone %d having the angle %f", tmp[i].id, it2.getCentre().theta, it2.zone(), geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2));
-
+#if 0
           if (tmp[i].id%2 == 1)
           {
             if (it2.getCentre().theta < 0 && geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2) < 0)
@@ -155,16 +160,54 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
               it2.orientation(true);
             }
           }
+#endif
+
+          // Angle machine modulo PI
+          double angleMachine = geometry_utils::normalizeAngle(it2.getCentre().theta, 0.0, 2*M_PI);
+          it2.setTheta(angleMachine);
+          // Angle artag modulo 2 PI
+          double angleARTag = geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation), 0.0, 2*M_PI);
+          // ecart en angle
+          double diff = angleMachine - angleARTag;
+          // normalisation [0, 2 PI]
+          double norm = geometry_utils::normalizeAngle(diff, 0.0, 2*M_PI);
+
+          if (isInput(tmp[i].id))
+          {
+            if (norm < M_PI_2)
+            {
+              ROS_DEBUG("Angle is good :D");
+              it2.orientation(true);
+            }
+            else
+            {
+              it2.switchSides();
+              ROS_WARN("So I switch the machine angle to %f", it2.getCentre().theta);
+            }
+          }
+          else
+          {
+            if (norm > M_PI_2)
+            {
+              ROS_DEBUG("Angle is good :D");
+              it2.orientation(true);
+            }
+            else
+            {
+              it2.switchSides();
+              ROS_WARN("So I switch the machine angle to %f", it2.getCentre().theta);
+            }
+          }
         }
       }
     }
   }
 }
-
+/*
 void poseCallback(const geometry_msgs::PoseWithCovarianceStamped& pose)
 {
   g_pose = pose;
-}
+}*/
 
 int main( int argc, char** argv )
 {
@@ -176,7 +219,7 @@ int main( int argc, char** argv )
 
   ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 1, machinesCallback);
   ros::Subscriber sub_artag    = n.subscribe("computerVision/ar_pose_marker", 1, artagCallback);
-  ros::Subscriber sub_pose     = n.subscribe("amcl_pose", 1, poseCallback);
+  //ros::Subscriber sub_pose     = n.subscribe("amcl_pose", 1, poseCallback);
 
   ros::Publisher pub_machines = n.advertise< deplacement_msg::Machines >("objectDetection/landmarks", 1);
 

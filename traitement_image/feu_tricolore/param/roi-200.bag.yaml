@@ -1,20 +1,24 @@
 computerVision:
   lightSignalDetection:
+    useBgrInsteadOfHSV: true
+    useChannel: 1
+    invertThresholdCompare: false
+    mixedAllChannels: true
     greenRoi:
       xmin: 0.590
       xmax: 0.605
       ymin: 0.540
       ymax: 0.560
-      threshold: 150
+      threshold: 100
     yellowRoi:
       xmin: 0.590
       xmax: 0.605
       ymin: 0.520
       ymax: 0.540
-      threshold: 210
+      threshold: 190
     redRoi:
       xmin: 0.590
       xmax: 0.605
       ymin: 0.500
       ymax: 0.520
-      threshold: 170
+      threshold: 150

@@ -123,8 +123,10 @@ class FinalApproaching
 	int m_side;
 	int m_parameter;
 	enum team_e m_teamColor;
-	float m_controlDist;
-	bool m_remotelyControlled;
+	float m_controlTopicDist;
+	float m_controlParamDist;
+	bool m_Controlled;
+	uint8_t m_mode;
 
 	// Laser X Asserv PID Parameters
 	Parameter m_laserXPidKp;
@@ -146,6 +148,27 @@ class FinalApproaching
 	Parameter m_laserYawPidKd;
 	Parameter m_laserYawPidThreshold;
 	Parameter m_laserYawPidNbSuccessNeeded;
+
+	// Cam X Asserv PID Parameters
+	Parameter m_camXPidKp;
+	Parameter m_camXPidKi;
+	Parameter m_camXPidKd;
+	Parameter m_camXPidThreshold;
+	Parameter m_camXPidNbSuccessNeeded;
+
+	// Cam Y Asserv PID Parameters
+	Parameter m_camYPidKp;
+	Parameter m_camYPidKi;
+	Parameter m_camYPidKd;
+	Parameter m_camYPidThreshold;
+	Parameter m_camYPidNbSuccessNeeded;
+
+	// Cam Yaw Asserv PID Parameters
+	Parameter m_camYawPidKp;
+	Parameter m_camYawPidKi;
+	Parameter m_camYawPidKd;
+	Parameter m_camYawPidThreshold;
+	Parameter m_camYawPidNbSuccessNeeded;
 
 	// PID
 	common_utils::Pid m_laserXPid;
@@ -173,6 +196,7 @@ class FinalApproaching
   public:
 	FinalApproaching(std::string name)
 		: m_as(m_nh, name, boost::bind(&FinalApproaching::executeCB, this, _1), false), m_actionName(name)
+
 		, m_laserXPidKp(m_nh, "navigation/finalApproach/laserAsserv/xPid/Kp", 0.25)
 		, m_laserXPidKi(m_nh, "navigation/finalApproach/laserAsserv/xPid/Ki", 0)
 		, m_laserXPidKd(m_nh, "navigation/finalApproach/laserAsserv/xPid/Kd", 0)
@@ -190,6 +214,24 @@ class FinalApproaching
 		, m_laserYawPidKd(m_nh, "navigation/finalApproach/laserAsserv/yawPid/Kd", 0)
 		, m_laserYawPidThreshold(m_nh, "navigation/finalApproach/laserAsserv/yawPid/threshold", 0.003)
 		, m_laserYawPidNbSuccessNeeded(m_nh, "navigation/finalApproach/laserAsserv/yawPid/nbSuccessNeeded", 3.0)
+
+		, m_camXPidKp(m_nh, "navigation/finalApproach/camAsserv/xPid/Kp", 0.25)
+		, m_camXPidKi(m_nh, "navigation/finalApproach/camAsserv/xPid/Ki", 0)
+		, m_camXPidKd(m_nh, "navigation/finalApproach/camAsserv/xPid/Kd", 0)
+		, m_camXPidThreshold(m_nh, "navigation/finalApproach/camAsserv/xPid/threshold", 0.01)
+		, m_camXPidNbSuccessNeeded(m_nh, "navigation/finalApproach/camAsserv/xPid/nbSuccessNeeded", 3.0)
+
+		, m_camYPidKp(m_nh, "navigation/finalApproach/camAsserv/yPid/Kp", 0.075)
+		, m_camYPidKi(m_nh, "navigation/finalApproach/camAsserv/yPid/Ki", 0)
+		, m_camYPidKd(m_nh, "navigation/finalApproach/camAsserv/yPid/Kd", 0)
+		, m_camYPidThreshold(m_nh, "navigation/finalApproach/camAsserv/yPid/threshold", 0.003)
+		, m_camYPidNbSuccessNeeded(m_nh, "navigation/finalApproach/camAsserv/yPid/nbSuccessNeeded", 3.0)
+
+		, m_camYawPidKp(m_nh, "navigation/finalApproach/camAsserv/yawPid/Kp", 0.4)
+		, m_camYawPidKi(m_nh, "navigation/finalApproach/camAsserv/yawPid/Ki", 0)
+		, m_camYawPidKd(m_nh, "navigation/finalApproach/camAsserv/yawPid/Kd", 0)
+		, m_camYawPidThreshold(m_nh, "navigation/finalApproach/camAsserv/yawPid/threshold", 0.003)
+		, m_camYawPidNbSuccessNeeded(m_nh, "navigation/finalApproach/camAsserv/yawPid/nbSuccessNeeded", 3.0)
 
 		, m_laserXPid(m_laserXPidKp(), m_laserXPidKi(), m_laserXPidKd(), 1.0/g_loopFreq)
 		, m_laserYPid(m_laserYPidKp(), m_laserYPidKi(), m_laserYPidKd(), 1.0/g_loopFreq)
@@ -211,8 +253,8 @@ class FinalApproaching
 		, m_skipAsservCamera(m_nh, "navigation/finalApproach/skipAsservCamera", 0.0)
 		, m_skipAsservLaser(m_nh, "navigation/finalApproach/skipAsservLaser", 0.0)
 
-		, m_controlDist(std::nanf(""))
-		, m_remotelyControlled(false)
+		, m_controlTopicDist(std::nanf(""))
+		, m_Controlled(false)
 	{
 		refreshParams();
 
@@ -521,7 +563,10 @@ class FinalApproaching
 	 *
 	 * \param[in]  msg   The message
 	 */
-	void controlCallback(const std_msgs::Float32::ConstPtr& msg) { m_controlDist = msg->data; }
+	void controlCallback(const std_msgs::Float32::ConstPtr& msg)
+	{
+		m_controlTopicDist = msg->data;
+	}
 };
 
 

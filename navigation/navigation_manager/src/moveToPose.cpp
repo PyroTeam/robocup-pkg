@@ -32,6 +32,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     // helper variables
     ros::Rate r(1);
     bool success = true;
+    int cptTimeout = 0;
 
     // publish info to the console for the user
     ROS_INFO("Serveur MoveToPose, goal : %f %f %f", goal->position_finale.x, goal->position_finale.y, goal->position_finale.theta);
@@ -95,6 +96,17 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
     genePathAction.sendGoal(genePathGoal);
     //wait for the action to return
     bool finished_before_timeout = genePathAction.waitForResult(ros::Duration(30.0));
+
+    if(finished_before_timeout)
+    {
+        actionlib::SimpleClientGoalState state = genePathAction.getState();
+        ROS_INFO("Action finished : %s ",state.toString().c_str());
+    }
+    else
+    {
+        ROS_INFO("Action didn't finish before the time out");
+        genePathAction.cancelGoal();
+    }
 
     if (genePathAction.getResult()->result == deplacement_msg::GeneratePathResult::SUCCESS)
     {
@@ -162,7 +174,10 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
             isOk = false;
             //TODO: cancel path_track
         }
-
+        else if(cptTimeout == 3)
+        {
+            isOk = false;
+        }
 
         if(m_isPathTrackEnded)
         {
@@ -213,6 +228,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
                 isOk = false;
                 break;
             case deplacement_msg::TrackPathResult::ERR_AVOIDANCE_UNAVOIDABLE:
+                cptTimeout++;
                 ROS_INFO("Un obstacle impossible à éviter a été detecté");
                 //en cas d'erreur d'évitement on regenere un chemin
                 client = m_nh.serviceClient<deplacement_msg::ClosestReachablePoint>("path_finder_node/ClosestReachablePoint");
@@ -257,6 +273,17 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
                 genePathAction.sendGoal(genePathGoal);
                 //wait for the action to return
                 finished_before_timeout = genePathAction.waitForResult(ros::Duration(30.0));
+
+                if(finished_before_timeout)
+                {
+                    actionlib::SimpleClientGoalState state = genePathAction.getState();
+                    ROS_INFO("Action finished : %s ",state.toString().c_str());
+                }
+                else
+                {
+                    ROS_INFO("Action didn't finish before the time out");
+                    genePathAction.cancelGoal();
+                }
 
                 if (genePathAction.getResult()->result == deplacement_msg::GeneratePathResult::SUCCESS)
                 {
@@ -307,6 +334,7 @@ void MoveToPose::executeCB(const deplacement_msg::MoveToPoseGoalConstPtr &goal)
         m_result.result = deplacement_msg::MoveToPoseResult::ERROR;
     }
     m_as.setSucceeded(m_result);
+
 
 }
 
