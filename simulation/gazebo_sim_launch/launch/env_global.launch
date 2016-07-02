@@ -14,6 +14,7 @@
     <arg name="use_amcl" default="false" />
     <arg name="use_mrpt" default="false" />
     <arg name="workaround" default="true" />
+    <arg name="use_viz_markers" default="false" />
 
 
 	<!-- Sensors real positions (constant args) -->
@@ -279,7 +280,7 @@
         <group > <!-- name="LOCALISATION" Detection machine et localisation -->
             <!-- Load the detection and localisation nodes -->
             <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction" respawn="true" output="log"/>
-            <node pkg="localisation" name="visualisation" type="visualisation" respawn="true" output="log"/>
+            <node if="$(arg use_viz_markers)" pkg="localisation" name="visualisation" type="visualisation" respawn="true" output="log"/>
             <node pkg="localisation" name="odometry_correction" type="odometry_correction" respawn="true" output="log"/>
             <node pkg="localisation" name="cartographie" type="cartographie" respawn="true" output="log"/>
 
