@@ -34,7 +34,7 @@ class LocaSubscriber
 
 	private:
 		ros::Subscriber m_sub;
-    std::vector<MPS> m_machines;
-    bool m_explo_completed;
+        std::vector<MPS> m_machines;
+        bool m_explo_completed;
 };
 #endif
