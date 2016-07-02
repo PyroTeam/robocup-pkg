@@ -194,3 +194,8 @@ bool Machine::isInsideZone(const geometry_msgs::Pose2D &pose, int zone, float zo
     return false;
   }
 }
+
+void Machine::setTheta(double theta)
+{
+  m_centre.theta = theta;
+}

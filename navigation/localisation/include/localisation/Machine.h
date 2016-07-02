@@ -21,6 +21,7 @@ public:
 	double getLastError();
 
 	void setCentre(geometry_msgs::Pose2D c);
+  void setTheta(double theta);
 
   void update(const geometry_msgs::Pose2D &p);
 	void calculateCoordMachine(Segment s);
