@@ -51,7 +51,8 @@
   <build_depend>deplacement_msg</build_depend>
   <build_depend>common_utils</build_depend>
   <build_depend>geometry_utils</build_depend>
-  
+  <build_depend>generateur_taches</build_depend>
+
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>actionlib</run_depend>
@@ -62,7 +63,8 @@
   <run_depend>deplacement_msg</run_depend>
   <run_depend>common_utils</run_depend>
   <run_depend>geometry_utils</run_depend>
-
+  <run_depend>generateur_taches</run_depend>
+  
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- You can specify that this package is a metapackage here: -->

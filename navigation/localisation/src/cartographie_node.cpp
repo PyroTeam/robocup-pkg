@@ -133,34 +133,6 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
         geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= CIRCUM_MACHINE_RADIUS)
         {
           ROS_ERROR("I see ID %d corresponding to machine (%f) in zone %d having the angle %f", tmp[i].id, it2.getCentre().theta, it2.zone(), geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2));
-#if 0
-          if (tmp[i].id%2 == 1)
-          {
-            if (it2.getCentre().theta < 0 && geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2) < 0)
-            {
-              it2.switchSides();
-              ROS_WARN("So I switch the machine angle to %f", it2.getCentre().theta);
-            }
-            else
-            {
-              ROS_WARN("Angle is good :D");
-              it2.orientation(true);
-            }
-          }
-          else if (tmp[i].id%2 == 0)
-          {
-            if (it2.getCentre().theta > 0 && geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2) > 0)
-            {
-              it2.switchSides();
-              ROS_WARN("So I switch the machine angle to %f", it2.getCentre().theta);
-            }
-            else
-            {
-              ROS_WARN("Angle is good :D");
-              it2.orientation(true);
-            }
-          }
-#endif
 
           // Angle machine modulo PI
           double angleMachine = geometry_utils::normalizeAngle(it2.getCentre().theta, 0.0, 2*M_PI);
@@ -174,6 +146,7 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
 
           if (isInput(tmp[i].id))
           {
+            it2.setId(tmp[i].id);
             if (norm < M_PI_2)
             {
               ROS_DEBUG("Angle is good :D");
@@ -187,6 +160,7 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
           }
           else
           {
+            it2.setId(tmp[i].id-1);
             if (norm > M_PI_2)
             {
               ROS_DEBUG("Angle is good :D");

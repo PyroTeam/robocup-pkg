@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   deplacement_msg
   common_utils
   geometry_utils
+  generateur_taches
 )
 
 ## System dependencies are found with CMake's conventions
@@ -136,6 +137,39 @@ add_dependencies(
 )
 set_target_properties(test_exec	PROPERTIES COMPILE_FLAGS "-std=c++11")
 
+## Executeur de taches
+add_executable(
+  report_all_machines
+
+  src/reportAllMachines_node.cpp
+  src/Machine.cpp
+  src/BaseStation.cpp
+  src/CapStation.cpp
+  src/RingStation.cpp
+  src/DeliveryStation.cpp
+  src/GtServerSrv.cpp
+  src/LocaSubscriber.cpp
+  src/GripperClientSrv.cpp
+  src/MyElements.cpp
+  src/FeuClientAction.cpp
+  src/FinalApproachingClient.cpp
+  src/ExploInfoSubscriber.cpp
+  src/ReportingMachineSrvClient.cpp
+  src/ArTagClientSrv.cpp
+  src/NavigationClientAction.cpp
+  src/MPS.cpp
+)
+add_dependencies(
+	report_all_machines
+	manager_msg_gencpp
+	final_approach_msg_gencpp
+	trait_im_msg_gencpp
+	comm_msg_gencpp
+)
+set_target_properties(report_all_machines	PROPERTIES COMPILE_FLAGS "-std=c++11")
+
+
+
 add_executable(
 	test_publish
 	src/fake_publisher_node.cpp
@@ -200,6 +234,9 @@ add_executable(
 )
 add_dependencies(test_navigation manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
 
+
+
+
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -208,6 +245,11 @@ add_dependencies(test_navigation manager_msg_gencpp comm_msg_gencpp deplacement_
 ## Specify libraries to link a library or executable target against
 target_link_libraries(
   test_exec
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(
+  report_all_machines
+  manager_utils
   ${catkin_LIBRARIES}
 )
 target_link_libraries(

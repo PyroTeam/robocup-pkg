@@ -41,7 +41,8 @@ deplacement_msg::Machine Machine::msg()
   tmp.pose = m_centre;
   tmp.zone = m_zone;
   tmp.orientationOk = m_orientationOK;
-
+  tmp.idIn = m_idIn;
+  tmp.idOut = m_idOut;
   return tmp;
 }
 
