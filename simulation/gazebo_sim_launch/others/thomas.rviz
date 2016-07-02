@@ -191,9 +191,35 @@ Visualization Manager:
       Frame Timeout: 1
       Frames:
         All Enabled: true
+        ar_marker_1:
+          Value: true
+        ar_marker_113:
+          Value: true
+        ar_marker_130:
+          Value: true
+        ar_marker_145:
+          Value: true
+        ar_marker_148:
+          Value: true
+        ar_marker_177:
+          Value: true
+        ar_marker_18:
+          Value: true
+        ar_marker_2:
+          Value: true
+        ar_marker_33:
+          Value: true
+        ar_marker_50:
+          Value: true
+        ar_marker_82:
+          Value: true
+        ar_marker_98:
+          Value: true
         map:
           Value: true
         robotino1/base_link:
+          Value: true
+        robotino1/gripper_link:
           Value: true
         robotino1/laser_link:
           Value: true
@@ -212,12 +238,37 @@ Visualization Manager:
         map:
           robotino1/odom:
             robotino1/base_link:
+              robotino1/gripper_link:
+                {}
               robotino1/laser_link:
                 {}
               robotino1/platform_camera_link:
                 {}
               robotino1/tower_camera_link:
-                {}
+                ar_marker_1:
+                  {}
+                ar_marker_113:
+                  {}
+                ar_marker_130:
+                  {}
+                ar_marker_145:
+                  {}
+                ar_marker_148:
+                  {}
+                ar_marker_177:
+                  {}
+                ar_marker_18:
+                  {}
+                ar_marker_2:
+                  {}
+                ar_marker_33:
+                  {}
+                ar_marker_50:
+                  {}
+                ar_marker_82:
+                  {}
+                ar_marker_98:
+                  {}
       Update Interval: 0
       Value: true
     - Class: rviz/Image
@@ -278,11 +329,11 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 50
-      Scale: 46.614
+      Scale: 71.2508
       Target Frame: map
       Value: TopDownOrtho (rviz)
-      X: -1.62222
-      Y: 0.554571
+      X: 0.00384262
+      Y: 1.91633
     Saved:
       - Angle: 0
         Class: rviz/TopDownOrtho
@@ -322,5 +373,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1855
-  X: 65
-  Y: 24
+  X: 55
+  Y: -14
