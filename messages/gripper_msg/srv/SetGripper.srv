@@ -1,5 +1,7 @@
-bool push
-bool turn
+# PUSH = true
+# TURN = false
+
+bool servo
 
 bool open
 ---

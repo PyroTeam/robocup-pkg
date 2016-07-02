@@ -37,15 +37,15 @@ enum GripperState
 GripperCommand grip_cmd_turn, grip_cmd_push;
 GripperState grip_state_turn, grip_state_push;
 
-#define OPEN_VALUE_TURN	 150
-#define CLOSE_VALUE_TURN  65
-#define OPEN_VALUE_PUSH	 180
+#define OPEN_VALUE_TURN	 100
+#define CLOSE_VALUE_TURN  10
+#define OPEN_VALUE_PUSH	 140
 #define CLOSE_VALUE_PUSH  0
 
 int targetTurn  = OPEN_VALUE_TURN;
 int currentTurn = OPEN_VALUE_TURN;
-int targetPush  = OPEN_VALUE_PUSH;
-int currentPush = OPEN_VALUE_PUSH;
+int targetPush  = CLOSE_VALUE_PUSH;
+int currentPush = CLOSE_VALUE_PUSH;
 
 int diffValueTurn = (OPEN_VALUE_TURN - CLOSE_VALUE_TURN);
 int diffValuePush = (OPEN_VALUE_PUSH - CLOSE_VALUE_PUSH);
@@ -55,25 +55,30 @@ int percentTurn = 0;
 int percentPush = 0;
 boolean force = false;
 
-void callback(gripper_msg::SetGripperRequest & req,
-		          gripper_msg::SetGripperResponse & res)
-{
-	if (req.turn && req.open)
+void callback(const gripper_msg::SetGripperRequest & req,
+		    gripper_msg::SetGripperResponse & res)
+{        
+	if (!req.servo)
 	{
-		grip_cmd_turn = OPEN;
+                if (req.open)
+                {
+                        grip_cmd_turn = OPEN;
+                }
+                else
+                {
+                        grip_cmd_turn = CLOSE;
+		}
 	}
-	else if (req.turn && !req.open)
+	else
 	{
-		grip_cmd_turn = CLOSE;
-	}
-
-	if (req.push && req.open)
-	{
-		grip_cmd_push = OPEN;
-	}
-	else if (req.push && !req.open)
-	{
-		grip_cmd_push = CLOSE;
+                if (req.open)
+                {
+                        grip_cmd_push = OPEN;
+                }
+                else
+                {
+                        grip_cmd_push = CLOSE;
+		}
 	}
 }
 
@@ -275,37 +280,37 @@ void loop()
 	if (!iterFreq)
 	{
 		gripperStatus_msg.timeStamp = nh.now();
-    gripperStatus_msg.moving = false;
-		switch (grip_state_turn)
-		{
-  		case OPENED:
-      case CLOSED:
-      break;
-
-  		case CLOSING:
-  		case OPENING:
-  			gripperStatus_msg.moving = true;
-  		break;
-
-      case FAULTY:
-        gripperStatus_msg.error = true;
-      break;
-		}
+                gripperStatus_msg.moving = false;
+          	switch (grip_state_turn)
+                {
+            	  case OPENED:
+                  case CLOSED:
+                  break;
+            
+              	  case CLOSING:
+              	  case OPENING:
+                	gripperStatus_msg.moving = true;
+              	  break;
+            
+                  case FAULTY:
+                        gripperStatus_msg.error = true;
+                  break;
+                }
 
 		switch (grip_state_push)
-    {
-      case OPENED:
-      case CLOSED:
-      break;
-
-      case CLOSING:
-      case OPENING:
-        gripperStatus_msg.moving = true;
-      break;
-      case FAULTY:
-        gripperStatus_msg.error = true;
-      break;
-    }
+                {
+                  case OPENED:
+                  case CLOSED:
+                  break;
+            
+                  case CLOSING:
+                  case OPENING:
+                    gripperStatus_msg.moving = true;
+                  break;
+                  case FAULTY:
+                    gripperStatus_msg.error = true;
+                  break;
+                }
 
 		gripperStatus_msg.statusPercentTurn = percentTurn;
 		gripperStatus_msg.statusPercentPush = percentPush;
@@ -318,3 +323,4 @@ void loop()
 	delay(20);
 
 }
+
