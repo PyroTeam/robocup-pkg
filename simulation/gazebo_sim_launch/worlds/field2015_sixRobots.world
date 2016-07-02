@@ -24,7 +24,7 @@
 		<!-- Robotino 1 -->
 		<include>
 			<uri>model://robotino_pyro_1</uri>
-			<pose>-3.5 -0.5 0 0 0 1.5775</pose>
+			<pose>-3.5 -0.5 0 0 0 -0.85</pose>
 			<name>robotino1</name>
 		</include>
 

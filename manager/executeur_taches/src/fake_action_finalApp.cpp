@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 {
 	ros::init(argc,argv,"final_approaching_server");
 	ros::NodeHandle n;
-	Server server(n,"navigation/finalApproaching",boost::bind(&execute, _1, &server), false);
+	Server server(n,"navigation/FinalApproaching",boost::bind(&execute, _1, &server), false);
 	server.start();
 	ros::spin();
 	return 0;

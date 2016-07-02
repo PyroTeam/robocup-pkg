@@ -56,7 +56,7 @@ public:
         m_receiveGrid = false;
         m_receiveScan = false;
         m_grid_sub = m_nh.subscribe("objectDetection/grid", 1, &DataLaser::gridCallback, this);
-        m_grid_pub = m_nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/gridObstacles", 1);
+        m_grid_pub = m_nh.advertise<nav_msgs::OccupancyGrid>("objectDetection/gridObstacles", 1, true);
         m_laser_sub = m_nh.subscribe("hardware/scan", 1, &DataLaser::scanCallback, this);
     }
 

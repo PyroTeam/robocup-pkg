@@ -1,5 +1,7 @@
 navigation:
     finalApproach:
+        globalTimeout: 10.0
+        lightAsservTimeout: 7.0
         skipAsservCamera: 0.0
         skipAsservLaser: 0.0
         arTagAsserv: "empty"
@@ -22,6 +24,25 @@ navigation:
                 Kd: 0.0
                 threshold: 0.01
                 nbSuccessNeeded: 2.0
+        camAsserv:
+            xPid:
+                Kp: 1.0
+                Ki: 0.0
+                Kd: 0.0
+                threshold: 0.003
+                nbSuccessNeeded: 3.0
+            yPid:
+                Kp: 1.0
+                Ki: 0.0
+                Kd: 0.0
+                threshold: 0.003
+                nbSuccessNeeded: 3.0
+            yawPid:
+                Kp: 0.5
+                Ki: 0.0
+                Kd: 0.0
+                threshold: 0.003
+                nbSuccessNeeded: 3.0
         mps:
             width: 0.700
             targetPoses:

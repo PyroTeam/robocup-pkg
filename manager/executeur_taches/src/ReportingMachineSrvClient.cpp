@@ -5,6 +5,7 @@
 
 bool ReportingMachineSrvClient::reporting(std::string r_name, std::string r_type, uint8_t r_zone)
 {
+  ROS_INFO("Report Machine");
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient<comm_msg::ReportMachine>("refBoxComm/ReportMachine");
 	comm_msg::ReportMachine srv;
@@ -22,4 +23,3 @@ bool ReportingMachineSrvClient::reporting(std::string r_name, std::string r_type
 	}
 	return false;
 }
-

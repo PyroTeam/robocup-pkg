@@ -15,6 +15,7 @@
 #include <actionlib/client/terminal_state.h>
 //#include <cstdint>
 
+#include <common_utils/Parameter.h>
 #include <final_approach_msg/FinalApproachingAction.h>
 
 
@@ -24,10 +25,15 @@ class FinalApproachingClient
 		/* Constructeur */
 		FinalApproachingClient();
 
-		/* Déstructeur */
+		/* Destructeur */
 		virtual  ~FinalApproachingClient();
 
 		/* Méthodes */
 		void starting(int8_t machineType, int8_t machineSide, int8_t machineParameter);
+        bool getSuccess();
+    private:
+        bool m_success;
+        Parameter m_globalTimeout;
+		Parameter m_lightAsservTimeout;
 };
 #endif
