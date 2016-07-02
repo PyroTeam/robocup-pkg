@@ -25,6 +25,10 @@ class MPS
 		/* Variables d'instance */
 		geometry_msgs::Pose2D pose;
 		int    zone;
+        /* Added by SANDRA */
+        int idIn;
+        int idOut;
+        /* Done SANDRA*/
 		bool   isHere;
 		bool   orientationOk;
 };

@@ -192,8 +192,12 @@ set_target_properties(activityTalker_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++
 
 ## Specify libraries to link a library or executable target against
 
+add_library(manager_utils
+    src/gameState.cpp
+)
+add_dependencies(manager_utils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-
+set_target_properties(manager_utils PROPERTIES COMPILE_FLAGS "-std=c++11")
 #############
 ## Install ##
 #############
