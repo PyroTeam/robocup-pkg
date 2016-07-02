@@ -50,6 +50,9 @@ bool isMyTeam(int id, int teamColor)
         case M_DS_IN:
         case M_DS_OUT:
             return teamColor == 1;
+
+        default:
+          return false;
     }
 }
 
