@@ -18,7 +18,7 @@
 
 
 	<!-- Sensors real positions (constant args) -->
-	<arg unless="$(arg sim)" name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
+	<arg unless="$(arg sim)" name="tf_laser_x" value="0.0563" /><!-- 0.46.5/2 - 0.14-->
 	<arg unless="$(arg sim)" name="tf_laser_y" value="0.0" />
 	<arg unless="$(arg sim)" name="tf_laser_z" value="0.255" />
 
@@ -35,7 +35,7 @@
 	<arg unless="$(arg sim)" name="tf_platformcam_z" value="0.90" />
 
     <!-- Simulated real positions (constant args) -->
-	<arg if="$(arg sim)" name="tf_laser_x" value="0.0563" /><!--  0.10+0.01-->
+	<arg if="$(arg sim)" name="tf_laser_x" value="0.11" /><!--  0.10+0.01-->
 	<arg if="$(arg sim)" name="tf_laser_y" value="0.0" />
 	<arg if="$(arg sim)" name="tf_laser_z" value="0.255" /><!-- 0.235+0.0175 -->
 
