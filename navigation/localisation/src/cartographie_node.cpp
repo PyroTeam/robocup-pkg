@@ -7,6 +7,7 @@
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <common_utils/zone.h>
+#include <common_utils/types.h>
 
 #include "deplacement_msg/Landmarks.h"
 #include "deplacement_msg/Machines.h"
@@ -15,8 +16,6 @@
 #include "geometry_utils.h"
 #include "math_functions.h"
 #include "ar_track_alvar_msgs/AlvarMarkers.h"
-#include "comm_msg/ExplorationInfo.h"
-#include "comm_msg/ExplorationSignal.h"
 
 #define CIRCUM_MACHINE_RADIUS 0.35
 #define ACCEPTANCE_THRESHOLD 0.1
@@ -25,8 +24,44 @@ deplacement_msg::Machines  g_machines;
 std::vector<Machine>       g_mps(24);
 //geometry_msgs::PoseWithCovarianceStamped g_pose;
 
+using namespace common_utils;
 
 tf::TransformListener     *g_tf_listener;
+
+bool exists(int id)
+{
+    switch (id)
+    {
+        case C_CS1_IN:
+        case C_CS1_OUT:
+        case C_CS2_IN:
+        case C_CS2_OUT:
+        case C_RS1_IN:
+        case C_RS1_OUT:
+        case C_RS2_IN:
+        case C_RS2_OUT:
+        case C_BS_IN:
+        case C_BS_OUT:
+        case C_DS_IN:
+        case C_DS_OUT:
+        case M_CS1_IN:
+        case M_CS1_OUT:
+        case M_CS2_IN:
+        case M_CS2_OUT:
+        case M_RS1_IN:
+        case M_RS1_OUT:
+        case M_RS2_IN:
+        case M_RS2_OUT:
+        case M_BS_IN:
+        case M_BS_OUT:
+        case M_DS_IN:
+        case M_DS_OUT:
+            return true;
+
+        default:
+            return false;
+    }
+}
 
 void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
 {
@@ -122,19 +157,32 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
       }
       else
       {
-        ROS_ERROR("TRANSFORM EXCEPTION WITH TRANFORM POSE");
+        ROS_ERROR("Transform EXCEPTION from tower_cam to map");
       }
+      geometry_msgs::PoseStamped poseArTagInRobotFrame;
+      if (g_tf_listener->waitForTransform(tf_prefix+"base_link",tf_prefix+"tower_camera_link",artags.header.stamp,ros::Duration(1.0)))
+      {
+        g_tf_listener->transformPose(tf_prefix+"base_link",tmp[i].pose,poseArTagInRobotFrame);
+      }
+      else
+      {
+        ROS_ERROR("Transform EXCEPTION from tower_cam to base");
+      }
+
+      double dist = sqrt(poseArTagInRobotFrame.pose.position.x * poseArTagInRobotFrame.pose.position.x +
+                         poseArTagInRobotFrame.pose.position.y * poseArTagInRobotFrame.pose.position.y);
+      const double max_distance = 5.0;
 
       for (auto &it2 : g_mps)
       {
         // si la machine n'a pas été corrigée en angle et que
         // l'ar tag est assez proche pour considérer qu'il est bien celui de la machine
-        if (!it2.orientationOk() &&
-        geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= CIRCUM_MACHINE_RADIUS)
+        if (exists(tmp[i].id) && dist <= max_distance && !it2.orientationOk() &&
+            geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= CIRCUM_MACHINE_RADIUS)
         {
           ROS_ERROR("I see ID %d corresponding to machine (%f) in zone %d having the angle %f", tmp[i].id, it2.getCentre().theta, it2.zone(), geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2));
 
-          // Angle machine modulo PI
+          // Angle machine modulo 2 PI
           double angleMachine = geometry_utils::normalizeAngle(it2.getCentre().theta, 0.0, 2*M_PI);
           it2.setTheta(angleMachine);
           // Angle artag modulo 2 PI
