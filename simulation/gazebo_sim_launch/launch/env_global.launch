@@ -13,6 +13,8 @@
     <arg name="sim" default="false" />
     <arg name="use_amcl" default="false" />
     <arg name="use_mrpt" default="false" />
+    <arg name="workaround" default="true" />
+
 
 	<!-- Sensors real positions (constant args) -->
 	<arg unless="$(arg sim)" name="tf_laser_x" value="0.0925 " /><!-- 0.46.5/2 - 0.14-->
@@ -75,6 +77,7 @@
 
 
 	<!-- Root params -->
+  <param name="/workaround" value="$(arg workaround)" />
 	<param name="nbTeam" value="1" />
 	<param name="team1" value="Pyro" />
 	<param name="team2" value="" />
