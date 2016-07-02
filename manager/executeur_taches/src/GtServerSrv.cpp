@@ -581,12 +581,15 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         // TODO: mettre ArTagClient en membre de classe
         ArTagClienSrv atg;
         machineSideId = atg.askForId();
-        for(int i=0; i < 3 ; ++i)
+        if(!common_utils::exists(machineSideId))
         {
-            if(!common_utils::exists(machineSideId))
+            m_ls->spin();
+            for(auto &it : ls->machines())
             {
-                usleep(100000);
-                machineSideId = atg.askForId();
+                if (it.zone == req.id && it.orientationOk)
+                {
+                    break;
+                }
             }
         }
 
