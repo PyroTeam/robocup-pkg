@@ -1,7 +1,8 @@
 #include "FinalApproachingClient.h"
 
 FinalApproachingClient::FinalApproachingClient()
-: m_globalTimeout(m_nh, "navigation/finalApproach/globalTimeout", 15.0)
+: m_nh()
+, m_globalTimeout(m_nh, "navigation/finalApproach/globalTimeout", 15.0)
 , m_lightAsservTimeout(m_nh, "navigation/finalApproach/lightAsservTimeout", 7.0)
 , m_success(false)
 {
