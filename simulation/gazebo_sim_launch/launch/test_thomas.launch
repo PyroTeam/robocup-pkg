@@ -73,7 +73,7 @@
     <node pkg="localisation" name="cartographie" type="cartographie"/>
 
     <!-- Load the grid maker -->
-    <rosparam command="load" file="$(find grid_maker)/cfg/field.yaml" />
+    <rosparam command="load" file="$(find grid_maker)/cfg/fieldRoboCup2016.yaml" />
     <node pkg="grid_maker" name="grid_maker" type="grid_maker_node"/>
 
     <!-- Load the path finder -->
@@ -136,7 +136,7 @@
 
     <!-- AMCL -->
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
-      <remap from="map" to="objectDetection/grid_fieldAndMachines"/>
+      <remap from="map" to="objectDetection/grid_fieldOnly"/>
       <remap from="scan" to="hardware/scan"/>
 
       <param name="odom_model_type" value="omni"/>

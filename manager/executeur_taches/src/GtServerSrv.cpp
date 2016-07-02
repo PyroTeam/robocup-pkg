@@ -3,7 +3,8 @@
 #include <common_utils/zone.h>
 
 GtServerSrv::GtServerSrv(int teamColor)
-: m_color(teamColor)
+: m_nh()
+, m_color(teamColor)
 , m_elements(teamColor)
 {
   ros::NodeHandle n;
@@ -25,6 +26,15 @@ GtServerSrv::~GtServerSrv(){}
 void GtServerSrv::setId(int id)
 {
   m_id = id;
+}
+
+bool GtServerSrv::machineIsDs(int id)
+{
+  if(id == C_DS_IN || id == C_DS_OUT || id == M_DS_IN || id == M_DS_OUT)
+  {
+    return true;
+  }
+  return false;
 }
 
 bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
@@ -51,50 +61,51 @@ bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
     {
       count ++;
 
-      double dx = target.x - xCenter;
-      double dy = target.y - yCenter;
+      double dx = xCenter - target.x;
+      double dy = yCenter - target.y;
 
       ROS_WARN("Unable to reach requested point (%f,%f,%f). Will try another one", target.x, target.y, target.theta);
 
       // on décale de 30 cm la position demandée vers le centre de la machine
       target.x += 0.3*(dx/std::abs(dx));
-      target.y += 0.3*(dx/std::abs(dy));
+      target.y += 0.3*(dy/std::abs(dy));
     }
   }while (navState != deplacement_msg::MoveToPoseResult::FINISHED && count <= nbAttempt);
+
+  return (count <= nbAttempt);
 }
 
 /* Valentin's function */
 void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2)
 {
-  #define MARGIN_FROM_CENTER 0.75
-  geometry_msgs::Pose2D knownMachinePose;
-  double dy = 0;
-  double dx = 0;
+    // si l'angle est OK, le premier point renvoyé est la sortie
+    #define MARGIN_FROM_CENTER 0.75
 
-  knownMachinePose = m_ls->machines()[zone - 1].pose;
+    geometry_msgs::Pose2D knownMachinePose;
 
-  if (m_ls->machines()[zone - 1].orientationOk)
-  {
-    ROS_ERROR("la machine en zone %d est censee avoir le bon angle !", m_ls->machines()[zone - 1].zone);
-  }
-  else
-  {
-    ROS_ERROR("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone);
-  }
+    knownMachinePose = m_ls->machines()[zone - 1].pose;
 
-  double theta1 = knownMachinePose.theta + M_PI/2;
-  dx = MARGIN_FROM_CENTER * cos(theta1);
-  dy = MARGIN_FROM_CENTER * sin(theta1);
+    geometry_msgs::Pose2D input, output;
+    input.x      = 0.0;
+    input.y      = -MARGIN_FROM_CENTER;
+    input.theta  = M_PI_2;
+    output.x     = 0.0;
+    output.y     = MARGIN_FROM_CENTER;
+    output.theta = -M_PI_2;
 
-  point1.x = knownMachinePose.x + dx;
-  point1.y = knownMachinePose.y + dy;
-  point1.theta = knownMachinePose.theta - M_PI/2;
+    if (m_ls->machines()[zone - 1].orientationOk)
+    {
+        ROS_WARN("la machine en zone %d est censee avoir le bon angle !", m_ls->machines()[zone - 1].zone);
+    }
+    else
+    {
+        ROS_WARN("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone);
+    }
 
-  point2.x = knownMachinePose.x - dx;
-  point2.y = knownMachinePose.y - dy;
-  point2.theta = knownMachinePose.theta + M_PI/2;
+    point1 = geometry_utils::machineToMapFrame(output, knownMachinePose);
+    point2 = geometry_utils::machineToMapFrame(input, knownMachinePose);
 
-  #undef MARGIN_FROM_CENTER
+    #undef MARGIN_FROM_CENTER
 }
 
 bool GtServerSrv::knownMachineInZone(int zone)
@@ -105,66 +116,67 @@ bool GtServerSrv::knownMachineInZone(int zone)
 
 manager_msg::activity GtServerSrv::getActivityMsg()
 {
-  return m_msg;
+    return m_msg;
 }
 
 final_approach_msg::FinalApproachingAction GtServerSrv::getFinalAppAction()
 {
-  return m_act;
+    return m_act;
 }
 
 void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
 {
-  #define ZONE_WIDTH	2.0
-  #define ZONE_HEIGHT	1.5
+    #define ZONE_WIDTH	1.96
+    #define ZONE_HEIGHT	1.5
+    const float offset = 0.11;
 
-  float xOffset = ZONE_WIDTH/2;
-  float yOffset = ZONE_HEIGHT/2;
+    float xOffset = ZONE_WIDTH/2-offset;
+    float yOffset = ZONE_HEIGHT/2-offset;
 
-  if (!common_utils::getZoneCenter(zone, m_explo_target.x, m_explo_target.y))
-  {
-    return;
-  }
+    if (!common_utils::getZoneCenter(zone, m_explo_target.x, m_explo_target.y))
+    {
+        return;
+    }
 
-  // Get corner
-  switch(zoneCorner)
-  {
-    case BOTTOM_LEFT:
-    yOffset *= -1;
-    xOffset *= -1;
-    m_explo_target.theta = M_PI/4;
-    break;
+    // Get corner
+    switch(zoneCorner)
+    {
+        case BOTTOM_LEFT:
+            yOffset *= -1;
+            xOffset *= -1;
+            m_explo_target.theta = M_PI/4;
+        break;
 
-    case BOTTOM_RIGHT:
-    yOffset *= -1;
-    m_explo_target.theta = 3*M_PI/4;
-    break;
+        case BOTTOM_RIGHT:
+            yOffset *= -1;
+            m_explo_target.theta = 3*M_PI/4;
+        break;
 
-    case TOP_LEFT:
-    xOffset *= -1;
-    m_explo_target.theta = -M_PI/4;
-    break;
+        case TOP_LEFT:
+            xOffset *= -1;
+            m_explo_target.theta = -M_PI/4;
+        break;
 
-    case TOP_RIGHT:
-    m_explo_target.theta = -3*M_PI/4;
-    break;
+        case TOP_RIGHT:
+            m_explo_target.theta = -3*M_PI/4;
+        break;
 
-    default:
-    ROS_ERROR("Invalid zone corner");
-    break;
-  }
+        default:
+            ROS_ERROR("Invalid zone corner");
+        break;
+    }
 
-  m_explo_target.x += xOffset;
-  m_explo_target.y += yOffset;
+    m_explo_target.x += xOffset;
+    m_explo_target.y += yOffset;
 
-  #undef ZONE_WIDTH
-  #undef ZONE_WIDTH
+    #undef ZONE_WIDTH
+    #undef ZONE_WIDTH
 }
 
 bool GtServerSrv::isInput(int arTag)
 {
-  // Les INPUT sont toujours impairs
-  return arTag%2 == 1;
+    // Les INPUT sont toujours impairs
+    return arTag%2 == 1;
 }
 
 bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::order::Response &res)
@@ -339,11 +351,15 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
       {
         m_elements.getCS1().destock(req.id,m_nbrobot,req.number_order,activity::CS1);
         m_elements.getCS1().majStockID(req.id, 0);
+        res.accepted = true;
+        res.needToResendOrder = false;
       }
       else if(req.id >= 3 && req.id < 6)
       {
         m_elements.getCS2().destock(req.id,m_nbrobot,req.number_order,activity::CS2);
         m_elements.getCS2().majStockID(req.id, 0);
+        res.accepted = true;
+        res.needToResendOrder = false;
       }
       else
       {
@@ -357,12 +373,17 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
       {
         Machine *machine = NULL;
         geometry_msgs::Pose2D firstSidePoint, secondSidePoint;
+        geometry_msgs::Pose2D tmpFirstPoint, tmpSecondPoint;
+
         int machineSideId = 0;
         ReportingMachineSrvClient reportClient;
 
         ROS_INFO("Let's explore zone %d", req.id);
 
         m_ls->spin();
+
+        res.accepted = true;
+        res.needToResendOrder =  false;
 
         // si on ne connait pas la machine à cet instant et qu'on ne connait pas toutes les machines
         if (!knownMachineInZone(req.id) && !m_ls->haveAllTheMachines())
@@ -377,7 +398,12 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           // Se déplacer au premier coin zone
           // TODO: gérer les cas d'erreurs de going
           // on redemande au maximume 3 fois en cas de collision avec un mur
-          going(m_explo_target, 3);
+          if (!going(m_explo_target, 3))
+          {
+              res.accepted = false;
+              res.needToResendOrder = true;
+              break;
+          }
           // refresh machines
           m_ls->spin();
 
@@ -394,7 +420,12 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
             // Se rendre au second coin zone
             // TODO: gérer les cas d'erreurs de going
-            going(m_explo_target, 3);
+            if (!going(m_explo_target, 3))
+            {
+                res.accepted = false;
+                res.needToResendOrder = true;
+                break;
+            }
             // refresh machines
             m_ls->spin();
 
@@ -405,6 +436,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
               // TODO: abandonner le service
               ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
               res.accepted = false;
+              res.needToResendOrder = false;
               break;
             }
           }
@@ -413,6 +445,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
             // TODO: abandonner le service
             ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
             res.accepted = false;
+            res.needToResendOrder = false;
             break;
           }
         }
@@ -421,19 +454,127 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           // TODO: abandonner le service
           ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
           res.accepted = false;
+          res.needToResendOrder = false;
           break;
         }
 
         // Si machine présente, déterminer point devant machine
 
         // Calculer les deux points devant la machine
-        getSidePoints(req.id, firstSidePoint, secondSidePoint);
-
-        // Se rendre au point devant machine
-        // TODO: utiliser le point le plus proche
-        // TODO: gérer les cas d'erreurs de going
-        going(firstSidePoint);
         m_ls->spin();
+        getSidePoints(req.id, tmpFirstPoint, tmpSecondPoint);
+        firstSidePoint = tmpFirstPoint;
+        secondSidePoint = tmpSecondPoint;
+
+        // Se rendre au point devant la machine
+        // utiliser le point le plus proche
+
+        // Si l'orientation de la machine est bonne, on choisit le premier point,
+        // qui est la sortie de la machine (sauf pour la DS)
+        if (m_ls->machines()[req.id-1].orientationOk)
+        {
+          if (!machineIsDs(machineSideId))
+          {
+            firstSidePoint = tmpFirstPoint;
+            secondSidePoint = tmpSecondPoint;
+          }
+          else
+          {
+            firstSidePoint = tmpSecondPoint;
+            secondSidePoint = tmpFirstPoint;
+          }
+        }
+        // Sinon on se dirige vers le point le plus proche
+        else
+        {
+          geometry_msgs::Pose2D actualPose = m_poseSub.getPose2D();
+          double firstDistance = geometry_utils::distance(actualPose,tmpFirstPoint);
+          double secondDistance = geometry_utils::distance(actualPose,tmpSecondPoint);
+
+          if(secondDistance < firstDistance)
+          {
+              firstSidePoint = tmpSecondPoint;
+              secondSidePoint = tmpFirstPoint;
+          }
+        }
+
+        // TODO: gérer les cas d'erreurs de going
+        if (!going(firstSidePoint))
+        {
+            res.accepted = false;
+            res.needToResendOrder = true;
+            break;
+        }
+
+        m_ls->spin();
+
+        // TODO: Le going ci-dessus peut avoir demandé un déplacement très
+        // long et qui plus est sur une machine que l'on n'avait jamais
+        // réellement vue (mirroring de machines). 
+        // Il est donc possible et probable qu'on ne soit pas face à la machine
+        // Il est nécéssaire de refaire la procédure de going dans ce cas
+        // TODO: A decomenter pour tester et / ou integrer
+        bool use_workaround = false;
+        m_nh.getParamCached("/workaround", use_workaround);
+        if (use_workaround)
+        {
+          ROS_WARN_ONCE("Exec Task workaround currently in use !!!");
+          const float sidePointsMargin = 0.06; // 6cm
+          geometry_msgs::Pose2D oldTmpFirstPoint = tmpFirstPoint;
+          getSidePoints(req.id, tmpFirstPoint, tmpSecondPoint);
+          float dist = geometry_utils::distance(tmpFirstPoint, oldTmpFirstPoint);
+          if (dist > sidePointsMargin)
+          {
+            ROS_WARN("Robot was too badly placed, maybe after a swapped exploration. (Error: %f m). Will retry once.", dist);
+
+            firstSidePoint = tmpFirstPoint;
+            secondSidePoint = tmpSecondPoint;
+
+          // Se rendre au point devant la machine
+          // utiliser le point le plus proche
+
+          // Si l'orientation de la machine est bonne, on choisit le premier point,
+          // qui est la sortie de la machine (sauf pour la DS)
+            if (m_ls->machines()[req.id-1].orientationOk)
+            {
+              if (!machineIsDs(machineSideId))
+              {
+                firstSidePoint = tmpFirstPoint;
+                secondSidePoint = tmpSecondPoint;
+              }
+              else
+              {
+                firstSidePoint = tmpSecondPoint;
+                secondSidePoint = tmpFirstPoint;
+              }
+            }
+          // Sinon on se dirige vers le point le plus proche
+            else
+            {
+              geometry_msgs::Pose2D actualPose = m_poseSub.getPose2D();
+              double firstDistance = geometry_utils::distance(actualPose,tmpFirstPoint);
+              double secondDistance = geometry_utils::distance(actualPose,tmpSecondPoint);
+
+              if(secondDistance < firstDistance)
+              {
+                firstSidePoint = tmpSecondPoint;
+                secondSidePoint = tmpFirstPoint;
+              }
+            }
+
+          // TODO: gérer les cas d'erreurs de going
+            if (!going(firstSidePoint))
+            {
+              res.accepted = false;
+              res.needToResendOrder = true;
+              break;
+            }
+
+            m_ls->spin();
+
+          }
+        }
+
 
         // Récupérer ArTag ID
         // TODO: mettre ArTagClient en membre de classe
@@ -452,7 +593,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         machine->majCenter(m_ls->machines()[req.id - 1].pose);
 
         // Vérifier si INPUT (TODO: à vérifier)
-        if(isInput(machineSideId))
+        if(isInput(machineSideId) && !machineIsDs(machineSideId))
         {
           // Si OUI
           machine->majEntry(firstSidePoint);
@@ -460,7 +601,12 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           ROS_ERROR("I see an input of a machine with the angle %f", machine->getCenterMachine().theta);
 
           // Se rendre ou point devant autre côté de la machine
-          going(secondSidePoint);
+         if (!going(secondSidePoint))
+         {
+             res.accepted = false;
+             res.needToResendOrder = true;
+             break;
+         }
           m_ls->spin();
           // Récupérer ArTag ID
           machineSideId = atg.askForId();
@@ -484,18 +630,35 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         // Approche finale, objectif FEU
         // TODO: Uncomment
-        // FinalApproachingClient fa_c;
-        // fa_c.starting(machine->getFaType(), finalApproachingGoal::OUT, finalApproachingGoal::LIGHT);
+         FinalApproachingClient fa_c;
+         machineSideId = atg.askForId();
+         if(machineIsDs(machineSideId))
+         {
+             fa_c.starting(machine->getFaType(), FinalApproachingGoal::IN, FinalApproachingGoal::LIGHT);
+         }
+         else
+         {
+             fa_c.starting(machine->getFaType(), FinalApproachingGoal::OUT, FinalApproachingGoal::LIGHT);
+         }
 
-        // Traitement d'image, détection FEU
-        FeuClientAction f_c;
-        f_c.lightsStates(m_ei->m_lSpec);
+         if(fa_c.getSuccess())
+         {
+             // Traitement d'image, détection FEU
+             FeuClientAction f_c;
+             f_c.lightsStates(m_ei->m_lSpec);
 
-        // Interprétation type à partir de LightSignal
-        m_ei->interpretationFeu();
+             // Interprétation type à partir de LightSignal
+             m_ei->interpretationFeu();
 
-        // Reporter machine
-        reportClient.reporting(machine->getName(), m_ei->type, req.id);
+             // Reporter machine
+             reportClient.reporting(machine->getName(), m_ei->type, req.id);
+         }
+         else
+         {
+             // Reporter machine avec feu vide
+             reportClient.reporting(machine->getName(), "", req.id);
+         }
+
         m_ls->spin();
 
       } // end of discover order
@@ -507,13 +670,14 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
     //if(req.id != 0) ROS_INFO(" DESTOCKAGE à l'endroit d'id = %d", (int) req.id);
     //else ROS_INFO(" NON DESTOCKAGE ");
     m_msg = m_elements.getBS().msgToGT(m_nbrobot,activity::END,activity::NONE,req.id);
-    res.accepted = true;
-    res.needToResendOrder =  false;
+    // res.accepted = true;
+    // res.needToResendOrder =  false;
   }
   else
   {
     ROS_WARN("Request for another robot");
     res.accepted = false;
+    res.needToResendOrder = true;
   }
 
   /* VERIFICATIONS */

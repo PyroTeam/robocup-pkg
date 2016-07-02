@@ -25,7 +25,7 @@ public:
     BasicFollower(std::shared_ptr<common_utils::Controller> controllerVel,
         std::shared_ptr<common_utils::Controller> controllerOri):
         PathFollower(controllerVel, controllerOri),
-        m_speedLimiter(-0.20, 0.20, 1/10.0)
+        m_speedLimiter(-1.0, 0.20, 1/10.0)
     {
 
     }

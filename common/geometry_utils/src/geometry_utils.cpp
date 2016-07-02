@@ -40,7 +40,19 @@ geometry_msgs::Pose2D changeFrame(const geometry_msgs::Pose2D &p, const tf::Stam
   double yaw = tf::getYaw(transform.getRotation());
   result.x     = p.x*cos(yaw) - p.y*sin(yaw) + transform.getOrigin().x();
   result.y     = p.x*sin(yaw) + p.y*cos(yaw) + transform.getOrigin().y();
-  result.theta = p.theta + yaw;
+  result.theta = normalizeAngle(p.theta + yaw);
+
+  return result;
+}
+
+geometry_msgs::Pose2D machineToMapFrame(const geometry_msgs::Pose2D &p, const geometry_msgs::Pose2D &poseMachine)
+{
+  geometry_msgs::Pose2D result;
+
+  double yaw = poseMachine.theta;
+  result.x     = p.x*cos(yaw) - p.y*sin(yaw) + poseMachine.x;
+  result.y     = p.x*sin(yaw) + p.y*cos(yaw) + poseMachine.y;
+  result.theta = normalizeAngle(p.theta + yaw);
 
   return result;
 }

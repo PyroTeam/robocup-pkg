@@ -18,7 +18,7 @@
 #include "common_utils/Polynome.h"
 
 const double EPSILON = 0.05;
-const double ADVANCE_WINDOW = 0.5;
+const double ADVANCE_WINDOW = 0.8;
 
 //vitesse min robotino fixe
 //TODO: à parametrer
@@ -162,6 +162,11 @@ geometry_msgs::Twist BasicFollower::generateNewSetpoint()
             }
         }
     }
+    else
+    {
+        m_status = PathFollowerStatus_t::TRAJ_END;
+    }
+
     return twist;
 
 }

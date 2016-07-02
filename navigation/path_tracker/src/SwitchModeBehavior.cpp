@@ -28,6 +28,12 @@ geometry_msgs::Twist SwitchModeBehavior::generateNewSetpoint()
     switch (m_mode)
     {
     case BehaviorMode_t::FOLLOW:
+        if (m_bumper)
+        {
+            m_beginCollision = ros::Time::now();
+            m_mode = BehaviorMode_t::COLLISION;
+            break;
+        }
         if (m_pathFollower != nullptr)
         {
             setpoint = m_pathFollower->generateNewSetpoint();
@@ -51,6 +57,25 @@ geometry_msgs::Twist SwitchModeBehavior::generateNewSetpoint()
         else
         {
             ROS_ERROR("In Avoid Obstacle mode, but no adoidObstacle assigned!");
+        }
+        break;
+    case BehaviorMode_t::COLLISION:
+        {
+            ros::Duration timeSinceCollision = ros::Time::now() - m_beginCollision;
+            if (m_bumper && timeSinceCollision < ros::Duration(5.0))
+            {
+                break;
+            }
+            if (!m_bumper && timeSinceCollision >= ros::Duration(5.0))
+            {
+                m_mode = BehaviorMode_t::FOLLOW;
+                break;
+            }
+            if (m_bumper && timeSinceCollision >= ros::Duration(15.0))
+            {
+                m_obstacleUnavoidable = true;
+                break;
+            }
         }
         break;
     default:
@@ -86,6 +111,8 @@ float SwitchModeBehavior::getPathError()
         {
             ROS_ERROR("In Avoid Obstacle mode, but no avoidObstacle assigned!");
         }
+    case BehaviorMode_t::COLLISION:
+        error = 0.0;
         break;
     default:
         ROS_ERROR("Wrong mode!");
