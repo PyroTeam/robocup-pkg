@@ -74,7 +74,7 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
 			cptZone++;
 			cptOrder++;
 
-#define USE_QUICK_AND_DIRTY_SOLUTION
+#define  USE_BEST_SOLUTION
 
 // Retirera la machine des machines à explorer, en cas de succès ou d'echec définitif
 // Un échec définitif est un echec sans demande de renvoi d'ordre pour cette zone : 'NeedToResendOrder'
@@ -154,6 +154,50 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
 			ROS_INFO("----> Done exploring this zone <----");
 #endif
 
+#ifdef USE_BEST_SOLUTION
+            // Executeur a accepté l'ordre et ca s'est bien passé [OU Executeur a refusé l'ordre et pas besoin de re-explorer la zone]
+            if(srvexplo.getAccepted() /*|| (!srvexplo.getAccepted() && !srvexplo.getNeedToResendOrder())*/ )
+            {
+                if(srvexplo.getAccepted())
+                {
+                    cptMachine++;
+                    tabRobot[robot].setBusy(true);
+                }
+
+                correspondanceZE.m_locaSub.pushToExploredList(zone);
+
+                ROS_INFO("----> Done exploring this zone <----");
+             }
+
+             // Executeur a refusé l'ordre et besoin de re-explorer la zone
+             else if(!srvexplo.getAccepted() && srvexplo.getNeedToResendOrder())
+             {
+                 correspondanceZE.m_locaSub.pushToExploredButFailed(zone);
+
+             }
+
+             bool foundInUnkown = correspondanceZE.m_locaSub.foundInUnkown(zone);
+             bool foundInNotExplored =  correspondanceZE.m_locaSub.foundInNotExplored(zone);
+
+             if(foundInUnkown)
+             {
+                 correspondanceZE.m_locaSub.removeFromUnkown(zone);
+             }
+             else if(foundInNotExplored)
+             {
+                 correspondanceZE.m_locaSub.removeFromNotExplored(zone);
+             }
+
+             else if(foundInUnkown && foundInNotExplored)
+             {
+                 ROS_ERROR("/!\\ WARNING : zone %d was founded in m_unkownZones & m_notExploredZones ", zone);
+             }
+
+             ROS_ERROR("foundInUnkown = %d, foundInNotExplored = %d", foundInUnkown, foundInNotExplored);
+             ROS_ERROR("unkownSize = %d, notExploredSize = %d, exploredSize = %d ", correspondanceZE.m_locaSub.m_unkownZones.size(), correspondanceZE.m_locaSub.m_notExploredZones.size(), correspondanceZE.m_locaSub.m_exploredZones.size());
+
+
+#endif
 			 ROS_WARN("accepted = %d needToResendOrder = %d", srvexplo.getAccepted(), srvexplo.getNeedToResendOrder());
 		}
 }

@@ -500,7 +500,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         // TODO: Le going ci-dessus peut avoir demandé un déplacement très
         // long et qui plus est sur une machine que l'on n'avait jamais
-        // réellement vue (mirroring de machines). 
+        // réellement vue (mirroring de machines).
         // Il est donc possible et probable qu'on ne soit pas face à la machine
         // Il est nécéssaire de refaire la procédure de going dans ce cas
         // TODO: A decomenter pour tester et / ou integrer

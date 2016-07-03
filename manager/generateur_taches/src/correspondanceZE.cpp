@@ -8,7 +8,8 @@ CorrespondanceZE::CorrespondanceZE()
 : m_unkownZones()
 , m_exploredZones()
 , m_notExploredZones()
-, m_locaSub(m_unkownZones,m_exploredZones,m_notExploredZones)
+, m_exploredButFailed()
+, m_locaSub(m_unkownZones,m_exploredZones,m_notExploredZones,m_exploredButFailed)
 {
 	m_correspondanceZESub = m_nh.subscribe("refBoxComm/ExplorationInfo",1000,&CorrespondanceZE::cZECallback,this);
 }
@@ -41,67 +42,66 @@ std::vector<int> CorrespondanceZE::getUsefulZone(){
 
 bool sortOnDistance (CorrespondanceZE::s_ZoneDistance s1,CorrespondanceZE::s_ZoneDistance s2) { return (s1.distance < s2.distance); }
 
-int CorrespondanceZE::getBestZone(common_utils::RobotPoseSubscriber &poseSub)
+int CorrespondanceZE::getBestFromSpecifiedList(common_utils::RobotPoseSubscriber &poseSub, std::list<int> lst )
 {
-	geometry_msgs::Pose2D actualPose = poseSub.getPose2D();
-	std::list<s_ZoneDistance> orderedDistance;
+    geometry_msgs::Pose2D actualPose = poseSub.getPose2D();
+    std::list<s_ZoneDistance> orderedDistance;
 
-	/* Retourner une zone de la liste m_notExploredZones en priorité */
-  if (!m_notExploredZones.empty())
+    /* Retourner une zone de la liste m_notExploredZones en priorité */
+  if (!lst.empty())
   {
-  	for(auto &zone : m_notExploredZones)
-  	{
-  		double x,y;
-  		if(!common_utils::getZoneCenter(zone,x,y))
-  		{
-  			ROS_ERROR("HELP ME! I can't get the center of the zone %d", zone);
-  		}
-  		else
-  		{
-  			geometry_msgs::Pose2D centerZone;
-  			centerZone.x = x;
-  			centerZone.y = y;
-  			s_ZoneDistance tmp_ZD;
-  			tmp_ZD.distance = geometry_utils::distance(actualPose,centerZone);
-  			tmp_ZD.zone = zone;
-  			orderedDistance.push_back(tmp_ZD);
-  		}
-  	}
+    for(auto &zone : lst)
+    {
+        double x,y;
+        if(!common_utils::getZoneCenter(zone,x,y))
+        {
+            ROS_ERROR("HELP ME! I can't get the center of the zone %d", zone);
+        }
+        else
+        {
+            geometry_msgs::Pose2D centerZone;
+            centerZone.x = x;
+            centerZone.y = y;
+            s_ZoneDistance tmp_ZD;
+            tmp_ZD.distance = geometry_utils::distance(actualPose,centerZone);
+            tmp_ZD.zone = zone;
+            orderedDistance.push_back(tmp_ZD);
+        }
+    }
 
-  	if(!orderedDistance.empty())
-  	{
-  		orderedDistance.sort(sortOnDistance);
-  		return orderedDistance.front().zone;
-  	}
+    if(!orderedDistance.empty())
+    {
+        orderedDistance.sort(sortOnDistance);
+        return orderedDistance.front().zone;
+    }
 
-  	orderedDistance.clear();
+    return -1;
   }
 
-	/* Si pas de zone dans m_notExploredZones, on essaie de trouver la zone la plus proche dans la liste m_unkownZones */
-	for(auto &zone : m_unkownZones)
-	{
-		double x,y;
-		if(!common_utils::getZoneCenter(zone,x,y))
-		{
-			ROS_ERROR("HELP ME! I can't get the center of the zone %d", zone);
-		}
-		else
-		{
-			geometry_msgs::Pose2D centerZone;
-			centerZone.x = x;
-			centerZone.y = y;
-			s_ZoneDistance tmp_ZD;
-			tmp_ZD.distance = geometry_utils::distance(actualPose,centerZone);
-			tmp_ZD.zone = zone;
-			orderedDistance.push_back(tmp_ZD);
-		}
-	}
+}
 
-	if(!orderedDistance.empty())
-	{
-	  orderedDistance.sort(sortOnDistance);
-		return orderedDistance.front().zone;
-	}
-
+int CorrespondanceZE::getBestZone(common_utils::RobotPoseSubscriber &poseSub)
+{
+    int zoneFromNotEXplored = getBestFromSpecifiedList(poseSub,m_unkownZones);
+    if(zoneFromNotEXplored != -1)
+    {
+        return zoneFromNotEXplored;
+    }
+    else
+    {
+        int zoneFromExploredButFailed = getBestFromSpecifiedList(poseSub,m_exploredButFailed);
+        if(zoneFromExploredButFailed != -1)
+        {
+            return zoneFromExploredButFailed;
+        }
+        else
+        {
+            int zoneFromUnknown = getBestFromSpecifiedList(poseSub,m_unkownZones);
+            if(zoneFromUnknown != -1)
+            {
+                return zoneFromUnknown;
+            }
+        }
+    }
 	return -1;
 }

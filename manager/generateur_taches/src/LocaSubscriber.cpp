@@ -2,10 +2,11 @@
 
 //std::vector<MPS> machine(24);
 
-LocaSubscriber::LocaSubscriber(std::list<int> &lst_unkownZones, std::list<int> &lst_exploredZones, std::list<int> &lst_notExploredZones)
+LocaSubscriber::LocaSubscriber(std::list<int> &lst_unkownZones, std::list<int> &lst_exploredZones, std::list<int> &lst_notExploredZones, std::list<int> &lst_exploredButFailed)
 : m_unkownZones(lst_unkownZones)
 , m_exploredZones(lst_exploredZones)
 , m_notExploredZones(lst_notExploredZones)
+, m_exploredButFailed(lst_exploredButFailed)
 {
   ros::NodeHandle n;
   m_sub = n.subscribe("objectDetection/landmarks",1,&LocaSubscriber::tesCallback, this);
@@ -76,6 +77,15 @@ bool LocaSubscriber::foundInNotExplored(int z)
   return (std::find(m_notExploredZones.begin(), m_notExploredZones.end(), z) != m_notExploredZones.end());
 }
 
+bool LocaSubscriber::foundInExploredButFailed(int z)
+{
+    return (std::find(m_exploredButFailed.begin(), m_exploredButFailed.end(), z) != m_exploredButFailed.end());
+}
+
+void LocaSubscriber::pushToExploredButFailed(int z)
+{
+    m_exploredButFailed.push_back(z);
+}
 
 void LocaSubscriber::pushToExploredList(int z)
 {
@@ -95,4 +105,9 @@ void LocaSubscriber::removeFromExplore(int z)
 void LocaSubscriber::removeFromNotExplored(int z)
 {
   m_notExploredZones.remove(z);
+}
+
+void LocaSubscriber::removeFromExploredButFailed(int z)
+{
+    m_exploredButFailed.remove(z);
 }

@@ -22,7 +22,7 @@ class LocaSubscriber
 {
 	public:
 		/* Constructeur */
-	 	LocaSubscriber(std::list<int> &lst_unkownZones, std::list<int> &lst_exploredZones, std::list<int> &lst_notExploredZones);
+	 	LocaSubscriber(std::list<int> &lst_unkownZones, std::list<int> &lst_exploredZones, std::list<int> &lst_notExploredZones, std::list<int> &lst_exploredButFailed);
 
 	 	/* Déstructeur */
 	    virtual  ~LocaSubscriber();
@@ -32,12 +32,15 @@ class LocaSubscriber
 			bool foundInUnkown(int z);
 			bool foundInExplored(int z);
 			bool foundInNotExplored(int z);
+            bool foundInExploredButFailed(int z);
+			void pushToExploredButFailed(int z);
 			void pushToExploredList(int z);
 			void removeFromUnkown(int z);
 			void removeFromExplore(int z);
 			void removeFromNotExplored(int z);
+            void removeFromExploredButFailed(int z);
 			/* Variable d'instance */
-	   	std::list<int> &m_unkownZones, &m_exploredZones, &m_notExploredZones;
+	   	std::list<int> &m_unkownZones, &m_exploredZones, &m_notExploredZones, &m_exploredButFailed;
 
 	private:
 		ros::Subscriber m_sub;
