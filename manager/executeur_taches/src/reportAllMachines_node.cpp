@@ -65,6 +65,8 @@ int main(int argc, char **argv)
     n.param<int>("robotNumber",nb_robot,0);  // nb robot, par défaut 0
 
     ros::Rate loop_rate(1);
+    ros::Rate loop_rate_faster(10);
+    ros::Rate loop_rate_slower(0.25);
 
     std::string teamColorStr;
   	n.param<std::string>("teamColor", teamColorStr, "cyan");
@@ -97,6 +99,7 @@ int main(int argc, char **argv)
     //report all machines
 
     /* Added by SANDRA */
+    // First report
     Machine *machine = nullptr;
     for(auto &it : locaSubscriber.machines())
     {
@@ -109,7 +112,29 @@ int main(int argc, char **argv)
     }
     /* Done SANDRA*/
 
+    // Last time report
+    do {        
+        Machine *machineLastTime = nullptr;
+        ros::spinOnce();
+        ROS_INFO_STREAM("Temps de jeu : " << gameState.getTime());
+        for(auto &it : locaSubscriber.machines())
+        {
+            if (it.orientationOk && isMyTeam(it.idIn, teamColor))
+            {
+                machineLastTime = m_elements.getMachineFromTag(it.idIn);
+                reportClient.reporting(machineLastTime->getName(), "", it.zone);
+                ROS_INFO("Repot machine: zone %d, name: %s", it.zone, machineLastTime->getName());
+            }
+        }
+        loop_rate_faster.sleep();
+    } while (gameState.getTime() < ros::Time(4*60+1) && ros::ok());//4*60+1
 
+    // Slowly spin until the end
+    while(ros::ok())
+    {
+        ros::spinOnce();
+        loop_rate_slower.sleep();        
+    }
 
     return 0;
 }
