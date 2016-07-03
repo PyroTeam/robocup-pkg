@@ -16,8 +16,10 @@ find_package(catkin REQUIRED COMPONENTS
   common_utils
   geometry_utils
   generateur_taches
+  cmake_modules
 )
 
+find_package(Eigen REQUIRED)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -87,7 +89,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
+  INCLUDE_DIRS include /usr/include/eigen3
 #  LIBRARIES executeur_taches
   CATKIN_DEPENDS roscpp rospy actionlib_msgs actionlib
 #  DEPENDS system_lib
@@ -102,6 +104,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  ${Eigen_INCLUDE_DIRS}
   include
 )
 
@@ -128,6 +131,12 @@ add_executable(
   src/NavigationClientAction.cpp
   src/MPS.cpp
 )
+
+add_executable(
+test_vincent
+src/testRobotMachine_node.cpp
+)
+
 add_dependencies(
 	test_exec
 	manager_msg_gencpp

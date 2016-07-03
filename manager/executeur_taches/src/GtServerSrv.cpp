@@ -1,6 +1,7 @@
 #include "GtServerSrv.h"
 
 #include <common_utils/zone.h>
+#include <Eigen/Dense>
 
 GtServerSrv::GtServerSrv(int teamColor)
 : m_nh()
@@ -583,6 +584,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         machineSideId = atg.askForId();
         if(!common_utils::exists(machineSideId))
         {
+            ROS_WARN("unable to see the Id : Try fall back to the Id from cartographie");
             m_ls->spin();
             for(auto &it : m_ls->machines())
             {
@@ -593,25 +595,40 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                     geometry_msgs::Pose2D robotPoseInMachineFrame = robotPose;
                     double machineTheta = machinePose.theta;
 
-                    double tx = -(machinePose.x * cos(machineTheta) - machinePose.y*sin(machineTheta));
-                    double ty = -(machinePose.x * sin(machineTheta) + machinePose.y*cos(machineTheta));
+                    Eigen::Matrix3f Mbr;
+                    Mbr << cos(robotPose.theta),-sin(robotPose.theta), robotPose.x,
+                            sin(robotPose.theta),cos(robotPose.theta), robotPose.y,
+                            0,0,1;
 
-                    robotPoseInMachineFrame.x = robotPose.x * cos(machineTheta) + robotPose.y * sin(machineTheta) + tx;
-                    robotPoseInMachineFrame.y = - robotPose.x * sin(machineTheta) + robotPose.y * cos(machineTheta) + ty;
+                    Eigen::Matrix3f Mbm;
+                    Mbm << cos(machineTheta),-sin(machineTheta), machinePose.x,
+                            sin(machineTheta),cos(machineTheta), machinePose.y,
+                            0,0,1;
 
-                    if (robotPoseInMachineFrame.y < 0)
+                    Eigen::Matrix3f Mmr;
+                    Mmr = Mbm.inverse()*Mbr;
+
+                    ROS_DEBUG_STREAM("Id determination : Robot is at " << robotPose);
+                    ROS_DEBUG_STREAM("Id determination : Machine is at " << machinePose);
+                    if (Mmr(1,2) < 0)
                     {
                         //input
                         machineSideId = it.idIn;
+                        ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the input side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
                     }
                     else
                     {
                         //output
                         machineSideId = it.idOut;
+                        ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the Output side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
                     }
 
 
                     break;
+                }
+                else if (it.zone == req.id)
+                {
+                    ROS_WARN("Zone connue mais angle (et donc artag) inconnu");
                 }
             }
         }
@@ -647,6 +664,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           machineSideId = atg.askForId();
           if(!common_utils::exists(machineSideId))
           {
+              ROS_WARN("unable to see the Id : Try fall back to the Id from cartographie");
               m_ls->spin();
               for(auto &it : m_ls->machines())
               {
@@ -657,25 +675,40 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       geometry_msgs::Pose2D robotPoseInMachineFrame = robotPose;
                       double machineTheta = machinePose.theta;
 
-                      double tx = -(machinePose.x * cos(machineTheta) - machinePose.y*sin(machineTheta));
-                      double ty = -(machinePose.x * sin(machineTheta) + machinePose.y*cos(machineTheta));
+                      Eigen::Matrix3f Mbr;
+                      Mbr << cos(robotPose.theta),-sin(robotPose.theta), robotPose.x,
+                              sin(robotPose.theta),cos(robotPose.theta), robotPose.y,
+                              0,0,1;
 
-                      robotPoseInMachineFrame.x = robotPose.x * cos(machineTheta) + robotPose.y * sin(machineTheta) + tx;
-                      robotPoseInMachineFrame.y = - robotPose.x * sin(machineTheta) + robotPose.y * cos(machineTheta) + ty;
+                      Eigen::Matrix3f Mbm;
+                      Mbm << cos(machineTheta),-sin(machineTheta), machinePose.x,
+                              sin(machineTheta),cos(machineTheta), machinePose.y,
+                              0,0,1;
 
-                      if (robotPoseInMachineFrame.y < 0)
+                      Eigen::Matrix3f Mmr;
+                      Mmr = Mbm.inverse()*Mbr;
+
+                      ROS_DEBUG_STREAM("Id determination : Robot is at " << robotPose);
+                      ROS_DEBUG_STREAM("Id determination : Machine is at " << machinePose);
+                      if (Mmr(1,2) < 0)
                       {
                           //input
                           machineSideId = it.idIn;
+                          ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the input side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
                       }
                       else
                       {
                           //output
                           machineSideId = it.idOut;
+                          ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the Output side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
                       }
 
 
                       break;
+                  }
+                  else if (it.zone == req.id)
+                  {
+                      ROS_WARN("Zone connue mais angle (et donc artag) inconnu");
                   }
               }
           }
@@ -714,29 +747,40 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                      geometry_msgs::Pose2D robotPoseInMachineFrame = robotPose;
                      double machineTheta = machinePose.theta;
 
-                     double tx = -(machinePose.x * cos(machineTheta) - machinePose.y*sin(machineTheta));
-                     double ty = -(machinePose.x * sin(machineTheta) + machinePose.y*cos(machineTheta));
+                     Eigen::Matrix3f Mbr;
+                     Mbr << cos(robotPose.theta),-sin(robotPose.theta), robotPose.x,
+                             sin(robotPose.theta),cos(robotPose.theta), robotPose.y,
+                             0,0,1;
 
-                     robotPoseInMachineFrame.x = robotPose.x * cos(machineTheta) + robotPose.y * sin(machineTheta) + tx;
-                     robotPoseInMachineFrame.y = - robotPose.x * sin(machineTheta) + robotPose.y * cos(machineTheta) + ty;
+                     Eigen::Matrix3f Mbm;
+                     Mbm << cos(machineTheta),-sin(machineTheta), machinePose.x,
+                             sin(machineTheta),cos(machineTheta), machinePose.y,
+                             0,0,1;
+
+                     Eigen::Matrix3f Mmr;
+                     Mmr = Mbm.inverse()*Mbr;
 
                      ROS_DEBUG_STREAM("Id determination : Robot is at " << robotPose);
                      ROS_DEBUG_STREAM("Id determination : Machine is at " << machinePose);
-                     if (robotPoseInMachineFrame.y < 0)
+                     if (Mmr(1,2) < 0)
                      {
                          //input
-                         ROS_WARN_STREAM("Id determination : Robot is at the input side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
                          machineSideId = it.idIn;
+                         ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the input side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
                      }
                      else
                      {
                          //output
-                         ROS_WARN_STREAM("Id determination : Robot is at the Output side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
                          machineSideId = it.idOut;
+                         ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the Output side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
                      }
 
 
                      break;
+                 }
+                 else if (it.zone == req.id)
+                 {
+                     ROS_WARN("Zone connue mais angle (et donc artag) inconnu");
                  }
              }
          }
