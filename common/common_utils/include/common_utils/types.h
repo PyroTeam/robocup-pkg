@@ -44,6 +44,41 @@ enum mpsARTags_T
 	M_DS_OUT = 50
 };
 
+inline bool exists(int id)
+{
+    switch (id)
+    {
+        case C_CS1_IN:
+        case C_CS1_OUT:
+        case C_CS2_IN:
+        case C_CS2_OUT:
+        case C_RS1_IN:
+        case C_RS1_OUT:
+        case C_RS2_IN:
+        case C_RS2_OUT:
+        case C_BS_IN:
+        case C_BS_OUT:
+        case C_DS_IN:
+        case C_DS_OUT:
+        case M_CS1_IN:
+        case M_CS1_OUT:
+        case M_CS2_IN:
+        case M_CS2_OUT:
+        case M_RS1_IN:
+        case M_RS1_OUT:
+        case M_RS2_IN:
+        case M_RS2_OUT:
+        case M_BS_IN:
+        case M_BS_OUT:
+        case M_DS_IN:
+        case M_DS_OUT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
 } // namespace common_utils
 
 #endif // _COMMON_UTILS__TYPES__H_

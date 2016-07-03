@@ -1236,12 +1236,13 @@ int FinalApproaching::phaseDependingOnOrientation(float newOrientation, int phas
 		newOrientation = newOrientation - 2 * M_PI;
 	}
 	// If robot have finished turning left
-	if (newOrientation > M_PI_2 && phase == 1)
+
+	if (newOrientation > M_PI/6 && phase == 1)
 	{
 		phase = 2;
 	}
 	// If robot have finished turning right
-	if (newOrientation < -M_PI_2 && phase == 2)
+	if (newOrientation < -M_PI/6.0 && phase == 2)
 	{
 		phase = 3;
 	}
