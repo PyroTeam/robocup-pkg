@@ -31,10 +31,12 @@ class FinalApproachingClient
 		/* Méthodes */
 		void starting(int8_t machineType, int8_t machineSide, int8_t machineParameter);
         bool getSuccess();
+        void setBestFirstRotation(uint8_t rot) { m_bestFirstRotation = rot; }
     private:
 		ros::NodeHandle m_nh;
         bool m_success;
         Parameter m_globalTimeout;
 		Parameter m_lightAsservTimeout;
+		uint8_t m_bestFirstRotation;
 };
 #endif

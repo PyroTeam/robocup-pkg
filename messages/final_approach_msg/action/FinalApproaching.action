@@ -26,6 +26,14 @@ int8 parameter
 # NB: LIGHT parameter is not allowed for this mode
 bool controlled_approach
 
+
+# Indique à l'approche finale le sens de rotation qu'elle doit utiliser pour localiser l'ArTag
+# Par défaut, tournera à gauche
+uint8 LEFT       = 0
+uint8 RIGHT      = 1
+
+uint8 locateFirstRotation
+
 ---
 
 ## Result definition
