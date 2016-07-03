@@ -62,6 +62,7 @@ class GtServerSrv
 		void getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2);
 		bool knownMachineInZone(int zone);
 		bool machineIsDs(int id);
+		uint8_t getBestRotationForFA(float machineTheta, geometry_msgs::Pose2D robotPoseInMachineFrame);
 
 	private:
 		ros::NodeHandle m_nh;

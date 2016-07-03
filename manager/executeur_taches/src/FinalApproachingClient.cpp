@@ -5,6 +5,7 @@ FinalApproachingClient::FinalApproachingClient()
 , m_globalTimeout(m_nh, "navigation/finalApproach/globalTimeout", 15.0)
 , m_lightAsservTimeout(m_nh, "navigation/finalApproach/lightAsservTimeout", 7.0)
 , m_success(false)
+, m_bestFirstRotation(final_approach_msg::FinalApproachingGoal::LEFT)
 {
 }
 
@@ -24,6 +25,7 @@ void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, in
 	goal.type = machineType;
 	goal.side = machineSide;
 	goal.parameter = machineParameter;
+	goal.locateFirstRotation = m_bestFirstRotation;
 	client.sendGoal(goal);
 
 	//wait for the action to return

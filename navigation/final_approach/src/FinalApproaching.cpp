@@ -69,6 +69,17 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 		ROS_INFO("FinalApproach got LIGHT parameter, will skip laser regulation");
 	}
 
+	// Permet d'indiquer à l'approche finale de quel côté tourner en premier lorsqu'elle recherche l'ArTag
+	// Par défaut, tourne à gauche
+	if (goal->locateFirstRotation == final_approach_msg::FinalApproachingGoal::RIGHT)
+	{
+		m_locateInverted = true;
+	}
+	else
+	{
+		m_locateInverted = false;
+	}
+
 	// BumperListener
 	BumperListener bp;
 
@@ -1221,7 +1232,7 @@ float FinalApproaching::cameraScanVelocity(int phase)
 		tmp = 0;
 		break;
 	}
-	return tmp;
+	return (m_locateInverted ? -tmp : tmp);
 }
 
 int FinalApproaching::phaseDependingOnOrientation(float newOrientation, int phase)
@@ -1237,14 +1248,28 @@ int FinalApproaching::phaseDependingOnOrientation(float newOrientation, int phas
 	}
 	// If robot have finished turning left
 
-	if (newOrientation > M_PI/6 && phase == 1)
+	if (!m_locateInverted)
 	{
-		phase = 2;
+		if (newOrientation > M_PI/6 && phase == 1)
+		{
+			phase = 2;
+		}
+		// If robot have finished turning right
+		if (newOrientation < -M_PI/6.0 && phase == 2)
+		{
+			phase = 3;
+		}
 	}
-	// If robot have finished turning right
-	if (newOrientation < -M_PI/6.0 && phase == 2)
 	{
-		phase = 3;
+		if (newOrientation < -M_PI/6 && phase == 1)
+		{
+			phase = 2;
+		}
+		// If robot have finished turning right
+		if (newOrientation > M_PI/6.0 && phase == 2)
+		{
+			phase = 3;
+		}
 	}
 	return phase;
 }

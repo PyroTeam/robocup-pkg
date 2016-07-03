@@ -776,6 +776,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                      }
 
 
+                     fa_c.setBestFirstRotation(getBestRotationForFA(machineTheta, robotPoseInMachineFrame));
+
                      break;
                  }
                  else if (it.zone == req.id)
@@ -839,4 +841,38 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
   ROS_INFO("Response: nb_order=%d, nb_robot=%d", (int)res.number_order, (int)res.number_robot);
 
   return true;
+}
+
+uint8_t GtServerSrv::getBestRotationForFA(float machineTheta, geometry_msgs::Pose2D robotPoseInMachineFrame)
+{
+    constexpr float artagXoffset = 0.025;
+    constexpr float artagYoffset = 0.175;
+
+    geometry_msgs::Pose2D artagPoseInMachineFrame;
+    artagPoseInMachineFrame.x = -artagXoffset;
+    float angle;
+
+    // OUTPUT
+    if (robotPoseInMachineFrame.y > 0)
+    {
+        artagPoseInMachineFrame.y = artagYoffset;
+        artagPoseInMachineFrame.theta = -machineTheta;
+
+    }
+    // INPUT
+    else
+    {
+        artagPoseInMachineFrame.y = -artagYoffset;
+        artagPoseInMachineFrame.theta = machineTheta;
+
+    }
+
+    if (geometry_utils::angle(robotPoseInMachineFrame, artagPoseInMachineFrame) >= robotPoseInMachineFrame.theta)
+    {
+        return final_approach_msg::FinalApproachingGoal::LEFT;
+    }
+    else
+    {
+        return final_approach_msg::FinalApproachingGoal::RIGHT;
+    }
 }

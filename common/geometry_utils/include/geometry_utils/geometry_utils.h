@@ -131,6 +131,11 @@ inline double angle(const geometry_msgs::Point &p0, const geometry_msgs::Point &
     return atan2(p1.y-p0.y, p1.x-p1.x);
 }
 
+inline double angle(const geometry_msgs::Pose2D &p0, const geometry_msgs::Pose2D &p1)
+{
+    return atan2(p1.y-p0.y, p1.x-p1.x);
+}
+
 inline double normalizeAngle(double angle, double lowLimit = -M_PI, double highLimit = M_PI)
 {
   double delta = (highLimit - lowLimit);

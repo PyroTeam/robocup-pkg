@@ -125,6 +125,7 @@ class FinalApproaching
 	enum team_e m_teamColor;
 	float m_controlDist;
 	bool m_remotelyControlled;
+	bool m_locateInverted;
 
 	// Laser X Asserv PID Parameters
 	Parameter m_laserXPidKp;
