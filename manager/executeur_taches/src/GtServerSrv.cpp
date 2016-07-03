@@ -584,10 +584,33 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         if(!common_utils::exists(machineSideId))
         {
             m_ls->spin();
-            for(auto &it : ls->machines())
+            for(auto &it : m_ls->machines())
             {
                 if (it.zone == req.id && it.orientationOk)
                 {
+                    geometry_msgs::Pose2D robotPose = m_rp->getPose2D();
+                    geometry_msgs::Pose2D machinePose = it.pose;
+                    geometry_msgs::Pose2D robotPoseInMachineFrame = robotPose;
+                    double machineTheta = machinePose.theta;
+
+                    double tx = -(machinePose.x * cos(machineTheta) - machinePose.y*sin(machineTheta));
+                    double ty = -(machinePose.x * sin(machineTheta) + machinePose.y*cos(machineTheta));
+
+                    robotPoseInMachineFrame.x = robotPose.x * cos(machineTheta) + robotPose.y * sin(machineTheta) + tx;
+                    robotPoseInMachineFrame.y = - robotPose.x * sin(machineTheta) + robotPose.y * cos(machineTheta) + ty;
+
+                    if (robotPoseInMachineFrame.y < 0)
+                    {
+                        //input
+                        machineSideId = it.idIn;
+                    }
+                    else
+                    {
+                        //output
+                        machineSideId = it.idOut;
+                    }
+
+
                     break;
                 }
             }
@@ -622,12 +645,38 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
           m_ls->spin();
           // Récupérer ArTag ID
           machineSideId = atg.askForId();
-          for(int i=0; i < 3 ; ++i)
+          if(!common_utils::exists(machineSideId))
           {
-              if(!common_utils::exists(machineSideId))
+              m_ls->spin();
+              for(auto &it : m_ls->machines())
               {
-                  usleep(100000);
-                  machineSideId = atg.askForId();
+                  if (it.zone == req.id && it.orientationOk)
+                  {
+                      geometry_msgs::Pose2D robotPose = m_rp->getPose2D();
+                      geometry_msgs::Pose2D machinePose = it.pose;
+                      geometry_msgs::Pose2D robotPoseInMachineFrame = robotPose;
+                      double machineTheta = machinePose.theta;
+
+                      double tx = -(machinePose.x * cos(machineTheta) - machinePose.y*sin(machineTheta));
+                      double ty = -(machinePose.x * sin(machineTheta) + machinePose.y*cos(machineTheta));
+
+                      robotPoseInMachineFrame.x = robotPose.x * cos(machineTheta) + robotPose.y * sin(machineTheta) + tx;
+                      robotPoseInMachineFrame.y = - robotPose.x * sin(machineTheta) + robotPose.y * cos(machineTheta) + ty;
+
+                      if (robotPoseInMachineFrame.y < 0)
+                      {
+                          //input
+                          machineSideId = it.idIn;
+                      }
+                      else
+                      {
+                          //output
+                          machineSideId = it.idOut;
+                      }
+
+
+                      break;
+                  }
               }
           }
 
@@ -652,15 +701,41 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
         // TODO: Uncomment
          FinalApproachingClient fa_c;
          machineSideId = atg.askForId();
-         for(int i=0; i < 3 ; ++i)
+         if(!common_utils::exists(machineSideId))
          {
-             if(!common_utils::exists(machineSideId))
+             m_ls->spin();
+             for(auto &it : m_ls->machines())
              {
-                 usleep(100000);
-                 machineSideId = atg.askForId();
+                 if (it.zone == req.id && it.orientationOk)
+                 {
+                     geometry_msgs::Pose2D robotPose = m_rp->getPose2D();
+                     geometry_msgs::Pose2D machinePose = it.pose;
+                     geometry_msgs::Pose2D robotPoseInMachineFrame = robotPose;
+                     double machineTheta = machinePose.theta;
+
+                     double tx = -(machinePose.x * cos(machineTheta) - machinePose.y*sin(machineTheta));
+                     double ty = -(machinePose.x * sin(machineTheta) + machinePose.y*cos(machineTheta));
+
+                     robotPoseInMachineFrame.x = robotPose.x * cos(machineTheta) + robotPose.y * sin(machineTheta) + tx;
+                     robotPoseInMachineFrame.y = - robotPose.x * sin(machineTheta) + robotPose.y * cos(machineTheta) + ty;
+
+                     if (robotPoseInMachineFrame.y < 0)
+                     {
+                         //input
+                         machineSideId = it.idIn;
+                     }
+                     else
+                     {
+                         //output
+                         machineSideId = it.idOut;
+                     }
+
+
+                     break;
+                 }
              }
          }
-         
+
          if(machineIsDs(machineSideId))
          {
              fa_c.starting(machine->getFaType(), FinalApproachingGoal::IN, FinalApproachingGoal::LIGHT);
