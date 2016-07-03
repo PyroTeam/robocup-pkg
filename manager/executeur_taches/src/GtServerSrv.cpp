@@ -703,6 +703,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
          machineSideId = atg.askForId();
          if(!common_utils::exists(machineSideId))
          {
+             ROS_WARN("unable to see the Id : Try fall back to the Id from cartographie");
              m_ls->spin();
              for(auto &it : m_ls->machines())
              {
@@ -719,14 +720,18 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                      robotPoseInMachineFrame.x = robotPose.x * cos(machineTheta) + robotPose.y * sin(machineTheta) + tx;
                      robotPoseInMachineFrame.y = - robotPose.x * sin(machineTheta) + robotPose.y * cos(machineTheta) + ty;
 
+                     ROS_DEBUG_STREAM("Id determination : Robot is at " << robotPose);
+                     ROS_DEBUG_STREAM("Id determination : Machine is at " << machinePose);
                      if (robotPoseInMachineFrame.y < 0)
                      {
                          //input
+                         ROS_WARN_STREAM("Id determination : Robot is at the input side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
                          machineSideId = it.idIn;
                      }
                      else
                      {
                          //output
+                         ROS_WARN_STREAM("Id determination : Robot is at the Output side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
                          machineSideId = it.idOut;
                      }
 
