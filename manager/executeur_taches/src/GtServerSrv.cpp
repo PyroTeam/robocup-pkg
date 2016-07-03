@@ -614,13 +614,13 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                     {
                         //input
                         machineSideId = it.idIn;
-                        ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the input side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
+                        ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the input side (" << Mmr(0,2) << ", " << Mmr(1,2) << ")");
                     }
                     else
                     {
                         //output
                         machineSideId = it.idOut;
-                        ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the Output side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
+                        ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the Output side (" << Mmr(0,2) << ", " << Mmr(1,2) << ")");
                     }
 
 
@@ -694,13 +694,13 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
                       {
                           //input
                           machineSideId = it.idIn;
-                          ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the input side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
+                          ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the input side (" << Mmr(0,2) << ", " << Mmr(1,2) << ")");
                       }
                       else
                       {
                           //output
                           machineSideId = it.idOut;
-                          ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the Output side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
+                          ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the Output side (" << Mmr(0,2) << ", " << Mmr(1,2) << ")");
                       }
 
 
@@ -762,17 +762,20 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
                      ROS_DEBUG_STREAM("Id determination : Robot is at " << robotPose);
                      ROS_DEBUG_STREAM("Id determination : Machine is at " << machinePose);
+                     ROS_DEBUG_STREAM("Mbr " << Mbr);
+                     ROS_DEBUG_STREAM("Mbm " << Mbm);
+                     ROS_DEBUG_STREAM("Mmr " << Mmr);
                      if (Mmr(1,2) < 0)
                      {
                          //input
                          machineSideId = it.idIn;
-                         ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the input side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
+                         ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the input side (" << Mmr(0,2) << ", " << Mmr(1,2) << ")");
                      }
                      else
                      {
                          //output
                          machineSideId = it.idOut;
-                         ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the Output side (" << robotPoseInMachineFrame.x << ", " << robotPoseInMachineFrame.y << ")");
+                         ROS_WARN_STREAM("Id determination (id:"<<machineSideId<<") : Robot is at the Output side (" << Mmr(0,2) << ", " << Mmr(1,2) << ")");
                      }
 
 
