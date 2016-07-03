@@ -51,6 +51,11 @@ const std::list<geometry_msgs::Point>& laserScan::getPoints() const
 	return m_points;
 }
 
+const std::vector<geometry_msgs::Point>& laserScan::getPointVector() const
+{
+	return m_points_vector;
+}
+
 void laserScan::setRangeMin(const float &min)
 {
 	m_range_min = min;
@@ -89,6 +94,7 @@ void laserScan::PolarToCart ()
 	   		p.x = m_ranges[i]*cos(double(getAngleMin() + i*getAngleInc()));
 	   		p.y = m_ranges[i]*sin(double(getAngleMin() + i*getAngleInc()));
 			  m_points.push_back(p);
+        m_points_vector.push_back(p);
 		}
 	}
 }
@@ -106,4 +112,5 @@ void laserScan::laserCallback(const sensor_msgs::LaserScanConstPtr& scan)
 	m_stamp = scan->header.stamp;
 
 	this->PolarToCart();
+  m_received_data = true;
 }
