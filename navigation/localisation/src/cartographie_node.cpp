@@ -145,7 +145,7 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
         if (exists(tmp[i].id) && dist <= max_distance && !it2.orientationOk() &&
             geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= CIRCUM_MACHINE_RADIUS)
         {
-          ROS_ERROR("I see ID %d corresponding to machine (%f) in zone %d having the angle %f", tmp[i].id, it2.getCentre().theta, it2.zone(), geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2));
+          ROS_INFO("I see ID %d corresponding to machine (%f) in zone %d having the angle %f", tmp[i].id, it2.getCentre().theta, it2.zone(), geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2));
 
           // Angle machine modulo 2 PI
           double angleMachine = geometry_utils::normalizeAngle(it2.getCentre().theta, 0.0, 2*M_PI);
@@ -168,7 +168,7 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
             else
             {
               it2.switchSides();
-              ROS_WARN("So I switch the machine angle to %f", it2.getCentre().theta);
+              ROS_INFO("So I switch the machine angle to %f", it2.getCentre().theta);
             }
           }
           else
@@ -182,7 +182,7 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
             else
             {
               it2.switchSides();
-              ROS_WARN("So I switch the machine angle to %f", it2.getCentre().theta);
+              ROS_INFO("So I switch the machine angle to %f", it2.getCentre().theta);
             }
           }
         }
