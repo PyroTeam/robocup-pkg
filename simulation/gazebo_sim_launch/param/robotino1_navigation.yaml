@@ -1,5 +1,5 @@
 navigation:
-    finalApproach:
+    Docking:
         globalTimeout: 10.0
         lightAsservTimeout: 7.0
         skipAsservCamera: 0.0

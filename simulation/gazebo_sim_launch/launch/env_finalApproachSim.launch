@@ -63,5 +63,5 @@
 	</group>
 
 	<!-- Load rviz -->
-	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find final_approach)/cfg/finalApproach.rviz"/>
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find docking)/cfg/finalApproach.rviz"/>
 </launch>

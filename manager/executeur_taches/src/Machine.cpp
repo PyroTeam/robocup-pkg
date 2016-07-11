@@ -105,6 +105,6 @@ void Machine::let( )
 
 void Machine::startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter)
 {
-	FinalApproachingClient fa_c;
+	DockingClient fa_c;
 	fa_c.starting(machineType,machineSide,machineParameter);
 }

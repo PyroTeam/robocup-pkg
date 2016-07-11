@@ -58,7 +58,7 @@ bool take(gripper_msg::Take::Request &req)
     }
 
 
-    // send message to final approach to
+    // send message to docking to
   }
 
   return true;

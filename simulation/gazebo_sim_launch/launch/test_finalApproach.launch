@@ -57,8 +57,8 @@
 
 		<include file="$(find ar_tag)/launch/ar_tag.launch"/>
 
-		<!-- Load the final approach -->
-		<node pkg="final_approach" name="final_approach" type="finalApproaching_node"/>
+		<!-- Load the docking -->
+		<node pkg="docking" name="docking" type="docking_node"/>
 	</group>
 
 		<!-- Load rviz -->

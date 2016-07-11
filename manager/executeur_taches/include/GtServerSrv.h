@@ -31,7 +31,7 @@
 #include "ReportingMachineSrvClient.h"
 #include "LocaSubscriber.h"
 #include "RobotPoseSubscriber.h"
-#include "FinalApproachingClient.h"
+#include "DockingClient.h"
 
 enum zoneCorner_t
 {

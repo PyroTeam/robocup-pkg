@@ -647,7 +647,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         // Approche finale, objectif FEU
         // TODO: Uncomment
-         FinalApproachingClient fa_c;
+         DockingClient fa_c;
          machineSideId = atg.askForId();
          for(int i=0; i < 3 ; ++i)
          {

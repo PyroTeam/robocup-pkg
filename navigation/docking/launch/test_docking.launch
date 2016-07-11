@@ -1,0 +1,18 @@
+<launch>
+	<arg name="debug" default="false" />
+	<arg if="$(arg debug)" name="prefix" value="gdb -ex run --args" />
+	<arg unless="$(arg debug)" name="prefix" value="" />
+
+	<!-- Robotino Pyro 1 -->
+	<group ns="robotino1">
+		<!-- to use ROS_DEBUG -->
+		<!-- FULL
+		<env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}]: ${thread}${logger}${file}${line}${function}${node}\n${message}"/> -->
+		<env name="ROSCONSOLE_FORMAT" value="[${logger}]:${message}"/>
+		<env name="ROSCONSOLE_CONFIG_FILE" value="$(find docking)/cfg/custom_rosconsole.conf"/>
+
+		<!-- Load the docking -->
+		<node pkg="docking" name="docking" type="docking_node"
+			  output="screen" launch-prefix="$(arg prefix)"/>
+	</group>
+</launch>

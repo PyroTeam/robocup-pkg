@@ -12,7 +12,9 @@ find_package(catkin REQUIRED COMPONENTS
   occupancy_grid_utils
   deplacement_msg
   tf
-
+	ar_track_alvar
+	ar_track_alvar_msgs
+	geometry_utils
 )
 
 ## System dependencies are found with CMake's conventions
@@ -107,7 +109,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include include/common_utils
   LIBRARIES common_utils
-  CATKIN_DEPENDS roscpp rospy std_msgs tf occupancy_grid_utils
+  CATKIN_DEPENDS roscpp rospy std_msgs tf occupancy_grid_utils geometry_utils ar_track_alvar ar_track_alvar_msgs
 #  DEPENDS system_lib
 )
 
@@ -131,6 +133,7 @@ add_library(common_utils
   src/controller/PidWithAntiWindUp.cpp
   src/RateLimiter.cpp
   src/RobotPoseSubscriber.cpp
+  src/ARTagSubscriber.cpp
 )
 
 ## Add cmake target dependencies of the library

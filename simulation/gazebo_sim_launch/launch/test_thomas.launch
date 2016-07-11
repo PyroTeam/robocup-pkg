@@ -90,8 +90,8 @@
     <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" output="screen"/>
 
 
-    <!-- Load the fake final approach -->
-    <node pkg="final_approach" name="final_approach" type="finalApproaching_node"/>
+    <!-- Load the fake docking -->
+    <node pkg="docking" name="docking" type="docking_node"/>
 
     <!-- Load the navigation manager -->
     <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node"/>

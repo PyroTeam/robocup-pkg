@@ -58,7 +58,7 @@
 		<param if="$(arg use_tf_prefix)"     name="simuRobotNamespace" value="$(arg robotNamespace)" />
 		<param unless="$(arg use_tf_prefix)" name="simuRobotNamespace" value="" />
 
-		<!-- Paramètres de l'approche finale -->
+		<!-- Paramètres de l'accostage -->
 		<rosparam file="$(find gazebo_sim_launch)/param/robotino1_navigation.yaml" />
 
 		<!-- Paramètres ddu traitement d'image -->

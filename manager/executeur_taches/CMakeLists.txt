@@ -121,7 +121,7 @@ add_executable(
   src/GripperClientSrv.cpp
   src/MyElements.cpp
   src/FeuClientAction.cpp
-  src/FinalApproachingClient.cpp
+  src/DockingClient.cpp
   src/ExploInfoSubscriber.cpp
   src/ReportingMachineSrvClient.cpp
   src/ArTagClientSrv.cpp
@@ -152,7 +152,7 @@ add_executable(
   src/GripperClientSrv.cpp
   src/MyElements.cpp
   src/FeuClientAction.cpp
-  src/FinalApproachingClient.cpp
+  src/DockingClient.cpp
   src/ExploInfoSubscriber.cpp
   src/ReportingMachineSrvClient.cpp
   src/ArTagClientSrv.cpp

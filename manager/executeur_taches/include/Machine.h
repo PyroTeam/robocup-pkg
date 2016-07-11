@@ -22,7 +22,7 @@
 
 #include "FeuClientAction.h"
 #include "GripperClientSrv.h"
-#include "FinalApproachingClient.h"
+#include "DockingClient.h"
 #include "ExploInfoSubscriber.h"
 #include "NavigationClientAction.h"
 

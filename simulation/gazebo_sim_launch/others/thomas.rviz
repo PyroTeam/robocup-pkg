@@ -8,8 +8,7 @@ Panels:
         - /PyroTeam1/Robotino11
         - /PyroTeam1/Robotino11/Path1
         - /Marker1/Namespaces1
-        - /TF1
-        - /Map2
+        - /Image1/Status1
         - /PoseArray1
       Splitter Ratio: 0.585062
     Tree Height: 733
@@ -58,10 +57,10 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: true
-      Enabled: true
+      Enabled: false
       Name: Map
       Topic: /robotino1/objectDetection/grid
-      Value: true
+      Value: false
     - Class: rviz/Image
       Enabled: true
       Image Topic: /gazebo/camera/top_camera/image_raw
@@ -193,27 +192,31 @@ Visualization Manager:
         All Enabled: true
         ar_marker_1:
           Value: true
-        ar_marker_113:
+        ar_marker_114:
           Value: true
         ar_marker_130:
           Value: true
-        ar_marker_145:
+        ar_marker_146:
           Value: true
-        ar_marker_148:
-          Value: true
-        ar_marker_177:
+        ar_marker_178:
           Value: true
         ar_marker_18:
           Value: true
-        ar_marker_2:
+        ar_marker_242:
+          Value: true
+        ar_marker_255:
           Value: true
         ar_marker_33:
           Value: true
-        ar_marker_50:
+        ar_marker_34:
           Value: true
-        ar_marker_82:
+        ar_marker_49:
           Value: true
-        ar_marker_98:
+        ar_marker_65:
+          Value: true
+        ar_marker_81:
+          Value: true
+        ar_marker_97:
           Value: true
         map:
           Value: true
@@ -247,27 +250,31 @@ Visualization Manager:
               robotino1/tower_camera_link:
                 ar_marker_1:
                   {}
-                ar_marker_113:
+                ar_marker_114:
                   {}
                 ar_marker_130:
                   {}
-                ar_marker_145:
+                ar_marker_146:
                   {}
-                ar_marker_148:
-                  {}
-                ar_marker_177:
+                ar_marker_178:
                   {}
                 ar_marker_18:
                   {}
-                ar_marker_2:
+                ar_marker_242:
+                  {}
+                ar_marker_255:
                   {}
                 ar_marker_33:
                   {}
-                ar_marker_50:
+                ar_marker_34:
                   {}
-                ar_marker_82:
+                ar_marker_49:
                   {}
-                ar_marker_98:
+                ar_marker_65:
+                  {}
+                ar_marker_81:
+                  {}
+                ar_marker_97:
                   {}
       Update Interval: 0
       Value: true
@@ -286,10 +293,10 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: false
+      Enabled: true
       Name: Map
-      Topic: /robotino1/objectDetection/grid_fieldOnly
-      Value: false
+      Topic: /robotino1/objectDetection/grid_fieldAndMachines
+      Value: true
     - Arrow Length: 0.5
       Class: rviz/PoseArray
       Color: 255; 25; 0
@@ -329,7 +336,7 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 50
-      Scale: 71.2508
+      Scale: 62.7007
       Target Frame: map
       Value: TopDownOrtho (rviz)
       X: 0.00384262
@@ -373,5 +380,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1855
-  X: 55
-  Y: -14
+  X: 65
+  Y: 24
