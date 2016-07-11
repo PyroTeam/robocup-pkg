@@ -86,7 +86,7 @@
 
 
 	<!-- Root params -->
-  <param name="/workaround" value="$(arg workaround)" />
+	<param name="/workaround" value="$(arg workaround)" />
 	<param name="nbTeam" value="1" />
 	<param name="team1" value="Pyro" />
 	<param name="team2" value="" />
