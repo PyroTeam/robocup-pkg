@@ -86,7 +86,7 @@
 
 
 	<!-- Root params -->
-  <param name="/workaround" value="$(arg workaround)" />
+	<param name="/workaround" value="$(arg workaround)" />
 	<param name="nbTeam" value="1" />
 	<param name="team1" value="Pyro" />
 	<param name="team2" value="" />
@@ -259,7 +259,7 @@
 
         <group  > <!-- name="NAVIGATION" Alvar et ArTag -->
                 <!-- Load the navigation manager -->
-                <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" respawn="true" output="log"/>
+                <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" respawn="true" output="screen"/>
                 <node if="$(arg sim)" pkg="navigation_manager" name="move_request" type="moveRequest_node.py" />
 
                 <!-- Load the path finder -->
@@ -280,7 +280,7 @@
 
         		<!-- Load the final approach -->
         		<node pkg="final_approach" name="final_approach" type="finalApproaching_node"
-                      respawn="true" output="log" >
+                      respawn="true" output="screen" >
                       <remap from="ar_pose_marker" to="computerVision/ar_pose_marker" />
                 </node>
         </group>
@@ -290,7 +290,7 @@
             <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction" respawn="true" output="log"/>
             <node if="$(arg use_viz_markers)" pkg="localisation" name="visualisation" type="visualisation" respawn="true" output="log"/>
             <node pkg="localisation" name="odometry_correction" type="odometry_correction" respawn="true" output="log"/>
-            <node pkg="localisation" name="cartographie" type="cartographie" respawn="true" output="log"/>
+            <node pkg="localisation" name="cartographie" type="cartographie" respawn="true" output="screen"/>
 
             <!-- Load the grid maker -->
             <!-- TODO: Vérifier les fichiers de conf utilisés -->
@@ -355,7 +355,7 @@
 
         <group  > <!--name="MANAGER" Executeur et Generateur-->
             <!-- Load the manager -->
-            <node pkg="executeur_taches" name="executeur" type="test_exec" respawn="true" output="log"/>
+            <node pkg="executeur_taches" name="executeur" type="test_exec" respawn="true" output="screen"/>
             <node pkg="executeur_taches" name="reporter" type="report_all_machines" respawn="true" output="log"/>
             <node pkg="generateur_taches" name="manager" type="main_node" respawn="true" output="log"/>
         </group>
