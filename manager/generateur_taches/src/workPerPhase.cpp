@@ -42,12 +42,12 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
 	}
 	#endif
 
-  ROS_ERROR("taille de m_exploredZones = %d", int(correspondanceZE.m_exploredZones.size()));
+  ROS_INFO("taille de m_exploredZones = %d", int(correspondanceZE.m_exploredZones.size()));
 
 	// if(int(correspondanceZE.m_exploredZones.size()) < 6)
   if(int(correspondanceZE.m_notExploredZones.size()) == 0 && int(correspondanceZE.m_unkownZones.size()) == 6)
   {
-    ROS_WARN("I've done my job in the exploration phase :D ");
+    ROS_INFO("I've done my job in the exploration phase :D ");
   }
 	else{
 			int cptMachine=0;
@@ -103,11 +103,11 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
 
 					else if(foundInUnkown && foundInNotExplored)
 					{
-						ROS_ERROR("/!\\ WARNING : zone %d was founded in m_unkownZones & m_notExploredZones ", zone);
+						ROS_WARN("/!\\ WARNING : zone %d was founded in m_unkownZones & m_notExploredZones ", zone);
 					}
 
-					ROS_ERROR("foundInUnkown = %d, foundInNotExplored = %d", foundInUnkown, foundInNotExplored);
-					ROS_ERROR("unkownSize = %d, notExploredSize = %d, exploredSize = %d ", correspondanceZE.m_locaSub.m_unkownZones.size(), correspondanceZE.m_locaSub.m_notExploredZones.size(), correspondanceZE.m_locaSub.m_exploredZones.size());
+					ROS_INFO("foundInUnkown = %d, foundInNotExplored = %d", foundInUnkown, foundInNotExplored);
+					ROS_INFO("unkownSize = %d, notExploredSize = %d, exploredSize = %d ", correspondanceZE.m_locaSub.m_unkownZones.size(), correspondanceZE.m_locaSub.m_notExploredZones.size(), correspondanceZE.m_locaSub.m_exploredZones.size());
 
 					correspondanceZE.m_locaSub.pushToExploredList(zone);
 
@@ -146,15 +146,15 @@ void workInExplorationPhase(Machine (&tabMachine)[6], Robot (&tabRobot)[3],int &
 				ROS_ERROR("/!\\ WARNING : zone %d was founded in m_unkownZones & m_notExploredZones ", zone);
 			}
 
-			ROS_ERROR("foundInUnkown = %d, foundInNotExplored = %d", foundInUnkown, foundInNotExplored);
-			ROS_ERROR("unkownSize = %d, notExploredSize = %d, exploredSize = %d ", correspondanceZE.m_locaSub.m_unkownZones.size(), correspondanceZE.m_locaSub.m_notExploredZones.size(), correspondanceZE.m_locaSub.m_exploredZones.size());
+			ROS_INFO("foundInUnkown = %d, foundInNotExplored = %d", foundInUnkown, foundInNotExplored);
+			ROS_INFO("unkownSize = %d, notExploredSize = %d, exploredSize = %d ", correspondanceZE.m_locaSub.m_unkownZones.size(), correspondanceZE.m_locaSub.m_notExploredZones.size(), correspondanceZE.m_locaSub.m_exploredZones.size());
 
 			correspondanceZE.m_locaSub.pushToExploredList(zone);
 
 			ROS_INFO("----> Done exploring this zone <----");
 #endif
 
-			 ROS_WARN("accepted = %d needToResendOrder = %d", srvexplo.getAccepted(), srvexplo.getNeedToResendOrder());
+			 ROS_INFO("accepted = %d needToResendOrder = %d", srvexplo.getAccepted(), srvexplo.getNeedToResendOrder());
 		}
 }
 

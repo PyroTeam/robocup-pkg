@@ -95,11 +95,11 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 
     if (m_ls->machines()[zone - 1].orientationOk)
     {
-        ROS_WARN("la machine en zone %d est censee avoir le bon angle !", m_ls->machines()[zone - 1].zone);
+        ROS_INFO("la machine en zone %d est censee avoir le bon angle !", m_ls->machines()[zone - 1].zone);
     }
     else
     {
-        ROS_WARN("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone);
+        ROS_INFO("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone);
     }
 
     point1 = geometry_utils::machineToMapFrame(output, knownMachinePose);
@@ -601,48 +601,48 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,manager_msg::ord
 
         machine->majCenter(m_ls->machines()[req.id - 1].pose);
 
-        // Vérifier si INPUT (TODO: à vérifier)
-        if(isInput(machineSideId) && !machineIsDs(machineSideId))
-        {
-          // Si OUI
-          machine->majEntry(firstSidePoint);
-          machine->majExit(secondSidePoint);
-          ROS_ERROR("I see an input of a machine with the angle %f", machine->getCenterMachine().theta);
+		// Vérifier si INPUT (TODO: à vérifier)
+		if(isInput(machineSideId) && !machineIsDs(machineSideId))
+		{
+			// Si OUI
+			machine->majEntry(firstSidePoint);
+			machine->majExit(secondSidePoint);
+			ROS_INFO("I see an input of a machine with the angle %f", machine->getCenterMachine().theta);
 
-          // Se rendre ou point devant autre côté de la machine
-         if (!going(secondSidePoint))
-         {
-             res.accepted = false;
-             res.needToResendOrder = true;
-             break;
-         }
-          m_ls->spin();
-          // Récupérer ArTag ID
-          machineSideId = atg.askForId();
-          for(int i=0; i < 3 ; ++i)
-          {
-              if(!common_utils::exists(machineSideId))
-              {
-                  usleep(100000);
-                  machineSideId = atg.askForId();
-              }
-          }
+			// Se rendre ou point devant autre côté de la machine
+			if (!going(secondSidePoint))
+			{
+				res.accepted = false;
+				res.needToResendOrder = true;
+				break;
+			}
+			m_ls->spin();
+			// Récupérer ArTag ID
+			machineSideId = atg.askForId();
+			for(int i=0; i < 3 ; ++i)
+			{
+				if(!common_utils::exists(machineSideId))
+				{
+					usleep(100000);
+					machineSideId = atg.askForId();
+				}
+			}
 
-          // Vérifier si INPUT, si OUI abandonner
-          if(isInput(machineSideId))
-          {
-            // TODO: abandonner le service
-            ROS_ERROR("Unable to reach output for this MPS. Abort service");
-            res.accepted = false;
-            res.needToResendOrder = true;
-            break;
-          }
-        }
-        else
-        {
-          machine->majEntry(secondSidePoint);
-          machine->majExit(firstSidePoint);
-        }
+			// Vérifier si INPUT, si OUI abandonner
+			if(isInput(machineSideId))
+			{
+			// TODO: abandonner le service
+				ROS_ERROR("Unable to reach output for this MPS. Abort service");
+				res.accepted = false;
+				res.needToResendOrder = true;
+				break;
+			}
+		}
+		else
+		{
+			machine->majEntry(secondSidePoint);
+			machine->majExit(firstSidePoint);
+		}
 
 
         // Approche finale, objectif FEU
