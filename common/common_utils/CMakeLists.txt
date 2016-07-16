@@ -154,15 +154,6 @@ target_link_libraries(common_utils
     ${catkin_LIBRARIES}
 )
 
-add_executable(zoneSizeCalcul_node src/zoneSizeCalcul_node.cpp)
-
-add_dependencies(zoneSizeCalcul_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-set_target_properties(zoneSizeCalcul_node PROPERTIES COMPILE_FLAGS "-std=c++11")
-target_link_libraries(zoneSizeCalcul_node
-    common_utils
-    ${catkin_LIBRARIES}
-)
-
 #############
 ## Install ##
 #############
