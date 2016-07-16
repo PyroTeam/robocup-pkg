@@ -30,13 +30,14 @@ public:
 
     }
 
-    void setCoeff(unsigned int k, double coeff)
+    bool setCoeff(unsigned int k, double coeff)
     {
         if (k>N)
         {
-            return;
+            return false;
         }
         m_coeffs[N-k] = coeff;
+        return true;
     }
 
     double exec(double value)

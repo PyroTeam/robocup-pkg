@@ -18,10 +18,13 @@
 
 namespace occupancy_grid_utils {
 
-deplacement_msg::OccupancyGridFloat additiveFusion(const deplacement_msg::OccupancyGridFloat &grid1, nav_msgs::OccupancyGrid &grid2);
+
+//TODO implémenter les fusions entre tous types d'OccupancyGrid
+deplacement_msg::OccupancyGridFloat additiveFusion(const deplacement_msg::OccupancyGridFloat &grid1, nav_msgs::OccupancyGrid &grid2, float maxValue = 100.0);
 
 bool compareGridInfo(nav_msgs::MapMetaData info1, nav_msgs::MapMetaData info2);
 
+//TODO implémenter la conversion inverse
 nav_msgs::OccupancyGrid gridConvert(const deplacement_msg::OccupancyGridFloat &grid);
 
 

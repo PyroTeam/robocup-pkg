@@ -14,7 +14,9 @@
 #include "occupancy_grid_utils/occupancy_grid_utils.h"
 namespace occupancy_grid_utils {
 
-deplacement_msg::OccupancyGridFloat additiveFusion(const deplacement_msg::OccupancyGridFloat &grid1, nav_msgs::OccupancyGrid &grid2)
+const float EPSILON = 0.00001;
+
+deplacement_msg::OccupancyGridFloat additiveFusion(const deplacement_msg::OccupancyGridFloat &grid1, nav_msgs::OccupancyGrid &grid2, float maxValue)
 {
     deplacement_msg::OccupancyGridFloat newGrid;
     if (!compareGridInfo(grid1.info, grid2.info))
@@ -28,7 +30,7 @@ deplacement_msg::OccupancyGridFloat additiveFusion(const deplacement_msg::Occupa
 
     for (unsigned int i=0; i<newGrid.data.size(); ++i)
     {
-        newGrid.data[i] = std::min<float>(10000.0, grid1.data[i]+float(grid2.data[i]));
+        newGrid.data[i] = std::min<float>(maxValue, grid1.data[i]+float(grid2.data[i]));
     }
     return newGrid;
 }
@@ -37,9 +39,9 @@ bool compareGridInfo(nav_msgs::MapMetaData info1, nav_msgs::MapMetaData info2)
 {
     return (info1.width == info2.width &&
             info1.height == info2.height &&
-            std::abs(info1.origin.position.x - info2.origin.position.x) < 0.00001 &&
-            std::abs(info1.origin.position.y - info2.origin.position.y) < 0.00001 &&
-            std::abs(info1.resolution - info2.resolution) < 0.00001);
+            std::abs(info1.origin.position.x - info2.origin.position.x) < EPSILON &&
+            std::abs(info1.origin.position.y - info2.origin.position.y) < EPSILON &&
+            std::abs(info1.resolution - info2.resolution) < EPSILON);
 }
 
 
