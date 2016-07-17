@@ -58,6 +58,7 @@ private:
     ros::Publisher m_machineReportInfo_pub;
     ros::Publisher m_orderInfo_pub;
     ros::Publisher m_machineInfo_pub;
+    ros::Publisher m_robotInfo_pub;
 
     ros::ServiceServer m_reportMachineService;
     ros::ServiceServer m_prepareMachineService;

@@ -155,3 +155,54 @@ comm_msg::OrderInfo llsf2ros_orderInfo(const llsf_msgs::OrderInfo &llsfOrderInfo
     return rosOrderInfo;
 
 }
+
+comm_msg::RobotInfo llsf2ros_robotInfo(const llsf_msgs::RobotInfo &llsfRobotInfo)
+{
+    comm_msg::RobotInfo rosRobotInfo;
+
+    for(int i=0; i<llsfRobotInfo.robots_size(); ++i)
+    {
+        const llsf_msgs::Robot &llsfRobot = llsfRobotInfo.robots(i);
+        comm_msg::Robot rosRobot;
+
+        rosRobot.name = llsfRobot.name();
+        rosRobot.team = llsfRobot.team();
+
+        switch(llsfRobot.team_color())
+        {
+        case llsf_msgs::Team::CYAN:
+            rosRobot.team_color = comm_msg::Robot::CYAN;
+            break;
+        case llsf_msgs::Team::MAGENTA:
+            rosRobot.team_color = comm_msg::Robot::MAGENTA;
+            break;
+        default:
+            break;
+        }
+
+        rosRobot.number = llsfRobot.number();
+        rosRobot.host = llsfRobot.host();
+
+        rosRobot.last_seen.sec = llsfRobot.last_seen().sec();
+        rosRobot.last_seen.nsec = llsfRobot.last_seen().nsec();
+
+        switch(llsfRobot.state())
+        {
+
+        case llsf_msgs::RobotState::ACTIVE:
+            rosRobot.state = comm_msg::Robot::ACTIVE;
+            break;
+        case llsf_msgs::RobotState::MAINTENANCE:
+            rosRobot.state = comm_msg::Robot::MAINTENANCE;
+            break;
+        case llsf_msgs::RobotState::DISQUALIFIED:
+            rosRobot.state = comm_msg::Robot::DISQUALIFIED;
+            break;
+        default:
+            break;
+        }
+        rosRobotInfo.robots.push_back(rosRobot);
+    }
+
+    return rosRobotInfo;
+}
