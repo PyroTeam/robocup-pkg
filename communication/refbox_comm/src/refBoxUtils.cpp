@@ -165,6 +165,9 @@ comm_msg::RobotInfo llsf2ros_robotInfo(const llsf_msgs::RobotInfo &llsfRobotInfo
         const llsf_msgs::Robot &llsfRobot = llsfRobotInfo.robots(i);
         comm_msg::Robot rosRobot;
 
+        rosRobot.name = llsfRobot.name();
+        rosRobot.team = llsfRobot.team();
+
         switch(llsfRobot.team_color())
         {
         case llsf_msgs::Team::CYAN:
@@ -180,8 +183,8 @@ comm_msg::RobotInfo llsf2ros_robotInfo(const llsf_msgs::RobotInfo &llsfRobotInfo
         rosRobot.number = llsfRobot.number();
         rosRobot.host = llsfRobot.host();
 
-        //TODO: convetir last_seen
-        //rosRobot.last_seen = llsfRobot.last_seen();
+        rosRobot.last_seen.sec = llsfRobot.last_seen().sec();
+        rosRobot.last_seen.nsec = llsfRobot.last_seen().nsec();
 
         switch(llsfRobot.state())
         {
