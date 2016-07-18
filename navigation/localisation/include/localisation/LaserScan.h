@@ -1,3 +1,11 @@
+/**
+ * \file 			LaserScan.h
+ * \brief			classe "maison" pour recueillir les datas du laser (à génériser)
+ * \author		Danel Thomas
+ * \date			2016-07-18
+ * \copyright 2016, Association de Robotique de Polytech Lille All rights reserved
+*/
+
 #ifndef LASERSCAN_H
 #define LASERSCAN_H
 

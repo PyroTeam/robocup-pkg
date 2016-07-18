@@ -91,11 +91,9 @@ void Segment::build(const std::list<geometry_msgs::Point> &points){
     setPoints(ptMin,ptMax);
     update();
 /*
-    std::cout << "Segment " << std::endl;
-    std::cout << " Min(" << getMin().x << ", " << getMin().y << ")" << std::endl;
-    std::cout << " Max(" << getMax().x << ", " << getMax().y << ")" << std::endl;
-    std::cout << " taille : " << getSize() << std::endl;
-    std::cout << " angle  : " << getAngle()*(180/M_PI) << std::endl;
-    std::cout << " correlation  : " << correl << std::endl;
+    ROS_DEBUG("Segment (%f,%f) | (%f,%f) | %f m | %f deg | correl = %f",
+              getMin().x, getMin().y,
+              getMax().x, getMax().y,
+              getSize(), getAngle()*(180/M_PI), correl);
 */
 }

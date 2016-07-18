@@ -1,3 +1,11 @@
+/**
+ * \file 			Model.h
+ * \brief			classe Modèle de droite (détectée par RANSAC)
+ * \author		Danel Thomas
+ * \date			2016-07-18
+ * \copyright 2016, Association de Robotique de Polytech Lille All rights reserved
+*/
+
 #ifndef MODEL_H
 #define MODEL_H
 

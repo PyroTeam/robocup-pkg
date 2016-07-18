@@ -186,7 +186,9 @@ bool Machine::isInsideZone(const geometry_msgs::Pose2D &pose, int zone, float zo
   geometry_msgs::Pose2D center;
   common_utils::getZoneCenter(zone, center.x, center.y);
 
-  if ((std::abs(center.x - pose.x) <= (zone_width-mps_width)/2) && (std::abs(center.y - pose.y) <= (zone_height-mps_width)/2))
+  // si la machine est dans le rectangle inscrit à la zone
+  if ((std::abs(center.x - pose.x) <= (zone_width-mps_width)/2) &&
+      (std::abs(center.y - pose.y) <= (zone_height-mps_width)/2))
   {
     return true;
   }

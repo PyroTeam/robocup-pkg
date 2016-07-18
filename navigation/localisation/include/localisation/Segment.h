@@ -1,3 +1,11 @@
+/**
+ * \file 			Segment.h
+ * \brief			classe Segment
+ * \author		Danel Thomas
+ * \date			2016-07-18
+ * \copyright 2016, Association de Robotique de Polytech Lille All rights reserved
+*/
+
 #ifndef SEGMENT_H
 #define SEGMENT_H
 

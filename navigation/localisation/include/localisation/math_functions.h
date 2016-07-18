@@ -1,3 +1,11 @@
+/**
+ * \file 			math_functions.h
+ * \brief			fonctions mathématiques spécifiques à la détection de segments
+ * \author		Danel Thomas
+ * \date			2016-07-18
+ * \copyright 2016, Association de Robotique de Polytech Lille All rights reserved
+*/
+
 #ifndef MATH_FUNCTION_H
 #define MATH_FUNCTION_H
 
