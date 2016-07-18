@@ -46,12 +46,12 @@ private:
 	double 					m_xSum;
 	double 					m_ySum;
 	int 						m_nbActu;
-    int             m_color;
-    int             m_zone;
-    double          m_lastError;
-    bool            m_orientationOK;
-    int             m_idIn;
-    int             m_idOut;
+  int             m_color;
+  int             m_zone;
+  double          m_lastError;
+  bool            m_orientationOK;
+  int             m_idIn;
+  int             m_idOut;
 };
 
 #endif

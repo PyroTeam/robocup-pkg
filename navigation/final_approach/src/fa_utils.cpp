@@ -35,14 +35,3 @@ float distance2points(Point a, Point b)
 	return sqrt(  std::abs(b.getX() - a.getX()) * std::abs(b.getX() - a.getX())
 				+ std::abs(b.getY() - a.getY()) * std::abs(b.getY() - a.getY()));
 }
-
-float mean(std::list<float> position_y){
-	std::list<float>::iterator it;
-	float moyenne = 0;
-	for(it = position_y.begin(); it != position_y.end(); it++)
-	{
-		moyenne = moyenne + *it;
-	}
-	moyenne = moyenne / (float)(position_y.size());
-	return moyenne;
-}
