@@ -1,13 +1,13 @@
 /**
- * \file        FA_Client.h
- * \class       FA_Client
+ * \file        DockingClient.h
+ * \class       DockingClient
  * \brief       classe client pour l'approche finale
  * \author      Danel Thomas
  * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
-#ifndef FA_CLIENT_H
-#define FA_CLIENT_H
+#ifndef DOCKING_CLIENT_H
+#define DOCKING_CLIENT_H
 
 #include <ros/ros.h>
 #include <actionlib/client/simple_action_client.h>
@@ -16,14 +16,14 @@
 #include <final_approach_msg/FinalApproachingAction.h>
 
 
-class FA_Client
+class DockingClient
 {
 	public:
 		/* Constructeur */
-		FA_Client();
+		DockingClient();
 
 		/* Destructeur */
-		virtual  ~FA_Client();
+		virtual  ~DockingClient();
 
 		/* Méthodes */
 		int starting(double setpoint);

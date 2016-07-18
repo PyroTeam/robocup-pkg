@@ -1,27 +1,35 @@
-Installation et des paquets nécessaires
+# PREHENSION - HOW TO
 
-* sudo apt-get install ros-indigo-rosserial-arduino ros-indigo-rosserial arduino
-* sudo su
-* source /home/<user>/catkin_ws/devel/setup.bash
+## Installation des paquets nécessaires
+
+* `sudo apt-get install ros-indigo-rosserial-arduino ros-indigo-rosserial arduino`
+* `sudo su`
+* `source /home/<user>/catkin_ws/devel/setup.bash`
 * copier le fichier firmware/arduinoGripper.ino dans le dossier sketchbook
 
-Génération de ros_lib :
+## Génération de la librairie :
 
-* cd sketchbook/libraries
-* rm -rf ros_lib
-* rosrun rosserial_arduino make_libraries.py /root/sketchbook/libraries/ gripper_msg
+* `cd ~/sketchbook/libraries`
+* `rm -rf ros_lib`
+* `rosrun rosserial_arduino make_libraries.py /root/sketchbook/libraries/ gripper_msg`
 
-Compilation et upload du programme dans l'arduino.
+## Compilation et upload du programme dans l'arduino.
 
-Utilisation du node
+## Utilisation
+#### gripper (bas niveau)
+* `roscore`
+* `rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0` (port série connecté à l'arduino)
 
-* roscore
-* rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0
+*Le service "hardware/low_level/gripper_srv" et le topic "hardware/low_level/gripper_status" doivent apparaître*
 
-  (/dev/ttyACM0 étant le port série connecté à l'arduino)
+appel du service :
+* `rosservice call /hardware/low_level/gripper_srv "servo: false open: false"`
 
-Le service "gripper_srv" et le topic "gripper_status" doivent apparaître
+#### préhension (haut niveau)
 
-Exemple d'appel du service pour tourner (servo du haut) et/ou pousser (servo du bas)
+* `rosrun gripper_node gripper_node`
 
- rosservice call /gripper_srv "stateTurn: false statePush: false"
+*Le service "hardware/high_level/gripper_srv" doit apparaître*
+
+appel du service préhension (take = 1, let = 2):
+* `rosservice call /hardware/high_level/gripper_srv "cmd: 1"`

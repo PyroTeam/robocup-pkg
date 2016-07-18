@@ -109,7 +109,7 @@ include_directories(
 add_executable(
 	gripper_node
 	src/gripper_node.cpp
-	src/FA_Client.cpp
+	src/DockingClient.cpp
 )
 
 ## Add cmake target dependencies of the executable/library

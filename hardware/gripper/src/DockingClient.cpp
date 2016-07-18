@@ -1,15 +1,15 @@
-#include "FA_Client.h"
+#include "DockingClient.h"
 
-FA_Client::FA_Client()
+DockingClient::DockingClient()
 {
 }
 
-FA_Client::~FA_Client()
+DockingClient::~DockingClient()
 {
 
 }
 
-int FA_Client::starting(double setpoint)
+int DockingClient::starting(double setpoint)
 {
   // Instanciation de l'action Approche Finale
 	actionlib::SimpleActionClient<final_approach_msg::FinalApproachingAction> client("navigation/finalApproaching_node",true);

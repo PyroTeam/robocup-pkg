@@ -1,5 +1,5 @@
 #include <ros/ros.h>
-#include <FA_Client.h>
+#include <DockingClient.h>
 #include <gripper_msg/SetGripper.h>
 #include <gripper_msg/Grip.h>
 #include <gripper_msg/GripperStatus.h>
@@ -48,7 +48,7 @@ bool gripper(gripper_msg::GripRequest &req,
 {
   ROS_INFO("gripper callback");
   ROS_INFO("Request #%d received", req.cmd);
-  
+
   // Process to take something
   if (req.cmd == gripper_msg::GripRequest::TAKE)
   {
@@ -82,7 +82,7 @@ int main(int argc, char** argv)
   ros::ServiceServer gripper_server = n.advertiseService("hardware/high_level/gripper_srv", gripper);
 
   gripper_msg::SetGripper grip;
-  FA_Client move;
+  DockingClient move;
   int feedback = 0;
   bool initPhase = true;
 
@@ -202,23 +202,8 @@ int main(int argc, char** argv)
         }
         else
         {
-          // g_rp = ReleasingProcess::FORWARD;
           g_rp = ReleasingProcess::TURN;
         }
-      break;
-
-      case ReleasingProcess::FORWARD:
-        /*feedback = move.starting(0.0);
-
-        if (feedback < 100)
-        {
-          ROS_ERROR("FAIL controlled final approaching");
-        }
-        else
-        {
-          ROS_INFO("Controlled final approaching SUCCESSFULL (forward)");
-          g_rp = ReleasingProcess::TURN;
-        }*/
       break;
 
       case ReleasingProcess::TURN:
@@ -230,8 +215,23 @@ int main(int argc, char** argv)
         }
         else
         {
+          // g_rp = ReleasingProcess::FORWARD;
           g_rp = ReleasingProcess::IDLE;
         }
+      break;
+      // On relache avant la dépose puisque le tapis se met en marche à la détection du produit
+      case ReleasingProcess::FORWARD:
+        /*feedback = move.starting(0.0);
+
+        if (feedback < 100)
+        {
+          ROS_ERROR("FAIL controlled final approaching");
+        }
+        else
+        {
+          ROS_INFO("Controlled final approaching SUCCESSFULL (forward)");
+          g_rp = ReleasingProcess::IDLE;
+        }*/
       break;
 
       case ReleasingProcess::ERROR:
