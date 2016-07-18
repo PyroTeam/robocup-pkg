@@ -20,6 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
 	common_utils
 	ar_track_alvar
 	ar_track_alvar_msgs
+	robotino_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -168,6 +169,17 @@ set_target_properties(cartographie PROPERTIES COMPILE_FLAGS -std=c++0x)
 add_dependencies(cartographie deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   cartographie
+  ${catkin_LIBRARIES}
+)
+
+add_executable(
+  recalage
+  src/recalage_node.cpp
+  src/LaserScan.cpp)
+set_target_properties(recalage PROPERTIES COMPILE_FLAGS -std=c++0x)
+add_dependencies(recalage deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+target_link_libraries(
+  recalage
   ${catkin_LIBRARIES}
 )
 

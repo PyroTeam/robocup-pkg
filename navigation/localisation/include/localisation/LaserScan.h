@@ -25,7 +25,8 @@ public:
 	float getAngleInc() const;
 	const ros::Time& getTime() const;
 
-	const std::vector<float>& getRanges() const;
+  const std::vector<float>& getRanges() const;
+  const std::vector<geometry_msgs::Point>& getPointVector() const;
 	const std::list<geometry_msgs::Point>& getPoints() const;
 
 	void setRangeMin(const float &min);
@@ -35,10 +36,12 @@ public:
 	void setAngleInc(const float &inc);
 
 	void laserCallback(const sensor_msgs::LaserScanConstPtr& scan);
+  bool receivedData(){return m_received_data;};
 
 private:
 	std::vector<float> m_ranges;
 	std::list<geometry_msgs::Point> m_points;
+	std::vector<geometry_msgs::Point> m_points_vector;
 
 	float m_range_min;
 	float m_range_max;
@@ -46,6 +49,7 @@ private:
 	float m_angle_max;
 	float m_angle_inc;
 	ros::Time m_stamp;
+  bool m_received_data;
 };
 
 #endif
