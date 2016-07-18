@@ -57,7 +57,6 @@ FILES
   	Landmarks.msg
 		Machine.msg
 		Machines.msg
-    OccupancyGridFloat.msg
 )
 
 ## Generate services in the 'srv' folder

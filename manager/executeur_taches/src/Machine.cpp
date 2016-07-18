@@ -93,14 +93,14 @@ void Machine::goTo(geometry_msgs::Pose2D pt_dest)
 void Machine::take( )
 {
 	GripperClientSrv gsrv;
-	gsrv.gripper_uppdate(true);
+	gsrv.gripper_update(true);
 }
 
 /* Fonction qui permet de deposer un produit */
 void Machine::let( )
 {
 	GripperClientSrv gsrv;
-	gsrv.gripper_uppdate(false);
+	gsrv.gripper_update(false);
 }
 
 void Machine::startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter)

@@ -12,10 +12,10 @@
 
 
 #include "ros/ros.h"
-#include "manager_msg/SetGripper.h"
+#include "gripper_msg/SetGripper.h"
 #include <cstdlib>
 
-class GripperClientSrv 
+class GripperClientSrv
 {
 	public:
 		/* Constructeur */
@@ -25,6 +25,6 @@ class GripperClientSrv
 		virtual  ~GripperClientSrv();
 
 		/* Méthodes */
-		bool gripper_uppdate(bool new_state);
+		bool gripper_update(bool new_state);
 };
 #endif
