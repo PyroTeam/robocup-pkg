@@ -21,7 +21,7 @@ namespace common_utils {
  *
  * \return     true if success, false otherwise.
  */
-inline bool getZoneCenter(int zone, double &x, double &y, float zone_width = 1.96, float zone_height = 1.5)
+inline bool getZoneCenter(int zone, double &x, double &y, float zone_width = 2.0, float zone_height = 1.5)
 {
 	bool leftSide = zone > 12;
 

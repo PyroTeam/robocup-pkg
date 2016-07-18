@@ -2,6 +2,7 @@
 #define MODEL_H
 
 #include "geometry_msgs/Point.h"
+#include "geometry_utils/geometry_utils.h"
 #include "conversion_functions.h"
 #include "Line.h"
 

@@ -82,7 +82,7 @@ void Segment::build(const std::list<geometry_msgs::Point> &points){
     geometry_msgs::Pose2D pose2d;
 
     //on fait une régression linéaire sur le segment
-    float correl = linReg(points, pose2d);
+    float correl = geometry_utils::linearRegression(points, pose2d);
 
     //on projète alors les points extrèmes sur le segment linéarisé
     geometry_msgs::Point ptMin = ortho(points.front(),pose2d);
