@@ -306,24 +306,26 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,
               break;
 
               case orderRequest::STOCK :
-              // TODO: Trouver une meilleure façon de stocker / destocker
-              // On ne sait pas ce qui est stocké et à quel endroit ?
-              int i = 0;
-              for(i = 0; i<3; i++)
               {
-                if(m_elements.getCS1().getStockage(i) == 0)
+                // TODO: Trouver une meilleure façon de stocker / destocker
+                // On ne sait pas ce qui est stocké et à quel endroit ?
+                int i = 0;
+                for(i = 0; i<3; i++)
                 {
-                  m_elements.getCS1().stock(i);
-                  break;
-                }
-                else if(m_elements.getCS2().getStockage(i+3) == 0)
-                {
-                  m_elements.getCS2().stock(i+3);
-                  break;
-                }
-                else
-                {
-                  if(i == 3 ) ROS_ERROR("ERROR: no more place to stock ");
+                  if(m_elements.getCS1().getStockage(i) == 0)
+                  {
+                    m_elements.getCS1().stock(i);
+                    break;
+                  }
+                  else if(m_elements.getCS2().getStockage(i+3) == 0)
+                  {
+                    m_elements.getCS2().stock(i+3);
+                    break;
+                  }
+                  else
+                  {
+                    if(i == 3 ) ROS_ERROR("ERROR: no more place to stock ");
+                  }
                 }
               }
               break;
