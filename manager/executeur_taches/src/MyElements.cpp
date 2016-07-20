@@ -31,6 +31,33 @@ RingStation& MyElements::getRS2()
 	return m_rs2;
 }
 
+RingStation& MyElements::getRS(int color)
+{
+  //TODO: setter les couleurs de RING (pas fait !)
+  switch (color)
+  {
+    case orderRequest::GREEN :
+      if     (m_rs1.getGreenRing() != 0)  return m_rs1;
+      else if(m_rs2.getGreenRing() != 0)  return m_rs2;
+    break;
+    case orderRequest::YELLOW :
+      if     (m_rs1.getYellowRing() != 0) return m_rs1;
+      else if(m_rs2.getYellowRing() != 0) return m_rs2;
+    break;
+    case orderRequest::BLUE :
+      if     (m_rs1.getBlueRing() != 0)   return m_rs1;
+      else if(m_rs2.getBlueRing() != 0)   return m_rs2;
+    break;
+    case orderRequest::ORANGE :
+      if     (m_rs1.getOrangeRing() != 0) return m_rs1;
+      else if(m_rs2.getOrangeRing() != 0) return m_rs2;
+    break;
+    default :
+      //TODO: TBD
+    break;
+  }
+}
+
 CapStation& MyElements::getCS1()
 {
 	return m_cs1;
@@ -40,6 +67,27 @@ CapStation& MyElements::getCS2()
 {
 	return m_cs2;
 }
+
+
+CapStation& MyElements::getCS(int color)
+{
+  //TODO: setter les couleurs de CAP (pas fait !)
+  switch (color)
+  {
+    case orderRequest::GREY :
+      if     (m_cs1.getGreyCap() != 0)  return m_cs1;
+      else if(m_cs1.getGreyCap() != 0)  return m_cs2;
+    break;
+    case orderRequest::BLACK :
+      if     (m_cs1.getBlackCap() != 0) return m_cs1;
+      else if(m_cs2.getBlackCap() != 0) return m_cs2;
+    break;
+    default :
+      //TODO: TBD
+    break;
+  }
+}
+
 
 DeliveryStation& MyElements::getDS()
 {

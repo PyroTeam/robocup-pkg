@@ -7,8 +7,8 @@
  * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
-#ifndef FEUCLIENTACTION_H
-#define FEUCLIENTACTION_H
+#ifndef FEU_CLIENT_ACTION_H
+#define FEU_CLIENT_ACTION_H
 
 #include <ros/ros.h>
 #include <actionlib/client/simple_action_client.h>
@@ -29,7 +29,5 @@ class FeuClientAction
 
 		/* Méthodes */
 		void lightsStates(std::vector<comm_msg::LightSpec> &m_lightSpec);
-		//private:
-		//manager_msg::LightSpec m_lightSpec[];
 };
 #endif

@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "common_utils/types.h"
 #include "Machine.h"
 #include "geometry_msgs/Pose2D.h"
 
@@ -62,16 +63,6 @@ void Machine::majExit(geometry_msgs::Pose2D point)
 	m_exitMachine = point;
 }
 
-manager_msg::activity Machine::msgToGT(int n_robot, int stateOfOrder, int machine, int n_order) // A Verifier
-{
-	manager_msg::activity msg;
-	msg.nb_robot = n_robot;
-	msg.state = stateOfOrder;
-	msg.machine_used = machine;
-	msg.nb_order = n_order;
-	return msg;
-}
-
 /* Fonction abstraite qui permet d'aller vers une machine (Point centre/entree/sortie d'une machine) */
 
 void Machine::goTo(geometry_msgs::Pose2D pt_dest)
@@ -90,7 +81,7 @@ void Machine::goTo(geometry_msgs::Pose2D pt_dest)
 }
 
 /* Fonction qui permet de prendre un produit */
-void Machine::take( )
+void Machine::grip( )
 {
 	GripperClientSrv gsrv;
 	gsrv.gripper_uppdate(true);
@@ -107,4 +98,13 @@ void Machine::startFinalAp(int8_t machineType, int8_t machineSide, int8_t machin
 {
 	FinalApproachingClient fa_c;
 	fa_c.starting(machineType,machineSide,machineParameter);
+}
+
+bool Machine::isDS(int id)
+{
+  if(id == C_DS_IN || id == C_DS_OUT || id == M_DS_IN || id == M_DS_OUT)
+  {
+    return true;
+  }
+  return false;
 }

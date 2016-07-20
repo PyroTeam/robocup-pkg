@@ -61,7 +61,8 @@ class GtServerSrv
 		bool going(const geometry_msgs::Pose2D &point, size_t nbAttempt = 0);
 		void getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometry_msgs::Pose2D &point2);
 		bool knownMachineInZone(int zone);
-		bool machineIsDs(int id);
+
+    void msgToGT(int stateOfOrder, int machine, int n_order);
 
 	private:
 		ros::NodeHandle m_nh;
@@ -77,7 +78,6 @@ class GtServerSrv
 		final_approach_msg::FinalApproachingAction m_act;
 		ExploInfoSubscriber *m_ei;
 		LocaSubscriber *m_ls;
-    RobotPoseSubscriber *m_rp;
     ros::Publisher m_activity_pub;
     MyElements m_elements;
 

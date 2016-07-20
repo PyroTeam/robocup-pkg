@@ -1,6 +1,7 @@
 #include <string>
 
 #include "CapStation.h"
+#include "manager_msg/activity.h"
 
 /* Constructeur */
 CapStation::CapStation(int teamColor)
@@ -19,13 +20,12 @@ CapStation::CapStation(int teamColor, int nb)
 : CapStation(teamColor)
 {
 	m_name += std::to_string(nb);
+  if (nb == 1)  m_activiType = activity::CS1;
+  if (nb == 2)  m_activiType = activity::CS2;
 }
 
 /* Destructeur */
 CapStation::~CapStation(){}
-
-/* Fonction Virtuelle */
-void CapStation::FonctionVirtuelle(){}
 
 /* Méthodes */
 int CapStation::getGreyCap()
@@ -55,100 +55,84 @@ void CapStation::majGrey(int nbGris)
 	m_greyCap = nbGris;
 }
 
-void CapStation::put_cap(int color, int n_robot, int n_order, int machine)
+void CapStation::put_cap(int color)
 {
-	// A verifier si la cs est dispo
-	// si OK : (sinon erreur )
-
-	// TOPIC Générateur de taches : infos sur l'avancement de la tache
-	manager_msg::activity msg;
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order);
 	ROS_INFO("Putting a Cap, color : %d", color);
 
-	goTo(this->m_entryMachine);
+	goTo(m_entryMachine);
+	startFinalAp(FinalApproachingGoal::CS,
+               FinalApproachingGoal::IN,
+               FinalApproachingGoal::CONVEYOR);
+	let();
 
-	this->startFinalAp(FinalApproachingGoal::CS, FinalApproachingGoal::IN, FinalApproachingGoal::CONVEYOR);
-	this->let();
+  //TODO: demander à la refbox un cap de couleur "color" )
 
-	//Communication_RefBox(je veux un cap de couleur "couleur" )
+  //TODO: attendre fin de livraison
 
-	msg = msgToGT(n_robot,activity::END,machine,n_order);
+  //XXX: Retourner qqch pour dire que la tâche est réalisée
 }
 
-void CapStation::take_cap(int color, int n_robot, int n_order, int machine)
+void CapStation::take_cap()
 {
-	// A verifier si la cs est dispo (pas en panne uniquement => cz elle sera entrain de faire un cap "noramlement")
-	// si OK : (sinon erreur )
+	goTo(m_exitMachine);
+	startFinalAp(FinalApproachingGoal::CS,
+               FinalApproachingGoal::OUT,
+               FinalApproachingGoal::CONVEYOR);
+	grip();
 
-	/* TOPIC Générateur de taches : infos sur l'avancement de la tache */
-	manager_msg::activity msg;
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order);
-	ROS_INFO("Taking a Cap, color : %d", color);
-
-	//Communication_RefBox(give me the product )
-
-	goTo(this->m_exitMachine);
-
-	// while(Communication_RefBox(bs n'a terminé de livrer)) { } ???????
-
-	this->startFinalAp(FinalApproachingGoal::CS, FinalApproachingGoal::OUT, FinalApproachingGoal::CONVEYOR);
-	this->take();
-	msg = msgToGT(n_robot,activity::END,machine,n_order);
+  //XXX: Retourner qqch pour dire que la tâche est réalisée
 }
 
-void CapStation::stock(int id, int n_robot, int n_order,int machine)
+void CapStation::stock(int id)
 {
-	manager_msg::activity msg;
 	int8_t place;
 
-	/* TOPIC Générateur de taches : infos sur l'avancement de la tache */
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order);
 	ROS_INFO("Stocking @ place : %d", id);
 
-	goTo(this->m_entryMachine);
-	
+	goTo(m_entryMachine);
+
 	if(id == 0) place = FinalApproachingGoal::S1;
-	else if(id == 1) place = FinalApproachingGoal::S2; 
+	else if(id == 1) place = FinalApproachingGoal::S2;
 	else if(id == 2) place = FinalApproachingGoal::S3;
 
-	this->startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::IN,place);
-	this->take();
-	msg = msgToGT(n_robot,activity::END,machine,n_order);
+	startFinalAp(FinalApproachingGoal::CS,
+               FinalApproachingGoal::IN,
+               place);
+	let();
+
+  majStockID(id, 1);
 }
 
-void CapStation::destock(int id, int n_robot, int n_order,int machine)
+void CapStation::destock(int id)
 {
-	manager_msg::activity msg;
 	int8_t place;
 
-	/* TOPIC Générateur de taches : infos sur l'avancement de la tache */
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order);
 	ROS_INFO("Destocking @ place : %d", id);
 
-	goTo(this->m_entryMachine);
-	
+	goTo(m_entryMachine);
+
 	if(id == 0) place = FinalApproachingGoal::S1;
-	else if(id == 1) place = FinalApproachingGoal::S2; 
+	else if(id == 1) place = FinalApproachingGoal::S2;
 	else if(id == 2) place = FinalApproachingGoal::S3;
 
-	this->startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::IN,place);
-	this->let();
-	msg = msgToGT(n_robot,activity::END,machine,n_order);
+	startFinalAp(FinalApproachingGoal::CS,
+               FinalApproachingGoal::IN,
+               place);
+	let();
+
+  majStockID(id, 0);
 }
 
-void CapStation::uncap(int color, int n_robot, int n_order,int machine)
+void CapStation::uncap()
 {
 	// A verifier si la cs est dispo
 	// si OK : (sinon erreur )
 
-	/* TOPIC Générateur de taches : infos sur l'avancement de la tache */
-	manager_msg::activity msg;
 	int8_t place;
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order);
+
 	ROS_INFO("Uncaping");
 
-	goTo(this->m_entryMachine);
-
+  // vérifier si on a déjà uncap avant
 	if(m_capID[0] == 1)
 	{
 		place = FinalApproachingGoal::S1;
@@ -168,14 +152,21 @@ void CapStation::uncap(int color, int n_robot, int n_order,int machine)
 		m_stockID[2] = 0;
 	}
 
-	this->startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::IN,FinalApproachingGoal::CONVEYOR);
-	this->take();
+  goTo(m_entryMachine);
 
-	this->startFinalAp(FinalApproachingGoal::CS,FinalApproachingGoal::IN,FinalApproachingGoal::CONVEYOR);
-	this->let();
+	startFinalAp(FinalApproachingGoal::CS,
+               FinalApproachingGoal::IN,
+               place);
+	grip();
 
-	//Communication_RefBox( Uncap )
+	startFinalAp(FinalApproachingGoal::CS,
+               FinalApproachingGoal::IN,
+               FinalApproachingGoal::CONVEYOR);
+	let();
 
-	msg = msgToGT(n_robot,activity::END,machine,n_order);
+  //TODO: demander à la refbox de uncap (je sais pas si il faut le demander)
+  // Dire qq part qu'on vient de uncap (voir case orderRequest::BRING_BASE_RS dans GtServerSrv.cpp)
+
+  //XXX: Retourner qqch pour dire que la tâche est réalisée
 
 }

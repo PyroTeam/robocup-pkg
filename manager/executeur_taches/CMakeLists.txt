@@ -170,72 +170,6 @@ set_target_properties(report_all_machines	PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 
 
-add_executable(
-	test_publish
-	src/fake_publisher_node.cpp
-)
-add_dependencies(test_publish manager_msg_gencpp final_approach_msg_gencpp comm_msg_gencpp)
-set_target_properties(test_publish PROPERTIES COMPILE_FLAGS "-std=c++11")
-
-# Test lights
-add_executable(
-  test_lights
-  src/fake_light_server_node.cpp
-)
-add_dependencies(test_lights manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
-
-add_executable(
-	test_order
-
-	src/fake_client_order.cpp
-)
-add_dependencies(
-	test_order
-
-	manager_msg_gencpp
-	final_approach_msg_gencpp
-	comm_msg_gencpp
-)
-target_link_libraries(
-	test_order
-
-	${catkin_LIBRARIES}
-)
-
-
-# Test final_approach
-add_executable(
-  fake_finalApproachingClient
-  src/fake_finalApproachingClient.cpp
-)
-add_dependencies(fake_finalApproachingClient manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
-
-add_executable(
-  test_ei
-  src/fake_publisher_ei.cpp
-)
-add_dependencies(test_ei comm_msg_gencpp)
-
-add_executable(
-  test_arTag
-  src/fake_arTag_server.cpp
-)
-add_dependencies(test_arTag manager_msg_gencpp comm_msg_gencpp trait_im_msg_gencpp)
-
-add_executable(
-  test_report
-  src/fake_server_reporting.cpp
-)
-add_dependencies(test_report comm_msg_gencpp)
-
-add_executable(
-  test_navigation
-  src/fake_action_navigation.cpp
-)
-add_dependencies(test_navigation manager_msg_gencpp comm_msg_gencpp deplacement_msg_gencpp)
-
-
-
 
 ##set_target_properties(test_exec PROPERTIES COMPILE_FLAGS -std=c++0x) # c++ version 11
 ## Add cmake target dependencies of the executable/library
@@ -252,44 +186,7 @@ target_link_libraries(
   manager_utils
   ${catkin_LIBRARIES}
 )
-target_link_libraries(
-  test_publish
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(
-  test_lights
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(
-  test_order
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(
-  test_ei
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(
-  test_arTag
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(
-  test_report
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(
-  test_navigation
-  ${catkin_LIBRARIES}
-)
-#target_link_libraries(
-#  test_topic
-#  ${catkin_LIBRARIES}
-#)
 
-
-target_link_libraries(
-  fake_finalApproachingClient
-  ${catkin_LIBRARIES}
-)
 #############
 ## Install ##
 #############

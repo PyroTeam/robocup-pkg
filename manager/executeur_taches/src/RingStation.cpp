@@ -19,13 +19,12 @@ RingStation::RingStation(int teamColor, int nb)
 : RingStation(teamColor)
 {
 	m_name += std::to_string(nb);
+  if (nb == 1)  m_activiType = activity::CS1;
+  if (nb == 2)  m_activiType = activity::CS2;
 }
 
 /* Destructeur */
 RingStation::~RingStation(){}
-
-/* Fonction Virtuelle */
-void RingStation::FonctionVirtuelle(){}
 
 /* Méthodes */
 int RingStation::getGreenRing()
@@ -61,43 +60,44 @@ void RingStation::majOrange(int nbOrange)
 	m_orangeRing = nbOrange;
 }
 
-void RingStation::put_ring(int color,int n_robot,int n_order,int machine)
+void RingStation::put_ring(int color)
 {
-	// A verifier si la rs est dispo
-	// si OK : (sinon erreur )
-
-	/* TOPIC Générateur de taches : infos sur l'avancement de la tache */
-	manager_msg::activity msg;
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order);
 	ROS_INFO("Putting a Ring, color : %d", color);
 
-	goTo(this->m_entryMachine);
+	goTo(m_entryMachine);
 
-	this->startFinalAp(FinalApproachingGoal::RS, FinalApproachingGoal::IN, FinalApproachingGoal::CONVEYOR);
-	this->let();
+	startFinalAp(FinalApproachingGoal::RS,
+                     FinalApproachingGoal::IN,
+                     FinalApproachingGoal::CONVEYOR);
+	let();
 
-	//Communication_RefBox(je veux un ring de couleur "couleur" )
+  //TODO: demander à la refbox une base de couleur "color" )
 
-	msg = msgToGT(n_robot,activity::END,machine,n_order);
+  //TODO: attendre fin de livraison
+
+  //XXX: Retourner qqch pour dire que la tâche est réalisée
 }
 
-void RingStation::take_ring(int color,int n_robot,int n_order,int machine)
+void RingStation::take_ring() // prendre le produit avec un ring ajouté
 {
-	// A verifier si la rs est dispo (pas en panne uniquement => cz elle sera entrain de faire un ring "noramlement")
-	// si OK : (sinon erreur )
+	goTo(m_exitMachine);
+	startFinalAp(FinalApproachingGoal::RS,
+               FinalApproachingGoal::OUT,
+               FinalApproachingGoal::CONVEYOR);
+	grip();
 
-	/* TOPIC Générateur de taches : infos sur l'avancement de la tache */
-	manager_msg::activity msg;
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order);
-	ROS_INFO("Taking a Ring, color : %d", color);
+  //XXX: Retourner qqch pour dire que la tâche est réalisée
+}
 
-	//Communication_RefBox(give me the product )
+void RingStation::bring_base()
+{
+  //TODO: vérifier si besoin de demander à la refbox l'ajout d'une base additionnelle
+  // Fait automatiquement je pense
+  goTo(m_entryMachine);
+	startFinalAp(FinalApproachingGoal::RS,
+               FinalApproachingGoal::IN,
+               FinalApproachingGoal::LANE_RS);
+	let();
 
-	goTo(this->m_exitMachine);
-
-	// while(Communication_RefBox(rs n'a terminé de livrer))
-
-	this->startFinalAp(FinalApproachingGoal::RS, FinalApproachingGoal::OUT, FinalApproachingGoal::CONVEYOR);
-	this->take();
-	msg = msgToGT(n_robot,activity::END,machine,n_order);
+  //XXX: Retourner qqch pour dire que la tâche est réalisée
 }

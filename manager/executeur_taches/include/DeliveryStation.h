@@ -7,8 +7,8 @@
  * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
-#ifndef DELIVERYSTATION_H
-#define DELIVERYSTATION_H
+#ifndef DELIVERY_STATION_H
+#define DELIVERY_STATION_H
 
 #include "Machine.h"
 
@@ -16,21 +16,15 @@ using namespace manager_msg;
 
 class DeliveryStation : public Machine
 {
-	private:
-
-	public:
-
+public:
 		/* Constructeur */
 		DeliveryStation(int teamColor);
 
-		/* Destructeur */  
+		/* Destructeur */
 		virtual ~DeliveryStation();
 
 		/* Méthodes */
-		virtual void FonctionVirtuelle();
-
-		void deliverToDS(int n_robot, int n_order); 
-  
+		void deliver();
 };
 
 #endif

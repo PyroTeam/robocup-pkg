@@ -7,8 +7,8 @@
  * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
  */
 
-#ifndef CAPSTATION_H
-#define CAPSTATION_H
+#ifndef CAP_STATION_H
+#define CAP_STATION_H
 
 #include "Machine.h"
 
@@ -33,20 +33,21 @@ class CapStation : public Machine
 		/* Destructeur */
 		virtual ~CapStation();
 
-		virtual void FonctionVirtuelle();
-
 		/* Méthodes */
 		int getGreyCap();
 		int getBlackCap();
 		int getStockage(int i);
+
 		void majStockID(int i, int val);
 		void majBlack(int nbNoir);
 		void majGrey(int nbGris);
-		void put_cap(int color, int n_robot, int n_order, int machine);
-		void take_cap(int color, int n_robot, int n_order, int machine);
-		void uncap(int color, int n_robot, int n_order,int machine);
-		void stock(int id, int n_robot, int n_order,int machine);
-		void destock(int id, int n_robot, int n_order,int machine);
+
+		void put_cap(int color);
+		void take_cap();
+
+		void uncap();
+		void stock(int id);
+		void destock(int id);
 };
 
 #endif

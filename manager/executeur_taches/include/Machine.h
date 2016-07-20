@@ -40,10 +40,10 @@ class Machine
 		geometry_msgs::Pose2D m_entryMachine;
 		geometry_msgs::Pose2D m_exitMachine;
 		int m_zone;
-		bool m_isHere;
 		bool m_orientationOk;
 		std::string m_name;
 		int m_faType;
+    int m_activiType;
 
 	public:
 		/* Constructeur */
@@ -51,8 +51,6 @@ class Machine
 
 		/* Destructeur */
 		virtual ~Machine();
-
-		virtual void FonctionVirtuelle() = 0;
 
 		/* méthodes */
 		std::string getType();
@@ -64,15 +62,15 @@ class Machine
 		void majEntry(geometry_msgs::Pose2D point);
 		void majExit(geometry_msgs::Pose2D point);
 
-		manager_msg::activity msgToGT(int n_robot, int stateOfOrder, int machine, int n_order);
-
 		void goTo(geometry_msgs::Pose2D pt_dest);
-		void take();
+		void grip();
 		void let();
 		void startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter);
 		int getFaType(){ return m_faType; }
+		int getActiviType(){ return m_activiType; }
 		const char *getName(){ return m_name.c_str(); }
 
+    bool isDS(int id);
 };
 
 #endif

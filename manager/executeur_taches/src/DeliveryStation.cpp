@@ -8,34 +8,26 @@ DeliveryStation::DeliveryStation(int teamColor)
 {
 	m_name += "DS";
 	m_faType = FinalApproachingGoal::DS;
+  m_activiType = activity::DS;
 	m_type = "DeliveryStation";
 }
 
 /* Destructeur */
 DeliveryStation::~DeliveryStation(){}
 
-/* Fonction Virtuelle */
-void DeliveryStation::FonctionVirtuelle(){}
-
 /* Méthodes */
-void DeliveryStation::deliverToDS(int n_robot, int n_order)
-{ 
-	// A verifier si la ds est dispo
-	// si OK : (sinon erreur )
-
-	/* TOPIC Générateur de taches : infos sur l'avancement de la tache */
-	manager_msg::activity msg;
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,activity::DS,n_order); 
-
+void DeliveryStation::deliver()
+{
 	ROS_INFO("Delivering the product to the ds ");
 
-	goTo(this->m_entryMachine);
+	goTo(m_entryMachine);
 
-	this->startFinalAp(FinalApproachingGoal::DS, FinalApproachingGoal::IN, FinalApproachingGoal::CONVEYOR);
-	this->let();
+	startFinalAp(FinalApproachingGoal::DS,
+               FinalApproachingGoal::IN,
+               FinalApproachingGoal::CONVEYOR);
+	let();
 
-	//Communication_RefBox(je delivre le produit d'ordre n_order )
+  //TODO: demander à la refbox la bonne lane
 
-	msg = msgToGT(n_robot,activity::END,activity::DS,n_order); 
+	//TODO: attendre fin de livraison
  }
-

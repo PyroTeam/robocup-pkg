@@ -11,6 +11,7 @@
 #define MYELEMENTS_H
 
 #include "common_utils/types.h"
+#include "manager_msg/order.h"
 
 #include "Machine.h"
 #include "BaseStation.h"
@@ -44,8 +45,10 @@ class MyElements
 		BaseStation& getBS();
 		RingStation& getRS1();
 		RingStation& getRS2();
+		RingStation& getRS(int color);
 		CapStation&  getCS1();
 		CapStation&  getCS2();
+		CapStation&  getCS(int color);
 		DeliveryStation& getDS();
 		Machine *getMachineFromTag(int arTag);
 
