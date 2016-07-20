@@ -273,165 +273,183 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,
             /*
             Si base présente en sortie de CS
             {
-            msgToGT(activity::IN_PROGRESS, activity::CS, req.number_order);
-            m_elements.getCS(justUncap).takeRaw()
-          }
-          Sinon
-          {
-          msgToGT(activity::IN_PROGRESS, activity::BS, req.number_order);
-          m_elements.getBS().take(req.parameter);
-        }
+              msgToGT(activity::IN_PROGRESS, activity::CS, req.number_order);
+              m_elements.getCS(justUncap).takeRaw()
+            }
+            Sinon
+            {
+              msgToGT(activity::IN_PROGRESS, activity::BS, req.number_order);
+              m_elements.getBS().take(req.parameter);
+            }
 
-        msgToGT(activity::IN_PROGRESS, activity::RS1, req.number_order);
+            msgToGT(activity::IN_PROGRESS, activity::RS1, req.number_order);
         OU  msgToGT(activity::IN_PROGRESS, activity::RS2, req.number_order);
 
-        m_elements.getRS(req.parameter).bring_base();
-        msgToGT(activity::END, activity::BS, req.number_order);
-        */
-      }
-      break;
-
-      case orderRequest::DELIVER:
-      {
-        // proposition : m_elements.deliver(req.parameter); + msgToGT en dehors de cette fonction
-        // TODO: fonction qui retourne la DS ou la CS la plus proche du robot où il y a un emplacement de stockage libre
-        switch(req.parameter)
-        {
-          case orderRequest::DS :
-          {
-            msgToGT(activity::IN_PROGRESS,activity::DS,req.number_order);
-            m_elements.getDS().deliver();
-            msgToGT(activity::END,activity::DS,req.number_order);
+            m_elements.getRS(req.parameter).bring_base();
+            msgToGT(activity::END, activity::BS, req.number_order);
+            */
           }
           break;
 
-          case orderRequest::STOCK :
-          // TODO: Trouver une meilleure façon de stocker / destocker
-          // On ne sait pas ce qui est stocké et à quel endroit ?
-          int i = 0;
-          for(i = 0; i<3; i++)
+          case orderRequest::DELIVER:
           {
-            if(m_elements.getCS1().getStockage(i) == 0)
+            // proposition : m_elements.deliver(req.parameter); + msgToGT en dehors de cette fonction
+            // TODO: fonction qui retourne la DS ou la CS la plus proche du robot où il y a un emplacement de stockage libre
+            switch(req.parameter)
             {
-              m_elements.getCS1().stock(i);
+              case orderRequest::DS :
+              {
+                msgToGT(activity::IN_PROGRESS,activity::DS,req.number_order);
+                m_elements.getDS().deliver();
+                msgToGT(activity::END,activity::DS,req.number_order);
+              }
+              break;
+
+              case orderRequest::STOCK :
+              // TODO: Trouver une meilleure façon de stocker / destocker
+              // On ne sait pas ce qui est stocké et à quel endroit ?
+              int i = 0;
+              for(i = 0; i<3; i++)
+              {
+                if(m_elements.getCS1().getStockage(i) == 0)
+                {
+                  m_elements.getCS1().stock(i);
+                  break;
+                }
+                else if(m_elements.getCS2().getStockage(i+3) == 0)
+                {
+                  m_elements.getCS2().stock(i+3);
+                  break;
+                }
+                else
+                {
+                  if(i == 3 ) ROS_ERROR("ERROR: no more place to stock ");
+                }
+              }
               break;
             }
-            else if(m_elements.getCS2().getStockage(i+3) == 0)
+          }
+          break;
+
+          case orderRequest::UNCAP:
+          // Après un UNCAP, la base est amenée en sortie de la CS et ne sert que comme ADDITIONNAL BASE
+          // Peut-être faudrait il prévoir d'amener cette base à une RS ?
+          {
+            // déterminer de quelle machine il s'agit
+            CapStation cs = m_elements.getCS(req.parameter);
+            int machineName = cs.getActiviType();
+
+            msgToGT(activity::IN_PROGRESS,machineName,req.number_order);
+            cs.uncap();
+            msgToGT(activity::END,machineName,req.number_order);
+          }
+          break;
+
+          case orderRequest::DESTOCK:
+          {
+            // TODO: Trouver une meilleure façon de stocker / destocker
+            if(req.id >= 0 && req.id < 3)
             {
-              m_elements.getCS2().stock(i+3);
-              break;
+              msgToGT(activity::IN_PROGRESS,activity::CS1,req.number_order);
+              m_elements.getCS1().destock(req.id);
+              res.accepted = true;
+              res.needToResendOrder = false;
+              msgToGT(activity::END,activity::CS1,req.number_order);
+            }
+            else if(req.id >= 3 && req.id < 6)
+            {
+              msgToGT(activity::IN_PROGRESS,activity::CS2,req.number_order);
+              m_elements.getCS2().destock(req.id);
+              res.accepted = true;
+              res.needToResendOrder = false;
+              msgToGT(activity::END,activity::CS2,req.number_order);
             }
             else
             {
-              if(i == 3 ) ROS_ERROR("ERROR: no more place to stock ");
+              ROS_ERROR("ERROR: req.id is not between 0 and 5 ");
+              res.accepted =false;
+              res.needToResendOrder = true;
             }
           }
           break;
-        }
-      }
-      break;
 
-      case orderRequest::UNCAP:
-      // Après un UNCAP, la base est amenée en sortie de la CS et ne sert que comme ADDITIONNAL BASE
-      // Peut-être faudrait il prévoir d'amener cette base à une RS ?
-      {
-        // déterminer de quelle machine il s'agit
-        CapStation cs = m_elements.getCS(req.parameter);
-        int machineName = cs.getActiviType();
-
-        msgToGT(activity::IN_PROGRESS,machineName,req.number_order);
-        cs.uncap();
-        msgToGT(activity::END,machineName,req.number_order);
-      }
-      break;
-
-      case orderRequest::DESTOCK:
-      {
-        // TODO: Trouver une meilleure façon de stocker / destocker
-        if(req.id >= 0 && req.id < 3)
-        {
-          msgToGT(activity::IN_PROGRESS,activity::CS1,req.number_order);
-          m_elements.getCS1().destock(req.id);
-          res.accepted = true;
-          res.needToResendOrder = false;
-          msgToGT(activity::END,activity::CS1,req.number_order);
-        }
-        else if(req.id >= 3 && req.id < 6)
-        {
-          msgToGT(activity::IN_PROGRESS,activity::CS2,req.number_order);
-          m_elements.getCS2().destock(req.id);
-          res.accepted = true;
-          res.needToResendOrder = false;
-          msgToGT(activity::END,activity::CS2,req.number_order);
-        }
-        else
-        {
-          ROS_ERROR("ERROR: req.id is not between 0 and 5 ");
-          res.accepted =false;
-          res.needToResendOrder = true;
-        }
-      }
-      break;
-
-      case orderRequest::DISCOVER:
-      {
-        Machine *machine = NULL;
-        geometry_msgs::Pose2D firstSidePoint, secondSidePoint;
-        geometry_msgs::Pose2D tmpFirstPoint, tmpSecondPoint;
-
-        int machineSideId = 0;
-        ReportingMachineSrvClient reportClient;
-
-        ROS_INFO("Let's explore zone %d", req.id);
-
-        m_ls->spin();
-
-        res.accepted = true;
-        res.needToResendOrder =  false;
-
-        // si on ne connait pas la machine à cet instant et qu'on ne connait pas toutes les machines
-        if (!knownMachineInZone(req.id) && !m_ls->haveAllTheMachines())
-        {
-          // A partir de zone -> déterminer premier coin zone (plus accessible)
-          // TODO: choix judicieux du coin à déterminer
-          interpretationZone(req.id, BOTTOM_LEFT);
-
-          //ROS_INFO("Point Target Bottom Left (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
-          ROS_INFO("Point Target Bottom Left");
-
-          // Se déplacer au premier coin zone
-          // on redemande au maximume 3 fois en cas de collision avec un mur
-          if (!going(m_explo_target, 3))
+          case orderRequest::DISCOVER:
           {
-            res.accepted = false;
-            res.needToResendOrder = true;
-            break;
-          }
-          // refresh machines
-          m_ls->spin();
+            Machine *machine = NULL;
+            geometry_msgs::Pose2D firstSidePoint, secondSidePoint;
+            geometry_msgs::Pose2D tmpFirstPoint, tmpSecondPoint;
 
-          // Si machine NON présente
-          if (!knownMachineInZone(req.id) && !m_ls->haveAllTheMachines())
-          {
-            ROS_INFO("No known Machine in this area %d", req.id);
-            // TODO: choix judicieux du coin à déterminer
-            interpretationZone(req.id, BOTTOM_RIGHT);
-            //ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
-            ROS_INFO("Point Target Bottom Right");
+            int machineSideId = 0;
+            ReportingMachineSrvClient reportClient;
 
-            // Se rendre au second coin zone
-            if (!going(m_explo_target, 3))
-            {
-              res.accepted = false;
-              res.needToResendOrder = true;
-              break;
-            }
-            // refresh machines
+            ROS_INFO("Let's explore zone %d", req.id);
+
             m_ls->spin();
 
-            // A partir detection machine -> voir si machine présente
-            // Si machine toujours NON présente, abandon
-            if (!knownMachineInZone(req.id))
+            res.accepted = true;
+            res.needToResendOrder =  false;
+
+            // si on ne connait pas la machine à cet instant et qu'on ne connait pas toutes les machines
+            if (!knownMachineInZone(req.id) && !m_ls->haveAllTheMachines())
+            {
+              // A partir de zone -> déterminer premier coin zone (plus accessible)
+              // TODO: choix judicieux du coin à déterminer
+              interpretationZone(req.id, BOTTOM_LEFT);
+
+              //ROS_INFO("Point Target Bottom Left (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
+              ROS_INFO("Point Target Bottom Left");
+
+              // Se déplacer au premier coin zone
+              // on redemande au maximume 3 fois en cas de collision avec un mur
+              if (!going(m_explo_target, 3))
+              {
+                res.accepted = false;
+                res.needToResendOrder = true;
+                break;
+              }
+              // refresh machines
+              m_ls->spin();
+
+              // Si machine NON présente
+              if (!knownMachineInZone(req.id) && !m_ls->haveAllTheMachines())
+              {
+                ROS_INFO("No known Machine in this area %d", req.id);
+                // TODO: choix judicieux du coin à déterminer
+                interpretationZone(req.id, BOTTOM_RIGHT);
+                //ROS_INFO("Point Target BottRight (%f, %f) theta: %f", m_explo_target.x, m_explo_target.y, m_explo_target.theta);
+                ROS_INFO("Point Target Bottom Right");
+
+                // Se rendre au second coin zone
+                if (!going(m_explo_target, 3))
+                {
+                  res.accepted = false;
+                  res.needToResendOrder = true;
+                  break;
+                }
+                // refresh machines
+                m_ls->spin();
+
+                // A partir detection machine -> voir si machine présente
+                // Si machine toujours NON présente, abandon
+                if (!knownMachineInZone(req.id))
+                {
+                  // TODO: abandonner le service
+                  ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
+                  res.accepted = false;
+                  res.needToResendOrder = false;
+                  break;
+                }
+              }
+              else if (!knownMachineInZone(req.id) && m_ls->haveAllTheMachines())
+              {
+                // TODO: abandonner le service
+                ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
+                res.accepted = false;
+                res.needToResendOrder = false;
+                break;
+              }
+            }
+            else if (!knownMachineInZone(req.id) && m_ls->haveAllTheMachines())
             {
               // TODO: abandonner le service
               ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
@@ -439,95 +457,12 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,
               res.needToResendOrder = false;
               break;
             }
-          }
-          else if (!knownMachineInZone(req.id) && m_ls->haveAllTheMachines())
-          {
-            // TODO: abandonner le service
-            ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
-            res.accepted = false;
-            res.needToResendOrder = false;
-            break;
-          }
-        }
-        else if (!knownMachineInZone(req.id) && m_ls->haveAllTheMachines())
-        {
-          // TODO: abandonner le service
-          ROS_INFO("There is definitely no machine in this zone %d. Abort request", req.id);
-          res.accepted = false;
-          res.needToResendOrder = false;
-          break;
-        }
 
-        // Si machine présente, déterminer point devant machine
+            // Si machine présente, déterminer point devant machine
 
-        // Calculer les deux points devant la machine
-        m_ls->spin();
-        getSidePoints(req.id, tmpFirstPoint, tmpSecondPoint);
-        firstSidePoint = tmpFirstPoint;
-        secondSidePoint = tmpSecondPoint;
-
-        // Se rendre au point devant la machine
-        // utiliser le point le plus proche
-
-        // Si l'orientation de la machine est bonne, on choisit le premier point,
-        // qui est la sortie de la machine (sauf pour la DS)
-        if (m_ls->machines()[req.id-1].orientationOk)
-        {
-          if (!machine->isDS(machineSideId))
-          {
-            firstSidePoint = tmpFirstPoint;
-            secondSidePoint = tmpSecondPoint;
-          }
-          else
-          {
-            firstSidePoint = tmpSecondPoint;
-            secondSidePoint = tmpFirstPoint;
-          }
-        }
-        // Sinon on se dirige vers le point le plus proche
-        else
-        {
-          geometry_msgs::Pose2D actualPose = m_poseSub.getPose2D();
-          double firstDistance = geometry_utils::distance(actualPose,tmpFirstPoint);
-          double secondDistance = geometry_utils::distance(actualPose,tmpSecondPoint);
-
-          if(secondDistance < firstDistance)
-          {
-            firstSidePoint = tmpSecondPoint;
-            secondSidePoint = tmpFirstPoint;
-          }
-        }
-
-        // TODO: Le going ci-dessous peut avoir demandé un déplacement très
-        // long et qui plus est sur une machine que l'on n'avait jamais
-        // réellement vue (mirroring de machines).
-        // Il est donc possible et probable qu'on ne soit pas face à la machine
-        // Il est nécéssaire de refaire la procédure de going dans ce cas
-        // TODO: A decomenter pour tester et / ou integrer
-        bool use_workaround = false;
-        m_nh.getParamCached("/workaround", use_workaround);
-
-        // TODO: gérer les cas d'erreurs de going
-        // Ne pas abort si on utilise le workaround, il faut réessayer un nouveau side point
-        if (!going(firstSidePoint) && !use_workaround)
-        {
-          res.accepted = false;
-          res.needToResendOrder = true;
-          break;
-        }
-
-        m_ls->spin();
-        if (use_workaround)
-        {
-          ROS_WARN_ONCE("Exec Task workaround currently in use !!!");
-          const float sidePointsMargin = 0.06; // 6cm
-          geometry_msgs::Pose2D oldTmpFirstPoint = tmpFirstPoint;
-          getSidePoints(req.id, tmpFirstPoint, tmpSecondPoint);
-          float dist = geometry_utils::distance(tmpFirstPoint, oldTmpFirstPoint);
-          if (dist > sidePointsMargin)
-          {
-            ROS_WARN("Robot was too badly placed, maybe after a swapped exploration. (Error: %f m). Will retry once.", dist);
-
+            // Calculer les deux points devant la machine
+            m_ls->spin();
+            getSidePoints(req.id, tmpFirstPoint, tmpSecondPoint);
             firstSidePoint = tmpFirstPoint;
             secondSidePoint = tmpSecondPoint;
 
@@ -563,8 +498,18 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,
               }
             }
 
+            // TODO: Le going ci-dessous peut avoir demandé un déplacement très
+            // long et qui plus est sur une machine que l'on n'avait jamais
+            // réellement vue (mirroring de machines).
+            // Il est donc possible et probable qu'on ne soit pas face à la machine
+            // Il est nécéssaire de refaire la procédure de going dans ce cas
+            // TODO: A decomenter pour tester et / ou integrer
+            bool use_workaround = false;
+            m_nh.getParamCached("/workaround", use_workaround);
+
             // TODO: gérer les cas d'erreurs de going
-            if (!going(firstSidePoint))
+            // Ne pas abort si on utilise le workaround, il faut réessayer un nouveau side point
+            if (!going(firstSidePoint) && !use_workaround)
             {
               res.accepted = false;
               res.needToResendOrder = true;
@@ -572,144 +517,199 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req,
             }
 
             m_ls->spin();
+            if (use_workaround)
+            {
+              ROS_WARN_ONCE("Exec Task workaround currently in use !!!");
+              const float sidePointsMargin = 0.06; // 6cm
+              geometry_msgs::Pose2D oldTmpFirstPoint = tmpFirstPoint;
+              getSidePoints(req.id, tmpFirstPoint, tmpSecondPoint);
+              float dist = geometry_utils::distance(tmpFirstPoint, oldTmpFirstPoint);
+              if (dist > sidePointsMargin)
+              {
+                ROS_WARN("Robot was too badly placed, maybe after a swapped exploration. (Error: %f m). Will retry once.", dist);
 
-          }
-        }
+                firstSidePoint = tmpFirstPoint;
+                secondSidePoint = tmpSecondPoint;
+
+                // Se rendre au point devant la machine
+                // utiliser le point le plus proche
+
+                // Si l'orientation de la machine est bonne, on choisit le premier point,
+                // qui est la sortie de la machine (sauf pour la DS)
+                if (m_ls->machines()[req.id-1].orientationOk)
+                {
+                  if (!machine->isDS(machineSideId))
+                  {
+                    firstSidePoint = tmpFirstPoint;
+                    secondSidePoint = tmpSecondPoint;
+                  }
+                  else
+                  {
+                    firstSidePoint = tmpSecondPoint;
+                    secondSidePoint = tmpFirstPoint;
+                  }
+                }
+                // Sinon on se dirige vers le point le plus proche
+                else
+                {
+                  geometry_msgs::Pose2D actualPose = m_poseSub.getPose2D();
+                  double firstDistance = geometry_utils::distance(actualPose,tmpFirstPoint);
+                  double secondDistance = geometry_utils::distance(actualPose,tmpSecondPoint);
+
+                  if(secondDistance < firstDistance)
+                  {
+                    firstSidePoint = tmpSecondPoint;
+                    secondSidePoint = tmpFirstPoint;
+                  }
+                }
+
+                // TODO: gérer les cas d'erreurs de going
+                if (!going(firstSidePoint))
+                {
+                  res.accepted = false;
+                  res.needToResendOrder = true;
+                  break;
+                }
+
+                m_ls->spin();
+
+              }
+            }
 
 
-        // Récupérer ArTag ID
-        // TODO: mettre ArTagClient en membre de classe
-        ArTagClienSrv atg;
-        machineSideId = atg.askForId();
-        for(int i=0; i < 3 ; ++i)
-        {
-          if(!common_utils::exists(machineSideId))
-          {
-            usleep(100000);
+            // Récupérer ArTag ID
+            // TODO: mettre ArTagClient en membre de classe
+            ArTagClienSrv atg;
             machineSideId = atg.askForId();
-          }
-        }
+            for(int i=0; i < 3 ; ++i)
+            {
+              if(!common_utils::exists(machineSideId))
+              {
+                usleep(100000);
+                machineSideId = atg.askForId();
+              }
+            }
 
-        machine = m_elements.getMachineFromTag(machineSideId);
-        if (machine == nullptr)
-        {
-          ROS_ERROR("Unable to get correct AR Tag from this machine. Abort service");
-          res.accepted = false;
-          res.needToResendOrder = true;
+            machine = m_elements.getMachineFromTag(machineSideId);
+            if (machine == nullptr)
+            {
+              ROS_ERROR("Unable to get correct AR Tag from this machine. Abort service");
+              res.accepted = false;
+              res.needToResendOrder = true;
+              break;
+            }
+
+            machine->majCenter(m_ls->machines()[req.id - 1].pose);
+
+            // Vérifier si INPUT (TODO: à vérifier)
+            if(isInput(machineSideId) && !machine->isDS(machineSideId))
+            {
+              // Si OUI
+              machine->majEntry(firstSidePoint);
+              machine->majExit(secondSidePoint);
+              ROS_INFO("I see an input of a machine with the angle %f", machine->getCenterMachine().theta);
+
+              // Se rendre ou point devant autre côté de la machine
+              if (!going(secondSidePoint))
+              {
+                res.accepted = false;
+                res.needToResendOrder = true;
+                break;
+              }
+              m_ls->spin();
+              // Récupérer ArTag ID
+              machineSideId = atg.askForId();
+              for(int i=0; i < 3 ; ++i)
+              {
+                if(!common_utils::exists(machineSideId))
+                {
+                  usleep(100000);
+                  machineSideId = atg.askForId();
+                }
+              }
+
+              // Vérifier si INPUT, si OUI abandonner
+              if(isInput(machineSideId))
+              {
+                // TODO: abandonner le service
+                ROS_ERROR("Unable to reach output for this MPS. Abort service");
+                res.accepted = false;
+                res.needToResendOrder = true;
+                break;
+              }
+            }
+            else
+            {
+              machine->majEntry(secondSidePoint);
+              machine->majExit(firstSidePoint);
+            }
+
+
+            // Approche finale, objectif FEU
+            // TODO: Uncomment
+            FinalApproachingClient fa_c;
+            machineSideId = atg.askForId();
+            for(int i=0; i < 3 ; ++i)
+            {
+              if(!common_utils::exists(machineSideId))
+              {
+                usleep(100000);
+                machineSideId = atg.askForId();
+              }
+            }
+
+            if(machine->isDS(machineSideId))
+            {
+              fa_c.starting(machine->getFaType(), FinalApproachingGoal::IN, FinalApproachingGoal::LIGHT);
+            }
+            else
+            {
+              fa_c.starting(machine->getFaType(), FinalApproachingGoal::OUT, FinalApproachingGoal::LIGHT);
+            }
+
+            if(fa_c.getSuccess())
+            {
+              // Traitement d'image, détection FEU
+              FeuClientAction f_c;
+              f_c.lightsStates(m_ei->m_lSpec);
+
+              // Interprétation type à partir de LightSignal
+              m_ei->interpretationFeu();
+
+              // Reporter machine
+              reportClient.reporting(machine->getName(), m_ei->type, req.id);
+            }
+            else
+            {
+              // Reporter machine avec feu vide
+              reportClient.reporting(machine->getName(), "", req.id);
+            }
+
+            m_ls->spin();
+
+          } // end of discover order
+          break;
+
+          default:
           break;
         }
+        //if(req.id != 0) ROS_INFO(" DESTOCKAGE à l'endroit d'id = %d", (int) req.id);
+        //else ROS_INFO(" NON DESTOCKAGE ");
+        msgToGT(activity::END,activity::NONE,req.id);
+        // res.accepted = true;
+        // res.needToResendOrder =  false;
+      }
+      else
+      {
+        ROS_WARN("Request for another robot");
+        res.accepted = false;
+        res.needToResendOrder = true;
+      }
 
-        machine->majCenter(m_ls->machines()[req.id - 1].pose);
+      /* VERIFICATIONS */
+      ROS_INFO("Requested (reminder): nb_order=%d, nb_robot=%d, type=%d, parameter=%d, id=%d"
+      , (int)req.number_order, (int)req.number_robot, (int)req.type, (int)req.parameter, (int)req.id);
+      ROS_INFO("Response: nb_order=%d, nb_robot=%d", (int)res.number_order, (int)res.number_robot);
 
-        // Vérifier si INPUT (TODO: à vérifier)
-        if(isInput(machineSideId) && !machine->isDS(machineSideId))
-        {
-          // Si OUI
-          machine->majEntry(firstSidePoint);
-          machine->majExit(secondSidePoint);
-          ROS_INFO("I see an input of a machine with the angle %f", machine->getCenterMachine().theta);
-
-          // Se rendre ou point devant autre côté de la machine
-          if (!going(secondSidePoint))
-          {
-            res.accepted = false;
-            res.needToResendOrder = true;
-            break;
-          }
-          m_ls->spin();
-          // Récupérer ArTag ID
-          machineSideId = atg.askForId();
-          for(int i=0; i < 3 ; ++i)
-          {
-            if(!common_utils::exists(machineSideId))
-            {
-              usleep(100000);
-              machineSideId = atg.askForId();
-            }
-          }
-
-          // Vérifier si INPUT, si OUI abandonner
-          if(isInput(machineSideId))
-          {
-            // TODO: abandonner le service
-            ROS_ERROR("Unable to reach output for this MPS. Abort service");
-            res.accepted = false;
-            res.needToResendOrder = true;
-            break;
-          }
-        }
-        else
-        {
-          machine->majEntry(secondSidePoint);
-          machine->majExit(firstSidePoint);
-        }
-
-
-        // Approche finale, objectif FEU
-        // TODO: Uncomment
-        FinalApproachingClient fa_c;
-        machineSideId = atg.askForId();
-        for(int i=0; i < 3 ; ++i)
-        {
-          if(!common_utils::exists(machineSideId))
-          {
-            usleep(100000);
-            machineSideId = atg.askForId();
-          }
-        }
-
-        if(machine->isDS(machineSideId))
-        {
-          fa_c.starting(machine->getFaType(), FinalApproachingGoal::IN, FinalApproachingGoal::LIGHT);
-        }
-        else
-        {
-          fa_c.starting(machine->getFaType(), FinalApproachingGoal::OUT, FinalApproachingGoal::LIGHT);
-        }
-
-        if(fa_c.getSuccess())
-        {
-          // Traitement d'image, détection FEU
-          FeuClientAction f_c;
-          f_c.lightsStates(m_ei->m_lSpec);
-
-          // Interprétation type à partir de LightSignal
-          m_ei->interpretationFeu();
-
-          // Reporter machine
-          reportClient.reporting(machine->getName(), m_ei->type, req.id);
-        }
-        else
-        {
-          // Reporter machine avec feu vide
-          reportClient.reporting(machine->getName(), "", req.id);
-        }
-
-        m_ls->spin();
-
-      } // end of discover order
-      break;
-
-      default:
-      break;
+      return true;
     }
-    //if(req.id != 0) ROS_INFO(" DESTOCKAGE à l'endroit d'id = %d", (int) req.id);
-    //else ROS_INFO(" NON DESTOCKAGE ");
-    msgToGT(activity::END,activity::NONE,req.id);
-    // res.accepted = true;
-    // res.needToResendOrder =  false;
-  }
-  else
-  {
-    ROS_WARN("Request for another robot");
-    res.accepted = false;
-    res.needToResendOrder = true;
-  }
-
-  /* VERIFICATIONS */
-  ROS_INFO("Requested (reminder): nb_order=%d, nb_robot=%d, type=%d, parameter=%d, id=%d"
-  , (int)req.number_order, (int)req.number_robot, (int)req.type, (int)req.parameter, (int)req.id);
-  ROS_INFO("Response: nb_order=%d, nb_robot=%d", (int)res.number_order, (int)res.number_robot);
-
-  return true;
-}
