@@ -20,8 +20,8 @@ CapStation::CapStation(int teamColor, int number)
 : CapStation(teamColor)
 {
     m_name += std::to_string(number);
-    assert(number < 1);
-    assert(number > 2);
+    assert(number >= 1);
+    assert(number <= 2);
     if (number == 1)
     {
         m_activityType = activity::CS1;

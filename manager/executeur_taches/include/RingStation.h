@@ -24,7 +24,7 @@ private:
 
 public:
     RingStation(int teamColor);
-    RingStation(int teamColor, int nb);
+    RingStation(int teamColor, int number);
 
     /* Destructeur */
     virtual ~RingStation();

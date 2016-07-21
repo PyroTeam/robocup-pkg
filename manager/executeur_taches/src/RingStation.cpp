@@ -14,12 +14,12 @@ RingStation::RingStation(int teamColor)
     m_orangeRing = 0;
 }
 
-RingStation::RingStation(int teamColor, int nb) : RingStation(teamColor)
+RingStation::RingStation(int teamColor, int number) : RingStation(teamColor)
 {
-    m_name += std::to_string(nb);
-    assert(nb < 1);
-    assert(nb > 2);
-    if (nb == 1)
+    m_name += std::to_string(number);
+    assert(number >= 1);
+    assert(number <= 2);
+    if (number == 1)
     {
         m_activityType = activity::CS1;
     }
