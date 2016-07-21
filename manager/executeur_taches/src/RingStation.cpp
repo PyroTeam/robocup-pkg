@@ -2,102 +2,116 @@
 
 #include "RingStation.h"
 
-/* Constructeur */
 RingStation::RingStation(int teamColor)
 : Machine(teamColor)
 {
-	m_name += "RS";
-	m_faType = FinalApproachingGoal::RS;
-	m_type = "RingStation";
-	m_greenRing = 0;
-	m_yellowRing = 0;
-	m_blueRing = 0;
-	m_orangeRing = 0;
+    m_name += "RS";
+    m_faType = FinalApproachingGoal::RS;
+    m_type = "RingStation";
+    m_greenRing = 0;
+    m_yellowRing = 0;
+    m_blueRing = 0;
+    m_orangeRing = 0;
 }
 
-RingStation::RingStation(int teamColor, int nb)
-: RingStation(teamColor)
+RingStation::RingStation(int teamColor, int nb) : RingStation(teamColor)
 {
-	m_name += std::to_string(nb);
-  if (nb == 1)  m_activiType = activity::CS1;
-  if (nb == 2)  m_activiType = activity::CS2;
+    m_name += std::to_string(nb);
+    assert(nb < 1);
+    assert(nb > 2);
+    if (nb == 1)
+    {
+        m_activityType = activity::CS1;
+    }
+    else
+    {
+        m_activityType = activity::CS2;
+    }
 }
 
-/* Destructeur */
 RingStation::~RingStation(){}
 
-/* Méthodes */
 int RingStation::getGreenRing()
 {
-	return m_greenRing;
+    return m_greenRing;
 }
+
 int RingStation::getYellowRing()
 {
-	return m_yellowRing;
+    return m_yellowRing;
 }
+
 int RingStation::getBlueRing()
 {
-	return m_blueRing;
+    return m_blueRing;
 }
+
 int RingStation::getOrangeRing()
 {
-	return m_orangeRing;
+    return m_orangeRing;
 }
+
 void RingStation::majGreen(int nbVert)
 {
-	m_greenRing = nbVert;
+    m_greenRing = nbVert;
 }
+
 void RingStation::majYellow(int nbJaune)
 {
-	m_yellowRing = nbJaune;
+    m_yellowRing = nbJaune;
 }
+
 void RingStation::majBlue(int nbBleu)
 {
-	m_blueRing = nbBleu;
+    m_blueRing = nbBleu;
 }
+
 void RingStation::majOrange(int nbOrange)
 {
-	m_orangeRing = nbOrange;
+    m_orangeRing = nbOrange;
 }
 
-void RingStation::put_ring(int color)
+void RingStation::put_ring(int ringColor)
 {
-	ROS_INFO("Putting a Ring, color : %d", color);
+    ROS_INFO("Putting a Ring, color : %d", ringColor);
 
-	goTo(m_entryMachine);
+    goTo(m_entryMachine);
 
-	startFinalAp(FinalApproachingGoal::RS,
-                     FinalApproachingGoal::IN,
-                     FinalApproachingGoal::CONVEYOR);
-	let();
+    startFinalAp(FinalApproachingGoal::RS,
+                 FinalApproachingGoal::IN,
+                 FinalApproachingGoal::CONVEYOR);
 
-  //TODO: demander à la refbox une base de couleur "color" )
+    let();
 
-  //TODO: attendre fin de livraison
+    //TODO: demander à la refbox une base de couleur "color" )
 
-  //XXX: Retourner qqch pour dire que la tâche est réalisée
+    //TODO: attendre fin de livraison
+
+    //XXX: Retourner qqch pour dire que la tâche est réalisée
 }
 
 void RingStation::take_ring() // prendre le produit avec un ring ajouté
 {
-	goTo(m_exitMachine);
-	startFinalAp(FinalApproachingGoal::RS,
-               FinalApproachingGoal::OUT,
-               FinalApproachingGoal::CONVEYOR);
-	grip();
+    goTo(m_exitMachine);
+    startFinalAp(FinalApproachingGoal::RS,
+                 FinalApproachingGoal::OUT,
+                 FinalApproachingGoal::CONVEYOR);
 
-  //XXX: Retourner qqch pour dire que la tâche est réalisée
+    grip();
+
+    //XXX: Retourner qqch pour dire que la tâche est réalisée
 }
 
 void RingStation::bring_base()
 {
-  //TODO: vérifier si besoin de demander à la refbox l'ajout d'une base additionnelle
-  // Fait automatiquement je pense
-  goTo(m_entryMachine);
-	startFinalAp(FinalApproachingGoal::RS,
-               FinalApproachingGoal::IN,
-               FinalApproachingGoal::LANE_RS);
-	let();
+    //TODO: vérifier si besoin de demander à la refbox l'ajout d'une base additionnelle
+    // Fait automatiquement je pense
+    goTo(m_entryMachine);
+    startFinalAp(FinalApproachingGoal::RS,
+                 FinalApproachingGoal::IN,
+                 FinalApproachingGoal::LANE_RS);
 
-  //XXX: Retourner qqch pour dire que la tâche est réalisée
+    let();
+
+    //XXX: Retourner qqch pour dire que la tâche est réalisée
 }

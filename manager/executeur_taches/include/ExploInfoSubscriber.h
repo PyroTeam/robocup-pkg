@@ -23,13 +23,9 @@
 class ExploInfoSubscriber
 {
   public:
-    /* Constructeur */
     ExploInfoSubscriber();
-
-    /* Destructeur */
     virtual  ~ExploInfoSubscriber();
 
-    /* Méthodes */
     void tesCallback(const comm_msg::ExplorationInfo &msg);
     void interpretationFeu();
 

@@ -43,7 +43,7 @@ class Machine
 		bool m_orientationOk;
 		std::string m_name;
 		int m_faType;
-    int m_activiType;
+    int m_activityType;
 
 	public:
 		/* Constructeur */
@@ -67,7 +67,7 @@ class Machine
 		void let();
 		void startFinalAp(int8_t machineType, int8_t machineSide, int8_t machineParameter);
 		int getFaType(){ return m_faType; }
-		int getActiviType(){ return m_activiType; }
+		int getActivityType(){ return m_activityType; }
 		const char *getName(){ return m_name.c_str(); }
 
     bool isDS(int id);
