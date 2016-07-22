@@ -19,6 +19,8 @@ public:
     MPS();
     ~MPS();
 
+    bool isDS();
+
     geometry_msgs::Pose2D pose;
     int zone;
     int idIn;

@@ -96,11 +96,7 @@ void Machine::startFinalAp(int8_t machineType, int8_t machineSide, int8_t machin
     fa_c.starting(machineType,machineSide,machineParameter);
 }
 
-bool Machine::isDS(int id)
+bool Machine::isDS()
 {
-    if(id == C_DS_IN || id == C_DS_OUT || id == M_DS_IN || id == M_DS_OUT)
-    {
-        return true;
-    }
     return false;
 }

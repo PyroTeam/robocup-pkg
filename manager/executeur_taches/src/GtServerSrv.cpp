@@ -374,7 +374,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req, manager_msg::or
 
             case orderRequest::DISCOVER:
             {
-                Machine *machine = NULL;
+                Machine *machine = nullptr;
                 geometry_msgs::Pose2D firstSidePoint, secondSidePoint;
                 geometry_msgs::Pose2D tmpFirstPoint, tmpSecondPoint;
 
@@ -472,7 +472,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req, manager_msg::or
                 // qui est la sortie de la machine (sauf pour la DS)
                 if (m_ls->machines()[req.id-1].orientationOk)
                 {
-                    if (!machine->isDS(machineSideId))
+                    //if (!machine->isDS(machineSideId))
+                    if (!m_ls->machines()[req.id-1].isDS())
                     {
                         firstSidePoint = tmpFirstPoint;
                         secondSidePoint = tmpSecondPoint;
@@ -537,7 +538,8 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req, manager_msg::or
                         // qui est la sortie de la machine (sauf pour la DS)
                         if (m_ls->machines()[req.id-1].orientationOk)
                         {
-                            if (!machine->isDS(machineSideId))
+                            //if (!machine->isDS(machineSideId))
+                            if (!m_ls->machines()[req.id-1].isDS())
                             {
                                 firstSidePoint = tmpFirstPoint;
                                 secondSidePoint = tmpSecondPoint;
@@ -601,7 +603,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req, manager_msg::or
                 machine->majCenter(m_ls->machines()[req.id - 1].pose);
 
                 // Vérifier si INPUT (TODO: à vérifier)
-                if(isInput(machineSideId) && !machine->isDS(machineSideId))
+                if(isInput(machineSideId) && !machine->isDS())
                 {
                     // Si OUI
                     machine->majEntry(firstSidePoint);
@@ -618,6 +620,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req, manager_msg::or
                     m_ls->spin();
                     // Récupérer ArTag ID
                     machineSideId = atg.askForId();
+                    // boucle de bidouillage...
                     for(int i=0; i < 3 ; ++i)
                     {
                         if(!common_utils::exists(machineSideId))
@@ -657,7 +660,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req, manager_msg::or
                     }
                 }
 
-                if(machine->isDS(machineSideId))
+                if(machine->isDS())
                 {
                     fa_c.starting(machine->getFaType(), FinalApproachingGoal::IN, FinalApproachingGoal::LIGHT);
                 }

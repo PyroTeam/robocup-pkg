@@ -21,6 +21,7 @@ public:
     virtual ~DeliveryStation();
 
     void deliver();
+    bool isDS();
 };
 
 #endif

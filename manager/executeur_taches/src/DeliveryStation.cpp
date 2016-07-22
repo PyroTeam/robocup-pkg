@@ -32,3 +32,8 @@ void DeliveryStation::deliver()
 
     //TODO: attendre fin de livraison
 }
+
+bool DeliveryStation::isDS()
+{
+    return true;
+}
