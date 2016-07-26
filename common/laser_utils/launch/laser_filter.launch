@@ -3,6 +3,7 @@
       name="laser_to_pcl_filter">
     <rosparam command="load" file="$(find laser_utils)/cfg/laser_config.yaml" />
     <rosparam command="load" file="$(find laser_utils)/cfg/cloud_config.yaml" />
+    <param name="~target_frame" value="robotino1/base_link" />
     <param name="high_fidelity" value="true" />
     <param name="target_frame" type="string" value="base_link" />
     <remap from="scan" to="robotino1/hardware/scan" />

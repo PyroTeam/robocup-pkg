@@ -1,109 +1,52 @@
 #include "LaserScan.h"
 #include <cmath>
 
-laserScan::laserScan():m_range_min(0.0),m_range_max(0.0),m_angle_min(0.0),m_angle_max(0.0),m_angle_inc(0.0)
+LaserScan::LaserScan()
 {
 
 }
 
-laserScan::~laserScan()
+LaserScan::~LaserScan()
 {
 
 }
 
-float laserScan::getRangeMin() const
+const ros::Time& LaserScan::getTime() const
 {
-	return m_range_min;
+    return m_header.stamp;
 }
 
-float laserScan::getRangeMax() const
+const std::string& LaserScan::getFrame() const
 {
-	return m_range_max;
+    return m_header.frame_id;
 }
 
-float laserScan::getAngleMin() const
+const std_msgs::Header& LaserScan::getHeader() const
 {
-	return m_angle_min;
+    return m_header;
 }
 
-float laserScan::getAngleMax() const
+const std::list<geometry_msgs::Point>& LaserScan::getPoints() const
 {
-	return m_angle_max;
+    return m_points;
 }
 
-float laserScan::getAngleInc() const
+void LaserScan::pclCallback(const sensor_msgs::PointCloudConstPtr& pcl)
 {
-	return m_angle_inc;
-}
+    m_points.clear();
+    m_header = pcl->header;
+    for (auto &it : pcl->points)
+    {
+        geometry_msgs::Point tmp, zero;
+        zero.x = zero.y = zero.z = 0.0;
 
-const ros::Time& laserScan::getTime() const
-{
-	return m_stamp;
-}
+        tmp.x = double(it.x);
+        tmp.y = double(it.y);
+        tmp.z = double(it.z);
 
-const std::vector<float>& laserScan::getRanges() const
-{
-	return m_ranges;
-}
-
-const std::list<geometry_msgs::Point>& laserScan::getPoints() const
-{
-	return m_points;
-}
-
-void laserScan::setRangeMin(const float &min)
-{
-	m_range_min = min;
-}
-void laserScan::setRangeMax(const float &max)
-{
-	m_range_max = max;
-}
-
-void laserScan::setAngleMin(const float &min)
-{
-	m_angle_min = min;
-}
-
-void laserScan::setAngleMax(const float &max)
-{
-	m_angle_max = max;
-}
-
-void laserScan::setAngleInc(const float &inc)
-{
-	m_angle_inc = inc;
-}
-
-
-void laserScan::PolarToCart ()
-{
-	for (int i=0; i<m_ranges.size(); i++)
-	{
-		// sur le simulateur, le bruit sur le laser est important entre 5.5 et 5.6 m,
-		// on réduit alors le seuil de validité du scan pour ne pas avoir des rayons
-		// qui ne toucheraient pas d'obstacles mais serainet considérés comme tels
-	   	if((m_ranges[i] > getRangeMin()) && (m_ranges[i] < getRangeMax()-0.5))
-	   	{
-	   		geometry_msgs::Point p;
-	   		p.x = m_ranges[i]*cos(double(getAngleMin() + i*getAngleInc()));
-	   		p.y = m_ranges[i]*sin(double(getAngleMin() + i*getAngleInc()));
-			  m_points.push_back(p);
-		}
-	}
-}
-
-void laserScan::laserCallback(const sensor_msgs::LaserScanConstPtr& scan)
-{
-	m_points.clear();
-
-	m_range_min = scan->range_min;
-	m_range_max = scan->range_max;
-	m_angle_min = scan->angle_min;
-	m_angle_max = scan->angle_max;
-	m_angle_inc = scan->angle_increment;
-	m_ranges = scan->ranges;
-	m_stamp = scan->header.stamp;
-
-	this->PolarToCart();
+        if (geometry_utils::distance(zero, tmp) <= 5.0)
+        {
+            m_points.push_back(tmp);
+        }
+    }
 }

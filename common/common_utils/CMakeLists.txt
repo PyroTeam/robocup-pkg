@@ -131,6 +131,7 @@ add_library(common_utils
   src/controller/PidWithAntiWindUp.cpp
   src/RateLimiter.cpp
   src/RobotPoseSubscriber.cpp
+  src/Zone.cpp
 )
 
 ## Add cmake target dependencies of the library

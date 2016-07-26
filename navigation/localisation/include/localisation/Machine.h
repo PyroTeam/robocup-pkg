@@ -2,6 +2,7 @@
 #define MACHINE_H
 
 #include "geometry_msgs/Pose2D.h"
+#include "common_utils/Zone.h"
 #include "deplacement_msg/Machine.h"
 #include "Segment.h"
 
@@ -32,7 +33,7 @@ public:
     bool neverSeen();
     bool orientationOk();
     void switchSides();
-    bool isInsideZone(const geometry_msgs::Pose2D &pose, int zone, float zone_width = 2.0, float zone_height = 1.5, float mps_width = 0.35);
+    bool isInsideZone(const geometry_msgs::Pose2D &pose, int zone);
 
     void setId(int idIn)
     {
@@ -42,10 +43,10 @@ public:
 
 
 private:
-	geometry_msgs::Pose2D 	m_centre;
-	double 					m_xSum;
-	double 					m_ySum;
-	int 						m_nbActu;
+    geometry_msgs::Pose2D 	m_centre;
+    double 					m_xSum;
+    double 					m_ySum;
+    int 						m_nbActu;
     int             m_color;
     int             m_zone;
     double          m_lastError;

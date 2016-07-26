@@ -5,15 +5,18 @@
 #include "conversion_functions.h"
 #include "Segment.h"
 #include "LaserScan.h"
+#include "common_utils/Zone.h"
+
+using namespace common_utils;
 
 int main(int argc, char** argv)
 {
-    // Objet laser (convertit et contient les points laser en coord cartesiennes)
-    laserScan laserData;
+    // Objet laser
+    LaserScan laserData;
 
     //Initialisation du noeud ROS
-    ros::init(argc, argv, "LandmarksExtraction_node");
-    ROS_INFO("Starting node LandmarksExtraction_node");
+    ros::init(argc, argv, "landmarks_extraction_node");
+    ROS_INFO("Starting node landmarks_extraction_node");
 
     ros::NodeHandle n;
     std::string tf_prefix;
@@ -23,8 +26,8 @@ int main(int argc, char** argv)
         tf_prefix += "/";
     }
 
-    // Subscribe to laserScan
-    ros::Subscriber sub_laser  = n.subscribe("hardware/scan", 1, &laserScan::laserCallback, &laserData);
+    // Subscribe to LaserScan
+    ros::Subscriber sub_laser  = n.subscribe("hardware/scan_pcl", 1, &LaserScan::pclCallback, &laserData);
 
     // Publish found segments and machines
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("objectDetection/machines", 1000);
@@ -51,9 +54,8 @@ int main(int argc, char** argv)
         for (auto &it : listOfMachines)
         {
             machines.landmarks.push_back(it.getCentre());
-            machines.header.stamp = laserData.getTime();
-            machines.header.frame_id = tf_prefix+"laser_link";
         }
+        machines.header = laserData.getHeader();
 
         // Publish
         pub_machines.publish(machines);

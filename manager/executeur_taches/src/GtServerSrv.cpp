@@ -1,6 +1,6 @@
 #include "GtServerSrv.h"
 
-#include <common_utils/zone.h>
+#include "common_utils/Zone.h"
 
 GtServerSrv::GtServerSrv(int teamColor)
 : m_nh()
@@ -34,7 +34,9 @@ bool GtServerSrv::going(const geometry_msgs::Pose2D &point, size_t nbAttempt)
     geometry_msgs::Pose2D target = point;
     double xCenter = 0.0, yCenter = 0.0;
 
-    if (common_utils::getZoneCenter(common_utils::getArea(point), xCenter, yCenter))
+    common_utils::Zone area(m_id);
+
+    if (area.center(area.num(), xCenter, yCenter))
     {
         ROS_DEBUG("Zone center found");
     }
@@ -123,7 +125,9 @@ void GtServerSrv::interpretationZone(int zone, zoneCorner_t zoneCorner)
     float xOffset = ZONE_WIDTH/2-offset;
     float yOffset = ZONE_HEIGHT/2-offset;
 
-    if (!common_utils::getZoneCenter(zone, m_explo_target.x, m_explo_target.y))
+    common_utils::Zone area(zone);
+
+    if (!area.center(area.num(), m_explo_target.x, m_explo_target.y))
     {
         return;
     }

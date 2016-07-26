@@ -3,12 +3,14 @@
 #include "Segment.h"
 #include "Machine.h"
 #include "math_functions.h"
-#include "common_utils/zone.h"
+#include "common_utils/Zone.h"
 
 #include <ctime>
 #include <cmath>
 #include <limits>
 #include <algorithm>
+
+using namespace common_utils;
 
 Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_nbActu(0.0), m_color(2), m_zone(0), m_lastError(std::numeric_limits<int>::max()), m_orientationOK(false)
 {
@@ -22,7 +24,7 @@ Machine::~Machine()
 
 geometry_msgs::Pose2D Machine::getCentre()
 {
-	return m_centre;
+    return m_centre;
 }
 
 geometry_msgs::Pose2D Machine::reversePose()
@@ -68,7 +70,7 @@ double Machine::getLastError()
 
 void Machine::setCentre(geometry_msgs::Pose2D c)
 {
-	m_centre = c;
+    m_centre = c;
 }
 
 void Machine::update(const geometry_msgs::Pose2D &p)
@@ -181,19 +183,19 @@ void Machine::switchSides()
   m_orientationOK = true;
 }
 
-bool Machine::isInsideZone(const geometry_msgs::Pose2D &pose, int zone, float zone_width, float zone_height, float mps_width)
+bool Machine::isInsideZone(const geometry_msgs::Pose2D &pose, int zone)
 {
-  geometry_msgs::Pose2D center;
-  common_utils::getZoneCenter(zone, center.x, center.y);
+    Zone area(zone);
 
-  if ((std::abs(center.x - pose.x) <= (zone_width-mps_width)/2) && (std::abs(center.y - pose.y) <= (zone_height-mps_width)/2))
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+    // mps width is 0.35 m
+    if (area.isInside(pose, 0.35))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void Machine::setTheta(double theta)

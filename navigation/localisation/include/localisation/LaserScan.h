@@ -4,48 +4,27 @@
 #include <vector>
 #include <list>
 #include <sensor_msgs/LaserScan.h>
-#include "geometry_msgs/Point.h"
+#include <sensor_msgs/PointCloud.h>
+#include <std_msgs/Header.h>
+#include <geometry_msgs/Point.h>
+#include "geometry_utils.h"
 
-#include "Line.h"
-#include "Model.h"
-#include "Segment.h"
-
-class laserScan
+class LaserScan
 {
 public:
-	laserScan();
-	~laserScan();
+    LaserScan();
+    ~LaserScan();
 
-	void PolarToCart();
+    const ros::Time& getTime() const;
+    const std::string& getFrame() const;
+    const std_msgs::Header& getHeader() const;
+    const std::list<geometry_msgs::Point>& getPoints() const;
 
-	float getRangeMin() const;
-	float getRangeMax() const;
-	float getAngleMin() const;
-	float getAngleMax() const;
-	float getAngleInc() const;
-	const ros::Time& getTime() const;
-
-	const std::vector<float>& getRanges() const;
-	const std::list<geometry_msgs::Point>& getPoints() const;
-
-	void setRangeMin(const float &min);
-	void setRangeMax(const float &max);
-	void setAngleMin(const float &min);
-	void setAngleMax(const float &max);
-	void setAngleInc(const float &inc);
-
-	void laserCallback(const sensor_msgs::LaserScanConstPtr& scan);
+    void pclCallback(const sensor_msgs::PointCloudConstPtr& pcl);
 
 private:
-	std::vector<float> m_ranges;
-	std::list<geometry_msgs::Point> m_points;
-
-	float m_range_min;
-	float m_range_max;
-	float m_angle_min;
-	float m_angle_max;
-	float m_angle_inc;
-	ros::Time m_stamp;
+    std::list<geometry_msgs::Point> m_points;
+    std_msgs::Header m_header;
 };
 
 #endif

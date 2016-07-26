@@ -12,7 +12,7 @@
 
 #include "comm_msg/ExplorationInfo.h"
 #include "geometry_utils/geometry_utils.h"
-#include "common_utils/zone.h"
+#include "common_utils/Zone.h"
 #include "common_utils/RobotPoseSubscriber.h"
 #include "geometry_msgs/Pose2D.h"
 #include "LocaSubscriber.h"

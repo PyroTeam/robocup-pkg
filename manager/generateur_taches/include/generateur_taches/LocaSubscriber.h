@@ -13,7 +13,7 @@
 #include <ros/ros.h>
 #include "geometry_msgs/Pose2D.h"
 #include "deplacement_msg/Machines.h"
-#include "common_utils/zone.h"
+#include "common_utils/Zone.h"
 #include <vector>
 #include <list>
 #include <algorithm>
