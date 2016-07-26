@@ -6,7 +6,6 @@
 #include "Machine.h"
 #include "geometry_msgs/Pose2D.h"
 
-/* Constructeur */
 Machine::Machine(int teamColor)
 {
 	m_name = (teamColor == CYAN)? "C-" : "M-";
@@ -23,10 +22,8 @@ Machine::Machine(int teamColor)
   m_orientationOk = false;
 }
 
-/* Destructeur */
 Machine::~Machine(){}
 
-/* Méthodes */
 std::string Machine::getType()
 {
 	return m_type;

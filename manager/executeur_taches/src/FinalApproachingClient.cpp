@@ -12,36 +12,35 @@ FinalApproachingClient::~FinalApproachingClient(){}
 
 void FinalApproachingClient::starting(int8_t machineType, int8_t machineSide, int8_t machineParameter)
 {
-	actionlib::SimpleActionClient<final_approach_msg::FinalApproachingAction> client("navigation/FinalApproach",true);
+    actionlib::SimpleActionClient<final_approach_msg::FinalApproachingAction> client("navigation/FinalApproach",true);
 
-	ROS_INFO("Waiting for fa action Server to start");
+    ROS_INFO("Waiting for fa action Server to start");
 
-	client.waitForServer();
+    client.waitForServer();
 
-	ROS_INFO("Action server started, sending goal");
+    ROS_INFO("Action server started, sending goal");
 
-	final_approach_msg::FinalApproachingGoal goal;
-	goal.type = machineType;
-	goal.side = machineSide;
-	goal.parameter = machineParameter;
-	client.sendGoal(goal);
+    final_approach_msg::FinalApproachingGoal goal;
+    goal.type = machineType;
+    goal.side = machineSide;
+    goal.parameter = machineParameter;
+    client.sendGoal(goal);
 
-	//wait for the action to return
-	bool finished_before_timeout = client.waitForResult(ros::Duration(m_globalTimeout()));
+    //wait for the action to return
+    bool finished_before_timeout = client.waitForResult(ros::Duration(m_globalTimeout()));
 
-	if(finished_before_timeout)
-	{
-		actionlib::SimpleClientGoalState state = client.getState();
+    if(finished_before_timeout)
+    {
+        actionlib::SimpleClientGoalState state = client.getState();
         m_success = client.getResult()->success;
-		ROS_INFO("Action finished : %s ",state.toString().c_str());
-
-	}
-	else
-	{
-		ROS_WARN("FinalApproach aborted due to timeout. Will continue");
+        ROS_INFO("Action finished : %s ",state.toString().c_str());
+    }
+    else
+    {
+        ROS_WARN("FinalApproach aborted due to timeout. Will continue");
         client.cancelGoal();
         m_success = true;
-	}
+    }
 }
 
 bool FinalApproachingClient::getSuccess()

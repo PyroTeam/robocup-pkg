@@ -2,102 +2,116 @@
 
 #include "RingStation.h"
 
-/* Constructeur */
 RingStation::RingStation(int teamColor)
 : Machine(teamColor)
 {
-	m_name += "RS";
-	m_faType = FinalApproachingGoal::RS;
-	m_type = "RingStation";
-	m_greenRing = 0;
-	m_yellowRing = 0;
-	m_blueRing = 0;
-	m_orangeRing = 0;
+    m_name += "RS";
+    m_faType = FinalApproachingGoal::RS;
+    m_type = "RingStation";
+    m_greenRing = 0;
+    m_yellowRing = 0;
+    m_blueRing = 0;
+    m_orangeRing = 0;
 }
 
-RingStation::RingStation(int teamColor, int nb)
-: RingStation(teamColor)
+RingStation::RingStation(int teamColor, int number) : RingStation(teamColor)
 {
-	m_name += std::to_string(nb);
+    m_name += std::to_string(number);
+    assert(number >= 1);
+    assert(number <= 2);
+    if (number == 1)
+    {
+        m_activityType = activity::CS1;
+    }
+    else
+    {
+        m_activityType = activity::CS2;
+    }
 }
 
-/* Destructeur */
 RingStation::~RingStation(){}
 
-/* Fonction Virtuelle */
-void RingStation::FonctionVirtuelle(){}
-
-/* Méthodes */
 int RingStation::getGreenRing()
 {
-	return m_greenRing;
+    return m_greenRing;
 }
+
 int RingStation::getYellowRing()
 {
-	return m_yellowRing;
+    return m_yellowRing;
 }
+
 int RingStation::getBlueRing()
 {
-	return m_blueRing;
+    return m_blueRing;
 }
+
 int RingStation::getOrangeRing()
 {
-	return m_orangeRing;
+    return m_orangeRing;
 }
+
 void RingStation::majGreen(int nbVert)
 {
-	m_greenRing = nbVert;
+    m_greenRing = nbVert;
 }
+
 void RingStation::majYellow(int nbJaune)
 {
-	m_yellowRing = nbJaune;
+    m_yellowRing = nbJaune;
 }
+
 void RingStation::majBlue(int nbBleu)
 {
-	m_blueRing = nbBleu;
+    m_blueRing = nbBleu;
 }
+
 void RingStation::majOrange(int nbOrange)
 {
-	m_orangeRing = nbOrange;
+    m_orangeRing = nbOrange;
 }
 
-void RingStation::put_ring(int color,int n_robot,int n_order,int machine)
+void RingStation::put_ring(int ringColor)
 {
-	// A verifier si la rs est dispo
-	// si OK : (sinon erreur )
+    ROS_INFO("Putting a Ring, color : %d", ringColor);
 
-	/* TOPIC Générateur de taches : infos sur l'avancement de la tache */
-	manager_msg::activity msg;
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order);
-	ROS_INFO("Putting a Ring, color : %d", color);
+    goTo(m_entryMachine);
 
-	goTo(this->m_entryMachine);
+    startFinalAp(FinalApproachingGoal::RS,
+                 FinalApproachingGoal::IN,
+                 FinalApproachingGoal::CONVEYOR);
 
-	this->startFinalAp(FinalApproachingGoal::RS, FinalApproachingGoal::IN, FinalApproachingGoal::CONVEYOR);
-	this->let();
+    let();
 
-	//Communication_RefBox(je veux un ring de couleur "couleur" )
+    //TODO: demander à la refbox une base de couleur "color" )
 
-	msg = msgToGT(n_robot,activity::END,machine,n_order);
+    //TODO: attendre fin de livraison
+
+    //XXX: Retourner qqch pour dire que la tâche est réalisée
 }
 
-void RingStation::take_ring(int color,int n_robot,int n_order,int machine)
+void RingStation::take_ring() // prendre le produit avec un ring ajouté
 {
-	// A verifier si la rs est dispo (pas en panne uniquement => cz elle sera entrain de faire un ring "noramlement")
-	// si OK : (sinon erreur )
+    goTo(m_exitMachine);
+    startFinalAp(FinalApproachingGoal::RS,
+                 FinalApproachingGoal::OUT,
+                 FinalApproachingGoal::CONVEYOR);
 
-	/* TOPIC Générateur de taches : infos sur l'avancement de la tache */
-	manager_msg::activity msg;
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,machine,n_order);
-	ROS_INFO("Taking a Ring, color : %d", color);
+    grip();
 
-	//Communication_RefBox(give me the product )
+    //XXX: Retourner qqch pour dire que la tâche est réalisée
+}
 
-	goTo(this->m_exitMachine);
+void RingStation::bring_base()
+{
+    //TODO: vérifier si besoin de demander à la refbox l'ajout d'une base additionnelle
+    // Fait automatiquement je pense
+    goTo(m_entryMachine);
+    startFinalAp(FinalApproachingGoal::RS,
+                 FinalApproachingGoal::IN,
+                 FinalApproachingGoal::LANE_RS);
 
-	// while(Communication_RefBox(rs n'a terminé de livrer))
+    let();
 
-	this->startFinalAp(FinalApproachingGoal::RS, FinalApproachingGoal::OUT, FinalApproachingGoal::CONVEYOR);
-	this->take();
-	msg = msgToGT(n_robot,activity::END,machine,n_order);
+    //XXX: Retourner qqch pour dire que la tâche est réalisée
 }

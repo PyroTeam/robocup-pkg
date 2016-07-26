@@ -17,14 +17,10 @@
 
 class GripperClientSrv
 {
-	public:
-		/* Constructeur */
-		GripperClientSrv();
+public:
+    GripperClientSrv();
+    virtual  ~GripperClientSrv();
 
-		/* Destructeur */
-		virtual  ~GripperClientSrv();
-
-		/* Méthodes */
-		bool gripper_update(bool new_state);
+    bool gripper_update(bool new_state);
 };
 #endif

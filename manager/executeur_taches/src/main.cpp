@@ -21,8 +21,8 @@ int main(int argc, char **argv)
     ros::Rate loop_rate(1);
 
     std::string teamColorStr;
-  	n.param<std::string>("teamColor", teamColorStr, "cyan");
-  	int teamColor = (teamColorStr == "magenta")? MAGENTA: CYAN;
+    n.param<std::string>("teamColor", teamColorStr, "cyan");
+    int teamColor = (teamColorStr == "magenta")? MAGENTA: CYAN;
 
     /* service reponse au générateur de taches */
     GtServerSrv gtsrv(teamColor);
