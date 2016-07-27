@@ -32,17 +32,6 @@ geometry_msgs::Pose2D Machine::reversePose()
     return tmp;
 }
 
-deplacement_msg::MPS Machine::msg()
-{
-    deplacement_msg::MPS tmp;
-    tmp.pose = pose();
-    tmp.zone = zone();
-    tmp.orientationOk = checkOrientation();
-    tmp.idIn = idIn();
-    tmp.idOut = idOut();
-    return tmp;
-}
-
 int Machine::getNbActu()
 {
     return m_nbActu;

@@ -149,34 +149,6 @@ Visualization Manager:
       Frame Timeout: 1
       Frames:
         All Enabled: true
-        ar_marker_0:
-          Value: true
-        ar_marker_113:
-          Value: true
-        ar_marker_130:
-          Value: true
-        ar_marker_145:
-          Value: true
-        ar_marker_17:
-          Value: true
-        ar_marker_177:
-          Value: true
-        ar_marker_180:
-          Value: true
-        ar_marker_2:
-          Value: true
-        ar_marker_255:
-          Value: true
-        ar_marker_33:
-          Value: true
-        ar_marker_49:
-          Value: true
-        ar_marker_66:
-          Value: true
-        ar_marker_81:
-          Value: true
-        ar_marker_98:
-          Value: true
         map:
           Value: true
         robotino1/base_link:
@@ -207,34 +179,7 @@ Visualization Manager:
               robotino1/platform_camera_link:
                 {}
               robotino1/tower_camera_link:
-                ar_marker_0:
-                  {}
-                ar_marker_113:
-                  {}
-                ar_marker_130:
-                  {}
-                ar_marker_145:
-                  {}
-                ar_marker_17:
-                  {}
-                ar_marker_177:
-                  {}
-                ar_marker_180:
-                  {}
-                ar_marker_2:
-                  {}
-                ar_marker_255:
-                  {}
-                ar_marker_33:
-                  {}
-                ar_marker_49:
-                  {}
-                ar_marker_66:
-                  {}
-                ar_marker_81:
-                  {}
-                ar_marker_98:
-                  {}
+                {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -265,6 +210,14 @@ Visualization Manager:
       Topic: /robotino1/hardware/scan_pcl
       Use Fixed Frame: true
       Use rainbow: true
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /robotino1/rviz/visualization_markers
+      Name: Marker
+      Namespaces:
+        visualisation_machines: true
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:

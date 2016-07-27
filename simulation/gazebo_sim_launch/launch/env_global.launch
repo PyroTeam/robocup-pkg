@@ -14,7 +14,7 @@
     <arg name="use_amcl" default="false" />
     <arg name="use_mrpt" default="false" />
     <arg name="workaround" default="true" />
-    <arg name="use_viz_markers" default="false" />
+    <arg name="use_viz_markers" default="true" />
     <!-- Le laser peut se trouver sur la tour ou sur la base, la transformation sera différente -->
     <arg name="laser_on_base" default="false" />
 

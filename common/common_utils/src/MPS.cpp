@@ -49,4 +49,17 @@ void MPS::setOrientation()
     m_orientationOk = true;
 }
 
+deplacement_msg::MPS Machine::msg()
+{
+    deplacement_msg::MPS tmp;
+
+    tmp.pose = pose();
+    tmp.zone = zone();
+    tmp.orientationOk = checkOrientation();
+    tmp.idIn = idIn();
+    tmp.idOut = idOut();
+
+    return tmp;
+}
+
 } // namespace common_utils

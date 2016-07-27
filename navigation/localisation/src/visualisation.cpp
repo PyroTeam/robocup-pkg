@@ -13,7 +13,8 @@
 std::vector<geometry_msgs::Point> tabLandmarks;
 ros::Time g_landmarks_stamp;
 
-void landmarksCallback(const deplacement_msg::MachinesConstPtr& landmarks){
+void landmarksCallback(const deplacement_msg::MachinesConstPtr& landmarks)
+{
   tabLandmarks.clear();
   g_landmarks_stamp = landmarks->header.stamp;
   for (auto &it : landmarks->landmarks)

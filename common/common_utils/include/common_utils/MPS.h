@@ -38,6 +38,7 @@ public:
     int idIn(){return m_idIn;}
     int idOut(){return m_idOut;}
     bool checkOrientation(){return m_orientationOk;}
+    deplacement_msg::MPS msg();
 };
 
 } // namespace common_utils

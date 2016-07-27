@@ -16,7 +16,6 @@ public:
     ~Machine();
 
     geometry_msgs::Pose2D reversePose();
-    deplacement_msg::MPS msg();
 
     int getNbActu();
     double getLastError();
