@@ -1,3 +1,11 @@
+/**
+ * \file 			Line.h
+ * \brief			classe Droite
+ * \author		Danel Thomas
+ * \date			2016-07-18
+ * \copyright 2016, Association de Robotique de Polytech Lille All rights reserved
+*/
+
 #ifndef LINE_H
 #define LINE_H
 

@@ -1,3 +1,11 @@
+/**
+ * \file 			landmarks_detection_utils.h
+ * \brief			fonctions de segmentations nécessaires à la détection de machines
+ * \author		Danel Thomas
+ * \date			2016-07-18
+ * \copyright 2016, Association de Robotique de Polytech Lille All rights reserved
+*/
+
 #ifndef LANDMARKS_DETECTION_UTILS_H
 #define LANDMARKS_DETECTION_UTILS_H
 

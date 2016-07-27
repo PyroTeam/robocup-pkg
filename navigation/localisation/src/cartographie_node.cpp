@@ -4,7 +4,6 @@
 #include <tf/transform_listener.h>
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/Pose2D.h>
-#include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <common_utils/zone.h>
 #include <common_utils/types.h>
@@ -22,7 +21,6 @@
 
 deplacement_msg::Machines  g_machines;
 std::vector<Machine>       g_mps(24);
-//geometry_msgs::PoseWithCovarianceStamped g_pose;
 
 using namespace common_utils;
 
@@ -38,50 +36,44 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     tf_prefix += "/";
   }
 
-  // si la localisation donne une position du robot assez précise
-  if (true/*g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
-      g_pose.pose.covariance[1] <= ACCEPTANCE_THRESHOLD &&
-      g_pose.pose.covariance[6] <= ACCEPTANCE_THRESHOLD &&
-      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD*/)
+  // TODO: adapter en fonction de la croyance en la position donnée par la localisation
+  tf::StampedTransform transform;
+  try
   {
-    tf::StampedTransform transform;
-    try
+    g_tf_listener->waitForTransform("map",tf_prefix+"laser_link",machines->header.stamp,ros::Duration(1.0));
+    g_tf_listener->lookupTransform("map", tf_prefix+"laser_link", machines->header.stamp, transform);
+  }
+  catch (tf::TransformException ex)
+  {
+    ROS_WARN("%s",ex.what());
+    return;
+  }
+
+  g_machines.landmarks.clear();
+  g_machines.header.frame_id="map";
+  g_machines.header.stamp = machines->header.stamp;
+
+  for (auto &it : machines->landmarks)
+  {
+    // Changement de repère
+    geometry_msgs::Pose2D center = geometry_utils::changeFrame(it, transform);
+
+    // Vérification de la zone
+    int zone = common_utils::getArea(center);
+
+    // Si la machine est bien dans une zone
+    if (zone != 0 && g_mps[zone-1].isInsideZone(center, zone))
     {
-      g_tf_listener->waitForTransform("map",tf_prefix+"laser_link",machines->header.stamp /*+ ros::Duration(0.1)*/,ros::Duration(1.0));
-      g_tf_listener->lookupTransform("map", tf_prefix+"laser_link", machines->header.stamp, transform);
-    }
-    catch (tf::TransformException ex)
-    {
-      ROS_WARN("%s",ex.what());
-      return;
-    }
+      g_mps[zone-1].update(center);
+      g_mps[zone-1].zone(zone);
 
-    g_machines.landmarks.clear();
-    g_machines.header.frame_id="map";
-    g_machines.header.stamp = machines->header.stamp;
-
-    for (auto &it : machines->landmarks)
-    {
-      // Changement de repère
-      geometry_msgs::Pose2D center = geometry_utils::changeFrame(it, transform);
-
-      // Vérification de la zone
-      int zone = common_utils::getArea(center);
-
-      // Si la machine est bien dans une zone
-      if (zone != 0 && g_mps[zone-1].isInsideZone(center, zone))
+      // Ajout reverse
+      geometry_msgs::Pose2D reverse = g_mps[zone-1].reversePose();
+      zone = common_utils::getArea(reverse);
+      if (zone != 0 && g_mps[zone-1].neverSeen())
       {
-        g_mps[zone-1].update(center);
+        g_mps[zone-1].update(reverse);
         g_mps[zone-1].zone(zone);
-
-        // Ajout reverse
-        geometry_msgs::Pose2D reverse = g_mps[zone-1].reversePose();
-        zone = common_utils::getArea(reverse);
-        if (zone != 0 && g_mps[zone-1].neverSeen())
-        {
-          g_mps[zone-1].update(reverse);
-          g_mps[zone-1].zone(zone);
-        }
       }
     }
   }
@@ -105,37 +97,33 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
     tf_prefix += "/";
   }
 
-  // si la localisation donne une position du robot assez précise
-  if (true/*g_pose.pose.covariance[0] <= ACCEPTANCE_THRESHOLD &&
-      g_pose.pose.covariance[1] <= ACCEPTANCE_THRESHOLD &&
-      g_pose.pose.covariance[6] <= ACCEPTANCE_THRESHOLD &&
-      g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD*/)
+  // TODO: adapter en fonction de la croyance en la position donnée par la localisation
+  for (int i = 0; i < tmp.size(); i++)
   {
-    for (int i = 0; i < tmp.size(); i++)
+    tmp[i].pose.header.frame_id = tmp[i].header.frame_id;
+
+    geometry_msgs::PoseStamped pose_map;
+    if (g_tf_listener->waitForTransform("map",tf_prefix+"tower_camera_link",artags.header.stamp,ros::Duration(1.0)))
     {
-      tmp[i].pose.header.frame_id = tmp[i].header.frame_id;
+      g_tf_listener->transformPose("map",tmp[i].pose,pose_map);
+    }
+    else
+    {
+      ROS_ERROR("Transform EXCEPTION from tower_cam to map");
+    }
+    geometry_msgs::PoseStamped poseArTagInRobotFrame;
+    if (g_tf_listener->waitForTransform(tf_prefix+"base_link",tf_prefix+"tower_camera_link",artags.header.stamp,ros::Duration(1.0)))
+    {
+      g_tf_listener->transformPose(tf_prefix+"base_link",tmp[i].pose,poseArTagInRobotFrame);
+    }
+    else
+    {
+      ROS_ERROR("Transform EXCEPTION from tower_cam to base");
+    }
 
-      geometry_msgs::PoseStamped pose_map;
-      if (g_tf_listener->waitForTransform("map",tf_prefix+"tower_camera_link",artags.header.stamp,ros::Duration(1.0)))
-      {
-        g_tf_listener->transformPose("map",tmp[i].pose,pose_map);
-      }
-      else
-      {
-        ROS_ERROR("Transform EXCEPTION from tower_cam to map");
-      }
-      geometry_msgs::PoseStamped poseArTagInRobotFrame;
-      if (g_tf_listener->waitForTransform(tf_prefix+"base_link",tf_prefix+"tower_camera_link",artags.header.stamp,ros::Duration(1.0)))
-      {
-        g_tf_listener->transformPose(tf_prefix+"base_link",tmp[i].pose,poseArTagInRobotFrame);
-      }
-      else
-      {
-        ROS_ERROR("Transform EXCEPTION from tower_cam to base");
-      }
+    double dist = sqrt(poseArTagInRobotFrame.pose.position.x * poseArTagInRobotFrame.pose.position.x +
+      poseArTagInRobotFrame.pose.position.y * poseArTagInRobotFrame.pose.position.y);
 
-      double dist = sqrt(poseArTagInRobotFrame.pose.position.x * poseArTagInRobotFrame.pose.position.x +
-                         poseArTagInRobotFrame.pose.position.y * poseArTagInRobotFrame.pose.position.y);
       const double max_distance = 5.0;
 
       for (auto &it2 : g_mps)
@@ -143,14 +131,14 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
         // si la machine n'a pas été corrigée en angle et que
         // l'ar tag est assez proche pour considérer qu'il est bien celui de la machine
         if (exists(tmp[i].id) && dist <= max_distance && !it2.orientationOk() &&
-            geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= CIRCUM_MACHINE_RADIUS)
+        geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= CIRCUM_MACHINE_RADIUS)
         {
           ROS_INFO("I see ID %d corresponding to machine (%f) in zone %d having the angle %f", tmp[i].id, it2.getCentre().theta, it2.zone(), geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2));
 
-          // Angle machine modulo 2 PI
+          // normalisation [0, 2 PI]
           double angleMachine = geometry_utils::normalizeAngle(it2.getCentre().theta, 0.0, 2*M_PI);
           it2.setTheta(angleMachine);
-          // Angle artag modulo 2 PI
+          // normalisation [0, 2 PI]
           double angleARTag = geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation), 0.0, 2*M_PI);
           // ecart en angle
           double diff = angleMachine - angleARTag;
@@ -189,38 +177,31 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
       }
     }
   }
-}
-/*
-void poseCallback(const geometry_msgs::PoseWithCovarianceStamped& pose)
-{
-  g_pose = pose;
-}*/
 
-int main( int argc, char** argv )
-{
-  ros::init(argc, argv, "Cartographie");
-  tf::TransformListener tf_listener;
-  g_tf_listener = &tf_listener;
-
-  ros::NodeHandle n;
-
-  ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 1, machinesCallback);
-  ros::Subscriber sub_artag    = n.subscribe("computerVision/ar_pose_marker", 1, artagCallback);
-  //ros::Subscriber sub_pose     = n.subscribe("amcl_pose", 1, poseCallback);
-
-  ros::Publisher pub_machines = n.advertise< deplacement_msg::Machines >("objectDetection/landmarks", 1);
-
-  ros::Rate loop_rate (30);
-  while(n.ok())
+  int main( int argc, char** argv )
   {
-    g_machines.landmarks = convertIntoMsg(g_mps);
+    ros::init(argc, argv, "Cartographie");
+    tf::TransformListener tf_listener;
+    g_tf_listener = &tf_listener;
 
-    pub_machines.publish(g_machines);
+    ros::NodeHandle n;
 
-    // Spin
-    ros::spinOnce();
-    loop_rate.sleep();
+    ros::Subscriber sub_machines = n.subscribe("objectDetection/machines", 1, machinesCallback);
+    ros::Subscriber sub_artag    = n.subscribe("computerVision/ar_pose_marker", 1, artagCallback);
+
+    ros::Publisher pub_machines = n.advertise< deplacement_msg::Machines >("objectDetection/landmarks", 1);
+
+    ros::Rate loop_rate (30);
+    while(n.ok())
+    {
+      g_machines.landmarks = convertIntoMsg(g_mps);
+
+      pub_machines.publish(g_machines);
+
+      // Spin
+      ros::spinOnce();
+      loop_rate.sleep();
+    }
+
+    return 0;
   }
-
-  return 0;
-}

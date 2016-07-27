@@ -24,6 +24,7 @@ find_package(catkin REQUIRED COMPONENTS
 	tf2
 	std_msgs
 	final_approach_msg
+	geometry_utils
 )
 
 # Use clang++-3.6 if available

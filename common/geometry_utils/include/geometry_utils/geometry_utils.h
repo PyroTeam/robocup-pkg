@@ -147,6 +147,10 @@ inline double normalizeAngle(double angle, double lowLimit = -M_PI, double highL
   return angle;
 }
 
+double linearRegression(const std::list<geometry_msgs::Point> &points, geometry_msgs::Pose2D &model);
+double linearRegression(const std::vector<geometry_msgs::Point> &points, geometry_msgs::Pose2D &model);
+double linearRegression(const std::vector<geometry_msgs::Point> &points, geometry_msgs::Point &pt, double &angle);
+
 } // namespace geometry_utils
 
 #endif /* GEOMETRY_UTILS_GEOMETRY_UTILS_H_ */

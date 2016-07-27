@@ -1,3 +1,11 @@
+/**
+ * \file 			Machine.h
+ * \brief			classe Machine
+ * \author		Danel Thomas
+ * \date			2016-07-18
+ * \copyright 2016, Association de Robotique de Polytech Lille All rights reserved
+*/
+
 #ifndef MACHINE_H
 #define MACHINE_H
 
@@ -46,12 +54,12 @@ private:
 	double 					m_xSum;
 	double 					m_ySum;
 	int 						m_nbActu;
-    int             m_color;
-    int             m_zone;
-    double          m_lastError;
-    bool            m_orientationOK;
-    int             m_idIn;
-    int             m_idOut;
+  int             m_color;
+  int             m_zone;
+  double          m_lastError;
+  bool            m_orientationOK;
+  int             m_idIn;
+  int             m_idOut;
 };
 
 #endif

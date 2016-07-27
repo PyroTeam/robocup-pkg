@@ -52,9 +52,7 @@ find_package(catkin REQUIRED COMPONENTS
 DIRECTORY
 	msg
 FILES
-   GripperStatus.msg
    activity.msg
-   Landmarks.msg
 
  )
 
@@ -64,7 +62,6 @@ DIRECTORY
    srv
 FILES
    order.srv
-   SetGripper.srv
  )
 
 

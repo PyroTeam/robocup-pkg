@@ -82,7 +82,7 @@ void Segment::build(const std::list<geometry_msgs::Point> &points){
     geometry_msgs::Pose2D pose2d;
 
     //on fait une régression linéaire sur le segment
-    float correl = linReg(points, pose2d);
+    float correl = geometry_utils::linearRegression(points, pose2d);
 
     //on projète alors les points extrèmes sur le segment linéarisé
     geometry_msgs::Point ptMin = ortho(points.front(),pose2d);
@@ -91,11 +91,9 @@ void Segment::build(const std::list<geometry_msgs::Point> &points){
     setPoints(ptMin,ptMax);
     update();
 /*
-    std::cout << "Segment " << std::endl;
-    std::cout << " Min(" << getMin().x << ", " << getMin().y << ")" << std::endl;
-    std::cout << " Max(" << getMax().x << ", " << getMax().y << ")" << std::endl;
-    std::cout << " taille : " << getSize() << std::endl;
-    std::cout << " angle  : " << getAngle()*(180/M_PI) << std::endl;
-    std::cout << " correlation  : " << correl << std::endl;
+    ROS_DEBUG("Segment (%f,%f) | (%f,%f) | %f m | %f deg | correl = %f",
+              getMin().x, getMin().y,
+              getMax().x, getMax().y,
+              getSize(), getAngle()*(180/M_PI), correl);
 */
 }
