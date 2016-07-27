@@ -32,9 +32,9 @@ geometry_msgs::Pose2D Machine::reversePose()
     return tmp;
 }
 
-deplacement_msg::Machine Machine::msg()
+deplacement_msg::MPS Machine::msg()
 {
-    deplacement_msg::Machine tmp;
+    deplacement_msg::MPS tmp;
     tmp.pose = pose();
     tmp.zone = zone();
     tmp.orientationOk = checkOrientation();

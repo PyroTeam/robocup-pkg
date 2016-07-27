@@ -16,10 +16,9 @@ public:
     ~Machine();
 
     geometry_msgs::Pose2D reversePose();
-    deplacement_msg::Machine msg();
+    deplacement_msg::MPS msg();
 
     int getNbActu();
-    double getReliability();
     double getLastError();
     double theta(){return pose().theta;}
 

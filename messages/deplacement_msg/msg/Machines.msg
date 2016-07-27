@@ -1,2 +1,2 @@
 std_msgs/Header         header
-deplacement_msg/Machine[]  landmarks
+deplacement_msg/MPS[]  landmarks

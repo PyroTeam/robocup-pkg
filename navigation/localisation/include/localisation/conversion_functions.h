@@ -14,7 +14,7 @@
 
 geometry_msgs::Point globalToLocal(const geometry_msgs::Point &p, const Segment &s);
 
-std::vector<deplacement_msg::Machine> convertIntoMsg(std::vector<Machine> mps);
+std::vector<deplacement_msg::MPS> convertIntoMsg(std::vector<Machine> mps);
 
 std::list<Segment> landmarksToSegments(const deplacement_msg::Landmarks &tabSegments);
 

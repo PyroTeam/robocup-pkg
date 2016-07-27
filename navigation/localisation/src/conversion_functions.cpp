@@ -7,9 +7,9 @@
 
 using namespace Eigen;
 
-std::vector<deplacement_msg::Machine> convertIntoMsg(std::vector<Machine> mps)
+std::vector<deplacement_msg::MPS> convertIntoMsg(std::vector<Machine> mps)
 {
-  std::vector<deplacement_msg::Machine> tmp;
+  std::vector<deplacement_msg::MPS> tmp;
 
   for (int i = 0; i < mps.size(); i++)
   {

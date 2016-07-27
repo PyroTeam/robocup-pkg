@@ -41,7 +41,7 @@ class LocaSubscriber
 
 	private:
 		ros::Subscriber m_sub;
-		std::vector<deplacement_msg::Machine> m_machinesPose;
+		std::vector<deplacement_msg::MPS> m_machinesPose;
 
 };
 #endif
