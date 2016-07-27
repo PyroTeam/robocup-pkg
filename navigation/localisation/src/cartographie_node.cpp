@@ -72,12 +72,15 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
             ROS_INFO("Machine en zone %d", zone);
 
             // Si la machine est bien dans une zone
-            if (zone != 0 && g_mps[zone-1].isInsideZone(center, zone))
+            if (zone != 0)
             {
-                g_mps[zone-1].update(center);
-                g_mps[zone-1].zone(zone);
+                if (g_mps[zone-1].getLastError() > 0.01)
+                {
+                    g_mps[zone-1].update(center);
+                    g_mps[zone-1].zone(zone);
+                }
 
-                // Ajout reverse
+                // Ajout reverse si jamais vue
                 geometry_msgs::Pose2D reverse = g_mps[zone-1].reversePose();
                 zone = common_utils::getArea(reverse);
                 if (zone != 0 && g_mps[zone-1].neverSeen())
@@ -145,14 +148,14 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
                     {
                         // si la machine n'a pas été corrigée en angle et que
                         // l'ar tag est assez proche pour considérer qu'il est bien celui de la machine
-                        if (exists(tmp[i].id) && dist <= max_distance && !it2.orientationOk() &&
-                        geometry_utils::distance(pose_map.pose.position, it2.getCentre()) <= CIRCUM_MACHINE_RADIUS)
+                        if (exists(tmp[i].id) && dist <= max_distance && !it2.checkOrientation() &&
+                        geometry_utils::distance(pose_map.pose.position, it2.pose()) <= CIRCUM_MACHINE_RADIUS)
                         {
-                            ROS_INFO("I see ID %d corresponding to machine (%f) in zone %d having the angle %f", tmp[i].id, it2.getCentre().theta, it2.zone(), geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2));
+                            ROS_INFO("I see ID %d corresponding to machine (%f) in zone %d having the angle %f", tmp[i].id, it2.pose().theta, it2.zone(), geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation)+M_PI/2));
 
                             // Angle machine modulo 2 PI
-                            double angleMachine = geometry_utils::normalizeAngle(it2.getCentre().theta, 0.0, 2*M_PI);
-                            it2.setTheta(angleMachine);
+                            double angleMachine = geometry_utils::normalizeAngle(it2.pose().theta, 0.0, 2*M_PI);
+                            it2.theta(angleMachine);
                             // Angle artag modulo 2 PI
                             double angleARTag = geometry_utils::normalizeAngle(tf::getYaw(pose_map.pose.orientation), 0.0, 2*M_PI);
                             // ecart en angle
@@ -160,32 +163,33 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
                             // normalisation [0, 2 PI]
                             double norm = geometry_utils::normalizeAngle(diff, 0.0, 2*M_PI);
 
+                            it2.id(tmp[i].id);
+
                             if (isInput(tmp[i].id))
                             {
-                                it2.setId(tmp[i].id);
                                 if (norm < M_PI_2)
                                 {
                                     ROS_DEBUG("Angle is good :D");
-                                    it2.orientation(true);
+                                    it2.setOrientation();
                                 }
                                 else
                                 {
                                     it2.switchSides();
-                                    ROS_INFO("So I switch the machine angle to %f", it2.getCentre().theta);
+                                    ROS_INFO("So I switch the machine angle to %f", it2.pose().theta);
                                 }
                             }
                             else
                             {
-                                it2.setId(tmp[i].id-1);
+                                it2.id(tmp[i].id-1);
                                 if (norm > M_PI_2)
                                 {
                                     ROS_DEBUG("Angle is good :D");
-                                    it2.orientation(true);
+                                    it2.setOrientation();
                                 }
                                 else
                                 {
                                     it2.switchSides();
-                                    ROS_INFO("So I switch the machine angle to %f", it2.getCentre().theta);
+                                    ROS_INFO("So I switch the machine angle to %f", it2.pose().theta);
                                 }
                             }
                         }

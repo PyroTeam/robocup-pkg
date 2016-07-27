@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 
         for (auto &it : listOfMachines)
         {
-            machines.landmarks.push_back(it.getCentre());
+            machines.landmarks.push_back(it.pose());
         }
         machines.header = laserData.getHeader();
 

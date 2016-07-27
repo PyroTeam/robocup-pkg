@@ -6,9 +6,6 @@ Panels:
       Expanded:
         - /PyroTeam1
         - /PyroTeam1/Robotino11
-        - /PyroTeam1/Robotino11/Path1
-        - /TF1
-        - /PointCloud1
       Splitter Ratio: 0.585062
     Tree Height: 423
   - Class: rviz/Selection
@@ -58,7 +55,7 @@ Visualization Manager:
       Draw Behind: true
       Enabled: true
       Name: Map
-      Topic: /robotino1/objectDetection/grid
+      Topic: /robotino1/objectDetection/grid_fieldAndMachines
       Value: true
     - Class: rviz/Image
       Enabled: true
@@ -152,6 +149,34 @@ Visualization Manager:
       Frame Timeout: 1
       Frames:
         All Enabled: true
+        ar_marker_0:
+          Value: true
+        ar_marker_113:
+          Value: true
+        ar_marker_130:
+          Value: true
+        ar_marker_145:
+          Value: true
+        ar_marker_17:
+          Value: true
+        ar_marker_177:
+          Value: true
+        ar_marker_180:
+          Value: true
+        ar_marker_2:
+          Value: true
+        ar_marker_255:
+          Value: true
+        ar_marker_33:
+          Value: true
+        ar_marker_49:
+          Value: true
+        ar_marker_66:
+          Value: true
+        ar_marker_81:
+          Value: true
+        ar_marker_98:
+          Value: true
         map:
           Value: true
         robotino1/base_link:
@@ -182,7 +207,34 @@ Visualization Manager:
               robotino1/platform_camera_link:
                 {}
               robotino1/tower_camera_link:
-                {}
+                ar_marker_0:
+                  {}
+                ar_marker_113:
+                  {}
+                ar_marker_130:
+                  {}
+                ar_marker_145:
+                  {}
+                ar_marker_17:
+                  {}
+                ar_marker_177:
+                  {}
+                ar_marker_180:
+                  {}
+                ar_marker_2:
+                  {}
+                ar_marker_255:
+                  {}
+                ar_marker_33:
+                  {}
+                ar_marker_49:
+                  {}
+                ar_marker_66:
+                  {}
+                ar_marker_81:
+                  {}
+                ar_marker_98:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -246,11 +298,11 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 50
-      Scale: 106.547
+      Scale: 71.5632
       Target Frame: map
       Value: TopDownOrtho (rviz)
-      X: -2.26893
-      Y: 1.57294
+      X: 0.0998849
+      Y: 1.29906
     Saved:
       - Angle: 0
         Class: rviz/TopDownOrtho

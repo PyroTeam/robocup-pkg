@@ -132,6 +132,7 @@ add_library(common_utils
   src/RateLimiter.cpp
   src/RobotPoseSubscriber.cpp
   src/Zone.cpp
+  src/MPS.cpp
 )
 
 ## Add cmake target dependencies of the library

@@ -38,6 +38,7 @@ public:
     bool inSight(){return m_in_sight;}
     geometry_msgs::Point center(){return m_center;}
     bool center(int zone, double &x, double &y);
+    // un threshold < 0 signifie une augmentation de la taille initiale de la zone 
     bool isInside(const geometry_msgs::Pose2D &m, float threshold = 0.0);
 
     void num(int num);

@@ -7,21 +7,6 @@
 
 using namespace Eigen;
 
-std::vector<geometry_msgs::Pose2D> convert(std::vector<Machine> mps)
-{
-  std::vector<geometry_msgs::Pose2D> tmp;
-
-  for (auto &it : mps)
-  {
-    if (it.getNbActu() > 0)
-    {
-      tmp.push_back(it.getCentre());
-    }
-  }
-
-  return tmp;
-}
-
 std::vector<deplacement_msg::Machine> convertIntoMsg(std::vector<Machine> mps)
 {
   std::vector<deplacement_msg::Machine> tmp;

@@ -12,7 +12,7 @@
 
 using namespace common_utils;
 
-Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_nbActu(0.0), m_color(2), m_zone(0), m_lastError(std::numeric_limits<int>::max()), m_orientationOK(false)
+Machine::Machine() : m_xSum(0.0),m_ySum(0.0),m_nbActu(0.0), m_lastError(std::numeric_limits<int>::max())
 {
 
 };
@@ -22,30 +22,25 @@ Machine::~Machine()
 
 }
 
-geometry_msgs::Pose2D Machine::getCentre()
-{
-    return m_centre;
-}
-
 geometry_msgs::Pose2D Machine::reversePose()
 {
-  geometry_msgs::Pose2D tmp;
-  tmp.x = -m_centre.x;
-  tmp.y = m_centre.y;
-  tmp.theta = geometry_utils::normalizeAngle(M_PI - m_centre.theta);
+    geometry_msgs::Pose2D tmp, center = pose();
+    tmp.x = -center.x;
+    tmp.y = center.y;
+    tmp.theta = geometry_utils::normalizeAngle(M_PI - center.theta);
 
-  return tmp;
+    return tmp;
 }
 
 deplacement_msg::Machine Machine::msg()
 {
-  deplacement_msg::Machine tmp;
-  tmp.pose = m_centre;
-  tmp.zone = m_zone;
-  tmp.orientationOk = m_orientationOK;
-  tmp.idIn = m_idIn;
-  tmp.idOut = m_idOut;
-  return tmp;
+    deplacement_msg::Machine tmp;
+    tmp.pose = pose();
+    tmp.zone = zone();
+    tmp.orientationOk = checkOrientation();
+    tmp.idIn = idIn();
+    tmp.idOut = idOut();
+    return tmp;
 }
 
 int Machine::getNbActu()
@@ -53,66 +48,49 @@ int Machine::getNbActu()
     return m_nbActu;
 }
 
-int Machine::color()
-{
-    return m_color;
-}
-
-int Machine::zone()
-{
-    return m_zone;
-}
-
 double Machine::getLastError()
 {
-  return m_lastError;
+    return m_lastError;
 }
 
-void Machine::setCentre(geometry_msgs::Pose2D c)
+void Machine::theta(double theta)
 {
-    m_centre = c;
+    geometry_msgs::Pose2D tmp = pose();
+    tmp.theta = theta;
+    pose(tmp);
 }
 
 void Machine::update(const geometry_msgs::Pose2D &p)
 {
-  if (neverSeen())
-  {
-    m_centre.x     = p.x;
-    m_centre.y     = p.y;
-    m_centre.theta = geometry_utils::normalizeAngle(p.theta);
+    geometry_msgs::Pose2D center = pose();
 
     m_xSum += p.x;
     m_ySum += p.y;
     m_nbActu++;
-  }
-  else if (m_nbActu < 10)
-  {
-    m_xSum += p.x;
-    m_ySum += p.y;
-    m_nbActu++;
 
-    m_centre.x     = m_xSum/double(m_nbActu);
-    m_centre.y     = m_ySum/double(m_nbActu);
+    center.x     = m_xSum/double(m_nbActu);
+    center.y     = m_ySum/double(m_nbActu);
 
     double tmp = geometry_utils::normalizeAngle(p.theta);
-    double diff = std::abs(m_centre.theta - tmp);
+    double diff = std::abs(center.theta - tmp);
     // Si l'écart est grand cela signifie que la machine est vue avec le mauvais angle par rapport à celui enregistré
     // cela est dû à la transformation TF du repère tower_camera_link vers map
     if (diff > M_PI_2)
     {
-      if (tmp > 0)
-      {
-        tmp -= M_PI;
-      }
-      else
-      {
-        tmp += M_PI;
-      }
+        if (tmp > 0)
+        {
+            tmp -= M_PI;
+        }
+        else
+        {
+            tmp += M_PI;
+        }
     }
-    m_centre.theta = geometry_utils::normalizeAngle((m_centre.theta + tmp)/2);
+    center.theta = geometry_utils::normalizeAngle((center.theta + tmp)/2);
 
-    m_lastError = geometry_utils::distance(m_centre, p) + std::abs(diff);
-  }
+    m_lastError = geometry_utils::distance(center, p) + std::abs(diff);
+
+    pose(center);
 }
 
 void Machine::calculateCoordMachine(Segment s)
@@ -141,54 +119,40 @@ void Machine::calculateCoordMachine(Segment s)
         center.theta = angle;
     }
 
-    setCentre(center);
-}
-
-void Machine::color(int color)
-{
-  m_color = color;
-}
-
-void Machine::zone(int zone)
-{
-  m_zone = zone;
-}
-
-void Machine::orientation(bool ok)
-{
-  m_orientationOK = ok;
+    pose(center);
 }
 
 bool Machine::neverSeen()
 {
-  return m_nbActu == 0;
-}
-
-bool Machine::orientationOk()
-{
-  return m_orientationOK;
+    return m_nbActu == 0;
 }
 
 void Machine::switchSides()
 {
-  if (m_centre.theta < 0)
-  {
-    m_centre.theta += M_PI;
-  }
-  else
-  {
-    m_centre.theta -= M_PI;
-  }
+    double angle = theta();
 
-  m_orientationOK = true;
+    if (angle < 0)
+    {
+        angle += M_PI;
+    }
+    else
+    {
+        angle -= M_PI;
+    }
+
+    theta(angle);
+
+    setOrientation();
 }
 
-bool Machine::isInsideZone(const geometry_msgs::Pose2D &pose, int zone)
+bool Machine::isInsideZone(int zone)
 {
+    // on crée une zone temporaire avec le numéro de zone donné
     Zone area(zone);
 
     // mps width is 0.35 m
-    if (area.isInside(pose, 0.35))
+    // si la machine est dans le rectangle inscrit à la zone, c'est bon
+    if (area.isInside(pose(), 0.35))
     {
         return true;
     }
@@ -196,9 +160,4 @@ bool Machine::isInsideZone(const geometry_msgs::Pose2D &pose, int zone)
     {
         return false;
     }
-}
-
-void Machine::setTheta(double theta)
-{
-  m_centre.theta = theta;
 }

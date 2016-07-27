@@ -11,6 +11,7 @@
 
 #include "common_utils/Zone.h"
 #include <common_utils/types.h>
+#include <ros/ros.h>
 
 namespace common_utils {
 
