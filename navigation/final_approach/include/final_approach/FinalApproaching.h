@@ -278,16 +278,6 @@ class FinalApproaching
 
 	void executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &goal);
 
-	/**
-	 * \brief      Avancement de l action
-	 *
-	 * \param[in]  a     { parameter_description }
-	 * \param[in]  b     { parameter_description }
-	 * \param[in]  c     { parameter_description }
-	 *
-	 * \return     un entier représentant l'évolution de l'action
-	 */
-	int avancement(int a, int b, int c);
 
 	/**
 	 * \brief      Détermine la consigne en x (repère robot)
@@ -360,21 +350,6 @@ class FinalApproaching
 		m_laserYawPid.setKi(m_laserYawPidKi());
 		m_laserYawPid.setKd(m_laserYawPidKd());
 	}
-
-	/**
-	 * \brief      Calcule la longueur d'un objet
-	 *
-	 * \param[in]  i          { parameter_description }
-	 * \param[in]  j          { parameter_description }
-	 * \param[in]  tabPoints  The tab points
-	 * \param[in]  ranges     The ranges
-	 * \param[in]  angleMin   The angle minimum
-	 * \param[in]  angleInc   The angle increment
-	 *
-	 * \return     la longueur de l objet
-	 */
-	float objectLength(int i, int j, std::list<std::vector<Point> > tabPoints, std::vector<float> ranges,
-	                   float angleMin, double angleInc);
 
 	/**
 	 * \brief      Longueur entre les deux extrémités d'un "objet"
@@ -454,22 +429,6 @@ class FinalApproaching
 	 * \return     l'indice du tableau des ids si cela correspond à un id recherché, -1 sinon
 	 */
 	int correspondingId(std::vector<int> allPossibleId, std::vector<arTag_t> arTags);
-
-	/**
-	 * \brief      place le robot à 50cm (par rapport à la caméra) en face
-	 *             de l'artag
-	 *
-	 * \param[in]  px     { parameter_description }
-	 * \param[in]  pz     { parameter_description }
-	 * \param[in]  oz     { parameter_description }
-	 * \param[in]  k      { parameter_description }
-	 * \param      arTag  The archive tag
-	 *
-	 * \return     retourne 1 si c'est fini, 0 sinon
-	 */
-	int asservissementCamera(std::vector<float> px, std::vector<float> pz, std::vector<float> oz, int k,
-	                         ArTagFA &arTag);
-
 
 	/**
 	 * \brief      place le robot à 50cm (par rapport à la caméra) en face de

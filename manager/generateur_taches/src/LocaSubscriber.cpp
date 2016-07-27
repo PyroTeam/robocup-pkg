@@ -47,18 +47,6 @@ void LocaSubscriber::tesCallback(const deplacement_msg::MachinesConstPtr &msg)
       }
     }
   }
-  // for (int i=0; i< msg->landmarks.size(); i++)
-  // {
-  // 	int zone = getZone(msg->landmarks[i].x, msg->landmarks[i].y);
-  // 	m_machine[zone-1].x = msg->landmarks[i].x;
-  // 	m_machine[zone-1].y = msg->landmarks[i].y;
-  // 	m_machine[zone-1].theta = msg->landmarks[i].theta;
-  // 	m_machine[zone-1].isHere = true;
-  // 	m_machine[zone-1].zone = zone;
-  // }
-  /*for(int i=0; i<tab_machine.size(); i++){
-  ROS_INFO("x :landmarks[%d] = %f", i,tab_machine[i].x);
-}*/
 }
 
 bool LocaSubscriber::foundInUnkown(int z)

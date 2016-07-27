@@ -126,14 +126,13 @@ add_executable(
   src/ReportingMachineSrvClient.cpp
   src/ArTagClientSrv.cpp
   src/NavigationClientAction.cpp
-  src/MPS.cpp
 )
 add_dependencies(
-	test_exec
-	manager_msg_gencpp
-	final_approach_msg_gencpp
-	trait_im_msg_gencpp
-	comm_msg_gencpp
+    test_exec
+    manager_msg_gencpp
+    final_approach_msg_gencpp
+    trait_im_msg_gencpp
+    comm_msg_gencpp
 )
 set_target_properties(test_exec	PROPERTIES COMPILE_FLAGS "-std=c++11")
 
@@ -157,14 +156,13 @@ add_executable(
   src/ReportingMachineSrvClient.cpp
   src/ArTagClientSrv.cpp
   src/NavigationClientAction.cpp
-  src/MPS.cpp
 )
 add_dependencies(
-	report_all_machines
-	manager_msg_gencpp
-	final_approach_msg_gencpp
-	trait_im_msg_gencpp
-	comm_msg_gencpp
+    report_all_machines
+    manager_msg_gencpp
+    final_approach_msg_gencpp
+    trait_im_msg_gencpp
+    comm_msg_gencpp
 )
 set_target_properties(report_all_machines	PROPERTIES COMPILE_FLAGS "-std=c++11")
 
@@ -210,9 +208,9 @@ target_link_libraries(
 
 ## Mark cpp header files for installation
 install(DIRECTORY include/${PROJECT_NAME}/
-	DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-	FILES_MATCHING PATTERN "*.h"
-	PATTERN ".svn" EXCLUDE
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    FILES_MATCHING PATTERN "*.h"
+    PATTERN ".svn" EXCLUDE
 )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)

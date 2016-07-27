@@ -57,4 +57,74 @@ geometry_msgs::Pose2D machineToMapFrame(const geometry_msgs::Pose2D &p, const ge
   return result;
 }
 
+
+double linearRegression(const std::list<geometry_msgs::Point> &points, geometry_msgs::Pose2D &model)
+{
+  int          n = points.size();
+  double    sumX = 0.0, sumY = 0.0;
+  double     ecX = 0.0,  ecY = 0.0;                   //ecart
+  double sumEcXY = 0.0;                               //somme des produits des écarts sur x et y
+  double    ec2X = 0.0, ec2Y = 0.0;                   //somme des écarts au carré
+  double   covXY = 0.0, varX = 0.0, varY = 0.0;
+
+  for(auto &it : points)
+  {
+      sumX  += it.x;
+      sumY  += it.y;
+  }
+
+  //calcul des moyennes
+  double moyX = sumX/double(n);
+  double moyY = sumY/double(n);
+
+  //calcul du coefficient de corrélation
+  for(auto &it : points)
+  {
+      ecX   = it.x - moyX;
+      ecY   = it.y - moyY;
+      sumEcXY += ecX*ecY;
+
+      ec2X += ecX*ecX;
+      ec2Y += ecY*ecY;
+  }
+
+  covXY = sumEcXY/double(n);
+  varX  = ec2X/double(n);
+  varY  = ec2Y/double(n);
+
+  double correl = covXY/sqrt(varX * varY);
+
+  double slope     = covXY/varX;
+
+  model.x = moyX;
+  model.y = moyY;
+  model.theta = atan2(slope,1);
+
+  return correl*correl;
+}
+
+double linearRegression(const std::vector<geometry_msgs::Point> &points, geometry_msgs::Pose2D &model)
+{
+  std::list<geometry_msgs::Point> list;
+  for (auto &it : points)
+  {
+    list.push_back(it);
+  }
+
+  return linearRegression(list, model);
+}
+
+double linearRegression(const std::vector<geometry_msgs::Point> &points, geometry_msgs::Point &pt, double &angle)
+{
+  geometry_msgs::Pose2D model;
+  double correl = linearRegression(points, model);
+
+  pt.x = model.x;
+  pt.y = model.y;
+  angle = model.theta;
+
+  return correl;
+}
+
+
 } // namespace geometry_utils

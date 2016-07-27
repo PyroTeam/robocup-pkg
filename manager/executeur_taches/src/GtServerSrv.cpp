@@ -76,7 +76,7 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 
     geometry_msgs::Pose2D knownMachinePose;
 
-    knownMachinePose = m_ls->machines()[zone - 1].pose;
+    knownMachinePose = m_ls->machines()[zone - 1].pose();
 
     geometry_msgs::Pose2D input, output;
     input.x      = 0.0;
@@ -86,13 +86,13 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
     output.y     = MARGIN_FROM_CENTER;
     output.theta = -M_PI_2;
 
-    if (m_ls->machines()[zone - 1].orientationOk)
+    if (m_ls->machines()[zone - 1].checkOrientation())
     {
-        ROS_INFO("la machine en zone %d est censee avoir le bon angle !", m_ls->machines()[zone - 1].zone);
+        ROS_INFO("la machine en zone %d est censee avoir le bon angle !", m_ls->machines()[zone - 1].zone());
     }
     else
     {
-        ROS_INFO("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone);
+        ROS_INFO("je ne sais pas si la machine en zone %d a le bon angle", m_ls->machines()[zone - 1].zone());
     }
 
     point1 = geometry_utils::machineToMapFrame(output, knownMachinePose);
@@ -103,7 +103,7 @@ void GtServerSrv::getSidePoints(int zone, geometry_msgs::Pose2D &point1, geometr
 
 bool GtServerSrv::knownMachineInZone(int zone)
 {
-    return m_ls->machines()[zone - 1].isHere;
+    return m_ls->machines()[zone - 1].exists();
 }
 
 manager_msg::activity GtServerSrv::getActivityMsg()
@@ -474,7 +474,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req, manager_msg::or
 
                 // Si l'orientation de la machine est bonne, on choisit le premier point,
                 // qui est la sortie de la machine (sauf pour la DS)
-                if (m_ls->machines()[req.id-1].orientationOk)
+                if (m_ls->machines()[req.id-1].checkOrientation())
                 {
                     //if (!machine->isDS(machineSideId))
                     if (!m_ls->machines()[req.id-1].isDS())
@@ -540,7 +540,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req, manager_msg::or
 
                         // Si l'orientation de la machine est bonne, on choisit le premier point,
                         // qui est la sortie de la machine (sauf pour la DS)
-                        if (m_ls->machines()[req.id-1].orientationOk)
+                        if (m_ls->machines()[req.id-1].checkOrientation())
                         {
                             //if (!machine->isDS(machineSideId))
                             if (!m_ls->machines()[req.id-1].isDS())
@@ -604,7 +604,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req, manager_msg::or
                     break;
                 }
 
-                machine->majCenter(m_ls->machines()[req.id - 1].pose);
+                machine->pose(m_ls->machines()[req.id - 1].pose());
 
                 // Vérifier si INPUT (TODO: à vérifier)
                 if(isInput(machineSideId) && !machine->isDS())
@@ -612,7 +612,7 @@ bool GtServerSrv::responseToGT(manager_msg::order::Request &req, manager_msg::or
                     // Si OUI
                     machine->majEntry(firstSidePoint);
                     machine->majExit(secondSidePoint);
-                    ROS_INFO("I see an input of a machine with the angle %f", machine->getCenterMachine().theta);
+                    ROS_INFO("I see an input of a machine with the angle %f", machine->pose().theta);
 
                     // Se rendre ou point devant autre côté de la machine
                     if (!going(secondSidePoint))

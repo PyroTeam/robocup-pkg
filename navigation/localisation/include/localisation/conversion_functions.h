@@ -1,3 +1,11 @@
+/**
+ * \file 			conversion_functions.h
+ * \brief			fonctions de conversions nécessaires à la détection de machines et cartographie
+ * \author		Danel Thomas
+ * \date			2016-07-18
+ * \copyright 2016, Association de Robotique de Polytech Lille All rights reserved
+*/
+
 #ifndef CONVERSION_FUNCTIONS_H
 #define CONVERSION_FUNCTIONS_H
 

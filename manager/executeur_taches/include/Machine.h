@@ -16,6 +16,7 @@
 #include <geometry_msgs/Pose2D.h>
 
 #include <common_utils/types.h>
+#include <common_utils/MPS.h>
 #include <manager_msg/activity.h>
 #include <manager_msg/order.h>
 #include <deplacement_msg/MoveToPoseAction.h>
@@ -30,17 +31,14 @@ using namespace manager_msg;
 using namespace final_approach_msg;
 using namespace common_utils;
 
-class Machine
+class Machine : public MPS
 {
 protected:
 
     /* Variables d'instance */
     std::string m_type;
-    geometry_msgs::Pose2D m_centerMachine;
     geometry_msgs::Pose2D m_entryMachine;
     geometry_msgs::Pose2D m_exitMachine;
-    int m_zone;
-    bool m_orientationOk;
     std::string m_name;
     int m_faType;
     int m_activityType;
@@ -54,11 +52,9 @@ public:
 
     /* méthodes */
     std::string getType();
-    geometry_msgs::Pose2D getCenterMachine();
     geometry_msgs::Pose2D getEntryMachine();
     geometry_msgs::Pose2D getExitMachine();
 
-    void majCenter(geometry_msgs::Pose2D point);
     void majEntry(geometry_msgs::Pose2D point);
     void majExit(geometry_msgs::Pose2D point);
 
@@ -69,8 +65,6 @@ public:
     int getFaType(){ return m_faType; }
     int getActivityType(){ return m_activityType; }
     const char *getName(){ return m_name.c_str(); }
-
-    bool isDS();
 };
 
 #endif

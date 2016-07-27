@@ -1,2 +1,0 @@
-time timeStamp
-bool state

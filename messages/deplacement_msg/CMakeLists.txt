@@ -5,15 +5,15 @@ project(deplacement_msg)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-roscpp
-rospy
-std_msgs
-message_generation
-geometry_msgs
-sensor_msgs
-actionlib
-nav_msgs
-comm_msg
+	roscpp
+  	rospy
+  	std_msgs
+	message_generation
+	geometry_msgs
+	sensor_msgs
+  	actionlib
+    nav_msgs
+		comm_msg
 )
 
 ## System dependencies are found with CMake's conventions

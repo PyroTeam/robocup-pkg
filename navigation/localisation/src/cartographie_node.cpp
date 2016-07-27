@@ -44,8 +44,6 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
     g_pose.pose.covariance[6] <= ACCEPTANCE_THRESHOLD &&
     g_pose.pose.covariance[7] <= ACCEPTANCE_THRESHOLD*/)
     {
-        ROS_INFO("I get some machines");
-
         tf::StampedTransform transform;
         try
         {
@@ -69,7 +67,6 @@ void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
 
             // Vérification de la zone
             int zone = common_utils::getArea(center);
-            ROS_INFO("Machine en zone %d", zone);
 
             // Si la machine est bien dans une zone
             if (zone != 0)
@@ -229,5 +226,5 @@ void artagCallback(const ar_track_alvar_msgs::AlvarMarkers& artags)
             loop_rate.sleep();
         }
 
-        return 0;
-    }
+  return 0;
+}

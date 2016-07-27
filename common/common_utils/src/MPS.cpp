@@ -49,7 +49,13 @@ void MPS::setOrientation()
     m_orientationOk = true;
 }
 
-deplacement_msg::MPS Machine::msg()
+
+bool MPS::exists()
+{
+    return (m_pose.x != 0.0);
+}
+
+deplacement_msg::MPS MPS::msg()
 {
     deplacement_msg::MPS tmp;
 

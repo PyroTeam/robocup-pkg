@@ -11,6 +11,8 @@
 #define MPS_H
 
 #include "geometry_msgs/Pose2D.h"
+#include "deplacement_msg/MPS.h"
+#include "common_utils/types.h"
 
 namespace common_utils {
 
@@ -38,6 +40,8 @@ public:
     int idIn(){return m_idIn;}
     int idOut(){return m_idOut;}
     bool checkOrientation(){return m_orientationOk;}
+    bool isDS(){return (m_idIn == C_DS_IN || m_idOut == C_DS_OUT || m_idIn == M_DS_IN || m_idOut == M_DS_OUT);}
+    bool exists();
     deplacement_msg::MPS msg();
 };
 

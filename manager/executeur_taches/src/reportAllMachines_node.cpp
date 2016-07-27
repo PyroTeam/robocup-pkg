@@ -56,11 +56,11 @@ int main(int argc, char **argv)
     Machine *machine = nullptr;
     for(auto &it : locaSubscriber.machines())
     {
-        if (it.orientationOk && common_utils::isMyTeam(it.idIn, teamColor))
+        if (it.checkOrientation() && common_utils::isMyTeam(it.idIn(), teamColor))
         {
-            machine = m_elements.getMachineFromTag(it.idIn);
-            reportClient.reporting(machine->getName(), "", it.zone);
-            ROS_INFO("Report machine: zone %d, name: %s", it.zone, machine->getName());
+            machine = m_elements.getMachineFromTag(it.idIn());
+            reportClient.reporting(machine->getName(), "", it.zone());
+            ROS_INFO("Report machine: zone %d, name: %s", it.zone(), machine->getName());
         }
     }
 

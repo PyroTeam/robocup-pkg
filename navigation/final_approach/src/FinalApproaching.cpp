@@ -507,34 +507,6 @@ void FinalApproaching::executeCB(const final_approach_msg::FinalApproachingGoalC
 	debugFinalApproachResult(odom);
 }
 
-int FinalApproaching::avancement(int a, int b, int c)
-{
-	int tmp = -20;
-	if (c == 2)
-	{
-		tmp = 100;
-	}
-	else
-	{
-		if (b == 1 && (c == 0 || c == 1))
-		{
-			tmp = 67;
-		}
-		else
-		{
-			if (a == 1 && b == 0 && (c == 0 || c == 1))
-			{
-				tmp = 33;
-			}
-			else
-			{
-				tmp = 0;
-			}
-		}
-	}
-	return tmp;
-}
-
 float FinalApproaching::objectifY()
 {
 	/**
@@ -708,31 +680,6 @@ Segment FinalApproaching::segmentConstruction(std::list<std::vector<Point> > lis
 
 	// Only the nearest segment is kept
 	return tabSegments[nearestSegment(tabSegments)];
-}
-
-float FinalApproaching::objectLength(int i, int j, std::list<std::vector<Point> > listPointsVectors,
-                                     std::vector<float> ranges, float angleMin, double angleInc)
-{
-	std::list<std::vector<Point> >::iterator it = listPointsVectors.begin();
-	int compteur = 0;
-	int cpt2 = 0;
-	while (compteur != i)
-	{
-		compteur++;
-		cpt2 = cpt2 + it->size();
-		it++;
-	}
-
-	// TODO: Check the validity of this condition
-	if (it != listPointsVectors.end() && i != j)
-	{
-		std::vector<Point> pointsVector = *it;
-		Point pmin(ranges[i], angleMin + (double)i * angleInc);
-		Point pmax(ranges[j], angleMin + (double)j * angleInc);
-		return distance2points(pointsVector[0], pointsVector[pointsVector.size() - 1]);
-	}
-
-	return 0;
 }
 
 float FinalApproaching::objectLengthNew(std::vector<Point> &pointsVector)
@@ -1024,57 +971,6 @@ int FinalApproaching::correspondingId(std::vector<int> allPossibleId, std::vecto
 	}
 
 	return arTagIdx;
-}
-
-int FinalApproaching::asservissementCamera(std::vector<float> px, std::vector<float> pz, std::vector<float> oz, int k,
-                                           ArTagFA &arTag)
-{
-	int avancementArTag = 0;
-
-	if (!px.empty() && !pz.empty() && !oz.empty())
-	{
-		ROS_DEBUG_NAMED("investigation", "PX: %f, PZ: %f, OZ: %f", px[k], pz[k], oz[k]);
-		if (std::abs(px[k]) < 0.005)
-		{
-			m_msgTwist.linear.y = 0;
-		}
-		else
-		{
-			m_msgTwist.linear.y = -0.75 * px[k];
-		}
-
-		if (std::abs(pz[k] - 0.50) < 0.01)
-		{
-			m_msgTwist.linear.x = 0;
-		}
-		else
-		{
-			m_msgTwist.linear.x = 0.25 * (pz[k] - 0.50);
-		}
-
-		if (std::abs(oz[k]) < 0.01)
-		{
-			m_msgTwist.angular.z = 0;
-		}
-		else
-		{
-			m_msgTwist.angular.z = 0.125 * oz[k];
-		}
-
-		if (m_msgTwist.linear.x == 0 && m_msgTwist.linear.y == 0 && m_msgTwist.angular.z == 0)
-		{
-			avancementArTag = 1;
-		}
-	}
-	else
-	{
-		m_msgTwist.linear.x = 0;
-		m_msgTwist.linear.y = 0;
-		m_msgTwist.angular.z = 0;
-	}
-
-	m_pubMvt.publish(m_msgTwist);
-	return avancementArTag;
 }
 
 // TODO: Regler et paramétrer cette phase

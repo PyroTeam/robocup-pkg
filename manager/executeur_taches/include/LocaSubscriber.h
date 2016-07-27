@@ -13,15 +13,17 @@
 #include <ros/ros.h>
 #include "geometry_msgs/Pose2D.h"
 #include "deplacement_msg/Machines.h"
-#include "MPS.h"
+#include "common_utils/MPS.h"
 #include <vector>
+
+using namespace common_utils;
 
 class LocaSubscriber
 {
 public:
     LocaSubscriber();
     virtual  ~LocaSubscriber();
-    
+
     void machinesCallback(const deplacement_msg::MachinesConstPtr &msg);
     void spin();
 
