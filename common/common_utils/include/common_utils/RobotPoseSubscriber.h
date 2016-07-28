@@ -16,6 +16,7 @@
 #include "nav_msgs/Odometry.h"
 #include <tf/transform_datatypes.h>
 #include <tf/transform_listener.h>
+#include <Eigen/Dense>
 
 namespace common_utils {
 
@@ -39,6 +40,11 @@ public:
     {
         return m_pose2D;
     }
+
+    const Eigen::Vector3d &getVel(){return m_vel;}
+
+    const Eigen::Vector3d &getPoseAsVector(){return m_poseVector;}
+
 private:
     ros::NodeHandle m_nh;
     ros::Subscriber m_sub;
@@ -46,6 +52,8 @@ private:
 
     geometry_msgs::Pose m_pose;
     geometry_msgs::Pose2D m_pose2D;
+    Eigen::Vector3d m_vel;
+    Eigen::Vector3d m_poseVector;
     std::string m_destFrame_id;
 };
 

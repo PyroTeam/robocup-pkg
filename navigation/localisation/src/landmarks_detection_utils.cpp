@@ -137,6 +137,7 @@ std::list<Model> findLines( const std::list<geometry_msgs::Point> &listOfPoints,
 
 std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
 {
+    const double MINIMAL_SIZE = 0.2;
     Segment s;
     std::list<Segment> listOfSegments;
     std::list<geometry_msgs::Point> tmp;
@@ -154,7 +155,7 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
         //sinon (si on détecte un seuil important)
         else
         {
-            if (geometry_utils::distance(tmp.front(), tmp.back()) >= 0.5)
+            if (geometry_utils::distance(tmp.front(), tmp.back()) >= MINIMAL_SIZE)
             {
                 //on construit un nouveau segment à partir de la liste enregistrée des points qui sont proches
                 s.build(tmp);
@@ -171,7 +172,7 @@ std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil)
 
     //pour le dernier point, le seuil ne pouvant plus être dépassé,
     //on construit le dernier segment et on l'ajoute
-    if (tmp.size() >= 2 && geometry_utils::distance(tmp.front(), tmp.back()) >= 0.5)
+    if (tmp.size() >= 2 && geometry_utils::distance(tmp.front(), tmp.back()) >= MINIMAL_SIZE)
     {
         //on construit un nouveau segment à partir de la liste enregistrée des points qui sont proches
         s.build(tmp);

@@ -35,8 +35,5 @@ _extraction des machines :_
 
 **DOIT être normalisé dans les common :**
 
-* LaserScan (ou utilisation du pcl node)
-* Line
 * Segment
-* Machine (comme objet physique, ce serait une classe mère pour les infos purement géométriques -> taille, position sur la piste)
 * Subscriber AR TAgs ?

@@ -15,11 +15,11 @@ find_package(catkin REQUIRED COMPONENTS
   deplacement_msg
   tf
   message_filters
-	geometry_utils
-	comm_msg
-	common_utils
-	ar_track_alvar
-	ar_track_alvar_msgs
+    geometry_utils
+    comm_msg
+    common_utils
+    ar_track_alvar
+    ar_track_alvar_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -60,7 +60,7 @@ add_executable(
   src/Segment.cpp
   src/Model.cpp
   src/Machine.cpp)
-set_target_properties(landmarks_extraction PROPERTIES COMPILE_FLAGS -std=c++11)
+set_target_properties(landmarks_extraction PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 add_dependencies(landmarks_extraction deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   landmarks_extraction
@@ -70,7 +70,7 @@ target_link_libraries(
 add_executable(
   odometry_correction
   src/odometry_correction_node.cpp)
-set_target_properties(odometry_correction PROPERTIES COMPILE_FLAGS -std=c++11)
+set_target_properties(odometry_correction PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 add_dependencies(odometry_correction deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   odometry_correction
@@ -80,7 +80,7 @@ target_link_libraries(
 add_executable(
   visualisation
   src/visualisation.cpp)
-set_target_properties(visualisation PROPERTIES COMPILE_FLAGS -std=c++11)
+set_target_properties(visualisation PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 add_dependencies(visualisation deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   visualisation
@@ -97,10 +97,21 @@ add_executable(
   src/Machine.cpp
   src/Line.cpp
   src/Model.cpp)
-set_target_properties(cartographie PROPERTIES COMPILE_FLAGS -std=c++11)
+set_target_properties(cartographie PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 add_dependencies(cartographie deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(
   cartographie
+  ${catkin_LIBRARIES}
+)
+
+add_executable(
+  ekf
+  src/ekf_node.cpp
+  src/Ekf.cpp)
+set_target_properties(ekf PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
+add_dependencies(ekf deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
+target_link_libraries(
+  ekf
   ${catkin_LIBRARIES}
 )
 

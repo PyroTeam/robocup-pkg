@@ -292,7 +292,8 @@
             <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction" respawn="true" output="log"/>
             <node if="$(arg use_viz_markers)" pkg="localisation" name="visualisation" type="visualisation" respawn="true" output="log"/>
             <node pkg="localisation" name="odometry_correction" type="odometry_correction" respawn="true" output="log"/>
-            <node pkg="localisation" name="cartographie" type="cartographie" respawn="true" output="screen"/>
+            <!-- <node pkg="localisation" name="cartographie" type="cartographie" respawn="true" output="log"/> -->
+            <node pkg="localisation" name="ekf" type="ekf" output="screen"/>
 
             <!-- Load the grid maker -->
             <!-- TODO: Vérifier les fichiers de conf utilisés -->

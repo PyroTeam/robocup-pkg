@@ -12,8 +12,11 @@ find_package(catkin REQUIRED COMPONENTS
   occupancy_grid_utils
   deplacement_msg
   tf
+  cmake_modules
 
 )
+
+find_package(Eigen REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -105,7 +108,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include include/common_utils
+  INCLUDE_DIRS include include/common_utils /usr/include/eigen3
   LIBRARIES common_utils
   CATKIN_DEPENDS roscpp rospy std_msgs tf occupancy_grid_utils
 #  DEPENDS system_lib
@@ -121,6 +124,7 @@ catkin_package(
 include_directories(
     include
     ${catkin_INCLUDE_DIRS}
+    ${Eigen_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library

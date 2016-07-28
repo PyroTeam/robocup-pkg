@@ -31,6 +31,7 @@ int main(int argc, char** argv)
 
     // Publish found segments and machines
     ros::Publisher pub_machines = n.advertise< deplacement_msg::Landmarks >("objectDetection/machines", 1000);
+    ros::Publisher pub_segments = n.advertise< deplacement_msg::Landmarks >("objectDetection/segments", 1000);
 
     // Initialisation du random
     srand(time(NULL));
@@ -50,6 +51,7 @@ int main(int argc, char** argv)
         std::vector<Machine> listOfMachines = recognizeMachinesFrom(listOfSegments);
 
         deplacement_msg::Landmarks machines;
+        deplacement_msg::Landmarks segments;
 
         for (auto &it : listOfMachines)
         {
@@ -57,7 +59,15 @@ int main(int argc, char** argv)
         }
         machines.header = laserData.getHeader();
 
+        for (auto &it : listOfSegments)
+        {
+            segments.landmarks.push_back(pointToPose2D(it.getMin()));
+            segments.landmarks.push_back(pointToPose2D(it.getMax()));
+        }
+        segments.header = laserData.getHeader();
+
         // Publish
+        pub_segments.publish(segments);
         pub_machines.publish(machines);
 
         // Spin

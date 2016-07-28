@@ -46,6 +46,14 @@ void RobotPoseSubscriber::odomCallback(const nav_msgs::Odometry &msg)
     m_pose2D.x = m_pose.position.x;
     m_pose2D.y = m_pose.position.y;
     m_pose2D.theta = tf::getYaw(m_pose.orientation);
+
+    m_poseVector(0) = msg.pose.pose.position.x;
+    m_poseVector(1) = msg.pose.pose.position.y;
+    m_poseVector(2) = tf::getYaw(msg.pose.pose.orientation);
+
+    m_vel(0) = msg.twist.twist.linear.x;
+    m_vel(1) = msg.twist.twist.linear.y;
+    m_vel(2) = msg.twist.twist.angular.z;
 }
 
 } // namespace common_utils
