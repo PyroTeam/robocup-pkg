@@ -18,6 +18,7 @@ EKF::EKF()
     m_predictedP.setZero();
 
     m_time = ros::Time::now();
+    m_initTime = ros::Time::now();
 
     m_begin = false;
 }
@@ -106,12 +107,9 @@ int EKF::checkStateVector(const Vector3d &machine)
 
     if (m_state.rows() > 3)
     {
-        std::cout << "size de m_state :" << m_state.rows() << "\n" << std::endl;
+        std::cout << "size de m_state :" << m_state.rows()/3 << "\n" << std::endl;
         for (int i = 3; i < m_state.rows(); i=i+3)
         {
-            ROS_ERROR("Zone %d VS Zone %d", areaMachine, common_utils::getArea(m_state.block(i,0,3,1)));
-            ROS_WARN("(%f, %f) compared to (%f, %f)", machine(0), machine(1), m_state(i), m_state(i+1));
-
             if (areaMachine == common_utils::getArea(m_state.block(i,0,3,1)))
             {
                 return i;
@@ -185,6 +183,7 @@ void EKF::predict()
     //        = x(t) + dx/dt*dt (  dx/dt = (x(t+1)-x(t))/dt )
 
     double angle = m_predictedState(2);
+    // Changement de repère des vitesses dans le repère odom
     double dVx = cos(angle)*cmdVel(0) - sin(angle)*cmdVel(1);
     double dVy = sin(angle)*cmdVel(0) + cos(angle)*cmdVel(1);
 
@@ -206,7 +205,7 @@ void EKF::predict()
 
     // PREDICTION DE L'INCERTITUDE
     // (à déterminer covariance Q liée au bruit du système)
-    m_predictedP = F*m_P*(F.transpose());
+    m_predictedP = F*m_predictedP*(F.transpose());
 
     //mise à jour du temps
     m_time = ros::Time::now();
@@ -241,6 +240,14 @@ void EKF::correctOnce(int i)
     {
         // calcul de l'erreur entre la machine vue et la machine déjà détectée
         Vector3d z = seenMachine - m_state.block(indexOfMachineInStateVector,0,3,1);
+        if (z(2) > M_PI_2)
+        {
+            z(2) -= M_PI;
+        }
+        else if (z(2) < -M_PI_2)
+        {
+            z(2) += M_PI;
+        }
         //std::cout << "z = \n" << z << "\n" <<  std::endl;
 
         //calcul de H
@@ -248,36 +255,33 @@ void EKF::correctOnce(int i)
         //std::cout << "H = \n" << H << "\n" <<  std::endl;
 
         //calcul de R (matrice de covariance du bruit)
-        MatrixXd R = 0.1*MatrixXd::Identity(3,3);
+        ros::Duration duree = ros::Time::now() - m_initTime;
+        double period = duree.toSec();
+        // on estime la dérive odométrique proportionnelle au temps de déplacement
+        MatrixXd R = 0.001*period*MatrixXd::Identity(3,3);
         //std::cout << "R = \n" << R << "\n" <<  std::endl;
-
-        //calcul de Pm
-        //MatrixXd Pm = buildPm(indexOfMachineInStateVector);
-        MatrixXd Pm = m_predictedP;
-        //std::cout << "Pm =" << Pm << "\n" <<  std::endl;
 
         //calcul de Z
         MatrixXd Z(3,3);
         Z.setZero();
-        Z = H*Pm*H.transpose() + R;
+        Z = H*m_predictedP*H.transpose() + R;
         //std::cout << "Z - R = \n" << H*Pm*H.transpose() << "\n" <<  std::endl;
 
         //calcul du gain de Kalman
         MatrixXd K;
         K.setZero();
-        K = Pm*H.transpose()*Z.inverse();
+        K = m_predictedP*H.transpose()*Z.inverse();
         //std::cout << "Gain = \n" << K << "\n" <<  std::endl;
 
 
         //mise à jour du vecteur m_state
         m_state = m_predictedState + K*z;
-        m_predictedState = m_state;
+        m_predictedState.block(0,0,3,1) = m_state.block(0,0,3,1);
 
         //mise à jour de la matrice m_P
-        MatrixXd I = MatrixXd::Identity(Pm.rows(),Pm.cols());
-        Pm = (I - K*H)*Pm;
-        //std::cout << "Pm maj = \n" << Pm << "\n" <<  std::endl;
-        updateP(Pm, indexOfMachineInStateVector);
+        MatrixXd I = MatrixXd::Identity(m_predictedP.rows(),m_predictedP.cols());
+        m_P = (I - K*H)*m_predictedP;
+        //m_predictedP = m_P;
     }
 }
 
@@ -295,9 +299,9 @@ void EKF::correct()
 geometry_msgs::Pose2D EKF::getRobot()
 {
     geometry_msgs::Pose2D tmp;
-    tmp.x     = m_predictedState(0);
-    tmp.y     = m_predictedState(1);
-    tmp.theta = m_predictedState(2);
+    tmp.x     = m_state(0);
+    tmp.y     = m_state(1);
+    tmp.theta = m_state(2);
 
     return tmp;
 }
@@ -306,12 +310,12 @@ std::vector<geometry_msgs::Pose2D> EKF::getLandmarks()
 {
     std::vector<geometry_msgs::Pose2D> vect;
 
-    for (int i = 3; i < m_predictedState.rows(); i = i+3)
+    for (int i = 3; i < m_state.rows(); i = i+3)
     {
         geometry_msgs::Pose2D p;
-        p.x     = m_predictedState(i);
-        p.y     = m_predictedState(i+1);
-        p.theta = m_predictedState(i+2);
+        p.x     = m_state(i);
+        p.y     = m_state(i+1);
+        p.theta = m_state(i+2);
         vect.push_back(p);
     }
     return vect;

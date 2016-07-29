@@ -39,6 +39,7 @@ public:
     geometry_msgs::Pose2D getRobot();
     std::vector<geometry_msgs::Pose2D> getLandmarks();
 private:
+    ros::Time m_initTime;
     ros::Time m_time;
     tf::TransformListener *m_tf_listener;
     common_utils::RobotPoseSubscriber m_poseSub;
