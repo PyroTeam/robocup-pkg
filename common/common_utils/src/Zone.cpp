@@ -137,6 +137,17 @@ int getArea(const geometry_msgs::Pose2D &m)
     return 0;
 }
 
+
+int getArea(const Eigen::Vector3d &v)
+{
+    geometry_msgs::Pose2D tmp;
+    tmp.x = v(0);
+    tmp.y = v(1);
+    tmp.theta = v(2);
+
+    return getArea(tmp);
+}
+
 std::list<Zone> buildZones()
 {
     std::list<Zone> list;

@@ -14,6 +14,7 @@
 #include "LaserScan.h"
 #include "landmarks_detection_utils.h"
 #include "common_utils/RobotPoseSubscriber.h"
+#include "LandmarksDetectionSubscriber.h"
 
 using namespace Eigen;
 
@@ -21,57 +22,33 @@ class EKF{
 public:
     EKF();
 
-    void set();
-    void printAreas();
-
-    //callbacks
-    void odomCallback(const nav_msgs::Odometry& odom);
-    void machinesCallback(const deplacement_msg::LandmarksConstPtr& machines);
-
-    void addMachine(const geometry_msgs::Pose2D &machine);
-
-    int checkStateVector(const geometry_msgs::Pose2D &p);
     bool initOdom();
-    bool test(int area);
-    //bool isFarFromEverything(const geometry_msgs::Pose2D &p);
-
+    void addMachine(const Vector3d &machine);
+    int checkStateVector(const Vector3d &machine);
+    MatrixXd buildPm(int i);
     void updateP(const MatrixXd &Pm, int i);
     void updatePprev(const MatrixXd &Pm, int i);
-    void updateXmean(const VectorXd &tmp, int i);
+    MatrixXd buildH2(int size, int i);
 
-    MatrixXd buildPm(int i);
-    MatrixXd buildH(int i);
-    MatrixXd buildH2(const geometry_msgs::Pose2D &p, int size, int i);
+    void predict();
+    void run();
+    void correctOnce(int i);
+    void correct();
 
-    void prediction();
-    void correction(geometry_msgs::Pose2D p, int posMachineInTabMachines);
-
-    VectorXd getXmean();
-    VectorXd getXpredicted();
-
-    std::vector<geometry_msgs::Pose2D> getTabMachines();
-    std::vector<int> getAreas();
-
-    void setArea(int i){m_areas.push_back(i);}
     void setTF(tf::TransformListener *tf_listener){m_tf_listener = tf_listener;}
-
-    deplacement_msg::Robot getRobot(){return m_robot;}
+    geometry_msgs::Pose2D getRobot();
+    std::vector<geometry_msgs::Pose2D> getLandmarks();
 private:
-    deplacement_msg::Robot m_robot;
-
-    common_utils::RobotPoseSubscriber m_poseSub;
-
-    VectorXd m_xMean;
-    MatrixXd m_P;
-    MatrixXd m_P_prev;
-
-    VectorXd m_xPredicted;
-
-    std::vector<int> m_areas;
-    std::vector<geometry_msgs::Pose2D> m_mps;
-
-    ros::Time m_temps;
+    ros::Time m_time;
     tf::TransformListener *m_tf_listener;
+    common_utils::RobotPoseSubscriber m_poseSub;
+    LandmarksDetectionSubscriber m_landmarksSub;
+
+    MatrixXd m_predictedP;
+    MatrixXd m_P;
+    VectorXd m_predictedState;
+    VectorXd m_state;
+
     bool 	m_begin;
 };
 

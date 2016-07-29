@@ -5,34 +5,37 @@ using namespace Eigen;
 
 EKF::EKF()
 {
-    m_xMean.conservativeResize(3);
-    m_xMean.setZero();
+    m_state.conservativeResize(3);
+    m_state.setZero();
 
-    m_xPredicted.conservativeResize(3);
-    m_xPredicted.setZero();
+    m_predictedState.conservativeResize(3);
+    m_predictedState.setZero();
 
     m_P.conservativeResize(3,3);
     m_P.setZero();
 
-    m_P_prev.conservativeResize(3,3);
-    m_P_prev.setZero();
+    m_predictedP.conservativeResize(3,3);
+    m_predictedP.setZero();
 
-    m_temps = ros::Time::now();
+    m_time = ros::Time::now();
 
     m_begin = false;
 }
 
+// false while the subscriber does not give us a proper initial position
 bool EKF::initOdom()
 {
     Vector3d pose = m_poseSub.getPoseAsVector();
 
-    if ((std::abs(pose.sum()) > 1.0))
+    if (std::abs(pose.sum()) > 1.0)
     {
         if (m_begin == false)
         {
-            m_xMean(0) = pose(0);
-            m_xMean(1) = pose(1);
-            m_xMean(2) = pose(2);
+            m_state(0) = pose(0);
+            m_state(1) = pose(1);
+            m_state(2) = pose(2);
+
+            m_predictedState = m_state;
 
             m_begin = true;
         }
@@ -41,124 +44,87 @@ bool EKF::initOdom()
     return m_begin;
 }
 
-bool EKF::test(int area)
+void EKF::addMachine(const Vector3d &machine)
 {
-  for (int i = 0; i < m_areas.size(); i++)
-  {
-    if (m_areas[i] == area)
-    {
-      return true;
-    }
-  }
-  return false;
-}
-
-void EKF::machinesCallback(const deplacement_msg::LandmarksConstPtr& machines)
-{
-    m_mps.clear();
-
-    static ros::NodeHandle nh;
-    std::string tf_prefix;
-    nh.param<std::string>("simuRobotNamespace", tf_prefix, "");
-    if (tf_prefix.size() != 0)
-    {
-        tf_prefix += "/";
-    }
-
-    if (machines->landmarks.size() != 0)
-    {
-        tf::StampedTransform transform;
-        try
-        {
-            m_tf_listener->waitForTransform(tf_prefix+"odom",machines->header.frame_id, machines->header.stamp,ros::Duration(1.0));
-            m_tf_listener->lookupTransform(tf_prefix+"odom", machines->header.frame_id, machines->header.stamp, transform);
-        }
-        catch (tf::TransformException ex)
-        {
-            ROS_WARN("%s",ex.what());
-            return;
-        }
-
-        for (auto &it : machines->landmarks)
-        {
-            // Changement de repère
-            geometry_msgs::Pose2D center = geometry_utils::changeFrame(it, transform);
-
-            // On enregistre la machine
-            if (common_utils::getArea(center) != 0)
-            {
-                m_mps.push_back(it);
-            }
-        }
-    }
-}
-
-void EKF::addMachine(const geometry_msgs::Pose2D &m)
-{
-    //on redimensionne m_xMean et m_P pour accueillir la nouvelle machines
-    m_xMean.conservativeResize(m_xMean.rows() + 3);
-    m_xPredicted.conservativeResize(m_xMean.rows());
+    //on redimensionne m_state et m_P pour accueillir la nouvelle machines
+    m_state.conservativeResize(m_state.rows() + 3);
+    m_predictedState.conservativeResize(m_state.rows());
     m_P.conservativeResize(m_P.rows()+3,m_P.cols()+3);
+    m_predictedP.conservativeResize(m_P.rows(),m_P.cols());
 
     //on remplit avec les coordonnées de la nouvelle machine
-    m_xMean(m_xMean.rows()-3) = m.x;
-    m_xMean(m_xMean.rows()-2) = m.y;
-    m_xMean(m_xMean.rows()-1) = m.theta;
+    m_state.block(m_state.rows()-3,0,3,1) = machine;
+    m_predictedState.block(m_state.rows()-3,0,3,1) = machine;
 
-    std::cout << "machine ajoutée : " << m_xMean.block(m_xMean.rows()-3,0,3,1) << std::endl;
+    std::cout << "machine ajoutée : " << m_state.block(m_state.rows()-3,0,3,1) << std::endl;
 
     //calcul de tous les PLi
     //initialisation des PLi à 0
-    m_P.block(m_P.rows()-3, 0,3, m_P.cols()).setZero();
-    m_P.block(0, m_P.cols()-3, m_P.rows(),3).setZero();
+    m_P.block(m_P.rows()-3,            0,          3, m_P.cols()).setZero();
+    m_P.block(           0, m_P.cols()-3, m_P.rows(),          3).setZero();
+    m_predictedP.block(m_predictedP.rows()-3,            0,          3, m_predictedP.cols()).setZero();
+    m_predictedP.block(           0, m_predictedP.cols()-3, m_predictedP.rows(),          3).setZero();
 
-    for (int j = 0; j < m_xMean.rows(); j = j + 3)
+    for (int j = 0; j < m_state.rows(); j = j + 3)
     {
         //position de la nouvelle machines par rapport au robot
         //et à toutes les autres
-        double x     = m_xMean(m_xMean.rows()-3) - m_xMean(j  );
-        double y     = m_xMean(m_xMean.rows()-2) - m_xMean(j+1);
-        double theta = m_xMean(m_xMean.rows()-1) - m_xMean(j+2);
+        double x     = m_state(m_state.rows()-3) - m_state(j  );
+        double y     = m_state(m_state.rows()-2) - m_state(j+1);
+        double theta = m_state(m_state.rows()-1) - m_state(j+2);
 
         m_P(m_P.rows()-3, j  ) = x;
         m_P(m_P.rows()-2, j+1) = y;
         m_P(m_P.rows()-1, j+2) = theta;
 
+        m_predictedP(m_predictedP.rows()-3, j  ) = x;
+        m_predictedP(m_predictedP.rows()-2, j+1) = y;
+        m_predictedP(m_predictedP.rows()-1, j+2) = theta;
+
         m_P(j  , m_P.cols()-3) = x;
         m_P(j+1, m_P.cols()-2) = y;
         m_P(j+2, m_P.cols()-1) = theta;
 
-        m_P(j  , j  ) = m_xMean(j  ) - m_xMean(0);
-        m_P(j+1, j+1) = m_xMean(j+1) - m_xMean(1);
-        m_P(j+2, j+2) = m_xMean(j+2) - m_xMean(2);
-    }
+        m_predictedP(j  , m_predictedP.cols()-3) = x;
+        m_predictedP(j+1, m_predictedP.cols()-2) = y;
+        m_predictedP(j+2, m_predictedP.cols()-1) = theta;
 
-    m_areas.push_back(common_utils::getArea(m));
+        m_P(j  , j  ) = m_state(j  ) - m_state(0);
+        m_P(j+1, j+1) = m_state(j+1) - m_state(1);
+        m_P(j+2, j+2) = m_state(j+2) - m_state(2);
+
+        m_predictedP(j  , j  ) = m_state(j  ) - m_state(0);
+        m_predictedP(j+1, j+1) = m_state(j+1) - m_state(1);
+        m_predictedP(j+2, j+2) = m_state(j+2) - m_state(2);
+    }
 }
 
-int EKF::checkStateVector(const geometry_msgs::Pose2D &machine)
+int EKF::checkStateVector(const Vector3d &machine)
 {
+    ROS_INFO_STREAM("State vector : " << m_state);
     int areaMachine = common_utils::getArea(machine);
 
-    if (m_xMean.rows() == 3 || areaMachine == 0)
+    if (m_state.rows() > 3)
     {
-        return 0;
-    }
-    else
-    {
-        //std::cout << "size de m_xMean :" << m_xMean.rows() << "\n" << std::endl;
-        for (int i = 3; i < m_xMean.rows(); i=i+3)
+        std::cout << "size de m_state :" << m_state.rows() << "\n" << std::endl;
+        for (int i = 3; i < m_state.rows(); i=i+3)
         {
-            geometry_msgs::Pose2D m;
-            m.x     = m_xMean(i);
-            m.y     = m_xMean(i+1);
-            m.theta = m_xMean(i+2);
+            ROS_ERROR("Zone %d VS Zone %d", areaMachine, common_utils::getArea(m_state.block(i,0,3,1)));
+            ROS_WARN("(%f, %f) compared to (%f, %f)", machine(0), machine(1), m_state(i), m_state(i+1));
 
-            if (areaMachine == common_utils::getArea(m))
+            if (areaMachine == common_utils::getArea(m_state.block(i,0,3,1)))
             {
                 return i;
             }
+            else
+            {
+                ROS_WARN("Machine not in the same zone");
+            }
         }
+    }
+    else
+    {
+        ROS_WARN("Not yet machine in state vector");
     }
 
     return 0;
@@ -169,10 +135,10 @@ MatrixXd EKF::buildPm(int i)
     MatrixXd Pm(m_P.rows(),m_P.cols());
     Pm.setZero();
 
-    Pm.block(0,0,3,3) = m_P_prev.block(0,0,3,3);
-    Pm.block(i,i,3,3) = m_P_prev.block(i,i,3,3);
-    Pm.block(0,i,3,3) = m_P_prev.block(0,i,3,3);
-    Pm.block(i,0,3,3) = m_P_prev.block(i,0,3,3);
+    Pm.block(0,0,3,3) = m_predictedP.block(0,0,3,3);
+    Pm.block(i,i,3,3) = m_predictedP.block(i,i,3,3);
+    Pm.block(0,i,3,3) = m_predictedP.block(0,i,3,3);
+    Pm.block(i,0,3,3) = m_predictedP.block(i,0,3,3);
 
     //std::cout << "Pm :" << Pm << std::endl;
 
@@ -189,13 +155,13 @@ void EKF::updateP(const MatrixXd &Pm, int i)
 
 void EKF::updatePprev(const MatrixXd &Pm, int i)
 {
-    m_P_prev.block(0,0,3,3) = Pm.block(0,0,3,3);
-    m_P_prev.block(i,i,3,3) = Pm.block(i,i,3,3);
-    m_P_prev.block(0,i,3,3) = Pm.block(0,i,3,3);
-    m_P_prev.block(i,0,3,3) = Pm.block(i,0,3,3);
+    m_predictedP.block(0,0,3,3) = Pm.block(0,0,3,3);
+    m_predictedP.block(i,i,3,3) = Pm.block(i,i,3,3);
+    m_predictedP.block(0,i,3,3) = Pm.block(0,i,3,3);
+    m_predictedP.block(i,0,3,3) = Pm.block(i,0,3,3);
 }
 
-MatrixXd EKF::buildH2(const geometry_msgs::Pose2D &p, int size, int i)
+MatrixXd EKF::buildH2(int size, int i)
 {
     MatrixXd H(3,size);
     H.setZero();
@@ -205,113 +171,148 @@ MatrixXd EKF::buildH2(const geometry_msgs::Pose2D &p, int size, int i)
     return H;
 }
 
-void EKF::prediction()
+void EKF::predict()
 {
-    std::cout << "prediction" << std::endl;
-
-    //calcul de la période pour la prédiction
-    ros::Duration duree = ros::Time::now() - m_temps;
+    // calcul de la période pour la prédiction
+    ros::Duration duree = ros::Time::now() - m_time;
     double period = duree.toSec();
 
+    // récupération des commandes de vitesses
     Vector3d cmdVel = m_poseSub.getVel();
 
-    //calcul de la position du robot pour l'instant n+1
-    m_xPredicted(0) = m_xMean(0) + period*(cos(m_xMean(2))*cmdVel(0)-sin(m_xMean(2))*cmdVel(1));
-    m_xPredicted(1) = m_xMean(1) + period*(sin(m_xMean(2))*cmdVel(0)+cos(m_xMean(2))*cmdVel(1));
-    m_xPredicted(2) = m_xMean(2) + period*cmdVel(2);
+    // calcul de la position du robot pour l'instant n+1 à partir de l'instant n
+    // x(t+1) = f(x(t), u(t))
+    //        = x(t) + dx/dt*dt (  dx/dt = (x(t+1)-x(t))/dt )
 
-    m_xMean.block(0,0,3,1) = m_xPredicted.block(0,0,3,1);
+    double angle = m_predictedState(2);
+    double dVx = cos(angle)*cmdVel(0) - sin(angle)*cmdVel(1);
+    double dVy = sin(angle)*cmdVel(0) + cos(angle)*cmdVel(1);
 
-    MatrixXd Fx = MatrixXd::Identity(m_P.rows(),m_P.cols());
-    Fx(0,2) =  cmdVel(0)*cos(m_xMean(2))*period;
-    Fx(1,2) = -cmdVel(1)*sin(m_xMean(2))*period;
+    // PREDICTION DE L'ETAT
+    m_predictedState(0) = m_predictedState(0) +       dVx*period;
+    m_predictedState(1) = m_predictedState(1) +       dVy*period;
+    m_predictedState(2) = m_predictedState(2) + cmdVel(2)*period;
 
-    //mise à jour de m_P
-    m_P_prev = Fx*m_P*(Fx.transpose());
+    // F matrice de transition. Elle est donnée par la Jacobienne de f
+
+    //     [ dx/dx dx/dy dx/da ]   [   1     0   dx/da ]
+    // F = [ dy/dx dy/dy dy/da ] = [   0     1   dy/da ]
+    //     [ da/dx da/dy da/da ]   [   0     0     1   ]
+
+    MatrixXd F = MatrixXd::Identity(m_P.rows(),m_P.cols());
+    F(0,2) =  cos(angle)*cmdVel(0)*period;
+    F(1,2) = -sin(angle)*cmdVel(1)*period;
+    //std::cout << "F = \n" << F << "\n" <<  std::endl;
+
+    // PREDICTION DE L'INCERTITUDE
+    // (à déterminer covariance Q liée au bruit du système)
+    m_predictedP = F*m_P*(F.transpose());
+
     //mise à jour du temps
-    m_temps = ros::Time::now();
+    m_time = ros::Time::now();
 }
 
-void EKF::correction(geometry_msgs::Pose2D p, int i)
+void EKF::run()
 {
-    std::cout << "correction\n" << std::endl;
+    // Phase de prédiction
+    this->predict();
 
+    // Si on détecte des machines
+    if (m_landmarksSub.getMachines().size() != 0)
+    {
+        ROS_INFO("Update phase");
+        // Phase de mise à jour
+        this->correct();
+    }
+}
+
+void EKF::correctOnce(int i)
+{
     int size = m_P.rows();
 
-    //calcul de z
-    VectorXd mVect(3);
-    mVect(0) = p.x;
-    mVect(1) = p.y;
-    mVect(2) = p.theta;
+    Vector3d seenMachine = m_landmarksSub.getMachine(i);
+    int indexOfMachineInStateVector = checkStateVector(seenMachine);
 
-    Vector3d z = mVect - m_xMean.block(i,0,3,1);
-
-    //calcul de H
-    MatrixXd H = buildH2(p,size,i);
-    //std::cout << "H = \n" << H << "\n" <<  std::endl;
-
-    //calcul de R
-    MatrixXd R(3,3);
-    R.setZero();
-    R(0,0) = 0.1;
-    R(1,1) = 0.1;
-    R(2,2) = 0.1;
-    //std::cout << "R = \n" << R << "\n" <<  std::endl;
-
-    //calcul de Pm
-    MatrixXd Pm = buildPm(i);
-    //std::cout << "Pm =" << Pm << "\n" <<  std::endl;
-
-    //calcul de Z
-    MatrixXd Z(3,3);
-    Z.setZero();
-    Z = H*Pm*H.transpose() + R;
-    //std::cout << "Z = \n" << Z << "\n" <<  std::endl;
-
-    //calcul du gain de Kalman
-    MatrixXd K;
-    K.setZero();
-    K = Pm*H.transpose()*Z.inverse();
-    //std::cout << "K = \n" << K << "\n" <<  std::endl;
-
-
-    //mise à jour du vecteur m_xMean
-    if((std::abs(z(0)) < 0.5) && (std::abs(z(1)) < 0.5) && (std::abs(z(2)) < 0.34))
+    if (indexOfMachineInStateVector == 0)
     {
-        m_xMean = m_xMean + K*z;
+        this->addMachine(seenMachine);
     }
-
-    //mise à jour de la matrice m_P
-    MatrixXd tmp = MatrixXd::Identity(Pm.rows(),Pm.cols()) - K*H;
-    Pm = tmp*Pm;
-    //std::cout << "Pm = \n" << Pm << "\n" <<  std::endl;
-    updateP(Pm, i);
-}
-
-void EKF::printAreas()
-{
-    for (int i = 0; i < m_areas.size(); ++i)
+    else
     {
-        std::cout << "machine in area " << m_areas[i] << std::endl;
+        // calcul de l'erreur entre la machine vue et la machine déjà détectée
+        Vector3d z = seenMachine - m_state.block(indexOfMachineInStateVector,0,3,1);
+        //std::cout << "z = \n" << z << "\n" <<  std::endl;
+
+        //calcul de H
+        MatrixXd H = buildH2(size,indexOfMachineInStateVector);
+        //std::cout << "H = \n" << H << "\n" <<  std::endl;
+
+        //calcul de R (matrice de covariance du bruit)
+        MatrixXd R = 0.1*MatrixXd::Identity(3,3);
+        //std::cout << "R = \n" << R << "\n" <<  std::endl;
+
+        //calcul de Pm
+        //MatrixXd Pm = buildPm(indexOfMachineInStateVector);
+        MatrixXd Pm = m_predictedP;
+        //std::cout << "Pm =" << Pm << "\n" <<  std::endl;
+
+        //calcul de Z
+        MatrixXd Z(3,3);
+        Z.setZero();
+        Z = H*Pm*H.transpose() + R;
+        //std::cout << "Z - R = \n" << H*Pm*H.transpose() << "\n" <<  std::endl;
+
+        //calcul du gain de Kalman
+        MatrixXd K;
+        K.setZero();
+        K = Pm*H.transpose()*Z.inverse();
+        //std::cout << "Gain = \n" << K << "\n" <<  std::endl;
+
+
+        //mise à jour du vecteur m_state
+        m_state = m_predictedState + K*z;
+        m_predictedState = m_state;
+
+        //mise à jour de la matrice m_P
+        MatrixXd I = MatrixXd::Identity(Pm.rows(),Pm.cols());
+        Pm = (I - K*H)*Pm;
+        //std::cout << "Pm maj = \n" << Pm << "\n" <<  std::endl;
+        updateP(Pm, indexOfMachineInStateVector);
     }
 }
 
-VectorXd EKF::getXmean()
+void EKF::correct()
 {
-    return m_xMean;
+    for (int i = 0; i < m_landmarksSub.getMachines().size(); i++)
+    {
+        if (common_utils::getArea(m_landmarksSub.getMachine(i)) != 0)
+        {
+            this->correctOnce(i);
+        }
+    }
 }
 
-VectorXd EKF::getXpredicted()
+geometry_msgs::Pose2D EKF::getRobot()
 {
-    return m_xPredicted;
+    geometry_msgs::Pose2D tmp;
+    tmp.x     = m_predictedState(0);
+    tmp.y     = m_predictedState(1);
+    tmp.theta = m_predictedState(2);
+
+    return tmp;
 }
 
-std::vector<int> EKF::getAreas()
+std::vector<geometry_msgs::Pose2D> EKF::getLandmarks()
 {
-    return m_areas;
-}
+    std::vector<geometry_msgs::Pose2D> vect;
 
-std::vector<geometry_msgs::Pose2D> EKF::getTabMachines()
-{
-    return m_mps;
+    for (int i = 3; i < m_predictedState.rows(); i = i+3)
+    {
+        geometry_msgs::Pose2D p;
+        p.x     = m_predictedState(i);
+        p.y     = m_predictedState(i+1);
+        p.theta = m_predictedState(i+2);
+        vect.push_back(p);
+    }
+    return vect;
 }

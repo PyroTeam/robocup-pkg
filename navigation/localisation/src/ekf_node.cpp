@@ -32,8 +32,6 @@ int main( int argc, char** argv )
     tf::TransformListener tf_listener;
     ekf.setTF(&tf_listener);
 
-    ros::Subscriber sub_machines  = n.subscribe("objectDetection/machines", 1, &EKF::machinesCallback, &ekf);
-
     ros::Publisher pub_robot    = n.advertise<deplacement_msg::Robot>("objectDetection/robot", 1);
     ros::Publisher pub_machines = n.advertise<deplacement_msg::Machines>("objectDetection/landmarks", 1);
 
@@ -45,57 +43,25 @@ int main( int argc, char** argv )
     {
         if(ekf.initOdom())
         {
-            ekf.prediction();
-
-            //pour toutes les machines observées
-            for (auto &it : ekf.getTabMachines())
-            {
-                //si on a déjà vu cette machine
-                int index = ekf.checkStateVector(it);
-                if (index != 0)
-                {
-                    //on corrige sa position et on se recale par rapport à celle ci
-                    ekf.correction(it, index);
-                }
-                else
-                {
-                    // on ajoute cette machine
-                    std::cout << "ajout machine" << std::endl;
-                    ekf.addMachine(it);
-                    cpt++;
-                }
-            }
-
-            std::cout << "machine(s) ajoutée(s) = " << cpt << "\n" << std::endl;
-
-            VectorXd xMean = ekf.getXmean();
-            //std::cout << "xMean : \n" << xMean << std::endl;
-
-            ekf.printAreas();
+            ekf.run();
 
             deplacement_msg::Robot robot;
-            robot.pose.x = xMean(0);
-            robot.pose.y = xMean(1);
-            robot.pose.theta = xMean(2);
+            robot.pose = ekf.getRobot();
             robot.header.stamp = ros::Time::now();
             robot.header.frame_id = tf_prefix+"odom";
 
             deplacement_msg::Machines m;
-            for (int i = 3; i < xMean.rows(); i = i + 3)
+            m.header.stamp = ros::Time::now();
+            m.header.frame_id = tf_prefix+"odom";
+            for (auto &it : ekf.getLandmarks())
             {
-                geometry_msgs::Pose2D md;
-                md.x     = xMean(i);
-                md.y     = xMean(i+1);
-                md.theta = xMean(i+2);
                 deplacement_msg::MPS mps;
-                mps.pose = md;
+                mps.pose = it;
                 m.landmarks.push_back(mps);
             }
 
             pub_robot.publish(robot);
             pub_machines.publish(m);
-
-            m.landmarks.clear();
         }
 
         // Spin

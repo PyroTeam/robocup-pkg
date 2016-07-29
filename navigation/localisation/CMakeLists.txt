@@ -107,7 +107,8 @@ target_link_libraries(
 add_executable(
   ekf
   src/ekf_node.cpp
-  src/Ekf.cpp)
+  src/Ekf.cpp
+  src/LandmarksDetectionSubscriber.cpp)
 set_target_properties(ekf PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
 add_dependencies(ekf deplacement_msg_gencpp ${catkin_EXPORTED_TARGETS})
 target_link_libraries(

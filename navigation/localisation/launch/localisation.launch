@@ -1,13 +1,98 @@
 <launch>
 
-  <param name="use_sim_time" value="true"/>
+    <env name="ROSCONSOLE_FORMAT" value="[${node}]:${message}"/>
+    <param name="use_sim_time" value="true"/>
 
-  <group ns="robotino1">
-    <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction"/>
-    <node pkg="localisation" name="visualisation" type="visualisation"/>
-    <node pkg="localisation" name="odometry_correction" type="odometry_correction"/>
-    <node pkg="localisation" name="cartographie" type="cartographie" output="screen"/>
-  </group>
+    <arg name="sim" default="true" />
+
+
+    <!-- Gazebo -->
+    <include if="$(arg sim)" file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find gazebo_sim_launch)/worlds/field2015_oneRobot.world"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="extra_gazebo_args" default=""/>
+        <arg name="gui" value="false"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+        <arg name="physics" default="ode"/>
+        <arg name="verbose" default="false"/>
+    </include>
+
+
+
+    <group ns="robotino1">
+
+        <arg name="robotNamespace" value="robotino1"/>
+        <arg if="$(arg sim)" name="use_tf_prefix" value="true"/>
+        <arg unless="$(arg sim)" name="use_tf_prefix" value="false"/>
+        <!-- Added slash is MANDATORY -->
+        <arg if="$(arg use_tf_prefix)"     name="tf_prefix" value="$(arg robotNamespace)/"/>
+        <arg unless="$(arg use_tf_prefix)" name="tf_prefix" value=""/>
+
+        <!-- Params -->
+
+        <param name="teamName" value="Pyro" />
+        <param name="teamColor" value="cyan" />
+
+        <param if="$(arg sim)" name="simuRobotNamespace" value="$(arg robotNamespace)" />
+        <param unless="$(arg sim)" name="simuRobotNamespace" value="" />
+
+        <arg if="$(arg sim)" name="tf_laser_x" value="0.11" /><!--  0.10+0.01-->
+        <arg if="$(arg sim)" name="tf_laser_y" value="0.0" />
+        <arg if="$(arg sim)" name="tf_laser_z" value="0.255" /><!-- 0.235+0.0175 -->
+
+        <node if="$(arg sim)"
+            pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node">
+            <param name="onlyOdomToBase" value="true"/>
+        </node>
+
+        <node if="$(arg sim)"
+              pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
+
+        <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser_link"
+            respawn="true" output="log"
+            args="$(arg tf_laser_x) $(arg tf_laser_y) $(arg tf_laser_z)
+            0 0 0
+            $(arg tf_prefix)base_link $(arg tf_prefix)laser_link   100" />
+
+        <node pkg="tf" type="static_transform_publisher" name="map_to_odom"
+            respawn="true" output="log"
+            args="0 0 0
+            0 0 0
+            map $(arg tf_prefix)odom   100" />
+
+        <node pkg="laser_utils" type="laser_to_pcl" name="laser_to_pcl" />
+        <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction"/>
+        <node pkg="localisation" name="visualisation" type="visualisation"/>
+        <!--<node pkg="localisation" name="cartographie" type="cartographie" output="screen"/>-->
+        <node pkg="localisation" name="ekf" type="ekf" output="screen"/>
+
+        <rosparam if="$(arg sim)" command="load" file="$(find grid_maker)/cfg/field_simulator.yaml" />
+        <rosparam unless="$(arg sim)" command="load" file="$(find grid_maker)/cfg/fieldRoboCup2016.yaml" />
+        <node pkg="grid_maker" name="grid_maker" type="grid_maker_node" respawn="true" output="log"/>
+
+        <node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"
+            respawn="true" output="log"/>
+
+        <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" respawn="true" output="log"/>
+        <node if="$(arg sim)" pkg="navigation_manager" name="move_request" type="moveRequest_node.py" />
+
+        <!-- Load the path finder -->
+        <param name="navigation/pathFinder/aStarTieBreaking" value="true" />
+        <param name="navigation/pathFinder/weightData" value="0.45" />
+        <param name="navigation/pathFinder/weightSmooth" value="0.35" />
+        <node pkg="path_finder" name="path_finder_node" type="path_finder_node" respawn="true" output="log"/>
+
+        <!-- Load the path tracker -->
+        <node pkg="topic_tools" name="mux_gridMap" type="mux" args="pathFinder/grid objectDetection/grid objectDetection/gridObstacles" respawn="true" output="log"/>
+        <node pkg="path_tracker" name="grid_obstacles_node" type="grid_obstacles_node" respawn="true" output="log"/>
+        <!-- Load the path tracker -->
+        <rosparam command="load" file="$(find path_tracker)/cfg/navigation_pathTracker.yaml" />
+        <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" respawn="true" output="log"/>
+
+
+    </group>
 
 
 </launch>
