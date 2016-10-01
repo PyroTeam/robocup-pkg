@@ -9,7 +9,7 @@
  * \version
  */
 
-#include "dataLaser.h"
+#include "grid_maker/dataLaser.h"
 #include "occupancy_grid_utils/grid_modifier/FastGradientModifier.h"
 
 /* Constantes */

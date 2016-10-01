@@ -1,6 +1,6 @@
 #include "ros/ros.h"
 
-#include "dataLaser.h"
+#include "grid_maker/dataLaser.h"
 
 int main(int argc, char** argv)
 {

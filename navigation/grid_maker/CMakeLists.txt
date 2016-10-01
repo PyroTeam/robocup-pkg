@@ -102,8 +102,8 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-#	include
-  ${catkin_INCLUDE_DIRS}
+    include
+    ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -123,6 +123,26 @@ add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(${PROJECT_NAME}_node
     ${catkin_LIBRARIES}
 )
+
+add_executable(grid_obstacles_node
+        src/grid_obstacles_node.cpp
+        src/dataLaser.cpp
+        src/map.cpp
+)
+
+## Add cmake target dependencies of the executable/library
+## as an example, message headers may need to be generated before nodes
+add_dependencies(grid_obstacles_node path_tracker_generate_messages_cpp deplacement_msg_gencpp pathfinder_gencpp)
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(
+    grid_obstacles_node
+    ${catkin_LIBRARIES}
+)
+
+set_target_properties(grid_obstacles_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
+
+
 # set_target_properties(construct_map_weighted_node PROPERTIES COMPILE_FLAGS "-std=c++11")
 #############
 ## Install ##
