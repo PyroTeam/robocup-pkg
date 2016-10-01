@@ -12,7 +12,7 @@
 #ifndef DATALASER_H
 #define DATALASER_H
 
-#include "map.h"
+#include "grid_maker/map.h"
 
 #include <ros/ros.h>
 #include <tf/transform_listener.h>

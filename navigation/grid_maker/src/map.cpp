@@ -9,7 +9,7 @@
  * \version
  */
 
-#include "map.h"
+#include "grid_maker/map.h"
 
 /* Constantes */
 #define RADIUS_CIRCLE    0.25

@@ -120,28 +120,6 @@ include_directories(
 #   src/${PROJECT_NAME}/gpio_interface.cpp
 # )
 
-## Declare a cpp executable
-add_executable(grid_obstacles_node
-        src/grid_obstacles_node.cpp
-        src/dataLaser.cpp
-        src/map.cpp
-)
-
-
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-add_dependencies(grid_obstacles_node path_tracker_generate_messages_cpp deplacement_msg_gencpp pathfinder_gencpp)
-
-## Specify libraries to link a library or executable target against
-target_link_libraries(
-    grid_obstacles_node
-    ${catkin_LIBRARIES}
-)
-
-set_target_properties(grid_obstacles_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++11")
-
-
-
 add_executable(path_tracker_node
     src/path_tracker_node.cpp
     src/AvoidObstacle.cpp
