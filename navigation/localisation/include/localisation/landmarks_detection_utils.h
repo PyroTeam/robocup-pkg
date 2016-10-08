@@ -22,7 +22,7 @@ Model ransac(std::list<geometry_msgs::Point> &listOfPoints, int n, int NbPtPerti
 
 void reduceList(std::list<geometry_msgs::Point> &list, Model m);
 
-std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts, std::list<geometry_msgs::Point> &l);
+std::list<Model> findLines(const std::list<geometry_msgs::Point> &listOfPoints, int NbPtPertinent, double seuil, int NbPts);
 
 std::list<Segment> buildSegmentsFromOneModel(Model m, double seuil);
 

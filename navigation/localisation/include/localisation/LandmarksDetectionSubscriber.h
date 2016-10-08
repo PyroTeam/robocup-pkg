@@ -24,6 +24,7 @@ public:
     virtual  ~LandmarksDetectionSubscriber();
 
     void machinesCallback(const deplacement_msg::Landmarks& machines);
+    void segmentsCallback(const deplacement_msg::Landmarks& segments);
 
     const std::vector<Eigen::Vector3d> &getMachines(){return m_machines;}
     const Eigen::Vector3d &getMachine(int i){return m_machines[i];}

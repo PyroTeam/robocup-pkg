@@ -100,8 +100,7 @@ void reduceList(std::list<geometry_msgs::Point> &list, Model m)
 std::list<Model> findLines( const std::list<geometry_msgs::Point> &listOfPoints,
                             int NbPtPertinent,
                             double seuil,
-                            int NbPts,
-                            std::list<geometry_msgs::Point> &l)
+                            int NbPts)
 {
     std::list<Model>                 listOfDroites;
     std::list<geometry_msgs::Point>  listWithoutPrecModelPoints = listOfPoints;
@@ -129,8 +128,6 @@ std::list<Model> findLines( const std::list<geometry_msgs::Point> &listOfPoints,
             stopRansac = true;
         }
     }
-
-    //l = listWithoutPrecModelPoints;
 
     return listOfDroites;
 }
@@ -202,15 +199,24 @@ std::list<Segment> buildSegmentsFromModels(std::list<Model> &listOfModels)
 std::vector<Machine> recognizeMachinesFrom(std::list<Segment> &listOfSegments)
 {
     std::vector<Machine> tmp;
+    std::list<std::list<Segment>::iterator> toDelete;
+    std::list<Segment>::iterator it = listOfSegments.begin();
 
-    for (auto &it : listOfSegments)
+    while (it != listOfSegments.end())
     {
-        if (std::abs(it.getSize() - 0.7) <= 0.05)
+        if (std::abs(it->getSize() - 0.7) <= 0.05)
         {
             Machine m;
-            m.calculateCoordMachine(it);
+            m.calculateCoordMachine(*it);
             tmp.push_back(m);
+            toDelete.push_back(it);
         }
+        it++;
+    }
+
+    for (auto &it : toDelete)
+    {
+        listOfSegments.erase(it);
     }
 
     return tmp;

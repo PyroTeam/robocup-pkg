@@ -40,11 +40,8 @@ int main(int argc, char** argv)
     ros::Rate loop_rate (10);
     while(n.ok())
     {
-        // Enregistre une copie du scan en coord cartesiennes
-        const std::list<geometry_msgs::Point> &listOfPoints    = laserData.getPoints();
-        // Trouve les lignes, stocke les points restants dans l
-        std::list<geometry_msgs::Point> l;
-        std::list<Model>  listOfModels      = findLines(listOfPoints, 20, 0.05, 20, l);
+        // Trouve les lignes
+        std::list<Model>  listOfModels      = findLines(laserData.getPoints(), 10, 0.05, 10);
         // Construit les segments
         std::list<Segment> listOfSegments   = buildSegmentsFromModels(listOfModels);
         // Reconnaît les machines à partir des segments

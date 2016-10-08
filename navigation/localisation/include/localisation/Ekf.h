@@ -25,9 +25,6 @@ public:
     bool initOdom();
     void addMachine(const Vector3d &machine);
     int checkStateVector(const Vector3d &machine);
-    MatrixXd buildPm(int i);
-    void updateP(const MatrixXd &Pm, int i);
-    void updatePprev(const MatrixXd &Pm, int i);
     MatrixXd buildH2(int size, int i);
 
     void predict();

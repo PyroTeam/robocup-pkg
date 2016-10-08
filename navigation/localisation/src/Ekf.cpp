@@ -102,61 +102,24 @@ void EKF::addMachine(const Vector3d &machine)
 
 int EKF::checkStateVector(const Vector3d &machine)
 {
-    ROS_INFO_STREAM("State vector : " << m_state);
+    ROS_INFO_STREAM("State vector : \n" << m_state);
     int areaMachine = common_utils::getArea(machine);
+
+    // 1 robot + 11 machines = 12 * 3 = 36
+    if(m_state.rows() > 36) return -1;
 
     if (m_state.rows() > 3)
     {
-        std::cout << "size de m_state :" << m_state.rows()/3 << "\n" << std::endl;
         for (int i = 3; i < m_state.rows(); i=i+3)
         {
             if (areaMachine == common_utils::getArea(m_state.block(i,0,3,1)))
             {
                 return i;
             }
-            else
-            {
-                ROS_WARN("Machine not in the same zone");
-            }
         }
-    }
-    else
-    {
-        ROS_WARN("Not yet machine in state vector");
     }
 
     return 0;
-}
-
-MatrixXd EKF::buildPm(int i)
-{
-    MatrixXd Pm(m_P.rows(),m_P.cols());
-    Pm.setZero();
-
-    Pm.block(0,0,3,3) = m_predictedP.block(0,0,3,3);
-    Pm.block(i,i,3,3) = m_predictedP.block(i,i,3,3);
-    Pm.block(0,i,3,3) = m_predictedP.block(0,i,3,3);
-    Pm.block(i,0,3,3) = m_predictedP.block(i,0,3,3);
-
-    //std::cout << "Pm :" << Pm << std::endl;
-
-    return Pm;
-}
-
-void EKF::updateP(const MatrixXd &Pm, int i)
-{
-    m_P.block(0,0,3,3) = Pm.block(0,0,3,3);
-    m_P.block(i,i,3,3) = Pm.block(i,i,3,3);
-    m_P.block(0,i,3,3) = Pm.block(0,i,3,3);
-    m_P.block(i,0,3,3) = Pm.block(i,0,3,3);
-}
-
-void EKF::updatePprev(const MatrixXd &Pm, int i)
-{
-    m_predictedP.block(0,0,3,3) = Pm.block(0,0,3,3);
-    m_predictedP.block(i,i,3,3) = Pm.block(i,i,3,3);
-    m_predictedP.block(0,i,3,3) = Pm.block(0,i,3,3);
-    m_predictedP.block(i,0,3,3) = Pm.block(i,0,3,3);
 }
 
 MatrixXd EKF::buildH2(int size, int i)
@@ -180,7 +143,7 @@ void EKF::predict()
 
     // calcul de la position du robot pour l'instant n+1 à partir de l'instant n
     // x(t+1) = f(x(t), u(t))
-    //        = x(t) + dx/dt*dt (  dx/dt = (x(t+1)-x(t))/dt )
+    //        = x(t) + dx/dt*dt ( u(t) = dx/dt = (x(t+1)-x(t))/dt )
 
     double angle = m_predictedState(2);
     // Changement de repère des vitesses dans le repère odom
@@ -236,9 +199,10 @@ void EKF::correctOnce(int i)
     {
         this->addMachine(seenMachine);
     }
-    else
+    else if (indexOfMachineInStateVector == -1)
     {
-        // calcul de l'erreur entre la machine vue et la machine déjà détectée
+        // calcul de l'innovation
+        // --> erreur entre la machine vue et la machine déjà détectée
         Vector3d z = seenMachine - m_state.block(indexOfMachineInStateVector,0,3,1);
         if (z(2) > M_PI_2)
         {
@@ -250,18 +214,16 @@ void EKF::correctOnce(int i)
         }
         //std::cout << "z = \n" << z << "\n" <<  std::endl;
 
-        //calcul de H
+        //calcul de la matrice de passage de l'espace d'état vers l'espace des mesures
         MatrixXd H = buildH2(size,indexOfMachineInStateVector);
         //std::cout << "H = \n" << H << "\n" <<  std::endl;
 
-        //calcul de R (matrice de covariance du bruit)
-        ros::Duration duree = ros::Time::now() - m_initTime;
-        double period = duree.toSec();
-        // on estime la dérive odométrique proportionnelle au temps de déplacement
-        MatrixXd R = 0.001*period*MatrixXd::Identity(3,3);
+        //calcul de la matrice de covariance du bruit de mesure
+        double noise = (3/100)*z.mean();
+        MatrixXd R = noise*MatrixXd::Identity(3,3);
         //std::cout << "R = \n" << R << "\n" <<  std::endl;
 
-        //calcul de Z
+        //calcul de la covariance de l'innovation résiduelle
         MatrixXd Z(3,3);
         Z.setZero();
         Z = H*m_predictedP*H.transpose() + R;
@@ -274,11 +236,11 @@ void EKF::correctOnce(int i)
         //std::cout << "Gain = \n" << K << "\n" <<  std::endl;
 
 
-        //mise à jour du vecteur m_state
+        //mise à jour du vecteur d'état
         m_state = m_predictedState + K*z;
-        m_predictedState.block(0,0,3,1) = m_state.block(0,0,3,1);
+        //m_predictedState.block(0,0,3,1) = m_state.block(0,0,3,1);
 
-        //mise à jour de la matrice m_P
+        //mise à jour de la matrice P
         MatrixXd I = MatrixXd::Identity(m_predictedP.rows(),m_predictedP.cols());
         m_P = (I - K*H)*m_predictedP;
         //m_predictedP = m_P;
