@@ -9,7 +9,7 @@ int main(int argc, char** argv)
 {
 	ros::init(argc, argv, "simFinalApproach");
 
-	SimFinalApproach finalApproach("navigation/finalApproaching_node");
+	SimFinalApproach FinalApproach("navigation/finalApproaching_node");
 
 	ros::spin();
 }

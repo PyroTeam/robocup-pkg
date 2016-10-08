@@ -6,8 +6,8 @@ namespace enc = sensor_msgs::image_encodings;
 
 LightDetection::LightDetection()
 : m_it(m_nh)
-, m_action_name(ros::this_node::getName())
-, m_as(m_nh, ros::this_node::getName(), false)
+, m_action_name("computerVision/lecture_feu")
+, m_as(m_nh, m_action_name, false)
 , m_inputColorInverted(m_nh, "computerVision/lightSignalDetection/inputColorInverted", false)
 , m_roiParams(m_nh)
 {
@@ -143,16 +143,31 @@ void LightDetection::traitement(cv::Mat &imgToProcess)
 	constexpr float blinkTolerance = 0.5;
 	constexpr float downBlinkTolerance = blinkTolerance/2;
 	constexpr float topBlinkTolerance = blinkTolerance + downBlinkTolerance;
-	constexpr int hsvValueChannel = 2;
-	constexpr int greenValueThreshold  = 150;  // TODO: Ajouter un paramètre
-	constexpr int yellowValueThreshold = 210;  // TODO: Ajouter un paramètre
-	constexpr int redValueThreshold    = 210;  // TODO: Ajouter un paramètre
+	constexpr int defaultChannel = 2;
+	int hsvValueChannel = defaultChannel;
 
 	float timeElapsed = (ros::Time::now() - m_beginOfProcessing).toSec();
 
 	// Get hsv input image
-    cv::Mat hsv;
-    cv::cvtColor(imgToProcess, hsv, CV_BGR2HSV);
+	cv::Mat hsv;
+	// TODO: Param bourrin, à améliorer
+	bool useBgrInsteadOfHSV;
+	if (!m_nh.getParamCached("computerVision/lightSignalDetection/useBgrInsteadOfHSV", useBgrInsteadOfHSV)
+		|| !useBgrInsteadOfHSV)
+	{
+		cv::cvtColor(imgToProcess, hsv, CV_BGR2HSV);
+		ROS_DEBUG_STREAM_NAMED("roi", "USE HSV");
+	}
+	else
+	{
+		imgToProcess.copyTo(hsv);
+		ROS_DEBUG_STREAM_NAMED("roi", "USE BGR");
+	}
+
+	// TODO: Méthode bourrin, pas de check d'existence (garde la valeur si n'exite pas) à améliorer
+	m_nh.getParamCached("computerVision/lightSignalDetection/useChannel", hsvValueChannel);
+		ROS_DEBUG_STREAM_NAMED("roi", "USE CHANNEL "<<hsvValueChannel);
+
 
 	// Get CV Regions of interest
 	m_greenRoi = Rect(   std::floor(m_roiParams.green.xmin()*hsv.cols)
@@ -172,16 +187,48 @@ void LightDetection::traitement(cv::Mat &imgToProcess)
 	cv::Mat yellowLight = hsv(m_yellowRoi);
 	cv::Mat redLight = hsv(m_redRoi);
 
+
 	// Get mean value (luminosity) for each ROI and compare against configurable threshold
-	float meanGreen = cv::mean(greenLight).val[hsvValueChannel];
-	float meanYellow = cv::mean(yellowLight).val[hsvValueChannel];
-	float meanRed = cv::mean(redLight).val[hsvValueChannel];
+	float meanGreen;
+	float meanYellow;
+	float meanRed;
 
-	m_greenTurnedOn = meanGreen > greenValueThreshold;
-	m_yellowTurnedOn = meanYellow > yellowValueThreshold;
-	m_redTurnedOn = meanRed > redValueThreshold;
+	// TODO: Méthode bourrin, pas de check d'existence (garde la valeur si n'exite pas) à améliorer
+	bool mixedAllChannels = true;
+	m_nh.getParamCached("computerVision/lightSignalDetection/mixedAllChannels", mixedAllChannels);
+		ROS_DEBUG_STREAM_NAMED("roi", "MIXED CHANNELS : "<<(mixedAllChannels?"YES":"NO"));
+	if (mixedAllChannels)
+	{
+		meanGreen = (cv::mean(greenLight).val[0]+cv::mean(greenLight).val[1]+cv::mean(greenLight).val[2])/3;
+		meanYellow = (cv::mean(yellowLight).val[0]+cv::mean(yellowLight).val[1]+cv::mean(yellowLight).val[2])/3;
+		meanRed = (cv::mean(redLight).val[0]+cv::mean(redLight).val[1]+cv::mean(redLight).val[2])/3;
+	}
+	else
+	{
+		meanGreen = cv::mean(greenLight).val[hsvValueChannel];
+		meanYellow = cv::mean(yellowLight).val[hsvValueChannel];
+		meanRed = cv::mean(redLight).val[hsvValueChannel];
+	}
 
-	ROS_DEBUG_STREAM_NAMED("roi", "Mean values g: "<<meanGreen<<" y: "<<meanYellow<<" r: "<<meanRed);
+
+	// TODO: Méthode bourrin, pas de check d'existence (garde la valeur si n'exite pas) à améliorer
+	bool invertThresholdCompare = false;
+	m_nh.getParamCached("computerVision/lightSignalDetection/invertThresholdCompare", invertThresholdCompare);
+		ROS_DEBUG_STREAM_NAMED("roi", "INVERT COMPARE : "<<(invertThresholdCompare?"YES":"NO"));
+	if (invertThresholdCompare)
+	{
+		m_greenTurnedOn = meanGreen < m_roiParams.green.threshold();
+		m_yellowTurnedOn = meanYellow < m_roiParams.yellow.threshold();
+		m_redTurnedOn = meanRed < m_roiParams.red.threshold();
+	}
+	else
+	{
+		m_greenTurnedOn = meanGreen > m_roiParams.green.threshold();
+		m_yellowTurnedOn = meanYellow > m_roiParams.yellow.threshold();
+		m_redTurnedOn = meanRed > m_roiParams.red.threshold();
+	}
+
+	ROS_DEBUG_STREAM_NAMED("roi", "Mean values r: "<<meanRed<<" y: "<<meanYellow<<" g: "<<meanGreen);
 
 	// Save results
 	m_nbRedTurnedOn 	+= ((m_redTurnedOn)		? 1 : 0);
@@ -293,7 +340,7 @@ static void drawSignalOnImg(cv::Mat &img, cv::Rect &roi, int signal)
 	static const cv::Scalar blueColor = cv::Scalar(1.0*maxValue, 0.0*maxValue, 0.0*maxValue);
 
 	constexpr int lineThickness = 5;
-	constexpr int lineOffset = lineThickness - lineThickness/2;
+	constexpr int lineOffset = lineThickness - lineThickness/2 + 2;
 
 	const cv::Scalar *color;
 
@@ -332,7 +379,7 @@ void LightDetection::publishResultImages(cv::Mat &imgResult)
 	static const cv::Scalar redColor = cv::Scalar(0.0*maxValue, 0.0*maxValue, 1.0*maxValue);
 	static const cv::Scalar blackColor = cv::Scalar(0.0*maxValue, 0.0*maxValue, 0.0*maxValue);
 	constexpr int lineThickness = 5;
-	constexpr int lineOffset = lineThickness - lineThickness/2;
+	constexpr int lineOffset = lineThickness - lineThickness/3 + 2;
 
 	// Dessine les ROI sur l'image
 	cv::rectangle(imgResult, m_greenRoi,  greenColor);

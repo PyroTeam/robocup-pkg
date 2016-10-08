@@ -34,12 +34,20 @@ void SimFinalApproach::preemptCB()
 	m_as.setPreempted();
 }
 
-void SimFinalApproach::landmarksCallback(const deplacement_msg::Landmarks::ConstPtr& msg)
+void SimFinalApproach::landmarksCallback(const deplacement_msg::Machines& msg)
 {
 	/* XXX : Maybe this vector could be updated only once, because mps position should not change with mocked detecion */
-	m_mps = msg->landmarks;
+
+  for (auto &it : msg.landmarks)
+  {
+    	m_mps.push_back(it.pose);
+	}
 }
 
 void SimFinalApproach::executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &goal)
 {
+  m_result.success = true;
+  m_result.state = final_approach_msg::FinalApproachingResult::UNKNOWN;
+  ROS_INFO("%s: Succeeded", m_actionName.c_str());
+  m_as.setSucceeded(m_result);
 }

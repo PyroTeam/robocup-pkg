@@ -17,6 +17,8 @@
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Pose2D.h>
 #include <nav_msgs/Path.h>
+#include <tf/transform_datatypes.h>
+#include <tf/transform_listener.h>
 
 namespace geometry_utils {
 
@@ -44,6 +46,9 @@ inline double distance(const nav_msgs::Path &path, const geometry_msgs::Pose &p0
 inline double distance(const nav_msgs::Path &path, const geometry_msgs::Pose2D &p0);
 
 geometry_msgs::Point midPoint(const geometry_msgs::Point &p0, const geometry_msgs::Point &p1);
+
+geometry_msgs::Pose2D changeFrame(const geometry_msgs::Pose2D &p, const tf::StampedTransform &transform);
+geometry_msgs::Pose2D machineToMapFrame(const geometry_msgs::Pose2D &p, const geometry_msgs::Pose2D &poseMachine);
 
 inline double angle(const geometry_msgs::Point &p0);
 
@@ -125,6 +130,26 @@ inline double angle(const geometry_msgs::Point &p0, const geometry_msgs::Point &
 {
     return atan2(p1.y-p0.y, p1.x-p1.x);
 }
+
+inline double normalizeAngle(double angle, double lowLimit = -M_PI, double highLimit = M_PI)
+{
+  double delta = (highLimit - lowLimit);
+
+  while (angle > highLimit)
+  {
+    angle -= delta;
+  }
+  while (angle <= lowLimit)
+  {
+    angle += delta;
+  }
+
+  return angle;
+}
+
+double linearRegression(const std::list<geometry_msgs::Point> &points, geometry_msgs::Pose2D &model);
+double linearRegression(const std::vector<geometry_msgs::Point> &points, geometry_msgs::Pose2D &model);
+double linearRegression(const std::vector<geometry_msgs::Point> &points, geometry_msgs::Point &pt, double &angle);
 
 } // namespace geometry_utils
 

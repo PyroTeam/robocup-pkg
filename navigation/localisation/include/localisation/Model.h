@@ -1,7 +1,16 @@
+/**
+ * \file 			Model.h
+ * \brief			classe Modèle de droite (détectée par RANSAC)
+ * \author		Danel Thomas
+ * \date			2016-07-18
+ * \copyright 2016, Association de Robotique de Polytech Lille All rights reserved
+*/
+
 #ifndef MODEL_H
 #define MODEL_H
 
 #include "geometry_msgs/Point.h"
+#include "geometry_utils/geometry_utils.h"
 #include "conversion_functions.h"
 #include "Line.h"
 
@@ -21,16 +30,16 @@ public:
 	void setPoints(std::list<geometry_msgs::Point> listOfPoints);
 	void addIndex(std::list<geometry_msgs::Point>::iterator &it);
 	void setLine(const Line &line);
- 
+
 	void linReg();
 	void build(const geometry_msgs::Point &a, const geometry_msgs::Point &b);
 	void update();
-	
+
 private:
-	Line             					  					m_line;
-	std::list<geometry_msgs::Point>   				      	m_points; 
-	std::list<std::list<geometry_msgs::Point>::iterator> 	m_index;
-	double             					  					m_correl;
+	Line m_line;
+	std::list<geometry_msgs::Point> m_points;
+	std::list<std::list<geometry_msgs::Point>::iterator> m_index;
+	double m_correl;
 };
 
 #endif

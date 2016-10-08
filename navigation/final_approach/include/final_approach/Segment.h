@@ -11,6 +11,7 @@
 #define _FINAL_APPROACH__SEGMENT__H_
 
 #include "Point.h"
+#include "geometry_utils/geometry_utils.h"
 
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/Point.h>
@@ -30,17 +31,15 @@ class Segment{
 		geometry_msgs::Point getMiddlePoint(){return m_middlePoint;}
 		Point getMin(){return m_min;}
 		Point getMax(){return m_max;}
-		float getGradient(){return m_gradient;}
-		float getCorrelation(){return m_correlation;}
-		float getAngle(){return m_angle;}
-		float getDistance(){return m_distance;}
+		double getCorrelation(){return m_correlation;}
+		double getAngle(){return m_angle;}
+		double getDistance(){return m_distance;}
 		int getMinRanges(){return m_minRanges;}
 		int getMaxRanges(){return m_maxRanges;}
 		bool isConstructed(){return !m_nullSegment;}
 
 		void setMinPoint(geometry_msgs::Point p){m_minPoint = p;}
 		void setMaxPoint(geometry_msgs::Point p){m_maxPoint = p;}
-		void setGradient(float gradient){m_gradient = gradient;}
 		void setCorrelation(float corr){m_correlation = corr;}
 		void setDistance(float d){m_distance = d;}
 
@@ -53,12 +52,6 @@ class Segment{
 		 */
 		geometry_msgs::Pose2D linearRegression(std::vector<Point> pointsVector);
 
-		/**
-		 * \brief      Determine si la pente est quasi nulle ou non
-		 *
-		 * \return     true si pente nulle sinon false
-		 */
-		bool nilGradient();
 
 		/**
 		 * \brief      Determine la distance entre le segment et le laser
@@ -83,12 +76,11 @@ class Segment{
 
 		Point m_min;
 		Point m_max;
-		float m_gradient;
-		float m_correlation;
-		float m_distance;
+		double m_correlation;
+		double m_distance;
 		int m_minRanges;
 		int m_maxRanges;
-		float m_angle;		 // CONFIANCE
+		double m_angle;		 // CONFIANCE
 		bool m_nullSegment;  // CONFIANCE
 };
 

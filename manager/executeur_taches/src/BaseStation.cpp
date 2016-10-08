@@ -1,83 +1,33 @@
 #include <string>
 #include "BaseStation.h"
+#include <common_utils/types.h>
 
-/* Constructeur */
-BaseStation::BaseStation()
+using namespace common_utils;
+
+BaseStation::BaseStation(int teamColor)
+: Machine(teamColor)
 {
-	m_type = "BaseStation";   
-	m_redBase = 0;
-	m_blackBase = 0;
-	m_silverBase = 0;
+    m_name += "BS";
+    m_faType = FinalApproachingGoal::BS;
+    m_activityType = activity::BS;
+    m_type = "BaseStation";
 }
 
-/* Destructeur */
 BaseStation::~BaseStation(){}
 
-/* Fonction Virtuelle */
-void BaseStation::FonctionVirtuelle(){}
-
-/* Méthodes */
-int BaseStation::getRedBase()
+bool BaseStation::take(int color)
 {
-	return m_redBase;
-}
-int BaseStation::getBlackBase()
-{
-	return m_blackBase;
-}
-int BaseStation::getSilverBase()
-{
-	return m_silverBase;
-}
-void BaseStation::majRed(int nbRouge)
-{
-	m_redBase = nbRouge;
-}
-void BaseStation::majBlack(int nbNoir)
-{
-	m_blackBase = nbNoir;
-}
-void BaseStation::majSilver(int nbArgent)
-{
-	m_silverBase = nbArgent;
-}
+    goTo(m_exitMachine);
 
-void BaseStation::take_base(int color,int n_robot,int n_order)
-{
-	// A verifier si la bs est dispo
-	// si OK : (sinon erreur )
+    //TODO: demander à la refbox une base de couleur "couleur" )
 
-	// TOPIC Générateur de taches : infos sur l'avancement de la tache 
-	manager_msg::activity msg;
-	msg = msgToGT(n_robot,activity::IN_PROGRESS,activity::BS,n_order); 
-	ROS_INFO("Taking a Base, color : %d", color); 
+    //TODO: attendre fin de livraison
 
-	goTo(this->m_exitMachine);
+    // Accoster machine
+    startFinalAp(FinalApproachingGoal::BS,
+                 FinalApproachingGoal::OUT,
+                 FinalApproachingGoal::CONVEYOR);
 
-	//Communication_RefBox(je veux une base de couleur "couleur" )
-
-	// while(Communication_RefBox(bs n'a terminé de livrer)) { }
-
-	this->startFinalAp(FinalApproachingGoal::BS, FinalApproachingGoal::OUT, FinalApproachingGoal::CONVEYOR);
-	this->take();
-	msg = msgToGT(n_robot,activity::END,activity::BS,n_order); 
-}
-
-void BaseStation::bring_base_rs(int color,int n_robot,int n_order,int machine)
-{
-	manager_msg::activity msg;
-	/* 1ere partie : prendre la base */
-
-	this->take_base(color,n_robot,n_order);
-
-	/* 2eme partie : emener la base */
-
-	// A verifier si la bs est dispo
-	// si OK : (sinon erreur )
-	ROS_INFO("Bringing a Base to a RS"); 
-
-	goTo(this->m_centerMachine);
-	this->startFinalAp(FinalApproachingGoal::RS, FinalApproachingGoal::IN, FinalApproachingGoal::LANE_RS);
-	this->let();
-	msg = msgToGT(n_robot,activity::END,activity::BS,n_order);
+    // Prendre base
+    grip();
 }

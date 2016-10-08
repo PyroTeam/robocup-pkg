@@ -10,6 +10,9 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
   manager_msg
+  common_utils
+  geometry_utils
+  deplacement_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -84,7 +87,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES generateur_taches
-  CATKIN_DEPENDS roscpp rospy std_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs deplacement_msg
 #  DEPENDS system_lib
 )
 
@@ -134,6 +137,7 @@ add_executable(main_node
   src/orderInfo.cpp
   src/robotInfo.cpp
   src/robot.cpp
+  src/LocaSubscriber.cpp
   src/main_node.cpp)
 target_link_libraries(main_node ${catkin_LIBRARIES} )
 add_dependencies(main_node manager_msg_gencpp comm_msg_gencpp)
@@ -161,21 +165,21 @@ add_dependencies(action_node manager_msg_gencpp)
 set_target_properties(action_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 
-add_executable(sendOrder_node 
+add_executable(sendOrder_node
 	src/sendOrder_node.cpp)
 target_link_libraries(sendOrder_node ${catkin_LIBRARIES})
 add_dependencies(sendOrder_node manager_msg_gencpp)
 set_target_properties(sendOrder_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 
-add_executable(orderListener_node 
+add_executable(orderListener_node
 	src/orderListener_node.cpp)
 target_link_libraries(orderListener_node ${catkin_LIBRARIES})
 add_dependencies(orderListener_node manager_msg_gencpp)
 set_target_properties(orderListener_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++0x")
 
 
-add_executable(activityTalker_node 
+add_executable(activityTalker_node
 	src/activityTalker_node.cpp)
 target_link_libraries(activityTalker_node ${catkin_LIBRARIES})
 add_dependencies(activityTalker_node manager_msg_gencpp)
@@ -188,8 +192,12 @@ set_target_properties(activityTalker_node PROPERTIES COMPILE_FLAGS "-g3 -std=c++
 
 ## Specify libraries to link a library or executable target against
 
+add_library(manager_utils
+    src/gameState.cpp
+)
+add_dependencies(manager_utils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-
+set_target_properties(manager_utils PROPERTIES COMPILE_FLAGS "-std=c++11")
 #############
 ## Install ##
 #############

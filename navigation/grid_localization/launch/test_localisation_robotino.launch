@@ -1,0 +1,44 @@
+<launch>
+
+	<param name="teamName" value="PYRO" />
+	<param name="teamColor" value="magenta" />
+	<param name="robotNumber" value="1" />
+	<param name="robotName" value="R1" />
+
+    <!-- Load the grid maker -->
+	<rosparam command="load" file="$(find grid_maker)/cfg/field.yaml" />
+	<node pkg="grid_maker" name="grid_maker" type="grid_maker_node"/>
+
+    <!-- Load the path finder -->
+    <param name="navigation/pathFinder/aStarTieBreaking" value="true" />
+    <param name="navigation/pathFinder/weightData" value="0.45" />
+    <param name="navigation/pathFinder/weightSmooth" value="0.35" />
+    <node pkg="path_finder" name="path_finder_node" type="path_finder_node" output="screen"/>
+
+    <!-- Load the path tracker -->
+    <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_test_node.py"/>
+
+
+	<!-- Load the navigation manager -->
+	<node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node"/>
+	<!-- <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" launch-prefix="xterm -e"/> -->
+	<node pkg="navigation_manager" name="move_request" type="moveRequest_node.py"/>
+	<!-- <node pkg="navigation_manager" name="move_request" type="moveRequest_node.py" launch-prefix="xterm -e"/> -->
+
+
+    <node pkg="mrpt_localization" type="mrpt_localization_node" name="mrpt_localization_node" output="screen">
+        <param name="ini_file" value="$(find grid_localization)/cfg/pf-localization_pyro.ini"/>
+        <!-- <param name="map_file" value="$(find grid_localization)/cfg/mymap.gridmap"/> -->
+        <param name="odom_frame_id" value="/$(arg namespace)/odom"/>
+        <param name="global_frame_id" value="/map"/>
+        <param name="base_frame_id" value="/$(arg namespace)/base_link"/>
+        <param name="map_update_skip" value="20"/>
+        <param name="particlecloud_update_skip" value="1"/>
+        <param name="tf_prefix" value=""/>
+        <param name="debug" value="true"/>
+        <param name="gui_mrpt" value="true"/>
+        <param name="sensor_sources" value="hardware/scan"/>
+        <remap from="particlecloud" to="hardware/particlecloud"/>
+    </node>
+
+</launch>

@@ -4,6 +4,7 @@
  * \brief
  *
  * \author       Tissot Elise (elise-tissot@polytech-lille.net)
+ *               Coelen Vincent (vincent.coelen@polytech-lille.net)
  * \date         2015-04-23
  * \copyright    2016, Association de Robotique de Polytech Lille All rights reserved
  * \version
@@ -16,13 +17,14 @@
 #include <actionlib/server/simple_action_server.h>
 #include <actionlib/client/simple_action_client.h>
 #include <sensor_msgs/PointCloud.h>
-
+#include <tf/transform_listener.h>
 #include "deplacement_msg/MoveToPoseAction.h"
 #include "deplacement_msg/TrackPathAction.h"
 
 #include "nav_msgs/Odometry.h"
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Pose2D.h"
+#include "common_utils/RobotPoseSubscriber.h"
 
 class MoveToPose
 {
@@ -33,10 +35,12 @@ class MoveToPose
 	    ros::Subscriber m_sharpSensorSub;
 
 	    sensor_msgs::PointCloud m_sharpSensor;
-	    int m_lastId;
-	    geometry_msgs::Pose m_poseOdom;
-	    int m_pathId;
+
+        common_utils::RobotPoseSubscriber m_robotPose;
+
 	    int m_pathTrackPercentComplete;
+        deplacement_msg::TrackPathResult m_pathTrackResult;
+        bool m_isPathTrackEnded;
 
 	    enum PathTrackStatus
 	    {
@@ -59,15 +63,13 @@ class MoveToPose
 	    // create messages that are used to published feedback/result
 	    deplacement_msg::MoveToPoseFeedback m_feedback;
 	    deplacement_msg::MoveToPoseResult m_result;
-
+        tf::TransformListener m_tfListener;
 	public:
 	    MoveToPose(std::string name) : m_as(m_nh, name, boost::bind(&MoveToPose::executeCB, this, _1), false),
-	                                   m_actionName(name), m_trackPathAction("navigation/trackPath", true)
+	                                   m_actionName(name), m_trackPathAction("navigation/trackPath", true),
+									   m_robotPose("map"), m_pathTrackPercentComplete(0), m_isPathTrackEnded(false)
 	    {
-			m_lastId = 0;
-			m_pathId = 0;
-			m_odomSub = m_nh.subscribe("hardware/odom", 1000, &MoveToPose::PoseCallback, this);
-			m_sharpSensorSub = m_nh.subscribe("hardware/distance_sensors", 1000, &MoveToPose::DistSensorCallback, this);
+			m_sharpSensorSub = m_nh.subscribe("hardware/distance_sensors", 1, &MoveToPose::DistSensorCallback, this);
 			m_as.start();
 	    }
 

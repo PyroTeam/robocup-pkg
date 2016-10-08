@@ -28,24 +28,9 @@ double dist(const geometry_msgs::Point &a, const Segment &s)
     return std::abs(u.x*ba.y - ba.x*u.y) / sqrt(u.x*u.x + u.y*u.y);
 }
 
-double dist(const geometry_msgs::Point &a, const geometry_msgs::Point &b)
-{
-  return sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y));
-}
-
-double dist(const geometry_msgs::Point &a, const geometry_msgs::Pose2D &b)
-{
-  return sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y));
-}
-
-double dist(const geometry_msgs::Pose2D &c, const geometry_msgs::Pose2D &m)
-{
-  return sqrt((m.x - c.x)*(m.x - c.x) + (m.y - c.y)*(m.y - c.y));
-}
-
 double dist(const Segment &seg1, const Segment &seg2)
 {
-  double distance = dist(seg1.getCenter(), seg2.getCenter());
+  double distance = geometry_utils::distance(seg1.getCenter(), seg2.getCenter());
   return distance;
 }
 
@@ -88,7 +73,7 @@ geometry_msgs::Point ortho(const geometry_msgs::Point &a, const Segment &s)
 
 geometry_msgs::Point ortho(const geometry_msgs::Point &a, const geometry_msgs::Pose2D &p)
 {
-    double distance = dist(a,p);
+    double distance = geometry_utils::distance(a,p);
     geometry_msgs::Point v;
     v.x = cos(p.theta);
     v.y = sin(p.theta);
@@ -100,50 +85,4 @@ geometry_msgs::Point ortho(const geometry_msgs::Point &a, const geometry_msgs::P
     pt.y = p.y + K*v.y;
 
     return pt;
-}
-
-double linReg(const std::list<geometry_msgs::Point> &points, geometry_msgs::Pose2D &p)
-{
-
-    int          n = points.size();
-    double    sumX = 0.0, sumY = 0.0;
-    double     ecX = 0.0,  ecY = 0.0;                   //ecart
-    double sumEcXY = 0.0;                               //somme des produits des écarts sur x et y
-    double    ec2X = 0.0, ec2Y = 0.0;                   //somme des écarts au carré
-    double   covXY = 0.0, varX = 0.0, varY = 0.0;
-
-    for(auto &it : points)
-    {
-        sumX  += it.x;
-        sumY  += it.y;
-    }
-
-    //calcul des moyennes
-    double moyX = sumX/double(n);
-    double moyY = sumY/double(n);
-
-    //calcul du coefficient de corrélation
-    for(auto &it : points)
-    {
-        ecX   = it.x - moyX;
-        ecY   = it.y - moyY;
-        sumEcXY += ecX*ecY;
-
-        ec2X += ecX*ecX;
-        ec2Y += ecY*ecY;
-    }
-
-    covXY = sumEcXY/double(n);
-    varX  = ec2X/double(n);
-    varY  = ec2Y/double(n);
-
-    double correl = covXY/sqrt(varX * varY);
-
-    double slope     = covXY/varX;
-
-    p.x = moyX;
-    p.y = moyY;
-    p.theta = atan2(slope,1);
-
-    return correl*correl;
 }

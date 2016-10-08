@@ -1,4 +1,6 @@
 time timeStamp
-bool state
-int8 statusPercent
-bool force
+int8 statusPercentPush
+int8 statusPercentTurn
+bool forced
+bool moving
+bool error

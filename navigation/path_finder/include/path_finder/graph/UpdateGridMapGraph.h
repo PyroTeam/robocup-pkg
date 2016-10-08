@@ -17,6 +17,8 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include "UpdateGraph.h"
 #include "graph/GridMapGraph.h"
+#include "deplacement_msg/ClosestReachablePoint.h"
+#include "occupancy_grid_utils/occupancy_grid_utils.h"
 
 /**
  * \class UpdateGridMapGraph
@@ -31,8 +33,13 @@ class UpdateGridMapGraph : public UpdateGraph
 public:
     UpdateGridMapGraph(const std::string &topicName, const std::shared_ptr<Graph> &graph);
     virtual ~UpdateGridMapGraph();
+
 protected:
     void mapCallback(const nav_msgs::OccupancyGrid &grid);
+    bool closestReachablePoint(deplacement_msg::ClosestReachablePoint::Request  &req, deplacement_msg::ClosestReachablePoint::Response &res);
+    geometry_msgs::Pose2D checkStartPos(const geometry_msgs::Pose2D &req, double window, const nav_msgs::OccupancyGrid &grid);
+    nav_msgs::OccupancyGrid m_grid;
+    ros::ServiceServer m_checkStartService;
 };
 
 #endif /* PATH_FINDER_UPDATEGRIDMAPGRAPH_H_ */

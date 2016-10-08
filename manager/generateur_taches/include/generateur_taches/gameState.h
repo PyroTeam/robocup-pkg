@@ -11,7 +11,7 @@
 #define GAMESTATE_H
 
 #include <ros/ros.h>
-#include "comm_msg/GameState.h" 
+#include "comm_msg/GameState.h"
 
 class GameState {
 
@@ -27,7 +27,7 @@ public:
 /**
  *	\brief		Callback permettant de mettre à jour les infos du topic comm_msg::GameState
  */
-    void gsCallback(const comm_msg::GameState &msg); 
+    void gsCallback(const comm_msg::GameState &msg);
 
 private:
 

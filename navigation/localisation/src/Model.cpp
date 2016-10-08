@@ -20,7 +20,7 @@ Model::~Model()
 
 }
 
-Line Model::getLine() const 
+Line Model::getLine() const
 {
 	return m_line;
 }
@@ -70,7 +70,7 @@ void Model::linReg()
 		pts.push_back(p);
 	}
 	geometry_msgs::Pose2D pt;
-	m_correl = ::linReg(pts, pt);
+	m_correl = geometry_utils::linearRegression(pts, pt);
 	m_line.set(pt);
 }
 
