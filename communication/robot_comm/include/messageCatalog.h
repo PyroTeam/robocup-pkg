@@ -29,7 +29,6 @@
 #include "Beacon.pb.h"
 #include "OrderRequest.pb.h"
 #include "OrderResponse.pb.h"
-#include "Map.pb.h"
 #include "Obstacle.pb.h"
 #include "Pose2D.pb.h"
 #include "Time.pb.h"
@@ -51,7 +50,7 @@ class MessageCatalog
 
 		/* Constructeur */
 		MessageCatalog()
-		{ 
+		{
 		}
 
 		/* Destructeur */
