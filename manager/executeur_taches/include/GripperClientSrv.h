@@ -13,6 +13,7 @@
 
 #include "ros/ros.h"
 #include "gripper_msg/SetGripper.h"
+#include "gripper_msg/Grip.h"
 #include <cstdlib>
 
 class GripperClientSrv
@@ -21,6 +22,8 @@ public:
     GripperClientSrv();
     virtual  ~GripperClientSrv();
 
-    bool gripper_update(bool new_state);
+    //bool gripper_update(gripper_msg::GripRequest setpoint);
+    bool grip();
+    bool let();
 };
 #endif
