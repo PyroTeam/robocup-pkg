@@ -86,7 +86,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="../../d0/d15/classlaserScan-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">laserScan Class Reference</div>  </div>
@@ -113,6 +112,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af754123ea52d86357a3e97a28de45dda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97402a30b8146fdc04410b1d59b9a800"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a97402a30b8146fdc04410b1d59b9a800">getAngleInc</a> () const </td></tr>
 <tr class="separator:a97402a30b8146fdc04410b1d59b9a800"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f4544b80dbb557b08e7eee5138a8f3c"><td class="memItemLeft" align="right" valign="top">const ros::Time &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a3f4544b80dbb557b08e7eee5138a8f3c">getTime</a> () const </td></tr>
+<tr class="separator:a3f4544b80dbb557b08e7eee5138a8f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34174bbc1773daa3d1ca52c8307a86d6"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; float &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a34174bbc1773daa3d1ca52c8307a86d6">getRanges</a> () const </td></tr>
 <tr class="separator:a34174bbc1773daa3d1ca52c8307a86d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7964d97ef44c02de109b498187bff39e"><td class="memItemLeft" align="right" valign="top">const std::list<br class="typebreak"/>
@@ -128,19 +129,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab68bcb02b26bfeb71dd878387c6c913a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3af4804689633174e0152a62f3889aee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a3af4804689633174e0152a62f3889aee">setAngleInc</a> (const float &amp;inc)</td></tr>
 <tr class="separator:a3af4804689633174e0152a62f3889aee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac03de17a73eb536934a0989eed591778"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#ac03de17a73eb536934a0989eed591778">set</a> (const sensor_msgs::LaserScanConstPtr &amp;scan)</td></tr>
-<tr class="separator:ac03de17a73eb536934a0989eed591778"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f5c366b7254b2f441621a65434e8c01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#a2f5c366b7254b2f441621a65434e8c01">laserCallback</a> (const sensor_msgs::LaserScanConstPtr &amp;scan)</td></tr>
 <tr class="separator:a2f5c366b7254b2f441621a65434e8c01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:ae124c2c7ca72e344cb972d5a1f0ffb11"><td class="memItemLeft" align="right" valign="top">ros::Time&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d37/classlaserScan.html#ae124c2c7ca72e344cb972d5a1f0ffb11">m_stamp</a></td></tr>
-<tr class="separator:ae124c2c7ca72e344cb972d5a1f0ffb11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="../../dc/dc5/localisation_2include_2localisation_2LaserScan_8h_source.html#l00013">13</a> of file <a class="el" href="../../dc/dc5/localisation_2include_2localisation_2LaserScan_8h_source.html">LaserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc5/localisation_2include_2localisation_2LaserScan_8h_source.html#l00021">21</a> of file <a class="el" href="../../dc/dc5/localisation_2include_2localisation_2LaserScan_8h_source.html">LaserScan.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a0d2136587ad4078234c7686ef617151e"></a>
 <div class="memitem">
@@ -241,7 +235,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00044">44</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00049">49</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -292,6 +286,23 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00044">44</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3f4544b80dbb557b08e7eee5138a8f3c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const ros::Time &amp; laserScan::getTime </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 <p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00039">39</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
@@ -310,7 +321,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00103">103</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00096">96</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -327,25 +338,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00074">74</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac03de17a73eb536934a0989eed591778"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void laserScan::set </td>
-          <td>(</td>
-          <td class="paramtype">const sensor_msgs::LaserScanConstPtr &amp;&#160;</td>
-          <td class="paramname"><em>scan</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00088">88</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00079">79</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -363,7 +356,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00068">68</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00073">73</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -381,7 +374,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00063">63</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00068">68</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -399,7 +392,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00058">58</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00063">63</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -417,7 +410,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00053">53</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00058">58</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -435,22 +428,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00049">49</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="ae124c2c7ca72e344cb972d5a1f0ffb11"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ros::Time laserScan::m_stamp</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../dc/dc5/localisation_2include_2localisation_2LaserScan_8h_source.html#l00050">50</a> of file <a class="el" href="../../dc/dc5/localisation_2include_2localisation_2LaserScan_8h_source.html">LaserScan.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html#l00054">54</a> of file <a class="el" href="../../d3/d3f/localisation_2src_2LaserScan_8cpp_source.html">LaserScan.cpp</a>.</p>
 
 </div>
 </div>
@@ -461,7 +439,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:37 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -144,50 +144,52 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">double</span> time = t0;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">int</span> cptZone = 0;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="../../d9/d26/classCorrespondanceZE.html">CorrespondanceZE</a> correspondanceZE;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="../../d0/d67/classOrderInfo.html">OrderInfo</a> orderInfo;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::vector&lt;comm_msg::Order&gt; tabOrders;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    std::vector&lt;bool&gt; ordersInProcess;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="../../d4/db2/classRobotInfo.html">RobotInfo</a> <a class="code" href="../../db/d01/classrobotInfo.html">robotInfo</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    std::vector&lt;comm_msg::Robot&gt; tabRobotInfo;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">bool</span> noProblem = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0;i&lt;20;i++)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        ordersInProcess.push_back(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">/***FONCTION PRINCIPALE ***/</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">while</span>(ros::ok())</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">// il y a trois robots</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 1; j &lt;= 3; j++)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            time = ros::Time::now().toSec() - t0;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            ROS_DEBUG(<span class="stringliteral">&quot;Time elasped = %d secs&quot;</span>,(<span class="keywordtype">int</span>)time);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            action.<a class="code" href="../../db/d09/classAction.html#ada5fc72ee9ff6cf7a15e68b050316b6d">updateRobot</a>(tabRobot);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            tabRobotInfo = robotInfo.<a class="code" href="../../d4/db2/classRobotInfo.html#ae54a7e36b82fe62930cc472bcc21de38">getRobots</a>();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            noProblem = <a class="code" href="../../d1/d9c/robot_8h.html#adea8b4a11fed7af53decb43ee4ae144b">robotState</a>(tabRobotInfo,teamColor,j-1,tabRobot);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="comment">//mettre a jour les infos envoyees par la refbox</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            ROS_DEBUG(<span class="stringliteral">&quot;Robot: %d\t|\tBusy: %d\t|\tnoProblem: %d&quot;</span>, j, tabRobot[j-1].getBusy(), noProblem);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keywordflow">if</span>(!tabRobot[j-1].getBusy() &amp;&amp; noProblem)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                ROS_DEBUG(<span class="stringliteral">&quot;Not busy&quot;</span>);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keywordflow">if</span>(gameState.<a class="code" href="../../d3/df3/classGameState.html#a751c4da6aba28e083577889fd5b4e0fb">getPhase</a>() == comm_msg::GameState::EXPLORATION &amp;&amp; cptZone&lt;12)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                {</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                    <a class="code" href="../../d0/dc1/workPerPhase_8h.html#aeb7e5b7c8ac83ecba1fc87bc0c932b6c">workInExplorationPhase</a>(tabMachine, tabRobot, cptOrder, j, cptZone, correspondanceZE);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                }</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keywordflow">if</span>(gameState.<a class="code" href="../../d3/df3/classGameState.html#a751c4da6aba28e083577889fd5b4e0fb">getPhase</a>() == comm_msg::GameState::PRODUCTION &amp;&amp; !work.empty())</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    tabOrders = orderInfo.<a class="code" href="../../d0/d67/classOrderInfo.html#a36fb86c9273e039af16dc2a9b1f9393d">getOrders</a>();</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    <a class="code" href="../../d0/dc1/workPerPhase_8h.html#ae8cc65a56d3f14076d3c99b84da1c1f7">workInProductionPhase</a>(work, tabMachine, tabRobot, tabStock, take, cptOrder, j, availableCap, storage, tabOrders, time, ordersInProcess);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    <a class="code" href="../../d5/d62/work_8h.html#abd12a9fd9524f6eecfd0e511d73fd41b">getInfoWork</a>(work);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            ros::spinOnce();</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            loop_rate.sleep();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="../../de/dec/classcommon__utils_1_1RobotPoseSubscriber.html">common_utils::RobotPoseSubscriber</a> poseSub;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="../../d0/d67/classOrderInfo.html">OrderInfo</a> orderInfo;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    std::vector&lt;comm_msg::Order&gt; tabOrders;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    std::vector&lt;bool&gt; ordersInProcess;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="../../d4/db2/classRobotInfo.html">RobotInfo</a> <a class="code" href="../../db/d01/classrobotInfo.html">robotInfo</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    std::vector&lt;comm_msg::Robot&gt; tabRobotInfo;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">bool</span> noProblem = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0;i&lt;20;i++)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        ordersInProcess.push_back(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="comment">/***FONCTION PRINCIPALE ***/</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">while</span>(ros::ok())</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">// il y a trois robots</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 1; j &lt;= 3; j++)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            time = ros::Time::now().toSec() - t0;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            ROS_DEBUG(<span class="stringliteral">&quot;Time elapsed = %d secs&quot;</span>,(<span class="keywordtype">int</span>)time);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            action.<a class="code" href="../../db/d09/classAction.html#ada5fc72ee9ff6cf7a15e68b050316b6d">updateRobot</a>(tabRobot);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            tabRobotInfo = robotInfo.<a class="code" href="../../d4/db2/classRobotInfo.html#ae54a7e36b82fe62930cc472bcc21de38">getRobots</a>();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            noProblem = <a class="code" href="../../d1/d9c/robot_8h.html#adea8b4a11fed7af53decb43ee4ae144b">robotState</a>(tabRobotInfo,teamColor,j-1,tabRobot);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="comment">//mettre a jour les infos envoyees par la refbox</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            ROS_DEBUG(<span class="stringliteral">&quot;Robot: %d\t|\tBusy: %d\t|\tnoProblem: %d&quot;</span>, j, tabRobot[j-1].getBusy(), noProblem);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <span class="keywordflow">if</span>(!tabRobot[j-1].getBusy() &amp;&amp; noProblem)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                ROS_DEBUG(<span class="stringliteral">&quot;Not busy&quot;</span>);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="keywordflow">if</span>(gameState.<a class="code" href="../../d3/df3/classGameState.html#a751c4da6aba28e083577889fd5b4e0fb">getPhase</a>() == comm_msg::GameState::EXPLORATION &amp;&amp; cptZone&lt;12)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    <a class="code" href="../../d0/dc1/workPerPhase_8h.html#a819b8186b7458139e7f83a0b43b6864d">workInExplorationPhase</a>(tabMachine, tabRobot, cptOrder, j, cptZone, correspondanceZE, poseSub);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;          ROS_WARN(<span class="stringliteral">&quot;cpt zone = %d; cpt order = %d&quot;</span>, cptZone,cptOrder);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keywordflow">if</span>(gameState.<a class="code" href="../../d3/df3/classGameState.html#a751c4da6aba28e083577889fd5b4e0fb">getPhase</a>() == comm_msg::GameState::PRODUCTION &amp;&amp; !work.empty())</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    tabOrders = orderInfo.<a class="code" href="../../d0/d67/classOrderInfo.html#a36fb86c9273e039af16dc2a9b1f9393d">getOrders</a>();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                    <a class="code" href="../../d0/dc1/workPerPhase_8h.html#ae8cc65a56d3f14076d3c99b84da1c1f7">workInProductionPhase</a>(work, tabMachine, tabRobot, tabStock, take, cptOrder, j, availableCap, storage, tabOrders, time, ordersInProcess);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                    <a class="code" href="../../d5/d62/work_8h.html#abd12a9fd9524f6eecfd0e511d73fd41b">getInfoWork</a>(work);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            ros::spinOnce();</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            loop_rate.sleep();</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
 <div class="ttc" id="classGameState_html_a751c4da6aba28e083577889fd5b4e0fb"><div class="ttname"><a href="../../d3/df3/classGameState.html#a751c4da6aba28e083577889fd5b4e0fb">GameState::getPhase</a></div><div class="ttdeci">int getPhase()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/db5/gameState_8h_source.html#l00023">gameState.h:23</a></div></div>
 <div class="ttc" id="classRobot_html"><div class="ttname"><a href="../../de/d78/classRobot.html">Robot</a></div><div class="ttdoc">classe représentant l&#39;état d&#39;un robot </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9c/robot_8h_source.html#l00016">robot.h:16</a></div></div>
 <div class="ttc" id="gameState_8h_html"><div class="ttname"><a href="../../dd/db5/gameState_8h.html">gameState.h</a></div></div>
@@ -202,13 +204,13 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classAction_html"><div class="ttname"><a href="../../db/d09/classAction.html">Action</a></div><div class="ttdoc">classe représentant les infos collectées du topic manager_msg::activity </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d61/action_8h_source.html#l00017">action.h:17</a></div></div>
 <div class="ttc" id="classOrderInfo_html_a36fb86c9273e039af16dc2a9b1f9393d"><div class="ttname"><a href="../../d0/d67/classOrderInfo.html#a36fb86c9273e039af16dc2a9b1f9393d">OrderInfo::getOrders</a></div><div class="ttdeci">std::vector&lt; comm_msg::Order &gt; getOrders()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dfd/orderInfo_8h_source.html#l00025">orderInfo.h:25</a></div></div>
 <div class="ttc" id="orderInfo_8h_html"><div class="ttname"><a href="../../d3/dfd/orderInfo_8h.html">orderInfo.h</a></div></div>
+<div class="ttc" id="classcommon__utils_1_1RobotPoseSubscriber_html"><div class="ttname"><a href="../../de/dec/classcommon__utils_1_1RobotPoseSubscriber.html">common_utils::RobotPoseSubscriber</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dc5/RobotPoseSubscriber_8h_source.html#l00022">RobotPoseSubscriber.h:22</a></div></div>
 <div class="ttc" id="classrobotInfo_html"><div class="ttname"><a href="../../db/d01/classrobotInfo.html">robotInfo</a></div><div class="ttdoc">classe récupérant l etat des robots du topic </div></div>
 <div class="ttc" id="action_8h_html"><div class="ttname"><a href="../../d7/d61/action_8h.html">action.h</a></div></div>
-<div class="ttc" id="workPerPhase_8h_html_ae8cc65a56d3f14076d3c99b84da1c1f7"><div class="ttname"><a href="../../d0/dc1/workPerPhase_8h.html#ae8cc65a56d3f14076d3c99b84da1c1f7">workInProductionPhase</a></div><div class="ttdeci">void workInProductionPhase(std::list&lt; std::list&lt; Task &gt; &gt; &amp;work, Machine(&amp;tabMachine)[6], Robot(&amp;tabRobot)[3], Storage(&amp;tabStock)[6], bool(&amp;take)[3], int &amp;cptOrder, int robot, int(&amp;availableCap)[2], int &amp;storage, std::vector&lt; comm_msg::Order &gt; &amp;tabOrders, double time, std::vector&lt; bool &gt; &amp;ordersInProcess)</div><div class="ttdoc">ce qu&#39;il y a à faire en phase de production </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6c/workPerPhase_8cpp_source.html#l00045">workPerPhase.cpp:45</a></div></div>
+<div class="ttc" id="workPerPhase_8h_html_ae8cc65a56d3f14076d3c99b84da1c1f7"><div class="ttname"><a href="../../d0/dc1/workPerPhase_8h.html#ae8cc65a56d3f14076d3c99b84da1c1f7">workInProductionPhase</a></div><div class="ttdeci">void workInProductionPhase(std::list&lt; std::list&lt; Task &gt; &gt; &amp;work, Machine(&amp;tabMachine)[6], Robot(&amp;tabRobot)[3], Storage(&amp;tabStock)[6], bool(&amp;take)[3], int &amp;cptOrder, int robot, int(&amp;availableCap)[2], int &amp;storage, std::vector&lt; comm_msg::Order &gt; &amp;tabOrders, double time, std::vector&lt; bool &gt; &amp;ordersInProcess)</div><div class="ttdoc">ce qu&#39;il y a à faire en phase de production </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6c/workPerPhase_8cpp_source.html#l00162">workPerPhase.cpp:162</a></div></div>
 <div class="ttc" id="work_8h_html"><div class="ttname"><a href="../../d5/d62/work_8h.html">work.h</a></div><div class="ttdoc">fonctions utiles concernant la production totale des produits </div></div>
 <div class="ttc" id="tasksList_8h_html_aebf3f83dac26d706496f5fd25af773b6"><div class="ttname"><a href="../../d7/db6/tasksList_8h.html#aebf3f83dac26d706496f5fd25af773b6">creationListTasksAction</a></div><div class="ttdeci">std::list&lt; Task &gt; creationListTasksAction(int action, Product product, int beginningDelivery, int endDelivery)</div><div class="ttdoc">crée une liste de tâches à partir d&#39;une action et d&#39;un produit passés en paramètre ...</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d54/tasksList_8cpp_source.html#l00094">tasksList.cpp:94</a></div></div>
-<div class="ttc" id="classMachine_html"><div class="ttname"><a href="../../dc/dda/classMachine.html">Machine</a></div><div class="ttdoc">classe pour les différentes actions d&#39;un robot concernant une machine </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h_source.html#l00028">Machine.h:28</a></div></div>
-<div class="ttc" id="workPerPhase_8h_html_aeb7e5b7c8ac83ecba1fc87bc0c932b6c"><div class="ttname"><a href="../../d0/dc1/workPerPhase_8h.html#aeb7e5b7c8ac83ecba1fc87bc0c932b6c">workInExplorationPhase</a></div><div class="ttdeci">void workInExplorationPhase(Machine(&amp;tabMachine)[6], Robot(&amp;tabRobot)[3], int &amp;cptOrder, int robot, int &amp;cptZone, CorrespondanceZE &amp;correspondanceZE)</div><div class="ttdoc">ce qu&#39;il y a à faire en phase d&#39;exploration </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6c/workPerPhase_8cpp_source.html#l00024">workPerPhase.cpp:24</a></div></div>
+<div class="ttc" id="classMachine_html"><div class="ttname"><a href="../../dc/dda/classMachine.html">Machine</a></div><div class="ttdoc">classe pour les différentes actions d&#39;un robot concernant une machine </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h_source.html#l00033">Machine.h:33</a></div></div>
 <div class="ttc" id="classRobotInfo_html_ae54a7e36b82fe62930cc472bcc21de38"><div class="ttname"><a href="../../d4/db2/classRobotInfo.html#ae54a7e36b82fe62930cc472bcc21de38">RobotInfo::getRobots</a></div><div class="ttdeci">std::vector&lt; comm_msg::Robot &gt; getRobots()</div><div class="ttdef"><b>Definition:</b> <a href="../../db/da6/robotInfo_8h_source.html#l00025">robotInfo.h:25</a></div></div>
 <div class="ttc" id="main__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d9/d1f/main__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d1f/main__node_8cpp_source.html#l00036">main_node.cpp:36</a></div></div>
 <div class="ttc" id="storage_8h_html"><div class="ttname"><a href="../../d8/d6b/storage_8h.html">storage.h</a></div></div>
@@ -218,14 +220,15 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="robotInfo_8h_html"><div class="ttname"><a href="../../db/da6/robotInfo_8h.html">robotInfo.h</a></div></div>
 <div class="ttc" id="classGameState_html"><div class="ttname"><a href="../../d3/df3/classGameState.html">GameState</a></div><div class="ttdoc">classe représentant l&#39;état du jeu </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/db5/gameState_8h_source.html#l00016">gameState.h:16</a></div></div>
 <div class="ttc" id="robot_8h_html_adea8b4a11fed7af53decb43ee4ae144b"><div class="ttname"><a href="../../d1/d9c/robot_8h.html#adea8b4a11fed7af53decb43ee4ae144b">robotState</a></div><div class="ttdeci">bool robotState(std::vector&lt; comm_msg::Robot &gt; tabRobotInfo, int teamColor, int j, Robot tabRobot[3])</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d52/robot_8cpp_source.html#l00004">robot.cpp:4</a></div></div>
+<div class="ttc" id="workPerPhase_8h_html_a819b8186b7458139e7f83a0b43b6864d"><div class="ttname"><a href="../../d0/dc1/workPerPhase_8h.html#a819b8186b7458139e7f83a0b43b6864d">workInExplorationPhase</a></div><div class="ttdeci">void workInExplorationPhase(Machine(&amp;tabMachine)[6], Robot(&amp;tabRobot)[3], int &amp;cptOrder, int robot, int &amp;cptZone, CorrespondanceZE &amp;correspondanceZE, common_utils::RobotPoseSubscriber &amp;poseSub)</div><div class="ttdoc">ce qu&#39;il y a à faire en phase d&#39;exploration </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6c/workPerPhase_8cpp_source.html#l00024">workPerPhase.cpp:24</a></div></div>
 <div class="ttc" id="machine_8h_html"><div class="ttname"><a href="../../da/d8f/machine_8h.html">machine.h</a></div></div>
 <div class="ttc" id="classAction_html_ada5fc72ee9ff6cf7a15e68b050316b6d"><div class="ttname"><a href="../../db/d09/classAction.html#ada5fc72ee9ff6cf7a15e68b050316b6d">Action::updateRobot</a></div><div class="ttdeci">void updateRobot(Robot(&amp;robot)[3])</div><div class="ttdoc">met à jour l&#39;état des robots grâce au topic manager_msg::activity </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d83/action_8cpp_source.html#l00020">action.cpp:20</a></div></div>
 <div class="ttc" id="classProduct_html"><div class="ttname"><a href="../../db/d79/classProduct.html">Product</a></div><div class="ttdoc">classe représentant un produit </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daa/product_8h_source.html#l00015">product.h:15</a></div></div>
-<div class="ttc" id="classCorrespondanceZE_html"><div class="ttname"><a href="../../d9/d26/classCorrespondanceZE.html">CorrespondanceZE</a></div><div class="ttdoc">classe représentant les zones appartenant à l&#39;équipe </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d18/correspondanceZE_8h_source.html#l00017">correspondanceZE.h:17</a></div></div>
+<div class="ttc" id="classCorrespondanceZE_html"><div class="ttname"><a href="../../d9/d26/classCorrespondanceZE.html">CorrespondanceZE</a></div><div class="ttdoc">classe représentant les zones appartenant à l&#39;équipe </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d18/correspondanceZE_8h_source.html#l00024">correspondanceZE.h:24</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -92,9 +92,15 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="title">conversion_functions.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>fonctions de conversions nécessaires à la détection de machines et cartographie  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;geometry_msgs/Pose2D.h&quot;</code><br/>
 <code>#include &quot;geometry_msgs/Point.h&quot;</code><br/>
+<code>#include &quot;deplacement_msg/Machines.h&quot;</code><br/>
 <code>#include &quot;deplacement_msg/Landmarks.h&quot;</code><br/>
+<code>#include &lt;tf/transform_datatypes.h&gt;</code><br/>
+<code>#include &lt;tf/transform_listener.h&gt;</code><br/>
 <code>#include &quot;<a class="el" href="../../d3/df9/localisation_2include_2localisation_2Segment_8h_source.html">Segment.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d7/d2e/navigation_2localisation_2include_2localisation_2Machine_8h_source.html">Machine.h</a>&quot;</code><br/>
 </div>
@@ -102,48 +108,56 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1e6cf3c8e49c5b24d25ebb270ca33054"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#a1e6cf3c8e49c5b24d25ebb270ca33054">LaserToRobot</a> (geometry_msgs::Pose2D PosLaser)</td></tr>
-<tr class="separator:a1e6cf3c8e49c5b24d25ebb270ca33054"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30a8304b1d8c3d4281b3d7dfb0c3d6f4"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#a30a8304b1d8c3d4281b3d7dfb0c3d6f4">RobotToGlobal</a> (geometry_msgs::Pose2D p, geometry_msgs::Pose2D odomRobot)</td></tr>
-<tr class="separator:a30a8304b1d8c3d4281b3d7dfb0c3d6f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7c41209798322eee14316877214eb88"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#ac7c41209798322eee14316877214eb88">globalToLocal</a> (geometry_msgs::Point p, <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> s)</td></tr>
-<tr class="separator:ac7c41209798322eee14316877214eb88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e8e34c66e017ed1328787802ef88352"><td class="memItemLeft" align="right" valign="top">deplacement_msg::Landmarks&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#a3e8e34c66e017ed1328787802ef88352">convert</a> (std::vector&lt; <a class="el" href="../../dc/dda/classMachine.html">Machine</a> &gt; mps)</td></tr>
-<tr class="separator:a3e8e34c66e017ed1328787802ef88352"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0171d6c215d95e4cdd14ea5785dd38a9"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#a0171d6c215d95e4cdd14ea5785dd38a9">landmarksToSegments</a> (deplacement_msg::Landmarks <a class="el" href="../../d7/d6f/visualisationOK_8cpp.html#ac25c768d19e8650be8c4d49ecdb06ca9">tabSegments</a>)</td></tr>
-<tr class="separator:a0171d6c215d95e4cdd14ea5785dd38a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97169b0151c359fae537265351e51db3"><td class="memItemLeft" align="right" valign="top">deplacement_msg::Landmarks&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#a97169b0151c359fae537265351e51db3">backToLandmarks</a> (std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt; vect)</td></tr>
-<tr class="separator:a97169b0151c359fae537265351e51db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73c79aff3c96e1f19e0a8cc2bfd492e6"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#a73c79aff3c96e1f19e0a8cc2bfd492e6">pointToPose2D</a> (geometry_msgs::Point point)</td></tr>
-<tr class="separator:a73c79aff3c96e1f19e0a8cc2bfd492e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7fd938cbfcdd33d3cfac165f96a276a"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#ac7fd938cbfcdd33d3cfac165f96a276a">pose2DToPoint</a> (geometry_msgs::Pose2D pose2d)</td></tr>
-<tr class="separator:ac7fd938cbfcdd33d3cfac165f96a276a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af020a0ebad67ea3de1155cb9f2c6764b"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#af020a0ebad67ea3de1155cb9f2c6764b">globalToLocal</a> (const geometry_msgs::Point &amp;p, const <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &amp;s)</td></tr>
+<tr class="separator:af020a0ebad67ea3de1155cb9f2c6764b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0565a0538799c664131785b615fb025b"><td class="memItemLeft" align="right" valign="top">std::vector<br class="typebreak"/>
+&lt; deplacement_msg::Machine &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#a0565a0538799c664131785b615fb025b">convertIntoMsg</a> (std::vector&lt; <a class="el" href="../../dc/dda/classMachine.html">Machine</a> &gt; mps)</td></tr>
+<tr class="separator:a0565a0538799c664131785b615fb025b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1cbab465e91c6cc49d8a1229da66a63"><td class="memItemLeft" align="right" valign="top">std::vector<br class="typebreak"/>
+&lt; geometry_msgs::Pose2D &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#ad1cbab465e91c6cc49d8a1229da66a63">convert</a> (std::vector&lt; <a class="el" href="../../dc/dda/classMachine.html">Machine</a> &gt; mps)</td></tr>
+<tr class="separator:ad1cbab465e91c6cc49d8a1229da66a63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8e5e1b5965f8d85838621e9b1a9f611"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#ab8e5e1b5965f8d85838621e9b1a9f611">landmarksToSegments</a> (const deplacement_msg::Landmarks &amp;tabSegments)</td></tr>
+<tr class="separator:ab8e5e1b5965f8d85838621e9b1a9f611"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e4ebe88b4421ef3cbdc3580390ec9d2"><td class="memItemLeft" align="right" valign="top">std::vector<br class="typebreak"/>
+&lt; geometry_msgs::Pose2D &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#a8e4ebe88b4421ef3cbdc3580390ec9d2">backToLandmarks</a> (const std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt; &amp;vect)</td></tr>
+<tr class="separator:a8e4ebe88b4421ef3cbdc3580390ec9d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a626d6e165920e2c3ca88b5347e154b16"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#a626d6e165920e2c3ca88b5347e154b16">pointToPose2D</a> (const geometry_msgs::Point &amp;point)</td></tr>
+<tr class="separator:a626d6e165920e2c3ca88b5347e154b16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3f714a8985565f2c0ee8502a04fbd48"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#ab3f714a8985565f2c0ee8502a04fbd48">pointToPose2D</a> (const geometry_msgs::Point &amp;point, double <a class="el" href="../../d7/d90/math__functions_8cpp.html#ab391a1b9df0313af4d13f61d5789dc8d">angle</a>)</td></tr>
+<tr class="separator:ab3f714a8985565f2c0ee8502a04fbd48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac436883e57b828983347a823db7c291c"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/db7/conversion__functions_8h.html#ac436883e57b828983347a823db7c291c">pose2DToPoint</a> (const geometry_msgs::Pose2D &amp;pose2d)</td></tr>
+<tr class="separator:ac436883e57b828983347a823db7c291c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a97169b0151c359fae537265351e51db3"></a>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>fonctions de conversions nécessaires à la détection de machines et cartographie </p>
+<dl class="section author"><dt>Author</dt><dd>Danel Thomas </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016-07-18 </dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>2016, Association de Robotique de Polytech Lille All rights reserved </dd></dl>
+
+<p>Definition in file <a class="el" href="../../d2/db7/conversion__functions_8h_source.html">conversion_functions.h</a>.</p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a8e4ebe88b4421ef3cbdc3580390ec9d2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">deplacement_msg::Landmarks backToLandmarks </td>
+          <td class="memname">std::vector&lt;geometry_msgs::Pose2D&gt; backToLandmarks </td>
           <td>(</td>
-          <td class="paramtype">std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt;&#160;</td>
+          <td class="paramtype">const std::list&lt; <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>vect</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00136">136</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a3e8e34c66e017ed1328787802ef88352"></a>
+<a class="anchor" id="ad1cbab465e91c6cc49d8a1229da66a63"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">deplacement_msg::Landmarks convert </td>
+          <td class="memname">std::vector&lt;geometry_msgs::Pose2D&gt; convert </td>
           <td>(</td>
           <td class="paramtype">std::vector&lt; <a class="el" href="../../dc/dda/classMachine.html">Machine</a> &gt;&#160;</td>
           <td class="paramname"><em>mps</em></td><td>)</td>
@@ -152,24 +166,42 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00098">98</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00010">10</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac7c41209798322eee14316877214eb88"></a>
+<a class="anchor" id="a0565a0538799c664131785b615fb025b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;deplacement_msg::Machine&gt; convertIntoMsg </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="../../dc/dda/classMachine.html">Machine</a> &gt;&#160;</td>
+          <td class="paramname"><em>mps</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00025">25</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af020a0ebad67ea3de1155cb9f2c6764b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">geometry_msgs::Point globalToLocal </td>
           <td>(</td>
-          <td class="paramtype">geometry_msgs::Point&#160;</td>
+          <td class="paramtype">const geometry_msgs::Point &amp;&#160;</td>
           <td class="paramname"><em>p</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d8/ddc/classSegment.html">Segment</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d8/ddc/classSegment.html">Segment</a> &amp;&#160;</td>
           <td class="paramname"><em>s</em>&#160;</td>
         </tr>
         <tr>
@@ -180,97 +212,57 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00069">69</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a0171d6c215d95e4cdd14ea5785dd38a9"></a>
+<a class="anchor" id="ab8e5e1b5965f8d85838621e9b1a9f611"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">std::list&lt;<a class="el" href="../../d8/ddc/classSegment.html">Segment</a>&gt; landmarksToSegments </td>
           <td>(</td>
-          <td class="paramtype">deplacement_msg::Landmarks&#160;</td>
+          <td class="paramtype">const deplacement_msg::Landmarks &amp;&#160;</td>
           <td class="paramname"><em>tabSegments</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00113">113</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a1e6cf3c8e49c5b24d25ebb270ca33054"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">geometry_msgs::Pose2D LaserToRobot </td>
-          <td>(</td>
-          <td class="paramtype">geometry_msgs::Pose2D&#160;</td>
-          <td class="paramname"><em>PosLaser</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00009">9</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a73c79aff3c96e1f19e0a8cc2bfd492e6"></a>
+<a class="anchor" id="a626d6e165920e2c3ca88b5347e154b16"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">geometry_msgs::Pose2D pointToPose2D </td>
           <td>(</td>
-          <td class="paramtype">geometry_msgs::Point&#160;</td>
+          <td class="paramtype">const geometry_msgs::Point &amp;&#160;</td>
           <td class="paramname"><em>point</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00156">156</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00040">40</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac7fd938cbfcdd33d3cfac165f96a276a"></a>
+<a class="anchor" id="ab3f714a8985565f2c0ee8502a04fbd48"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">geometry_msgs::Point pose2DToPoint </td>
+          <td class="memname">geometry_msgs::Pose2D pointToPose2D </td>
           <td>(</td>
-          <td class="paramtype">geometry_msgs::Pose2D&#160;</td>
-          <td class="paramname"><em>pose2d</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00166">166</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a30a8304b1d8c3d4281b3d7dfb0c3d6f4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">geometry_msgs::Pose2D RobotToGlobal </td>
-          <td>(</td>
-          <td class="paramtype">geometry_msgs::Pose2D&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
+          <td class="paramtype">const geometry_msgs::Point &amp;&#160;</td>
+          <td class="paramname"><em>point</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">geometry_msgs::Pose2D&#160;</td>
-          <td class="paramname"><em>odomRobot</em>&#160;</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -280,14 +272,32 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00040">40</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00050">50</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac436883e57b828983347a823db7c291c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">geometry_msgs::Point pose2DToPoint </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::Pose2D &amp;&#160;</td>
+          <td class="paramname"><em>pose2d</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html#l00059">59</a> of file <a class="el" href="../../de/d73/conversion__functions_8cpp_source.html">conversion_functions.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -14,5 +14,7 @@ var searchData=
   ['astarsearch_2eh',['AStarSearch.h',['../db/d55/AStarSearch_8h.html',1,'']]],
   ['astarstate_2eh',['AStarState.h',['../d4/d43/AStarState_8h.html',1,'']]],
   ['avoidanceobstacle_2ecpp',['avoidanceObstacle.cpp',['../df/d7a/avoidanceObstacle_8cpp.html',1,'']]],
-  ['avoidanceobstacle_2eh',['avoidanceObstacle.h',['../d1/d8a/avoidanceObstacle_8h.html',1,'']]]
+  ['avoidanceobstacle_2eh',['avoidanceObstacle.h',['../d1/d8a/avoidanceObstacle_8h.html',1,'']]],
+  ['avoidobstacle_2ecpp',['AvoidObstacle.cpp',['../d9/d4c/AvoidObstacle_8cpp.html',1,'']]],
+  ['avoidobstacle_2eh',['AvoidObstacle.h',['../d4/d9c/AvoidObstacle_8h.html',1,'']]]
 ];

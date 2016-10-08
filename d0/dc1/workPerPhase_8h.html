@@ -112,9 +112,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aeb7e5b7c8ac83ecba1fc87bc0c932b6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dc1/workPerPhase_8h.html#aeb7e5b7c8ac83ecba1fc87bc0c932b6c">workInExplorationPhase</a> (<a class="el" href="../../dc/dda/classMachine.html">Machine</a>(&amp;tabMachine)[6], <a class="el" href="../../de/d78/classRobot.html">Robot</a>(&amp;tabRobot)[3], int &amp;cptOrder, int robot, int &amp;cptZone, <a class="el" href="../../d9/d26/classCorrespondanceZE.html">CorrespondanceZE</a> &amp;correspondanceZE)</td></tr>
-<tr class="memdesc:aeb7e5b7c8ac83ecba1fc87bc0c932b6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">ce qu'il y a à faire en phase d'exploration  <a href="#aeb7e5b7c8ac83ecba1fc87bc0c932b6c">More...</a><br/></td></tr>
-<tr class="separator:aeb7e5b7c8ac83ecba1fc87bc0c932b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a819b8186b7458139e7f83a0b43b6864d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dc1/workPerPhase_8h.html#a819b8186b7458139e7f83a0b43b6864d">workInExplorationPhase</a> (<a class="el" href="../../dc/dda/classMachine.html">Machine</a>(&amp;tabMachine)[6], <a class="el" href="../../de/d78/classRobot.html">Robot</a>(&amp;tabRobot)[3], int &amp;cptOrder, int robot, int &amp;cptZone, <a class="el" href="../../d9/d26/classCorrespondanceZE.html">CorrespondanceZE</a> &amp;correspondanceZE, <a class="el" href="../../de/dec/classcommon__utils_1_1RobotPoseSubscriber.html">common_utils::RobotPoseSubscriber</a> &amp;poseSub)</td></tr>
+<tr class="memdesc:a819b8186b7458139e7f83a0b43b6864d"><td class="mdescLeft">&#160;</td><td class="mdescRight">ce qu'il y a à faire en phase d'exploration  <a href="#a819b8186b7458139e7f83a0b43b6864d">More...</a><br/></td></tr>
+<tr class="separator:a819b8186b7458139e7f83a0b43b6864d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8cc65a56d3f14076d3c99b84da1c1f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dc1/workPerPhase_8h.html#ae8cc65a56d3f14076d3c99b84da1c1f7">workInProductionPhase</a> (std::list&lt; std::list&lt; <a class="el" href="../../d6/d9c/classTask.html">Task</a> &gt; &gt; &amp;work, <a class="el" href="../../dc/dda/classMachine.html">Machine</a>(&amp;tabMachine)[6], <a class="el" href="../../de/d78/classRobot.html">Robot</a>(&amp;tabRobot)[3], <a class="el" href="../../dd/d5e/classStorage.html">Storage</a>(&amp;tabStock)[6], bool(&amp;take)[3], int &amp;cptOrder, int robot, int(&amp;availableCap)[2], int &amp;storage, std::vector&lt; comm_msg::Order &gt; &amp;tabOrders, double time, std::vector&lt; bool &gt; &amp;ordersInProcess)</td></tr>
 <tr class="memdesc:ae8cc65a56d3f14076d3c99b84da1c1f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">ce qu'il y a à faire en phase de production  <a href="#ae8cc65a56d3f14076d3c99b84da1c1f7">More...</a><br/></td></tr>
 <tr class="separator:ae8cc65a56d3f14076d3c99b84da1c1f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,7 +127,7 @@ Functions</h2></td></tr>
 
 <p>Definition in file <a class="el" href="../../d0/dc1/workPerPhase_8h_source.html">workPerPhase.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="aeb7e5b7c8ac83ecba1fc87bc0c932b6c"></a>
+<a class="anchor" id="a819b8186b7458139e7f83a0b43b6864d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -165,7 +165,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="../../d9/d26/classCorrespondanceZE.html">CorrespondanceZE</a> &amp;&#160;</td>
-          <td class="paramname"><em>correspondanceZE</em>&#160;</td>
+          <td class="paramname"><em>correspondanceZE</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../de/dec/classcommon__utils_1_1RobotPoseSubscriber.html">common_utils::RobotPoseSubscriber</a> &amp;&#160;</td>
+          <td class="paramname"><em>poseSub</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -267,14 +273,14 @@ Functions</h2></td></tr>
 
 <p>ce qu'il y a à faire en phase de production </p>
 
-<p>Definition at line <a class="el" href="../../de/d6c/workPerPhase_8cpp_source.html#l00045">45</a> of file <a class="el" href="../../de/d6c/workPerPhase_8cpp_source.html">workPerPhase.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d6c/workPerPhase_8cpp_source.html#l00162">162</a> of file <a class="el" href="../../de/d6c/workPerPhase_8cpp_source.html">workPerPhase.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

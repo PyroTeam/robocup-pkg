@@ -8,7 +8,8 @@ var searchData=
   ['nb_5fimage_5fmax',['NB_IMAGE_MAX',['../d7/d92/fake__img__publisher__node_8cpp.html#ab5c1a8038870995c8d8f8d0efc75982a',1,'fake_img_publisher_node.cpp']]],
   ['nbr_5fmachines',['NBR_MACHINES',['../d9/d28/tabmachine_8h.html#a13bb2f927770a954b595da0396d62c74',1,'tabmachine.h']]],
   ['nearestsegment',['nearestSegment',['../d6/d70/classFinalApproaching.html#ab194ff473096cfe9daed5675cc9114d8',1,'FinalApproaching']]],
-  ['nilgradient',['nilGradient',['../d8/ddc/classSegment.html#afcb8f239e72a622df0bf4fe1948c1c15',1,'Segment']]],
+  ['neverseen',['neverSeen',['../dc/dda/classMachine.html#a7ca206a4717b5b3d0135c2d85343ddaf',1,'Machine']]],
   ['non_5fperiodic',['NON_PERIODIC',['../d0/d25/classRefBoxMessage.html#a68da493d0ec33895bb8f04c58d784afda4139a64414c0c1425e97bf4147f470c7',1,'RefBoxMessage']]],
-  ['normaliseangle',['normaliseAngle',['../d6/da1/classTrackPath.html#a90ff30234569fd084f9b07323da36021',1,'TrackPath']]]
+  ['normaliseangle',['normaliseAngle',['../d6/da1/classTrackPath.html#a90ff30234569fd084f9b07323da36021',1,'TrackPath']]],
+  ['normalizeangle',['normalizeAngle',['../dd/daf/namespacegeometry__utils.html#a905f0b356027e77ce9277fce8ff03711',1,'geometry_utils']]]
 ];

@@ -129,9 +129,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    geometry_msgs::Pose2D p;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    p.x = (b.x + a.x)/2;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    p.y = (b.y + a.y)/2;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    p.theta = (b.y - a.y)/(b.x - a.x);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    p.theta = atan2(b.y-a.y,b.x-a.x);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="../../db/db6/classLine.html#a7b2002c243a799ed50c43cb6085faaf9">set</a>(p);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <a class="code" href="../../db/db6/classLine.html#a7b2002c243a799ed50c43cb6085faaf9">set</a>(p);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
 <div class="ttc" id="classLine_html_aabe85f48d22d92b62257091f48174fac"><div class="ttname"><a href="../../db/db6/classLine.html#aabe85f48d22d92b62257091f48174fac">Line::~Line</a></div><div class="ttdeci">~Line()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d53/navigation_2localisation_2src_2Line_8cpp_source.html#l00010">Line.cpp:10</a></div></div>
 <div class="ttc" id="classLine_html_a7ec0f3a1e4ff5aad62c8e49839bfb2b4"><div class="ttname"><a href="../../db/db6/classLine.html#a7ec0f3a1e4ff5aad62c8e49839bfb2b4">Line::getAngle</a></div><div class="ttdeci">double getAngle() const </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d53/navigation_2localisation_2src_2Line_8cpp_source.html#l00020">Line.cpp:20</a></div></div>
@@ -143,7 +143,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

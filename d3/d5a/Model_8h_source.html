@@ -90,45 +90,47 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="title">Model.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d3/d5a/Model_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef MODEL_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define MODEL_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Point.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d2/db7/conversion__functions_8h.html">conversion_functions.h</a>&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/d9a/navigation_2localisation_2include_2localisation_2Line_8h.html">Line.h</a>&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;list&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="../../d6/d18/classModel.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/d18/classModel.html">Model</a>{</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="../../d6/d18/classModel.html#ae3b375de5f6df4faf74a95d64748e048">Model</a>();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="../../d6/d18/classModel.html#ad6ebd2062a0b823db841a0b88baac4c0">~Model</a>();</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="../../db/db6/classLine.html">Line</a> <a class="code" href="../../d6/d18/classModel.html#adfc2176f74bb2865412505b45f247e91">getLine</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../d6/d18/classModel.html#a1ab617a5814dda8d8c12f98380c341d1">getCorrel</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">const</span> std::list&lt;std::list&lt;geometry_msgs::Point&gt;::iterator&gt; &amp;<a class="code" href="../../d6/d18/classModel.html#aff4b80127ee28113ec21c9d5ace9091f">getIndex</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">const</span> std::list&lt;geometry_msgs::Point&gt; &amp;<a class="code" href="../../d6/d18/classModel.html#ad5800f94ab319141fc021ed304378ed3">getPoints</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#a8e19626bd5e72fcdd32861cf837a82ef">addPoint</a>(<span class="keyword">const</span> geometry_msgs::Point &amp;point);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#af97e369d2e9b13adc777dd8f7fa7b03a">setPoints</a>(std::list&lt;geometry_msgs::Point&gt; listOfPoints);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#a288ee306a3ae847ef8dde53cc5c151f2">addIndex</a>(std::list&lt;geometry_msgs::Point&gt;::iterator &amp;it);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#af35de627329428445daa7f10314c0b75">setLine</a>(<span class="keyword">const</span> <a class="code" href="../../db/db6/classLine.html">Line</a> &amp;line);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#a885838eba35afa704b12ade25c41040b">linReg</a>();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#a589292a0d1e5c53143cd739771e9632e">build</a>(<span class="keyword">const</span> geometry_msgs::Point &amp;a, <span class="keyword">const</span> geometry_msgs::Point &amp;b);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#a8976f84f757eb3cd68b2aa7eeb5a345f">update</a>();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="../../db/db6/classLine.html">Line</a>                                                    m_line;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    std::list&lt;geometry_msgs::Point&gt;                         m_points; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    std::list&lt;std::list&lt;geometry_msgs::Point&gt;::iterator&gt;    m_index;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">double</span>                                                  m_correl;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif</span></div>
+<a href="../../d3/d5a/Model_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef MODEL_H</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define MODEL_H</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Point.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d7/d0c/geometry__utils_8h.html">geometry_utils/geometry_utils.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d2/db7/conversion__functions_8h.html">conversion_functions.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/d9a/navigation_2localisation_2include_2localisation_2Line_8h.html">Line.h</a>&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;list&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="../../d6/d18/classModel.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/d18/classModel.html">Model</a>{</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="../../d6/d18/classModel.html#ae3b375de5f6df4faf74a95d64748e048">Model</a>();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="../../d6/d18/classModel.html#ad6ebd2062a0b823db841a0b88baac4c0">~Model</a>();</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="../../db/db6/classLine.html">Line</a> <a class="code" href="../../d6/d18/classModel.html#adfc2176f74bb2865412505b45f247e91">getLine</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../d6/d18/classModel.html#a1ab617a5814dda8d8c12f98380c341d1">getCorrel</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">const</span> std::list&lt;std::list&lt;geometry_msgs::Point&gt;::iterator&gt; &amp;<a class="code" href="../../d6/d18/classModel.html#aff4b80127ee28113ec21c9d5ace9091f">getIndex</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">const</span> std::list&lt;geometry_msgs::Point&gt; &amp;<a class="code" href="../../d6/d18/classModel.html#ad5800f94ab319141fc021ed304378ed3">getPoints</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#a8e19626bd5e72fcdd32861cf837a82ef">addPoint</a>(<span class="keyword">const</span> geometry_msgs::Point &amp;point);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#af97e369d2e9b13adc777dd8f7fa7b03a">setPoints</a>(std::list&lt;geometry_msgs::Point&gt; listOfPoints);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#a288ee306a3ae847ef8dde53cc5c151f2">addIndex</a>(std::list&lt;geometry_msgs::Point&gt;::iterator &amp;it);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#af35de627329428445daa7f10314c0b75">setLine</a>(<span class="keyword">const</span> <a class="code" href="../../db/db6/classLine.html">Line</a> &amp;line);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#a885838eba35afa704b12ade25c41040b">linReg</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#a589292a0d1e5c53143cd739771e9632e">build</a>(<span class="keyword">const</span> geometry_msgs::Point &amp;a, <span class="keyword">const</span> geometry_msgs::Point &amp;b);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d18/classModel.html#a8976f84f757eb3cd68b2aa7eeb5a345f">update</a>();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="../../db/db6/classLine.html">Line</a> m_line;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    std::list&lt;geometry_msgs::Point&gt; m_points;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    std::list&lt;std::list&lt;geometry_msgs::Point&gt;::iterator&gt; m_index;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">double</span> m_correl;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classModel_html_a589292a0d1e5c53143cd739771e9632e"><div class="ttname"><a href="../../d6/d18/classModel.html#a589292a0d1e5c53143cd739771e9632e">Model::build</a></div><div class="ttdeci">void build(const geometry_msgs::Point &amp;a, const geometry_msgs::Point &amp;b)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00077">Model.cpp:77</a></div></div>
 <div class="ttc" id="classModel_html_a8976f84f757eb3cd68b2aa7eeb5a345f"><div class="ttname"><a href="../../d6/d18/classModel.html#a8976f84f757eb3cd68b2aa7eeb5a345f">Model::update</a></div><div class="ttdeci">void update()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00082">Model.cpp:82</a></div></div>
-<div class="ttc" id="classLine_html"><div class="ttname"><a href="../../db/db6/classLine.html">Line</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d9a/navigation_2localisation_2include_2localisation_2Line_8h_source.html#l00006">Line.h:6</a></div></div>
+<div class="ttc" id="classLine_html"><div class="ttname"><a href="../../db/db6/classLine.html">Line</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d9a/navigation_2localisation_2include_2localisation_2Line_8h_source.html#l00014">Line.h:14</a></div></div>
 <div class="ttc" id="classModel_html_ad6ebd2062a0b823db841a0b88baac4c0"><div class="ttname"><a href="../../d6/d18/classModel.html#ad6ebd2062a0b823db841a0b88baac4c0">Model::~Model</a></div><div class="ttdeci">~Model()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00018">Model.cpp:18</a></div></div>
 <div class="ttc" id="classModel_html_a8e19626bd5e72fcdd32861cf837a82ef"><div class="ttname"><a href="../../d6/d18/classModel.html#a8e19626bd5e72fcdd32861cf837a82ef">Model::addPoint</a></div><div class="ttdeci">void addPoint(const geometry_msgs::Point &amp;point)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00043">Model.cpp:43</a></div></div>
 <div class="ttc" id="classModel_html_aff4b80127ee28113ec21c9d5ace9091f"><div class="ttname"><a href="../../d6/d18/classModel.html#aff4b80127ee28113ec21c9d5ace9091f">Model::getIndex</a></div><div class="ttdeci">const std::list&lt; std::list&lt; geometry_msgs::Point &gt;::iterator &gt; &amp; getIndex() const </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00033">Model.cpp:33</a></div></div>
@@ -136,17 +138,18 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="classModel_html_a288ee306a3ae847ef8dde53cc5c151f2"><div class="ttname"><a href="../../d6/d18/classModel.html#a288ee306a3ae847ef8dde53cc5c151f2">Model::addIndex</a></div><div class="ttdeci">void addIndex(std::list&lt; geometry_msgs::Point &gt;::iterator &amp;it)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00053">Model.cpp:53</a></div></div>
 <div class="ttc" id="classModel_html_ad5800f94ab319141fc021ed304378ed3"><div class="ttname"><a href="../../d6/d18/classModel.html#ad5800f94ab319141fc021ed304378ed3">Model::getPoints</a></div><div class="ttdeci">const std::list&lt; geometry_msgs::Point &gt; &amp; getPoints() const </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00038">Model.cpp:38</a></div></div>
 <div class="ttc" id="classModel_html_af97e369d2e9b13adc777dd8f7fa7b03a"><div class="ttname"><a href="../../d6/d18/classModel.html#af97e369d2e9b13adc777dd8f7fa7b03a">Model::setPoints</a></div><div class="ttdeci">void setPoints(std::list&lt; geometry_msgs::Point &gt; listOfPoints)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00048">Model.cpp:48</a></div></div>
+<div class="ttc" id="geometry__utils_8h_html"><div class="ttname"><a href="../../d7/d0c/geometry__utils_8h.html">geometry_utils.h</a></div><div class="ttdoc">bibliothèque de fonctions de calculs géometriques </div></div>
 <div class="ttc" id="classModel_html_a1ab617a5814dda8d8c12f98380c341d1"><div class="ttname"><a href="../../d6/d18/classModel.html#a1ab617a5814dda8d8c12f98380c341d1">Model::getCorrel</a></div><div class="ttdeci">double getCorrel() const </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00028">Model.cpp:28</a></div></div>
 <div class="ttc" id="classModel_html_ae3b375de5f6df4faf74a95d64748e048"><div class="ttname"><a href="../../d6/d18/classModel.html#ae3b375de5f6df4faf74a95d64748e048">Model::Model</a></div><div class="ttdeci">Model()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00013">Model.cpp:13</a></div></div>
-<div class="ttc" id="classModel_html"><div class="ttname"><a href="../../d6/d18/classModel.html">Model</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/Model_8h_source.html#l00010">Model.h:10</a></div></div>
+<div class="ttc" id="classModel_html"><div class="ttname"><a href="../../d6/d18/classModel.html">Model</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/Model_8h_source.html#l00019">Model.h:19</a></div></div>
 <div class="ttc" id="classModel_html_a885838eba35afa704b12ade25c41040b"><div class="ttname"><a href="../../d6/d18/classModel.html#a885838eba35afa704b12ade25c41040b">Model::linReg</a></div><div class="ttdeci">void linReg()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00063">Model.cpp:63</a></div></div>
 <div class="ttc" id="classModel_html_af35de627329428445daa7f10314c0b75"><div class="ttname"><a href="../../d6/d18/classModel.html#af35de627329428445daa7f10314c0b75">Model::setLine</a></div><div class="ttdeci">void setLine(const Line &amp;line)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d2e/Model_8cpp_source.html#l00058">Model.cpp:58</a></div></div>
 <div class="ttc" id="navigation_2localisation_2include_2localisation_2Line_8h_html"><div class="ttname"><a href="../../dc/d9a/navigation_2localisation_2include_2localisation_2Line_8h.html">Line.h</a></div></div>
-<div class="ttc" id="conversion__functions_8h_html"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html">conversion_functions.h</a></div></div>
+<div class="ttc" id="conversion__functions_8h_html"><div class="ttname"><a href="../../d2/db7/conversion__functions_8h.html">conversion_functions.h</a></div><div class="ttdoc">fonctions de conversions nécessaires à la détection de machines et cartographie </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

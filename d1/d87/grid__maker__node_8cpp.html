@@ -96,6 +96,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="textblock"><code>#include &lt;cmath&gt;</code><br/>
 <code>#include &quot;ros/ros.h&quot;</code><br/>
 <code>#include &quot;nav_msgs/OccupancyGrid.h&quot;</code><br/>
+<code>#include &quot;nav_msgs/GetMap.h&quot;</code><br/>
 <code>#include &lt;vector&gt;</code><br/>
 <code>#include &quot;geometry_msgs/Pose2D.h&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d3/d9d/occupancy__grid__utils_8h_source.html">occupancy_grid_utils/occupancy_grid_utils.h</a>&quot;</code><br/>
@@ -106,7 +107,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <code>#include &quot;<a class="el" href="../../d2/da7/FastGradientModifier_8h_source.html">occupancy_grid_utils/grid_modifier/FastGradientModifier.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d9/d07/parameterFunctions_8h_source.html">common_utils/parameterFunctions.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils/geometry_utils.h</a>&quot;</code><br/>
-<code>#include &quot;deplacement_msg/Landmarks.h&quot;</code><br/>
+<code>#include &quot;deplacement_msg/Machines.h&quot;</code><br/>
 <code>#include &lt;set&gt;</code><br/>
 <code>#include &lt;string&gt;</code><br/>
 <code>#include &lt;iostream&gt;</code><br/>
@@ -118,11 +119,16 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a497adf6f15557bdf0ab1aef776b6f1a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d87/grid__maker__node_8cpp.html#a497adf6f15557bdf0ab1aef776b6f1a8">Poses_Machine_Callback</a> (const deplacement_msg::LandmarksConstPtr &amp;machines)</td></tr>
-<tr class="separator:a497adf6f15557bdf0ab1aef776b6f1a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27583d3e8b2e274c5e74d82490b66185"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d87/grid__maker__node_8cpp.html#a27583d3e8b2e274c5e74d82490b66185">Poses_Machine_Callback</a> (const deplacement_msg::MachinesConstPtr &amp;machines)</td></tr>
+<tr class="separator:a27583d3e8b2e274c5e74d82490b66185"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7727614902859e05e5e2e15a2245d423"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d87/grid__maker__node_8cpp.html#a7727614902859e05e5e2e15a2245d423">getMap_service</a> (nav_msgs::GetMap::Request &amp;req, nav_msgs::GetMap::Response &amp;res)</td></tr>
+<tr class="separator:a7727614902859e05e5e2e15a2245d423"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae385cd58e50258b82685cecf380edc64"><td class="memItemLeft" align="right" valign="top">std::shared_ptr<br class="typebreak"/>
 &lt; <a class="el" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">occupancy_grid_utils::Shape</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d87/grid__maker__node_8cpp.html#ae385cd58e50258b82685cecf380edc64">g_machinesShape</a> (nullptr)</td></tr>
 <tr class="separator:ae385cd58e50258b82685cecf380edc64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8020fe69a7ff36bc35a14f9d352c7251"><td class="memItemLeft" align="right" valign="top">std::shared_ptr<br class="typebreak"/>
+&lt; <a class="el" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">occupancy_grid_utils::Shape</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d87/grid__maker__node_8cpp.html#a8020fe69a7ff36bc35a14f9d352c7251">g_machinesShapeNoMargin</a> (nullptr)</td></tr>
+<tr class="separator:a8020fe69a7ff36bc35a14f9d352c7251"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d87/grid__maker__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -136,6 +142,12 @@ Variables</h2></td></tr>
 <tr class="separator:a38c5e7730247ca4347298ce283adb6e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3e9a5efbec2d06c57dd2fc752ae9f41"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d87/grid__maker__node_8cpp.html#aa3e9a5efbec2d06c57dd2fc752ae9f41">g_sizeY</a> = 0.35</td></tr>
 <tr class="separator:aa3e9a5efbec2d06c57dd2fc752ae9f41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06aff1e3a42fe926fdf5afe29cf6a307"><td class="memItemLeft" align="right" valign="top">nav_msgs::OccupancyGrid&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d87/grid__maker__node_8cpp.html#a06aff1e3a42fe926fdf5afe29cf6a307">mapLocalisation</a></td></tr>
+<tr class="separator:a06aff1e3a42fe926fdf5afe29cf6a307"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34f90529e8004c9e97f60233f413ad68"><td class="memItemLeft" align="right" valign="top">nav_msgs::OccupancyGrid&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d87/grid__maker__node_8cpp.html#a34f90529e8004c9e97f60233f413ad68">mapLocalisationWithMachine</a></td></tr>
+<tr class="separator:a34f90529e8004c9e97f60233f413ad68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad663a2c789045d7114a37dc3df299d2c"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d87/grid__maker__node_8cpp.html#ad663a2c789045d7114a37dc3df299d2c">FORBIDZONE_VALUE</a> = 100</td></tr>
+<tr class="separator:ad663a2c789045d7114a37dc3df299d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Coelen Vincent (<a href="#" onclick="location.href='mai'+'lto:'+'vin'+'ce'+'nt.'+'co'+'ele'+'n@'+'pol'+'yt'+'ech'+'-l'+'ill'+'e.'+'net'; return false;">vince<span style="display: none;">.nosp@m.</span>nt.c<span style="display: none;">.nosp@m.</span>oelen<span style="display: none;">.nosp@m.</span>@pol<span style="display: none;">.nosp@m.</span>ytech<span style="display: none;">.nosp@m.</span>-lil<span style="display: none;">.nosp@m.</span>le.ne<span style="display: none;">.nosp@m.</span>t</a>) </dd></dl>
@@ -158,6 +170,50 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a8020fe69a7ff36bc35a14f9d352c7251"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">occupancy_grid_utils::Shape</a>&gt; g_machinesShapeNoMargin </td>
+          <td>(</td>
+          <td class="paramtype">nullptr&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a7727614902859e05e5e2e15a2245d423"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool getMap_service </td>
+          <td>(</td>
+          <td class="paramtype">nav_msgs::GetMap::Request &amp;&#160;</td>
+          <td class="paramname"><em>req</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">nav_msgs::GetMap::Response &amp;&#160;</td>
+          <td class="paramname"><em>res</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00238">238</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -185,29 +241,43 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00044">44</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00051">51</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a497adf6f15557bdf0ab1aef776b6f1a8"></a>
+<a class="anchor" id="a27583d3e8b2e274c5e74d82490b66185"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void Poses_Machine_Callback </td>
           <td>(</td>
-          <td class="paramtype">const deplacement_msg::LandmarksConstPtr &amp;&#160;</td>
+          <td class="paramtype">const deplacement_msg::MachinesConstPtr &amp;&#160;</td>
           <td class="paramname"><em>machines</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00184">184</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00222">222</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a class="anchor" id="ad663a2c789045d7114a37dc3df299d2c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int FORBIDZONE_VALUE = 100</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00049">49</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ad22f295505f37825fe1d348e00ae3b8c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -218,7 +288,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00039">39</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00043">43</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -232,7 +302,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00038">38</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00042">42</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -246,7 +316,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00040">40</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00044">44</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
 
 </div>
 </div>
@@ -260,14 +330,42 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00041">41</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00045">45</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a06aff1e3a42fe926fdf5afe29cf6a307"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nav_msgs::OccupancyGrid mapLocalisation</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00046">46</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a34f90529e8004c9e97f60233f413ad68"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nav_msgs::OccupancyGrid mapLocalisationWithMachine</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html#l00047">47</a> of file <a class="el" href="../../d1/d87/grid__maker__node_8cpp_source.html">grid_maker_node.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

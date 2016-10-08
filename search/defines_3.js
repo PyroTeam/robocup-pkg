@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['final_5forientation_5ftolerance_5frad',['FINAL_ORIENTATION_TOLERANCE_RAD',['../dd/dbb/trackPath_8cpp.html#a36dd8e77cd30d30000ad0b0b0d4c84a7',1,'trackPath.cpp']]]
+  ['eps',['EPS',['../df/d7a/avoidanceObstacle_8cpp.html#a6ebf6899d6c1c8b7b9d09be872c05aae',1,'EPS():&#160;avoidanceObstacle.cpp'],['../dd/dbb/trackPath_8cpp.html#a6ebf6899d6c1c8b7b9d09be872c05aae',1,'EPS():&#160;trackPath.cpp']]],
+  ['epsilon',['EPSILON',['../d9/dd3/map_8cpp.html#a002b2f4894492820fe708b1b7e7c5e70',1,'map.cpp']]]
 ];

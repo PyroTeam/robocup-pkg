@@ -509,7 +509,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    printf(<span class="stringliteral">&quot;Robot Info received:\n&quot;</span>);</div>
 <div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; ri.robots_size(); ++i)</div>
 <div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    {</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        <span class="keyword">const</span> llsf_msgs::Robot &amp;<a class="code" href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a> = ri.robots(i);</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        <span class="keyword">const</span> llsf_msgs::Robot &amp;r = ri.robots(i);</div>
 <div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;        <span class="keyword">const</span> llsf_msgs::Time &amp;time = r.last_seen();</div>
 <div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;<span class="comment">        boost::posix_time::ptime now(boost::posix_time::microsec_clock::universal_time());</span></div>
@@ -543,7 +543,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="FinalApproaching_8h_html_ad212354a1f0c6e11ec93ec9ac50a668aaafe71cad474c15ce63b300c470eef8cc"><div class="ttname"><a href="../../d3/d68/FinalApproaching_8h.html#ad212354a1f0c6e11ec93ec9ac50a668aaafe71cad474c15ce63b300c470eef8cc">CYAN</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d68/FinalApproaching_8h_source.html#l00046">FinalApproaching.h:46</a></div></div>
 <div class="ttc" id="classRefBoxComm_html_a3bea726aaa6baaef6dda22182b936bdd"><div class="ttname"><a href="../../dc/d41/classRefBoxComm.html#a3bea726aaa6baaef6dda22182b936bdd">RefBoxComm::RefBoxComm</a></div><div class="ttdeci">RefBoxComm(std::string teamName, std::string teamColor, std::string robotName, int robotNumber)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d93/refBoxComm_8cpp_source.html#l00022">refBoxComm.cpp:22</a></div></div>
 <div class="ttc" id="classOrderInfo_html"><div class="ttname"><a href="../../d0/d67/classOrderInfo.html">OrderInfo</a></div><div class="ttdoc">classe récupérant les ordres de la RefBox </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dfd/orderInfo_8h_source.html#l00019">orderInfo.h:19</a></div></div>
-<div class="ttc" id="visualisation_8cpp_html_a4a07afa2d32ef986e4a2fa3e66b5f64f"><div class="ttname"><a href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a></div><div class="ttdeci">geometry_msgs::Pose2D r</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfc/visualisation_8cpp_source.html#l00023">visualisation.cpp:23</a></div></div>
 <div class="ttc" id="refBoxComm_8cpp_html_a65ab0a8dd0d3c8bf028f7d3ef40dea97"><div class="ttname"><a href="../../d2/d93/refBoxComm_8cpp.html#a65ab0a8dd0d3c8bf028f7d3ef40dea97">get_actualTime</a></div><div class="ttdeci">void get_actualTime(unsigned long &amp;sec, unsigned long &amp;nsec)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d93/refBoxComm_8cpp_source.html#l00091">refBoxComm.cpp:91</a></div></div>
 <div class="ttc" id="classRefBoxMessage_html_a26b8b99af640e6d786ffb4aa6ee2f6d7"><div class="ttname"><a href="../../d0/d25/classRefBoxMessage.html#a26b8b99af640e6d786ffb4aa6ee2f6d7">RefBoxMessage::setCallBack</a></div><div class="ttdeci">void setCallBack(RefBoxMsgCBType func)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d5b/refBoxMessage_8h_source.html#l00054">refBoxMessage.h:54</a></div></div>
 <div class="ttc" id="refBoxUtils_8h_html_a14d7943b70cb998e8b7ef9b858735c43"><div class="ttname"><a href="../../d2/dde/refBoxUtils_8h.html#a14d7943b70cb998e8b7ef9b858735c43">llsf2ros_explorationInfo</a></div><div class="ttdeci">comm_msg::ExplorationInfo llsf2ros_explorationInfo(const llsf_msgs::ExplorationInfo &amp;llsfExplorationInfo, llsf_msgs::Team team_color)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de9/refBoxUtils_8cpp_source.html#l00065">refBoxUtils.cpp:65</a></div></div>
@@ -562,7 +561,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

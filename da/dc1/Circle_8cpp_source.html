@@ -95,31 +95,85 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>occupancy_grid_utils {</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#ab2db0fa5bac7bee178ed80856b756df8">   16</a></span>&#160;<a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#ab2db0fa5bac7bee178ed80856b756df8">Circle::Circle</a>() : <a class="code" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">Shape</a>()</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#ab2db0fa5bac7bee178ed80856b756df8">   16</a></span>&#160;<a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#ab2db0fa5bac7bee178ed80856b756df8">Circle::Circle</a>() : <a class="code" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">Shape</a>(), m_radius(0.0)</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;}</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a51b3d309201242f384be227f5fe1e7b7">   21</a></span>&#160;<a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a51b3d309201242f384be227f5fe1e7b7">Circle::~Circle</a>()</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a22520a4134a9d3780661296cd38a9fc3">   26</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a22520a4134a9d3780661296cd38a9fc3">Circle::draw</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">int</span> max_value)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">m_center</a>.x = 0.0;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">m_center</a>.y = 0.0;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">m_center</a>.z = 0.0;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#aa27c3037371ea9c721852ec75e142e4d">   23</a></span>&#160;<a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#ab2db0fa5bac7bee178ed80856b756df8">Circle::Circle</a>(<span class="keyword">const</span> geometry_msgs::Point &amp;center, <span class="keywordtype">float</span> radius):</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;     <a class="code" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">Shape</a>(),</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;     m_center(center),</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;     m_radius(radius)</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;} <span class="comment">// namespace occupancy_grid_utils</span></div>
-<div class="ttc" id="classoccupancy__grid__utils_1_1Circle_html_a22520a4134a9d3780661296cd38a9fc3"><div class="ttname"><a href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a22520a4134a9d3780661296cd38a9fc3">occupancy_grid_utils::Circle::draw</a></div><div class="ttdeci">virtual void draw(nav_msgs::OccupancyGrid &amp;grid, int max_value=100) override</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc1/Circle_8cpp_source.html#l00026">Circle.cpp:26</a></div></div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a51b3d309201242f384be227f5fe1e7b7">   31</a></span>&#160;<a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a51b3d309201242f384be227f5fe1e7b7">Circle::~Circle</a>()</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a22520a4134a9d3780661296cd38a9fc3">   36</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a22520a4134a9d3780661296cd38a9fc3">Circle::draw</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">int</span> max_value)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// Code issu de l&#39;ancien GridMaker Obstacle de l&#39;evitement d&#39;obstacles</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> Epsilon = 0.000001;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> radius2 = <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a803ae7f7b10bbcc7f4aac24cf08d0164">m_radius</a>*<a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a803ae7f7b10bbcc7f4aac24cf08d0164">m_radius</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    geometry_msgs::Point leftHigh;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    leftHigh.x = <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">m_center</a>.x + <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a803ae7f7b10bbcc7f4aac24cf08d0164">m_radius</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    leftHigh.y = <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">m_center</a>.y + <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a803ae7f7b10bbcc7f4aac24cf08d0164">m_radius</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    geometry_msgs::Point rightLow;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    rightLow.x = <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">m_center</a>.x - <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a803ae7f7b10bbcc7f4aac24cf08d0164">m_radius</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    rightLow.y = <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">m_center</a>.y - <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a803ae7f7b10bbcc7f4aac24cf08d0164">m_radius</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    geometry_msgs::Point point;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    point.x = leftHigh.x;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    point.y = leftHigh.y;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">int</span> cell = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8ab60a0bb564293cf53e280e1ea06909">getCell</a>(grid, point.x, point.y);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">int</span> cpt = 0;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">while</span> (point.x &gt;= rightLow.x-Epsilon)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">while</span> (point.y &gt;= rightLow.y-Epsilon)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordtype">float</span> x2 = (point.x - <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">m_center</a>.x)*(point.x - <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">m_center</a>.x);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordtype">float</span> y2 = (point.y - <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">m_center</a>.y)*(point.y - <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">m_center</a>.y);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">if</span> (x2 + y2 &lt;= radius2)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="keywordtype">int</span> cellValue = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">getCellValue</a>(grid, point.x, point.y);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">setCell</a>(grid, point.x, point.y, std::max(max_value, cellValue));</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            point.y -= grid.info.resolution;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        point.y = leftHigh.y;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        point.x -= grid.info.resolution;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a294c4a4a420e234cba64c9a94fc9c3d4">   74</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a22520a4134a9d3780661296cd38a9fc3">Circle::draw</a>(deplacement_msg::OccupancyGridFloat &amp;grid, <span class="keywordtype">int</span> max_value)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;{</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;} <span class="comment">// namespace occupancy_grid_utils</span></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1Circle_html_a22520a4134a9d3780661296cd38a9fc3"><div class="ttname"><a href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a22520a4134a9d3780661296cd38a9fc3">occupancy_grid_utils::Circle::draw</a></div><div class="ttdeci">virtual void draw(nav_msgs::OccupancyGrid &amp;grid, int max_value=100) override</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc1/Circle_8cpp_source.html#l00036">Circle.cpp:36</a></div></div>
 <div class="ttc" id="Circle_8h_html"><div class="ttname"><a href="../../d2/d33/Circle_8h.html">Circle.h</a></div></div>
-<div class="ttc" id="classoccupancy__grid__utils_1_1Shape_html"><div class="ttname"><a href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">occupancy_grid_utils::Shape</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d8f/Shape_8h_source.html#l00022">Shape.h:22</a></div></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1Circle_html_a0e45246dfb764e1d6748fea939864b0b"><div class="ttname"><a href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a0e45246dfb764e1d6748fea939864b0b">occupancy_grid_utils::Circle::m_center</a></div><div class="ttdeci">geometry_msgs::Point m_center</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d33/Circle_8h_source.html#l00034">Circle.h:34</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_ab207ba4fc53072e3913e7aef3ef25d9a"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">occupancy_grid_utils::getCellValue</a></div><div class="ttdeci">int getCellValue(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00070">occupancy_grid_utils.cpp:70</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_a600f91c68722e3dde9b551d017eb5507"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">occupancy_grid_utils::setCell</a></div><div class="ttdeci">void setCell(nav_msgs::OccupancyGrid &amp;grid, float x, float y, int value)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00157">occupancy_grid_utils.cpp:157</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_a8ab60a0bb564293cf53e280e1ea06909"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8ab60a0bb564293cf53e280e1ea06909">occupancy_grid_utils::getCell</a></div><div class="ttdeci">int getCell(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00030">occupancy_grid_utils.cpp:30</a></div></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1Circle_html_a803ae7f7b10bbcc7f4aac24cf08d0164"><div class="ttname"><a href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a803ae7f7b10bbcc7f4aac24cf08d0164">occupancy_grid_utils::Circle::m_radius</a></div><div class="ttdeci">float m_radius</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d33/Circle_8h_source.html#l00035">Circle.h:35</a></div></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1Shape_html"><div class="ttname"><a href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">occupancy_grid_utils::Shape</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d8f/Shape_8h_source.html#l00023">Shape.h:23</a></div></div>
 <div class="ttc" id="classoccupancy__grid__utils_1_1Circle_html_ab2db0fa5bac7bee178ed80856b756df8"><div class="ttname"><a href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#ab2db0fa5bac7bee178ed80856b756df8">occupancy_grid_utils::Circle::Circle</a></div><div class="ttdeci">Circle()</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc1/Circle_8cpp_source.html#l00016">Circle.cpp:16</a></div></div>
-<div class="ttc" id="classoccupancy__grid__utils_1_1Circle_html_a51b3d309201242f384be227f5fe1e7b7"><div class="ttname"><a href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a51b3d309201242f384be227f5fe1e7b7">occupancy_grid_utils::Circle::~Circle</a></div><div class="ttdeci">~Circle()</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc1/Circle_8cpp_source.html#l00021">Circle.cpp:21</a></div></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1Circle_html_a51b3d309201242f384be227f5fe1e7b7"><div class="ttname"><a href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a51b3d309201242f384be227f5fe1e7b7">occupancy_grid_utils::Circle::~Circle</a></div><div class="ttdeci">~Circle()</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc1/Circle_8cpp_source.html#l00031">Circle.cpp:31</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

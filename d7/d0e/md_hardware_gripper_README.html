@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: README</title>
+<title>robocup-pkg: PREHENSION - HOW TO</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -77,27 +77,47 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">README </div>  </div>
+<div class="title">PREHENSION - HOW TO </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>TODO à détailler</p>
+<div class="textblock"><h2>Installation des paquets nécessaires</h2>
 <ul>
-<li>Installation (procédure pour hydro, on passera par cmake avec indigo) :</li>
-<li>installer rosserial_arduino,</li>
-<li>installer l'IDE arduino,</li>
-<li>copier le fichier firmware/arduinoGripper.ino dans le dossier sketchbook,</li>
-<li>génération de ros_lib : $ rosrun rosserial_arduino make_libraries.py /home/vincent/sketchbook/libraries/ gripper_msg</li>
-<li>compiler et uploader le programme dans l'arduino.</li>
-<li>Utilisation :</li>
-<li>lancer un roscore</li>
-<li>exécuter : $ rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 (/dev/ttyACM0 étant le port série connecté à l'arduino)</li>
-<li>le service "gripper_srv" et le topic "gripper_status" doivent apparaître.</li>
-<li>exemple d'appel du service pour fermer la pince $ rosservice call /gripper_srv "state: false" </li>
+<li><code>sudo apt-get install ros-indigo-rosserial-arduino ros-indigo-rosserial arduino</code></li>
+<li><code>sudo su</code></li>
+<li><code>source /home/&lt;user&gt;/catkin_ws/devel/setup.bash</code></li>
+<li>copier le fichier firmware/arduinoGripper.ino dans le dossier sketchbook</li>
+</ul>
+<h2>Génération de la librairie :</h2>
+<ul>
+<li><code>cd ~/sketchbook/libraries</code></li>
+<li><code>rm -rf ros_lib</code></li>
+<li><code>rosrun rosserial_arduino make_libraries.py /root/sketchbook/libraries/ gripper_msg</code></li>
+</ul>
+<h2>Compilation et upload du programme dans l'arduino.</h2>
+<h2>Utilisation</h2>
+<h4>gripper (bas niveau)</h4>
+<ul>
+<li><code>roscore</code></li>
+<li><code>rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0</code> (port série connecté à l'arduino)</li>
+</ul>
+<p><em>Le service "hardware/low_level/gripper_srv" et le topic "hardware/low_level/gripper_status" doivent apparaître</em></p>
+<p>appel du service :</p>
+<ul>
+<li><code>rosservice call /hardware/low_level/gripper_srv "servo: false open: false"</code></li>
+</ul>
+<h4>préhension (haut niveau)</h4>
+<ul>
+<li><code>rosrun gripper_node gripper_node</code></li>
+</ul>
+<p><em>Le service "hardware/high_level/gripper_srv" doit apparaître</em></p>
+<p>appel du service préhension (take = 1, let = 2):</p>
+<ul>
+<li><code>rosservice call /hardware/high_level/gripper_srv "cmd: 1"</code> </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:37 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

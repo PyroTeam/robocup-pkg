@@ -85,7 +85,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="../../dd/d67/classCorrespondanceZE-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">CorrespondanceZE Class Reference</div>  </div>
@@ -97,6 +99,11 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 
 <p><code>#include &lt;<a class="el" href="../../da/d18/correspondanceZE_8h_source.html">correspondanceZE.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d24/structCorrespondanceZE_1_1s__ZoneDistance.html">s_ZoneDistance</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5dfcace7e8d9a59d6a2f2cc39ad2da99"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d26/classCorrespondanceZE.html#a5dfcace7e8d9a59d6a2f2cc39ad2da99">CorrespondanceZE</a> ()</td></tr>
@@ -108,6 +115,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abfcc62441e70f275a934d7772bc9a12d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d26/classCorrespondanceZE.html#abfcc62441e70f275a934d7772bc9a12d">cZECallback</a> (const comm_msg::ExplorationInfo &amp;msg)</td></tr>
 <tr class="memdesc:abfcc62441e70f275a934d7772bc9a12d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback permettant de mettre à jour les zones appartenant à l'équipe grâce au topic comm_msg::ExplorationInfo.  <a href="#abfcc62441e70f275a934d7772bc9a12d">More...</a><br/></td></tr>
 <tr class="separator:abfcc62441e70f275a934d7772bc9a12d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a510715188c073e4ff94a4b3925f9a0f1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d26/classCorrespondanceZE.html#a510715188c073e4ff94a4b3925f9a0f1">getBestZone</a> (<a class="el" href="../../de/dec/classcommon__utils_1_1RobotPoseSubscriber.html">common_utils::RobotPoseSubscriber</a> &amp;poseSub)</td></tr>
+<tr class="separator:a510715188c073e4ff94a4b3925f9a0f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a9d5e9abfcdaaf972be5ac12da2fc1f5c"><td class="memItemLeft" align="right" valign="top">std::list&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d26/classCorrespondanceZE.html#a9d5e9abfcdaaf972be5ac12da2fc1f5c">m_unkownZones</a></td></tr>
+<tr class="separator:a9d5e9abfcdaaf972be5ac12da2fc1f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2edb6fe56c084bc17faac9c92bedfc8"><td class="memItemLeft" align="right" valign="top">std::list&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d26/classCorrespondanceZE.html#ab2edb6fe56c084bc17faac9c92bedfc8">m_exploredZones</a></td></tr>
+<tr class="separator:ab2edb6fe56c084bc17faac9c92bedfc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a009cf363deacb55180af97a0cbb1ed8e"><td class="memItemLeft" align="right" valign="top">std::list&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d26/classCorrespondanceZE.html#a009cf363deacb55180af97a0cbb1ed8e">m_notExploredZones</a></td></tr>
+<tr class="separator:a009cf363deacb55180af97a0cbb1ed8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85e2dba08441e208e8e83e01f2d93bc3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d86/classLocaSubscriber.html">LocaSubscriber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d26/classCorrespondanceZE.html#a85e2dba08441e208e8e83e01f2d93bc3">m_locaSub</a></td></tr>
+<tr class="separator:a85e2dba08441e208e8e83e01f2d93bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>classe représentant les zones appartenant à l'équipe </p>
@@ -115,7 +135,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>2015-04-01 </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>2016, Association de Robotique de Polytech Lille All rights reserved </dd></dl>
 
-<p>Definition at line <a class="el" href="../../da/d18/correspondanceZE_8h_source.html#l00017">17</a> of file <a class="el" href="../../da/d18/correspondanceZE_8h_source.html">correspondanceZE.h</a>.</p>
+<p>Definition at line <a class="el" href="../../da/d18/correspondanceZE_8h_source.html#l00024">24</a> of file <a class="el" href="../../da/d18/correspondanceZE_8h_source.html">correspondanceZE.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a5dfcace7e8d9a59d6a2f2cc39ad2da99"></a>
 <div class="memitem">
@@ -130,7 +150,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html#l00006">6</a> of file <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html">correspondanceZE.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html#l00007">7</a> of file <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html">correspondanceZE.cpp</a>.</p>
 
 </div>
 </div>
@@ -147,7 +167,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html#l00010">10</a> of file <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html">correspondanceZE.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html">correspondanceZE.cpp</a>.</p>
 
 </div>
 </div>
@@ -167,8 +187,27 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Callback permettant de mettre à jour les zones appartenant à l'équipe grâce au topic comm_msg::ExplorationInfo. </p>
+<p>foundInExplored &amp;&amp; </p>
 
-<p>Definition at line <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html#l00012">12</a> of file <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html">correspondanceZE.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html#l00018">18</a> of file <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html">correspondanceZE.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a510715188c073e4ff94a4b3925f9a0f1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CorrespondanceZE::getBestZone </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../de/dec/classcommon__utils_1_1RobotPoseSubscriber.html">common_utils::RobotPoseSubscriber</a> &amp;&#160;</td>
+          <td class="paramname"><em>poseSub</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html#l00044">44</a> of file <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html">correspondanceZE.cpp</a>.</p>
 
 </div>
 </div>
@@ -185,7 +224,64 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html#l00026">26</a> of file <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html">correspondanceZE.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html#l00038">38</a> of file <a class="el" href="../../dd/dc4/correspondanceZE_8cpp_source.html">correspondanceZE.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="ab2edb6fe56c084bc17faac9c92bedfc8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;int&gt; CorrespondanceZE::m_exploredZones</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../da/d18/correspondanceZE_8h_source.html#l00040">40</a> of file <a class="el" href="../../da/d18/correspondanceZE_8h_source.html">correspondanceZE.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a85e2dba08441e208e8e83e01f2d93bc3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d8/d86/classLocaSubscriber.html">LocaSubscriber</a> CorrespondanceZE::m_locaSub</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../da/d18/correspondanceZE_8h_source.html#l00041">41</a> of file <a class="el" href="../../da/d18/correspondanceZE_8h_source.html">correspondanceZE.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a009cf363deacb55180af97a0cbb1ed8e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;int&gt; CorrespondanceZE::m_notExploredZones</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../da/d18/correspondanceZE_8h_source.html#l00040">40</a> of file <a class="el" href="../../da/d18/correspondanceZE_8h_source.html">correspondanceZE.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9d5e9abfcdaaf972be5ac12da2fc1f5c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;int&gt; CorrespondanceZE::m_unkownZones</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../da/d18/correspondanceZE_8h_source.html#l00040">40</a> of file <a class="el" href="../../da/d18/correspondanceZE_8h_source.html">correspondanceZE.h</a>.</p>
 
 </div>
 </div>
@@ -196,7 +292,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:37 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

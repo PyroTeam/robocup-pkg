@@ -152,7 +152,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;artag_reader_node&quot;</span>);</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    ros::NodeHandle n;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    ros::Rate <a class="code" href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a>(100);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    ros::Rate r(100);</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Subscribe&quot;</span>);</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    ros::Subscriber artag_topic = n.subscribe&lt;ar_track_alvar_msgs::AlvarMarkers&gt;(<span class="stringliteral">&quot;computerVision/ar_pose_marker&quot;</span>, 1, <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#aa4125bc4f704d3677589f957c1463e45">artagCallback</a>);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a> = n.advertise&lt;geometry_msgs::Twist&gt;(<span class="stringliteral">&quot;hardware/cmd_vel&quot;</span>, 1);</div>
@@ -164,7 +164,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  }</div>
 <div class="ttc" id="ar__tag__reader__node_8cpp_html_aa4125bc4f704d3677589f957c1463e45"><div class="ttname"><a href="../../df/d88/ar__tag__reader__node_8cpp.html#aa4125bc4f704d3677589f957c1463e45">artagCallback</a></div><div class="ttdeci">void artagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d88/ar__tag__reader__node_8cpp_source.html#l00010">ar_tag_reader_node.cpp:10</a></div></div>
-<div class="ttc" id="visualisation_8cpp_html_a4a07afa2d32ef986e4a2fa3e66b5f64f"><div class="ttname"><a href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a></div><div class="ttdeci">geometry_msgs::Pose2D r</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfc/visualisation_8cpp_source.html#l00023">visualisation.cpp:23</a></div></div>
 <div class="ttc" id="ar__tag__reader__node_8cpp_html_a7d1adaf3823d27fc5f19c8536c58e76e"><div class="ttname"><a href="../../df/d88/ar__tag__reader__node_8cpp.html#a7d1adaf3823d27fc5f19c8536c58e76e">positionZ</a></div><div class="ttdeci">float positionZ</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d88/ar__tag__reader__node_8cpp_source.html#l00008">ar_tag_reader_node.cpp:8</a></div></div>
 <div class="ttc" id="ar__tag__reader__node_8cpp_html_a5ca66e955ca84bb52ba35aa29aa01283"><div class="ttname"><a href="../../df/d88/ar__tag__reader__node_8cpp.html#a5ca66e955ca84bb52ba35aa29aa01283">pubMvt</a></div><div class="ttdeci">ros::Publisher pubMvt</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d88/ar__tag__reader__node_8cpp_source.html#l00006">ar_tag_reader_node.cpp:6</a></div></div>
 <div class="ttc" id="ar__tag__reader__node_8cpp_html_aab8fec2df729429dec4513e35bbefed6"><div class="ttname"><a href="../../df/d88/ar__tag__reader__node_8cpp.html#aab8fec2df729429dec4513e35bbefed6">orientationZ</a></div><div class="ttdeci">float orientationZ</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d88/ar__tag__reader__node_8cpp_source.html#l00009">ar_tag_reader_node.cpp:9</a></div></div>
@@ -173,7 +172,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

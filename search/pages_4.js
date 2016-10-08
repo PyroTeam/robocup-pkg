@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['path_5ftracker',['Path_tracker',['../dd/dd7/md_navigation_path_tracker_README.html',1,'']]]
+  ['navigation_5fmanager',['navigation_manager',['../d7/d64/md_navigation_navigation_manager_README.html',1,'']]]
 ];

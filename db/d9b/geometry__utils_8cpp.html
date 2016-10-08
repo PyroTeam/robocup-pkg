@@ -97,6 +97,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <p>bibliothèque de fonctions de calculs géometriques  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>&quot;</code><br/>
+<code>#include &lt;tf/transform_datatypes.h&gt;</code><br/>
+<code>#include &lt;tf/transform_listener.h&gt;</code><br/>
 </div>
 <p><a href="../../db/d9b/geometry__utils_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -111,6 +113,16 @@ Functions</h2></td></tr>
 <tr class="separator:a4eede11c20ece24d453824f66e7a3ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2eccae5847c98a7391c5d4224309923d"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a2eccae5847c98a7391c5d4224309923d">geometry_utils::midPoint</a> (const geometry_msgs::Point &amp;p0, const geometry_msgs::Point &amp;p1)</td></tr>
 <tr class="separator:a2eccae5847c98a7391c5d4224309923d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa8a44ae08a68a027d518f59e456108a"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#afa8a44ae08a68a027d518f59e456108a">geometry_utils::changeFrame</a> (const geometry_msgs::Pose2D &amp;p, const tf::StampedTransform &amp;transform)</td></tr>
+<tr class="separator:afa8a44ae08a68a027d518f59e456108a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36d0b553f98d0709850e8c69836b8c41"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a36d0b553f98d0709850e8c69836b8c41">geometry_utils::machineToMapFrame</a> (const geometry_msgs::Pose2D &amp;p, const geometry_msgs::Pose2D &amp;poseMachine)</td></tr>
+<tr class="separator:a36d0b553f98d0709850e8c69836b8c41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63aa30141cc58af45004caaf73500856"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a63aa30141cc58af45004caaf73500856">geometry_utils::linearRegression</a> (const std::list&lt; geometry_msgs::Point &gt; &amp;points, geometry_msgs::Pose2D &amp;model)</td></tr>
+<tr class="separator:a63aa30141cc58af45004caaf73500856"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a749c97d4fc3bca18dea398c1aea014b0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a749c97d4fc3bca18dea398c1aea014b0">geometry_utils::linearRegression</a> (const std::vector&lt; geometry_msgs::Point &gt; &amp;points, geometry_msgs::Pose2D &amp;model)</td></tr>
+<tr class="separator:a749c97d4fc3bca18dea398c1aea014b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e81e0da42d4abdf4a18be47e5191350"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a3e81e0da42d4abdf4a18be47e5191350">geometry_utils::linearRegression</a> (const std::vector&lt; geometry_msgs::Point &gt; &amp;points, geometry_msgs::Point &amp;pt, double &amp;<a class="el" href="../../d7/d90/math__functions_8cpp.html#ab391a1b9df0313af4d13f61d5789dc8d">angle</a>)</td></tr>
+<tr class="separator:a3e81e0da42d4abdf4a18be47e5191350"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>bibliothèque de fonctions de calculs géometriques </p>
@@ -123,7 +135,7 @@ Functions</h2></td></tr>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

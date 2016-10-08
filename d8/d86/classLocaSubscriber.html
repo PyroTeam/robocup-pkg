@@ -96,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <p>classe pour s'abonner au Topic de la localisation  
  <a href="../../d8/d86/classLocaSubscriber.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="../../d1/d05/LocaSubscriber_8h_source.html">LocaSubscriber.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="../../d3/dc0/executeur__taches_2include_2LocaSubscriber_8h_source.html">LocaSubscriber.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -104,26 +104,54 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad7fb2aab1f07bd0df9063f907b5fbc13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad136957367ceecd82cad71932fdc484d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#ad136957367ceecd82cad71932fdc484d">~LocaSubscriber</a> ()</td></tr>
 <tr class="separator:ad136957367ceecd82cad71932fdc484d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24dcdcf55f90ee357cdc0be41698fd53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a24dcdcf55f90ee357cdc0be41698fd53">tesCallback</a> (const deplacement_msg::LandmarksConstPtr &amp;msg)</td></tr>
-<tr class="separator:a24dcdcf55f90ee357cdc0be41698fd53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2e52fc511fe33edb0163cfd5080a3c0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#aa2e52fc511fe33edb0163cfd5080a3c0">getZone</a> (float x, float y)</td></tr>
-<tr class="separator:aa2e52fc511fe33edb0163cfd5080a3c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a322a6a9ea3ed7d2dea463e4f04db858f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a322a6a9ea3ed7d2dea463e4f04db858f">machinesCallback</a> (const deplacement_msg::MachinesConstPtr &amp;msg)</td></tr>
+<tr class="separator:a322a6a9ea3ed7d2dea463e4f04db858f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62ab996ad26d3ff19b024f08f7ad8073"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a62ab996ad26d3ff19b024f08f7ad8073">spin</a> ()</td></tr>
+<tr class="separator:a62ab996ad26d3ff19b024f08f7ad8073"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accb8c3311685b2b35a4083d1087921c2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d8/d75/classMPS.html">MPS</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#accb8c3311685b2b35a4083d1087921c2">machines</a> ()</td></tr>
+<tr class="separator:accb8c3311685b2b35a4083d1087921c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8c22bc606ec5bd415daa80091f912be"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#ae8c22bc606ec5bd415daa80091f912be">haveAllTheMachines</a> ()</td></tr>
+<tr class="separator:ae8c22bc606ec5bd415daa80091f912be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4996ba98fdb140ede6a7f6bfcdea6310"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a4996ba98fdb140ede6a7f6bfcdea6310">LocaSubscriber</a> (std::list&lt; int &gt; &amp;lst_unkownZones, std::list&lt; int &gt; &amp;lst_exploredZones, std::list&lt; int &gt; &amp;lst_notExploredZones)</td></tr>
+<tr class="separator:a4996ba98fdb140ede6a7f6bfcdea6310"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af933533d5c5e22f9817ee39989eca938"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#af933533d5c5e22f9817ee39989eca938">~LocaSubscriber</a> ()</td></tr>
+<tr class="separator:af933533d5c5e22f9817ee39989eca938"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c7e9e45842dcef5d6c9d81e7fde483e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a2c7e9e45842dcef5d6c9d81e7fde483e">tesCallback</a> (const deplacement_msg::MachinesConstPtr &amp;msg)</td></tr>
+<tr class="separator:a2c7e9e45842dcef5d6c9d81e7fde483e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4ac294e455ee56be86f3b150bfcdb67"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#ad4ac294e455ee56be86f3b150bfcdb67">foundInUnkown</a> (int z)</td></tr>
+<tr class="separator:ad4ac294e455ee56be86f3b150bfcdb67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d1be1b2d24205c11c505ba98e99c4c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a7d1be1b2d24205c11c505ba98e99c4c2">foundInExplored</a> (int z)</td></tr>
+<tr class="separator:a7d1be1b2d24205c11c505ba98e99c4c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96b42d8555dc96d02660f2c7145e4eb8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a96b42d8555dc96d02660f2c7145e4eb8">foundInNotExplored</a> (int z)</td></tr>
+<tr class="separator:a96b42d8555dc96d02660f2c7145e4eb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59b5642d037f2719d927bd6a46326cfa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a59b5642d037f2719d927bd6a46326cfa">pushToExploredList</a> (int z)</td></tr>
+<tr class="separator:a59b5642d037f2719d927bd6a46326cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80cea103aceefecc7a585af1727e59b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a80cea103aceefecc7a585af1727e59b3">removeFromUnkown</a> (int z)</td></tr>
+<tr class="separator:a80cea103aceefecc7a585af1727e59b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5c8a7089fc0a76c52307c88e8bf6302"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#ad5c8a7089fc0a76c52307c88e8bf6302">removeFromExplore</a> (int z)</td></tr>
+<tr class="separator:ad5c8a7089fc0a76c52307c88e8bf6302"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48e35b7a7f33ec4927d2fea528f4bfac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a48e35b7a7f33ec4927d2fea528f4bfac">removeFromNotExplored</a> (int z)</td></tr>
+<tr class="separator:a48e35b7a7f33ec4927d2fea528f4bfac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:af65482750da6bb767408f8953791469b"><td class="memItemLeft" align="right" valign="top">std::vector<br class="typebreak"/>
-&lt; geometry_msgs::Pose2D &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#af65482750da6bb767408f8953791469b">tab_machine</a></td></tr>
-<tr class="separator:af65482750da6bb767408f8953791469b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4775e29eff81220485ac62afa693dac1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d8/d75/classMPS.html">MPS</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a4775e29eff81220485ac62afa693dac1">m_machine</a></td></tr>
-<tr class="separator:a4775e29eff81220485ac62afa693dac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f27bc4eec9f7d470edcb32a1ced18d9"><td class="memItemLeft" align="right" valign="top">std::list&lt; int &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a3f27bc4eec9f7d470edcb32a1ced18d9">m_unkownZones</a></td></tr>
+<tr class="separator:a3f27bc4eec9f7d470edcb32a1ced18d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d76e5d1e5545b827b5feb48cbf1c4c5"><td class="memItemLeft" align="right" valign="top">std::list&lt; int &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a8d76e5d1e5545b827b5feb48cbf1c4c5">m_exploredZones</a></td></tr>
+<tr class="separator:a8d76e5d1e5545b827b5feb48cbf1c4c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08eb1befe93429509525c2fcfd90cfd2"><td class="memItemLeft" align="right" valign="top">std::list&lt; int &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d86/classLocaSubscriber.html#a08eb1befe93429509525c2fcfd90cfd2">m_notExploredZones</a></td></tr>
+<tr class="separator:a08eb1befe93429509525c2fcfd90cfd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>classe pour s'abonner au Topic de la localisation </p>
 <dl class="section author"><dt>Author</dt><dd>Hage Chehade Sandra (<a href="#" onclick="location.href='mai'+'lto:'+'san'+'dr'+'a.h'+'ag'+'e-c'+'he'+'had'+'e@'+'pol'+'yt'+'ech'+'-l'+'ill'+'e.'+'net'; return false;">sandr<span style="display: none;">.nosp@m.</span>a.ha<span style="display: none;">.nosp@m.</span>ge-ch<span style="display: none;">.nosp@m.</span>ehad<span style="display: none;">.nosp@m.</span>e@pol<span style="display: none;">.nosp@m.</span>ytec<span style="display: none;">.nosp@m.</span>h-lil<span style="display: none;">.nosp@m.</span>le.n<span style="display: none;">.nosp@m.</span>et</a>) </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2015-10-10 </dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>2016, Association de Robotique de Polytech Lille All rights reserved</dd></dl>
+<dl class="section author"><dt>Author</dt><dd>Hage Chehade Sandra (<a href="#" onclick="location.href='mai'+'lto:'+'san'+'dr'+'a.h'+'ag'+'e-c'+'he'+'had'+'e@'+'pol'+'yt'+'ech'+'-l'+'ill'+'e.'+'net'; return false;">sandr<span style="display: none;">.nosp@m.</span>a.ha<span style="display: none;">.nosp@m.</span>ge-ch<span style="display: none;">.nosp@m.</span>ehad<span style="display: none;">.nosp@m.</span>e@pol<span style="display: none;">.nosp@m.</span>ytec<span style="display: none;">.nosp@m.</span>h-lil<span style="display: none;">.nosp@m.</span>le.n<span style="display: none;">.nosp@m.</span>et</a>) </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016-06-18 </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>2016, Association de Robotique de Polytech Lille All rights reserved </dd></dl>
 
-<p>Definition at line <a class="el" href="../../d1/d05/LocaSubscriber_8h_source.html#l00019">19</a> of file <a class="el" href="../../d1/d05/LocaSubscriber_8h_source.html">LocaSubscriber.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/dc0/executeur__taches_2include_2LocaSubscriber_8h_source.html#l00019">19</a> of file <a class="el" href="../../d3/dc0/executeur__taches_2include_2LocaSubscriber_8h_source.html">LocaSubscriber.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ad7fb2aab1f07bd0df9063f907b5fbc13"></a>
 <div class="memitem">
@@ -138,7 +166,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00006">6</a> of file <a class="el" href="../../d3/dc4/LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../db/dec/executeur__taches_2src_2LocaSubscriber_8cpp_source.html#l00004">4</a> of file <a class="el" href="../../db/dec/executeur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
 
 </div>
 </div>
@@ -163,26 +191,31 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00012">12</a> of file <a class="el" href="../../d3/dc4/LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../db/dec/executeur__taches_2src_2LocaSubscriber_8cpp_source.html#l00011">11</a> of file <a class="el" href="../../db/dec/executeur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa2e52fc511fe33edb0163cfd5080a3c0"></a>
+<a class="anchor" id="a4996ba98fdb140ede6a7f6bfcdea6310"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int LocaSubscriber::getZone </td>
+          <td class="memname">LocaSubscriber::LocaSubscriber </td>
           <td>(</td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
+          <td class="paramtype">std::list&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lst_unkownZones</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>y</em>&#160;</td>
+          <td class="paramtype">std::list&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lst_exploredZones</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::list&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lst_notExploredZones</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -192,65 +225,314 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00033">33</a> of file <a class="el" href="../../d3/dc4/LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html#l00005">5</a> of file <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a24dcdcf55f90ee357cdc0be41698fd53"></a>
+<a class="anchor" id="af933533d5c5e22f9817ee39989eca938"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual LocaSubscriber::~LocaSubscriber </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a7d1be1b2d24205c11c505ba98e99c4c2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void LocaSubscriber::tesCallback </td>
+          <td class="memname">bool LocaSubscriber::foundInExplored </td>
           <td>(</td>
-          <td class="paramtype">const deplacement_msg::LandmarksConstPtr &amp;&#160;</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>z</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html#l00069">69</a> of file <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a96b42d8555dc96d02660f2c7145e4eb8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool LocaSubscriber::foundInNotExplored </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>z</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html#l00074">74</a> of file <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad4ac294e455ee56be86f3b150bfcdb67"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool LocaSubscriber::foundInUnkown </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>z</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html#l00064">64</a> of file <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae8c22bc606ec5bd415daa80091f912be"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool LocaSubscriber::haveAllTheMachines </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/dc0/executeur__taches_2include_2LocaSubscriber_8h_source.html#l00029">29</a> of file <a class="el" href="../../d3/dc0/executeur__taches_2include_2LocaSubscriber_8h_source.html">LocaSubscriber.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="accb8c3311685b2b35a4083d1087921c2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="../../d8/d75/classMPS.html">MPS</a>&gt; LocaSubscriber::machines </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/dc0/executeur__taches_2include_2LocaSubscriber_8h_source.html#l00028">28</a> of file <a class="el" href="../../d3/dc0/executeur__taches_2include_2LocaSubscriber_8h_source.html">LocaSubscriber.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a322a6a9ea3ed7d2dea463e4f04db858f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LocaSubscriber::machinesCallback </td>
+          <td>(</td>
+          <td class="paramtype">const deplacement_msg::MachinesConstPtr &amp;&#160;</td>
           <td class="paramname"><em>msg</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/dc4/LocaSubscriber_8cpp_source.html#l00014">14</a> of file <a class="el" href="../../d3/dc4/LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../db/dec/executeur__taches_2src_2LocaSubscriber_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../db/dec/executeur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a59b5642d037f2719d927bd6a46326cfa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LocaSubscriber::pushToExploredList </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>z</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html#l00080">80</a> of file <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad5c8a7089fc0a76c52307c88e8bf6302"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LocaSubscriber::removeFromExplore </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>z</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html#l00090">90</a> of file <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a48e35b7a7f33ec4927d2fea528f4bfac"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LocaSubscriber::removeFromNotExplored </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>z</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html#l00095">95</a> of file <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a80cea103aceefecc7a585af1727e59b3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LocaSubscriber::removeFromUnkown </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>z</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html#l00085">85</a> of file <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a62ab996ad26d3ff19b024f08f7ad8073"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LocaSubscriber::spin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../db/dec/executeur__taches_2src_2LocaSubscriber_8cpp_source.html#l00040">40</a> of file <a class="el" href="../../db/dec/executeur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2c7e9e45842dcef5d6c9d81e7fde483e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LocaSubscriber::tesCallback </td>
+          <td>(</td>
+          <td class="paramtype">const deplacement_msg::MachinesConstPtr &amp;&#160;</td>
+          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../d7/d2d/generateur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a4775e29eff81220485ac62afa693dac1"></a>
+<a class="anchor" id="a8d76e5d1e5545b827b5feb48cbf1c4c5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="../../d8/d75/classMPS.html">MPS</a>&gt; LocaSubscriber::m_machine</td>
+          <td class="memname">std::list&lt;int&gt; &amp; LocaSubscriber::m_exploredZones</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d05/LocaSubscriber_8h_source.html#l00032">32</a> of file <a class="el" href="../../d1/d05/LocaSubscriber_8h_source.html">LocaSubscriber.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d46/generateur__taches_2include_2generateur__taches_2LocaSubscriber_8h_source.html#l00040">40</a> of file <a class="el" href="../../d0/d46/generateur__taches_2include_2generateur__taches_2LocaSubscriber_8h_source.html">LocaSubscriber.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af65482750da6bb767408f8953791469b"></a>
+<a class="anchor" id="a08eb1befe93429509525c2fcfd90cfd2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;geometry_msgs::Pose2D&gt; LocaSubscriber::tab_machine</td>
+          <td class="memname">std::list&lt;int&gt; &amp; LocaSubscriber::m_notExploredZones</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d05/LocaSubscriber_8h_source.html#l00031">31</a> of file <a class="el" href="../../d1/d05/LocaSubscriber_8h_source.html">LocaSubscriber.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d46/generateur__taches_2include_2generateur__taches_2LocaSubscriber_8h_source.html#l00040">40</a> of file <a class="el" href="../../d0/d46/generateur__taches_2include_2generateur__taches_2LocaSubscriber_8h_source.html">LocaSubscriber.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3f27bc4eec9f7d470edcb32a1ced18d9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;int&gt;&amp; LocaSubscriber::m_unkownZones</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d46/generateur__taches_2include_2generateur__taches_2LocaSubscriber_8h_source.html#l00040">40</a> of file <a class="el" href="../../d0/d46/generateur__taches_2include_2generateur__taches_2LocaSubscriber_8h_source.html">LocaSubscriber.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>manager/executeur_taches/include/<a class="el" href="../../d1/d05/LocaSubscriber_8h_source.html">LocaSubscriber.h</a></li>
-<li>manager/executeur_taches/src/<a class="el" href="../../d3/dc4/LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a></li>
+<li>manager/executeur_taches/include/<a class="el" href="../../d3/dc0/executeur__taches_2include_2LocaSubscriber_8h_source.html">LocaSubscriber.h</a></li>
+<li>manager/executeur_taches/src/<a class="el" href="../../db/dec/executeur__taches_2src_2LocaSubscriber_8cpp_source.html">LocaSubscriber.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:37 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

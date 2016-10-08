@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: README</title>
+<title>robocup-pkg: Localisation package</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -77,13 +77,55 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">README </div>  </div>
+<div class="title">Localisation package </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"></div></div><!-- contents -->
+<div class="textblock"><p>Ce package contient :</p>
+<p><em>extraction de landmarks :</em></p>
+<ul>
+<li>détecte les droites dans un nuage de points (via <a href="https://fr.wikipedia.org/wiki/RANSAC">RANSAC</a>)</li>
+<li>détecte les segments à partir des modèles de droites trouvés par segmentation</li>
+<li>extrait les machines (segments de 70 cm)</li>
+</ul>
+<p><em>cartographie :</em></p>
+<ul>
+<li>récupère les machines</li>
+<li>moyenne leur position en fonction des données reçues</li>
+<li>ajoute les machines mirrorées</li>
+<li>corrige l'angle via AR TAg</li>
+<li>associe position, IDs AR Tag et zone</li>
+</ul>
+<p><em>correction odométrie :</em></p>
+<ul>
+<li>calcule et fusionne l'odométrie et les données gyroscopiques pour la vitesse angulaire</li>
+</ul>
+<h4>Paramètres</h4>
+<p><em>RANSAC :</em></p>
+<ul>
+<li>nuage de points</li>
+<li>nombre de points minimum pour considérer le modèle comme valide</li>
+<li>nombre de points pertinents dans le nuage</li>
+<li>probabilité de trouver un pattern connu dans le nuage de points</li>
+<li>seuil de proximité pour considérer qu'un point fait partie du modèle</li>
+<li>nombre de points minimum pour valider le modèle</li>
+</ul>
+<p><em>extraction des machines :</em></p>
+<ul>
+<li>taille de la machine</li>
+<li>seuil d'acceptation</li>
+</ul>
+<p><b>DOIT être normalisé dans les common :</b></p>
+<ul>
+<li><a class="el" href="../../d5/d29/classLaserScan.html" title="classe traitnt les infos du laser ">LaserScan</a> (ou utilisation du pcl node)</li>
+<li><a class="el" href="../../db/db6/classLine.html">Line</a></li>
+<li><a class="el" href="../../d8/ddc/classSegment.html" title="Classe représentant un segment d&#39;environ 70 cm. ">Segment</a></li>
+<li><a class="el" href="../../dc/dda/classMachine.html" title="classe pour les différentes actions d&#39;un robot concernant une machine ">Machine</a> (comme objet physique, ce serait une classe mère pour les infos purement géométriques -&gt; taille, position sur la piste)</li>
+<li>Subscriber AR TAgs ? </li>
+</ul>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:37 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

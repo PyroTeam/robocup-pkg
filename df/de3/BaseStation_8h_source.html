@@ -91,51 +91,40 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../df/de3/BaseStation_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef BASESTATION_H</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BASESTATION_H</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef BASE_STATION_H</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BASE_STATION_H</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h.html">Machine.h</a>&quot;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">using namespace </span>manager_msg;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../d2/d4b/classBaseStation.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d4b/classBaseStation.html">BaseStation</a> : <span class="keyword">public</span> <a class="code" href="../../dc/dda/classMachine.html">Machine</a></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="comment">/* Variables d&#39;instance*/</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordtype">int</span> m_redBase;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordtype">int</span> m_blackBase;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordtype">int</span> m_silverBase;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;      </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="comment">/* Constructeur */</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="../../d2/d4b/classBaseStation.html">BaseStation</a>();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="comment">/* Déstructeur */</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="../../d2/d4b/classBaseStation.html">BaseStation</a>();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> FonctionVirtuelle();</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">    Sur la BS, c&#39;est le rôle du replenisher de s&#39;assurer qu&#39;il y a toujours</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">    assez de bases de chaque couleur, la seule action sur cette machine est</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">    donc prendre une base de la couleur demandée</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">    Pas besoin de compter les bases restantes de chaque couleur</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">    Pas besoin d&#39;une fonction allant apporter une base à une RS, c&#39;est typiquement</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">    le rôle de l&#39;executeur</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../d2/d4b/classBaseStation.html">   27</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d4b/classBaseStation.html">BaseStation</a> : <span class="keyword">public</span> <a class="code" href="../../dc/dda/classMachine.html">Machine</a></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="../../d2/d4b/classBaseStation.html">BaseStation</a>(<span class="keywordtype">int</span> teamColor);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="../../d2/d4b/classBaseStation.html">BaseStation</a>();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">bool</span> take(<span class="keywordtype">int</span> baseColor);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="comment">/* Méthodes */</span>   </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">int</span> getRedBase();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">int</span> getBlackBase();      </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">int</span> getSilverBase();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">void</span> majRed(<span class="keywordtype">int</span> nbRouge);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">void</span> majBlack(<span class="keywordtype">int</span> nbNoir);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">void</span> majSilver(<span class="keywordtype">int</span> nbArgent);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">void</span> take_base(<span class="keywordtype">int</span> color,<span class="keywordtype">int</span> n_robot,<span class="keywordtype">int</span> n_order);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">void</span> bring_base_rs(<span class="keywordtype">int</span> color,<span class="keywordtype">int</span> n_robot,<span class="keywordtype">int</span> n_order,<span class="keywordtype">int</span> machine);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classMachine_html"><div class="ttname"><a href="../../dc/dda/classMachine.html">Machine</a></div><div class="ttdoc">classe pour les différentes actions d&#39;un robot concernant une machine </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h_source.html#l00028">Machine.h:28</a></div></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="classMachine_html"><div class="ttname"><a href="../../dc/dda/classMachine.html">Machine</a></div><div class="ttdoc">classe pour les différentes actions d&#39;un robot concernant une machine </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h_source.html#l00033">Machine.h:33</a></div></div>
 <div class="ttc" id="manager_2executeur__taches_2include_2Machine_8h_html"><div class="ttname"><a href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h.html">Machine.h</a></div></div>
-<div class="ttc" id="classBaseStation_html"><div class="ttname"><a href="../../d2/d4b/classBaseStation.html">BaseStation</a></div><div class="ttdoc">classe qui stocke les données de la basestation </div><div class="ttdef"><b>Definition:</b> <a href="../../df/de3/BaseStation_8h_source.html#l00017">BaseStation.h:17</a></div></div>
+<div class="ttc" id="classBaseStation_html"><div class="ttname"><a href="../../d2/d4b/classBaseStation.html">BaseStation</a></div><div class="ttdoc">classe qui stocke les données de la basestation </div><div class="ttdef"><b>Definition:</b> <a href="../../df/de3/BaseStation_8h_source.html#l00027">BaseStation.h:27</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

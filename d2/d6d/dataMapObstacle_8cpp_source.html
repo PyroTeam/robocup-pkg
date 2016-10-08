@@ -182,7 +182,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="../../de/d56/classDataMapObstacle.html#ad467f2adaa0260f8bb98b4ab886f0049">  100</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/d56/classDataMapObstacle.html#ad467f2adaa0260f8bb98b4ab886f0049">DataMapObstacle::calculObstacle</a>(<span class="keyword">const</span> geometry_msgs::Pose &amp;odom, std::vector&lt;geometry_msgs::PoseStamped&gt; &amp;path)</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;{</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    std::string tf_prefix;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    m_nh.param&lt;std::string&gt;(<span class="stringliteral">&quot;simuRobotNamespace&quot;</span>, tf_prefix, <span class="stringliteral">&quot;&quot;</span>);;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    m_nh.param&lt;std::string&gt;(<span class="stringliteral">&quot;simuRobotNamespace&quot;</span>, tf_prefix, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">if</span> (tf_prefix.size() != 0)</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    {</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        tf_prefix += <span class="stringliteral">&quot;/&quot;</span>;</div>
@@ -433,7 +433,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

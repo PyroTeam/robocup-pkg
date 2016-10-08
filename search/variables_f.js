@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['zone',['zone',['../da/dcf/classExploInfoSubscriber.html#aa77f08dee004150b5543941146cc6453',1,'ExploInfoSubscriber::zone()'],['../dc/dda/classMachine.html#a067eea1c422bed8f9138337674e55781',1,'Machine::zone()'],['../d8/d75/classMPS.html#a64b53c54a2e4aac1e6931d6d20b3dcbe',1,'MPS::zone()']]]
+  ['vmaxlow',['VmaxLow',['../d6/d9c/BasicFollower_8cpp.html#a0897f5beb25dbd19d02a7add2682fdef',1,'BasicFollower.cpp']]],
+  ['vmaxup',['VmaxUp',['../d6/d9c/BasicFollower_8cpp.html#aa937d772ef7b5675946a2567b4654b61',1,'BasicFollower.cpp']]],
+  ['vminstatic',['VminStatic',['../d6/d9c/BasicFollower_8cpp.html#ae2e2b57150834106d1bfd8380513b087',1,'BasicFollower.cpp']]]
 ];

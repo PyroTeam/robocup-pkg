@@ -119,87 +119,89 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
 <div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ae2fc34091ebca83c365509028de1f19b">   38</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ae2fc34091ebca83c365509028de1f19b">Rectangle::draw</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">int</span> max_value)</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">// Environment</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment">// static bool alreadyDone = false;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="comment">// if(alreadyDone &amp;&amp; 0)</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="comment">//  return -1;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="comment">// alreadyDone = true;</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">float</span> res = grid.info.resolution;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">int</span> samplingMultiplier = 2;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">float</span> totalDrawHeight = (2*<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>+<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#a85aeb0cd7de6f93528769b1c6ed5da9a">m_height</a>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">float</span> totalDrawWidth = (2*<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>+<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ac10172175a7c9691ab302cdcb0911a82">m_width</a>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">// ROS_INFO(&quot;totalDrawHeight %f&quot;, totalDrawHeight);</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">// ROS_INFO(&quot;totalDrawWidth %f&quot;, totalDrawWidth);</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">// ROS_INFO(&quot;__________________________________&quot;);</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">// Algo</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; (int)(totalDrawWidth*samplingMultiplier/res); ++i)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; (int)(totalDrawHeight*samplingMultiplier/res); ++j)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="comment">// ROS_INFO(&quot;%d:%d&quot;,i,j);</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="comment">// Define the gain for this point</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keywordtype">int</span> gain = 0;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="comment">// Outside of the rect (margin zones)</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">if</span>( i &lt; (<span class="keywordtype">int</span>)(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>*samplingMultiplier/res)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    || i &gt; (<span class="keywordtype">int</span>)((<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>+<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ac10172175a7c9691ab302cdcb0911a82">m_width</a>)*samplingMultiplier/res)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    || j &lt; (int)(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>*samplingMultiplier/res)</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    || j &gt; (int)((<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>+<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#a85aeb0cd7de6f93528769b1c6ed5da9a">m_height</a>)*samplingMultiplier/res))</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    <span class="comment">// Variable gain, proportional to the distance with the rect</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    <span class="comment">//  /!\ Temporarily to 50</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    gain = max_value;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="comment">// Into the rect</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                    <span class="comment">// Static gain, set to maximum (100)</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                    gain = max_value;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                <span class="comment">// ROS_INFO(&quot;Gain : %d&quot;,gain);</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">//Code provenant de l&#39;ancien GridMaker</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">// Environment</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="comment">// static bool alreadyDone = false;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="comment">// if(alreadyDone &amp;&amp; 0)</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="comment">//  return -1;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="comment">// alreadyDone = true;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">float</span> res = grid.info.resolution;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">int</span> samplingMultiplier = 2;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">float</span> totalDrawHeight = (2*<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>+<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#a85aeb0cd7de6f93528769b1c6ed5da9a">m_height</a>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">float</span> totalDrawWidth = (2*<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>+<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ac10172175a7c9691ab302cdcb0911a82">m_width</a>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">// ROS_INFO(&quot;totalDrawHeight %f&quot;, totalDrawHeight);</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">// ROS_INFO(&quot;totalDrawWidth %f&quot;, totalDrawWidth);</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment">// ROS_INFO(&quot;__________________________________&quot;);</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">// Algo</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; (int)(totalDrawWidth*samplingMultiplier/res); ++i)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; (int)(totalDrawHeight*samplingMultiplier/res); ++j)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="comment">// ROS_INFO(&quot;%d:%d&quot;,i,j);</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="comment">// Define the gain for this point</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordtype">int</span> gain = 0;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                <span class="comment">// Outside of the rect (margin zones)</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                <span class="keywordflow">if</span>( i &lt; (<span class="keywordtype">int</span>)(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>*samplingMultiplier/res)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    || i &gt; (<span class="keywordtype">int</span>)((<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>+<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ac10172175a7c9691ab302cdcb0911a82">m_width</a>)*samplingMultiplier/res)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                    || j &lt; (int)(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>*samplingMultiplier/res)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    || j &gt; (int)((<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#af9ee758df86d8fc98a754b3fa0bc3997">m_margin</a>+<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#a85aeb0cd7de6f93528769b1c6ed5da9a">m_height</a>)*samplingMultiplier/res))</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    <span class="comment">// Variable gain, proportional to the distance with the rect</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                    <span class="comment">//  /!\ Temporarily to 50</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                    gain = max_value;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="comment">// Into the rect</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                    <span class="comment">// Static gain, set to maximum (100)</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    gain = max_value;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                }</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="comment">// Get the coords</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                <span class="keywordtype">float</span> deltaX = -totalDrawWidth/2.0 + i*res/samplingMultiplier;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="keywordtype">float</span> deltaY = totalDrawHeight/2.0 - j*res/samplingMultiplier;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <span class="comment">// ROS_INFO(&quot;deltaX : %f&quot;,deltaX);</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <span class="comment">// ROS_INFO(&quot;deltaY : %f&quot;,deltaY);</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="comment">// ROS_INFO(&quot;dXc %f dYs %f&quot;,deltaX*cos(theta),deltaY*sin(theta));</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="comment">// ROS_INFO(&quot;dYc %f dXs %f&quot;,deltaY*cos(theta),deltaX*sin(theta));</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <span class="comment">// float xP = x + deltaX*cos(theta) - deltaY*sin(theta);</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="comment">// float yP = y - deltaY*cos(theta) - deltaX*sin(theta);</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <span class="keywordtype">float</span> xP = <a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ae4d83622c979e8f0c599a50e2d3b1475">m_x</a> + deltaX*cos(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#aa5598eb717c42282b1c60eae5881e1be">m_theta</a>) + deltaY*sin(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#aa5598eb717c42282b1c60eae5881e1be">m_theta</a>);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keywordtype">float</span> yP = <a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#a309bc8e1f605622f31c56533863d0f30">m_y</a> - deltaY*cos(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#aa5598eb717c42282b1c60eae5881e1be">m_theta</a>) + deltaX*sin(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#aa5598eb717c42282b1c60eae5881e1be">m_theta</a>);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="comment">// ROS_INFO(&quot;xP : %f&quot;,xP);</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                <span class="comment">// ROS_INFO(&quot;yP : %f&quot;,yP);</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordtype">int</span> cellValue = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">getCellValue</a>(grid, xP, yP);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="comment">// ROS_INFO(&quot;cell : %d&quot;,cell);</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                <span class="comment">// Fill it</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">setCell</a>(grid, xP, yP, std::max(gain, cellValue));</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            }</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="comment">// ROS_INFO(&quot;\t__________________________________&quot;);</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="comment">// return 0;</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;} <span class="comment">// namespace occupancy_grid_utils</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="comment">// ROS_INFO(&quot;Gain : %d&quot;,gain);</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="comment">// Get the coords</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordtype">float</span> deltaX = -totalDrawWidth/2.0 + i*res/samplingMultiplier;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <span class="keywordtype">float</span> deltaY = totalDrawHeight/2.0 - j*res/samplingMultiplier;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="comment">// ROS_INFO(&quot;deltaX : %f&quot;,deltaX);</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="comment">// ROS_INFO(&quot;deltaY : %f&quot;,deltaY);</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <span class="comment">// ROS_INFO(&quot;dXc %f dYs %f&quot;,deltaX*cos(theta),deltaY*sin(theta));</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="comment">// ROS_INFO(&quot;dYc %f dXs %f&quot;,deltaY*cos(theta),deltaX*sin(theta));</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <span class="comment">// float xP = x + deltaX*cos(theta) - deltaY*sin(theta);</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="comment">// float yP = y - deltaY*cos(theta) - deltaX*sin(theta);</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <span class="keywordtype">float</span> xP = <a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ae4d83622c979e8f0c599a50e2d3b1475">m_x</a> + deltaX*cos(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#aa5598eb717c42282b1c60eae5881e1be">m_theta</a>) + deltaY*sin(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#aa5598eb717c42282b1c60eae5881e1be">m_theta</a>);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="keywordtype">float</span> yP = <a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#a309bc8e1f605622f31c56533863d0f30">m_y</a> - deltaY*cos(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#aa5598eb717c42282b1c60eae5881e1be">m_theta</a>) + deltaX*sin(<a class="code" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#aa5598eb717c42282b1c60eae5881e1be">m_theta</a>);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="comment">// ROS_INFO(&quot;xP : %f&quot;,xP);</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="comment">// ROS_INFO(&quot;yP : %f&quot;,yP);</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                <span class="keywordtype">int</span> cellValue = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">getCellValue</a>(grid, xP, yP);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                <span class="comment">// ROS_INFO(&quot;cell : %d&quot;,cell);</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <span class="comment">// Fill it</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">setCell</a>(grid, xP, yP, std::max(gain, cellValue));</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="comment">// ROS_INFO(&quot;\t__________________________________&quot;);</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="comment">// return 0;</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;} <span class="comment">// namespace occupancy_grid_utils</span></div>
 <div class="ttc" id="classoccupancy__grid__utils_1_1Rectangle_html_ae4d83622c979e8f0c599a50e2d3b1475"><div class="ttname"><a href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ae4d83622c979e8f0c599a50e2d3b1475">occupancy_grid_utils::Rectangle::m_x</a></div><div class="ttdeci">float m_x</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d04/Rectangle_8h_source.html#l00032">Rectangle.h:32</a></div></div>
 <div class="ttc" id="classoccupancy__grid__utils_1_1Rectangle_html_a99f1d21daa7c59eb8ab28cc4a822d683"><div class="ttname"><a href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#a99f1d21daa7c59eb8ab28cc4a822d683">occupancy_grid_utils::Rectangle::Rectangle</a></div><div class="ttdeci">Rectangle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dfd/Rectangle_8cpp_source.html#l00016">Rectangle.cpp:16</a></div></div>
-<div class="ttc" id="namespaceoccupancy__grid__utils_html_ab207ba4fc53072e3913e7aef3ef25d9a"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">occupancy_grid_utils::getCellValue</a></div><div class="ttdeci">int getCellValue(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00086">occupancy_grid_utils.cpp:86</a></div></div>
-<div class="ttc" id="namespaceoccupancy__grid__utils_html_a600f91c68722e3dde9b551d017eb5507"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">occupancy_grid_utils::setCell</a></div><div class="ttdeci">void setCell(nav_msgs::OccupancyGrid &amp;grid, float x, float y, int value)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00188">occupancy_grid_utils.cpp:188</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_ab207ba4fc53072e3913e7aef3ef25d9a"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">occupancy_grid_utils::getCellValue</a></div><div class="ttdeci">int getCellValue(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00070">occupancy_grid_utils.cpp:70</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_a600f91c68722e3dde9b551d017eb5507"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">occupancy_grid_utils::setCell</a></div><div class="ttdeci">void setCell(nav_msgs::OccupancyGrid &amp;grid, float x, float y, int value)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00157">occupancy_grid_utils.cpp:157</a></div></div>
 <div class="ttc" id="classoccupancy__grid__utils_1_1Rectangle_html_ae2fc34091ebca83c365509028de1f19b"><div class="ttname"><a href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ae2fc34091ebca83c365509028de1f19b">occupancy_grid_utils::Rectangle::draw</a></div><div class="ttdeci">virtual void draw(nav_msgs::OccupancyGrid &amp;grid, int max_value=100) override</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dfd/Rectangle_8cpp_source.html#l00038">Rectangle.cpp:38</a></div></div>
 <div class="ttc" id="classoccupancy__grid__utils_1_1Rectangle_html_aa5598eb717c42282b1c60eae5881e1be"><div class="ttname"><a href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#aa5598eb717c42282b1c60eae5881e1be">occupancy_grid_utils::Rectangle::m_theta</a></div><div class="ttdeci">float m_theta</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d04/Rectangle_8h_source.html#l00034">Rectangle.h:34</a></div></div>
-<div class="ttc" id="classoccupancy__grid__utils_1_1Shape_html"><div class="ttname"><a href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">occupancy_grid_utils::Shape</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d8f/Shape_8h_source.html#l00022">Shape.h:22</a></div></div>
+<div class="ttc" id="classoccupancy__grid__utils_1_1Shape_html"><div class="ttname"><a href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html">occupancy_grid_utils::Shape</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d8f/Shape_8h_source.html#l00023">Shape.h:23</a></div></div>
 <div class="ttc" id="classoccupancy__grid__utils_1_1Rectangle_html_a0cccc75b0977b60ef9b6c454b763a83b"><div class="ttname"><a href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#a0cccc75b0977b60ef9b6c454b763a83b">occupancy_grid_utils::Rectangle::~Rectangle</a></div><div class="ttdeci">virtual ~Rectangle()</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dfd/Rectangle_8cpp_source.html#l00033">Rectangle.cpp:33</a></div></div>
 <div class="ttc" id="classoccupancy__grid__utils_1_1Rectangle_html_a85aeb0cd7de6f93528769b1c6ed5da9a"><div class="ttname"><a href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#a85aeb0cd7de6f93528769b1c6ed5da9a">occupancy_grid_utils::Rectangle::m_height</a></div><div class="ttdeci">float m_height</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d04/Rectangle_8h_source.html#l00035">Rectangle.h:35</a></div></div>
 <div class="ttc" id="classoccupancy__grid__utils_1_1Rectangle_html_a309bc8e1f605622f31c56533863d0f30"><div class="ttname"><a href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#a309bc8e1f605622f31c56533863d0f30">occupancy_grid_utils::Rectangle::m_y</a></div><div class="ttdeci">float m_y</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d04/Rectangle_8h_source.html#l00033">Rectangle.h:33</a></div></div>
@@ -209,7 +211,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

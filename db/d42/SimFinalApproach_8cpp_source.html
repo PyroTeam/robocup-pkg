@@ -115,7 +115,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    m_as.start();</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    m_pubMvt = m_nh.advertise&lt;geometry_msgs::Twist&gt;(<span class="stringliteral">&quot;hardware/cmd_vel&quot;</span>, 1);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    m_landmarksSub = m_nh.subscribe(<span class="stringliteral">&quot;objectDetection/landmarks&quot;</span>, 1, &amp;<a class="code" href="../../df/d47/classSimFinalApproach.html#a08bc05dfbe2335c531f59607d80e4e54">SimFinalApproach::landmarksCallback</a>, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    m_landmarksSub = m_nh.subscribe(<span class="stringliteral">&quot;objectDetection/landmarks&quot;</span>, 1, &amp;<a class="code" href="../../df/d47/classSimFinalApproach.html#a323ab87921d5936703c758ba910a0783">SimFinalApproach::landmarksCallback</a>, <span class="keyword">this</span>);</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
 <div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../df/d47/classSimFinalApproach.html#a5d8eb96c3e40157d2f40bf569cc93944">   29</a></span>&#160;<a class="code" href="../../df/d47/classSimFinalApproach.html#a5d8eb96c3e40157d2f40bf569cc93944">SimFinalApproach::~SimFinalApproach</a>(<span class="keywordtype">void</span>){}</div>
@@ -126,26 +126,34 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    m_as.setPreempted();</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../df/d47/classSimFinalApproach.html#a08bc05dfbe2335c531f59607d80e4e54">   37</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../df/d47/classSimFinalApproach.html#a08bc05dfbe2335c531f59607d80e4e54">SimFinalApproach::landmarksCallback</a>(<span class="keyword">const</span> deplacement_msg::Landmarks::ConstPtr&amp; msg)</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../df/d47/classSimFinalApproach.html#a323ab87921d5936703c758ba910a0783">   37</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../df/d47/classSimFinalApproach.html#a323ab87921d5936703c758ba910a0783">SimFinalApproach::landmarksCallback</a>(<span class="keyword">const</span> deplacement_msg::Machines&amp; msg)</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">/* XXX : Maybe this vector could be updated only once, because mps position should not change with mocked detecion */</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    m_mps = msg-&gt;landmarks;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../df/d47/classSimFinalApproach.html#a95969b4a5256824fc3a54163492e8740">   43</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../df/d47/classSimFinalApproach.html#a95969b4a5256824fc3a54163492e8740">SimFinalApproach::executeCB</a>(<span class="keyword">const</span> final_approach_msg::FinalApproachingGoalConstPtr &amp;goal)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;it : msg.landmarks)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        m_mps.push_back(it.pose);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../df/d47/classSimFinalApproach.html#a95969b4a5256824fc3a54163492e8740">   47</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../df/d47/classSimFinalApproach.html#a95969b4a5256824fc3a54163492e8740">SimFinalApproach::executeCB</a>(<span class="keyword">const</span> final_approach_msg::FinalApproachingGoalConstPtr &amp;goal)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  m_result.success = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  m_result.state = final_approach_msg::FinalApproachingResult::UNKNOWN;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  ROS_INFO(<span class="stringliteral">&quot;%s: Succeeded&quot;</span>, m_actionName.c_str());</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  m_as.setSucceeded(m_result);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
 <div class="ttc" id="SimFinalApproach_8h_html"><div class="ttname"><a href="../../d3/d01/SimFinalApproach_8h.html">SimFinalApproach.h</a></div></div>
-<div class="ttc" id="classSimFinalApproach_html_a08bc05dfbe2335c531f59607d80e4e54"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a08bc05dfbe2335c531f59607d80e4e54">SimFinalApproach::landmarksCallback</a></div><div class="ttdeci">void landmarksCallback(const deplacement_msg::Landmarks::ConstPtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00037">SimFinalApproach.cpp:37</a></div></div>
 <div class="ttc" id="classSimFinalApproach_html_a2b1b4b6518b62a3b36f5461d12c0d6a2"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a2b1b4b6518b62a3b36f5461d12c0d6a2">SimFinalApproach::SimFinalApproach</a></div><div class="ttdeci">SimFinalApproach(std::string name)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00018">SimFinalApproach.cpp:18</a></div></div>
 <div class="ttc" id="classSimFinalApproach_html"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html">SimFinalApproach</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d01/SimFinalApproach_8h_source.html#l00018">SimFinalApproach.h:18</a></div></div>
-<div class="ttc" id="classSimFinalApproach_html_a95969b4a5256824fc3a54163492e8740"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a95969b4a5256824fc3a54163492e8740">SimFinalApproach::executeCB</a></div><div class="ttdeci">void executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &amp;goal)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00043">SimFinalApproach.cpp:43</a></div></div>
+<div class="ttc" id="classSimFinalApproach_html_a95969b4a5256824fc3a54163492e8740"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a95969b4a5256824fc3a54163492e8740">SimFinalApproach::executeCB</a></div><div class="ttdeci">void executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &amp;goal)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00047">SimFinalApproach.cpp:47</a></div></div>
 <div class="ttc" id="classSimFinalApproach_html_a5d8eb96c3e40157d2f40bf569cc93944"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a5d8eb96c3e40157d2f40bf569cc93944">SimFinalApproach::~SimFinalApproach</a></div><div class="ttdeci">~SimFinalApproach(void)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00029">SimFinalApproach.cpp:29</a></div></div>
 <div class="ttc" id="classSimFinalApproach_html_a294f6849a57b586bd2960be46bbc77e3"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a294f6849a57b586bd2960be46bbc77e3">SimFinalApproach::preemptCB</a></div><div class="ttdeci">void preemptCB()</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00031">SimFinalApproach.cpp:31</a></div></div>
+<div class="ttc" id="classSimFinalApproach_html_a323ab87921d5936703c758ba910a0783"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a323ab87921d5936703c758ba910a0783">SimFinalApproach::landmarksCallback</a></div><div class="ttdeci">void landmarksCallback(const deplacement_msg::Machines &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00037">SimFinalApproach.cpp:37</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

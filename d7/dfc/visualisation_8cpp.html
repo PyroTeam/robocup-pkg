@@ -98,128 +98,44 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <code>#include &lt;visualization_msgs/Marker.h&gt;</code><br/>
 <code>#include &lt;visualization_msgs/MarkerArray.h&gt;</code><br/>
 <code>#include &quot;deplacement_msg/Landmarks.h&quot;</code><br/>
+<code>#include &quot;deplacement_msg/Machines.h&quot;</code><br/>
 <code>#include &quot;geometry_msgs/Point.h&quot;</code><br/>
 <code>#include &quot;geometry_msgs/Pose2D.h&quot;</code><br/>
 <code>#include &quot;nav_msgs/Odometry.h&quot;</code><br/>
-<code>#include &quot;<a class="el" href="../../d3/d5c/cartographie__utils_8h_source.html">cartographie_utils.h</a>&quot;</code><br/>
 <code>#include &lt;cmath&gt;</code><br/>
 </div>
 <p><a href="../../d7/dfc/visualisation_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a29ee9bb765e8a8bfb8cb92df2ae968db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#a29ee9bb765e8a8bfb8cb92df2ae968db">segmentsCallback</a> (const deplacement_msg::LandmarksConstPtr &amp;segments)</td></tr>
-<tr class="separator:a29ee9bb765e8a8bfb8cb92df2ae968db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeccb4e920534dc98a8885c47b065440c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#aeccb4e920534dc98a8885c47b065440c">droitesCallback</a> (const deplacement_msg::LandmarksConstPtr &amp;droites)</td></tr>
-<tr class="separator:aeccb4e920534dc98a8885c47b065440c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7ad521b46615c8d2a6273398bfd6577"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#ae7ad521b46615c8d2a6273398bfd6577">machinesCallback</a> (const deplacement_msg::LandmarksConstPtr &amp;machines)</td></tr>
-<tr class="separator:ae7ad521b46615c8d2a6273398bfd6577"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30d8978d4fea7115ebc997f58835ad10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#a30d8978d4fea7115ebc997f58835ad10">landmarksCallback</a> (const deplacement_msg::LandmarksConstPtr &amp;landmarks)</td></tr>
-<tr class="separator:a30d8978d4fea7115ebc997f58835ad10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdc2dba5a2a3304257b4d52e1868a8c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#acdc2dba5a2a3304257b4d52e1868a8c9">robotCallback</a> (const geometry_msgs::Point &amp;pos)</td></tr>
-<tr class="separator:acdc2dba5a2a3304257b4d52e1868a8c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90fa1a3ae9458679c50a209bade246d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#a90fa1a3ae9458679c50a209bade246d9">laserCallback</a> (const deplacement_msg::LandmarksConstPtr &amp;laser)</td></tr>
-<tr class="separator:a90fa1a3ae9458679c50a209bade246d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac23f42e23b70b13ce3255b21f487a507"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#ac23f42e23b70b13ce3255b21f487a507">odomCallback</a> (const nav_msgs::Odometry &amp;odom)</td></tr>
-<tr class="separator:ac23f42e23b70b13ce3255b21f487a507"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9c32acf3bb549191c38ce7d02cf987c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#aa9c32acf3bb549191c38ce7d02cf987c">landmarksCallback</a> (const deplacement_msg::MachinesConstPtr &amp;landmarks)</td></tr>
+<tr class="separator:aa9c32acf3bb549191c38ce7d02cf987c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a1eedae635a02684025a3b35691ac478c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; geometry_msgs::Point &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#a1eedae635a02684025a3b35691ac478c">tabMachines</a></td></tr>
-<tr class="separator:a1eedae635a02684025a3b35691ac478c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5e5b74a195eee6058fff76db7d7a94f"><td class="memItemLeft" align="right" valign="top">ros::Time&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#ab5e5b74a195eee6058fff76db7d7a94f">g_machines_stamp</a></td></tr>
-<tr class="separator:ab5e5b74a195eee6058fff76db7d7a94f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf9e31bf342217275474b7ca8c375d35"><td class="memItemLeft" align="right" valign="top">std::vector&lt; geometry_msgs::Point &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#adf9e31bf342217275474b7ca8c375d35">tabLandmarks</a></td></tr>
 <tr class="separator:adf9e31bf342217275474b7ca8c375d35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4235d7de40e122541a8e47c636e43567"><td class="memItemLeft" align="right" valign="top">ros::Time&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#a4235d7de40e122541a8e47c636e43567">g_landmarks_stamp</a></td></tr>
 <tr class="separator:a4235d7de40e122541a8e47c636e43567"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac25c768d19e8650be8c4d49ecdb06ca9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; geometry_msgs::Point &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#ac25c768d19e8650be8c4d49ecdb06ca9">tabSegments</a></td></tr>
-<tr class="separator:ac25c768d19e8650be8c4d49ecdb06ca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addbfe8db8a936e82bf978a230c346bc5"><td class="memItemLeft" align="right" valign="top">ros::Time&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#addbfe8db8a936e82bf978a230c346bc5">g_segments_stamp</a></td></tr>
-<tr class="separator:addbfe8db8a936e82bf978a230c346bc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab04dc9e2cbe873a10370076596d56d27"><td class="memItemLeft" align="right" valign="top">std::vector&lt; geometry_msgs::Point &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#ab04dc9e2cbe873a10370076596d56d27">tabDroites</a></td></tr>
-<tr class="separator:ab04dc9e2cbe873a10370076596d56d27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6b3861b887be4673cbce79f720f2cff"><td class="memItemLeft" align="right" valign="top">std::vector&lt; geometry_msgs::Point &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#ab6b3861b887be4673cbce79f720f2cff">trajectoire</a></td></tr>
-<tr class="separator:ab6b3861b887be4673cbce79f720f2cff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac67b0365a8443f0a87b13f3fe9e5df33"><td class="memItemLeft" align="right" valign="top">std::vector&lt; geometry_msgs::Point &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#ac67b0365a8443f0a87b13f3fe9e5df33">scan_global</a></td></tr>
-<tr class="separator:ac67b0365a8443f0a87b13f3fe9e5df33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0090c4837b05ba97c5fb74a0c8cc0795"><td class="memItemLeft" align="right" valign="top">std::vector&lt; geometry_msgs::Point &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#a0090c4837b05ba97c5fb74a0c8cc0795">odometrie</a></td></tr>
-<tr class="separator:a0090c4837b05ba97c5fb74a0c8cc0795"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a07afa2d32ef986e4a2fa3e66b5f64f"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a></td></tr>
-<tr class="separator:a4a07afa2d32ef986e4a2fa3e66b5f64f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="aeccb4e920534dc98a8885c47b065440c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void droitesCallback </td>
-          <td>(</td>
-          <td class="paramtype">const deplacement_msg::LandmarksConstPtr &amp;&#160;</td>
-          <td class="paramname"><em>droites</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00039">39</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a30d8978d4fea7115ebc997f58835ad10"></a>
+<a class="anchor" id="aa9c32acf3bb549191c38ce7d02cf987c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void landmarksCallback </td>
           <td>(</td>
-          <td class="paramtype">const deplacement_msg::LandmarksConstPtr &amp;&#160;</td>
+          <td class="paramtype">const deplacement_msg::MachinesConstPtr &amp;&#160;</td>
           <td class="paramname"><em>landmarks</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00098">98</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a90fa1a3ae9458679c50a209bade246d9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void laserCallback </td>
-          <td>(</td>
-          <td class="paramtype">const deplacement_msg::LandmarksConstPtr &amp;&#160;</td>
-          <td class="paramname"><em>laser</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00123">123</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae7ad521b46615c8d2a6273398bfd6577"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void machinesCallback </td>
-          <td>(</td>
-          <td class="paramtype">const deplacement_msg::LandmarksConstPtr &amp;&#160;</td>
-          <td class="paramname"><em>machines</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00052">52</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
 
 </div>
 </div>
@@ -247,61 +163,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00143">143</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac23f42e23b70b13ce3255b21f487a507"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void odomCallback </td>
-          <td>(</td>
-          <td class="paramtype">const nav_msgs::Odometry &amp;&#160;</td>
-          <td class="paramname"><em>odom</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00135">135</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acdc2dba5a2a3304257b4d52e1868a8c9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void robotCallback </td>
-          <td>(</td>
-          <td class="paramtype">const geometry_msgs::Point &amp;&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00116">116</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a29ee9bb765e8a8bfb8cb92df2ae968db"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void segmentsCallback </td>
-          <td>(</td>
-          <td class="paramtype">const deplacement_msg::LandmarksConstPtr &amp;&#160;</td>
-          <td class="paramname"><em>segments</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00025">25</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00033">33</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
 
 </div>
 </div>
@@ -316,91 +178,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab5e5b74a195eee6058fff76db7d7a94f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ros::Time g_machines_stamp</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
 <p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00014">14</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="addbfe8db8a936e82bf978a230c346bc5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ros::Time g_segments_stamp</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00018">18</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0090c4837b05ba97c5fb74a0c8cc0795"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;geometry_msgs::Point&gt; odometrie</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00022">22</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4a07afa2d32ef986e4a2fa3e66b5f64f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">geometry_msgs::Pose2D r</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00023">23</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac67b0365a8443f0a87b13f3fe9e5df33"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;geometry_msgs::Point&gt; scan_global</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00021">21</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab04dc9e2cbe873a10370076596d56d27"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;geometry_msgs::Point&gt; tabDroites</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00019">19</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
 
 </div>
 </div>
@@ -414,56 +192,14 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00015">15</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1eedae635a02684025a3b35691ac478c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;geometry_msgs::Point&gt; tabMachines</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
 <p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00013">13</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac25c768d19e8650be8c4d49ecdb06ca9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;geometry_msgs::Point&gt; tabSegments</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00017">17</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab6b3861b887be4673cbce79f720f2cff"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;geometry_msgs::Point&gt; trajectoire</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html#l00020">20</a> of file <a class="el" href="../../d7/dfc/visualisation_8cpp_source.html">visualisation.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -87,6 +87,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="../../d0/d78/classUpdateGridMapGraph-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">UpdateGridMapGraph Class Reference</div>  </div>
@@ -123,9 +124,17 @@ Public Member Functions</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:af76884815d9853a18ae637d51fa1ccbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d8b/classUpdateGridMapGraph.html#af76884815d9853a18ae637d51fa1ccbe">mapCallback</a> (const nav_msgs::OccupancyGrid &amp;grid)</td></tr>
 <tr class="separator:af76884815d9853a18ae637d51fa1ccbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0096402b9cd4f9b975ec7f0c65f76cc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d8b/classUpdateGridMapGraph.html#af0096402b9cd4f9b975ec7f0c65f76cc">closestReachablePoint</a> (deplacement_msg::ClosestReachablePoint::Request &amp;req, deplacement_msg::ClosestReachablePoint::Response &amp;res)</td></tr>
+<tr class="separator:af0096402b9cd4f9b975ec7f0c65f76cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bc8405dcd2620bec891912100628ff1"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d8b/classUpdateGridMapGraph.html#a7bc8405dcd2620bec891912100628ff1">checkStartPos</a> (const geometry_msgs::Pose2D &amp;req, double window, const nav_msgs::OccupancyGrid &amp;grid)</td></tr>
+<tr class="separator:a7bc8405dcd2620bec891912100628ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a85672470ef6ce00acd32e09c0b48cb57"><td class="memItemLeft" align="right" valign="top">nav_msgs::OccupancyGrid&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d8b/classUpdateGridMapGraph.html#a85672470ef6ce00acd32e09c0b48cb57">m_grid</a></td></tr>
+<tr class="separator:a85672470ef6ce00acd32e09c0b48cb57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeebd91d09b00a6cfda229fe26fa0f822"><td class="memItemLeft" align="right" valign="top">ros::ServiceServer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d8b/classUpdateGridMapGraph.html#aeebd91d09b00a6cfda229fe26fa0f822">m_checkStartService</a></td></tr>
+<tr class="separator:aeebd91d09b00a6cfda229fe26fa0f822"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classUpdateGraph"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classUpdateGraph')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d5/dc1/classUpdateGraph.html">UpdateGraph</a></td></tr>
 <tr class="memitem:a1812ca418be7c37e9e64db3393862984 inherit pro_attribs_classUpdateGraph"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d2/d62/classGraph.html">Graph</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dc1/classUpdateGraph.html#a1812ca418be7c37e9e64db3393862984">m_graph</a></td></tr>
 <tr class="separator:a1812ca418be7c37e9e64db3393862984 inherit pro_attribs_classUpdateGraph"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,7 +149,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>Classe concrète dérivée de <a class="el" href="../../d5/dc1/classUpdateGraph.html" title="Classe abstraite pour la mise à jour des Graph. ">UpdateGraph</a> pour la mise à jour d'un <a class="el" href="../../d1/dfa/classGridMapGraph.html" title="Classe concrète dérivée de Graph pour les nav_msgs::OccupancyGrid. ">GridMapGraph</a>. </p>
 <p> * Elle se lie à un topic de type nav_msgs::OccupancyGrid et copie la map générée dans un objet de type <a class="el" href="../../d1/dfa/classGridMapGraph.html" title="Classe concrète dérivée de Graph pour les nav_msgs::OccupancyGrid. ">GridMapGraph</a> associé </p>
 
-<p>Definition at line <a class="el" href="../../d8/de0/UpdateGridMapGraph_8h_source.html#l00029">29</a> of file <a class="el" href="../../d8/de0/UpdateGridMapGraph_8h_source.html">UpdateGridMapGraph.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/de0/UpdateGridMapGraph_8h_source.html#l00031">31</a> of file <a class="el" href="../../d8/de0/UpdateGridMapGraph_8h_source.html">UpdateGridMapGraph.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="afe6e61ebb40d918f313eaec8018e88b6"></a>
 <div class="memitem">
@@ -166,7 +175,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html#l00014">14</a> of file <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html">UpdateGridMapGraph.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html">UpdateGridMapGraph.cpp</a>.</p>
 
 </div>
 </div>
@@ -191,11 +200,89 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html#l00020">20</a> of file <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html">UpdateGridMapGraph.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html#l00022">22</a> of file <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html">UpdateGridMapGraph.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a7bc8405dcd2620bec891912100628ff1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">geometry_msgs::Pose2D UpdateGridMapGraph::checkStartPos </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::Pose2D &amp;&#160;</td>
+          <td class="paramname"><em>req</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>window</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const nav_msgs::OccupancyGrid &amp;&#160;</td>
+          <td class="paramname"><em>grid</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html#l00059">59</a> of file <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html">UpdateGridMapGraph.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af0096402b9cd4f9b975ec7f0c65f76cc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool UpdateGridMapGraph::closestReachablePoint </td>
+          <td>(</td>
+          <td class="paramtype">deplacement_msg::ClosestReachablePoint::Request &amp;&#160;</td>
+          <td class="paramname"><em>req</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">deplacement_msg::ClosestReachablePoint::Response &amp;&#160;</td>
+          <td class="paramname"><em>res</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html#l00046">46</a> of file <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html">UpdateGridMapGraph.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="af76884815d9853a18ae637d51fa1ccbe"></a>
 <div class="memitem">
 <div class="memproto">
@@ -225,7 +312,52 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html#l00030">30</a> of file <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html">UpdateGridMapGraph.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html#l00032">32</a> of file <a class="el" href="../../db/da7/UpdateGridMapGraph_8cpp_source.html">UpdateGridMapGraph.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="aeebd91d09b00a6cfda229fe26fa0f822"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ros::ServiceServer UpdateGridMapGraph::m_checkStartService</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/de0/UpdateGridMapGraph_8h_source.html#l00042">42</a> of file <a class="el" href="../../d8/de0/UpdateGridMapGraph_8h_source.html">UpdateGridMapGraph.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a85672470ef6ce00acd32e09c0b48cb57"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">nav_msgs::OccupancyGrid UpdateGridMapGraph::m_grid</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/de0/UpdateGridMapGraph_8h_source.html#l00041">41</a> of file <a class="el" href="../../d8/de0/UpdateGridMapGraph_8h_source.html">UpdateGridMapGraph.h</a>.</p>
 
 </div>
 </div>
@@ -236,7 +368,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:37 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

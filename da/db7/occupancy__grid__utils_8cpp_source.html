@@ -97,158 +97,249 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>occupancy_grid_utils {</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa812f1f836f94247d66353d0e5551f53">   18</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa812f1f836f94247d66353d0e5551f53">createEmptyMap</a>(nav_msgs::OccupancyGrid &amp;map, <span class="keyword">const</span> geometry_msgs::Point &amp;size, <span class="keyword">const</span> geometry_msgs::Point &amp;origin, <span class="keyword">const</span> std::string &amp;frame_id, <span class="keywordtype">double</span> resolution)</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    map.header.frame_id = frame_id;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    map.info.origin.position.x = origin.x;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    map.info.origin.position.y = origin.y;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    map.info.origin.position.z = 0;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    map.info.origin.orientation.x = 0;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    map.info.origin.orientation.y = 0;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    map.info.origin.orientation.z = 0;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    map.info.origin.orientation.w = 1;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    map.info.map_load_time = ros::Time::now();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    map.info.resolution = resolution;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    map.info.width = size.x/resolution;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    map.info.height = size.y/resolution;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    map.data.assign(map.info.width * map.info.height, 0);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8ab60a0bb564293cf53e280e1ea06909">   46</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8ab60a0bb564293cf53e280e1ea06909">getCell</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">//code from navigation/path_tracker/src/map.cpp</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">//modifié pour ajouter des protections</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">float</span> res = grid.info.resolution;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span> width = grid.info.width;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">int</span> height = grid.info.height;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">float</span> x0 = grid.info.origin.position.x;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">float</span> y0 = grid.info.origin.position.y;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">float</span> xMin = x0;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">float</span> xMax = x0 + res*width;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">float</span> yMin = y0;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">float</span> yMax = y0 + res*height;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">if</span> (!(xMin &lt; x &amp;&amp; x &lt; xMax) || !(yMin &lt; y &amp;&amp; y &lt; yMax))</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">int</span> hCell = 0;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">int</span> wCell = 0;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">int</span> cell = 0;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    hCell = round((y - y0) / res);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    wCell = round((x - x0) / res);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    cell = hCell * width + wCell;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> cell;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">   86</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">getCellValue</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;{</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">int</span> cell = 0;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">if</span> ((cell = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8ab60a0bb564293cf53e280e1ea06909">getCell</a>(grid, x, y)) &lt; 0)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    {</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">return</span> 255;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    }</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordflow">return</span> grid.data[cell];</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    }</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a5a6d027416742f169bea4eb4f1d8e232">  109</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">getCellValue</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Point &amp;p)</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;{</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">getCellValue</a>(grid, p.x, p.y);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a4cdf8d4771c1183017970ef37b690c2f">  123</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">getCellValue</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Pose2D &amp;p)</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;{</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">getCellValue</a>(grid, p.x, p.y);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;}</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
-<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">  137</a></span>&#160;geometry_msgs::Point <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">getCellAsPixelCoord</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y)</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;{</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="comment">//TODO redondance de code à regler avec la fonction getCell</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    geometry_msgs::Point p;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    p.x = -1;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    p.y = -1;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordtype">float</span> res = grid.info.resolution;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">int</span> width = grid.info.width;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">int</span> height = grid.info.height;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">float</span> x0 = grid.info.origin.position.x;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">float</span> y0 = grid.info.origin.position.y;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">float</span> xMin = x0;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">float</span> xMax = x0 + res*width;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">float</span> yMin = y0;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordtype">float</span> yMax = y0 + res*height;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">if</span> (!(xMin &lt; x &amp;&amp; x &lt; xMax) || !(yMin &lt; y &amp;&amp; y &lt; yMax))</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    {</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="keywordflow">return</span> p;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    }</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    p.y = round((y - y0) / res);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    p.x = round((x - x0) / res);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordflow">return</span> p;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;}</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
-<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a92e8521f38ae0b30678f8a430d445fea">  174</a></span>&#160;geometry_msgs::Point <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">getCellAsPixelCoord</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Point &amp;p)</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;{</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">getCellAsPixelCoord</a>(grid, p.x, p.y);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;}</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
-<div class="line"><a name="l00188"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">  188</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">setCell</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y, <span class="keywordtype">int</span> value)</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;{</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    geometry_msgs::Point p = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">getCellAsPixelCoord</a>(grid, x, y);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">setPixelCell</a>(grid, p, value);</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;}</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8ab60a0bb564293cf53e280e1ea06909">   30</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8ab60a0bb564293cf53e280e1ea06909">getCell</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y)</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">//code from navigation/path_tracker/src/map.cpp</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment">//modifié pour ajouter des protections</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">float</span> res = grid.info.resolution;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">int</span> width = grid.info.width;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">int</span> height = grid.info.height;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">float</span> x0 = grid.info.origin.position.x;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">float</span> y0 = grid.info.origin.position.y;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">float</span> xMin = x0;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">float</span> xMax = x0 + res*width;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">float</span> yMin = y0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">float</span> yMax = y0 + res*height;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span> (!(xMin &lt; x &amp;&amp; x &lt; xMax) || !(yMin &lt; y &amp;&amp; y &lt; yMax))</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">int</span> hCell = 0;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span> wCell = 0;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span> cell = 0;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    hCell = round((y - y0) / res);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    wCell = round((x - x0) / res);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    cell = hCell * width + wCell;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">return</span> cell;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">   70</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">getCellValue</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">int</span> cell = 0;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">if</span> ((cell = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8ab60a0bb564293cf53e280e1ea06909">getCell</a>(grid, x, y)) &lt; 0)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">return</span> 255;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> grid.data[cell];</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a3081a3abdd82ed5f927d3e91b570baad">   93</a></span>&#160;geometry_msgs::Point <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a3081a3abdd82ed5f927d3e91b570baad">getCellAsPixelCoord</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;{</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="comment">//TODO redondance de code à regler avec la fonction getCell</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    geometry_msgs::Point p;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    p.x = -1;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    p.y = -1;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">float</span> res = grid.info.resolution;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">int</span> width = grid.info.width;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">int</span> height = grid.info.height;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">float</span> x0 = grid.info.origin.position.x;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">float</span> y0 = grid.info.origin.position.y;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">float</span> xMin = x0;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">float</span> xMax = x0 + res*width;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">float</span> yMin = y0;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">float</span> yMax = y0 + res*height;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">if</span> (!(xMin &lt; x &amp;&amp; x &lt; xMax) || !(yMin &lt; y &amp;&amp; y &lt; yMax))</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keywordflow">return</span> p;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    p.y = round((y - y0) / res);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    p.x = round((x - x0) / res);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">return</span> p;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a34b433abc9497cc2ebc00f65dfa3d505">  130</a></span>&#160;geometry_msgs::Point <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a3081a3abdd82ed5f927d3e91b570baad">getCellAsPixelCoord</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Point &amp;p)</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;{</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a3081a3abdd82ed5f927d3e91b570baad">getCellAsPixelCoord</a>(grid, p.x, p.y);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#acce4dfb94df659104a5cbf51de42e04e">  136</a></span>&#160;geometry_msgs::Pose2D <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a3081a3abdd82ed5f927d3e91b570baad">getCellAsPixelCoord</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Pose2D &amp;pose2d)</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;{</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    geometry_msgs::Point pt = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a3081a3abdd82ed5f927d3e91b570baad">getCellAsPixelCoord</a>(grid, <span class="keywordtype">float</span>(pose2d.x), <span class="keywordtype">float</span>(pose2d.y));</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    geometry_msgs::Pose2D result;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    result.x = pt.x;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    result.y = pt.y;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    result.theta = pose2d.theta;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">  157</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">setCell</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y, <span class="keywordtype">int</span> value)</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;{</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    geometry_msgs::Point p = <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a3081a3abdd82ed5f927d3e91b570baad">getCellAsPixelCoord</a>(grid, x, y);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">setPixelCell</a>(grid, p, value);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;}</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00172"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">  172</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">setPixelCell</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> x, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> y, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; value)</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;{</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordflow">if</span> (x &lt; grid.info.width &amp;&amp; y &lt; grid.info.height)</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    {</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keywordtype">int</span> valueSaturated = 0;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="keywordflow">if</span> (value &lt; 0)</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            valueSaturated = 0;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        }</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (value &gt; 100)</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        {</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            valueSaturated = 100;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        }</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        {</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            valueSaturated = value;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        }</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        grid.data[y * grid.info.width + x] = valueSaturated;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    }</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
-<div class="line"><a name="l00203"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">  203</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">setPixelCell</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> x, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> y, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; value)</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;{</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keywordflow">if</span> (x &lt; grid.info.width &amp;&amp; y &lt; grid.info.height)</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    {</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="keywordtype">int</span> valueSaturated = 0;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="keywordflow">if</span> (value &lt; 0)</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        {</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            valueSaturated = 0;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        }</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (value &gt; 100)</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        {</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            valueSaturated = 100;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        }</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;}</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
+<div class="line"><a name="l00204"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8769d60812e4952f39dbcc1c3e6d5fdd">  204</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">setPixelCell</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Point &amp;p, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; value)</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;{</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">setPixelCell</a>(grid, p.x, p.y, value);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;}</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;</div>
+<div class="line"><a name="l00209"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a5db4866ec729dcc7dacad688ebd3c364">  209</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a5db4866ec729dcc7dacad688ebd3c364">checkRow</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Pose2D &amp;start, <span class="keywordtype">double</span> <a class="code" href="../../dd/daf/namespacegeometry__utils.html#af0efcbc0c46ca020b7013dfe06f6ea27">distance</a>, geometry_msgs::Pose2D &amp;foundPose)</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;{</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keywordtype">bool</span> found = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keywordtype">double</span> traveledDistance = 0.0;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    geometry_msgs::Pose2D tmp = start;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">while</span> (!found &amp;&amp; traveledDistance &lt;= distance)</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    {</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">getCellValue</a>(grid, tmp) &lt; 100)</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        {</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            valueSaturated = value;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        }</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        grid.data[y * grid.info.width + x] = valueSaturated;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    }</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;}</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            foundPose = tmp;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        }</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        traveledDistance += grid.info.resolution;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        tmp.x += grid.info.resolution;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    }</div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
-<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8769d60812e4952f39dbcc1c3e6d5fdd">  235</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">setPixelCell</a>(nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Point &amp;p, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; value)</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;{</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">setPixelCell</a>(grid, p.x, p.y, value);</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;}</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;} <span class="comment">// namespace occupancy_grid_utils</span></div>
-<div class="ttc" id="namespaceoccupancy__grid__utils_html_ab207ba4fc53072e3913e7aef3ef25d9a"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">occupancy_grid_utils::getCellValue</a></div><div class="ttdeci">int getCellValue(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00086">occupancy_grid_utils.cpp:86</a></div></div>
-<div class="ttc" id="namespaceoccupancy__grid__utils_html_a600f91c68722e3dde9b551d017eb5507"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">occupancy_grid_utils::setCell</a></div><div class="ttdeci">void setCell(nav_msgs::OccupancyGrid &amp;grid, float x, float y, int value)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00188">occupancy_grid_utils.cpp:188</a></div></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keywordflow">return</span> found;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;}</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;</div>
+<div class="line"><a name="l00231"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a7a9ce9b3baec6eac146c648b4b6a6584">  231</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a7a9ce9b3baec6eac146c648b4b6a6584">checkColumn</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Pose2D &amp;start, <span class="keywordtype">double</span> <a class="code" href="../../dd/daf/namespacegeometry__utils.html#af0efcbc0c46ca020b7013dfe06f6ea27">distance</a>, geometry_msgs::Pose2D &amp;foundPose)</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;{</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="keywordtype">bool</span> found = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keywordtype">double</span> traveledDistance = 0.0;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    geometry_msgs::Pose2D tmp = start;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="keywordflow">while</span> (!found &amp;&amp; traveledDistance &lt;= distance)</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    {</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">getCellValue</a>(grid, tmp) &lt; 100)</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        {</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            foundPose = tmp;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        }</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        traveledDistance += grid.info.resolution;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        tmp.y -= grid.info.resolution;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    }</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keywordflow">return</span> found;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;}</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;</div>
+<div class="line"><a name="l00252"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a77afbae3b72f5d5c1aa62d4b280a611d">  252</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a77afbae3b72f5d5c1aa62d4b280a611d">checkCircle</a>(<span class="keyword">const</span> geometry_msgs::Pose2D &amp;req, <span class="keywordtype">double</span> window, <span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, geometry_msgs::Pose2D &amp;foundPose)</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;{</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keywordtype">bool</span> found = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a5db4866ec729dcc7dacad688ebd3c364">checkRow</a>(grid, <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a53efdae0422720e9441f9cccff77247f">topLeft</a>(grid, req, window), window, foundPose))</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    {</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    }</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a5db4866ec729dcc7dacad688ebd3c364">checkRow</a>(grid, <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ac1c0bf40205a4fb4701e690d7ea8fadd">bottomLeft</a>(grid, req, window), window, foundPose))</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    {</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    }</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a7a9ce9b3baec6eac146c648b4b6a6584">checkColumn</a>(grid, <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a53efdae0422720e9441f9cccff77247f">topLeft</a>(grid, req, window), window, foundPose))</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    {</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    }</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a7a9ce9b3baec6eac146c648b4b6a6584">checkColumn</a>(grid, <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a73d0210b71fbc62a14cf56d486d46b40">topRight</a>(grid, req, window), window, foundPose))</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    {</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    }</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="keywordflow">return</span> found;</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;}</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;</div>
+<div class="line"><a name="l00276"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a53efdae0422720e9441f9cccff77247f">  276</a></span>&#160;geometry_msgs::Pose2D <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a53efdae0422720e9441f9cccff77247f">topLeft</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Pose2D &amp;req, <span class="keywordtype">double</span> window)</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;{</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    geometry_msgs::Pose2D tmp;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    tmp.x = req.x - (window/grid.info.resolution)*grid.info.resolution;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    tmp.y = req.y + (window/grid.info.resolution)*grid.info.resolution;</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    tmp.theta = req.theta;</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;}</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;</div>
+<div class="line"><a name="l00286"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ac1c0bf40205a4fb4701e690d7ea8fadd">  286</a></span>&#160;geometry_msgs::Pose2D <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#ac1c0bf40205a4fb4701e690d7ea8fadd">bottomLeft</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Pose2D &amp;req, <span class="keywordtype">double</span> window)</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;{</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    geometry_msgs::Pose2D tmp;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    tmp.x = req.x - (window/grid.info.resolution)*grid.info.resolution;</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    tmp.y = req.y - (window/grid.info.resolution)*grid.info.resolution;</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    tmp.theta = req.theta;</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;}</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;</div>
+<div class="line"><a name="l00296"></a><span class="lineno"><a class="line" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a73d0210b71fbc62a14cf56d486d46b40">  296</a></span>&#160;geometry_msgs::Pose2D <a class="code" href="../../da/dd5/namespaceoccupancy__grid__utils.html#a73d0210b71fbc62a14cf56d486d46b40">topRight</a>(<span class="keyword">const</span> nav_msgs::OccupancyGrid &amp;grid, <span class="keyword">const</span> geometry_msgs::Pose2D &amp;req, <span class="keywordtype">double</span> window)</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;{</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    geometry_msgs::Pose2D tmp;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    tmp.x = req.x + (window/grid.info.resolution)*grid.info.resolution;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    tmp.y = req.y + (window/grid.info.resolution)*grid.info.resolution;</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    tmp.theta = req.theta;</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;}</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;} <span class="comment">// namespace occupancy_grid_utils</span></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_a7a9ce9b3baec6eac146c648b4b6a6584"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a7a9ce9b3baec6eac146c648b4b6a6584">occupancy_grid_utils::checkColumn</a></div><div class="ttdeci">bool checkColumn(const nav_msgs::OccupancyGrid &amp;grid, const geometry_msgs::Pose2D &amp;start, double distance, geometry_msgs::Pose2D &amp;foundPose)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00231">occupancy_grid_utils.cpp:231</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_ab207ba4fc53072e3913e7aef3ef25d9a"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#ab207ba4fc53072e3913e7aef3ef25d9a">occupancy_grid_utils::getCellValue</a></div><div class="ttdeci">int getCellValue(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00070">occupancy_grid_utils.cpp:70</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_a600f91c68722e3dde9b551d017eb5507"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a600f91c68722e3dde9b551d017eb5507">occupancy_grid_utils::setCell</a></div><div class="ttdeci">void setCell(nav_msgs::OccupancyGrid &amp;grid, float x, float y, int value)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00157">occupancy_grid_utils.cpp:157</a></div></div>
 <div class="ttc" id="occupancy__grid__utils_8h_html"><div class="ttname"><a href="../../d3/d9d/occupancy__grid__utils_8h.html">occupancy_grid_utils.h</a></div><div class="ttdoc">bibliothèque de fonctions de manipulation des nav_msgs::OccupancyGrid </div></div>
-<div class="ttc" id="namespaceoccupancy__grid__utils_html_a8ab60a0bb564293cf53e280e1ea06909"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8ab60a0bb564293cf53e280e1ea06909">occupancy_grid_utils::getCell</a></div><div class="ttdeci">int getCell(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00046">occupancy_grid_utils.cpp:46</a></div></div>
-<div class="ttc" id="namespaceoccupancy__grid__utils_html_aa812f1f836f94247d66353d0e5551f53"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa812f1f836f94247d66353d0e5551f53">occupancy_grid_utils::createEmptyMap</a></div><div class="ttdeci">void createEmptyMap(nav_msgs::OccupancyGrid &amp;map, const geometry_msgs::Point &amp;size, const geometry_msgs::Point &amp;origin, const std::string &amp;frame_id=&quot;hardware/odom&quot;, double resolution=0.05)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00018">occupancy_grid_utils.cpp:18</a></div></div>
-<div class="ttc" id="namespaceoccupancy__grid__utils_html_aa3f1bdffc4dd73617cc4a0a686d2931b"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">occupancy_grid_utils::setPixelCell</a></div><div class="ttdeci">void setPixelCell(nav_msgs::OccupancyGrid &amp;grid, unsigned int x, unsigned int y, const int &amp;value)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00203">occupancy_grid_utils.cpp:203</a></div></div>
-<div class="ttc" id="namespaceoccupancy__grid__utils_html_af617c6b254e8deefa6aee397d500bbd8"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#af617c6b254e8deefa6aee397d500bbd8">occupancy_grid_utils::getCellAsPixelCoord</a></div><div class="ttdeci">geometry_msgs::Point getCellAsPixelCoord(nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00137">occupancy_grid_utils.cpp:137</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_a5db4866ec729dcc7dacad688ebd3c364"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a5db4866ec729dcc7dacad688ebd3c364">occupancy_grid_utils::checkRow</a></div><div class="ttdeci">bool checkRow(const nav_msgs::OccupancyGrid &amp;grid, const geometry_msgs::Pose2D &amp;start, double distance, geometry_msgs::Pose2D &amp;foundPose)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00209">occupancy_grid_utils.cpp:209</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_a8ab60a0bb564293cf53e280e1ea06909"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a8ab60a0bb564293cf53e280e1ea06909">occupancy_grid_utils::getCell</a></div><div class="ttdeci">int getCell(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00030">occupancy_grid_utils.cpp:30</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_a53efdae0422720e9441f9cccff77247f"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a53efdae0422720e9441f9cccff77247f">occupancy_grid_utils::topLeft</a></div><div class="ttdeci">geometry_msgs::Pose2D topLeft(const nav_msgs::OccupancyGrid &amp;grid, const geometry_msgs::Pose2D &amp;req, double window)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00276">occupancy_grid_utils.cpp:276</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_a3081a3abdd82ed5f927d3e91b570baad"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a3081a3abdd82ed5f927d3e91b570baad">occupancy_grid_utils::getCellAsPixelCoord</a></div><div class="ttdeci">geometry_msgs::Point getCellAsPixelCoord(const nav_msgs::OccupancyGrid &amp;grid, float x, float y)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00093">occupancy_grid_utils.cpp:93</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_ac1c0bf40205a4fb4701e690d7ea8fadd"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#ac1c0bf40205a4fb4701e690d7ea8fadd">occupancy_grid_utils::bottomLeft</a></div><div class="ttdeci">geometry_msgs::Pose2D bottomLeft(const nav_msgs::OccupancyGrid &amp;grid, const geometry_msgs::Pose2D &amp;req, double window)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00286">occupancy_grid_utils.cpp:286</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_a77afbae3b72f5d5c1aa62d4b280a611d"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a77afbae3b72f5d5c1aa62d4b280a611d">occupancy_grid_utils::checkCircle</a></div><div class="ttdeci">bool checkCircle(const geometry_msgs::Pose2D &amp;req, double window, const nav_msgs::OccupancyGrid &amp;grid, geometry_msgs::Pose2D &amp;foundPose)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00252">occupancy_grid_utils.cpp:252</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_aa3f1bdffc4dd73617cc4a0a686d2931b"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#aa3f1bdffc4dd73617cc4a0a686d2931b">occupancy_grid_utils::setPixelCell</a></div><div class="ttdeci">void setPixelCell(nav_msgs::OccupancyGrid &amp;grid, unsigned int x, unsigned int y, const int &amp;value)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00172">occupancy_grid_utils.cpp:172</a></div></div>
+<div class="ttc" id="namespaceoccupancy__grid__utils_html_a73d0210b71fbc62a14cf56d486d46b40"><div class="ttname"><a href="../../da/dd5/namespaceoccupancy__grid__utils.html#a73d0210b71fbc62a14cf56d486d46b40">occupancy_grid_utils::topRight</a></div><div class="ttdeci">geometry_msgs::Pose2D topRight(const nav_msgs::OccupancyGrid &amp;grid, const geometry_msgs::Pose2D &amp;req, double window)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/occupancy__grid__utils_8cpp_source.html#l00296">occupancy_grid_utils.cpp:296</a></div></div>
+<div class="ttc" id="namespacegeometry__utils_html_af0efcbc0c46ca020b7013dfe06f6ea27"><div class="ttname"><a href="../../dd/daf/namespacegeometry__utils.html#af0efcbc0c46ca020b7013dfe06f6ea27">geometry_utils::distance</a></div><div class="ttdeci">double distance(const geometry_msgs::Point &amp;p0, const geometry_msgs::Point &amp;p1)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d0c/geometry__utils_8h_source.html#l00056">geometry_utils.h:56</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

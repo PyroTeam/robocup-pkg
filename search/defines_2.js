@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['eps',['EPS',['../df/d7a/avoidanceObstacle_8cpp.html#a6ebf6899d6c1c8b7b9d09be872c05aae',1,'EPS():&#160;avoidanceObstacle.cpp'],['../dd/dbb/trackPath_8cpp.html#a6ebf6899d6c1c8b7b9d09be872c05aae',1,'EPS():&#160;trackPath.cpp']]],
-  ['epsilon',['EPSILON',['../d9/dd3/map_8cpp.html#a002b2f4894492820fe708b1b7e7c5e70',1,'map.cpp']]]
+  ['dist_5fmax',['DIST_MAX',['../df/d7a/avoidanceObstacle_8cpp.html#ad1f7f78b7e7843ca8a2f94fcc8482ceb',1,'avoidanceObstacle.cpp']]],
+  ['dist_5fpoints_5fpath',['DIST_POINTS_PATH',['../df/d7a/avoidanceObstacle_8cpp.html#af258f06fba01476a9504c4d658be27c8',1,'avoidanceObstacle.cpp']]]
 ];

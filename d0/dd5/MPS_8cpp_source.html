@@ -92,31 +92,39 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="contents">
 <a href="../../d0/dd5/MPS_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d0/d4e/MPS_8h.html">MPS.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose2D.h&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">/* Constructeur */</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../d8/d75/classMPS.html#abf9d663519a6e113c9f10a53c27bc3e7">    5</a></span>&#160;<a class="code" href="../../d8/d75/classMPS.html#abf9d663519a6e113c9f10a53c27bc3e7">MPS::MPS</a>()</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <a class="code" href="../../d8/d75/classMPS.html#ab507eee0fd911ff33858edea2fd0f97c">x</a> = 0;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <a class="code" href="../../d8/d75/classMPS.html#a80e13ec80830c0fa0ce3f0f4e2772364">y</a> = 0;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <a class="code" href="../../d8/d75/classMPS.html#aba0b53dfb44c1df1388325460856296b">theta</a>  = 0;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <a class="code" href="../../d8/d75/classMPS.html#a64b53c54a2e4aac1e6931d6d20b3dcbe">zone</a>   = -1;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <a class="code" href="../../d8/d75/classMPS.html#ae5b1cee218c6aa29f35132d67f39ee6e">isHere</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">/* Destructeur */</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../d8/d75/classMPS.html#ad1c352e12d3dcfa17db09efcf68701ad">   15</a></span>&#160;<a class="code" href="../../d8/d75/classMPS.html#ad1c352e12d3dcfa17db09efcf68701ad">MPS::~MPS</a>(){}</div>
-<div class="ttc" id="classMPS_html_a64b53c54a2e4aac1e6931d6d20b3dcbe"><div class="ttname"><a href="../../d8/d75/classMPS.html#a64b53c54a2e4aac1e6931d6d20b3dcbe">MPS::zone</a></div><div class="ttdeci">int zone</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d4e/MPS_8h_source.html#l00025">MPS.h:25</a></div></div>
-<div class="ttc" id="classMPS_html_ae5b1cee218c6aa29f35132d67f39ee6e"><div class="ttname"><a href="../../d8/d75/classMPS.html#ae5b1cee218c6aa29f35132d67f39ee6e">MPS::isHere</a></div><div class="ttdeci">bool isHere</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d4e/MPS_8h_source.html#l00026">MPS.h:26</a></div></div>
-<div class="ttc" id="classMPS_html_aba0b53dfb44c1df1388325460856296b"><div class="ttname"><a href="../../d8/d75/classMPS.html#aba0b53dfb44c1df1388325460856296b">MPS::theta</a></div><div class="ttdeci">float theta</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d4e/MPS_8h_source.html#l00024">MPS.h:24</a></div></div>
-<div class="ttc" id="classMPS_html_a80e13ec80830c0fa0ce3f0f4e2772364"><div class="ttname"><a href="../../d8/d75/classMPS.html#a80e13ec80830c0fa0ce3f0f4e2772364">MPS::y</a></div><div class="ttdeci">float y</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d4e/MPS_8h_source.html#l00023">MPS.h:23</a></div></div>
-<div class="ttc" id="classMPS_html_ad1c352e12d3dcfa17db09efcf68701ad"><div class="ttname"><a href="../../d8/d75/classMPS.html#ad1c352e12d3dcfa17db09efcf68701ad">MPS::~MPS</a></div><div class="ttdeci">~MPS()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dd5/MPS_8cpp_source.html#l00015">MPS.cpp:15</a></div></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d9/d49/types_8h.html">common_utils/types.h</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>common_utils;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="../../d8/d75/classMPS.html#abf9d663519a6e113c9f10a53c27bc3e7">    7</a></span>&#160;<a class="code" href="../../d8/d75/classMPS.html#abf9d663519a6e113c9f10a53c27bc3e7">MPS::MPS</a>()</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    zone   = -1;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    isHere = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../d8/d75/classMPS.html#ad1c352e12d3dcfa17db09efcf68701ad">   13</a></span>&#160;<a class="code" href="../../d8/d75/classMPS.html#ad1c352e12d3dcfa17db09efcf68701ad">MPS::~MPS</a>(){}</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../d8/d75/classMPS.html#ac7540eabe5de3fd83d6a65c6a67e4a22">   15</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d8/d75/classMPS.html#ac7540eabe5de3fd83d6a65c6a67e4a22">MPS::isDS</a>()</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">if</span>(idIn == <a class="code" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3ad15e8103a118db75142790f144044610">C_DS_IN</a> || idOut == <a class="code" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3af0c7b3873f8ac89bed3c7b98dd937263">C_DS_OUT</a> || idIn == <a class="code" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3ab44592c4556bc4e107dfc4e09e0dde04">M_DS_IN</a> || idOut == <a class="code" href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a01f212fc150859e1fd2a6d9d66fac4d3">M_DS_OUT</a>)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div>
+<div class="ttc" id="types_8h_html"><div class="ttname"><a href="../../d9/d49/types_8h.html">types.h</a></div></div>
+<div class="ttc" id="namespacecommon__utils_html_ac0ba8384eb04071c3ec81e8a6048bcf3ab44592c4556bc4e107dfc4e09e0dde04"><div class="ttname"><a href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3ab44592c4556bc4e107dfc4e09e0dde04">common_utils::M_DS_IN</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d49/types_8h_source.html#l00043">types.h:43</a></div></div>
+<div class="ttc" id="namespacecommon__utils_html_ac0ba8384eb04071c3ec81e8a6048bcf3a01f212fc150859e1fd2a6d9d66fac4d3"><div class="ttname"><a href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3a01f212fc150859e1fd2a6d9d66fac4d3">common_utils::M_DS_OUT</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d49/types_8h_source.html#l00044">types.h:44</a></div></div>
+<div class="ttc" id="classMPS_html_ad1c352e12d3dcfa17db09efcf68701ad"><div class="ttname"><a href="../../d8/d75/classMPS.html#ad1c352e12d3dcfa17db09efcf68701ad">MPS::~MPS</a></div><div class="ttdeci">~MPS()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dd5/MPS_8cpp_source.html#l00013">MPS.cpp:13</a></div></div>
+<div class="ttc" id="classMPS_html_ac7540eabe5de3fd83d6a65c6a67e4a22"><div class="ttname"><a href="../../d8/d75/classMPS.html#ac7540eabe5de3fd83d6a65c6a67e4a22">MPS::isDS</a></div><div class="ttdeci">bool isDS()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dd5/MPS_8cpp_source.html#l00015">MPS.cpp:15</a></div></div>
+<div class="ttc" id="namespacecommon__utils_html_ac0ba8384eb04071c3ec81e8a6048bcf3af0c7b3873f8ac89bed3c7b98dd937263"><div class="ttname"><a href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3af0c7b3873f8ac89bed3c7b98dd937263">common_utils::C_DS_OUT</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d49/types_8h_source.html#l00031">types.h:31</a></div></div>
 <div class="ttc" id="MPS_8h_html"><div class="ttname"><a href="../../d0/d4e/MPS_8h.html">MPS.h</a></div></div>
-<div class="ttc" id="classMPS_html_abf9d663519a6e113c9f10a53c27bc3e7"><div class="ttname"><a href="../../d8/d75/classMPS.html#abf9d663519a6e113c9f10a53c27bc3e7">MPS::MPS</a></div><div class="ttdeci">MPS()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dd5/MPS_8cpp_source.html#l00005">MPS.cpp:5</a></div></div>
-<div class="ttc" id="classMPS_html_ab507eee0fd911ff33858edea2fd0f97c"><div class="ttname"><a href="../../d8/d75/classMPS.html#ab507eee0fd911ff33858edea2fd0f97c">MPS::x</a></div><div class="ttdeci">float x</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d4e/MPS_8h_source.html#l00022">MPS.h:22</a></div></div>
+<div class="ttc" id="classMPS_html_abf9d663519a6e113c9f10a53c27bc3e7"><div class="ttname"><a href="../../d8/d75/classMPS.html#abf9d663519a6e113c9f10a53c27bc3e7">MPS::MPS</a></div><div class="ttdeci">MPS()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dd5/MPS_8cpp_source.html#l00007">MPS.cpp:7</a></div></div>
+<div class="ttc" id="namespacecommon__utils_html_ac0ba8384eb04071c3ec81e8a6048bcf3ad15e8103a118db75142790f144044610"><div class="ttname"><a href="../../d8/d65/namespacecommon__utils.html#ac0ba8384eb04071c3ec81e8a6048bcf3ad15e8103a118db75142790f144044610">common_utils::C_DS_IN</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d49/types_8h_source.html#l00030">types.h:30</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

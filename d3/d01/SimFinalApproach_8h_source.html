@@ -100,12 +100,12 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;actionlib/server/simple_action_server.h&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;geometry_msgs/Twist.h&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// Ours</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;final_approach_msg/FinalApproachingAction.h&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;deplacement_msg/Landmarks.h&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// Stl</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// Stl</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">// Ours</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;final_approach_msg/FinalApproachingAction.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;deplacement_msg/Machines.h&gt;</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="../../df/d47/classSimFinalApproach.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/d47/classSimFinalApproach.html">SimFinalApproach</a></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
@@ -115,7 +115,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="../../df/d47/classSimFinalApproach.html#a294f6849a57b586bd2960be46bbc77e3">preemptCB</a>();</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="../../df/d47/classSimFinalApproach.html#a95969b4a5256824fc3a54163492e8740">executeCB</a>(<span class="keyword">const</span> final_approach_msg::FinalApproachingGoalConstPtr &amp;goal);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="../../df/d47/classSimFinalApproach.html#a08bc05dfbe2335c531f59607d80e4e54">landmarksCallback</a>(<span class="keyword">const</span> deplacement_msg::Landmarks::ConstPtr&amp; msg);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/d47/classSimFinalApproach.html#a323ab87921d5936703c758ba910a0783">landmarksCallback</a>(<span class="keyword">const</span> deplacement_msg::Machines&amp; msg);</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        ros::NodeHandle m_nh;</div>
@@ -148,18 +148,18 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif // __FINAL_APPROACH__SIM_FINAL_APPROACH__H__</span></div>
-<div class="ttc" id="classSimFinalApproach_html_a08bc05dfbe2335c531f59607d80e4e54"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a08bc05dfbe2335c531f59607d80e4e54">SimFinalApproach::landmarksCallback</a></div><div class="ttdeci">void landmarksCallback(const deplacement_msg::Landmarks::ConstPtr &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00037">SimFinalApproach.cpp:37</a></div></div>
 <div class="ttc" id="classSimFinalApproach_html_a2b1b4b6518b62a3b36f5461d12c0d6a2"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a2b1b4b6518b62a3b36f5461d12c0d6a2">SimFinalApproach::SimFinalApproach</a></div><div class="ttdeci">SimFinalApproach(std::string name)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00018">SimFinalApproach.cpp:18</a></div></div>
 <div class="ttc" id="classSimFinalApproach_html"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html">SimFinalApproach</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d01/SimFinalApproach_8h_source.html#l00018">SimFinalApproach.h:18</a></div></div>
-<div class="ttc" id="classSimFinalApproach_html_a95969b4a5256824fc3a54163492e8740"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a95969b4a5256824fc3a54163492e8740">SimFinalApproach::executeCB</a></div><div class="ttdeci">void executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &amp;goal)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00043">SimFinalApproach.cpp:43</a></div></div>
+<div class="ttc" id="classSimFinalApproach_html_a95969b4a5256824fc3a54163492e8740"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a95969b4a5256824fc3a54163492e8740">SimFinalApproach::executeCB</a></div><div class="ttdeci">void executeCB(const final_approach_msg::FinalApproachingGoalConstPtr &amp;goal)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00047">SimFinalApproach.cpp:47</a></div></div>
 <div class="ttc" id="classSimFinalApproach_html_a5d8eb96c3e40157d2f40bf569cc93944"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a5d8eb96c3e40157d2f40bf569cc93944">SimFinalApproach::~SimFinalApproach</a></div><div class="ttdeci">~SimFinalApproach(void)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00029">SimFinalApproach.cpp:29</a></div></div>
 <div class="ttc" id="classSimFinalApproach_html_a294f6849a57b586bd2960be46bbc77e3"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a294f6849a57b586bd2960be46bbc77e3">SimFinalApproach::preemptCB</a></div><div class="ttdeci">void preemptCB()</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00031">SimFinalApproach.cpp:31</a></div></div>
 <div class="ttc" id="OdomFA_8h_html"><div class="ttname"><a href="../../d6/d2f/OdomFA_8h.html">OdomFA.h</a></div></div>
+<div class="ttc" id="classSimFinalApproach_html_a323ab87921d5936703c758ba910a0783"><div class="ttname"><a href="../../df/d47/classSimFinalApproach.html#a323ab87921d5936703c758ba910a0783">SimFinalApproach::landmarksCallback</a></div><div class="ttdeci">void landmarksCallback(const deplacement_msg::Machines &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d42/SimFinalApproach_8cpp_source.html#l00037">SimFinalApproach.cpp:37</a></div></div>
 <div class="ttc" id="classOdomFA_html"><div class="ttname"><a href="../../d3/d52/classOdomFA.html">OdomFA</a></div><div class="ttdoc">classe récupérant les données du topic /odom </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2f/OdomFA_8h_source.html#l00016">OdomFA.h:16</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

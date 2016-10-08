@@ -123,10 +123,22 @@ Functions</h2></td></tr>
 <tr class="separator:a517b665435bb5d1d6d7ebbddc7466fbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2eccae5847c98a7391c5d4224309923d"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a2eccae5847c98a7391c5d4224309923d">midPoint</a> (const geometry_msgs::Point &amp;p0, const geometry_msgs::Point &amp;p1)</td></tr>
 <tr class="separator:a2eccae5847c98a7391c5d4224309923d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa8a44ae08a68a027d518f59e456108a"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#afa8a44ae08a68a027d518f59e456108a">changeFrame</a> (const geometry_msgs::Pose2D &amp;p, const tf::StampedTransform &amp;transform)</td></tr>
+<tr class="separator:afa8a44ae08a68a027d518f59e456108a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36d0b553f98d0709850e8c69836b8c41"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a36d0b553f98d0709850e8c69836b8c41">machineToMapFrame</a> (const geometry_msgs::Pose2D &amp;p, const geometry_msgs::Pose2D &amp;poseMachine)</td></tr>
+<tr class="separator:a36d0b553f98d0709850e8c69836b8c41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaefa7120290578f7459a5030c4d9f1b4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">angle</a> (const geometry_msgs::Point &amp;p0)</td></tr>
 <tr class="separator:aaefa7120290578f7459a5030c4d9f1b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95a32fef87e671f1dd31787dc0a99e81"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a95a32fef87e671f1dd31787dc0a99e81">angle</a> (const geometry_msgs::Point &amp;p0, const geometry_msgs::Point &amp;p1)</td></tr>
 <tr class="separator:a95a32fef87e671f1dd31787dc0a99e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a905f0b356027e77ce9277fce8ff03711"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a905f0b356027e77ce9277fce8ff03711">normalizeAngle</a> (double <a class="el" href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">angle</a>, double lowLimit=-M_PI, double highLimit=M_PI)</td></tr>
+<tr class="separator:a905f0b356027e77ce9277fce8ff03711"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63aa30141cc58af45004caaf73500856"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a63aa30141cc58af45004caaf73500856">linearRegression</a> (const std::list&lt; geometry_msgs::Point &gt; &amp;points, geometry_msgs::Pose2D &amp;model)</td></tr>
+<tr class="separator:a63aa30141cc58af45004caaf73500856"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a749c97d4fc3bca18dea398c1aea014b0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a749c97d4fc3bca18dea398c1aea014b0">linearRegression</a> (const std::vector&lt; geometry_msgs::Point &gt; &amp;points, geometry_msgs::Pose2D &amp;model)</td></tr>
+<tr class="separator:a749c97d4fc3bca18dea398c1aea014b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e81e0da42d4abdf4a18be47e5191350"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/daf/namespacegeometry__utils.html#a3e81e0da42d4abdf4a18be47e5191350">linearRegression</a> (const std::vector&lt; geometry_msgs::Point &gt; &amp;points, geometry_msgs::Point &amp;pt, double &amp;<a class="el" href="../../dd/daf/namespacegeometry__utils.html#aaefa7120290578f7459a5030c4d9f1b4">angle</a>)</td></tr>
+<tr class="separator:a3e81e0da42d4abdf4a18be47e5191350"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="aaefa7120290578f7459a5030c4d9f1b4"></a>
@@ -185,7 +197,35 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00124">124</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00129">129</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afa8a44ae08a68a027d518f59e456108a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">geometry_msgs::Pose2D geometry_utils::changeFrame </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::Pose2D &amp;&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const tf::StampedTransform &amp;&#160;</td>
+          <td class="paramname"><em>transform</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html#l00036">36</a> of file <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html">geometry_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -221,7 +261,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00051">51</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00056">56</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -257,7 +297,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00056">56</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00061">61</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -293,7 +333,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00061">61</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00066">66</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -321,7 +361,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html#l00017">17</a> of file <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html">geometry_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html#l00019">19</a> of file <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html">geometry_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -357,7 +397,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00066">66</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00071">71</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -393,7 +433,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00071">71</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00076">76</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -429,7 +469,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00076">76</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00081">81</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -465,7 +505,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00111">111</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00116">116</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -501,7 +541,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00081">81</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00086">86</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -537,7 +577,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00086">86</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00091">91</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -573,7 +613,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00091">91</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00096">96</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -609,7 +649,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00116">116</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00121">121</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -645,7 +685,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00096">96</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00101">101</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -681,7 +721,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00101">101</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00106">106</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
@@ -717,7 +757,125 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00106">106</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00111">111</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a63aa30141cc58af45004caaf73500856"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double geometry_utils::linearRegression </td>
+          <td>(</td>
+          <td class="paramtype">const std::list&lt; geometry_msgs::Point &gt; &amp;&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">geometry_msgs::Pose2D &amp;&#160;</td>
+          <td class="paramname"><em>model</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html#l00061">61</a> of file <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html">geometry_utils.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a749c97d4fc3bca18dea398c1aea014b0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double geometry_utils::linearRegression </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; geometry_msgs::Point &gt; &amp;&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">geometry_msgs::Pose2D &amp;&#160;</td>
+          <td class="paramname"><em>model</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html#l00106">106</a> of file <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html">geometry_utils.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3e81e0da42d4abdf4a18be47e5191350"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double geometry_utils::linearRegression </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; geometry_msgs::Point &gt; &amp;&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">geometry_msgs::Point &amp;&#160;</td>
+          <td class="paramname"><em>pt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>angle</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html#l00117">117</a> of file <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html">geometry_utils.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a36d0b553f98d0709850e8c69836b8c41"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">geometry_msgs::Pose2D geometry_utils::machineToMapFrame </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::Pose2D &amp;&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::Pose2D &amp;&#160;</td>
+          <td class="paramname"><em>poseMachine</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html#l00048">48</a> of file <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html">geometry_utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -745,14 +903,56 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html#l00024">24</a> of file <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html">geometry_utils.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html#l00026">26</a> of file <a class="el" href="../../db/d9b/geometry__utils_8cpp_source.html">geometry_utils.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a905f0b356027e77ce9277fce8ff03711"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double geometry_utils::normalizeAngle </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lowLimit</em> = <code>-M_PI</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>highLimit</em> = <code>M_PI</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html#l00134">134</a> of file <a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils.h</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:37 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -88,7 +88,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#define-members">Macros</a>  </div>
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
 <div class="title">GtServerSrv.h File Reference</div>  </div>
 </div><!--header-->
@@ -99,6 +99,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <code>#include &quot;manager_msg/order.h&quot;</code><br/>
 <code>#include &quot;manager_msg/activity.h&quot;</code><br/>
 <code>#include &quot;final_approach_msg/FinalApproachingAction.h&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d9/d49/types_8h_source.html">common_utils/types.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d9/dc5/RobotPoseSubscriber_8h_source.html">common_utils/RobotPoseSubscriber.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d7/d0c/geometry__utils_8h_source.html">geometry_utils/geometry_utils.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d3/dc5/ExploInfoSubscriber_8h_source.html">ExploInfoSubscriber.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d8/d27/manager_2executeur__taches_2include_2Machine_8h_source.html">Machine.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d8/d27/RingStation_8h_source.html">RingStation.h</a>&quot;</code><br/>
@@ -108,7 +111,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <code>#include &quot;<a class="el" href="../../d2/daa/MyElements_8h_source.html">MyElements.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d7/d93/ArTagClientSrv_8h_source.html">ArTagClientSrv.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../de/dda/ReportingMachineSrvClient_8h_source.html">ReportingMachineSrvClient.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="../../d1/d05/LocaSubscriber_8h_source.html">LocaSubscriber.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d3/dc0/executeur__taches_2include_2LocaSubscriber_8h_source.html">LocaSubscriber.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../de/d01/FinalApproachingClient_8h_source.html">FinalApproachingClient.h</a>&quot;</code><br/>
 </div>
 <p><a href="../../d2/d64/GtServerSrv_8h_source.html">Go to the source code of this file.</a></p>
@@ -119,430 +122,44 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">classe serveur pour le générateur de tâches  <a href="../../d1/d35/classGtServerSrv.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a892b33580675aa2ef121a9f1ec48a6da"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a892b33580675aa2ef121a9f1ec48a6da">C_CS1_IN</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a892b33580675aa2ef121a9f1ec48a6da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58c5cfe4b11c65e8627eaf7206799452"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a58c5cfe4b11c65e8627eaf7206799452">C_CS1_OUT</a>&#160;&#160;&#160;2</td></tr>
-<tr class="separator:a58c5cfe4b11c65e8627eaf7206799452"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb990ad3b7323cf6e3cd40678d47d96d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#aeb990ad3b7323cf6e3cd40678d47d96d">C_CS2_IN</a>&#160;&#160;&#160;17</td></tr>
-<tr class="separator:aeb990ad3b7323cf6e3cd40678d47d96d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a60e645a0e783ddff5672e1a8d76100"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a4a60e645a0e783ddff5672e1a8d76100">C_CS2_OUT</a>&#160;&#160;&#160;18</td></tr>
-<tr class="separator:a4a60e645a0e783ddff5672e1a8d76100"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac29b7145a717d9a258dae7efdc9e7347"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#ac29b7145a717d9a258dae7efdc9e7347">C_RS1_IN</a>&#160;&#160;&#160;33</td></tr>
-<tr class="separator:ac29b7145a717d9a258dae7efdc9e7347"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a357873a8ae0590f11a8e2853841823a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a357873a8ae0590f11a8e2853841823a5">C_RS1_OUT</a>&#160;&#160;&#160;34</td></tr>
-<tr class="separator:a357873a8ae0590f11a8e2853841823a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01c4dc93db649295ad579fc401afa5c8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a01c4dc93db649295ad579fc401afa5c8">C_RS2_IN</a>&#160;&#160;&#160;177</td></tr>
-<tr class="separator:a01c4dc93db649295ad579fc401afa5c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec680b44128870e60b92ffcaff474ffe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#aec680b44128870e60b92ffcaff474ffe">C_RS2_OUT</a>&#160;&#160;&#160;178</td></tr>
-<tr class="separator:aec680b44128870e60b92ffcaff474ffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02fd63cd9c99f90dd197751ceb9c467f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a02fd63cd9c99f90dd197751ceb9c467f">C_BS_IN</a>&#160;&#160;&#160;65</td></tr>
-<tr class="separator:a02fd63cd9c99f90dd197751ceb9c467f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d6a58192ccaeb0adc176d04b98c8e26"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a4d6a58192ccaeb0adc176d04b98c8e26">C_BS_OUT</a>&#160;&#160;&#160;66</td></tr>
-<tr class="separator:a4d6a58192ccaeb0adc176d04b98c8e26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ef6a8db05a6a4163380ace3fa8bf393"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a6ef6a8db05a6a4163380ace3fa8bf393">C_DS_IN</a>&#160;&#160;&#160;81</td></tr>
-<tr class="separator:a6ef6a8db05a6a4163380ace3fa8bf393"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58974982b5004fbe26ebd76d7a042702"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a58974982b5004fbe26ebd76d7a042702">C_DS_OUT</a>&#160;&#160;&#160;82</td></tr>
-<tr class="separator:a58974982b5004fbe26ebd76d7a042702"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b336926a8748c6b2f1639d78545699c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a6b336926a8748c6b2f1639d78545699c">M_CS1_IN</a>&#160;&#160;&#160;97</td></tr>
-<tr class="separator:a6b336926a8748c6b2f1639d78545699c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07e58f03817a10b15e2e0c46bfc47dca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a07e58f03817a10b15e2e0c46bfc47dca">M_CS1_OUT</a>&#160;&#160;&#160;98</td></tr>
-<tr class="separator:a07e58f03817a10b15e2e0c46bfc47dca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46e14d2d850a0719183e63f7372b04dd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a46e14d2d850a0719183e63f7372b04dd">M_CS2_IN</a>&#160;&#160;&#160;113</td></tr>
-<tr class="separator:a46e14d2d850a0719183e63f7372b04dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a002ac652366e8afd37e725717ecd2873"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a002ac652366e8afd37e725717ecd2873">M_CS2_OUT</a>&#160;&#160;&#160;114</td></tr>
-<tr class="separator:a002ac652366e8afd37e725717ecd2873"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadc571abfa9059e1b06da6dba771e1bb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#aadc571abfa9059e1b06da6dba771e1bb">M_RS1_IN</a>&#160;&#160;&#160;129</td></tr>
-<tr class="separator:aadc571abfa9059e1b06da6dba771e1bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71b7730af37a1d86f63770340e064726"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a71b7730af37a1d86f63770340e064726">M_RS1_OUT</a>&#160;&#160;&#160;130</td></tr>
-<tr class="separator:a71b7730af37a1d86f63770340e064726"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9af7a7555114a21bb63f1c0566c804e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#aa9af7a7555114a21bb63f1c0566c804e">M_RS2_IN</a>&#160;&#160;&#160;145</td></tr>
-<tr class="separator:aa9af7a7555114a21bb63f1c0566c804e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb6f9185f8edbe554e84433b94deecc5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#acb6f9185f8edbe554e84433b94deecc5">M_RS2_OUT</a>&#160;&#160;&#160;146</td></tr>
-<tr class="separator:acb6f9185f8edbe554e84433b94deecc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac017afcba2d8cb866e5cc8b090160de9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#ac017afcba2d8cb866e5cc8b090160de9">M_BS_IN</a>&#160;&#160;&#160;161</td></tr>
-<tr class="separator:ac017afcba2d8cb866e5cc8b090160de9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a4efe25399e775719383c363bfcfb1d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a3a4efe25399e775719383c363bfcfb1d">M_BS_OUT</a>&#160;&#160;&#160;162</td></tr>
-<tr class="separator:a3a4efe25399e775719383c363bfcfb1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a073655a520a2ff1c12bdebb8431852df"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a073655a520a2ff1c12bdebb8431852df">M_DS_IN</a>&#160;&#160;&#160;49</td></tr>
-<tr class="separator:a073655a520a2ff1c12bdebb8431852df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdfe5e09840caaad48db76025d460ed9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#abdfe5e09840caaad48db76025d460ed9">M_DS_OUT</a>&#160;&#160;&#160;50</td></tr>
-<tr class="separator:abdfe5e09840caaad48db76025d460ed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad243f93c16bc4c1d3e0a13b84421d760"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#ad243f93c16bc4c1d3e0a13b84421d760">CYAN</a>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:ad243f93c16bc4c1d3e0a13b84421d760"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f699060902f800f12aaae150f3a708e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a6f699060902f800f12aaae150f3a708e">MAGENTA</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a6f699060902f800f12aaae150f3a708e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a3fd3c292f1202ef647cef3426786dd4b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d64/GtServerSrv_8h.html#a3fd3c292f1202ef647cef3426786dd4b">zoneCorner_t</a> { <a class="el" href="../../d2/d64/GtServerSrv_8h.html#a3fd3c292f1202ef647cef3426786dd4ba6f6b2705d50f7af47405ee7becaabbdb">BOTTOM_LEFT</a>, 
+<a class="el" href="../../d2/d64/GtServerSrv_8h.html#a3fd3c292f1202ef647cef3426786dd4ba5bc569072880e473b667c10005c7aefd">BOTTOM_RIGHT</a>, 
+<a class="el" href="../../d2/d64/GtServerSrv_8h.html#a3fd3c292f1202ef647cef3426786dd4ba6b4ed010af97f067c8ba669e400f3f93">TOP_LEFT</a>, 
+<a class="el" href="../../d2/d64/GtServerSrv_8h.html#a3fd3c292f1202ef647cef3426786dd4baab97669fecf009df518a0d2016b86364">TOP_RIGHT</a>
+ }</td></tr>
+<tr class="separator:a3fd3c292f1202ef647cef3426786dd4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a02fd63cd9c99f90dd197751ceb9c467f"></a>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a class="anchor" id="a3fd3c292f1202ef647cef3426786dd4b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define C_BS_IN&#160;&#160;&#160;65</td>
+          <td class="memname">enum <a class="el" href="../../d2/d64/GtServerSrv_8h.html#a3fd3c292f1202ef647cef3426786dd4b">zoneCorner_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00040">40</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4d6a58192ccaeb0adc176d04b98c8e26"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define C_BS_OUT&#160;&#160;&#160;66</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00041">41</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a892b33580675aa2ef121a9f1ec48a6da"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define C_CS1_IN&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00032">32</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a58c5cfe4b11c65e8627eaf7206799452"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define C_CS1_OUT&#160;&#160;&#160;2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00033">33</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aeb990ad3b7323cf6e3cd40678d47d96d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define C_CS2_IN&#160;&#160;&#160;17</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00034">34</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4a60e645a0e783ddff5672e1a8d76100"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define C_CS2_OUT&#160;&#160;&#160;18</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00035">35</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6ef6a8db05a6a4163380ace3fa8bf393"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define C_DS_IN&#160;&#160;&#160;81</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00042">42</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a58974982b5004fbe26ebd76d7a042702"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define C_DS_OUT&#160;&#160;&#160;82</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00043">43</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac29b7145a717d9a258dae7efdc9e7347"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define C_RS1_IN&#160;&#160;&#160;33</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="a3fd3c292f1202ef647cef3426786dd4ba6f6b2705d50f7af47405ee7becaabbdb"></a>BOTTOM_LEFT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a3fd3c292f1202ef647cef3426786dd4ba5bc569072880e473b667c10005c7aefd"></a>BOTTOM_RIGHT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a3fd3c292f1202ef647cef3426786dd4ba6b4ed010af97f067c8ba669e400f3f93"></a>TOP_LEFT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a3fd3c292f1202ef647cef3426786dd4baab97669fecf009df518a0d2016b86364"></a>TOP_RIGHT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
 
 <p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00036">36</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a357873a8ae0590f11a8e2853841823a5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define C_RS1_OUT&#160;&#160;&#160;34</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00037">37</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a01c4dc93db649295ad579fc401afa5c8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define C_RS2_IN&#160;&#160;&#160;177</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00038">38</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aec680b44128870e60b92ffcaff474ffe"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define C_RS2_OUT&#160;&#160;&#160;178</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00039">39</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad243f93c16bc4c1d3e0a13b84421d760"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CYAN&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00058">58</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac017afcba2d8cb866e5cc8b090160de9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_BS_IN&#160;&#160;&#160;161</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00053">53</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3a4efe25399e775719383c363bfcfb1d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_BS_OUT&#160;&#160;&#160;162</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00054">54</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6b336926a8748c6b2f1639d78545699c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_CS1_IN&#160;&#160;&#160;97</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00045">45</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a07e58f03817a10b15e2e0c46bfc47dca"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_CS1_OUT&#160;&#160;&#160;98</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00046">46</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a46e14d2d850a0719183e63f7372b04dd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_CS2_IN&#160;&#160;&#160;113</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00047">47</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a002ac652366e8afd37e725717ecd2873"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_CS2_OUT&#160;&#160;&#160;114</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00048">48</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a073655a520a2ff1c12bdebb8431852df"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_DS_IN&#160;&#160;&#160;49</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00055">55</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abdfe5e09840caaad48db76025d460ed9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_DS_OUT&#160;&#160;&#160;50</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00056">56</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aadc571abfa9059e1b06da6dba771e1bb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_RS1_IN&#160;&#160;&#160;129</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00049">49</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a71b7730af37a1d86f63770340e064726"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_RS1_OUT&#160;&#160;&#160;130</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00050">50</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa9af7a7555114a21bb63f1c0566c804e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_RS2_IN&#160;&#160;&#160;145</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00051">51</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acb6f9185f8edbe554e84433b94deecc5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_RS2_OUT&#160;&#160;&#160;146</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00052">52</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6f699060902f800f12aaae150f3a708e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MAGENTA&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html#l00059">59</a> of file <a class="el" href="../../d2/d64/GtServerSrv_8h_source.html">GtServerSrv.h</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

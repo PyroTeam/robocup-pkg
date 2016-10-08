@@ -97,8 +97,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad6a7282c139a2772ea0751c567de4b92"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dcc/structoneRoiParams__t.html#ad6a7282c139a2772ea0751c567de4b92">oneRoiParams_t</a> (ros::NodeHandle &amp;nh, const char *xmi, const char *xma, const char *ymi, const char *yma)</td></tr>
-<tr class="separator:ad6a7282c139a2772ea0751c567de4b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d80ed7e30d91eea7a717573152f466b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dcc/structoneRoiParams__t.html#a9d80ed7e30d91eea7a717573152f466b">oneRoiParams_t</a> (ros::NodeHandle &amp;nh, const char *xmi, const char *xma, const char *ymi, const char *yma, const char *thresh)</td></tr>
+<tr class="separator:a9d80ed7e30d91eea7a717573152f466b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -110,12 +110,14 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a938bc287da66b354ffdcfcbd27c1d967"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ec59ac4ad57ca0d46388395e26e8dc6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/dab/classParameter.html">Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dcc/structoneRoiParams__t.html#a6ec59ac4ad57ca0d46388395e26e8dc6">ymax</a></td></tr>
 <tr class="separator:a6ec59ac4ad57ca0d46388395e26e8dc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09de920877f1cafb7caaeb788f24a378"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/dab/classParameter.html">Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dcc/structoneRoiParams__t.html#a09de920877f1cafb7caaeb788f24a378">threshold</a></td></tr>
+<tr class="separator:a09de920877f1cafb7caaeb788f24a378"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="../../d4/d14/RoiParams_8h_source.html#l00006">6</a> of file <a class="el" href="../../d4/d14/RoiParams_8h_source.html">RoiParams.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ad6a7282c139a2772ea0751c567de4b92"></a>
+<a class="anchor" id="a9d80ed7e30d91eea7a717573152f466b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -150,7 +152,13 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>yma</em>&#160;</td>
+          <td class="paramname"><em>yma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>thresh</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -165,11 +173,25 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d4/d14/RoiParams_8h_source.html#l00013">13</a> of file <a class="el" href="../../d4/d14/RoiParams_8h_source.html">RoiParams.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d4/d14/RoiParams_8h_source.html#l00014">14</a> of file <a class="el" href="../../d4/d14/RoiParams_8h_source.html">RoiParams.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a09de920877f1cafb7caaeb788f24a378"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/dab/classParameter.html">Parameter</a> oneRoiParams_t::threshold</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d4/d14/RoiParams_8h_source.html#l00012">12</a> of file <a class="el" href="../../d4/d14/RoiParams_8h_source.html">RoiParams.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a7f3898cdd42cf915b735d2286f6c1d1f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -232,7 +254,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:37 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

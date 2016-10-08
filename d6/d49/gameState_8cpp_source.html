@@ -103,17 +103,21 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    m_points=msg.points;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../d3/df3/classGameState.html#a4fa0a2bf50315c4a35a3890a0adcee5c">   14</a></span>&#160;<a class="code" href="../../d3/df3/classGameState.html#a4fa0a2bf50315c4a35a3890a0adcee5c">GameState::GameState</a>(){</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">//ROS_INFO(&quot;test&quot;);</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    m_gamestateSub = m_nh.subscribe(<span class="stringliteral">&quot;refBoxComm/GameState&quot;</span>,1000,&amp;<a class="code" href="../../d3/df3/classGameState.html#a3fcb3b650bbe50df90265f73e7222600">GameState::gsCallback</a>,<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../d3/df3/classGameState.html#a4fa0a2bf50315c4a35a3890a0adcee5c">   14</a></span>&#160;<a class="code" href="../../d3/df3/classGameState.html#a4fa0a2bf50315c4a35a3890a0adcee5c">GameState::GameState</a>():</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    m_state(0),</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    m_phase(0),</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    m_points(0)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="comment">//ROS_INFO(&quot;test&quot;);</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    m_gamestateSub = m_nh.subscribe(<span class="stringliteral">&quot;refBoxComm/GameState&quot;</span>,1,&amp;<a class="code" href="../../d3/df3/classGameState.html#a3fcb3b650bbe50df90265f73e7222600">GameState::gsCallback</a>,<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
 <div class="ttc" id="gameState_8h_html"><div class="ttname"><a href="../../dd/db5/gameState_8h.html">gameState.h</a></div></div>
 <div class="ttc" id="classGameState_html_a3fcb3b650bbe50df90265f73e7222600"><div class="ttname"><a href="../../d3/df3/classGameState.html#a3fcb3b650bbe50df90265f73e7222600">GameState::gsCallback</a></div><div class="ttdeci">void gsCallback(const comm_msg::GameState &amp;msg)</div><div class="ttdoc">Callback permettant de mettre à jour les infos du topic comm_msg::GameState. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d49/gameState_8cpp_source.html#l00006">gameState.cpp:6</a></div></div>
 <div class="ttc" id="classGameState_html_a4fa0a2bf50315c4a35a3890a0adcee5c"><div class="ttname"><a href="../../d3/df3/classGameState.html#a4fa0a2bf50315c4a35a3890a0adcee5c">GameState::GameState</a></div><div class="ttdeci">GameState()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d49/gameState_8cpp_source.html#l00014">gameState.cpp:14</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

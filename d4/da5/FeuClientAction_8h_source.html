@@ -91,8 +91,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="../../d4/da5/FeuClientAction_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef FEUCLIENTACTION_H</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define FEUCLIENTACTION_H</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef FEU_CLIENT_ACTION_H</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define FEU_CLIENT_ACTION_H</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;actionlib/client/simple_action_client.h&gt;</span></div>
@@ -104,19 +104,13 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
 <div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../de/d04/classFeuClientAction.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/d04/classFeuClientAction.html">FeuClientAction</a></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="comment">/* Constructeur */</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="../../de/d04/classFeuClientAction.html#a213e6c43286a597e60ba5896eccdb7ae">FeuClientAction</a>();</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="../../de/d04/classFeuClientAction.html#a213e6c43286a597e60ba5896eccdb7ae">FeuClientAction</a>();</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">virtual</span>  <a class="code" href="../../de/d04/classFeuClientAction.html#a3023ec71489b2b6d425f3f4467f68a26">~FeuClientAction</a>();</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="comment">/* Déstructeur */</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">virtual</span>  <a class="code" href="../../de/d04/classFeuClientAction.html#a3023ec71489b2b6d425f3f4467f68a26">~FeuClientAction</a>();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="comment">/* Méthodes */</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="../../de/d04/classFeuClientAction.html#a166762484cb4336532b926cfa3ff8310">lightsStates</a>(std::vector&lt;comm_msg::LightSpec&gt; &amp;m_lightSpec);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment">//private:</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="comment">//manager_msg::LightSpec m_lightSpec[];</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/d04/classFeuClientAction.html#a166762484cb4336532b926cfa3ff8310">lightsStates</a>(std::vector&lt;comm_msg::LightSpec&gt; &amp;m_lightSpec);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;};</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classFeuClientAction_html_a3023ec71489b2b6d425f3f4467f68a26"><div class="ttname"><a href="../../de/d04/classFeuClientAction.html#a3023ec71489b2b6d425f3f4467f68a26">FeuClientAction::~FeuClientAction</a></div><div class="ttdeci">virtual ~FeuClientAction()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d5b/FeuClientAction_8cpp_source.html#l00005">FeuClientAction.cpp:5</a></div></div>
 <div class="ttc" id="classFeuClientAction_html"><div class="ttname"><a href="../../de/d04/classFeuClientAction.html">FeuClientAction</a></div><div class="ttdoc">classe client pour le noeud Feu </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/da5/FeuClientAction_8h_source.html#l00021">FeuClientAction.h:21</a></div></div>
 <div class="ttc" id="classFeuClientAction_html_a213e6c43286a597e60ba5896eccdb7ae"><div class="ttname"><a href="../../de/d04/classFeuClientAction.html#a213e6c43286a597e60ba5896eccdb7ae">FeuClientAction::FeuClientAction</a></div><div class="ttdeci">FeuClientAction()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d5b/FeuClientAction_8cpp_source.html#l00003">FeuClientAction.cpp:3</a></div></div>
@@ -124,7 +118,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

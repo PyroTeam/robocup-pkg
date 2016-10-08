@@ -108,7 +108,8 @@ Inheritance diagram for occupancy_grid_utils::Shape:</div>
 <area href="../../d3/d97/classoccupancy__grid__utils_1_1ComposedShape.html" alt="occupancy_grid_utils::ComposedShape" shape="rect" coords="244,56,478,80"/>
 <area href="../../db/d1c/classoccupancy__grid__utils_1_1Line.html" alt="occupancy_grid_utils::Line" shape="rect" coords="488,56,722,80"/>
 <area href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html" alt="occupancy_grid_utils::LineSegment" shape="rect" coords="732,56,966,80"/>
-<area href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html" alt="occupancy_grid_utils::Rectangle" shape="rect" coords="976,56,1210,80"/>
+<area href="../../db/d81/classoccupancy__grid__utils_1_1Paraboloid.html" alt="occupancy_grid_utils::Paraboloid" shape="rect" coords="976,56,1210,80"/>
+<area href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html" alt="occupancy_grid_utils::Rectangle" shape="rect" coords="1220,56,1454,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -124,6 +125,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae564948190e70f7804638ea7a422c7b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af39e0362e908711c6807aad4b8794fc3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html#af39e0362e908711c6807aad4b8794fc3">draw</a> (nav_msgs::OccupancyGrid &amp;grid, int max_value=100)=0</td></tr>
 <tr class="separator:af39e0362e908711c6807aad4b8794fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e22c1b5752bcd856225797a98746b9d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d2f/classoccupancy__grid__utils_1_1Shape.html#a4e22c1b5752bcd856225797a98746b9d">draw</a> (deplacement_msg::OccupancyGridFloat &amp;grid, int max_value=100)</td></tr>
+<tr class="separator:a4e22c1b5752bcd856225797a98746b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -132,7 +135,7 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="../../de/d8f/Shape_8h_source.html#l00022">22</a> of file <a class="el" href="../../de/d8f/Shape_8h_source.html">Shape.h</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d8f/Shape_8h_source.html#l00023">23</a> of file <a class="el" href="../../de/d8f/Shape_8h_source.html">Shape.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a23007b834f1162547e21c5e2e40471ae"></a>
 <div class="memitem">
@@ -209,7 +212,45 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../db/d1c/classoccupancy__grid__utils_1_1Line.html#a425b0c19a3cebfc1b8e3f802809cb4be">occupancy_grid_utils::Line</a>, <a class="el" href="../../d3/d97/classoccupancy__grid__utils_1_1ComposedShape.html#aa303039ba2dffdda9a060a8e4321d4a5">occupancy_grid_utils::ComposedShape</a>, <a class="el" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a99c30fe30faf083d8032207ab173a894">occupancy_grid_utils::LineSegment</a>, <a class="el" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ae2fc34091ebca83c365509028de1f19b">occupancy_grid_utils::Rectangle</a>, and <a class="el" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a22520a4134a9d3780661296cd38a9fc3">occupancy_grid_utils::Circle</a>.</p>
+<p>Implemented in <a class="el" href="../../db/d1c/classoccupancy__grid__utils_1_1Line.html#a425b0c19a3cebfc1b8e3f802809cb4be">occupancy_grid_utils::Line</a>, <a class="el" href="../../db/d81/classoccupancy__grid__utils_1_1Paraboloid.html#a21e81c43ae46956cbc64c550e411306b">occupancy_grid_utils::Paraboloid</a>, <a class="el" href="../../d3/d97/classoccupancy__grid__utils_1_1ComposedShape.html#aa303039ba2dffdda9a060a8e4321d4a5">occupancy_grid_utils::ComposedShape</a>, <a class="el" href="../../d1/d72/classoccupancy__grid__utils_1_1LineSegment.html#a99c30fe30faf083d8032207ab173a894">occupancy_grid_utils::LineSegment</a>, <a class="el" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a22520a4134a9d3780661296cd38a9fc3">occupancy_grid_utils::Circle</a>, and <a class="el" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html#ae2fc34091ebca83c365509028de1f19b">occupancy_grid_utils::Rectangle</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4e22c1b5752bcd856225797a98746b9d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void occupancy_grid_utils::Shape::draw </td>
+          <td>(</td>
+          <td class="paramtype">deplacement_msg::OccupancyGridFloat &amp;&#160;</td>
+          <td class="paramname"><em>grid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>max_value</em> = <code>100</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="../../db/d81/classoccupancy__grid__utils_1_1Paraboloid.html#acd2c3d4bc9570d6108ec4ac1194de3bc">occupancy_grid_utils::Paraboloid</a>, and <a class="el" href="../../d2/d68/classoccupancy__grid__utils_1_1Circle.html#a294c4a4a420e234cba64c9a94fc9c3d4">occupancy_grid_utils::Circle</a>.</p>
+
+<p>Definition at line <a class="el" href="../../de/d8f/Shape_8h_source.html#l00033">33</a> of file <a class="el" href="../../de/d8f/Shape_8h_source.html">Shape.h</a>.</p>
 
 </div>
 </div>
@@ -234,7 +275,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/d8f/Shape_8h_source.html#l00041">41</a> of file <a class="el" href="../../de/d8f/Shape_8h_source.html">Shape.h</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d8f/Shape_8h_source.html#l00043">43</a> of file <a class="el" href="../../de/d8f/Shape_8h_source.html">Shape.h</a>.</p>
 
 </div>
 </div>
@@ -260,7 +301,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/d8f/Shape_8h_source.html#l00036">36</a> of file <a class="el" href="../../de/d8f/Shape_8h_source.html">Shape.h</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d8f/Shape_8h_source.html#l00038">38</a> of file <a class="el" href="../../de/d8f/Shape_8h_source.html">Shape.h</a>.</p>
 
 </div>
 </div>
@@ -283,7 +324,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/d8f/Shape_8h_source.html#l00033">33</a> of file <a class="el" href="../../de/d8f/Shape_8h_source.html">Shape.h</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d8f/Shape_8h_source.html#l00035">35</a> of file <a class="el" href="../../de/d8f/Shape_8h_source.html">Shape.h</a>.</p>
 
 </div>
 </div>
@@ -294,7 +335,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:37 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -104,7 +104,11 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dac/classcommon__utils_1_1PidWithAntiWindUp.html">PidWithAntiWindUp</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d70/classcommon__utils_1_1Polynome.html">Polynome</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d24/classcommon__utils_1_1RateLimiter.html">RateLimiter</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dec/classcommon__utils_1_1RobotPoseSubscriber.html">RobotPoseSubscriber</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -179,11 +183,15 @@ Functions</h2></td></tr>
 <tr class="separator:a62eacf65799b08d09847c3e7df31e00a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1525d2a72bda6ec68e30fde3d9fa3fff"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#a1525d2a72bda6ec68e30fde3d9fa3fff">getParameter</a> (ros::NodeHandle &amp;nh, const std::string &amp;paramName, std::list&lt; <a class="el" href="../../df/d56/classoccupancy__grid__utils_1_1Rectangle.html">occupancy_grid_utils::Rectangle</a> &gt; &amp;listOfRectangles)</td></tr>
 <tr class="separator:a1525d2a72bda6ec68e30fde3d9fa3fff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2a248d10ea2e2c5a82f64c0c09f4834"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#ac2a248d10ea2e2c5a82f64c0c09f4834">exists</a> (int <a class="el" href="../../dd/d39/artag__srv__node_8cpp.html#a051d7468dd23c780411441b008577756">id</a>)</td></tr>
+<tr class="separator:ac2a248d10ea2e2c5a82f64c0c09f4834"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84d5dd867f0871b55dd21bf09f8c8a06"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#a84d5dd867f0871b55dd21bf09f8c8a06">isMyTeam</a> (int <a class="el" href="../../dd/d39/artag__srv__node_8cpp.html#a051d7468dd23c780411441b008577756">id</a>, int teamColor)</td></tr>
+<tr class="separator:a84d5dd867f0871b55dd21bf09f8c8a06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17f0bd7b4810dc7e0eca198e95031bba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#a17f0bd7b4810dc7e0eca198e95031bba">getZoneCenter</a> (int zone, double &amp;x, double &amp;y, float zone_width=2.0, float zone_height=1.5)</td></tr>
 <tr class="memdesc:a17f0bd7b4810dc7e0eca198e95031bba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Donne les coordonées (x, y) du centre d'une zone.  <a href="#a17f0bd7b4810dc7e0eca198e95031bba">More...</a><br/></td></tr>
 <tr class="separator:a17f0bd7b4810dc7e0eca198e95031bba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c7584b54e4033b1612ecb7c9ab52527"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#a2c7584b54e4033b1612ecb7c9ab52527">getArea</a> (const geometry_msgs::Pose2D &amp;m, float zone_width=2.0, float zone_height=1.5)</td></tr>
-<tr class="separator:a2c7584b54e4033b1612ecb7c9ab52527"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e9e4f4da3d966dc6ee39549f1fcdda4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/namespacecommon__utils.html#a4e9e4f4da3d966dc6ee39549f1fcdda4">getArea</a> (const geometry_msgs::Pose2D &amp;m, float zone_width=1.96, float zone_height=1.5)</td></tr>
+<tr class="separator:a4e9e4f4da3d966dc6ee39549f1fcdda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a class="anchor" id="ac03081e654af5d3ca6720ee139acd967"></a>
@@ -344,7 +352,33 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2c7584b54e4033b1612ecb7c9ab52527"></a>
+<a class="anchor" id="ac2a248d10ea2e2c5a82f64c0c09f4834"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool common_utils::exists </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d9/d49/types_8h_source.html#l00047">47</a> of file <a class="el" href="../../d9/d49/types_8h_source.html">types.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4e9e4f4da3d966dc6ee39549f1fcdda4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -361,7 +395,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>zone_width</em> = <code>2.0</code>, </td>
+          <td class="paramname"><em>zone_width</em> = <code>1.96</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -755,10 +789,46 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a84d5dd867f0871b55dd21bf09f8c8a06"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool common_utils::isMyTeam </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>teamColor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d9/d49/types_8h_source.html#l00082">82</a> of file <a class="el" href="../../d9/d49/types_8h_source.html">types.h</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:37 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

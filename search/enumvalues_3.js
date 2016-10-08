@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['non_5fperiodic',['NON_PERIODIC',['../d0/d25/classRefBoxMessage.html#a68da493d0ec33895bb8f04c58d784afda4139a64414c0c1425e97bf4147f470c7',1,'RefBoxMessage']]]
+  ['error',['ERROR',['../d0/df8/gripper__node_8cpp.html#a963755b531f19eb9b58aa8471dd39ca1abb1ca97ec761fc37101737ba0aa2e7c5',1,'ERROR():&#160;gripper_node.cpp'],['../d0/df8/gripper__node_8cpp.html#a592b23c2528b20e106aa21d6d420f524abb1ca97ec761fc37101737ba0aa2e7c5',1,'ERROR():&#160;gripper_node.cpp'],['../dd/dca/PathFollower_8h.html#a2536ba155bbef0cd3625cb250a7b0c5fabb1ca97ec761fc37101737ba0aa2e7c5',1,'ERROR():&#160;PathFollower.h']]]
 ];

@@ -96,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;tf_broadcaster&quot;</span>);</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    ros::NodeHandle nh;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    ros::Rate <a class="code" href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a>(50);</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    ros::Rate r(50);</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="comment">// Subscribe to odom info</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    ros::Subscriber sub_odom = nh.subscribe(<span class="stringliteral">&quot;hardware/odom&quot;</span>, 1, &amp;<a class="code" href="../../d7/dc1/tf__broadcaster_8h.html#ab070b1ff0e1f88518230335b163e7cc6">poseCallback</a>);</div>
@@ -108,13 +108,12 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    }</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
 <div class="ttc" id="tf__broadcaster_8h_html"><div class="ttname"><a href="../../d7/dc1/tf__broadcaster_8h.html">tf_broadcaster.h</a></div></div>
-<div class="ttc" id="visualisation_8cpp_html_a4a07afa2d32ef986e4a2fa3e66b5f64f"><div class="ttname"><a href="../../d7/dfc/visualisation_8cpp.html#a4a07afa2d32ef986e4a2fa3e66b5f64f">r</a></div><div class="ttdeci">geometry_msgs::Pose2D r</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfc/visualisation_8cpp_source.html#l00023">visualisation.cpp:23</a></div></div>
 <div class="ttc" id="tf__broadcaster_8h_html_ab070b1ff0e1f88518230335b163e7cc6"><div class="ttname"><a href="../../d7/dc1/tf__broadcaster_8h.html#ab070b1ff0e1f88518230335b163e7cc6">poseCallback</a></div><div class="ttdeci">void poseCallback(const nav_msgs::Odometry &amp;odom)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d72/tf__broadcaster_8cpp_source.html#l00003">tf_broadcaster.cpp:3</a></div></div>
 <div class="ttc" id="tf__broadcaster__node_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../df/d4c/tf__broadcaster__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d4c/tf__broadcaster__node_8cpp_source.html#l00003">tf_broadcaster_node.cpp:3</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 21:01:36 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

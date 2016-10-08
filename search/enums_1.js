@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gamephase',['GamePhase',['../d2/dde/refBoxUtils_8h.html#a896617de6e1c82953f407789633057d8',1,'refBoxUtils.h']]]
+  ['cipher_5ftype',['CIPHER_TYPE',['../d7/d78/classEncryptUtils.html#a5ca66d8ace1776704485aecfd1be109b',1,'EncryptUtils']]]
 ];
