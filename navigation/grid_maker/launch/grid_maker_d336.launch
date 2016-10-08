@@ -1,0 +1,4 @@
+<launch>
+    <rosparam command="load" file="$(find grid_maker)/cfg/field_d336.yaml" />
+    <node pkg="grid_maker" name="grid_maker_node" type="grid_maker_node" output="screen"/>
+</launch>

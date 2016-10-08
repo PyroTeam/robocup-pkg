@@ -1,0 +1,17 @@
+computerVision:
+  lightSignalDetection:
+    greenRoi:
+      xmin: 0.28
+      xmax: 0.36
+      ymin: 0.55
+      ymax: 0.66
+    yellowRoi:
+      xmin: 0.28
+      xmax: 0.36
+      ymin: 0.415
+      ymax: 0.525
+    redRoi:
+      xmin: 0.28
+      xmax: 0.36
+      ymin: 0.28
+      ymax: 0.39

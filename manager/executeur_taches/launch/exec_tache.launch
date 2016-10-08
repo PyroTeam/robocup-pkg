@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="executeur_taches" name="executeur_tache_node" type="test_exec" />
+</launch>

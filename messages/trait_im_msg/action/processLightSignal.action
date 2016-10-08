@@ -1,0 +1,8 @@
+# Goal
+---
+# Result
+comm_msg/LightSpec[] light_signal
+---
+# Feedback message
+uint32 percent_complete
+uint32 images_processed

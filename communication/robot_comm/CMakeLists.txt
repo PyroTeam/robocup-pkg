@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   nav_msgs
   message_generation
+  comm_msg
 )
 find_package(Protobuf REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -102,7 +103,9 @@ include_directories(
   include
   ${Boost_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
-  ${OPENSSL_INCLUDE_DIR})
+  ${OPENSSL_INCLUDE_DIR}
+  ${catkin_INCLUDE_DIRS})
+
 
 PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS
   proto_msg/Activity.proto
@@ -138,7 +141,7 @@ add_executable(robot_comm_node
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(robot_comm_node robot_comm_generate_messages_cpp)
-add_dependencies(robot_comm_node ${catkin_EXPORTED_TARGETS} robot_comm_generate_messages_cpp)
+add_dependencies(robot_comm_node ${catkin_EXPORTED_TARGETS} robot_comm_generate_messages_cpp comm_msg_gencpp)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(robot_comm_node

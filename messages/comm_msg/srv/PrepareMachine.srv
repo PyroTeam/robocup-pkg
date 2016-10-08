@@ -1,0 +1,7 @@
+string machine
+
+PrepareInstructionBS instruction_bs
+PrepareInstructionDS instruction_ds
+PrepareInstructionRS instruction_rs
+PrepareInstructionCS instruction_cs
+---

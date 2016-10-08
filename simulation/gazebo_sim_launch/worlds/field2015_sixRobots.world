@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+	<world name="pyro_2015">
+	 <!-- Physics, to determine the simulation speed (step size and update rate) -->
+		<physics type="ode">
+			<max_step_size>0.00125</max_step_size>
+			<real_time_factor>1</real_time_factor>
+			<real_time_update_rate>1000</real_time_update_rate>
+		</physics>
+
+		<!-- A global light source -->
+		<include>
+			<uri>model://sun</uri>
+		</include>
+
+		<!-- Empty Logistic League field -->
+		<include>
+			<uri>model://logistics_league_field</uri>
+			<pose>0 2.5 0 0 0 0</pose>
+			<name>llsf_field</name>
+		</include>
+
+		<!-- PyroTeam robotinos -->
+		<!-- Robotino 1 -->
+		<include>
+			<uri>model://robotino_pyro_1</uri>
+			<pose>-3.5 -0.5 0 0 0 1.5775</pose>
+			<name>robotino1</name>
+		</include>
+
+		<!-- Robotino 2 -->
+		<include>
+			<uri>model://robotino_pyro_2</uri>
+			<pose>-4.5 -0.5 0 0 0 1.5775</pose>
+			<name>robotino2</name>
+		</include>
+
+		<!-- Robotino 3 -->
+		<include>
+			<uri>model://robotino_pyro_3</uri>
+			<pose>-5.5 -0.5 0 0 0 1.5775</pose>
+			<name>robotino3</name>
+		</include>
+
+
+		<!-- Opposing team robotinos -->
+		<!-- Robotino 1 -->
+		<include>
+			<uri>model://robotino_opposing_1</uri>
+			<pose>3.5 -0.5 0 0 0 1.5775</pose>
+			<name>opposing1</name>
+		</include>
+
+		<!-- Robotino 2 -->
+		<include>
+			<uri>model://robotino_opposing_2</uri>
+			<pose>4.5 -0.5 0 0 0 1.5775</pose>
+			<name>opposing2</name>
+		</include>
+
+		<!-- Robotino 3 -->
+		<include>
+			<uri>model://robotino_opposing_3</uri>
+			<pose>5.5 -0.5 0 0 0 1.5775</pose>
+			<name>opposing3</name>
+		</include>
+
+
+
+
+		<!-- Top camera (for supervision) -->
+		<model name="top_camera">
+			<static>true</static>
+
+			<link name="top_camera_link">
+				<pose>0 2.5 100 0 1.57 1.57</pose>
+
+				<gravity>false</gravity>
+
+				<inertial>
+					<mass>0.02</mass>
+				</inertial>
+
+				<visual name="visual">
+					<pose>0 0 0 0 1.6 0</pose>
+					<geometry>
+						<cylinder>
+							<length>0.02</length>
+							<radius>0.03</radius>
+						</cylinder>
+					</geometry>
+					<cast_shadows>false</cast_shadows>
+					<material>
+						<ambient>0.0 0.0 0.0 0.1</ambient>
+						<diffuse>0.0 0.0 0.0 0.11</diffuse>
+					</material>
+				</visual>
+
+				<sensor type="camera" name="top_camera">
+					<update_rate>30.0</update_rate>
+					<camera name="top_camera">
+						<horizontal_fov>0.13</horizontal_fov>
+						<image>
+							<width>1200</width>
+							<height>700</height>
+							<format>R8G8B8</format>
+						</image>
+						<clip>
+							<near>0.02</near>
+							<far>300</far>
+						</clip>
+					</camera>
+					<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+						<alwaysOn>true</alwaysOn>
+						<updateRate>0.0</updateRate>
+						<cameraName>gazebo/camera/top_camera</cameraName>
+						<imageTopicName>image_raw</imageTopicName>
+						<cameraInfoTopicName>camera_info</cameraInfoTopicName>
+						<frameName>top_camera_link</frameName>
+						<hackBaseline>0.07</hackBaseline>
+						<distortionK1>0.0</distortionK1>
+						<distortionK2>0.0</distortionK2>
+						<distortionK3>0.0</distortionK3>
+						<distortionT1>0.0</distortionT1>
+						<distortionT2>0.0</distortionT2>
+					</plugin>
+				</sensor>
+			</link>
+		</model>
+
+
+
+
+		<!-- Plugins for the world -->
+		<plugin name="llsf_refbox_comm" filename="libllsf_refbox_comm.so" />
+		<plugin name="timesync" filename="libtimesync.so" />
+		<plugin name="mps_placement" filename="libmps_placement.so" />
+
+
+	</world>
+</sdf>

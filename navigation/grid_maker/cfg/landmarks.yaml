@@ -1,0 +1,50 @@
+frame_id: map
+machines:
+    m1:
+        type: M-BS
+        zone: 21
+        pose: [-4.5, 0.5, -0.75]
+    m2:
+        type: M-CS1
+        zone: 23
+        pose: [-4.8, 3.5, -0.8]
+    m3:
+        type: C-RS2
+        zone: 24
+        pose: [-5, 4.9, 0.43]
+    m4:
+        type: C-CS2
+        zone: 18
+        pose: [-3.2, 2.5, 1,570796]
+    m5:
+        type: M-RS1
+        zone: 14
+        pose: [-1, 2.5, -3.14159]
+    m6:
+        type: M-DS
+        zone: 16
+        pose: [-1, 5.5, 2.4]
+    m7:
+        type: C-BS
+        zone: 9
+        pose: [4.5, 0.5, 0.75]
+    m8:
+        type: C-CS1
+        zone: 11
+        pose: [4.8, 3.5, 0.8]
+    m9:
+        type: M-RS2
+        zone: 12
+        pose: [5, 4.9, -0.43]
+    m10:
+        type: M-CS2
+        zone: 6
+        pose: [3.2, 2.5, -1,570796]
+    m11:
+        type: C-RS1
+        zone: 2
+        pose: [1, 2.5, 3.14159]
+    m12:
+        type: C-DS
+        zone: 4
+        pose: [1, 5.5, -2.4]

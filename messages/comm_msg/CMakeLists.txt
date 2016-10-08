@@ -46,8 +46,26 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(FILES
-  activity.msg
+add_message_files(
+   	FILES
+    ExplorationInfo.msg
+    ExplorationMachine.msg
+    ExplorationSignal.msg
+	ExplorationZone.msg
+    GameState.msg
+    LightSpec.msg
+	Machine.msg
+	MachineInfo.msg
+	MachineReportInfo.msg
+	OrderInfo.msg
+	Order.msg
+	PrepareInstructionBS.msg
+	PrepareInstructionDS.msg
+	PrepareInstructionCS.msg
+	PrepareInstructionRS.msg
+	Robot.msg
+	RobotInfo.msg
+    activity.msg
   active_robot.msg
   active_robots.msg
   landmarks.msg
@@ -69,9 +87,9 @@ add_message_files(FILES
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
-  DEPENDENCIES
-  std_msgs
-  geometry_msgs  # Or other packages containing msgs
+	DEPENDENCIES
+  	std_msgs
+  	geometry_msgs
 )
 
 ###################################
@@ -86,7 +104,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES comm_msg
-   CATKIN_DEPENDS roscpp rospy std_msgs geometry_msgs message_runtime
+   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
 #  DEPENDS system_lib
 )
 

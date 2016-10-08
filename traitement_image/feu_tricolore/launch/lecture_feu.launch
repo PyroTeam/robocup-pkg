@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="feu_tricolore" name="lecture_feu_node" type="lecture_feu_node"/>
+</launch>

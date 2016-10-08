@@ -1,0 +1,75 @@
+field:
+    name: robocup_official
+    frame_id: map
+    size: [14, 9, 0.0]
+    origin: [-7, -2, 0.0]
+    resolution: 0.05
+    margin: 0.25
+    gradient:
+        distance: 0.35
+        minValue: 0
+    walls:
+        bottom1:
+            start: [-6, 0, 0.0]
+            end: [-4, 0, 0.0]
+        bottom2:
+            start: [-3, 0, 0.0]
+            end: [-1, 0, 0.0]
+        bottom3:
+            start: [1, 0, 0.0]
+            end: [3, 0, 0.0]
+        bottom4:
+            start: [4, 0, 0.0]
+            end: [6, 0, 0.0]
+        entryMagenta1:
+            start: [-3, 0, 0.0]
+            end: [-3, -1, 0.0]
+        entryMagenta2:
+            start: [-3, -1, 0.0]
+            end: [-5, -1, 0.0]
+        entryCyan1:
+            start: [3, 0, 0.0]
+            end: [3, -1, 0.0]
+        entryCyan2:
+            start: [3, -1, 0.0]
+            end: [5, -1, 0.0]
+        left1:
+            start: [-6, 0, 0.0]
+            end: [-6, 3, 0.0]
+        left2:
+            start: [-6, 5, 0.0]
+            end: [-6, 6, 0.0]
+        right1:
+            start: [6, 0, 0.0]
+            end: [6, 3, 0.0]
+        right2:
+            start: [6, 5, 0.0]
+            end: [6, 6, 0.0]
+        top1:
+            start: [-6, 6, 0.0]
+            end: [-4, 6, 0.0]
+        top2:
+            start: [-2, 6, 0.0]
+            end: [2, 6, 0.0]
+        top3:
+            start: [4, 6, 0.0]
+            end: [6, 6, 0.0]
+        # testWall1:
+        #     start: [0, 5, 0.0]
+        #     end: [4, 4, 0.0]
+    forbidden_zones:
+        top:
+            pose: [0, 6.5, 0]
+            size: [14, 1, 0.0]
+        left:
+            pose: [-6.5, 3, 0]
+            size: [1, 8, 0.0]
+        right:
+            pose: [6.5, 3, 0]
+            size: [1, 8, 0.0]
+        bottom1:
+            pose: [0, -1.5, 0]
+            size: [14, 1, 0.0]
+        bottom2:
+            pose: [0, -0.5, 0]
+            size: [6, 1, 0.0]

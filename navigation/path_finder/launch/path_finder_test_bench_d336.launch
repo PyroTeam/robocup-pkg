@@ -1,0 +1,11 @@
+<launch>
+    <include file="$(find grid_maker)/launch/grid_maker_d336.launch"/>
+
+    <param name="navigation/pathFinder/aStarTieBreaking" value="true" />
+    <param name="navigation/pathFinder/weightData" value="0.45" />
+    <param name="navigation/pathFinder/weightSmooth" value="0.35" />
+    <node pkg="path_finder" name="path_finder_node" type="path_finder_node" output="screen"/>
+
+    <node pkg="path_finder" name="pathRequest_node" type="pathRequest_node.py" output="screen"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find path_finder)/rviz_cfg/testPathFinder.rviz"/>
+</launch>
