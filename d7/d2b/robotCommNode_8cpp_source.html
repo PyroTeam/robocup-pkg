@@ -90,100 +90,148 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="title">robotCommNode.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d7/d2b/robotCommNode_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;std_msgs/String.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;Activity.pb.h&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;Beacon.pb.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d7/dfc/UdpPeer_8h.html">UdpPeer.h</a>&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d3/d18/encryptUtils_8h.html">encryptUtils.h</a>&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../df/d29/topicToUdpEntry_8h.html">topicToUdpEntry.h</a>&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;comm_msg/activity.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;initializer_list&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d7/d2b/robotCommNode_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">   16</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;InterRobotComm&quot;</span>);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    ros::NodeHandle nh;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="comment">//chargement de la configuration</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">int</span> robotNumber;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    nh.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;robotNumber&quot;</span>, robotNumber, 0);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="comment">//test EncryptUils</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    std::string skey = <span class="stringliteral">&quot;azertyuiop&quot;</span>;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    std::vector&lt;unsigned char&gt; key(skey.begin(), skey.end());</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    std::vector&lt;unsigned char&gt; iv;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="../../d7/d78/classEncryptUtils.html">EncryptUtils</a> eu(key, <a class="code" href="../../d7/d78/classEncryptUtils.html#a5ca66d8ace1776704485aecfd1be109ba70600cb09040aea4bdd7f13b78ef732b">EncryptUtils::AES_CBC_128</a>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    std::string msg = <span class="stringliteral">&quot;PyroTeam, test Encrypt Utils, robot Comm node&quot;</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    std::vector&lt;unsigned char&gt; message(msg.begin(), msg.end());</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    std::vector&lt;unsigned char&gt; EncryptedMessage;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    std::vector&lt;unsigned char&gt; DecryptedMessage;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    eu.<a class="code" href="../../d7/d78/classEncryptUtils.html#a6d8a9f2db889c956ef9404ecd67c3bc5">encrypt</a>(message,  EncryptedMessage, iv);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;IV : &quot;</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">auto</span> &amp;i: iv)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; int(i);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    std::cout &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Encrypted Message : &quot;</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">auto</span> &amp;i: EncryptedMessage)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; int(i);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    std::cout &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    eu.<a class="code" href="../../d7/d78/classEncryptUtils.html#aac777ed0f530b046e041e911816fb82a">decrypt</a>(EncryptedMessage, DecryptedMessage, iv);</div>
+<a href="../../d7/d2b/robotCommNode_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;std_msgs/String.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;geometry_msgs/Pose2D.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;nav_msgs/Odometry.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;tf/transform_datatypes.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;Activity.pb.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;Beacon.pb.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dd/d89/udpPeer_8h.html">udpPeer.h</a>&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d3/d18/encryptUtils_8h.html">encryptUtils.h</a>&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../df/d29/topicToUdpEntry_8h.html">topicToUdpEntry.h</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/d95/udpToTopicEntry_8h.html">udpToTopicEntry.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d6/dca/udpToTopicBeacon_8h.html">udpToTopicBeacon.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d6/dbe/messageCatalog_8h.html">messageCatalog.h</a>&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;comm_msg/activity.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;comm_msg/landmarks.h&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;initializer_list&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// Variables globales</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">   24</a></span>&#160;geometry_msgs::Pose2D <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">g_pose</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="../../d7/d2b/robotCommNode_8cpp.html#aaa436e1e06fb447949e5812af5bff3af">   25</a></span>&#160;ros::Time <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#aaa436e1e06fb447949e5812af5bff3af">g_time</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#ab31e1fbc454c7171cf01f3a21fafe948">PoseCallback</a>(<span class="keyword">const</span> nav_msgs::Odometry &amp;odom);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../d7/d2b/robotCommNode_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">   29</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;InterRobotComm&quot;</span>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    ros::NodeHandle nh;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment">/* Chargement de la configuration */</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">int</span> robotNumber;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    nh.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;robotNumber&quot;</span>, robotNumber, 0);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">int</span> portIn = 5001;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    nh.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;portIn&quot;</span>, portIn, 5001);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">int</span> portOut = 5001;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    nh.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;portOut&quot;</span>, portOut, 5001);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    std::string ipAddress;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    nh.param&lt;std::string&gt;(<span class="stringliteral">&quot;ipAddress&quot;</span>, ipAddress, <span class="stringliteral">&quot;127.0.0.255&quot;</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">/* Création UdpPeer (permet l&#39;envoi et la réception des données) */</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    boost::asio::io_service io_service;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    std::shared_ptr&lt;UdpPeer&gt; udpPeer(<span class="keyword">new</span> <a class="code" href="../../df/d33/classUdpPeer.html">UdpPeer</a>(io_service, portOut, portIn, ipAddress));</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">/* Ajouts des protobufs au message catalogue */</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    std::shared_ptr&lt;MessageCatalog&gt; msgCatalog(<span class="keyword">new</span>(<a class="code" href="../../da/ddc/classMessageCatalog.html">MessageCatalog</a>));</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    msgCatalog-&gt;add&lt;Activity&gt;();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    msgCatalog-&gt;add&lt;Beacon&gt;();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    msgCatalog-&gt;add&lt;Landmarks&gt;();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    udpPeer-&gt;setCatalog(msgCatalog);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Decrypted Message : &quot;</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">auto</span> &amp;i: DecryptedMessage)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        std::cout &lt;&lt; i;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    std::cout &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment">//fin test EncryptUtils</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">//test TopicToUdpEntry</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    boost::asio::io_service io_service;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">int</span> port;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    std::shared_ptr&lt;UdpPeer&gt; udpPeer(<span class="keyword">new</span> <a class="code" href="../../df/d33/classUdpPeer.html">UdpPeer</a>(io_service, port));</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="../../d4/d37/classTopicToUdpEntry.html">TopicToUdpEntry&lt;comm_msg::activity&gt;</a> test_inpt(udpPeer, <span class="stringliteral">&quot;manager/activity&quot;</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">/* TopicToUdp et UdpToTopic */</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="../../d8/d42/classUdpToTopicEntry.html">UdpToTopicEntry&lt;Activity, comm_msg::activity&gt;</a> udpToTopicActivity(udpPeer, <span class="stringliteral">&quot;activity&quot;</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="../../d4/d37/classTopicToUdpEntry.html">TopicToUdpEntry&lt;comm_msg::activity&gt;</a> topicToUdpActivity(udpPeer, <span class="stringliteral">&quot;/activity&quot;</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="../../d8/d42/classUdpToTopicEntry.html">UdpToTopicEntry&lt;Landmarks, comm_msg::landmarks&gt;</a> udpToTopicLandmarks(udpPeer, <span class="stringliteral">&quot;landmarks&quot;</span>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="../../d4/d37/classTopicToUdpEntry.html">TopicToUdpEntry&lt;comm_msg::landmarks&gt;</a> topicToUdpLandmarks(udpPeer, <span class="stringliteral">&quot;/landmarks&quot;</span>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">/* Ajout des protobufs au message dispatcher */</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::shared_ptr&lt;MessageDispatcher&gt; msgDispatcher(<span class="keyword">new</span>(<a class="code" href="../../d4/d19/classStaticDispatch.html">MessageDispatcher</a>));</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    msgDispatcher-&gt;Add&lt;Activity&gt;(std::function&lt;void(google::protobuf::Message&amp;)&gt;(</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        boost::bind(&amp;<a class="code" href="../../d8/d42/classUdpToTopicEntry.html">UdpToTopicEntry&lt;Activity, comm_msg::activity&gt;::execute</a>, &amp;udpToTopicActivity, _1)));</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    msgDispatcher-&gt;Add&lt;Landmarks&gt;(std::function&lt;void(google::protobuf::Message&amp;)&gt;(</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        boost::bind(&amp;<a class="code" href="../../d8/d42/classUdpToTopicEntry.html">UdpToTopicEntry&lt;Landmarks, comm_msg::landmarks&gt;::execute</a>, &amp;udpToTopicLandmarks, _1)));</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    ros::Rate loop_rate(100);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">while</span>(ros::ok())</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        ros::spinOnce();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        loop_rate.sleep();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
-<div class="ttc" id="classUdpPeer_html"><div class="ttname"><a href="../../df/d33/classUdpPeer.html">UdpPeer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfc/UdpPeer_8h_source.html#l00023">UdpPeer.h:23</a></div></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment">/* Traitement message beacon */</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    ros::Subscriber pose_sub = nh.subscribe(<span class="stringliteral">&quot;/odom&quot;</span>, 1000, &amp;<a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#ab31e1fbc454c7171cf01f3a21fafe948">PoseCallback</a>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    ros::Rate loop_rate(1);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">g_pose</a>.x = 0;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">g_pose</a>.y = 0;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">g_pose</a>.theta = 0;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#aaa436e1e06fb447949e5812af5bff3af">g_time</a> = ros::Time::now();</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    std::shared_ptr&lt;Beacon&gt; beacon(<span class="keyword">new</span> Beacon);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    std::shared_ptr&lt;google::protobuf::Message&gt; proto_msg;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    proto_msg = beacon;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="../../d2/da5/classUdpToTopicEntry_3_01Beacon_00_01nav__msgs_1_1Odometry_01_4.html">UdpToTopicEntry&lt;Beacon, nav_msgs::Odometry&gt;</a> udpToTopicBeacon(udpPeer, <span class="stringliteral">&quot;beacon&quot;</span>);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    msgDispatcher-&gt;Add&lt;Beacon&gt;(std::function&lt;void(google::protobuf::Message&amp;)&gt;(</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        boost::bind(&amp;<a class="code" href="../../d8/d42/classUdpToTopicEntry.html">UdpToTopicEntry&lt;Beacon, nav_msgs::Odometry&gt;::execute</a>, &amp;udpToTopicBeacon, _1)));</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    udpPeer-&gt;setDispatcher(msgDispatcher);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    comm_msg::active_robots rosMsgActiveRobots;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    ros::Publisher activeRobots_pub = nh.advertise&lt;comm_msg::active_robots&gt;(<span class="stringliteral">&quot;/activeRobots&quot;</span>, 1000);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">/* Fin du traitement du message beacon */</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">while</span>(ros::ok())</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        Time* time = beacon-&gt;mutable_timestamp();</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        time-&gt;set_sec(<a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#aaa436e1e06fb447949e5812af5bff3af">g_time</a>.sec);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        time-&gt;set_nsec(<a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#aaa436e1e06fb447949e5812af5bff3af">g_time</a>.nsec);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        beacon-&gt;set_nb_robot(robotNumber);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        Pose2D* pose = beacon-&gt;mutable_pose();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        pose-&gt;set_x(<a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">g_pose</a>.x);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        pose-&gt;set_y(<a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">g_pose</a>.y);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        pose-&gt;set_theta(<a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">g_pose</a>.theta);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        udpPeer-&gt;send(proto_msg);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        udpToTopicBeacon.<a class="code" href="../../d2/da5/classUdpToTopicEntry_3_01Beacon_00_01nav__msgs_1_1Odometry_01_4.html#a2242a68415e69bd7b2879df17fb27a7a">getActiveRobots</a>(rosMsgActiveRobots.robot);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        activeRobots_pub.publish(rosMsgActiveRobots);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        io_service.poll();</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        ros::spinOnce();</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        loop_rate.sleep();</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="../../d7/d2b/robotCommNode_8cpp.html#ab31e1fbc454c7171cf01f3a21fafe948">  114</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#ab31e1fbc454c7171cf01f3a21fafe948">PoseCallback</a>(<span class="keyword">const</span> nav_msgs::Odometry &amp;odom)</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;{</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">g_pose</a>.x = odom.pose.pose.position.x;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">g_pose</a>.y = odom.pose.pose.position.y;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">g_pose</a>.theta = tf::getYaw(odom.pose.pose.orientation);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <a class="code" href="../../d7/d2b/robotCommNode_8cpp.html#aaa436e1e06fb447949e5812af5bff3af">g_time</a> = ros::Time::now();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
+<div class="ttc" id="classUdpToTopicEntry_3_01Beacon_00_01nav__msgs_1_1Odometry_01_4_html"><div class="ttname"><a href="../../d2/da5/classUdpToTopicEntry_3_01Beacon_00_01nav__msgs_1_1Odometry_01_4.html">UdpToTopicEntry&lt; Beacon, nav_msgs::Odometry &gt;</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dca/udpToTopicBeacon_8h_source.html#l00028">udpToTopicBeacon.h:28</a></div></div>
+<div class="ttc" id="robotCommNode_8cpp_html_aaa436e1e06fb447949e5812af5bff3af"><div class="ttname"><a href="../../d7/d2b/robotCommNode_8cpp.html#aaa436e1e06fb447949e5812af5bff3af">g_time</a></div><div class="ttdeci">ros::Time g_time</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d2b/robotCommNode_8cpp_source.html#l00025">robotCommNode.cpp:25</a></div></div>
+<div class="ttc" id="robotCommNode_8cpp_html_a58334e3fb222f1ec16146dcfd28b2111"><div class="ttname"><a href="../../d7/d2b/robotCommNode_8cpp.html#a58334e3fb222f1ec16146dcfd28b2111">g_pose</a></div><div class="ttdeci">geometry_msgs::Pose2D g_pose</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d2b/robotCommNode_8cpp_source.html#l00024">robotCommNode.cpp:24</a></div></div>
+<div class="ttc" id="classStaticDispatch_html"><div class="ttname"><a href="../../d4/d19/classStaticDispatch.html">StaticDispatch</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d98/refbox__comm_2include_2dispatch_8h_source.html#l00030">dispatch.h:30</a></div></div>
+<div class="ttc" id="classUdpPeer_html"><div class="ttname"><a href="../../df/d33/classUdpPeer.html">UdpPeer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d89/udpPeer_8h_source.html#l00031">udpPeer.h:31</a></div></div>
 <div class="ttc" id="topicToUdpEntry_8h_html"><div class="ttname"><a href="../../df/d29/topicToUdpEntry_8h.html">topicToUdpEntry.h</a></div></div>
-<div class="ttc" id="classEncryptUtils_html_a6d8a9f2db889c956ef9404ecd67c3bc5"><div class="ttname"><a href="../../d7/d78/classEncryptUtils.html#a6d8a9f2db889c956ef9404ecd67c3bc5">EncryptUtils::encrypt</a></div><div class="ttdeci">void encrypt(const Buffer_type &amp;message, Buffer_type &amp;encryptedMessaget, Buffer_type &amp;initialisationVector)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d01/encryptUtils_8cpp_source.html#l00053">encryptUtils.cpp:53</a></div></div>
-<div class="ttc" id="classEncryptUtils_html_aac777ed0f530b046e041e911816fb82a"><div class="ttname"><a href="../../d7/d78/classEncryptUtils.html#aac777ed0f530b046e041e911816fb82a">EncryptUtils::decrypt</a></div><div class="ttdeci">void decrypt(const Buffer_type &amp;encryptedMessage, Buffer_type &amp;decryptedMessage, const Buffer_type &amp;initialisationVector)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d01/encryptUtils_8cpp_source.html#l00063">encryptUtils.cpp:63</a></div></div>
-<div class="ttc" id="classEncryptUtils_html"><div class="ttname"><a href="../../d7/d78/classEncryptUtils.html">EncryptUtils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d18/encryptUtils_8h_source.html#l00022">encryptUtils.h:22</a></div></div>
-<div class="ttc" id="robotCommNode_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d7/d2b/robotCommNode_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d2b/robotCommNode_8cpp_source.html#l00016">robotCommNode.cpp:16</a></div></div>
-<div class="ttc" id="classEncryptUtils_html_a5ca66d8ace1776704485aecfd1be109ba70600cb09040aea4bdd7f13b78ef732b"><div class="ttname"><a href="../../d7/d78/classEncryptUtils.html#a5ca66d8ace1776704485aecfd1be109ba70600cb09040aea4bdd7f13b78ef732b">EncryptUtils::AES_CBC_128</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d18/encryptUtils_8h_source.html#l00027">encryptUtils.h:27</a></div></div>
-<div class="ttc" id="UdpPeer_8h_html"><div class="ttname"><a href="../../d7/dfc/UdpPeer_8h.html">UdpPeer.h</a></div></div>
+<div class="ttc" id="classMessageCatalog_html"><div class="ttname"><a href="../../da/ddc/classMessageCatalog.html">MessageCatalog</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dbe/messageCatalog_8h_source.html#l00036">messageCatalog.h:36</a></div></div>
+<div class="ttc" id="robotCommNode_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="../../d7/d2b/robotCommNode_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d2b/robotCommNode_8cpp_source.html#l00029">robotCommNode.cpp:29</a></div></div>
+<div class="ttc" id="classUdpToTopicEntry_html"><div class="ttname"><a href="../../d8/d42/classUdpToTopicEntry.html">UdpToTopicEntry</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d95/udpToTopicEntry_8h_source.html#l00023">udpToTopicEntry.h:23</a></div></div>
+<div class="ttc" id="udpToTopicEntry_8h_html"><div class="ttname"><a href="../../d1/d95/udpToTopicEntry_8h.html">udpToTopicEntry.h</a></div></div>
+<div class="ttc" id="classUdpToTopicEntry_3_01Beacon_00_01nav__msgs_1_1Odometry_01_4_html_a2242a68415e69bd7b2879df17fb27a7a"><div class="ttname"><a href="../../d2/da5/classUdpToTopicEntry_3_01Beacon_00_01nav__msgs_1_1Odometry_01_4.html#a2242a68415e69bd7b2879df17fb27a7a">UdpToTopicEntry&lt; Beacon, nav_msgs::Odometry &gt;::getActiveRobots</a></div><div class="ttdeci">void getActiveRobots(std::vector&lt; comm_msg::active_robot &gt; &amp;robot)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dca/udpToTopicBeacon_8h_source.html#l00086">udpToTopicBeacon.h:86</a></div></div>
 <div class="ttc" id="encryptUtils_8h_html"><div class="ttname"><a href="../../d3/d18/encryptUtils_8h.html">encryptUtils.h</a></div></div>
-<div class="ttc" id="classTopicToUdpEntry_html"><div class="ttname"><a href="../../d4/d37/classTopicToUdpEntry.html">TopicToUdpEntry</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d29/topicToUdpEntry_8h_source.html#l00027">topicToUdpEntry.h:27</a></div></div>
+<div class="ttc" id="classTopicToUdpEntry_html"><div class="ttname"><a href="../../d4/d37/classTopicToUdpEntry.html">TopicToUdpEntry</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d29/topicToUdpEntry_8h_source.html#l00028">topicToUdpEntry.h:28</a></div></div>
+<div class="ttc" id="robotCommNode_8cpp_html_ab31e1fbc454c7171cf01f3a21fafe948"><div class="ttname"><a href="../../d7/d2b/robotCommNode_8cpp.html#ab31e1fbc454c7171cf01f3a21fafe948">PoseCallback</a></div><div class="ttdeci">void PoseCallback(const nav_msgs::Odometry &amp;odom)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d2b/robotCommNode_8cpp_source.html#l00114">robotCommNode.cpp:114</a></div></div>
+<div class="ttc" id="messageCatalog_8h_html"><div class="ttname"><a href="../../d6/dbe/messageCatalog_8h.html">messageCatalog.h</a></div></div>
+<div class="ttc" id="udpToTopicBeacon_8h_html"><div class="ttname"><a href="../../d6/dca/udpToTopicBeacon_8h.html">udpToTopicBeacon.h</a></div></div>
+<div class="ttc" id="udpPeer_8h_html"><div class="ttname"><a href="../../dd/d89/udpPeer_8h.html">udpPeer.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 15 2016 14:27:41 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

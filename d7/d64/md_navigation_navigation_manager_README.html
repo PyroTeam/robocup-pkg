@@ -82,10 +82,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="contents">
 <div class="textblock"><p>Package de supervision du déplacement</p>
 <h2>Description </h2>
-<p>Permet de réaliser la supervision du déplacement en demandant au <a class="el" href="../../db/dc7/classPath.html" title="Classe représentant un chemin calculé à partir d&#39;un algorithme de recherche. ">Path</a> Finder de trouver un chemin, et au <a class="el" href="../../db/dc7/classPath.html" title="Classe représentant un chemin calculé à partir d&#39;un algorithme de recherche. ">Path</a> Tracker de le suivre. Ce package gère également la détection d'obstacles autres que les machines (robots, humains).</p>
+<p>Ce package permet la supervision du déplacement en reliant le <a class="el" href="../../db/dc7/classPath.html" title="Classe représentant un chemin calculé à partir d&#39;un algorithme de recherche. ">Path</a> Tracker et le <a class="el" href="../../db/dc7/classPath.html" title="Classe représentant un chemin calculé à partir d&#39;un algorithme de recherche. ">Path</a> Finder. On demande au générateur de chemin de trouver un chemin, puis lorsque ce dernier en a trouvé un, l'exécuteur de chemin est appelé afin de le suivre. De plus, la détection d'obstacles (autre que les machines donc les robots ou les humains) est géré par ce package.</p>
 <h2>Noeuds </h2>
 <ul>
-<li>navigation_manager_node : crée l'action qui permet à l'exécuteur de tâches de lancer la supervision du déplacement</li>
+<li>navigation_manager_node : crée l'action qui permet à l'exécuteur de tâches de générer et exécuter un chemin suivant la position initiale du robot et la destination voulue</li>
 </ul>
 <h2>Launchfiles </h2>
 <ul>
@@ -95,17 +95,17 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <h2>Avancement </h2>
 <ul>
 <li>[x] Rédiger un README</li>
-<li>[x] Supervision</li>
-<li>[ ] Détection d'obstacles<ul>
-<li>[ ] Avec les capteurs Sharp</li>
-<li>[ ] Avec les données du laser </li>
+<li>[x] Relation entre générateur et exécuteur de chemin</li>
+<li>[ ] Détection d'obstacles :<ul>
+<li>[ ] Avec capteurs Sharp</li>
+<li>[ ] Avec données du laser </li>
 </ul>
 </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 15 2016 14:27:42 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

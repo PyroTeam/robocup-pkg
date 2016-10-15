@@ -94,17 +94,27 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="contents">
 <div class="textblock"><code>#include &quot;Activity.pb.h&quot;</code><br/>
 <code>#include &quot;Beacon.pb.h&quot;</code><br/>
+<code>#include &quot;Landmarks.pb.h&quot;</code><br/>
 <code>#include &quot;<a class="el" href="../../d3/d18/encryptUtils_8h_source.html">encryptUtils.h</a>&quot;</code><br/>
 <code>#include &quot;comm_msg/activity.h&quot;</code><br/>
+<code>#include &quot;comm_msg/landmarks.h&quot;</code><br/>
+<code>#include &lt;nav_msgs/Odometry.h&gt;</code><br/>
+<code>#include &lt;tf/transform_datatypes.h&gt;</code><br/>
 </div>
 <p><a href="../../d6/d21/msgConvertUtils_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4df801b083b369fed11ef41b3040a931"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/msgConvertUtils_8h.html#a4df801b083b369fed11ef41b3040a931">rosToProtobuf</a> (const boost::shared_ptr&lt; const comm_msg::activity &gt; &amp;msg, std::shared_ptr&lt; google::protobuf::Message &gt; &amp;proto_msg)</td></tr>
-<tr class="separator:a4df801b083b369fed11ef41b3040a931"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ccbf45fefc652021d45db46507c29f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/msgConvertUtils_8h.html#a8ccbf45fefc652021d45db46507c29f0">ProtobufToRos</a> (const std::shared_ptr&lt; google::protobuf::Message &gt; &amp;proto_msg, const boost::shared_ptr&lt; const comm_msg::activity &gt; &amp;msg)</td></tr>
-<tr class="separator:a8ccbf45fefc652021d45db46507c29f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ab98f46c1700cb71b44c58bdf2070b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/msgConvertUtils_8h.html#a1ab98f46c1700cb71b44c58bdf2070b4">rosToProtobuf</a> (const boost::shared_ptr&lt; const comm_msg::activity &gt; &amp;msg, std::shared_ptr&lt; google::protobuf::Message &gt; &amp;proto_msg, std::string topicName)</td></tr>
+<tr class="separator:a1ab98f46c1700cb71b44c58bdf2070b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad692fe758ad1a04aabb7c33f21122921"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/msgConvertUtils_8h.html#ad692fe758ad1a04aabb7c33f21122921">rosToProtobuf</a> (const boost::shared_ptr&lt; const comm_msg::landmarks &gt; &amp;msg, std::shared_ptr&lt; google::protobuf::Message &gt; &amp;proto_msg, std::string topicName)</td></tr>
+<tr class="separator:ad692fe758ad1a04aabb7c33f21122921"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3544c8e6329743032e85e4639eca1a37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/msgConvertUtils_8h.html#a3544c8e6329743032e85e4639eca1a37">ProtobufToRos</a> (const Activity &amp;proto_msg, std::shared_ptr&lt; comm_msg::activity &gt; &amp;msg)</td></tr>
+<tr class="separator:a3544c8e6329743032e85e4639eca1a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97b536fc3826b4b512e1ba282f372beb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/msgConvertUtils_8h.html#a97b536fc3826b4b512e1ba282f372beb">ProtobufToRos</a> (const Beacon &amp;proto_msg, std::shared_ptr&lt; nav_msgs::Odometry &gt; &amp;msg)</td></tr>
+<tr class="separator:a97b536fc3826b4b512e1ba282f372beb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9628d0fa9f2bbe07052cbd7e031f527b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/msgConvertUtils_8h.html#a9628d0fa9f2bbe07052cbd7e031f527b">ProtobufToRos</a> (const Landmarks &amp;proto_msg, std::shared_ptr&lt; comm_msg::landmarks &gt; &amp;msg)</td></tr>
+<tr class="separator:a9628d0fa9f2bbe07052cbd7e031f527b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Coelen Vincent (<a href="#" onclick="location.href='mai'+'lto:'+'vin'+'ce'+'nt.'+'co'+'ele'+'n@'+'pol'+'yt'+'ech'+'-l'+'ill'+'e.'+'net'; return false;">vince<span style="display: none;">.nosp@m.</span>nt.c<span style="display: none;">.nosp@m.</span>oelen<span style="display: none;">.nosp@m.</span>@pol<span style="display: none;">.nosp@m.</span>ytech<span style="display: none;">.nosp@m.</span>-lil<span style="display: none;">.nosp@m.</span>le.ne<span style="display: none;">.nosp@m.</span>t</a>) Tissot Elise </dd></dl>
@@ -114,20 +124,20 @@ Functions</h2></td></tr>
 
 <p>Definition in file <a class="el" href="../../d6/d21/msgConvertUtils_8h_source.html">msgConvertUtils.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a8ccbf45fefc652021d45db46507c29f0"></a>
+<a class="anchor" id="a3544c8e6329743032e85e4639eca1a37"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void ProtobufToRos </td>
           <td>(</td>
-          <td class="paramtype">const std::shared_ptr&lt; google::protobuf::Message &gt; &amp;&#160;</td>
+          <td class="paramtype">const Activity &amp;&#160;</td>
           <td class="paramname"><em>proto_msg</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const boost::shared_ptr&lt; const comm_msg::activity &gt; &amp;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; comm_msg::activity &gt; &amp;&#160;</td>
           <td class="paramname"><em>msg</em>&#160;</td>
         </tr>
         <tr>
@@ -138,9 +148,67 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="../../dd/dab/msgConvertUtils_8cpp_source.html#l00043">43</a> of file <a class="el" href="../../dd/dab/msgConvertUtils_8cpp_source.html">msgConvertUtils.cpp</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a4df801b083b369fed11ef41b3040a931"></a>
+<a class="anchor" id="a97b536fc3826b4b512e1ba282f372beb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ProtobufToRos </td>
+          <td>(</td>
+          <td class="paramtype">const Beacon &amp;&#160;</td>
+          <td class="paramname"><em>proto_msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; nav_msgs::Odometry &gt; &amp;&#160;</td>
+          <td class="paramname"><em>msg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/dab/msgConvertUtils_8cpp_source.html#l00056">56</a> of file <a class="el" href="../../dd/dab/msgConvertUtils_8cpp_source.html">msgConvertUtils.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9628d0fa9f2bbe07052cbd7e031f527b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ProtobufToRos </td>
+          <td>(</td>
+          <td class="paramtype">const Landmarks &amp;&#160;</td>
+          <td class="paramname"><em>proto_msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; comm_msg::landmarks &gt; &amp;&#160;</td>
+          <td class="paramname"><em>msg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/dab/msgConvertUtils_8cpp_source.html#l00070">70</a> of file <a class="el" href="../../dd/dab/msgConvertUtils_8cpp_source.html">msgConvertUtils.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1ab98f46c1700cb71b44c58bdf2070b4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -154,7 +222,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::shared_ptr&lt; google::protobuf::Message &gt; &amp;&#160;</td>
-          <td class="paramname"><em>proto_msg</em>&#160;</td>
+          <td class="paramname"><em>proto_msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>topicName</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -168,10 +242,44 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ad692fe758ad1a04aabb7c33f21122921"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rosToProtobuf </td>
+          <td>(</td>
+          <td class="paramtype">const boost::shared_ptr&lt; const comm_msg::landmarks &gt; &amp;&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; google::protobuf::Message &gt; &amp;&#160;</td>
+          <td class="paramname"><em>proto_msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>topicName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/dab/msgConvertUtils_8cpp_source.html#l00029">29</a> of file <a class="el" href="../../dd/dab/msgConvertUtils_8cpp_source.html">msgConvertUtils.cpp</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 15 2016 14:27:42 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

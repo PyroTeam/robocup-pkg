@@ -12,6 +12,7 @@ var searchData=
   ['get2points',['get2Points',['../db/d1c/classoccupancy__grid__utils_1_1Line.html#a7bd29f4b009586e8915143fbe3f68acb',1,'occupancy_grid_utils::Line']]],
   ['get_5factualtime',['get_actualTime',['../d2/d93/refBoxComm_8cpp.html#a65ab0a8dd0d3c8bf028f7d3ef40dea97',1,'get_actualTime(unsigned long &amp;sec, unsigned long &amp;nsec):&#160;refBoxComm.cpp'],['../dd/d5f/refBoxTransport_8cpp.html#a65ab0a8dd0d3c8bf028f7d3ef40dea97',1,'get_actualTime(unsigned long &amp;sec, unsigned long &amp;nsec):&#160;refBoxTransport.cpp']]],
   ['getaccepted',['getAccepted',['../d5/d38/classSrvorder.html#aa8c2bf88c6c6976fe93a2f60dcd4450f',1,'Srvorder']]],
+  ['getactiverobots',['getActiveRobots',['../d2/da5/classUdpToTopicEntry_3_01Beacon_00_01nav__msgs_1_1Odometry_01_4.html#a2242a68415e69bd7b2879df17fb27a7a',1,'UdpToTopicEntry&lt; Beacon, nav_msgs::Odometry &gt;']]],
   ['getactivitymsg',['getActivityMsg',['../d1/d35/classGtServerSrv.html#a6ba937a962da159da336bacd02dad48e',1,'GtServerSrv']]],
   ['getactivitytype',['getActivityType',['../dc/dda/classMachine.html#a6ded5bdf514a4efd320dc6934da9d48f',1,'Machine']]],
   ['getalready',['getAlready',['../d0/ddd/classGameStateFA.html#aae4d6f7f48511df317588ef55586a2f1',1,'GameStateFA']]],

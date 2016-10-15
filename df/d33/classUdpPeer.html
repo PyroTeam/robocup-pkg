@@ -92,24 +92,26 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="../../d7/dfc/UdpPeer_8h_source.html">UdpPeer.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="../../dd/d89/udpPeer_8h_source.html">udpPeer.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:acf292f5d4cad7b00c5c09bca2441da46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d33/classUdpPeer.html#acf292f5d4cad7b00c5c09bca2441da46">send</a> (std::shared_ptr&lt; google::protobuf::Message &gt; &amp;msg)</td></tr>
 <tr class="separator:acf292f5d4cad7b00c5c09bca2441da46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a445220a66051fb9e9ddb40a8b6f86062"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d33/classUdpPeer.html#a445220a66051fb9e9ddb40a8b6f86062">setCrypto</a> (std::vector&lt; unsigned char &gt; key, <a class="el" href="../../d7/d78/classEncryptUtils.html#a5ca66d8ace1776704485aecfd1be109b">EncryptUtils::CIPHER_TYPE</a> cipher)</td></tr>
-<tr class="separator:a445220a66051fb9e9ddb40a8b6f86062"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a452f184361c17c7bc6a6b7e27b5329e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d33/classUdpPeer.html#a452f184361c17c7bc6a6b7e27b5329e7">registerMessage</a> ()</td></tr>
-<tr class="separator:a452f184361c17c7bc6a6b7e27b5329e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af505d15d41665bb7d51030da2f0c4711"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d33/classUdpPeer.html#af505d15d41665bb7d51030da2f0c4711">UdpPeer</a> (boost::asio::io_service &amp;io_service, int port)</td></tr>
-<tr class="separator:af505d15d41665bb7d51030da2f0c4711"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0883d87df1339ba4bdc744ab0873d53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d33/classUdpPeer.html#af0883d87df1339ba4bdc744ab0873d53">setDispatcher</a> (std::shared_ptr&lt; <a class="el" href="../../d0/d22/refBoxComm_8h.html#a473e5ff7d49b8b06e35764a96dca7c3d">MessageDispatcher</a> &gt; dispatcher)</td></tr>
+<tr class="separator:af0883d87df1339ba4bdc744ab0873d53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac16d58b54561c5829a88d36068ba5d5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d33/classUdpPeer.html#ac16d58b54561c5829a88d36068ba5d5d">setCatalog</a> (std::shared_ptr&lt; <a class="el" href="../../da/ddc/classMessageCatalog.html">MessageCatalog</a> &gt; catalog)</td></tr>
+<tr class="separator:ac16d58b54561c5829a88d36068ba5d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4689b79f32d6a5598926a235a6347f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d33/classUdpPeer.html#aa4689b79f32d6a5598926a235a6347f9">UdpPeer</a> (boost::asio::io_service &amp;io_service, int portIn, int portOut, std::string ipAddress)</td></tr>
+<tr class="separator:aa4689b79f32d6a5598926a235a6347f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad076b97cb117323e79b1bf78fcd9f6be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d33/classUdpPeer.html#ad076b97cb117323e79b1bf78fcd9f6be">~UdpPeer</a> ()</td></tr>
+<tr class="separator:ad076b97cb117323e79b1bf78fcd9f6be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="../../d7/dfc/UdpPeer_8h_source.html#l00023">23</a> of file <a class="el" href="../../d7/dfc/UdpPeer_8h_source.html">UdpPeer.h</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d89/udpPeer_8h_source.html#l00031">31</a> of file <a class="el" href="../../dd/d89/udpPeer_8h_source.html">udpPeer.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="af505d15d41665bb7d51030da2f0c4711"></a>
+<a class="anchor" id="aa4689b79f32d6a5598926a235a6347f9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -123,7 +125,19 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>port</em>&#160;</td>
+          <td class="paramname"><em>portIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>portOut</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>ipAddress</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -133,28 +147,36 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d59/UdpPeer_8cpp_source.html#l00014">14</a> of file <a class="el" href="../../d1/d59/UdpPeer_8cpp_source.html">UdpPeer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/def/udpPeer_8cpp_source.html#l00037">37</a> of file <a class="el" href="../../da/def/udpPeer_8cpp_source.html">udpPeer.cpp</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a452f184361c17c7bc6a6b7e27b5329e7"></a>
+<a class="anchor" id="ad076b97cb117323e79b1bf78fcd9f6be"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void UdpPeer::registerMessage </td>
+          <td class="memname">UdpPeer::~UdpPeer </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d59/UdpPeer_8cpp_source.html#l00080">80</a> of file <a class="el" href="../../d1/d59/UdpPeer_8cpp_source.html">UdpPeer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d89/udpPeer_8h_source.html#l00062">62</a> of file <a class="el" href="../../dd/d89/udpPeer_8h_source.html">udpPeer.h</a>.</p>
 
 </div>
 </div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="acf292f5d4cad7b00c5c09bca2441da46"></a>
 <div class="memitem">
 <div class="memproto">
@@ -169,46 +191,54 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d59/UdpPeer_8cpp_source.html#l00021">21</a> of file <a class="el" href="../../d1/d59/UdpPeer_8cpp_source.html">UdpPeer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/def/udpPeer_8cpp_source.html#l00089">89</a> of file <a class="el" href="../../da/def/udpPeer_8cpp_source.html">udpPeer.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a445220a66051fb9e9ddb40a8b6f86062"></a>
+<a class="anchor" id="ac16d58b54561c5829a88d36068ba5d5d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void UdpPeer::setCrypto </td>
+          <td class="memname">void UdpPeer::setCatalog </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; unsigned char &gt;&#160;</td>
-          <td class="paramname"><em>key</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../da/ddc/classMessageCatalog.html">MessageCatalog</a> &gt;&#160;</td>
+          <td class="paramname"><em>catalog</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/d78/classEncryptUtils.html#a5ca66d8ace1776704485aecfd1be109b">EncryptUtils::CIPHER_TYPE</a>&#160;</td>
-          <td class="paramname"><em>cipher</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d59/UdpPeer_8cpp_source.html#l00040">40</a> of file <a class="el" href="../../d1/d59/UdpPeer_8cpp_source.html">UdpPeer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../da/def/udpPeer_8cpp_source.html#l00189">189</a> of file <a class="el" href="../../da/def/udpPeer_8cpp_source.html">udpPeer.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af0883d87df1339ba4bdc744ab0873d53"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UdpPeer::setDispatcher </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../d0/d22/refBoxComm_8h.html#a473e5ff7d49b8b06e35764a96dca7c3d">MessageDispatcher</a> &gt;&#160;</td>
+          <td class="paramname"><em>dispatcher</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../da/def/udpPeer_8cpp_source.html#l00184">184</a> of file <a class="el" href="../../da/def/udpPeer_8cpp_source.html">udpPeer.cpp</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>communication/robot_comm/include/<a class="el" href="../../d7/dfc/UdpPeer_8h_source.html">UdpPeer.h</a></li>
-<li>communication/robot_comm/src/<a class="el" href="../../d1/d59/UdpPeer_8cpp_source.html">UdpPeer.cpp</a></li>
+<li>communication/robot_comm/include/<a class="el" href="../../dd/d89/udpPeer_8h_source.html">udpPeer.h</a></li>
+<li>communication/robot_comm/src/<a class="el" href="../../da/def/udpPeer_8cpp_source.html">udpPeer.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 15 2016 14:27:42 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

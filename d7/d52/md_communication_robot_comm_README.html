@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>robocup-pkg: README</title>
+<title>robocup-pkg: robot_comm</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -77,13 +77,69 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">README </div>  </div>
+<div class="title">robot_comm </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"></div></div><!-- contents -->
+<div class="textblock"><p>Package de communication entre les robotinos</p>
+<h2>Description </h2>
+<p>Permet l'utilisation des trois robotinos au cours d'une partie grâce à la communication entre ces derniers qui est réalisée dans ce package.</p>
+<h2>Noeuds </h2>
+<ul>
+<li>robotCommNode : programme principal réalisant la communication entre les robots</li>
+</ul>
+<h2>Launchfiles </h2>
+<ul>
+<li><code>robotComm.launch</code> : lance le noeud robotCommNode</li>
+<li><code>robotCommddd.launch</code> : lance le noeud robotCommNode en mode debug</li>
+<li><code>robotCommValgrind.launch</code> : lance le noeud robotCommNode en vérifiant qu'il n'y ait pas de fuites mémoire</li>
+</ul>
+<h2>Scripts </h2>
+<h2>Avancement </h2>
+<ul>
+<li>[x] Rédiger un README</li>
+<li>[x] Réussir à établir une communication<ul>
+<li>[x] Topics</li>
+<li>[ ] Services</li>
+</ul>
+</li>
+</ul>
+<h2>Ajouter un nouveau topic </h2>
+<p>Par exemple, on veut transmettre un message Landmarks :</p>
+<ul>
+<li>Ecrire le message protobuf Landmarks.proto correspondant au message ROS (dans le dossier proto_msg). Ne pas oublier d'ajouter un code par défaut et un nom.</li>
+<li>Le message que l'on veut transmettre :</li>
+</ul>
+<p>geometry_msgs/Pose2D landmarks</p>
+<ul>
+<li>Le message protobuf correspondant :</li>
+</ul>
+<p>import "Pose2D.proto"; message Landmarks { optional int32 code = 1 [default = 5];</p>
+<p>required string name = 2;</p>
+<p>required Pose2D landmarks = 3; }</p>
+<ul>
+<li>Dans le CMakeList.txt : rajouter proto_msg/Landmarks.proto après PROTOBUF_GENERATE_CPP afin de le compiler automatiquement.</li>
+<li>Dans robotCommNode :<ul>
+<li>Rajouter le nouveau google protobuf message au msgCatalog : msgCatalog-&gt;<a class="el" href="../../d9/d55/orderListener__node_8cpp.html#a0a7c6d2dbf299abf0b50e392265672e1">add&lt;Landmarks&gt;()</a>;</li>
+<li>Puis créer les topicToUdp et udpToTopic correspondant : UdpToTopicEntry&lt;Landmarks, deplacement_msg::landmarks&gt; udpToTopicLandmarks(udpPeer, "landmarks"); TopicToUdpEntry&lt;deplacement_msg::landmarks&gt; topicToUdpLandmarks(udpPeer, "/landmarks");</li>
+<li>Rajouter également le message au msgDispatcher : msgDispatcher-&gt;Add&lt;Landmarks&gt;(std::function&lt;void(google::protobuf::Message&amp;)&gt;(boost::bind(&amp;UdpToTopicEntry&lt;Landmarks, deplacement_msg::landmarks&gt;::execute, &amp;udpToTopicLandmarks, _1)));</li>
+</ul>
+</li>
+<li>Dans msgConvertUtils : Rajouter les fonctions rosToProtobuf et ProtobufToRos correspondant :<ul>
+<li><p class="startli">RosToProtobuf : void rosToProtobuf(const boost::shared_ptr&lt;const deplacement_msg::landmarks&gt; &amp;msg, std::shared_ptr&lt;google::protobuf::Message&gt; &amp;proto_msg, std::string topicName) { std::shared_ptr&lt;Landmarks&gt; landmarks_proto(new Landmarks);</p>
+<p class="startli">landmarks_proto-&gt;set_name(topicName); geometry_msgs::Pose2D pose2D; Pose2D* pose = landmarks_proto-&gt;mutable_landmarks(); pose-&gt;set_x(pose2D.x); pose-&gt;set_y(pose2D.y); pose-&gt;set_theta(pose2D.theta); proto_msg = landmarks_proto; }</p>
+</li>
+<li><p class="startli">ProtobufToRos : void ProtobufToRos(const Landmarks &amp;proto_msg, std::shared_ptr&lt;deplacement_msg::landmarks&gt; &amp;msg) { std::shared_ptr&lt;deplacement_msg::landmarks&gt; landmarks(new deplacement_msg::landmarks());</p>
+<p class="startli">Pose2D pose = proto_msg.landmarks(); landmarks-&gt;landmarks.x = pose.x(); landmarks-&gt;landmarks.y = pose.y(); landmarks-&gt;landmarks.theta = pose.theta();</p>
+<p class="startli">msg = landmarks; }</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Ne pas oublier de rajouter les prototypes des fonctions dans <a class="el" href="../../d6/d21/msgConvertUtils_8h.html">msgConvertUtils.h</a>. </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 8 2016 16:19:24 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 15 2016 14:27:42 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

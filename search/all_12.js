@@ -4,6 +4,8 @@ var searchData=
   ['tablandmarks',['tabLandmarks',['../d7/dfc/visualisation_8cpp.html#adf9e31bf342217275474b7ca8c375d35',1,'visualisation.cpp']]],
   ['tabmachine_2ecpp',['tabmachine.cpp',['../d0/d22/tabmachine_8cpp.html',1,'']]],
   ['tabmachine_2eh',['tabmachine.h',['../d9/d28/tabmachine_8h.html',1,'']]],
+  ['taille_5fbuffer',['TAILLE_BUFFER',['../da/def/udpPeer_8cpp.html#afa7b7638d0ac972327d9fadc93db9802',1,'udpPeer.cpp']]],
+  ['taille_5fheader',['TAILLE_HEADER',['../da/def/udpPeer_8cpp.html#aaa8006dcf29ef3a5bdbab9b523e95ea8',1,'udpPeer.cpp']]],
   ['take',['take',['../d2/d4b/classBaseStation.html#a229546f111d2cce8d723c2d19888df7c',1,'BaseStation']]],
   ['take_5fcap',['take_cap',['../d6/ddd/classCapStation.html#a012cc5ee5c4da2250a7731597399df28',1,'CapStation']]],
   ['take_5fring',['take_ring',['../d0/dd3/classRingStation.html#adccb99763cb3a0431b25a72a23425829',1,'RingStation']]],

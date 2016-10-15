@@ -92,31 +92,31 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;Description</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;-----------</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;Permet de réaliser la supervision du déplacement en demandant au <a class="code" href="../../db/dc7/classPath.html">Path</a> Finder de trouver un chemin, et au <a class="code" href="../../db/dc7/classPath.html">Path</a> Tracker de le suivre. Ce <span class="keyword">package </span>gère également la détection d&#39;obstacles autres que les machines (robots, humains).</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;Noeuds</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;------</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;* navigation_manager_node : crée l&#39;action qui permet à l&#39;exécuteur de tâches de lancer la supervision du déplacement</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;Launchfiles</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;-----------</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;* `nav_manager.launch` : lance le noeud navigation_manager_node</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;Scripts</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;-------</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;Avancement</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;----------</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;* [x] Rédiger un README</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;* [x] Supervision</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;* [ ] Détection d&#39;obstacles</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  - [ ] Avec les capteurs Sharp</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  - [ ] Avec les données du laser</div>
-<div class="ttc" id="classPath_html"><div class="ttname"><a href="../../db/dc7/classPath.html">Path</a></div><div class="ttdoc">Classe représentant un chemin calculé à partir d&#39;un algorithme de recherche. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d6f/Path_8h_source.html#l00026">Path.h:26</a></div></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;Ce <span class="keyword">package </span>permet la supervision du déplacement en reliant le Path Tracker et le Path Finder. On demande au générateur de chemin de trouver un chemin, puis lorsque ce dernier en a trouvé un, l&#39;exécuteur de chemin est appelé afin de le suivre.</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;De plus, la détection d&#39;obstacles (autre que les machines donc les robots ou les humains) est géré par ce package.</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;Noeuds</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;------</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;* navigation_manager_node : crée l&#39;action qui permet à l&#39;exécuteur de tâches de générer et exécuter un chemin suivant la position initiale du robot et la destination voulue</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;Launchfiles</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;-----------</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;* `nav_manager.launch` : lance le noeud navigation_manager_node</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;Scripts</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;-------</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;Avancement</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;----------</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;* [x] Rédiger un README</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;* [x] Relation entre générateur et exécuteur de chemin</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;* [ ] Détection d&#39;obstacles :</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    - [ ] Avec capteurs Sharp</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    - [ ] Avec données du laser</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 8 2016 16:19:23 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 15 2016 14:27:41 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
