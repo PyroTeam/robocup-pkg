@@ -6,7 +6,7 @@
  * \author       Coelen Vincent
  *               Tissot Elise (elise.tissot@polytech-lille.net)
  * \date         2015-05-22
- * \copyright    PyroTeam, Polytech-Lille
+ * \copyright    2016, Association de Robotique de Polytech Lille All rights reserved
  * \license
  * \version
  */
@@ -75,4 +75,4 @@ void MessageCatalog::add()
     m_catalogType[t.code()] = createMsg<T>;
 }
 
-#endif
+#endif /* MESSAGECATALOG_H_ */

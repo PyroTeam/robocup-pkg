@@ -38,12 +38,12 @@ int main(int argc, char **argv)
     nh.param<int>("portIn", portIn, 5001);
     int portOut = 5001;
     nh.param<int>("portOut", portOut, 5001);
-    std::string adresseIP;
-    nh.param<std::string>("adresseIP", adresseIP, "127.0.0.255");
+    std::string ipAddress;
+    nh.param<std::string>("ipAddress", ipAddress, "127.0.0.255");
 
     /* Création UdpPeer (permet l'envoi et la réception des données) */
     boost::asio::io_service io_service;
-    std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, portOut, portIn, adresseIP));
+    std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, portOut, portIn, ipAddress));
 
     /* Ajouts des protobufs au message catalogue */
     std::shared_ptr<MessageCatalog> msgCatalog(new(MessageCatalog));

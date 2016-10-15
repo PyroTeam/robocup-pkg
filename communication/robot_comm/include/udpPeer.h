@@ -6,7 +6,7 @@
  * \author       Coelen Vincent
  *               Tissot Elise (elise.tissot@polytech-lille.net)
  * \date         2015-04-06
- * \copyright    PyroTeam, Polytech-Lille
+ * \copyright    2016, Association de Robotique de Polytech Lille All rights reserved
  * \license
  * \version
  */
@@ -42,7 +42,7 @@ class UdpPeer
 		std::vector<unsigned char> m_buffer;
 		int m_portIn;
 		int m_portOut;
-        std::string m_adresseIP;
+        std::string m_ipAddress;
 
 		std::list<boost::asio::ip::udp::endpoint> m_localEndPoints;
 		bool isLocalEndpoint(boost::asio::ip::udp::endpoint ep);
@@ -57,11 +57,11 @@ class UdpPeer
 		void setDispatcher(std::shared_ptr<MessageDispatcher> dispatcher);
 		void setCatalog(std::shared_ptr<MessageCatalog> catalog);
 
-		UdpPeer(boost::asio::io_service& io_service, int portIn, int portOut, std::string adresseIP);
+		UdpPeer(boost::asio::io_service& io_service, int portIn, int portOut, std::string ipAddress);
 
         ~UdpPeer()
         {
         }
 };
 
-#endif
+#endif /* UDPPEER_H */

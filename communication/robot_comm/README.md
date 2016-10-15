@@ -1,5 +1,5 @@
 robot_comm
-==============
+==========
 Package de communication entre les robotinos
 
 Description

@@ -6,7 +6,7 @@
  * \author       Coelen Vincent
  *               Tissot Elise (elise.tissot@polytech-lille.net)
  * \date         2015-04-06
- * \copyright    PyroTeam, Polytech-Lille
+ * \copyright    2016, Association de Robotique de Polytech Lille All rights reserved
  * \license
  * \version
  */
@@ -34,13 +34,13 @@
 #define TAILLE_HEADER 18
 #define DEBUT_IV       2
 
-UdpPeer::UdpPeer(boost::asio::io_service& io_service, int portIn, int portOut, std::string adresseIP):
-m_portIn(portIn), m_portOut(portOut), m_socket(io_service), m_adresseIP(adresseIP)
+UdpPeer::UdpPeer(boost::asio::io_service& io_service, int portIn, int portOut, std::string ipAddress):
+m_portIn(portIn), m_portOut(portOut), m_socket(io_service), m_ipAddress(ipAddress)
 {
 	m_socket.open(boost::asio::ip::udp::v4());
 	boost::asio::socket_base::broadcast option(true);
 	m_socket.set_option(option);
-	m_broadcastEndpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string(m_adresseIP), m_portOut);
+	m_broadcastEndpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string(m_ipAddress), m_portOut);
 	m_bufferRecv.resize(TAILLE_BUFFER, 0);
 	m_remoteEndpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address_v4::any(), m_portIn);
 	m_socket.bind(m_remoteEndpoint);
@@ -111,7 +111,8 @@ void UdpPeer::send(std::shared_ptr<google::protobuf::Message>& msg)
         boost::asio::placeholders::bytes_transferred));
 }
 
-/*void UdpPeer::setCrypto(std::vector<unsigned char> key, EncryptUtils::CIPHER_TYPE cipher)
+/* A garder pour l'instant, raison du comment inconnue
+void UdpPeer::setCrypto(std::vector<unsigned char> key, EncryptUtils::CIPHER_TYPE cipher)
 {
 	m_encryptUtil.setConfig(key, cipher);
 }*/

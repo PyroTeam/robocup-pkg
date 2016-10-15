@@ -43,7 +43,6 @@ private:
 
         //send it via UdpPeer
         m_udpPeer->send(proto_msg);
-        //std::cout << "Send udp msg" <<std::endl;
     }
 
 };
@@ -51,7 +50,7 @@ private:
 template<class T>
 TopicToUdpEntry<T>::TopicToUdpEntry(std::shared_ptr<UdpPeer> &udpPeer, const std::string &name) : EntryPoint(udpPeer, name)
 {
-    m_sub = m_nh.subscribe<T, TopicToUdpEntry>(m_name, 1000, &TopicToUdpEntry::Callback, this);
+    m_sub = m_nh.subscribe<T, TopicToUdpEntry>(m_name, 1, &TopicToUdpEntry::Callback, this);
 }
 
 

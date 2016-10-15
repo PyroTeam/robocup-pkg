@@ -6,7 +6,7 @@
  * \author       Coelen Vincent (vincent.coelen@polytech-lille.net)
  *               Tissot Elise
  * \date         2015-06-02
- * \copyright    PyroTeam, Polytech-Lille
+ * \copyright    2016, Association de Robotique de Polytech Lille All rights reserved
  * \license
  * \version
  */
@@ -37,7 +37,7 @@ private:
     std::unordered_map<int, ros::Publisher> m_pubs;
     //ros::Publisher m_activeRobots_pub;
     std::vector<comm_msg::active_robot> m_activeRobots;
-    
+
 };
 
 UdpToTopicEntry<Beacon,nav_msgs::Odometry>::UdpToTopicEntry(std::shared_ptr<UdpPeer> &udpPeer, const std::string &name) : EntryPoint(udpPeer, name)
@@ -45,8 +45,7 @@ UdpToTopicEntry<Beacon,nav_msgs::Odometry>::UdpToTopicEntry(std::shared_ptr<UdpP
     comm_msg::active_robot robot;
     robot.nb_robot = 0;
     robot.ip = "";
-    robot.last_time_active.sec = 0;
-    robot.last_time_active.nsec = 0;
+    robot.last_time_active = ros::Time(0,0);
 
     m_activeRobots.resize(4, robot);
 }
@@ -75,11 +74,12 @@ void UdpToTopicEntry<Beacon,nav_msgs::Odometry>::execute(google::protobuf::Messa
     Time* time = m.mutable_timestamp();
     m_activeRobots[m.nb_robot()].last_time_active.sec = time->sec();
     m_activeRobots[m.nb_robot()].last_time_active.nsec = time->nsec();
-    
-    /*std::shared_ptr<comm_msg::active_robots> rosMsgActiveRobots; 
+
+    //Publication des messages désaxtivée temporairement
+    /*std::shared_ptr<comm_msg::active_robots> rosMsgActiveRobots;
     rosMsgActiveRobots[m.nb_robot()] = rosMsgActiveRobot;*/
 
-    /*m_activeRobots_pub = m_nh.advertise<comm_msg::active_robots>("/activeRobots", 1000);
+    /*m_activeRobots_pub = m_nh.advertise<comm_msg::active_robots>("/activeRobots", 1);
     m_activeRobots.publish(*rosMsgActiveRobots);*/
 }
 
@@ -88,4 +88,4 @@ void UdpToTopicEntry<Beacon,nav_msgs::Odometry>::getActiveRobots(std::vector<com
     robot = m_activeRobots;
 }
 
-#endif
+#endif /* UDPTOTOPICBEACON_H */

@@ -66,17 +66,17 @@ add_message_files(
 	Robot.msg
 	RobotInfo.msg
     activity.msg
-  active_robot.msg
-  active_robots.msg
-  landmarks.msg
+    active_robot.msg
+    active_robots.msg
+    landmarks.msg
 )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+    FILES
+    ReportMachine.srv
+	PrepareMachine.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(

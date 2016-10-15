@@ -54,7 +54,7 @@ void UdpToTopicEntry<T,P>::execute(google::protobuf::Message &msg)
     {
         std::string name = "/test/";
         name.append(m.name());
-        ros::Publisher pub = m_nh.advertise<P>(name, 1000);
+        ros::Publisher pub = m_nh.advertise<P>(name, 1);
         pub.publish(*rosMsg);
         m_pubs[m.name()] = pub;
     }
