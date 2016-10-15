@@ -1,0 +1,6 @@
+message Obstacle
+{
+	optional int32 code = 1 [default = 6];
+
+	required string name = 2;
+}

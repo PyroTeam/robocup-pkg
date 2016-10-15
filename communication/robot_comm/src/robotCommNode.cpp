@@ -1,80 +1,121 @@
-
-#include "ros/ros.h"
-#include "std_msgs/String.h"
+#include <functional>
+#include <ros/ros.h>
+#include <std_msgs/String.h>
+#include <geometry_msgs/Pose2D.h>
+#include <nav_msgs/Odometry.h>
+#include <tf/transform_datatypes.h>
 
 #include "Activity.pb.h"
 #include "Beacon.pb.h"
-#include "UdpPeer.h"
+#include "udpPeer.h"
 #include "encryptUtils.h"
 #include "topicToUdpEntry.h"
+#include "udpToTopicEntry.h"
+#include "udpToTopicBeacon.h"
+#include "messageCatalog.h"
 
 #include "comm_msg/activity.h"
+#include "comm_msg/landmarks.h"
 
 #include <initializer_list>
 #include <vector>
+
+// Variables globales
+geometry_msgs::Pose2D g_pose;
+ros::Time g_time;
+
+void PoseCallback(const nav_msgs::Odometry &odom);
 
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "InterRobotComm");
     ros::NodeHandle nh;
 
-    //chargement de la configuration
+    /* Chargement de la configuration */
     int robotNumber;
     nh.param<int>("robotNumber", robotNumber, 0);
+    int portIn = 5001;
+    nh.param<int>("portIn", portIn, 5001);
+    int portOut = 5001;
+    nh.param<int>("portOut", portOut, 5001);
+    std::string ipAddress;
+    nh.param<std::string>("ipAddress", ipAddress, "127.0.0.255");
 
-    //test EncryptUils
-    std::string skey = "azertyuiop";
-    std::vector<unsigned char> key(skey.begin(), skey.end());
-    std::vector<unsigned char> iv;
-
-    EncryptUtils eu(key, EncryptUtils::AES_CBC_128);
-
-    std::string msg = "PyroTeam, test Encrypt Utils, robot Comm node";
-    std::vector<unsigned char> message(msg.begin(), msg.end());
-    std::vector<unsigned char> EncryptedMessage;
-    std::vector<unsigned char> DecryptedMessage;
-
-    eu.encrypt(message,  EncryptedMessage, iv);
-
-    std::cout << "IV : ";
-    for(auto &i: iv)
-    {
-        std::cout << " " << std::hex << std::uppercase << int(i);
-    }
-    std::cout << std::endl;
-    std::cout << "Encrypted Message : ";
-    for(auto &i: EncryptedMessage)
-    {
-        std::cout << " " << std::hex << std::uppercase << int(i);
-    }
-    std::cout << std::endl;
-
-
-    eu.decrypt(EncryptedMessage, DecryptedMessage, iv);
-
-    std::cout << "Decrypted Message : ";
-    for(auto &i: DecryptedMessage)
-    {
-        std::cout << i;
-    }
-    std::cout << std::endl;
-    //fin test EncryptUtils
-
-    //test TopicToUdpEntry
+    /* Création UdpPeer (permet l'envoi et la réception des données) */
     boost::asio::io_service io_service;
-    int port;
-    std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, port));
-    TopicToUdpEntry<comm_msg::activity> test_inpt(udpPeer, "manager/activity");
+    std::shared_ptr<UdpPeer> udpPeer(new UdpPeer(io_service, portOut, portIn, ipAddress));
 
+    /* Ajouts des protobufs au message catalogue */
+    std::shared_ptr<MessageCatalog> msgCatalog(new(MessageCatalog));
+    msgCatalog->add<Activity>();
+    msgCatalog->add<Beacon>();
+    msgCatalog->add<Landmarks>();
+    udpPeer->setCatalog(msgCatalog);
 
-    ros::Rate loop_rate(100);
+    /* TopicToUdp et UdpToTopic */
+    UdpToTopicEntry<Activity, comm_msg::activity> udpToTopicActivity(udpPeer, "activity");
+    TopicToUdpEntry<comm_msg::activity> topicToUdpActivity(udpPeer, "/activity");
+
+    UdpToTopicEntry<Landmarks, comm_msg::landmarks> udpToTopicLandmarks(udpPeer, "landmarks");
+    TopicToUdpEntry<comm_msg::landmarks> topicToUdpLandmarks(udpPeer, "/landmarks");
+
+    /* Ajout des protobufs au message dispatcher */
+    std::shared_ptr<MessageDispatcher> msgDispatcher(new(MessageDispatcher));
+    msgDispatcher->Add<Activity>(std::function<void(google::protobuf::Message&)>(
+        boost::bind(&UdpToTopicEntry<Activity, comm_msg::activity>::execute, &udpToTopicActivity, _1)));
+    msgDispatcher->Add<Landmarks>(std::function<void(google::protobuf::Message&)>(
+        boost::bind(&UdpToTopicEntry<Landmarks, comm_msg::landmarks>::execute, &udpToTopicLandmarks, _1)));
+
+    /* Traitement message beacon */
+    ros::Subscriber pose_sub = nh.subscribe("/odom", 1000, &PoseCallback);
+    ros::Rate loop_rate(1);
+
+    g_pose.x = 0;
+    g_pose.y = 0;
+    g_pose.theta = 0;
+    g_time = ros::Time::now();
+
+    std::shared_ptr<Beacon> beacon(new Beacon);
+    std::shared_ptr<google::protobuf::Message> proto_msg;
+    proto_msg = beacon;
+
+    UdpToTopicEntry<Beacon, nav_msgs::Odometry> udpToTopicBeacon(udpPeer, "beacon");
+    msgDispatcher->Add<Beacon>(std::function<void(google::protobuf::Message&)>(
+        boost::bind(&UdpToTopicEntry<Beacon, nav_msgs::Odometry>::execute, &udpToTopicBeacon, _1)));
+    udpPeer->setDispatcher(msgDispatcher);
+
+    comm_msg::active_robots rosMsgActiveRobots;
+    ros::Publisher activeRobots_pub = nh.advertise<comm_msg::active_robots>("/activeRobots", 1000);
+    /* Fin du traitement du message beacon */
+
     while(ros::ok())
     {
+        Time* time = beacon->mutable_timestamp();
+        time->set_sec(g_time.sec);
+        time->set_nsec(g_time.nsec);
+        beacon->set_nb_robot(robotNumber);
+        Pose2D* pose = beacon->mutable_pose();
+        pose->set_x(g_pose.x);
+        pose->set_y(g_pose.y);
+        pose->set_theta(g_pose.theta);
 
+        udpPeer->send(proto_msg);
 
+        udpToTopicBeacon.getActiveRobots(rosMsgActiveRobots.robot);
+        activeRobots_pub.publish(rosMsgActiveRobots);
 
+		io_service.poll();
         ros::spinOnce();
         loop_rate.sleep();
     }
     return 0;
+}
+
+void PoseCallback(const nav_msgs::Odometry &odom)
+{
+    g_pose.x = odom.pose.pose.position.x;
+    g_pose.y = odom.pose.pose.position.y;
+    g_pose.theta = tf::getYaw(odom.pose.pose.orientation);
+
+    g_time = ros::Time::now();
 }

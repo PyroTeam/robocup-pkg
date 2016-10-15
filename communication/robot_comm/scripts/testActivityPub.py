@@ -5,7 +5,7 @@ from comm_msg.msg import activity
 def testPub():
     pub = rospy.Publisher('activity', activity, queue_size=10)
     rospy.init_node('testPubActivity', anonymous=True)
-    rate = rospy.Rate(1) # 10hz
+    rate = rospy.Rate(1)
     while not rospy.is_shutdown():
         activity_msg  = activity()
         activity_msg.nb_robot = 1

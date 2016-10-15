@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  geometry_msgs
+  nav_msgs
   message_generation
   comm_msg
 )
@@ -85,7 +87,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 catkin_package(
    INCLUDE_DIRS include
 #  LIBRARIES robot_comm
-   CATKIN_DEPENDS message_runtime roscpp rospy std_msgs
+   CATKIN_DEPENDS message_runtime roscpp rospy std_msgs geometry_msgs nav_msgs
 #  DEPENDS system_lib
 )
 
@@ -112,6 +114,8 @@ PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS
   proto_msg/Pose2D.proto
   proto_msg/OrderRequest.proto
   proto_msg/OrderResponse.proto
+  proto_msg/Landmarks.proto
+  proto_msg/Obstacle.proto
 )
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -124,7 +128,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 ## Declare a cpp executable
 add_executable(robot_comm_node
   src/robotCommNode.cpp
-  src/UdpPeer.cpp
+  src/messageCatalog.cpp
+  src/udpPeer.cpp
   src/encryptUtils.cpp
   src/entryPoint.cpp
   src/topicToUdpEntry.cpp
@@ -132,7 +137,6 @@ add_executable(robot_comm_node
   src/msgConvertUtils.cpp
   ${PROTO_SRCS}
   ${PROTO_HDRS})
-
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -149,7 +153,8 @@ target_link_libraries(robot_comm_node
   ${PROTOBUF_LIBRARIES}
   ${OPENSSL_LIBRARIES}
 )
-set_target_properties(robot_comm_node PROPERTIES COMPILE_FLAGS "-std=c++0x -g3")
+
+set_target_properties(robot_comm_node PROPERTIES COMPILE_FLAGS "-std=c++11 -g3")
 
 #############
 ## Install ##

@@ -1,0 +1,10 @@
+import "Pose2D.proto";
+
+message Landmarks
+{
+	optional int32 code = 1 [default = 5];
+
+	required string name = 2;
+
+    required Pose2D landmarks = 3;
+}
