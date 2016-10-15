@@ -43,12 +43,12 @@ int main(int argc, char **argv)
     std::shared_ptr<Heuristic> heuristic(new EuclidianHeuristic());
     std::shared_ptr<Heuristic> heuristicDiag(new DiagonalHeuristic());
     graph->setHeuristic(heuristicDiag);
-    std::shared_ptr<UpdateGraph> updateGraph(new UpdateGridMapGraph("objectDetection/grid", graph));
+    std::shared_ptr<UpdateGraph> updateGraph(new UpdateGridMapGraph("pathFinder/grid", graph));
 
 
     //publication des path et pathSmooth pour le debug
-    ros::Publisher path_pub = nh.advertise<nav_msgs::Path>("navigation/path", 1000);
-    ros::Publisher pathSmooth_pub = nh.advertise<nav_msgs::Path>("navigation/pathSmooth", 1000);
+    ros::Publisher path_pub = nh.advertise<nav_msgs::Path>("navigation/path", 1);
+    ros::Publisher pathSmooth_pub = nh.advertise<nav_msgs::Path>("navigation/pathSmooth", 1);
 
     PathPlanner pathPlanner(graph, "navigation/generatePath");
 

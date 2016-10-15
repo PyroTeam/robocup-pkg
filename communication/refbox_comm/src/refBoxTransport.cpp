@@ -52,7 +52,7 @@ RefBoxTransport::RefBoxTransport()
 	m_seq = 0;
 	m_peer_public = NULL;
 	m_peer_team = NULL;
-	
+
 	m_crypto_setup = false;
 
 	m_quit = false;
@@ -60,16 +60,16 @@ RefBoxTransport::RefBoxTransport()
 	m_crypto_key = "randomkey";
 	m_cipher = "aes-128-cbc";
 
-	m_config = NULL;	
+	m_config = NULL;
 }
 
 
 void get_actualTime(unsigned long &sec, unsigned long &nsec)
 {
     struct timespec actualTime;
-    
+
     clock_gettime(CLOCK_REALTIME, &actualTime);
-    
+
     sec = actualTime.tv_sec;
     nsec = actualTime.tv_nsec;
 }
@@ -96,9 +96,9 @@ void RefBoxTransport::init(std::string teamColor)
     {
         m_team_name = m_config->get_string("/llsfrb/game/team");
     }
-    
+
     m_team_color = ((teamColor == "cyan") ? CYAN : MAGENTA);
-    
+
     //chargement de la config réseau
 	if (m_config->exists("/llsfrb/comm/public-peer/send-port")
 			&& m_config->exists("/llsfrb/comm/public-peer/recv-port"))
@@ -107,8 +107,8 @@ void RefBoxTransport::init(std::string teamColor)
 				m_config->get_string("/llsfrb/comm/public-peer/host"),
 				m_config->get_uint("/llsfrb/comm/public-peer/recv-port"),
 				m_config->get_uint("/llsfrb/comm/public-peer/send-port"));
-	} 
-	else 
+	}
+	else
 	{
 		m_peer_public = new ProtobufBroadcastPeer(
 				m_config->get_string("/llsfrb/comm/public-peer/host"),
@@ -130,15 +130,15 @@ void RefBoxTransport::init(std::string teamColor)
 			+ ((m_team_color == CYAN) ? "cyan" : "magenta") + "-peer/";
 
     if (m_config->exists((cfg_prefix + "send-port").c_str())
-		    && m_config->exists((cfg_prefix + "recv-port").c_str())) 
+		    && m_config->exists((cfg_prefix + "recv-port").c_str()))
     {
 	    m_peer_team = new ProtobufBroadcastPeer(
 			    m_config->get_string((cfg_prefix + "host").c_str()),
 			    m_config->get_uint((cfg_prefix + "recv-port").c_str()),
 			    m_config->get_uint((cfg_prefix + "send-port").c_str()),
 			    &message_register /*, crypto_key, cipher*/);
-    } 
-    else 
+    }
+    else
     {
 	    m_peer_team = new ProtobufBroadcastPeer(
 			    m_config->get_string((cfg_prefix + "host").c_str()),
@@ -150,7 +150,7 @@ void RefBoxTransport::init(std::string teamColor)
 	m_peer_public->signal_received().connect(boost::bind(&RefBoxTransport::handle_message, this, _1, _2, _3, _4));
 	m_peer_public->signal_recv_error().connect(boost::bind(&RefBoxTransport::handle_recv_error, this, _1, _2));
 	m_peer_public->signal_send_error().connect(boost::bind(&RefBoxTransport::handle_send_error, this, _1));
-	
+
 	m_peer_team->signal_received().connect(boost::bind(&RefBoxTransport::handle_message, this, _1, _2, _3, _4));
 	m_peer_team->signal_recv_error().connect(boost::bind(&RefBoxTransport::handle_recv_error, this, _1, _2));
 	m_peer_team->signal_send_error().connect(boost::bind(&RefBoxTransport::handle_send_error, this, _1));
@@ -169,8 +169,8 @@ void RefBoxTransport::init(std::string teamColor)
 void RefBoxTransport::startTimer()
 {
 	m_timer = new boost::asio::deadline_timer(m_io_service);
-	//m_timer_->expires_from_now(boost::posix_time::seconds(2));	
-	//m_timer_->expires_from_now(boost::posix_time::time_duration(0,0,2,0));	
+	//m_timer_->expires_from_now(boost::posix_time::seconds(2));
+	//m_timer_->expires_from_now(boost::posix_time::time_duration(0,0,2,0));
 	m_timer->expires_at( boost::posix_time::second_clock::local_time() + boost::posix_time::seconds(2));
 
 	//m_timer_->async_wait(boost::bind(&RefBoxTransport::handle_timer, this, _1));
@@ -191,11 +191,11 @@ bool RefBoxTransport::isExit()
 
 void RefBoxTransport::signal_handler(const boost::system::error_code& error, int signum)
 {
-    if (!error) 
+    if (!error)
     {
         quit = true;
 
-        if (m_timer) 
+        if (m_timer)
         {
             m_timer->cancel();
         }
@@ -219,41 +219,41 @@ void RefBoxTransport::handle_message(boost::asio::ip::udp::endpoint &sender,
 {
 
     m_dataMutex.lock();
-    
-    
+
+
     //first we test if we need to change connexion to encryption mode
     std::shared_ptr<GameState> gs;
-    if ((gs = std::dynamic_pointer_cast<GameState>(msg))) 
+    if ((gs = std::dynamic_pointer_cast<GameState>(msg)))
     {
-		if (m_team_name == gs->team_cyan() || m_team_name == gs->team_magenta()) 
+		if (m_team_name == gs->team_cyan() || m_team_name == gs->team_magenta())
 		{
-            if (m_team_name == gs->team_cyan() && m_team_color != CYAN) 
+            if (m_team_name == gs->team_cyan() && m_team_color != CYAN)
             {
 	            printf("WARNING: sending as magenta, but our team is announced as cyan by refbox!\n");
-            } 
-            else if (m_team_name == gs->team_magenta() && m_team_color != MAGENTA) 
+            }
+            else if (m_team_name == gs->team_magenta() && m_team_color != MAGENTA)
             {
 	            printf("WARNING: sending as cyan, but our team is announced as magenta by refbox!\n");
             }
-            if (!m_crypto_setup) 
+            if (!m_crypto_setup)
             {
                 m_crypto_setup = true;
 
-                try 
+                try
                 {
                     m_crypto_key = m_config->get_string(
                             ("/llsfrb/game/crypto-keys/" + m_team_name).c_str());
                     //printf("Set crypto key to %s (cipher %s)\n",
                     //m_crypto_key.c_str(), m_cipher.c_str());
                     m_peer_team->setup_crypto(m_crypto_key, m_cipher);
-                } 
-                catch (Exception &e) 
+                }
+                catch (Exception &e)
                 {
                     printf("No encryption key configured for team, not enabling crypto");
                 }
             }
-        } 
-        else if (m_crypto_setup) 
+        }
+        else if (m_crypto_setup)
         {
             printf("Our team is not set, training game? Disabling crypto.\n");
             m_crypto_setup = false;
@@ -263,7 +263,6 @@ void RefBoxTransport::handle_message(boost::asio::ip::udp::endpoint &sender,
 
     //then we process messages
     m_msgDispatch->Go(*msg);
- 
+
     m_dataMutex.unlock();
 }
-

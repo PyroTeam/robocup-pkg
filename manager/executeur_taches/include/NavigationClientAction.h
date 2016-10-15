@@ -1,11 +1,11 @@
 /**
- * \file        NavigationClientAction.h
- * \class       NavigationClientAction
- * \brief       classe client pour l'action navigation
- * \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
- * \date        2015-10-10
- * \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
- */
+* \file        NavigationClientAction.h
+* \class       NavigationClientAction
+* \brief       classe client pour l'action navigation
+* \author      Hage Chehade Sandra (sandra.hage-chehade@polytech-lille.net)
+* \date        2015-10-10
+* \copyright   2016, Association de Robotique de Polytech Lille All rights reserved
+*/
 
 #ifndef NAVIGATIONCLIENTACTION_H
 #define NAVIGATIONCLIENTACTION_H
@@ -20,14 +20,10 @@
 
 class NavigationClientAction
 {
-	public:
-		/* Constructeur */
-		NavigationClientAction();
+public:
+    NavigationClientAction();
+    virtual  ~NavigationClientAction();
 
-		/* Déstructeur */
-		virtual  ~NavigationClientAction();
-
-		/* Méthodes */
-		int goToAPoint(geometry_msgs::Pose2D dest_point);
+    int goToAPoint(geometry_msgs::Pose2D dest_point);
 };
 #endif

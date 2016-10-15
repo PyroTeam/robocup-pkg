@@ -1,2 +1,7 @@
-bool state
+# PUSH = true
+# TURN = false
+
+bool servo
+
+bool open
 ---

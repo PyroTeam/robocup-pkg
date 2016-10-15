@@ -1,23 +1,51 @@
 #include "GripperClientSrv.h"
 
-	GripperClientSrv::GripperClientSrv() {}
-	GripperClientSrv::~GripperClientSrv(){}
-
-bool GripperClientSrv::gripper_uppdate(bool new_state)
+GripperClientSrv::GripperClientSrv()
 {
-	ros::NodeHandle n;
-	ros::ServiceClient client = n.serviceClient<manager_msg::SetGripper>("fakeRobotino/setGripper");
-	manager_msg::SetGripper srv;
-	srv.request.state = new_state;
-	if (client.call(srv))
-	{
-		ROS_INFO("State: No problem");
-	}
-	else
-	{
-		ROS_ERROR("Failed to call service gripper_uppdate");
-		return true;
-	}
-	return false;
+
 }
 
+GripperClientSrv::~GripperClientSrv()
+{
+
+}
+
+bool GripperClientSrv::grip()
+{
+    ros::NodeHandle n;
+    ros::ServiceClient client = n.serviceClient<gripper_msg::Grip>("fakeRobotino/Grip");
+    gripper_msg::Grip srv;
+
+    srv.request.cmd = gripper_msg::GripRequest::TAKE;
+
+    if (client.call(srv))
+    {
+        ROS_INFO("Taking: No problem");
+    }
+    else
+    {
+        ROS_ERROR("Failed to call service TAKE");
+        return true;
+    }
+    return false;
+}
+
+bool GripperClientSrv::let()
+{
+    ros::NodeHandle n;
+    ros::ServiceClient client = n.serviceClient<gripper_msg::Grip>("fakeRobotino/Grip");
+    gripper_msg::Grip srv;
+
+    srv.request.cmd = gripper_msg::GripRequest::LET;
+
+    if (client.call(srv))
+    {
+        ROS_INFO("Letting: No problem");
+    }
+    else
+    {
+        ROS_ERROR("Failed to call service LET");
+        return true;
+    }
+    return false;
+}

@@ -1,0 +1,371 @@
+<!-- env_global.launch
+
+	 Ce fichier est utilisé pour tester lancer à la fois la simulation et le jeu en réel.
+	 Merci de ne pas le modifier à la légère.
+	 Si des éléments doivent être modifiés pour des besoins ponctuels, merci de rendre le comportement
+	 paramétrables grâce aux arguments configurables en haut du fichier.
+	 Sinon, merci de ne pas commiter vos modifications ...
+ -->
+<launch>
+
+    <env name="ROSCONSOLE_CONFIG_FILE" value="$(find gazebo_sim_launch)/cfg/custom_rosconsole.conf"/>
+	<!-- Configurable args -->
+    <arg name="sim" default="false" />
+    <arg name="use_amcl" default="false" />
+    <arg name="use_mrpt" default="false" />
+    <arg name="workaround" default="true" />
+    <arg name="use_viz_markers" default="false" />
+    <!-- Le laser peut se trouver sur la tour ou sur la base, la transformation sera différente -->
+    <arg name="laser_on_base" default="false" />
+
+
+	<!-- Sensors real positions (constant args) -->
+    <!-- Laser on base -->
+	<arg if="$(arg laser_on_base)" name="laser_x_on_base_or_tower" value="0.0925" /><!-- 0.46.5/2 - 0.14-->
+    <!-- Laser on tower -->
+    <arg unless="$(arg laser_on_base)" name="laser_x_on_base_or_tower" value="0.0563" />
+
+
+	<arg unless="$(arg sim)" name="tf_laser_x" value="$(arg laser_x_on_base_or_tower)" />
+	<arg unless="$(arg sim)" name="tf_laser_y" value="0.0" />
+	<arg unless="$(arg sim)" name="tf_laser_z" value="0.255" />
+
+	<arg unless="$(arg sim)" name="tf_gripper_x" value="0.23" />
+	<arg unless="$(arg sim)" name="tf_gripper_y" value="0.00" />
+	<arg unless="$(arg sim)" name="tf_gripper_z" value="0.90" />
+
+	<arg unless="$(arg sim)" name="tf_towercam_x" value="0.1125" /><!-- 0.46.5/2 - 0.12 -->
+	<arg unless="$(arg sim)" name="tf_towercam_y" value="-0.015" />
+	<arg unless="$(arg sim)" name="tf_towercam_z" value="0.55" />
+
+	<arg unless="$(arg sim)" name="tf_platformcam_x" value="0.0" />
+	<arg unless="$(arg sim)" name="tf_platformcam_y" value="0.00" />
+	<arg unless="$(arg sim)" name="tf_platformcam_z" value="0.90" />
+
+    <!-- Simulated real positions (constant args) -->
+	<arg if="$(arg sim)" name="tf_laser_x" value="0.11" /><!--  0.10+0.01-->
+	<arg if="$(arg sim)" name="tf_laser_y" value="0.0" />
+	<arg if="$(arg sim)" name="tf_laser_z" value="0.255" /><!-- 0.235+0.0175 -->
+
+	<arg if="$(arg sim)" name="tf_gripper_x" value="0.23" />
+	<arg if="$(arg sim)" name="tf_gripper_y" value="0.00" />
+	<arg if="$(arg sim)" name="tf_gripper_z" value="0.90" />
+
+	<arg if="$(arg sim)" name="tf_towercam_x" value="0.20" />
+	<arg if="$(arg sim)" name="tf_towercam_y" value="0.0" />
+	<arg if="$(arg sim)" name="tf_towercam_z" value="0.53" />
+
+	<arg if="$(arg sim)" name="tf_platformcam_x" value="0.0" />
+	<arg if="$(arg sim)" name="tf_platformcam_y" value="0.0" />
+	<arg if="$(arg sim)" name="tf_platformcam_z" value="0.90" />
+
+
+
+	<!-- Others constant args -->
+    <!-- TODO: Use tf_prefix. Vérifier que tout n'est pas buggé -->
+	<arg if="$(arg sim)" name="use_tf_prefix" value="true"/>
+	<arg unless="$(arg sim)" name="use_tf_prefix" value="false"/>
+
+
+	<!-- ROSCONSOLE Config -->
+ 	<env name="ROSCONSOLE_FORMAT" value="[${node}]:${message}"/>
+
+
+	<!-- Gazebo -->
+	<include if="$(arg sim)" file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(find gazebo_sim_launch)/worlds/field2015_sixRobots.world"/>
+		<arg name="paused" value="false"/>
+		<arg name="use_sim_time" value="true"/>
+		<arg name="extra_gazebo_args" default=""/>
+		<arg name="gui" value="false"/>
+		<arg name="headless" value="false"/>
+		<arg name="debug" value="false"/>
+		<arg name="physics" default="ode"/>
+		<arg name="verbose" default="false"/>
+	</include>
+
+
+	<!-- Root params -->
+	<param name="/workaround" value="$(arg workaround)" />
+	<param name="nbTeam" value="1" />
+	<param name="team1" value="Pyro" />
+	<param name="team2" value="" />
+
+	<!-- Pyro TEAM -->
+	<!-- Team Namespace -->
+	<group ns="Pyro">
+		<param name="nbRobot" value="1" />
+		<param name="machineLocation/robot1" value="robotino1" />
+		<param name="machineLocation/robot2" value="" />
+		<param name="machineLocation/robot3" value="" />
+		<param name="machineLocation/centralizedManager" value="" />
+	</group>
+
+
+	<!-- Robotino Pyro 1 -->
+	<group ns="robotino1">
+		<arg name="robotNamespace" value="robotino1"/>
+															<!-- Added slash is MANDATORY -->
+		<arg if="$(arg use_tf_prefix)"     name="tf_prefix" value="$(arg robotNamespace)/"/>
+		<arg unless="$(arg use_tf_prefix)" name="tf_prefix" value=""/>
+
+		<!-- Params -->
+		<param name="teamName" value="Pyro" />
+		<param name="teamColor" value="cyan" />
+		<param name="robotNumber" value="1" />
+		<param name="robotName" value="R1" />
+		<param if="$(arg sim)" name="simuRobotNamespace" value="$(arg robotNamespace)" />
+		<param unless="$(arg sim)" name="simuRobotNamespace" value="" />
+
+        <group > <!-- name="BASE"  Odom Cmd_Vel & co -->
+    		<!-- Robotino node -->
+    		<arg unless="$(arg sim)"
+                 name="hostname" default="127.0.0.1" />
+
+    		<node unless="$(arg sim)"
+                  name="robotino_node" pkg="robotino_node" type="robotino_node"
+    			  respawn="true" output="log">
+    			<param name="hostname" value="$(arg hostname)" />
+    			<!-- TODO: Vérifier l'utilité de ces valeurs et les augmenter si possible -->
+    			<param name="max_linear_vel" value="0.5" />
+    			<param name="min_linear_vel" value="0.001" />
+    			<param name="max_angular_vel" value="3.0" />
+    			<param name="min_angular_vel" value="0.001" />
+    			<!-- TODO: Vérifier l'utilité de ces paramètres et les retirer si possible -->
+    			<param name="downsample_kinect" value="true" />
+    			<param name="leaf_size_kinect" value="0.04" />
+    			<remap from="robotino_joint_states" to="joint_states" />
+    			<!-- Remap topics -->
+    			<remap from="cmd_vel" to="hardware/cmd_vel" />
+    			<remap from="bumper" to="hardware/bumper" />
+    		</node>
+
+            <!-- Load the gazebo_to_ros node -->
+            <param if="$(arg sim)" name="objectDetection/useSimLandmarks" value="false" />
+            <node if="$(arg sim)"
+                  pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
+
+            <!-- Load the tf_broadcaster node -->
+            <node if="$(arg sim)"
+                  pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node">
+              <param name="onlyOdomToBase" value="true"/>
+            </node>
+
+            <!-- Gripper transform -->
+    		<node pkg="tf" type="static_transform_publisher" name="base_link_to_gripper_link"
+    			  respawn="true" output="log"
+                  args="$(arg tf_gripper_x) $(arg tf_gripper_y) $(arg tf_gripper_z)
+    			  0 0 0
+    			  $(arg tf_prefix)base_link $(arg tf_prefix)gripper_link   100" />
+
+    		<!-- Odometry -->
+    		<node unless="$(arg sim)"
+                  name="robotino_odometry_node" pkg="robotino_node" type="robotino_odometry_node"
+    			  respawn="true" output="log">
+    			<param name="hostname" value="$(arg hostname)" />
+    			<!-- Remap topics -->
+    			<remap from="odom" to="hardware/odom" />
+    		</node>
+
+    		<!-- LaserScan -->
+    		<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser_link"
+    			  respawn="true" output="log"
+                  args="$(arg tf_laser_x) $(arg tf_laser_y) $(arg tf_laser_z)
+    			  0 0 0
+    			  $(arg tf_prefix)base_link $(arg tf_prefix)laser_link   100" />
+
+    		<node unless="$(arg sim)" name="hokuyo_laser_node" pkg="hokuyo_node" type="hokuyo_node"
+    			  respawn="true" output="log">
+
+    			<!-- Starts up slower when true, but timestamps will be accurate. -->
+    			<param name="calibrate_time" type="bool" value="true"/>
+
+    			<!-- Set the port to connect to -->
+    			<param name="port" type="string" value="/dev/laserscan"/>
+
+    			<!-- Remplit le champ intensity du sensor_msgs/LaserScan. Pas utile pour nous -->
+    			<param name="intensity" type="bool" value="false"/>
+
+       			<param name="frame_id" type="string" value="$(arg tf_prefix)laser_link" />
+    			<!-- Remap topics -->
+    			<remap from="scan" to="hardware/scan" />
+    		</node>
+
+            <!-- Platform Camera -->
+            <node pkg="tf" type="static_transform_publisher" name="base_link_to_platform_camera_link"
+                  respawn="true" output="log"
+                  args="$(arg tf_platformcam_x) $(arg tf_platformcam_y) $(arg tf_platformcam_z)
+                -1.57 0 -1.57
+                $(arg tf_prefix)base_link $(arg tf_prefix)platform_camera_link   100" />
+
+            <!-- Light Signal Detection (Cam) -->
+            <node unless="$(arg sim)"
+                  name="platform_cam_node" pkg="usb_cam" type="usb_cam_node"
+                  respawn="true" output="log">
+                <param name="video_device" value="/dev/cam_platform" />
+                <param name="camera_frame_id" value="$(arg tf_prefix)platform_camera_link" />
+                <param name="camera_info_url" value="package://ar_tag/cfg/C920_calibration.yaml" />
+                <!-- The camera name. This must match the name in the camera calibration -->
+                <param name="camera_name" value="C920" />
+            </node>
+
+    		<!-- Tower Camera -->
+    		<node pkg="tf" type="static_transform_publisher" name="base_link_to_tower_camera_link"
+    			  respawn="true" output="log"
+    		      args="$(arg tf_towercam_x) $(arg tf_towercam_y) $(arg tf_towercam_z)
+    			-1.57 0 -1.57
+    			$(arg tf_prefix)base_link $(arg tf_prefix)tower_camera_link   100" />
+
+    		<!-- ArTag (Cam) -->
+    		<node unless="$(arg sim)"
+    			  name="tower_cam_node" pkg="usb_cam" type="usb_cam_node"
+    			  respawn="true" output="log">
+    			<param name="video_device" value="/dev/cam_tower" />
+    			<param name="camera_frame_id" value="$(arg tf_prefix)tower_camera_link" />
+    			<param name="camera_info_url" value="package://ar_tag/cfg/C270_calibration.yaml" />
+    			<!-- The camera name. This must match the name in the camera calibration -->
+    			<param name="camera_name" value="C270" />
+    		</node>
+        </group>
+
+
+        <group > <!-- name="COMPUTER_VISION" Alvar et ArTag -->
+
+            <!-- Paramètres du traitement d'image -->
+            <rosparam file="$(find feu_tricolore)/param/roi.yaml" />
+
+    		<!-- Light Signal Detection (ComputerVision) -->
+    		<node unless="$(arg sim)"
+    			  pkg="feu_tricolore" name="lightSignalDetection" type="light_signal_detection_node"
+    			  respawn="true" output="log">
+    			<remap from="hardware/camera/platform_camera/image_raw" to="platform_cam_node/image_raw" />
+    		</node>
+    		<node if="$(arg sim)" pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>
+
+    		<!-- ArTag (ComputerVision) -->
+    		<include file="$(find ar_tag)/launch/alvar_simu.launch">
+    			<arg unless="$(arg sim)" name="cam_image_topic" value="tower_cam_node/image_raw" />
+    			<arg unless="$(arg sim)" name="cam_info_topic" value="tower_cam_node/camera_info" />
+    			<arg if="$(arg sim)" name="cam_image_topic" value="hardware/camera/tower_camera/image_raw" />
+    			<arg if="$(arg sim)" name="cam_info_topic" value="hardware/camera/tower_camera/camera_info" />
+    			<arg name="marker_size" value="13.0" />
+    			<arg name="output_frame" value="$(arg tf_prefix)tower_camera_link"/>
+    			<arg name="respawn" value="true"/>
+    			<arg name="output" value="log"/>
+    		</include>
+
+            <include file="$(find ar_tag)/launch/ar_tag.launch"/>
+        </group>
+
+        <group  > <!-- name="NAVIGATION" Alvar et ArTag -->
+                <!-- Load the navigation manager -->
+                <node pkg="navigation_manager" name="navigation_manager" type="navigation_manager_node" respawn="true" output="log"/>
+                <node if="$(arg sim)" pkg="navigation_manager" name="move_request" type="moveRequest_node.py" />
+
+                <!-- Load the path finder -->
+                <param name="navigation/pathFinder/aStarTieBreaking" value="true" />
+                <param name="navigation/pathFinder/weightData" value="0.45" />
+                <param name="navigation/pathFinder/weightSmooth" value="0.35" />
+                <node pkg="path_finder" name="path_finder_node" type="path_finder_node" respawn="true" output="log"/>
+
+                <!-- Load the path tracker -->
+                <node pkg="topic_tools" name="mux_gridMap" type="mux" args="pathFinder/grid objectDetection/grid objectDetection/gridObstacles" respawn="true" output="log"/>
+                <node pkg="grid_maker" name="grid_obstacles_node" type="grid_obstacles_node" respawn="true" output="log"/>
+                <!-- Load the path tracker -->
+                <rosparam command="load" file="$(find path_tracker)/cfg/navigation_pathTracker.yaml" />
+                <node pkg="path_tracker" name="path_tracker_node" type="path_tracker_node" respawn="true" output="log"/>
+
+        		<!-- Paramètres de l'approche finale -->
+        		<rosparam file="$(find gazebo_sim_launch)/param/robotino1_navigation.yaml" />
+
+        		<!-- Load the final approach -->
+        		<node pkg="final_approach" name="final_approach" type="finalApproaching_node"
+                      respawn="true" output="log" >
+                      <remap from="ar_pose_marker" to="computerVision/ar_pose_marker" />
+                </node>
+        </group>
+
+        <group > <!-- name="LOCALISATION" Detection machine et localisation -->
+            <!-- Load the detection and localisation nodes -->
+            <node pkg="localisation" name="landmarks_extraction" type="landmarks_extraction" respawn="true" output="log"/>
+            <node if="$(arg use_viz_markers)" pkg="localisation" name="visualisation" type="visualisation" respawn="true" output="log"/>
+            <node pkg="localisation" name="odometry_correction" type="odometry_correction" respawn="true" output="log"/>
+            <node pkg="localisation" name="cartographie" type="cartographie" respawn="true" output="log"/>
+
+            <!-- Load the grid maker -->
+            <!-- TODO: Vérifier les fichiers de conf utilisés -->
+            <rosparam if="$(arg sim)" command="load" file="$(find grid_maker)/cfg/field_simulator.yaml" />
+            <rosparam unless="$(arg sim)" command="load" file="$(find grid_maker)/cfg/fieldRoboCup2016.yaml" />
+            <node pkg="grid_maker" name="grid_maker" type="grid_maker_node" respawn="true" output="log"/>
+
+            <!-- AMCL -->
+            <node if="$(arg use_amcl)"
+                  pkg="amcl" type="amcl" name="amcl" respawn="true" output="log">
+              <remap from="map" to="objectDetection/grid_fieldAndMachines"/>
+              <remap from="scan" to="hardware/scan"/>
+
+              <param name="odom_model_type" value="omni"/>
+              <param name="odom_alpha5" value="0.1"/>
+              <param name="transform_tolerance" value="0.2" />
+              <param name="gui_publish_rate" value="10.0"/>
+              <param name="laser_max_beams" value="30"/>
+
+              <param name="min_particles" value="30"/>
+              <param name="max_particles" value="500"/>
+
+              <param name="kld_err" value="0.05"/>
+              <param name="kld_z" value="0.99"/>
+
+              <param name="odom_alpha1" value="0.2"/>
+              <param name="odom_alpha2" value="0.2"/>
+              <param name="odom_alpha3" value="0.8"/>
+              <param name="odom_alpha4" value="0.2"/>
+
+              <param name="laser_z_hit" value="0.5"/>
+              <param name="laser_z_short" value="0.05"/>
+              <param name="laser_z_max" value="0.05"/>
+              <param name="laser_z_rand" value="0.5"/>
+              <param name="laser_sigma_hit" value="0.2"/>
+              <param name="laser_lambda_short" value="0.1"/>
+              <param name="laser_model_type" value="likelihood_field"/>
+
+              <param name="laser_likelihood_max_dist" value="1.0"/>
+              <param name="update_min_d" value="0.2"/>
+              <param name="update_min_a" value="0.5"/>
+              <param name="resample_interval" value="1"/>
+              <param name="transform_tolerance" value="0.1"/>
+              <param name="recovery_alpha_slow" value="0.0"/>
+              <param name="recovery_alpha_fast" value="0.0"/>
+
+              <param name="use_map_topic" value="false"/>
+              <param name="odom_frame_id" value="robotino1/odom"/>
+              <param name="base_frame_id" value="robotino1/base_link"/>
+            </node>
+
+            <node if="$(arg use_amcl)" pkg="localisation" type="initpose.sh" name="initpose" args="Pyro 1"/>
+
+    		<!-- Static transforms -->
+    		<node unless="$(arg use_amcl)"
+                  pkg="tf" type="static_transform_publisher" name="map_to_odom"
+    			  respawn="true" output="log"
+                  args="0 0 0
+    			  0 0 0
+    			  map $(arg tf_prefix)odom   100" />
+        </group>
+
+        <group  > <!--name="MANAGER" Executeur et Generateur-->
+            <!-- Load the manager -->
+            <node pkg="executeur_taches" name="executeur" type="test_exec" respawn="true" output="log"/>
+            <node pkg="executeur_taches" name="reporter" type="report_all_machines" respawn="true" output="log"/>
+            <node pkg="generateur_taches" name="manager" type="main_node" respawn="true" output="log"/>
+        </group>
+
+        <group > <!-- name="COM"  Executeur et Generateur-->
+            <!-- Load the refbox comm -->
+            <node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"
+                  respawn="true" output="log"/>
+        </group>
+    </group>
+
+
+</launch>

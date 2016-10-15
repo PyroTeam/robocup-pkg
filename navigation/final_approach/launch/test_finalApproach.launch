@@ -12,7 +12,6 @@
 		<env name="ROSCONSOLE_CONFIG_FILE" value="$(find final_approach)/cfg/custom_rosconsole.conf"/>
 
 		<!-- Load the final approach -->
-		launch-prefix="gdb -ex run --args"
 		<node pkg="final_approach" name="final_approach" type="finalApproaching_node"
 			  output="screen" launch-prefix="$(arg prefix)"/>
 	</group>

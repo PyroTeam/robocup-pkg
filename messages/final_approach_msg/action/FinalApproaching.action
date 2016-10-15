@@ -24,7 +24,14 @@ int8 parameter
 
 # Special order. Final Approach distance will be controlled by "navigation/finalApproachControl"(std_msgs/Float32) topic
 # NB: LIGHT parameter is not allowed for this mode
-bool controlled_approach
+
+int8 DEFAULT = 0
+int8 CONTROLLED_BY_TOPIC = 1
+int8 CONTROLLED_BY_PARAM = 2
+
+int8 mode
+
+float32 control_param
 
 ---
 
@@ -37,6 +44,7 @@ int8 OBSTACLE_HIT  = 1
 int8 OBSTACLE_NEAR = 2
 int8 COMPLETE_SCAN = 3
 int8 INVALID_ORDER = 4
+int8 ARTAG_LOST    = 5
 
 int8 state
 

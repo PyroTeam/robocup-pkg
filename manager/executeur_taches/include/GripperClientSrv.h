@@ -12,19 +12,18 @@
 
 
 #include "ros/ros.h"
-#include "manager_msg/SetGripper.h"
+#include "gripper_msg/SetGripper.h"
+#include "gripper_msg/Grip.h"
 #include <cstdlib>
 
-class GripperClientSrv 
+class GripperClientSrv
 {
-	public:
-		/* Constructeur */
-		GripperClientSrv();
+public:
+    GripperClientSrv();
+    virtual  ~GripperClientSrv();
 
-		/* Déstructeur */
-		virtual  ~GripperClientSrv();
-
-		/* Méthodes */
-		bool gripper_uppdate(bool new_state);
+    //bool gripper_update(gripper_msg::GripRequest setpoint);
+    bool grip();
+    bool let();
 };
 #endif

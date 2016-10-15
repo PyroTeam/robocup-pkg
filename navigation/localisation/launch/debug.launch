@@ -1,8 +1,0 @@
-<launch>
-
-    <group ns="localisation">
-        <node pkg="localisation" name="EKF_node_2" type="EKF_node_2" launch-prefix="ddd --args"/>
-    </group>
-
-
-</launch>

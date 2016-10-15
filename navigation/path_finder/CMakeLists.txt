@@ -108,7 +108,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include include/path_finder
 #  LIBRARIES path_finder
-  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs deplacement_msg actionlib_msgs actionlib
+  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs deplacement_msg actionlib_msgs actionlib occupancy_grid_utils
 #  DEPENDS system_lib
 )
 
@@ -153,7 +153,7 @@ add_executable(${PROJECT_NAME}_node
     src/path_finder_node.cpp
 )
 
-set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-std=c++11")
+set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS "-O3 -std=c++11")
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
