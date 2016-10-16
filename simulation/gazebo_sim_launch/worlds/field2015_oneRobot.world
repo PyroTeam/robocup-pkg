@@ -7,7 +7,7 @@
 			<real_time_factor>1</real_time_factor>
 			<real_time_update_rate>1000</real_time_update_rate>
 		</physics>
-		
+
 		<!-- A global light source -->
 		<include>
 		  <uri>model://sun</uri>
@@ -23,95 +23,141 @@
       	  <pose>-3.5 -0.5 0 0 0 1.5775</pose>
 		</include>
 
-<!-- 		<include>
-		  <uri>model://robotino_bbu2</uri>
-      	  <pose>-4.5 -0.5 0 0 0 3.1415</pose>
-		</include>
 
+		<!-- Top camera (for supervision) - static, so no link needed-->
 		<include>
-		  <uri>model://robotino_bbu3</uri>
-      	  <pose>-5.5 -0.5 0 0 0 3.1415</pose>
-		</include> -->
-
-		<include>
-		  <name>CBS</name>
-		  <uri>model://mps_base</uri>
-      	  <pose>-5 4.9 0 0 0 0.43</pose>
-		</include>
-		<include>
-		  <name>MBS</name>
-		  <uri>model://mps_base</uri>
-      	  <pose>5 4.9 0 0 0 -0.43</pose>
-		</include>
-
-		<include>
-		  <name>CCS1</name>
-		  <uri>model://mps_cap</uri>
-      	  <pose>-1 5.5 0 0 0 2.4</pose>
-		</include>
-		<include>
-		  <name>MCS1</name>
-		  <uri>model://mps_cap</uri>
-      	  <pose>1 5.5 0 0 0 -2.4</pose>
-		</include>
-
-		<include>
-		  <name>CCS2</name>
-		  <uri>model://mps_cap</uri>
-      	  <pose>-3.2 2.5 0 0 0 1.57</pose>
-		</include>
-		<include>
-		  <name>MCS2</name>
-		  <uri>model://mps_cap</uri>
-      	  <pose>3.2 2.5 0 0 0 -1.57</pose>
+			<uri>model://overview_cam_ros</uri>
+			<name>top_camera</name>
 		</include>
 
 
+		<!-- Tags (are later grapped by the mps)  -->
 		<include>
-		  <name>CRS1</name>
-		  <uri>model://mps_ring</uri>
-      	  <pose>1 2.5 0 0 0 3.1</pose>
+			<name>tag_01</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
 		</include>
 		<include>
-		  <name>MRS1</name>
-		  <uri>model://mps_ring</uri>
-      	  <pose>-1 2.5 0 0 0 -3.1</pose>
+			<name>tag_02</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_17</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_18</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_33</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_34</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_177</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_178</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_65</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_66</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_81</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_82</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_97</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_98</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_113</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_114</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_129</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_130</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_145</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_146</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_161</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_162</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_49</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_50</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
 		</include>
 
-		<include>
-		  <name>CRS2</name>
-		  <uri>model://mps_ring</uri>
-      	  <pose>4.8 3.5 0 0 0 0.8</pose>
-		</include>
-		<include>
-		  <name>MRS2</name>
-		  <uri>model://mps_ring</uri>
-      	  <pose>-4.8 3.5 0 0 0 -0.8</pose>
-		</include>
 
+		<!-- Plugins for the world -->
+		<plugin name="llsf_refbox_comm" filename="libllsf_refbox_comm.so" />
+		<plugin name="timesync" filename="libtimesync.so" />
+		<plugin name="mps_placement" filename="libmps_placement.so" />
 
-		<include>
-		  <name>CDS</name>
-		  <uri>model://mps_delivery</uri>
-      	  <pose>4.5 0.5 0 0 0 0.75</pose>
-		</include>
-		<include>
-		  <name>MDS</name>
-		  <uri>model://mps_delivery</uri>
-      	  <pose>-4.5 0.5 0 0 0 -0.75</pose>
-		</include>
-
-
-		<!-- Pucks  -->
-		<include>
-		  <name>puck_0</name>
-		  <uri>model://workpiece_base</uri>
-		  <pose>0.97 2.5 0.92 0 0 0</pose>
-		</include>
-		<include>
-		  <name>puck_1</name>
-		  <uri>model://workpiece_base</uri>
-		  <pose>0.97 2.6 0.92 0 0 0</pose>
-		</include>
 	</world>
 </sdf>

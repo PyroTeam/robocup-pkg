@@ -23,76 +23,140 @@
 		<!-- PyroTeam robotinos -->
 		<!-- Robotino 1 -->
 		<include>
-			<uri>model://robotino_pyro_1</uri>
+			<uri>model://robotino_pyro</uri>
 			<pose>-3.5 -0.5 0 0 0 1.5775</pose>
 			<name>robotino1</name>
 		</include>
 
 
+		<!-- Top camera (for supervision) - static, so no link needed-->
+		<include>
+			<uri>model://overview_cam_ros</uri>
+			<name>top_camera</name>
+		</include>
 
 
-
-		<!-- Top camera (for supervision) -->
-		<model name="top_camera">
-			<static>true</static>
-
-			<link name="top_camera_link">
-				<pose>0 2.5 100 0 1.57 1.57</pose>
-
-				<gravity>false</gravity>
-
-				<inertial>
-					<mass>0.02</mass>
-				</inertial>
-
-				<visual name="visual">
-					<pose>0 0 0 0 1.6 0</pose>
-					<geometry>
-						<cylinder>
-							<length>0.02</length>
-							<radius>0.03</radius>
-						</cylinder>
-					</geometry>
-					<cast_shadows>false</cast_shadows>
-					<material>
-						<ambient>0.0 0.0 0.0 0.1</ambient>
-						<diffuse>0.0 0.0 0.0 0.11</diffuse>
-					</material>
-				</visual>
-
-				<sensor type="camera" name="top_camera">
-					<update_rate>30.0</update_rate>
-					<camera name="top_camera">
-						<horizontal_fov>0.13</horizontal_fov>
-						<image>
-							<width>1200</width>
-							<height>700</height>
-							<format>R8G8B8</format>
-						</image>
-						<clip>
-							<near>0.02</near>
-							<far>300</far>
-						</clip>
-					</camera>
-					<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-						<alwaysOn>true</alwaysOn>
-						<updateRate>0.0</updateRate>
-						<cameraName>gazebo/camera/top_camera</cameraName>
-						<imageTopicName>image_raw</imageTopicName>
-						<cameraInfoTopicName>camera_info</cameraInfoTopicName>
-						<frameName>top_camera_link</frameName>
-						<hackBaseline>0.07</hackBaseline>
-						<distortionK1>0.0</distortionK1>
-						<distortionK2>0.0</distortionK2>
-						<distortionK3>0.0</distortionK3>
-						<distortionT1>0.0</distortionT1>
-						<distortionT2>0.0</distortionT2>
-					</plugin>
-				</sensor>
-			</link>
-		</model>
-
-
+		<!-- Tags (are later grapped by the mps)  -->
+		<include>
+			<name>tag_01</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_02</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_17</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_18</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_33</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_34</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_177</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_178</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_65</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_66</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_81</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_82</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_97</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_98</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_113</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_114</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_129</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_130</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_145</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_146</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_161</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_162</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_49</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
+		<include>
+			<name>tag_50</name>
+			<uri>model://tag</uri>
+			<pose>0 -1 0.2 0 0 0</pose>
+		</include>
 
 
 		<!-- Plugins for the world -->
