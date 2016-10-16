@@ -37,7 +37,10 @@ void machineInfoCallback(ModelStatesConstPtr &msg);
 /////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
+	gazebo::common::Time waitTimeout(0.1);
+
 	printf("Gazebo to ros Started\n");
+
 	// Load gazebo
 	gazebo::setupClient(argc, argv);
 
@@ -51,11 +54,10 @@ int main(int argc, char **argv)
 
 	// Publish to a Gazebo topic
 	gazebo::transport::PublisherPtr pub =
-		// node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/robotino_pyro/RobotinoSim/MotorMove/");
 		node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/" +robotName+ "/RobotinoSim/MotorMove/");
 
-	// Wait for a subscriber to connect
-	pub->WaitForConnection();
+	// Wait for a subscriber to connect (blocking but will still exit on SIGINT)
+	while (ros::ok() && !pub->WaitForConnection(waitTimeout));
 
 	// Subscriber
 	ros::Subscriber subCmdVel = nh.subscribe("hardware/cmd_vel", 1, &cmdVelCallback);

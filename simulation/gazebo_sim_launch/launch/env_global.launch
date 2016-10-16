@@ -42,7 +42,7 @@
 	<arg unless="$(arg sim)" name="tf_platformcam_y" value="0.00" />
 	<arg unless="$(arg sim)" name="tf_platformcam_z" value="0.90" />
 
-    <!-- Simulated real positions (constant args) -->
+    <!-- Sensors simulated positions (constant args) -->
 	<arg if="$(arg sim)" name="tf_laser_x" value="0.11" /><!--  0.10+0.01-->
 	<arg if="$(arg sim)" name="tf_laser_y" value="0.0" />
 	<arg if="$(arg sim)" name="tf_laser_z" value="0.255" /><!-- 0.235+0.0175 -->
@@ -116,6 +116,7 @@
 		<param name="robotName" value="R1" />
 		<param if="$(arg sim)" name="simuRobotNamespace" value="$(arg robotNamespace)" />
 		<param unless="$(arg sim)" name="simuRobotNamespace" value="" />
+
 
         <group > <!-- name="BASE"  Odom Cmd_Vel & co -->
     		<!-- Robotino node -->
