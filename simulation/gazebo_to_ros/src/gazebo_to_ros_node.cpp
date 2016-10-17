@@ -14,6 +14,7 @@
 #include <deplacement_msg/Machines.h>
 #include <gazebo_msgs/ModelStates.h>
 #include <tf/transform_datatypes.h>
+#include <gripper_msg/Grip.h>
 
 double g_x, g_y, g_z;
 /* TODO: Find better solution */
@@ -22,6 +23,7 @@ ros::Publisher g_pubOdom;
 ros::Publisher g_pubLightSignal;
 ros::Publisher g_pubMachines;
 deplacement_msg::Machines g_landmarks;
+gazebo::transport::PublisherPtr g_gripper_pub;
 
 
 #include <boost/bind.hpp>
@@ -31,6 +33,7 @@ void cmdVelCallback(const geometry_msgs::TwistConstPtr& msg);
 void gpsCallback(ConstPosePtr &msg);
 void lightSignalCallback(ConstLightSignalDetectionPtr &msg);
 void machineInfoCallback(ModelStatesConstPtr &msg);
+bool gripperSrvCallback(gripper_msg::GripRequest &request, gripper_msg::GripResponse &response);
 
 #define ROBOTINO_NAME "robotino_pyro"
 
@@ -53,11 +56,17 @@ int main(int argc, char **argv)
 	nh.param<std::string>("simuRobotNamespace", robotName, ROBOTINO_NAME);
 
 	// Publish to a Gazebo topic
-	gazebo::transport::PublisherPtr pub =
+	gazebo::transport::PublisherPtr move_pub =
 		node->Advertise<gazebo::msgs::Vector3d>("/gazebo/pyro_2015/" +robotName+ "/RobotinoSim/MotorMove/");
 
+	// Service client for gripper
+	ros::ServiceServer gripper_srv = nh.advertiseService("hardware/low_level/gripper_srv", gripperSrvCallback);
+    // Publisher for gripper
+    g_gripper_pub = node->Advertise<gazebo::msgs::Int>("/gazebo/pyro_2015/" +robotName+ "/RobotinoSim/SetGripper/");
+
 	// Wait for a subscriber to connect (blocking but will still exit on SIGINT)
-	while (ros::ok() && !pub->WaitForConnection(waitTimeout));
+	while (ros::ok() && !move_pub->WaitForConnection(waitTimeout));
+	while (ros::ok() && !g_gripper_pub->WaitForConnection(waitTimeout));
 
 	// Subscriber
 	ros::Subscriber subCmdVel = nh.subscribe("hardware/cmd_vel", 1, &cmdVelCallback);
@@ -85,7 +94,7 @@ int main(int argc, char **argv)
 		gazebo::msgs::Vector3d msg;
 		gazebo::msgs::Set(&msg, vect);
 
-		pub->Publish(msg);
+		move_pub->Publish(msg);
 		ros::spinOnce();
 	}
 
@@ -156,7 +165,6 @@ void machineInfoCallback(ModelStatesConstPtr &msg)
 	bool useMachineInfo = false;
 	nh.param<bool>("objectDetection/useSimLandmarks", useMachineInfo, false);
 
-	printf("MachineInfo Callback\n");
 	if (!useMachineInfo)
 		return;
 
@@ -193,4 +201,22 @@ void machineInfoCallback(ModelStatesConstPtr &msg)
 		g_pubMachines.publish(g_landmarks);
 
 	return;
+}
+
+
+bool gripperSrvCallback(gripper_msg::GripRequest &request, gripper_msg::GripResponse &response)
+{
+	gazebo::msgs::Int gripper_order;
+	if(request.cmd == gripper_msg::GripRequest::TAKE)
+	{
+		gripper_order.set_data(0);
+	}
+	else if (request.cmd == gripper_msg::GripRequest::LET)
+	{
+		gripper_order.set_data(1);
+
+	}
+	g_gripper_pub->Publish(gripper_order);
+
+	return true;
 }

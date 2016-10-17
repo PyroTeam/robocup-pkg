@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
     deplacement_msg
     gazebo_msgs
     tf
+    gripper_msg
 )
 
 # Depend on system install of Gazebo
@@ -60,5 +61,6 @@ target_link_libraries(gazebo_to_ros_node
 add_dependencies(gazebo_to_ros_node
 	trait_im_msg_gencpp
 	deplacement_msg_gencpp
+	${catkin_EXPORTED_TARGETS}
 )
 #set_target_properties(gazebo_to_ros_node PROPERTIES COMPILE_FLAGS "-g3")

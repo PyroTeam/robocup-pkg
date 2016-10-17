@@ -1,3 +1,4 @@
+int8 NOTHING = 0
 int8 TAKE = 1
 int8 LET = 2
 
