@@ -361,7 +361,7 @@
             <node pkg="generateur_taches" name="manager" type="main_node" respawn="true" output="log"/>
         </group>
 
-        <group > <!-- name="COM"  Executeur et Generateur-->
+        <group > <!-- name="COM" Communication refbox et inter-robots -->
             <!-- Load the refbox comm -->
             <node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"
                   respawn="true" output="log"/>

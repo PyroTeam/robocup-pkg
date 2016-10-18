@@ -162,6 +162,14 @@
     			  map $(arg tf_prefix)odom   100" />
         </group>
 
+
+
+        <group > <!-- name="COM"  Executeur et Generateur-->
+            <!-- Load the refbox comm -->
+            <node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"
+                  respawn="true" output="log"/>
+        </group>
+
     </group>
 
 
