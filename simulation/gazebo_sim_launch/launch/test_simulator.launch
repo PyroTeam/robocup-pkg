@@ -164,7 +164,7 @@
 
 
 
-        <group > <!-- name="COM"  Executeur et Generateur-->
+        <group if="true" > <!-- name="COM"  Communication refbox et inter-robots -->
             <!-- Load the refbox comm -->
             <node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"
                   respawn="true" output="log"/>
