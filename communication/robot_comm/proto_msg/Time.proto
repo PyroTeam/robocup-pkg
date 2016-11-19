@@ -1,6 +1,8 @@
-message Time{
+message Time
+{
 	required int64 sec = 1;
-	required int64 usec = 2;
+
+	required int64 nsec = 2;
 }
 
 

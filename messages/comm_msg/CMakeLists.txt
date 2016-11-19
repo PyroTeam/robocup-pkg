@@ -5,11 +5,11 @@ project(comm_msg)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-	roscpp
-   	rospy
-   	std_msgs
-	message_generation
-    geometry_msgs
+  roscpp
+  rospy
+  std_msgs
+  geometry_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -66,7 +66,9 @@ add_message_files(
 	Robot.msg
 	RobotInfo.msg
     activity.msg
-
+    active_robot.msg
+    active_robots.msg
+    landmarks.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -104,7 +106,6 @@ catkin_package(
 #  LIBRARIES comm_msg
    CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
 #  DEPENDS system_lib
-	CATKIN_DEPENDS message_runtime
 )
 
 ###########

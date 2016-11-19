@@ -15,6 +15,7 @@
 #include <string>
 #include <ros/ros.h>
 
+#include "udpPeer.h"
 #include "entryPoint.h"
 #include "msgConvertUtils.h"
 
@@ -36,17 +37,12 @@ private:
     void Callback(const boost::shared_ptr<const T> &msg)
     {
         std::shared_ptr<google::protobuf::Message> proto_msg;
+
         //convert msg to google::protobuf::Message
-        rosToProtobuf(msg, proto_msg);
-        //test à supprimer
-        if(std::shared_ptr<Activity> a = std::dynamic_pointer_cast<Activity>(proto_msg))
-        {
-            std::cout << "nb robot = " << a->nb_robot() << std::endl;
-        }
+        rosToProtobuf(msg, proto_msg, m_name);
 
         //send it via UdpPeer
-        //m_udpPeer.send(proto_msg);
-        std::cout << "Receive msg" <<std::endl;
+        m_udpPeer->send(proto_msg);
     }
 
 };
@@ -54,7 +50,7 @@ private:
 template<class T>
 TopicToUdpEntry<T>::TopicToUdpEntry(std::shared_ptr<UdpPeer> &udpPeer, const std::string &name) : EntryPoint(udpPeer, name)
 {
-    m_sub = m_nh.subscribe<T, TopicToUdpEntry>(m_name, 1000, &TopicToUdpEntry::Callback, this);
+    m_sub = m_nh.subscribe<T, TopicToUdpEntry>(m_name, 1, &TopicToUdpEntry::Callback, this);
 }
 
 

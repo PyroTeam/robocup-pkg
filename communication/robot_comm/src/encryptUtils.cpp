@@ -13,6 +13,8 @@
 
 #include "encryptUtils.h"
 
+#include <iostream>
+
 #include <openssl/conf.h>
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -23,7 +25,8 @@ EncryptUtils::EncryptUtils()
 {
     std::string skey = "random_key";
     m_key.assign(skey.begin(), skey.end());
-    m_cipher = AES_CBC_128;
+    m_key.resize(32, 0);
+    m_cipher = AES_CBC_256;
 }
 
 EncryptUtils::EncryptUtils(Buffer_type &key, CIPHER_TYPE cipher)
@@ -54,6 +57,7 @@ void EncryptUtils::encrypt(const Buffer_type &message, Buffer_type &encryptedMes
 {
     getRandomIV(initialisationVector);
     unsigned char cipherMessage[message.size()+16];
+
     int len = encrypt_(message.data(), message.size(), m_key.data(), initialisationVector.data(), cipherMessage);
 
     encryptedMessage.assign(cipherMessage, cipherMessage+len);
@@ -63,6 +67,7 @@ void EncryptUtils::encrypt(const Buffer_type &message, Buffer_type &encryptedMes
 void EncryptUtils::decrypt(const Buffer_type &encryptedMessage, Buffer_type &decryptedMessage, const Buffer_type &initialisationVector)
 {
     unsigned char decryptedMsg[encryptedMessage.size()+16];
+
     int len = decrypt_(encryptedMessage.data(), encryptedMessage.size(), m_key.data(), initialisationVector.data(), decryptedMsg);
 
     decryptedMessage.assign(decryptedMsg, decryptedMsg + len);
@@ -72,78 +77,99 @@ void EncryptUtils::decrypt(const Buffer_type &encryptedMessage, Buffer_type &dec
 int EncryptUtils::encrypt_(const unsigned char *plaintext, int plaintext_len, unsigned char *key,
                            const unsigned char *iv, unsigned char *ciphertext)
 {
-  EVP_CIPHER_CTX *ctx;
+    EVP_CIPHER_CTX *ctx;
 
-  int len;
+    int len;
 
-  int ciphertext_len;
+    int ciphertext_len;
 
-  /* Create and initialise the context */
-  if(!(ctx = EVP_CIPHER_CTX_new())) handleErrors();
+    /* Create and initialise the context */
+    if(!(ctx = EVP_CIPHER_CTX_new()))
+    {
+        handleErrors();
+    }
 
-  /* Initialise the encryption operation. IMPORTANT - ensure you use a key
-   * and IV size appropriate for your cipher
-   * In this example we are using 256 bit AES (i.e. a 256 bit key). The
-   * IV size for *most* modes is the same as the block size. For AES this
-   * is 128 bits */
-  if(1 != EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv))
-    handleErrors();
+    /* Initialise the encryption operation. IMPORTANT - ensure you use a key
+    * and IV size appropriate for your cipher
+    * In this example we are using 256 bit AES (i.e. a 256 bit key). The
+    * IV size for *most* modes is the same as the block size. For AES this
+    * is 128 bits */
 
-  /* Provide the message to be encrypted, and obtain the encrypted output.
-   * EVP_EncryptUpdate can be called multiple times if necessary
-   */
-  if(1 != EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, plaintext_len))
-    handleErrors();
-  ciphertext_len = len;
+    if(1 != EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv))
+    {
+        handleErrors();
+    }
 
-  /* Finalise the encryption. Further ciphertext bytes may be written at
-   * this stage.
-   */
-  if(1 != EVP_EncryptFinal_ex(ctx, ciphertext + len, &len)) handleErrors();
-  ciphertext_len += len;
+    /* Provide the message to be encrypted, and obtain the encrypted output.
+    * EVP_EncryptUpdate can be called multiple times if necessary
+    */
+    if(1 != EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, plaintext_len))
+    {
+        handleErrors();
+    }
+    ciphertext_len = len;
 
-  /* Clean up */
-  EVP_CIPHER_CTX_free(ctx);
+    /* Finalise the encryption. Further ciphertext bytes may be written at
+    * this stage.
+    */
+    if(1 != EVP_EncryptFinal_ex(ctx, ciphertext + len, &len))
+    {
+        handleErrors();
+    }
+    ciphertext_len += len;
 
-  return ciphertext_len;
+    /* Clean up */
+    EVP_CIPHER_CTX_free(ctx);
+
+    return ciphertext_len;
 }
 
 
 int EncryptUtils::decrypt_(const unsigned char *ciphertext, int ciphertext_len, unsigned char *key,
                            const unsigned char *iv, unsigned char *plaintext)
 {
-  EVP_CIPHER_CTX *ctx;
+    EVP_CIPHER_CTX *ctx;
 
-  int len;
+    int len;
 
-  int plaintext_len;
+    int plaintext_len;
 
-  /* Create and initialise the context */
-  if(!(ctx = EVP_CIPHER_CTX_new())) handleErrors();
+    /* Create and initialise the context */
+    if(!(ctx = EVP_CIPHER_CTX_new()))
+    {
+        handleErrors();
+    }
 
-  /* Initialise the decryption operation. IMPORTANT - ensure you use a key
-   * and IV size appropriate for your cipher
-   * In this example we are using 256 bit AES (i.e. a 256 bit key). The
-   * IV size for *most* modes is the same as the block size. For AES this
-   * is 128 bits */
-  if(1 != EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv))
-    handleErrors();
+    /* Initialise the decryption operation. IMPORTANT - ensure you use a key
+    * and IV size appropriate for your cipher
+    * In this example we are using 256 bit AES (i.e. a 256 bit key). The
+    * IV size for *most* modes is the same as the block size. For AES this
+    * is 128 bits */
+    if(1 != EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv))
+    {
+        handleErrors();
+    }
 
-  /* Provide the message to be decrypted, and obtain the plaintext output.
-   * EVP_DecryptUpdate can be called multiple times if necessary
-   */
-  if(1 != EVP_DecryptUpdate(ctx, plaintext, &len, ciphertext, ciphertext_len))
-    handleErrors();
-  plaintext_len = len;
+    /* Provide the message to be decrypted, and obtain the plaintext output.
+    * EVP_DecryptUpdate can be called multiple times if necessary
+    */
+    if(1 != EVP_DecryptUpdate(ctx, plaintext, &len, ciphertext, ciphertext_len))
+    {
+        handleErrors();
+    }
+    plaintext_len = len;
 
-  /* Finalise the decryption. Further plaintext bytes may be written at
-   * this stage.
-   */
-  if(1 != EVP_DecryptFinal_ex(ctx, plaintext + len, &len)) handleErrors();
-  plaintext_len += len;
+    /* Finalise the decryption. Further plaintext bytes may be written at
+    * this stage.
+    */
+    if(1 != EVP_DecryptFinal_ex(ctx, plaintext + len, &len))
+    {
+        handleErrors();
+    }
+    plaintext_len += len;
 
-  /* Clean up */
-  EVP_CIPHER_CTX_free(ctx);
+    /* Clean up */
+    EVP_CIPHER_CTX_free(ctx);
 
-  return plaintext_len;
+    return plaintext_len;
 }
