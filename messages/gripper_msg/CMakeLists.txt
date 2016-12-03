@@ -25,7 +25,6 @@ add_message_files(
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
-  Grip.srv
   SetGripper.srv
 )
 

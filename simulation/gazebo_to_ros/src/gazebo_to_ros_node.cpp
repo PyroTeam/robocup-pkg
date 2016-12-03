@@ -14,7 +14,7 @@
 #include <deplacement_msg/Machines.h>
 #include <gazebo_msgs/ModelStates.h>
 #include <tf/transform_datatypes.h>
-#include <gripper_msg/Grip.h>
+#include <robotino_msgs/Grip.h>
 
 double g_x, g_y, g_z;
 /* TODO: Find better solution */
@@ -33,7 +33,7 @@ void cmdVelCallback(const geometry_msgs::TwistConstPtr& msg);
 void gpsCallback(ConstPosePtr &msg);
 void lightSignalCallback(ConstLightSignalDetectionPtr &msg);
 void machineInfoCallback(ModelStatesConstPtr &msg);
-bool gripperSrvCallback(gripper_msg::GripRequest &request, gripper_msg::GripResponse &response);
+bool gripperSrvCallback(robotino_msgs::GripRequest &request, robotino_msgs::GripResponse &response);
 
 #define ROBOTINO_NAME "robotino_pyro"
 
@@ -204,14 +204,14 @@ void machineInfoCallback(ModelStatesConstPtr &msg)
 }
 
 
-bool gripperSrvCallback(gripper_msg::GripRequest &request, gripper_msg::GripResponse &response)
+bool gripperSrvCallback(robotino_msgs::GripRequest &request, robotino_msgs::GripResponse &response)
 {
 	gazebo::msgs::Int gripper_order;
-	if(request.cmd == gripper_msg::GripRequest::TAKE)
+	if(request.cmd == robotino_msgs::GripRequest::TAKE)
 	{
 		gripper_order.set_data(0);
 	}
-	else if (request.cmd == gripper_msg::GripRequest::LET)
+	else if (request.cmd == robotino_msgs::GripRequest::LET)
 	{
 		gripper_order.set_data(1);
 

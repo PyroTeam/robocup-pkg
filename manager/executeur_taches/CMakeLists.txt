@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   common_utils
   geometry_utils
   generateur_taches
+  robotino_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -130,10 +131,7 @@ add_executable(
 )
 add_dependencies(
 	test_exec
-	manager_msg_gencpp
-	final_approach_msg_gencpp
-	trait_im_msg_gencpp
-	comm_msg_gencpp
+  ${catkin_EXPORTED_TARGETS}
 )
 set_target_properties(test_exec	PROPERTIES COMPILE_FLAGS "-std=c++11")
 

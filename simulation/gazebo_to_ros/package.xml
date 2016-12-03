@@ -27,7 +27,7 @@
   <build_depend>deplacement_msg</build_depend>
   <build_depend>gazebo_msgs</build_depend>
   <build_depend>tf</build_depend>
-  <build_depend>gripper_msg</build_depend>
+  <build_depend>robotino_msgs</build_depend>
 
   <run_depend>gazebo_ros</run_depend>
   <run_depend>nav_msgs</run_depend>
@@ -36,7 +36,7 @@
   <run_depend>deplacement_msg</run_depend>
   <run_depend>gazebo_msgs</run_depend>
   <run_depend>tf</run_depend>
-  <run_depend>gripper_msg</run_depend>
+  <run_depend>robotino_msgs</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

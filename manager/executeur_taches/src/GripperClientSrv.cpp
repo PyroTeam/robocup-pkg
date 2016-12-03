@@ -13,10 +13,10 @@ GripperClientSrv::~GripperClientSrv()
 bool GripperClientSrv::grip()
 {
     ros::NodeHandle n;
-    ros::ServiceClient client = n.serviceClient<gripper_msg::Grip>("fakeRobotino/Grip");
-    gripper_msg::Grip srv;
+    ros::ServiceClient client = n.serviceClient<robotino_msgs::Grip>("fakeRobotino/Grip");
+    robotino_msgs::Grip srv;
 
-    srv.request.cmd = gripper_msg::GripRequest::TAKE;
+    srv.request.cmd = robotino_msgs::GripRequest::TAKE;
 
     if (client.call(srv))
     {
@@ -33,10 +33,10 @@ bool GripperClientSrv::grip()
 bool GripperClientSrv::let()
 {
     ros::NodeHandle n;
-    ros::ServiceClient client = n.serviceClient<gripper_msg::Grip>("fakeRobotino/Grip");
-    gripper_msg::Grip srv;
+    ros::ServiceClient client = n.serviceClient<robotino_msgs::Grip>("fakeRobotino/Grip");
+    robotino_msgs::Grip srv;
 
-    srv.request.cmd = gripper_msg::GripRequest::LET;
+    srv.request.cmd = robotino_msgs::GripRequest::LET;
 
     if (client.call(srv))
     {
