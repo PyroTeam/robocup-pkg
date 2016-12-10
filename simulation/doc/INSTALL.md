@@ -1,7 +1,7 @@
 INSTALLATION - Environnement de simulation sur gazebo 
 =====================================================
 
-Cette documentation n'a pas vocation a expliquer en détails les procédures d'installation et de configuration de ROS.  
+Cette documentation n'a pas vocation à expliquer en détails les procédures d'installation et de configuration de ROS.  
 Quelques commandes d'installation de ROS seront tout de même données, mais ce document est rédigé pour un public ayant déjà effectué ou comprenant la procédure d'installation et de configuration de ROS.  
 Si ce n'est pas le cas, suivez d'abord les instructions du [wiki ROS](http://wiki.ros.org/).  
 

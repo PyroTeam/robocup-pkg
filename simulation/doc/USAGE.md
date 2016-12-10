@@ -17,4 +17,4 @@ roslaunch gazebo_sim_launch env_global.launch sim:=true
 Utilisation après lancement
 ---------------------------
 Dans les environnements de simulation complets, un plugin `mps_placement` est en charge de placer les machines MPS de la robocup sur le terrain, en conformité avec leur placement dans la referee box. En conséquence, la referee box doit être lancé pour que la simulation fonctionne.  
-`mps_placement` ne place pas les machines avant que le match soit lancé et pas avant 15secondes de match. Le chargement des MPS est long. Il est conseillé de passer la refbox en état `RUNNING` et en phase de `SETUP` jusqu'à ce que la simulation soit entièrement chargée.  
+`mps_placement` ne place pas les machines si la referee box est en état `PRE_GAME` et si la simulation n'a pas dépassé les 15 secondes d'éxecution. Le chargement des MPS est long. Il est conseillé de passer la refbox en phase de `SETUP` jusqu'à ce que la simulation soit entièrement chargée.  
