@@ -1,0 +1,242 @@
+<!-- test_simulator.launch
+
+	 Ce fichier est utilisé pour tester les différentes fonctionalités du simulateur.
+	 Merci de ne pas le modifier à la légère.
+	 Si des éléments doivent être modifiés pour des besoins ponctuels, merci de rendre le comportement
+	 paramétrables grâce aux arguments configurables en haut du fichier.
+	 Sinon, merci de ne pas commiter vos modifications ...
+ -->
+<launch>
+
+    <env name="ROSCONSOLE_CONFIG_FILE" value="$(find gazebo_sim_launch)/cfg/custom_rosconsole.conf"/>
+	<!-- Configurable args -->
+	<!-- Example: workaround (normalement pas utilisé ici) -->
+    <arg name="workaround" default="false" />
+    <arg name="gz_verbose" default="false" />
+    <arg name="gz_debug" default="false" />
+
+
+    <!-- Sensors simulated positions (constant args) -->
+	<arg name="tf_laser_x" value="0.11" /><!--  0.10+0.01-->
+	<arg name="tf_laser_y" value="0.0" />
+	<arg name="tf_laser_z" value="0.255" /><!-- 0.235+0.0175 -->
+
+	<arg name="tf_gripper_x" value="0.23" />
+	<arg name="tf_gripper_y" value="0.00" />
+	<arg name="tf_gripper_z" value="0.90" />
+
+	<arg name="tf_towercam_x" value="0.20" />
+	<arg name="tf_towercam_y" value="0.0" />
+	<arg name="tf_towercam_z" value="0.53" />
+
+	<arg name="tf_platformcam_x" value="0.0" />
+	<arg name="tf_platformcam_y" value="0.0" />
+	<arg name="tf_platformcam_z" value="0.90" />
+
+
+
+	<!-- Others constant args -->
+    <!-- TODO: Use tf_prefix. Vérifier que tout n'est pas buggé -->
+	<arg name="use_tf_prefix" value="true"/>
+
+
+	<!-- ROSCONSOLE Config -->
+ 	<env name="ROSCONSOLE_FORMAT" value="[${node}]:${message}"/>
+
+
+	<!-- Gazebo -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(find gazebo_sim_launch)/worlds/test_simulator.world"/>
+		<arg name="paused" value="false"/>
+		<arg name="use_sim_time" value="true"/>
+		<arg name="extra_gazebo_args" default=""/>
+		<arg name="gui" value="false"/>
+		<arg name="headless" value="false"/>
+		<arg name="debug" value="$(arg gz_debug)"/>
+		<arg name="physics" default="ode"/>
+		<arg name="verbose" default="$(arg gz_verbose)"/>
+	</include>
+
+
+	<!-- Root params -->
+	<param name="/exampleworkaround" value="$(arg workaround)" />
+	<param name="nbTeam" value="2" />
+	<param name="team1" value="Pyro" />
+	<param name="team2" value="Opposing" />
+
+	<!-- Pyro TEAM -->
+	<!-- Team Namespace -->
+	<group ns="Pyro">
+		<param name="nbRobot" value="1" />
+		<param name="machineLocation/robot1" value="robotino1" />
+		<param name="machineLocation/robot2" value="" />
+		<param name="machineLocation/robot3" value="" />
+		<param name="machineLocation/centralizedManager" value="" />
+	</group>
+
+
+	<!-- Robotino Pyro 1 -->
+	<group ns="robotino1">
+		<arg name="robotNamespace" value="robotino1"/>
+															<!-- Added slash is MANDATORY -->
+		<arg if="$(arg use_tf_prefix)"     name="tf_prefix" value="$(arg robotNamespace)/"/>
+		<arg unless="$(arg use_tf_prefix)" name="tf_prefix" value=""/>
+
+		<!-- Params -->
+		<param name="teamName" value="Pyro" />
+		<param name="teamColor" value="cyan" />
+		<param name="robotNumber" value="1" />
+		<param name="robotName" value="R1" />
+		<param name="simuRobotNamespace" value="$(arg robotNamespace)" />
+
+
+        <group > <!-- name="BASE"  Odom Cmd_Vel & co -->
+            <!-- Load the gazebo_to_ros node -->
+            <param name="objectDetection/useSimLandmarks" value="false" />
+            <node pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
+
+            <!-- Load the tf_broadcaster node -->
+            <node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node">
+              <param name="onlyOdomToBase" value="true"/>
+            </node>
+
+            <!-- Gripper transform -->
+    		<node pkg="tf" type="static_transform_publisher" name="base_link_to_gripper_link"
+    			  respawn="true" output="log"
+                  args="$(arg tf_gripper_x) $(arg tf_gripper_y) $(arg tf_gripper_z)
+    			  0 0 0
+    			  $(arg tf_prefix)base_link $(arg tf_prefix)gripper_link   100" />
+
+    		<!-- LaserScan -->
+    		<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser_link"
+    			  respawn="true" output="log"
+                  args="$(arg tf_laser_x) $(arg tf_laser_y) $(arg tf_laser_z)
+    			  0 0 0
+    			  $(arg tf_prefix)base_link $(arg tf_prefix)laser_link   100" />
+
+            <!-- Platform Camera -->
+            <node pkg="tf" type="static_transform_publisher" name="base_link_to_platform_camera_link"
+                  respawn="true" output="log"
+                  args="$(arg tf_platformcam_x) $(arg tf_platformcam_y) $(arg tf_platformcam_z)
+                -1.57 0 -1.57
+                $(arg tf_prefix)base_link $(arg tf_prefix)platform_camera_link   100" />
+
+    		<!-- Tower Camera -->
+    		<node pkg="tf" type="static_transform_publisher" name="base_link_to_tower_camera_link"
+    			  respawn="true" output="log"
+    		      args="$(arg tf_towercam_x) $(arg tf_towercam_y) $(arg tf_towercam_z)
+    			-1.57 0 -1.57
+    			$(arg tf_prefix)base_link $(arg tf_prefix)tower_camera_link   100" />
+        </group>
+
+
+        <group > <!-- name="COMPUTER_VISION" Alvar et ArTag -->
+
+            <!-- Paramètres du traitement d'image -->
+            <rosparam file="$(find feu_tricolore)/param/roi.yaml" />
+
+    		<!-- Light Signal Detection (ComputerVision) -->
+    		<node pkg="feu_tricolore" name="simLightDetection" type="sim_light_detection"/>
+
+    		<!-- ArTag (ComputerVision) -->
+    		<include file="$(find ar_tag)/launch/alvar_simu.launch">
+    			<arg name="cam_image_topic" value="hardware/camera/tower_camera/image_raw" />
+    			<arg name="cam_info_topic" value="hardware/camera/tower_camera/camera_info" />
+    			<arg name="marker_size" value="13.0" />
+    			<arg name="output_frame" value="$(arg tf_prefix)tower_camera_link"/>
+    			<arg name="respawn" value="true"/>
+    			<arg name="output" value="log"/>
+    		</include>
+
+            <include file="$(find ar_tag)/launch/ar_tag.launch"/>
+        </group>
+
+
+
+        <group > <!-- name="LOCALISATION" Detection machine et localisation -->
+    		<!-- Static transforms -->
+    		<node pkg="tf" type="static_transform_publisher" name="map_to_odom"
+    			  respawn="true" output="log"
+                  args="0 0 0
+    			  0 0 0
+    			  map $(arg tf_prefix)odom   100" />
+        </group>
+
+
+
+        <group if="true" > <!-- name="COM"  Communication refbox et inter-robots -->
+            <!-- Load the refbox comm -->
+            <node pkg="refbox_comm" name="refbox_comm" type="refBoxComm"
+                  respawn="true" output="log"/>
+        </group>
+
+    </group>
+
+
+
+	<!-- Opposing TEAM -->
+	<!-- Team Namespace -->
+	<group ns="Opposing">
+		<param name="nbRobot" value="1" />
+		<param name="machineLocation/robot1" value="opposing1" />
+		<param name="machineLocation/robot2" value="" />
+		<param name="machineLocation/robot3" value="" />
+		<param name="machineLocation/centralizedManager" value="" />
+	</group>
+
+
+	<!-- Robotino Opposing 1 -->
+	<group ns="opposing1">
+		<arg name="robotNamespace" value="opposing1"/>
+															<!-- Added slash is MANDATORY -->
+		<arg if="$(arg use_tf_prefix)"     name="tf_prefix" value="$(arg robotNamespace)/"/>
+		<arg unless="$(arg use_tf_prefix)" name="tf_prefix" value=""/>
+
+		<!-- Params -->
+		<param name="teamName" value="Opposing" />
+		<param name="teamColor" value="Magenta" />
+		<param name="robotNumber" value="1" />
+		<param name="robotName" value="R1" />
+		<param name="simuRobotNamespace" value="$(arg robotNamespace)" />
+
+
+        <group > <!-- name="BASE"  Odom Cmd_Vel & co -->
+            <!-- Load the gazebo_to_ros node -->
+            <param name="objectDetection/useSimLandmarks" value="false" />
+            <node pkg="gazebo_to_ros" name="gazebo_to_ros" type="gazebo_to_ros_node"/>
+
+            <!-- Load the tf_broadcaster node -->
+            <node pkg="tf_broadcaster" name="tf_broadcaster" type="tf_broadcaster_node">
+              <param name="onlyOdomToBase" value="true"/>
+            </node>
+
+            <!-- Gripper transform -->
+    		<node pkg="tf" type="static_transform_publisher" name="base_link_to_gripper_link"
+    			  respawn="true" output="log"
+                  args="$(arg tf_gripper_x) $(arg tf_gripper_y) $(arg tf_gripper_z)
+    			  0 0 0
+    			  $(arg tf_prefix)base_link $(arg tf_prefix)gripper_link   100" />
+
+    		<!-- LaserScan -->
+    		<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser_link"
+    			  respawn="true" output="log"
+                  args="$(arg tf_laser_x) $(arg tf_laser_y) $(arg tf_laser_z)
+    			  0 0 0
+    			  $(arg tf_prefix)base_link $(arg tf_prefix)laser_link   100" />
+
+            <!-- Platform Camera -->
+            <node pkg="tf" type="static_transform_publisher" name="base_link_to_platform_camera_link"
+                  respawn="true" output="log"
+                  args="$(arg tf_platformcam_x) $(arg tf_platformcam_y) $(arg tf_platformcam_z)
+                -1.57 0 -1.57
+                $(arg tf_prefix)base_link $(arg tf_prefix)platform_camera_link   100" />
+
+    		<!-- Tower Camera -->
+    		<node pkg="tf" type="static_transform_publisher" name="base_link_to_tower_camera_link"
+    			  respawn="true" output="log"
+    		      args="$(arg tf_towercam_x) $(arg tf_towercam_y) $(arg tf_towercam_z)
+    			-1.57 0 -1.57
+    			$(arg tf_prefix)base_link $(arg tf_prefix)tower_camera_link   100" />
+        </group>
+    </group>
+</launch>

@@ -1,3 +1,11 @@
+<!-- test_simulator.world
+
+	 Ce fichier monde est utilisé pour tester les différentes fonctionalités du simulateur.
+	 Merci de ne pas le modifier à la légère.
+	 Si des éléments doivent être modifiés pour des besoins ponctuels, merci de rendre le comportement
+	 paramétrables grâce aux arguments configurables en haut du fichier.
+	 Sinon, merci de ne pas commiter vos modifications ...
+-->
 <?xml version="1.0"?>
 <sdf version="1.4">
 	<world name="pyro_2015">
@@ -10,17 +18,32 @@
 
 		<!-- A global light source -->
 		<include>
-		  <uri>model://sun</uri>
+			<uri>model://sun</uri>
 		</include>
 
+		<!-- Empty Logistic League field -->
 		<include>
-		  <uri>model://logistics_league_field</uri>
-      	  <pose>0 2.5 0 0 0 0</pose>
+			<uri>model://logistics_league_field</uri>
+			<pose>0 2.5 0 0 0 0</pose>
+			<name>llsf_field</name>
 		</include>
 
+
+		<!-- PyroTeam robotinos -->
+		<!-- Robotino 1 -->
 		<include>
-		  <uri>model://robotino_pyro</uri>
-      	  <pose>-3.5 -0.5 0 0 0 1.5775</pose>
+			<uri>model://robotino_pyro</uri>
+			<pose>-3.5 -0.5 0 0 0 -0.85</pose>
+			<name>robotino1</name>
+		</include>
+
+
+		<!-- Opposing team robotinos -->
+		<!-- Robotino 1 -->
+		<include>
+			<uri>model://robotino_pyro</uri>
+			<pose>3.5 -0.5 0 0 0 1.5775</pose>
+			<name>opposing1</name>
 		</include>
 
 
@@ -158,6 +181,7 @@
 		<plugin name="llsf_refbox_comm" filename="libllsf_refbox_comm.so" />
 		<plugin name="timesync" filename="libtimesync.so" />
 		<plugin name="mps_placement" filename="libmps_placement.so" />
+
 
 	</world>
 </sdf>

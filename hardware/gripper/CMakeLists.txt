@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   final_approach_msg
 	gripper_msg
+	robotino_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -117,10 +118,10 @@ add_executable(
 add_dependencies(
 	gripper_node
 	gripper_msg
-	final_approach_msg_gencpp
-  actionlib_msgs
-  actionlib
+	actionlib_msgs
+	actionlib
 	std_srvs
+	${catkin_EXPORTED_TARGETS}
 )
 set_target_properties(gripper_node	PROPERTIES COMPILE_FLAGS "-std=c++11")
 

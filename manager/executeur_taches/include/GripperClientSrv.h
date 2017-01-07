@@ -13,7 +13,7 @@
 
 #include "ros/ros.h"
 #include "gripper_msg/SetGripper.h"
-#include "gripper_msg/Grip.h"
+#include "robotino_msgs/Grip.h"
 #include <cstdlib>
 
 class GripperClientSrv
@@ -22,7 +22,7 @@ public:
     GripperClientSrv();
     virtual  ~GripperClientSrv();
 
-    //bool gripper_update(gripper_msg::GripRequest setpoint);
+    //bool gripper_update(robotino_msgs::GripRequest setpoint);
     bool grip();
     bool let();
 };

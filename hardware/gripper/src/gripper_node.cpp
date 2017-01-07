@@ -1,7 +1,7 @@
 #include <ros/ros.h>
 #include <DockingClient.h>
 #include <gripper_msg/SetGripper.h>
-#include <gripper_msg/Grip.h>
+#include <robotino_msgs/Grip.h>
 #include <gripper_msg/GripperStatus.h>
 
 gripper_msg::GripperStatus g_gripStatus;
@@ -43,20 +43,20 @@ void gripperCallback(const gripper_msg::GripperStatus &status)
   }
 }
 
-bool gripper(gripper_msg::GripRequest &req,
-             gripper_msg::GripResponse &res)
+bool gripper(robotino_msgs::GripRequest &req,
+             robotino_msgs::GripResponse &res)
 {
   ROS_INFO("gripper callback");
   ROS_INFO("Request #%d received", req.cmd);
 
   // Process to take something
-  if (req.cmd == gripper_msg::GripRequest::TAKE)
+  if (req.cmd == robotino_msgs::GripRequest::TAKE)
   {
     g_tp = TakingProcess::START;
   }
 
   // Process to let something
-  if (req.cmd == gripper_msg::GripRequest::LET)
+  if (req.cmd == robotino_msgs::GripRequest::LET)
   {
     g_rp = ReleasingProcess::START;
   }
