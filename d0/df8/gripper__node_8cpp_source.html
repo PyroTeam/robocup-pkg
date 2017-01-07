@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <a href="../../d0/df8/gripper__node_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d6/d4f/DockingClient_8h.html">DockingClient.h</a>&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;gripper_msg/SetGripper.h&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;gripper_msg/Grip.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;robotino_msgs/Grip.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;gripper_msg/GripperStatus.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="../../d0/df8/gripper__node_8cpp.html#abb16015381e22395d49385a43200f514">    7</a></span>&#160;gripper_msg::GripperStatus <a class="code" href="../../d0/df8/gripper__node_8cpp.html#abb16015381e22395d49385a43200f514">g_gripStatus</a>;</div>
@@ -135,20 +135,20 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  }</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../d0/df8/gripper__node_8cpp.html#a0cc349101b677daa9b1292fec516b95b">   46</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d0/df8/gripper__node_8cpp.html#a0cc349101b677daa9b1292fec516b95b">gripper</a>(gripper_msg::GripRequest &amp;req,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;             gripper_msg::GripResponse &amp;res)</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../d0/df8/gripper__node_8cpp.html#ad2e4d7f9e82b4964c7f2643f6978707a">   46</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d0/df8/gripper__node_8cpp.html#ad2e4d7f9e82b4964c7f2643f6978707a">gripper</a>(robotino_msgs::GripRequest &amp;req,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;             robotino_msgs::GripResponse &amp;res)</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  ROS_INFO(<span class="stringliteral">&quot;gripper callback&quot;</span>);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  ROS_INFO(<span class="stringliteral">&quot;Request #%d received&quot;</span>, req.cmd);</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="comment">// Process to take something</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordflow">if</span> (req.cmd == gripper_msg::GripRequest::TAKE)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordflow">if</span> (req.cmd == robotino_msgs::GripRequest::TAKE)</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  {</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    g_tp = <a class="code" href="../../d0/df8/gripper__node_8cpp.html#a963755b531f19eb9b58aa8471dd39ca1ab078ffd28db767c502ac367053f6e0ac">TakingProcess::START</a>;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  }</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="comment">// Process to let something</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span> (req.cmd == gripper_msg::GripRequest::LET)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span> (req.cmd == robotino_msgs::GripRequest::LET)</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  {</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    g_rp = <a class="code" href="../../d0/df8/gripper__node_8cpp.html#a592b23c2528b20e106aa21d6d420f524ab078ffd28db767c502ac367053f6e0ac">ReleasingProcess::START</a>;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  }</div>
@@ -171,7 +171,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="comment">// Connection en tant que client au noeud gripper</span></div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <a class="code" href="../../d0/df8/gripper__node_8cpp.html#aec786949af7b6260621c116f89456a49">g_grip_client</a> = n.serviceClient&lt;gripper_msg::SetGripper&gt;(<span class="stringliteral">&quot;hardware/low_level/gripper_srv&quot;</span>);</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  ros::ServiceServer gripper_server = n.advertiseService(<span class="stringliteral">&quot;hardware/high_level/gripper_srv&quot;</span>, <a class="code" href="../../d0/df8/gripper__node_8cpp.html#a0cc349101b677daa9b1292fec516b95b">gripper</a>);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  ros::ServiceServer gripper_server = n.advertiseService(<span class="stringliteral">&quot;hardware/high_level/gripper_srv&quot;</span>, <a class="code" href="../../d0/df8/gripper__node_8cpp.html#ad2e4d7f9e82b4964c7f2643f6978707a">gripper</a>);</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  gripper_msg::SetGripper grip;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <a class="code" href="../../dd/d4f/classDockingClient.html">DockingClient</a> move;</div>
@@ -350,11 +350,11 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;}</div>
-<div class="ttc" id="gripper__node_8cpp_html_a0cc349101b677daa9b1292fec516b95b"><div class="ttname"><a href="../../d0/df8/gripper__node_8cpp.html#a0cc349101b677daa9b1292fec516b95b">gripper</a></div><div class="ttdeci">bool gripper(gripper_msg::GripRequest &amp;req, gripper_msg::GripResponse &amp;res)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/df8/gripper__node_8cpp_source.html#l00046">gripper_node.cpp:46</a></div></div>
 <div class="ttc" id="gripper__node_8cpp_html_a96a510643719377db5c6bf1e47d3e659"><div class="ttname"><a href="../../d0/df8/gripper__node_8cpp.html#a96a510643719377db5c6bf1e47d3e659">g_rp</a></div><div class="ttdeci">ReleasingProcess g_rp</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/df8/gripper__node_8cpp_source.html#l00031">gripper_node.cpp:31</a></div></div>
 <div class="ttc" id="gripper__node_8cpp_html_a592b23c2528b20e106aa21d6d420f524abfec72bb37910c61f36b6c29a1f7ec31"><div class="ttname"><a href="../../d0/df8/gripper__node_8cpp.html#a592b23c2528b20e106aa21d6d420f524abfec72bb37910c61f36b6c29a1f7ec31">ReleasingProcess::FORWARD</a></div></div>
 <div class="ttc" id="DockingClient_8h_html"><div class="ttname"><a href="../../d6/d4f/DockingClient_8h.html">DockingClient.h</a></div></div>
 <div class="ttc" id="gripper__node_8cpp_html_a592b23c2528b20e106aa21d6d420f524a6377b4908ae38f9a57fe9120cf179eb1"><div class="ttname"><a href="../../d0/df8/gripper__node_8cpp.html#a592b23c2528b20e106aa21d6d420f524a6377b4908ae38f9a57fe9120cf179eb1">ReleasingProcess::BACKWARD</a></div></div>
+<div class="ttc" id="gripper__node_8cpp_html_ad2e4d7f9e82b4964c7f2643f6978707a"><div class="ttname"><a href="../../d0/df8/gripper__node_8cpp.html#ad2e4d7f9e82b4964c7f2643f6978707a">gripper</a></div><div class="ttdeci">bool gripper(robotino_msgs::GripRequest &amp;req, robotino_msgs::GripResponse &amp;res)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/df8/gripper__node_8cpp_source.html#l00046">gripper_node.cpp:46</a></div></div>
 <div class="ttc" id="gripper__node_8cpp_html_a963755b531f19eb9b58aa8471dd39ca1ab078ffd28db767c502ac367053f6e0ac"><div class="ttname"><a href="../../d0/df8/gripper__node_8cpp.html#a963755b531f19eb9b58aa8471dd39ca1ab078ffd28db767c502ac367053f6e0ac">TakingProcess::START</a></div></div>
 <div class="ttc" id="gripper__node_8cpp_html_a592b23c2528b20e106aa21d6d420f524aa5daf7f2ebbba4975d61dab1c40188c7"><div class="ttname"><a href="../../d0/df8/gripper__node_8cpp.html#a592b23c2528b20e106aa21d6d420f524aa5daf7f2ebbba4975d61dab1c40188c7">ReleasingProcess::IDLE</a></div></div>
 <div class="ttc" id="gripper__node_8cpp_html_a592b23c2528b20e106aa21d6d420f524abb1ca97ec761fc37101737ba0aa2e7c5"><div class="ttname"><a href="../../d0/df8/gripper__node_8cpp.html#a592b23c2528b20e106aa21d6d420f524abb1ca97ec761fc37101737ba0aa2e7c5">ReleasingProcess::ERROR</a></div></div>
@@ -376,7 +376,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 15 2016 14:27:41 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jan 7 2017 15:52:06 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -168,9 +168,10 @@ var searchData=
   ['gridmapgraph',['GridMapGraph',['../d1/dfa/classGridMapGraph.html#ad03fff3f17a16258e714704b400097b2',1,'GridMapGraph']]],
   ['gridmodifier',['GridModifier',['../da/d62/classoccupancy__grid__utils_1_1GridModifier.html#afa008658146dc02f9834b22a0f0b6d05',1,'occupancy_grid_utils::GridModifier']]],
   ['grip',['grip',['../d2/d9c/classGripperClientSrv.html#afc30255c0a386f741f1adbd2a3d4ca04',1,'GripperClientSrv::grip()'],['../dc/dda/classMachine.html#a28bf30824ba9646f8c76780ebff4c758',1,'Machine::grip()']]],
-  ['gripper',['gripper',['../d0/df8/gripper__node_8cpp.html#a0cc349101b677daa9b1292fec516b95b',1,'gripper_node.cpp']]],
+  ['gripper',['gripper',['../d0/df8/gripper__node_8cpp.html#ad2e4d7f9e82b4964c7f2643f6978707a',1,'gripper_node.cpp']]],
   ['grippercallback',['gripperCallback',['../d0/df8/gripper__node_8cpp.html#a5e8eafdce740028f1ad1ddb8e2c01547',1,'gripper_node.cpp']]],
   ['gripperclientsrv',['GripperClientSrv',['../d2/d9c/classGripperClientSrv.html#a55eb37c6fefde695b0f8e4d037e20e5a',1,'GripperClientSrv']]],
+  ['grippersrvcallback',['gripperSrvCallback',['../da/dfe/gazebo__to__ros__node_8cpp.html#a47d7fc22a53ff5de221d0eaab98b6aab',1,'gazebo_to_ros_node.cpp']]],
   ['gscallback',['gsCallback',['../d3/df3/classGameState.html#a3fcb3b650bbe50df90265f73e7222600',1,'GameState']]],
   ['gtserversrv',['GtServerSrv',['../d1/d35/classGtServerSrv.html#a70896432829274081c6fa8c68428ab6d',1,'GtServerSrv']]]
 ];

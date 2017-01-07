@@ -1,6 +1,7 @@
 var searchData=
 [
   ['g_5fgrip_5fclient',['g_grip_client',['../d0/df8/gripper__node_8cpp.html#aec786949af7b6260621c116f89456a49',1,'gripper_node.cpp']]],
+  ['g_5fgripper_5fpub',['g_gripper_pub',['../da/dfe/gazebo__to__ros__node_8cpp.html#a518ab8970f0af8f824f484064d3a1934',1,'gazebo_to_ros_node.cpp']]],
   ['g_5fgripstatus',['g_gripStatus',['../d0/df8/gripper__node_8cpp.html#abb16015381e22395d49385a43200f514',1,'gripper_node.cpp']]],
   ['g_5finit',['g_init',['../da/dfe/gazebo__to__ros__node_8cpp.html#a40a10fc9d5bddaa56d48233847ba1f2b',1,'gazebo_to_ros_node.cpp']]],
   ['g_5flandmarks',['g_landmarks',['../da/dfe/gazebo__to__ros__node_8cpp.html#abcbdbec2b040decff6a216279828ba69',1,'gazebo_to_ros_node.cpp']]],

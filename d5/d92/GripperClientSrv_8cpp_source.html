@@ -105,10 +105,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../d2/d9c/classGripperClientSrv.html#afc30255c0a386f741f1adbd2a3d4ca04">   13</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d2/d9c/classGripperClientSrv.html#afc30255c0a386f741f1adbd2a3d4ca04">GripperClientSrv::grip</a>()</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    ros::NodeHandle n;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    ros::ServiceClient client = n.serviceClient&lt;gripper_msg::Grip&gt;(<span class="stringliteral">&quot;fakeRobotino/Grip&quot;</span>);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    gripper_msg::Grip srv;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    ros::ServiceClient client = n.serviceClient&lt;robotino_msgs::Grip&gt;(<span class="stringliteral">&quot;fakeRobotino/Grip&quot;</span>);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    robotino_msgs::Grip srv;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    srv.request.cmd = gripper_msg::GripRequest::TAKE;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    srv.request.cmd = robotino_msgs::GripRequest::TAKE;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">if</span> (client.call(srv))</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    {</div>
@@ -125,10 +125,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d2/d9c/classGripperClientSrv.html#a2cde0a44f83a1dc0703d81e34298abd6">   33</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d2/d9c/classGripperClientSrv.html#a2cde0a44f83a1dc0703d81e34298abd6">GripperClientSrv::let</a>()</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    ros::NodeHandle n;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ros::ServiceClient client = n.serviceClient&lt;gripper_msg::Grip&gt;(<span class="stringliteral">&quot;fakeRobotino/Grip&quot;</span>);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    gripper_msg::Grip srv;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ros::ServiceClient client = n.serviceClient&lt;robotino_msgs::Grip&gt;(<span class="stringliteral">&quot;fakeRobotino/Grip&quot;</span>);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    robotino_msgs::Grip srv;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    srv.request.cmd = gripper_msg::GripRequest::LET;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    srv.request.cmd = robotino_msgs::GripRequest::LET;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">if</span> (client.call(srv))</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    {</div>
@@ -149,7 +149,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 15 2016 14:27:41 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jan 7 2017 15:52:06 for robocup-pkg by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
